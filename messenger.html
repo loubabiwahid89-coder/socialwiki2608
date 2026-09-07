@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Messenger - SocialWiki</title>
+
+    <!-- MAIN CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- MESSENGER CSS -->
+    <link
+        rel="stylesheet"
+        href="messenger.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         MESSENGER PAGE
+    ====================================================== -->
+
+    <main class="messenger-page">
+
+
+        <!-- =================================================
+             LEFT SIDEBAR
+        ================================================== -->
+
+        <aside class="messenger-sidebar">
+
+
+            <div class="messenger-title">
+
+    <a
+        href="index.html"
+        class="messenger-home-button"
+    >
+        ← Home
+    </a>
+
+    <h1>
+        Messenger
+    </h1>
+
+</div>
+
+            <!-- SEARCH FRIENDS -->
+
+            <div class="messenger-search">
+
+                <input
+                    type="text"
+                    id="messengerSearch"
+                    placeholder="Search friends..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- FRIENDS LIST -->
+
+            <div
+                id="messengerFriends"
+                class="messenger-friends"
+            >
+
+                <div class="messenger-empty">
+
+                    Loading friends...
+
+                </div>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =================================================
+             CHAT AREA
+        ================================================== -->
+
+        <section class="messenger-chat">
+
+
+            <!-- CHAT HEADER -->
+
+            <header
+                id="chatHeader"
+                class="chat-header"
+            >
+
+                <div class="chat-user">
+
+                    <img
+                        id="chatUserAvatar"
+                        src="images/iconprofile.png"
+                        alt="User"
+                    >
+
+                    <div>
+
+                        <h2 id="chatUserName">
+                            Select a friend
+                        </h2>
+
+                        <span id="chatUserStatus">
+                            Choose a friend to start chatting
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- MESSAGES -->
+
+            <div
+                id="messagesContainer"
+                class="messages-container"
+            >
+
+                <div class="chat-welcome">
+
+                    <div class="chat-welcome-icon">
+                        💬
+                    </div>
+
+                    <h2>
+                        Welcome to Messenger
+                    </h2>
+
+                    <p>
+                        Select a friend to start a conversation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MESSAGE INPUT -->
+
+            <form
+                id="messageForm"
+                class="message-form"
+            >
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Write a message..."
+                    autocomplete="off"
+                    disabled
+                >
+
+                <button
+                    type="submit"
+                    id="sendMessageButton"
+                    disabled
+                >
+                    Send
+                </button>
+
+            </form>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- =====================================================
+         MESSENGER JS
+    ====================================================== -->
+
+    <script src="js/messenger.js"></script>
+
+
+</body>
+
+</html>
+

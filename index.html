@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>SocialWiki 2608</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<link
+    rel="stylesheet"
+    href="notification.css"
+>
+
+<!-- =====================================================
+     SUPABASE LIBRARY
+====================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav>
+
+<div class="nav-right">
+
+<img
+src="images/logosw.jpg"
+alt="logo"
+class="logo"
+
+>
+
+<ul class="nav-icons">
+
+
+<!-- NOTIFICATIONS -->
+
+<li class="notification-menu">
+
+    <button
+        type="button"
+        id="notificationButton"
+        class="notification-button"
+        aria-label="Notifications"
+    >
+
+        <img
+            src="images/iconnotification.png"
+            alt="notification"
+        >
+
+        <span
+            id="notificationBadge"
+            class="notification-badge"
+            hidden
+        >
+            0
+        </span>
+
+    </button>
+
+    <div
+        id="notificationsPanel"
+        class="notifications-panel"
+        hidden
+    >
+
+        <div class="notifications-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <button
+                type="button"
+                id="markAllNotificationsRead"
+            >
+                Mark all as read
+            </button>
+
+        </div>
+
+        <div
+            id="notificationsList"
+            class="notifications-list"
+        >
+
+            <div class="notifications-empty">
+                No notifications yet.
+            </div>
+
+        </div>
+
+    </div>
+
+</li>
+
+
+<!-- MESSENGER -->
+
+<li>
+
+    <img
+        src="images/iconmessenger.png"
+        alt="messenger"
+    >
+
+</li>
+
+
+<!-- VIDEOS -->
+
+<li>
+
+    <img
+        src="images/icon videos.png"
+        alt="videos"
+    >
+
+</li>
+
+
+<!-- FRIENDS -->
+
+<li class="friends-menu">
+
+    <a
+        href="friends.html"
+        class="friends-button"
+        aria-label="Friends"
+    >
+
+        <img
+            src="images/iconfriends.png"
+            alt="friends"
+        >
+
+        <span
+            id="friendsBadge"
+            class="friends-badge"
+            hidden
+        >
+            0
+        </span>
+
+    </a>
+
+</li>
+
+
+</ul>
+
+</div>
+
+<!-- NAV LEFT -->
+
+<div class="nav-left">
+
+<!-- HOME -->
+
+<a
+href="index.html"
+class="home-nav-link"
+
+>
+
+
+<span>
+    🏠
+</span>
+
+<span>
+    Home
+</span>
+
+
+</a>
+
+<!-- POINTS -->
+
+<a href="points.html">
+
+
+<span>
+    🪙
+</span>
+
+<span>
+    Points
+</span>
+
+
+</a>
+
+<!-- SEARCH -->
+
+<div class="search-container">
+
+
+<div class="search">
+
+    <img
+        src="images/imgsearch1.jpg"
+        alt="search"
+    >
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search..."
+        autocomplete="off"
+    >
+
+</div>
+
+<div
+    id="searchResults"
+    class="search-results"
+    hidden
+></div>
+
+
+</div>
+
+<!-- PROFILE -->
+
+<a
+href="profile.html"
+class="nav-user-profile online"
+id="profileNavLink"
+title="My Profile"
+
+>
+
+
+<img
+    id="navProfileAvatar"
+    src="images/iconprofile.png"
+    alt="My Profile"
+>
+
+<span id="navProfileName">
+    Loading...
+</span>
+
+
+</a>
+
+<!-- LOGOUT -->
+
+<button
+type="button"
+id="logoutButton"
+class="logout-button"
+title="Logout"
+
+>
+
+
+<span>
+    🚪
+</span>
+
+<span data-i18n="logout">
+    Logout
+</span>
+
+
+</button>
+
+<!-- LANGUAGE -->
+
+<select
+id="languageSelect"
+class="language-select"
+aria-label="Language"
+
+>
+
+
+<option value="en">
+    🇬🇧 English
+</option>
+
+<option value="fr">
+    🇫🇷 Français
+</option>
+
+<option value="ar">
+    🇲🇦 العربية
+</option>
+
+
+</select>
+
+</div>
+
+</nav>
+
+<!-- =========================================================
+     MAIN CONTAINER
+========================================================= -->
+
+<div class="main-container">
+
+<!-- =====================================================
+     RIGHT SIDEBAR
+====================================================== -->
+
+<div class="right-sidebar">
+
+<div class="empt-links">
+
+
+<!-- LAST NEWS -->
+
+<a href="latest-news.html">
+
+    <img
+        src="images/right icon last news.webp"
+        alt=""
+    >
+
+    <span data-i18n="lastNews">
+        Last News
+    </span>
+
+</a>
+
+
+<!-- FRIENDS -->
+
+<a
+    href="friends.html"
+    class="friends-link"
+>
+
+    <img
+        src="images/right icon friends.png"
+        alt=""
+    >
+
+    <span data-i18n="friends">
+        Friends
+    </span>
+
+    <span
+        id="friendRequestBadge"
+        class="friend-request-badge"
+        hidden
+    >
+        0
+    </span>
+
+</a>
+
+
+<!-- GROUPS -->
+
+<a href="groups.html">
+
+    <img
+        src="images/right icon groups.jpg"
+        alt="Groups"
+    >
+
+    <span data-i18n="groups">
+        Groups
+    </span>
+
+</a>
+
+
+<!-- MARKET PLUS -->
+
+<a href="./market-plus.html">
+
+    <img
+        src="images/right icon marketplus.jpg"
+        alt="Market Plus"
+    >
+
+    <span data-i18n="market">
+        Market Plus
+    </span>
+
+</a>
+
+
+<!-- MESSENGER -->
+
+<a href="messenger.html">
+
+    <img
+        src="images/right icon messenger.png"
+        alt="Messenger"
+    >
+
+    <span data-i18n="messenger">
+        Messenger
+    </span>
+
+</a>
+
+
+<!-- PAGES -->
+
+<a href="./pages.html">
+
+    <img
+        src="images/right icon pages.jpg"
+        alt=""
+    >
+
+    <span data-i18n="pages">
+        Pages
+    </span>
+
+</a>
+
+
+<!-- ORDERS -->
+
+<a href="orders-payments.html">
+
+    <img
+        src="images/righticonmastercard.png"
+        alt=""
+    >
+
+    <span data-i18n="ordersPayments">
+        Orders and Payments
+    </span>
+
+</a>
+
+
+<!-- MEMORIES -->
+
+<button
+    type="button"
+    class="sidebar-item"
+    onclick="window.location.href='memories.html'"
+>
+
+    <span>
+        🕰️
+    </span>
+
+    <span>
+        Memories
+    </span>
+
+</button>
+
+
+<!-- BIRTHDAYS -->
+
+<a
+    href="birthdays.html"
+    class="sidebar-item"
+>
+
+    <span>
+        🎂
+    </span>
+
+    <span data-i18n="birthday">
+        Birthdays
+    </span>
+
+</a>
+
+
+<!-- ADS MANAGER -->
+
+<a href="ads-manager.html">
+
+    <img
+        src="images/righticonadsmanager.png"
+        alt=""
+    >
+
+    <span data-i18n="adsManager">
+        Ads Manager
+    </span>
+
+</a>
+
+
+<!-- AD CENTER -->
+
+<a href="ad-center.html">
+
+    <img
+        src="images/righticonmastercard.png"
+        alt=""
+    >
+
+    <span data-i18n="adCenter">
+        Ad Center
+    </span>
+
+</a>
+
+
+</div>
+
+<!-- SHORTCUTS -->
+
+<div class="shortcut-links">
+
+
+<p data-i18n="yourShortcuts">
+    Your shortcuts
+</p>
+
+<a href="#">
+
+    <img
+        src="images/shortcutlearnenglish.jpg"
+        alt=""
+    >
+
+    <span data-i18n="learnEnglish">
+        Learn English
+    </span>
+
+</a>
+
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     CENTER CONTENT
+====================================================== -->
+
+<div class="content">
+
+<div class="create-post">
+
+
+<!-- CREATE POST TOP -->
+
+<div class="post-top">
+
+    <img
+        src="images/storyimage.jpeg"
+        alt="Profile"
+    >
+
+    <div class="post-input">
+
+        <input
+            type="text"
+            id="postInput"
+            placeholder="What's on your mind?"
+        >
+
+        <button
+            type="button"
+            id="postButton"
+        >
+
+            <span data-i18n="post">
+                Post
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- POSTS FEED -->
+
+<div id="postsFeed"></div>
+
+
+<!-- LIKE / COMMENT / SHARE -->
+
+<div class="posting">
+
+    <button
+        type="button"
+        id="likeButton"
+    >
+
+        <img
+            src="images/postingiconlike.png"
+            alt="like"
+        >
+
+        <span id="likeText">
+            Like
+        </span>
+
+        <span id="likeCount">
+            0
+        </span>
+
+    </button>
+
+
+    <button
+        type="button"
+        id="commentButton"
+    >
+
+        <img
+            src="images/postingiconcomment.png"
+            alt="comment"
+        >
+
+        <span id="commentText">
+            Comment
+        </span>
+
+        <span id="commentCount">
+            0
+        </span>
+
+    </button>
+
+
+    <button
+        type="button"
+        id="shareButton"
+    >
+
+        <img
+            src="images/postingiconshare.png"
+            alt="share"
+        >
+
+        <span id="shareText">
+            Share
+        </span>
+
+        <span id="shareCount">
+            0
+        </span>
+
+    </button>
+
+</div>
+
+
+<hr>
+
+
+<!-- ADD POST BUTTONS -->
+
+<div class="add-post-buttons">
+
+    <!-- PHOTO / VIDEO -->
+
+    <button
+        type="button"
+        class="photo-btn"
+        id="mediaButton"
+        title="Photo or Video"
+    >
+
+        <img
+            src="images/imageuploadimage5.png"
+            alt="Photo or Video"
+        >
+
+    </button>
+
+
+    <input
+        type="file"
+        id="mediaInput"
+        accept="image/*,video/*"
+        hidden
+    >
+
+
+    <!-- LIVE -->
+
+    <button
+        type="button"
+        class="live-btn"
+        title="Live"
+    >
+
+        <img
+            src="images/imagelivevideo.png"
+            alt="Live"
+        >
+
+    </button>
+
+
+    <!-- REELS -->
+
+    <button
+        type="button"
+        class="reels-btn"
+        title="Reels"
+    >
+
+        <img
+            src="images/imagereelcontent.jpg"
+            alt="Reels"
+        >
+
+    </button>
+
+
+    <!-- FEELING -->
+
+    <button
+        type="button"
+        class="feeling-btn"
+        title="Feeling"
+    >
+
+        <img
+            src="images/imagefeeling.jpg"
+            alt="Feeling"
+        >
+
+    </button>
+
+</div>
+
+
+</div>
+
+<!-- =================================================
+     SPONSORED ADS
+================================================== -->
+
+<div
+    id="sponsoredAdsFeed"
+    style="
+        display:block;
+        visibility:visible;
+        opacity:1;
+        width:100%;
+        box-sizing:border-box;
+    "
+></div>
+
+</div>
+
+<!-- =====================================================
+     LEFT SIDEBAR
+====================================================== -->
+
+<div class="left-sidebar">
+
+<!-- EVENTS -->
+
+<div class="events-ad-box">
+
+
+<div class="sidebar-title">
+
+    <h3 data-i18n="events">
+        Events
+    </h3>
+
+    <a
+        href="#"
+        data-i18n="seeMore"
+    >
+        See More
+    </a>
+
+</div>
+
+
+<div class="left-event">
+
+    <div class="left-activity">
+
+        <h3>
+            04
+        </h3>
+
+        <span data-i18n="june">
+            June
+        </span>
+
+    </div>
+
+
+    <div class="right-activity">
+
+        <h4 data-i18n="birthday">
+            Birthday
+        </h4>
+
+        <p>
+            Wiki, Moroccan
+        </p>
+
+        <a
+            href="#"
+            data-i18n="moreInfo"
+        >
+            More Info
+        </a>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- ADS -->
+
+<div class="sidebar-title">
+
+    <h3 data-i18n="ads">
+        Ads
+    </h3>
+
+    <a
+        href="#"
+        data-i18n="close"
+    >
+        Close
+    </a>
+
+</div>
+
+<a
+    href="https://www.profitableratecpmnetwork.com/f002hhqw6?key=4a2ad85293b9cc1b3f42605fb07ec42a"
+    target="_blank"
+    rel="nofollow noopener noreferrer"
+    title="adsterra"
+>
+
+    <img
+        src="images/adsterra-ads-banner.png"
+        class="sidebar-ads"
+        alt="Sponsored Advertisement"
+    >
+
+</a>
+<!-- CONVERSATIONS -->
+
+<div class="sidebar-title">
+
+
+<h3 data-i18n="conversations">
+    Conversations
+</h3>
+
+<a
+    href="#"
+    data-i18n="hide"
+>
+    Hide
+</a>
+
+
+</div>
+
+<div class="online-list">
+    <div class="online"></div>
+</div>
+
+<div class="online-list">
+    <div class="online"></div>
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+     LANGUAGE SYSTEM
+========================================================= -->
+
+<script>
+
+const translations = {
+
+    en: {
+
+        lastNews: "Last News",
+        friends: "Friends",
+        dashboard: "Dashboard",
+        groups: "Groups",
+        market: "Market Plus",
+        messenger: "Messenger",
+        pages: "Pages",
+        ordersPayments: "Orders and Payments",
+        memories: "Memories",
+        birthday: "Birthday",
+        adsManager: "Ads Manager",
+        adCenter: "Ad Center",
+        yourShortcuts: "Your shortcuts",
+        learnEnglish: "Learn English",
+        post: "Post",
+        events: "Events",
+        seeMore: "See More",
+        june: "June",
+        moreInfo: "More Info",
+        ads: "Ads",
+        close: "Close",
+        conversations: "Conversations",
+        hide: "Hide",
+        logout: "Logout"
+
+    },
+
+    fr: {
+
+        lastNews: "Dernières nouvelles",
+        friends: "Amis",
+        dashboard: "Tableau de bord",
+        groups: "Groupes",
+        market: "Marché Plus",
+        messenger: "Messenger",
+        pages: "Pages",
+        ordersPayments: "Commandes et paiements",
+        memories: "Souvenirs",
+        birthday: "Anniversaire",
+        adsManager: "Gestionnaire de publicités",
+        adCenter: "Centre publicitaire",
+        yourShortcuts: "Vos raccourcis",
+        learnEnglish: "Apprendre l'anglais",
+        post: "Publier",
+        events: "Événements",
+        seeMore: "Voir plus",
+        june: "Juin",
+        moreInfo: "Plus d'informations",
+        ads: "Publicités",
+        close: "Fermer",
+        conversations: "Conversations",
+        hide: "Masquer",
+        logout: "Déconnexion"
+
+    },
+
+    ar: {
+
+        lastNews: "آخر الأخبار",
+        friends: "الأصدقاء",
+        dashboard: "لوحة التحكم",
+        groups: "المجموعات",
+        market: "السوق بلس",
+        messenger: "الرسائل",
+        pages: "الصفحات",
+        ordersPayments: "الطلبات والمدفوعات",
+        memories: "الذكريات",
+        birthday: "أعياد الميلاد",
+        adsManager: "مدير الإعلانات",
+        adCenter: "مركز الإعلانات",
+        yourShortcuts: "اختصاراتك",
+        learnEnglish: "تعلم الإنجليزية",
+        post: "نشر",
+        events: "الأحداث",
+        seeMore: "عرض المزيد",
+        june: "يونيو",
+        moreInfo: "معلومات أكثر",
+        ads: "الإعلانات",
+        close: "إغلاق",
+        conversations: "المحادثات",
+        hide: "إخفاء",
+        logout: "تسجيل الخروج"
+
+    }
+
+};
+
+
+const languageSelect =
+    document.getElementById(
+        "languageSelect"
+    );
+
+
+function applyLanguage(language) {
+
+    const selected =
+        translations[language];
+
+
+    if (!selected) {
+
+        console.error(
+            "❌ Unknown language:",
+            language
+        );
+
+        return;
+
+    }
+
+
+    document
+        .querySelectorAll(
+            "[data-i18n]"
+        )
+        .forEach(
+            function(element) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (selected[key]) {
+
+                    element.textContent =
+                        selected[key];
+
+                }
+
+            }
+        );
+
+
+    document.documentElement.lang =
+        language;
+
+
+    if (language === "ar") {
+
+        document.documentElement.dir =
+            "rtl";
+
+        document.body.dir =
+            "rtl";
+
+    } else {
+
+        document.documentElement.dir =
+            "ltr";
+
+        document.body.dir =
+            "ltr";
+
+    }
+
+
+    localStorage.setItem(
+        "socialwiki_language",
+        language
+    );
+
+}
+
+
+if (languageSelect) {
+
+    languageSelect.addEventListener(
+        "change",
+        function() {
+
+            applyLanguage(
+                this.value
+            );
+
+        }
+    );
+
+
+    const savedLanguage =
+        localStorage.getItem(
+            "socialwiki_language"
+        );
+
+
+    if (
+        savedLanguage &&
+        translations[savedLanguage]
+    ) {
+
+        languageSelect.value =
+            savedLanguage;
+
+        applyLanguage(
+            savedLanguage
+        );
+
+    } else {
+
+        languageSelect.value =
+            "en";
+
+        applyLanguage(
+            "en"
+        );
+
+    }
+
+}
+
+</script>
+
+<!-- =========================================================
+     SOCIALWIKI SCRIPTS
+========================================================= -->
+
+<script
+    src="js/script.js?v=20260904"
+></script>
+
+<script
+    src="js/posts.js?v=20260904"
+></script>
+
+<script
+    src="js/notifications.js?v=20260904"
+></script>
+
+<script
+    src="js/friend-badge.js?v=20260904"
+></script>
+
+<!-- =========================================================
+     SPONSORED ADS SYSTEM
+     FIXED:
+     - LOAD ALL ADS
+     - LOAD MEDIA URL
+     - LOAD MEDIA TYPE
+     - SHOW IMAGE ADS
+     - SHOW TEXT ADS
+========================================================= -->
+
+<script>
+
+console.log(
+    "📢 Sponsored Ads system starting..."
+);
+
+
+// =========================================================
+// SUPABASE
+// =========================================================
+
+const SPONSORED_ADS_URL =
+    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+
+
+const SPONSORED_ADS_KEY =
+    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+
+
+const sponsoredAdsSupabase =
+    window.supabase.createClient(
+        SPONSORED_ADS_URL,
+        SPONSORED_ADS_KEY
+    );
+
+
+// =========================================================
+// ESCAPE HTML
+// =========================================================
+
+function escapeSponsoredAdHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// =========================================================
+// LOAD ACTIVE ADS
+// =========================================================
+
+async function loadSponsoredAds() {
+
+    const container =
+        document.getElementById(
+            "sponsoredAdsFeed"
+        );
+
+
+    if (!container) {
+
+        console.error(
+            "❌ sponsoredAdsFeed not found"
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "📢 Loading active sponsored ads..."
+    );
+
+
+    const {
+        data: ads,
+        error
+    } =
+        await sponsoredAdsSupabase
+
+            .from(
+                "ad_campaigns"
+            )
+
+            .select(
+                `
+                id,
+                ad_name,
+                ad_title,
+                description,
+                destination_link,
+                language,
+                currency,
+                budget,
+                start_date,
+                end_date,
+                status,
+                media_url,
+                media_type,
+                created_at
+                `
+            )
+
+            .eq(
+                "status",
+                "active"
+            )
+
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "❌ Sponsored Ads error:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "✅ Active ads found:",
+        ads ? ads.length : 0
+    );
+
+
+    renderSponsoredAds(
+        ads || []
+    );
+
+}
+
+
+// =========================================================
+// RENDER ALL ADS
+// =========================================================
+
+function renderSponsoredAds(ads) {
+
+    const container =
+        document.getElementById(
+            "sponsoredAdsFeed"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    // CLEAR OLD ADS
+
+    container.innerHTML = "";
+
+
+    if (
+        !ads ||
+        ads.length === 0
+    ) {
+
+        container.style.display =
+            "none";
+
+        console.log(
+            "ℹ️ No active sponsored ads to display."
+        );
+
+        return;
+
+    }
+
+
+    container.style.display =
+        "block";
+
+
+    // =====================================================
+    // SPONSORED HEADER
+    // =====================================================
+
+    const header =
+        document.createElement(
+            "div"
+        );
+
+    header.style.cssText = `
+        font-size:18px;
+        font-weight:700;
+        margin:20px 0 12px 0;
+        color:#1c1e21;
+    `;
+
+    header.textContent =
+        "Sponsored";
+
+    container.appendChild(
+        header
+    );
+
+
+    // =====================================================
+    // LOOP THROUGH ALL ADS
+    // =====================================================
+
+    ads.forEach(
+        function(ad, index) {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.style.cssText = `
+                background:#ffffff;
+                border-radius:12px;
+                padding:18px;
+                margin:0 0 18px 0;
+                box-shadow:0 2px 8px rgba(0,0,0,0.08);
+                border:1px solid #e4e6eb;
+                box-sizing:border-box;
+                width:100%;
+            `;
+
+
+            const adName =
+                escapeSponsoredAdHTML(
+                    ad.ad_name
+                );
+
+
+            const title =
+                escapeSponsoredAdHTML(
+                    ad.ad_title
+                );
+
+
+            const description =
+                escapeSponsoredAdHTML(
+                    ad.description
+                );
+
+
+            const link =
+                escapeSponsoredAdHTML(
+                    ad.destination_link
+                );
+
+
+            const mediaURL =
+                escapeSponsoredAdHTML(
+                    ad.media_url
+                );
+
+
+            const mediaType =
+                String(
+                    ad.media_type || ""
+                ).toLowerCase();
+
+
+            // =================================================
+            // IMAGE
+            // =================================================
+
+            let mediaHTML = "";
+
+
+            if (
+                mediaURL &&
+                (
+                    mediaType === "image" ||
+                    mediaType === "img" ||
+                    mediaType === ""
+                )
+            ) {
+
+                mediaHTML = `
+
+                    <img
+                        src="${mediaURL}"
+                        alt="${title || adName || "Sponsored advertisement"}"
+                        loading="lazy"
+                        style="
+                            display:block;
+                            width:100%;
+                            max-height:420px;
+                            object-fit:cover;
+                            border-radius:10px;
+                            margin:0 0 14px 0;
+                        "
+                    >
+
+                `;
+
+            }
+
+
+            // =================================================
+            // VIDEO
+            // =================================================
+
+            if (
+                mediaURL &&
+                (
+                    mediaType === "video" ||
+                    mediaType === "mp4"
+                )
+            ) {
+
+                mediaHTML = `
+
+                    <video
+                        src="${mediaURL}"
+                        controls
+                        preload="metadata"
+                        style="
+                            display:block;
+                            width:100%;
+                            max-height:420px;
+                            border-radius:10px;
+                            margin:0 0 14px 0;
+                        "
+                    ></video>
+
+                `;
+
+            }
+
+
+            // =================================================
+            // DESTINATION BUTTON
+            // =================================================
+
+            let linkHTML = "";
+
+
+            if (link) {
+
+                linkHTML = `
+
+                    <a
+                        href="${link}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style="
+                            display:inline-block;
+                            background:#1877f2;
+                            color:#ffffff;
+                            text-decoration:none;
+                            padding:9px 16px;
+                            border-radius:7px;
+                            font-weight:bold;
+                            margin-top:4px;
+                        "
+                    >
+                        Learn More
+                    </a>
+
+                `;
+
+            }
+
+
+            // =================================================
+            // BUILD CARD
+            // =================================================
+
+            card.innerHTML = `
+
+                <div style="
+                    font-size:12px;
+                    color:#65676b;
+                    margin-bottom:8px;
+                    font-weight:bold;
+                ">
+                    Sponsored
+                </div>
+
+
+                ${
+                    adName
+                    ?
+                    `
+                    <div style="
+                        font-size:12px;
+                        color:#65676b;
+                        margin-bottom:8px;
+                    ">
+                        📢 ${adName}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${mediaHTML}
+
+
+                ${
+                    title
+                    ?
+                    `
+                    <h3 style="
+                        margin:0 0 8px 0;
+                        font-size:19px;
+                    ">
+                        ${title}
+                    </h3>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${
+                    description
+                    ?
+                    `
+                    <p style="
+                        margin:0 0 15px 0;
+                        line-height:1.5;
+                        color:#444;
+                    ">
+                        ${description}
+                    </p>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${linkHTML}
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+
+            console.log(
+                `📢 Sponsored ad ${index + 1}/${ads.length}:`,
+                ad.ad_name,
+                "| media:",
+                ad.media_url
+                    ? ad.media_url
+                    : "NO MEDIA"
+            );
+
+        }
+    );
+
+
+    console.log(
+        "✅ ALL SPONSORED ADS RENDERED:",
+        ads.length
+    );
+
+}
+
+
+// =========================================================
+// START
+// =========================================================
+
+loadSponsoredAds();
+
+</script>
+
+</body>
+
+</html>

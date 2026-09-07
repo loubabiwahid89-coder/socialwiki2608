@@ -1,0 +1,787 @@
+
+/* =========================================================
+   SOCIALWIKI MESSENGER
+   MESSENGER.CSS
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.messenger-page {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #f5f6f8;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   LEFT SIDEBAR
+   ========================================================= */
+
+.messenger-sidebar {
+
+    width: 330px;
+
+    min-width: 330px;
+
+    height: 100vh;
+
+    background: #ffffff;
+
+    border-right: 1px solid #e1e4e8;
+
+    display: flex;
+
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.messenger-title {
+
+    padding: 24px 22px 18px;
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+
+.messenger-title h1 {
+
+    margin: 0;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    color: #1f2937;
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.messenger-search {
+
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+
+.messenger-search input {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 22px;
+
+    background: #f3f4f6;
+
+    color: #1f2937;
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition: 0.2s ease;
+
+}
+
+
+.messenger-search input:focus {
+
+    background: #ffffff;
+
+    border-color: #9ca3af;
+
+}
+
+
+/* =========================================================
+   FRIENDS LIST
+   ========================================================= */
+
+.messenger-friends {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 8px;
+
+}
+
+
+/* =========================================================
+   FRIEND ITEM
+   ========================================================= */
+
+.messenger-friend {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 10px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    box-sizing: border-box;
+
+    transition: background 0.2s ease;
+
+}
+
+
+.messenger-friend:hover {
+
+    background: #f1f3f5;
+
+}
+
+
+.messenger-friend.active {
+
+    background: #e9ecef;
+
+}
+
+
+/* =========================================================
+   FRIEND AVATAR
+   ========================================================= */
+
+.messenger-friend-avatar {
+
+    width: 48px;
+
+    height: 48px;
+
+    min-width: 48px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 1px solid #e1e4e8;
+
+}
+
+
+/* =========================================================
+   FRIEND INFORMATION
+   ========================================================= */
+
+.messenger-friend-info {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.messenger-friend-name {
+
+    margin: 0;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #202124;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.messenger-friend-username {
+
+    margin-top: 3px;
+
+    font-size: 13px;
+
+    color: #777777;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+/* =========================================================
+   EMPTY FRIENDS
+   ========================================================= */
+
+.messenger-empty {
+
+    padding: 30px 18px;
+
+    text-align: center;
+
+    color: #777777;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================================
+   CHAT AREA
+   ========================================================= */
+
+.messenger-chat {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #ffffff;
+
+}
+
+
+/* =========================================================
+   CHAT HEADER
+   ========================================================= */
+
+.chat-header {
+
+    min-height: 76px;
+
+    padding: 12px 20px;
+
+    border-bottom: 1px solid #e1e4e8;
+
+    display: flex;
+
+    align-items: center;
+
+    box-sizing: border-box;
+
+}
+
+
+.chat-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.chat-user img {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 1px solid #e1e4e8;
+
+}
+
+
+.chat-user h2 {
+
+    margin: 0;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    color: #202124;
+
+}
+
+
+.chat-user span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 13px;
+
+    color: #777777;
+
+}
+
+
+/* =========================================================
+   MESSAGES AREA
+   ========================================================= */
+
+.messages-container {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.chat-welcome {
+
+    margin: auto;
+
+    text-align: center;
+
+    max-width: 400px;
+
+}
+
+
+.chat-welcome-icon {
+
+    font-size: 55px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.chat-welcome h2 {
+
+    margin: 0 0 8px;
+
+    font-size: 22px;
+
+    color: #202124;
+
+}
+
+
+.chat-welcome p {
+
+    margin: 0;
+
+    font-size: 14px;
+
+    color: #777777;
+
+}
+
+
+/* =========================================================
+   MESSAGE BUBBLES
+   ========================================================= */
+
+.message-row {
+
+    width: 100%;
+
+    display: flex;
+
+    margin-bottom: 10px;
+
+}
+
+
+.message-row.sent {
+
+    justify-content: flex-end;
+
+}
+
+
+.message-row.received {
+
+    justify-content: flex-start;
+
+}
+
+
+.message-bubble {
+
+    max-width: 65%;
+
+    padding: 10px 14px;
+
+    border-radius: 16px;
+
+    font-size: 14px;
+
+    line-height: 1.45;
+
+    word-wrap: break-word;
+
+    box-sizing: border-box;
+
+}
+
+
+.message-row.sent .message-bubble {
+
+    background: #1877f2;
+
+    color: #ffffff;
+
+    border-bottom-right-radius: 5px;
+
+}
+
+
+.message-row.received .message-bubble {
+
+    background: #eef0f2;
+
+    color: #202124;
+
+    border-bottom-left-radius: 5px;
+
+}
+
+
+/* =========================================================
+   MESSAGE TIME
+   ========================================================= */
+
+.message-time {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 10px;
+
+    opacity: 0.65;
+
+}
+
+
+/* =========================================================
+   MESSAGE FORM
+   ========================================================= */
+
+.message-form {
+
+    min-height: 70px;
+
+    padding: 12px 18px;
+
+    border-top: 1px solid #e1e4e8;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    box-sizing: border-box;
+
+}
+
+
+.message-form input {
+
+    flex: 1;
+
+    height: 44px;
+
+    padding: 0 15px;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 22px;
+
+    background: #f5f6f8;
+
+    color: #202124;
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+}
+
+
+.message-form input:focus {
+
+    background: #ffffff;
+
+    border-color: #1877f2;
+
+}
+
+
+.message-form button {
+
+    height: 44px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 22px;
+
+    background: #1877f2;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.message-form button:hover {
+
+    opacity: 0.9;
+
+}
+
+
+.message-form button:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.messenger-friends::-webkit-scrollbar,
+.messages-container::-webkit-scrollbar {
+
+    width: 7px;
+
+}
+
+
+.messenger-friends::-webkit-scrollbar-thumb,
+.messages-container::-webkit-scrollbar-thumb {
+
+    background: #c9cdd2;
+
+    border-radius: 10px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .messenger-sidebar {
+
+        width: 100%;
+
+        min-width: 100%;
+
+    }
+
+
+    .messenger-chat {
+
+        display: none;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (
+    min-width: 701px
+) and (
+    max-width: 900px
+) {
+
+    .messenger-sidebar {
+
+        width: 280px;
+
+        min-width: 280px;
+
+    }
+
+}
+
+/* =========================================================
+   UNREAD MESSAGE BADGES
+   ========================================================= */
+
+.messenger-friend {
+    position: relative;
+}
+
+.messenger-friend-unread {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: auto;
+
+    border-radius: 999px;
+
+    background: #e53935;
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    box-sizing: border-box;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   NAVBAR MESSENGER BADGE
+   ========================================================= */
+
+a[href*="messenger.html"],
+a[href*="messenger"] {
+    position: relative;
+}
+
+
+.messenger-unread-badge {
+    position: absolute;
+
+    top: -7px;
+    right: -7px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: #e53935;
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    border: 2px solid #ffffff;
+
+    box-sizing: border-box;
+
+    z-index: 20;
+}
+
+
+.messenger-unread-badge[hidden],
+.messenger-friend-unread[hidden] {
+    display: none ;
+}
+/* =========================================================
+   HOME BUTTON
+   ========================================================= */
+
+.messenger-home-button {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #1877f2;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.messenger-home-button:hover {
+    text-decoration: underline;
+}
+

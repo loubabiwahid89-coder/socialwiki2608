@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>📦 Orders & Payments - SocialWiki</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+        min-height: 100vh;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .orders-header {
+        min-height: 72px;
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        padding: 12px 30px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .back-button {
+        text-decoration: none;
+        color: #2563eb;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 10px 15px;
+        border-radius: 10px;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .back-button:hover {
+        background: #eff6ff;
+    }
+
+    .orders-title {
+        margin-left: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .orders-title-icon {
+        font-size: 30px;
+    }
+
+    .orders-title h1 {
+        font-size: 22px;
+        margin-bottom: 3px;
+    }
+
+    .orders-title p {
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       LANGUAGE
+    ===================================================== */
+
+    .language-box {
+        margin-left: auto;
+    }
+
+    #languageSelect {
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        border-radius: 9px;
+        padding: 9px 12px;
+        font-size: 13px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .orders-container {
+        width: min(1100px, calc(100% - 30px));
+        margin: 30px auto 60px;
+    }
+
+    /* =====================================================
+       LOADING / ERROR
+    ===================================================== */
+
+    .page-message {
+        display: none;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 20px;
+    }
+
+    .page-message.error {
+        color: #b91c1c;
+        background: #fef2f2;
+        border-color: #fecaca;
+    }
+
+    /* =====================================================
+       SUMMARY
+    ===================================================== */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .summary-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .summary-icon {
+        font-size: 25px;
+        margin-bottom: 12px;
+    }
+
+    .summary-label {
+        color: #6b7280;
+        font-size: 13px;
+        margin-bottom: 7px;
+    }
+
+    .summary-value {
+        font-size: 25px;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    /* =====================================================
+       SECTION
+    ===================================================== */
+
+    .orders-section {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+        gap: 15px;
+    }
+
+    .section-header h2 {
+        font-size: 19px;
+    }
+
+    .section-header p {
+        color: #6b7280;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .filter-select {
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        border-radius: 9px;
+        padding: 9px 12px;
+        font-size: 14px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* =====================================================
+       ORDERS
+    ===================================================== */
+
+    .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .order-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        transition: 0.2s;
+    }
+
+    .order-card:hover {
+        border-color: #bfdbfe;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+    }
+
+    .order-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        min-width: 0;
+    }
+
+    .product-image {
+        width: 62px;
+        height: 62px;
+        border-radius: 12px;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        flex-shrink: 0;
+    }
+
+    .order-info {
+        min-width: 0;
+    }
+
+    .order-info h3 {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .order-number {
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 4px;
+    }
+
+    .order-date {
+        font-size: 12px;
+        color: #9ca3af;
+    }
+
+    .order-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .order-price {
+        font-size: 15px;
+        font-weight: 700;
+        min-width: 80px;
+        text-align: right;
+    }
+
+    .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .status.completed {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .status.processing {
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .status.shipped {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .status.cancelled {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .view-button {
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .view-button:hover {
+        background: #f9fafb;
+    }
+
+    /* =====================================================
+       EMPTY
+    ===================================================== */
+
+    .empty-state {
+        text-align: center;
+        padding: 45px 20px;
+        color: #6b7280;
+    }
+
+    .empty-icon {
+        font-size: 45px;
+        margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+        color: #374151;
+        margin-bottom: 7px;
+    }
+
+    /* =====================================================
+       PAYMENT METHODS
+    ===================================================== */
+
+    .payment-methods {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .payment-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .payment-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .payment-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+    }
+
+    .payment-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .payment-detail {
+        color: #6b7280;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .default-badge {
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 11px;
+        padding: 5px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       SECURITY
+    ===================================================== */
+
+    .security-box {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 14px;
+        padding: 16px;
+        color: #166534;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .secure-info {
+        text-align: center;
+        color: #6b7280;
+        font-size: 12px;
+        margin-top: 20px;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 850px) {
+
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .payment-methods {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .orders-header {
+            padding: 12px 15px;
+            flex-wrap: wrap;
+        }
+
+        .orders-title {
+            margin-left: 8px;
+        }
+
+        .orders-title p {
+            display: none;
+        }
+
+        .orders-title h1 {
+            font-size: 18px;
+        }
+
+        .language-box {
+            width: 100%;
+            margin-left: 0;
+            padding-left: 8px;
+        }
+
+        #languageSelect {
+            width: 100%;
+        }
+
+        .orders-container {
+            width: min(100% - 20px, 1100px);
+            margin-top: 20px;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .summary-card {
+            padding: 15px;
+        }
+
+        .summary-value {
+            font-size: 21px;
+        }
+
+        .orders-section {
+            padding: 17px;
+        }
+
+        .section-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .filter-select {
+            width: 100%;
+        }
+
+        .order-card {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .order-right {
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .order-price {
+            text-align: left;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="orders-header">
+
+    <a href="index.html" class="back-button" id="homeLink">
+        ← Home
+    </a>
+
+    <div class="orders-title">
+
+        <div class="orders-title-icon">
+            📦
+        </div>
+
+        <div>
+            <h1 id="pageTitle">
+                Orders & Payments
+            </h1>
+
+            <p id="pageSubtitle">
+                Manage your orders and payment methods
+            </p>
+        </div>
+
+    </div>
+
+    <div class="language-box">
+
+        <select id="languageSelect" aria-label="Language">
+
+            <option value="en">
+                🇬🇧 English
+            </option>
+
+            <option value="fr">
+                🇫🇷 Français
+            </option>
+
+            <option value="ar">
+                🇲🇦 العربية
+            </option>
+
+        </select>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="orders-container">
+
+    <div id="loadingMessage" class="page-message">
+        ⏳ Loading your orders...
+    </div>
+
+    <div id="errorMessage" class="page-message error"></div>
+
+
+    <!-- =================================================
+         SUMMARY
+    ================================================= -->
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                📦
+            </div>
+
+            <div class="summary-label" data-i18n="totalOrders">
+                Total Orders
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalOrders">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🚚
+            </div>
+
+            <div class="summary-label" data-i18n="inProgress">
+                In Progress
+            </div>
+
+            <div
+                class="summary-value"
+                id="inProgress">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                ✅
+            </div>
+
+            <div class="summary-label" data-i18n="completed">
+                Completed
+            </div>
+
+            <div
+                class="summary-value"
+                id="completedOrders">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                💰
+            </div>
+
+            <div class="summary-label" data-i18n="totalSpent">
+                Total Spent
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalSpent">
+                $0.00
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ORDERS
+    ================================================= -->
+
+    <section class="orders-section">
+
+        <div class="section-header">
+
+            <div>
+                <h2 data-i18n="myOrders">
+                    📦 My Orders
+                </h2>
+
+                <p data-i18n="ordersDescription">
+                    Your marketplace orders will appear here.
+                </p>
+            </div>
+
+            <select
+                class="filter-select"
+                id="orderFilter">
+
+                <option value="all" data-i18n="allOrders">
+                    All Orders
+                </option>
+
+                <option value="processing" data-i18n="processing">
+                    Processing
+                </option>
+
+                <option value="shipped" data-i18n="shipped">
+                    Shipped
+                </option>
+
+                <option value="completed" data-i18n="completed">
+                    Completed
+                </option>
+
+                <option value="cancelled" data-i18n="cancelled">
+                    Cancelled
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="orderList" class="order-list">
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
+                <h3 data-i18n="noOrders">
+                    No orders yet
+                </h3>
+
+                <p data-i18n="noOrdersDescription">
+                    Your marketplace orders will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PAYMENT METHODS
+    ================================================= -->
+
+    <section class="orders-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2 data-i18n="paymentMethods">
+                    💳 Payment Methods
+                </h2>
+
+                <p data-i18n="paymentDescription">
+                    Manage your payment methods.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-methods">
+
+            <div class="payment-card">
+
+                <div class="payment-left">
+
+                    <div class="payment-icon">
+                        💳
+                    </div>
+
+                    <div>
+
+                        <div
+                            class="payment-name"
+                            data-i18n="noPaymentMethod">
+                            No payment method
+                        </div>
+
+                        <div
+                            class="payment-detail"
+                            data-i18n="paymentComingSoon">
+                            Payment methods will be available later.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span
+                    class="default-badge"
+                    data-i18n="comingSoon">
+                    Coming Soon
+                </span>
+
+            </div>
+
+
+            <div class="payment-card">
+
+                <div class="payment-left">
+
+                    <div class="payment-icon">
+                        🔒
+                    </div>
+
+                    <div>
+
+                        <div
+                            class="payment-name"
+                            data-i18n="securePayments">
+                            Secure Payments
+                        </div>
+
+                        <div
+                            class="payment-detail"
+                            data-i18n="secureDescription">
+                            Payment information will be protected.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span
+                    class="default-badge"
+                    data-i18n="secure">
+                    Secure
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SECURITY
+    ================================================= -->
+
+    <section class="orders-section">
+
+        <div class="security-box">
+
+            🔐
+            <strong data-i18n="securityTitle">
+                Security
+            </strong>
+
+            <br>
+
+            <span data-i18n="securityText">
+                Your orders are protected by Supabase Row Level
+                Security. You can only access orders belonging to
+                your own account.
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <div
+        class="secure-info"
+        data-i18n="footerSecurity">
+
+        🔒 SocialWiki payments will use secure payment processing.
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+    // =====================================================
+    // SUPABASE
+    // =====================================================
+
+    console.log("📦 Orders & Payments page loaded");
+
+    const SUPABASE_URL =
+        "https://hvslktufqrgdgrgxmvcm.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+
+   let ordersSupabase = null;
+
+if (window.supabaseClient) {
+
+    console.log(
+        "✅ Using existing SocialWiki Supabase client"
+    );
+
+    ordersSupabase =
+        window.supabaseClient;
+
+} else {
+
+    console.log(
+        "🆕 Creating Orders Supabase client"
+    );
+
+    ordersSupabase =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY,
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true
+                }
+            }
+        );
+}
+
+console.log(
+    "🔌 Supabase client:",
+    ordersSupabase
+);
+
+    // =====================================================
+    // STATE
+    // =====================================================
+
+    let currentUser = null;
+
+    let allOrders = [];
+
+    let currentLanguage =
+        localStorage.getItem("socialwiki_language") || "en";
+
+
+    // =====================================================
+    // TRANSLATIONS
+    // =====================================================
+
+    const translations = {
+
+        en: {
+
+            home: "← Home",
+
+            title: "Orders & Payments",
+
+            subtitle:
+                "Manage your orders and payment methods",
+
+            totalOrders:
+                "Total Orders",
+
+            inProgress:
+                "In Progress",
+
+            completed:
+                "Completed",
+
+            totalSpent:
+                "Total Spent",
+
+            myOrders:
+                "📦 My Orders",
+
+            ordersDescription:
+                "Your marketplace orders will appear here.",
+
+            allOrders:
+                "All Orders",
+
+            processing:
+                "Processing",
+
+            shipped:
+                "Shipped",
+
+            cancelled:
+                "Cancelled",
+
+            noOrders:
+                "No orders yet",
+
+            noOrdersDescription:
+                "Your marketplace orders will appear here.",
+
+            paymentMethods:
+                "💳 Payment Methods",
+
+            paymentDescription:
+                "Manage your payment methods.",
+
+            noPaymentMethod:
+                "No payment method",
+
+            paymentComingSoon:
+                "Payment methods will be available later.",
+
+            comingSoon:
+                "Coming Soon",
+
+            securePayments:
+                "Secure Payments",
+
+            secureDescription:
+                "Payment information will be protected.",
+
+            secure:
+                "Secure",
+
+            securityTitle:
+                "Security",
+
+            securityText:
+                "Your orders are protected by Supabase Row Level Security. You can only access orders belonging to your own account.",
+
+            footerSecurity:
+                "🔒 SocialWiki payments will use secure payment processing.",
+
+            loading:
+                "⏳ Loading your orders...",
+
+            loginRequired:
+                "Please log in to view your orders.",
+
+            order:
+                "Order",
+
+            view:
+                "View",
+
+            status:
+                "Status"
+
+        },
+
+
+        fr: {
+
+            home: "← Accueil",
+
+            title: "Commandes & Paiements",
+
+            subtitle:
+                "Gérez vos commandes et vos moyens de paiement",
+
+            totalOrders:
+                "Total des commandes",
+
+            inProgress:
+                "En cours",
+
+            completed:
+                "Terminées",
+
+            totalSpent:
+                "Total dépensé",
+
+            myOrders:
+                "📦 Mes commandes",
+
+            ordersDescription:
+                "Vos commandes Marketplace apparaîtront ici.",
+
+            allOrders:
+                "Toutes les commandes",
+
+            processing:
+                "En traitement",
+
+            shipped:
+                "Expédiées",
+
+            cancelled:
+                "Annulées",
+
+            noOrders:
+                "Aucune commande",
+
+            noOrdersDescription:
+                "Vos commandes Marketplace apparaîtront ici.",
+
+            paymentMethods:
+                "💳 Moyens de paiement",
+
+            paymentDescription:
+                "Gérez vos moyens de paiement.",
+
+            noPaymentMethod:
+                "Aucun moyen de paiement",
+
+            paymentComingSoon:
+                "Les moyens de paiement seront disponibles plus tard.",
+
+            comingSoon:
+                "Bientôt disponible",
+
+            securePayments:
+                "Paiements sécurisés",
+
+            secureDescription:
+                "Les informations de paiement seront protégées.",
+
+            secure:
+                "Sécurisé",
+
+            securityTitle:
+                "Sécurité",
+
+            securityText:
+                "Vos commandes sont protégées par la sécurité RLS de Supabase. Vous pouvez uniquement accéder aux commandes de votre propre compte.",
+
+            footerSecurity:
+                "🔒 Les paiements SocialWiki utiliseront un système de paiement sécurisé.",
+
+            loading:
+                "⏳ Chargement de vos commandes...",
+
+            loginRequired:
+                "Veuillez vous connecter pour voir vos commandes.",
+
+            order:
+                "Commande",
+
+            view:
+                "Voir",
+
+            status:
+                "Statut"
+
+        },
+
+
+        ar: {
+
+            home: "← الرئيسية",
+
+            title: "الطلبات والدفع",
+
+            subtitle:
+                "إدارة طلباتك وطرق الدفع",
+
+            totalOrders:
+                "إجمالي الطلبات",
+
+            inProgress:
+                "قيد التنفيذ",
+
+            completed:
+                "المكتملة",
+
+            totalSpent:
+                "إجمالي الإنفاق",
+
+            myOrders:
+                "📦 طلباتي",
+
+            ordersDescription:
+                "ستظهر طلباتك من Marketplace هنا.",
+
+            allOrders:
+                "كل الطلبات",
+
+            processing:
+                "قيد المعالجة",
+
+            shipped:
+                "تم الشحن",
+
+            cancelled:
+                "ملغاة",
+
+            noOrders:
+                "لا توجد طلبات",
+
+            noOrdersDescription:
+                "ستظهر طلباتك من Marketplace هنا.",
+
+            paymentMethods:
+                "💳 طرق الدفع",
+
+            paymentDescription:
+                "إدارة طرق الدفع الخاصة بك.",
+
+            noPaymentMethod:
+                "لا توجد طريقة دفع",
+
+            paymentComingSoon:
+                "ستتوفر طرق الدفع لاحقاً.",
+
+            comingSoon:
+                "قريباً",
+
+            securePayments:
+                "دفع آمن",
+
+            secureDescription:
+                "ستتم حماية معلومات الدفع.",
+
+            secure:
+                "آمن",
+
+            securityTitle:
+                "الأمان",
+
+            securityText:
+                "طلباتك محمية بواسطة Row Level Security في Supabase. يمكنك الوصول فقط إلى الطلبات الخاصة بحسابك.",
+
+            footerSecurity:
+                "🔒 ستستخدم مدفوعات SocialWiki نظام دفع آمن.",
+
+            loading:
+                "⏳ جارٍ تحميل طلباتك...",
+
+            loginRequired:
+                "يرجى تسجيل الدخول لرؤية طلباتك.",
+
+            order:
+                "طلب",
+
+            view:
+                "عرض",
+
+            status:
+                "الحالة"
+
+        }
+
+    };
+
+
+    // =====================================================
+    // LANGUAGE
+    // =====================================================
+
+    function applyLanguage() {
+
+        const lang =
+            translations[currentLanguage] ||
+            translations.en;
+
+        document.documentElement.lang =
+            currentLanguage;
+
+        document.documentElement.dir =
+            currentLanguage === "ar"
+                ? "rtl"
+                : "ltr";
+
+        document.getElementById(
+            "languageSelect"
+        ).value = currentLanguage;
+
+
+        document.getElementById(
+            "homeLink"
+        ).textContent = lang.home;
+
+
+        document.getElementById(
+            "pageTitle"
+        ).textContent = lang.title;
+
+
+        document.getElementById(
+            "pageSubtitle"
+        ).textContent = lang.subtitle;
+
+
+        document.querySelectorAll(
+            "[data-i18n]"
+        ).forEach(element => {
+
+            const key =
+                element.dataset.i18n;
+
+            if (lang[key]) {
+
+                element.textContent =
+                    lang[key];
+            }
+        });
+
+        renderOrders();
+    }
+    document.getElementById(
+        "languageSelect"
+    ).addEventListener(
+        "change",
+        function () {
+
+            currentLanguage =
+                this.value;
+
+            localStorage.setItem(
+                "socialwiki_language",
+                currentLanguage
+            );
+
+            applyLanguage();
+
+        }
+    );
+
+
+    // GET CURRENT USER
+
+   async function getCurrentUser() {
+
+    const {
+        data: {
+            session
+        },
+        error
+    } = await ordersSupabase.auth.getSession();
+
+    if (error) {
+
+        console.error(
+            "❌ Session error:",
+            error
+        );
+
+        return null;
+    }
+
+    return session?.user || null;
+}
+    // =====================================================
+    // LOAD ORDERS
+    // =====================================================
+
+    async function loadOrders() {
+
+        const loading =
+            document.getElementById(
+                "loadingMessage"
+            );
+
+        const errorBox =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        loading.style.display =
+            "block";
+
+        errorBox.style.display =
+            "none";
+
+
+        currentUser =
+            await getCurrentUser();
+
+
+        if (!currentUser) {
+
+            loading.style.display =
+                "none";
+
+            errorBox.textContent =
+                translations[
+                    currentLanguage
+                ].loginRequired;
+
+            errorBox.style.display =
+                "block";
+
+            console.warn(
+                "⚠️ No logged-in user."
+            );
+
+            return;
+        }
+
+
+        console.log(
+            "👤 Current user:",
+            currentUser.id
+        );
+
+
+        /*
+         * IMPORTANT SECURITY:
+         *
+         * We filter by buyer_id here,
+         * BUT Supabase RLS is the real security layer.
+         *
+         * RLS prevents another user from
+         * reading someone else's orders.
+         */
+
+        const {
+            data,
+            error
+        } = await ordersSupabase
+            .from("orders")
+            .select(`
+                id,
+                buyer_id,
+                order_number,
+                status,
+                total_amount,
+                currency,
+                payment_status,
+                payment_method,
+                created_at,
+                updated_at
+            `)
+            .eq(
+                "buyer_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+        loading.style.display =
+            "none";
+
+
+        if (error) {
+
+    console.error(
+        "❌ Orders error:",
+        error
+    );
+
+    console.error(
+        "❌ Orders error JSON:",
+        JSON.stringify(
+            error,
+            null,
+            2
+        )
+    );
+
+    errorBox.textContent =
+        "❌ " +
+        error.message;
+
+    errorBox.style.display =
+        "block";
+
+    return;
+}
+
+
+        allOrders =
+            data || [];
+
+
+        console.log(
+            "📦 Orders loaded:",
+            allOrders.length
+        );
+
+
+        updateSummary();
+
+        renderOrders();
+
+    }
+
+
+    // =====================================================
+    // SUMMARY
+    // =====================================================
+
+    function updateSummary() {
+
+        const total =
+            allOrders.length;
+
+
+        const inProgress =
+            allOrders.filter(
+                order =>
+                    order.status === "processing" ||
+                    order.status === "shipped"
+            ).length;
+
+
+        const completed =
+            allOrders.filter(
+                order =>
+                    order.status === "completed"
+            ).length;
+
+
+        const totalSpent =
+            allOrders
+                .filter(
+                    order =>
+                        order.payment_status === "paid"
+                )
+                .reduce(
+                    (
+                        sum,
+                        order
+                    ) =>
+                        sum +
+                        Number(
+                            order.total_amount || 0
+                        ),
+                    0
+                );
+
+
+        document.getElementById(
+            "totalOrders"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "inProgress"
+        ).textContent =
+            inProgress;
+
+
+        document.getElementById(
+            "completedOrders"
+        ).textContent =
+            completed;
+
+
+        /*
+         * The UI currently displays USD
+         * when there are no orders.
+         *
+         * For real multi-currency orders,
+         * we display each order's own currency
+         * in the order list.
+         */
+
+        document.getElementById(
+            "totalSpent"
+        ).textContent =
+            "$" +
+            totalSpent.toFixed(2);
+
+    }
+
+
+    // =====================================================
+    // FORMAT DATE
+    // =====================================================
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "";
+        }
+
+
+        const date =
+            new Date(dateValue);
+
+
+        return date.toLocaleDateString(
+            currentLanguage === "fr"
+                ? "fr-FR"
+                : currentLanguage === "ar"
+                    ? "ar-MA"
+                    : "en-US",
+            {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // FORMAT PRICE
+    // =====================================================
+
+    function formatPrice(
+        amount,
+        currency
+    ) {
+
+        const value =
+            Number(amount || 0);
+
+
+        try {
+
+            return new Intl.NumberFormat(
+                currentLanguage === "fr"
+                    ? "fr-FR"
+                    : currentLanguage === "ar"
+                        ? "ar-MA"
+                        : "en-US",
+                {
+                    style: "currency",
+                    currency:
+                        currency || "USD"
+                }
+            ).format(value);
+
+        } catch (error) {
+
+            return (
+                value.toFixed(2) +
+                " " +
+                (currency || "USD")
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // STATUS
+    // =====================================================
+
+    function getStatusHTML(status) {
+
+        const lang =
+            translations[
+                currentLanguage
+            ];
+
+
+        let className =
+            "processing";
+
+        let text =
+            lang.processing;
+
+        let icon =
+            "⏳";
+
+
+        if (status === "shipped") {
+
+            className =
+                "shipped";
+
+            text =
+                lang.shipped;
+
+            icon =
+                "🚚";
+
+        }
+
+
+        if (status === "completed") {
+
+            className =
+                "completed";
+
+            text =
+                lang.completed;
+
+            icon =
+                "✅";
+
+        }
+
+
+        if (status === "cancelled") {
+
+            className =
+                "cancelled";
+
+            text =
+                lang.cancelled;
+
+            icon =
+                "❌";
+
+        }
+
+
+        return `
+            <span class="status ${className}">
+                ${icon} ${text}
+            </span>
+        `;
+
+    }
+
+
+    // =====================================================
+    // RENDER ORDERS
+    // =====================================================
+
+    function renderOrders() {
+
+        const list =
+            document.getElementById(
+                "orderList"
+            );
+
+
+        const filter =
+            document.getElementById(
+                "orderFilter"
+            ).value;
+
+
+        const lang =
+            translations[
+                currentLanguage
+            ];
+
+
+        let orders =
+            [...allOrders];
+
+
+        if (filter !== "all") {
+
+            orders =
+                orders.filter(
+                    order =>
+                        order.status === filter
+                );
+
+        }
+
+
+        if (orders.length === 0) {
+
+            list.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📦
+                    </div>
+
+                    <h3>
+                        ${lang.noOrders}
+                    </h3>
+
+                    <p>
+                        ${lang.noOrdersDescription}
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML =
+            orders.map(
+                order => `
+
+                <div class="order-card">
+
+                    <div class="order-left">
+
+                        <div class="product-image">
+                            📦
+                        </div>
+
+                        <div class="order-info">
+
+                            <h3>
+                                ${escapeHTML(
+                                    order.order_number ||
+                                    lang.order
+                                )}
+                            </h3>
+
+                            <div class="order-number">
+                                ${lang.status}:
+                                ${escapeHTML(
+                                    order.payment_status ||
+                                    "pending"
+                                )}
+                            </div>
+
+                            <div class="order-date">
+                                ${formatDate(
+                                    order.created_at
+                                )}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="order-right">
+
+                        ${getStatusHTML(
+                            order.status
+                        )}
+
+                        <div class="order-price">
+                            ${formatPrice(
+                                order.total_amount,
+                                order.currency
+                            )}
+                        </div>
+
+                        <button
+                            class="view-button"
+                            type="button"
+                            onclick="viewOrder('${order.id}')">
+
+                            ${lang.view}
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `
+            ).join("");
+
+    }
+
+
+    // =====================================================
+    // VIEW ORDER
+    // =====================================================
+
+    function viewOrder(orderId) {
+
+        const order =
+            allOrders.find(
+                item =>
+                    item.id === orderId
+            );
+
+
+        if (!order) {
+
+            return;
+
+        }
+
+
+        const lang =
+            translations[
+                currentLanguage
+            ];
+
+
+        alert(
+
+            `${lang.order}: ${order.order_number || order.id}\n\n` +
+
+            `${lang.status}: ${order.status}\n` +
+
+            `Payment: ${order.payment_status}\n` +
+
+            `Amount: ${formatPrice(
+                order.total_amount,
+                order.currency
+            )}\n\n` +
+
+            `Created: ${formatDate(
+                order.created_at
+            )}`
+
+        );
+
+    }
+
+
+    window.viewOrder =
+        viewOrder;
+
+
+    // =====================================================
+    // ESCAPE HTML
+    // =====================================================
+
+    function escapeHTML(value) {
+
+        if (value === null ||
+            value === undefined) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    // =====================================================
+    // FILTER
+    // =====================================================
+
+    document.getElementById(
+        "orderFilter"
+    ).addEventListener(
+        "change",
+        function () {
+
+            renderOrders();
+
+        }
+    );
+
+
+    // =====================================================
+    // INIT
+    // =====================================================
+
+    applyLanguage();
+
+    loadOrders();
+
+    console.log(
+        "✅ Orders & Payments system ready"
+    );
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1639 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SocialWiki - Pages</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            color: #1c1e21;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+            height: 60px;
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1877f2;
+        }
+
+        .create-button {
+            border: none;
+            background: #1877f2;
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .create-button:hover {
+            background: #166fe5;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #65676b;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .filters {
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.06);
+
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+
+            min-width: 220px;
+
+            padding: 12px 15px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #1877f2;
+        }
+
+        .category-select {
+            padding: 12px 15px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            background: white;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           STATES
+        ========================= */
+
+        .state {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            color: #65676b;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.06);
+
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: #d93025;
+        }
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .pages-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 20px;
+        }
+
+        /* =========================
+           PAGE CARD
+        ========================= */
+
+        .page-card {
+            background: white;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.08);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .page-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        /* =========================
+           COVER
+        ========================= */
+
+        .cover {
+            height: 130px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1877f2,
+                    #8b5cf6,
+                    #ec4899
+                );
+
+            background-size: cover;
+
+            background-position: center;
+        }
+
+        /* =========================
+           CARD CONTENT
+        ========================= */
+
+        .card-content {
+            padding: 18px;
+        }
+
+        /* =========================
+           AVATAR
+        ========================= */
+
+        .avatar {
+            width: 75px;
+            height: 75px;
+
+            border-radius: 50%;
+
+            border: 4px solid white;
+
+            margin-top: -55px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1877f2,
+                    #8b5cf6
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            position: relative;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .avatar-letter {
+            color: white;
+
+            font-size: 30px;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           PAGE INFO
+        ========================= */
+
+        .page-name {
+            font-size: 21px;
+
+            font-weight: bold;
+
+            margin-top: 12px;
+        }
+
+        .page-category {
+            color: #65676b;
+
+            font-size: 14px;
+
+            margin-top: 6px;
+        }
+
+        .page-description {
+            margin-top: 12px;
+
+            color: #444;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            min-height: 42px;
+
+            white-space: pre-wrap;
+
+            word-break: break-word;
+        }
+
+        .page-date {
+            margin-top: 10px;
+
+            color: #65676b;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           FOLLOWERS
+        ========================= */
+
+        .followers-count {
+            margin-top: 10px;
+
+            color: #65676b;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 16px;
+        }
+
+        .view-button {
+            flex: 1;
+
+            border: none;
+
+            background: #1877f2;
+
+            color: white;
+
+            padding: 11px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .view-button:hover {
+            background: #166fe5;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0, 0, 0, 0.55);
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 1000;
+
+            padding: 20px;
+        }
+
+        .modal-box {
+            width: 100%;
+
+            max-width: 500px;
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-title {
+            font-size: 24px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #1877f2;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .cancel-button,
+        .submit-button {
+            flex: 1;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .cancel-button {
+            background: #e4e6eb;
+        }
+
+        .cancel-button:hover {
+            background: #d8dadf;
+        }
+
+        .submit-button {
+            background: #1877f2;
+
+            color: white;
+        }
+
+        .submit-button:hover {
+            background: #166fe5;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 0 10px;
+
+                margin-top: 20px;
+            }
+
+            .title {
+                font-size: 25px;
+            }
+
+            .pages-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="topbar">
+
+    <a
+        href="index.html"
+        class="back-button"
+    >
+        ← Home
+    </a>
+
+    <div class="logo">
+        SocialWiki
+    </div>
+
+    <button
+        type="button"
+        class="create-button"
+        onclick="openCreateModal()"
+    >
+        + Create Page
+    </button>
+
+</header>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container">
+
+        <h1 class="title">
+            📄 Pages
+        </h1>
+
+        <p class="subtitle">
+            Discover and create SocialWiki Pages
+        </p>
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+            <input
+                id="searchInput"
+                class="search-input"
+                type="search"
+                placeholder="🔎 Search pages..."
+                oninput="applyFilters()"
+            >
+
+            <select
+                id="categorySelect"
+                class="category-select"
+                onchange="applyFilters()"
+            >
+
+                <option value="">
+                    All Categories
+                </option>
+
+                <option value="Business">
+                    Business
+                </option>
+
+                <option value="Education">
+                    Education
+                </option>
+
+                <option value="Entertainment">
+                    Entertainment
+                </option>
+
+                <option value="Community">
+                    Community
+                </option>
+
+                <option value="Technology">
+                    Technology
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loading"
+            class="state"
+        >
+            🔄 Loading pages...
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="error"
+            class="state error"
+            style="display:none;"
+        ></div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            id="empty"
+            class="state"
+            style="display:none;"
+        >
+            📄 No pages found.
+        </div>
+
+
+        <!-- PAGES -->
+
+        <div
+            id="pagesGrid"
+            class="pages-grid"
+        ></div>
+
+    </main>
+
+
+    <!-- =========================
+         CREATE PAGE MODAL
+    ========================= -->
+
+    <div
+        id="createModal"
+        class="modal"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-title">
+                📄 Create Page
+            </div>
+
+            <form
+                id="createPageForm"
+                onsubmit="createPage(event)"
+            >
+
+                <div class="form-group">
+
+                    <label for="pageNameInput">
+                        Page Name
+                    </label>
+
+                    <input
+                        id="pageNameInput"
+                        type="text"
+                        required
+                        maxlength="100"
+                        placeholder="Enter page name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="pageDescriptionInput">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="pageDescriptionInput"
+                        maxlength="1000"
+                        placeholder="Describe your page..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="pageCategoryInput">
+                        Category
+                    </label>
+
+                    <select
+                        id="pageCategoryInput"
+                    >
+
+                        <option value="Business">
+                            Business
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                        <option value="Entertainment">
+                            Entertainment
+                        </option>
+
+                        <option value="Community">
+                            Community
+                        </option>
+
+                        <option value="Technology">
+                            Technology
+                        </option>
+
+                        <option
+                            value="Other"
+                            selected
+                        >
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-button"
+                        onclick="closeCreateModal()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Create Page
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SUPABASE
+    ========================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        console.log("📄 pages.html loaded");
+
+
+        // =====================================================
+        // SUPABASE
+        // =====================================================
+
+        const SUPABASE_URL =
+            "https://hvslktufqrgdgrgxmvcm.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+
+        const pagesSupabase =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        // =====================================================
+        // DOM
+        // =====================================================
+
+        const loading =
+            document.getElementById("loading");
+
+        const errorBox =
+            document.getElementById("error");
+
+        const empty =
+            document.getElementById("empty");
+
+        const pagesGrid =
+            document.getElementById("pagesGrid");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const categorySelect =
+            document.getElementById("categorySelect");
+
+        const createModal =
+            document.getElementById("createModal");
+
+        const createPageForm =
+            document.getElementById("createPageForm");
+
+
+        // =====================================================
+        // DATA
+        // =====================================================
+
+        let allPages = [];
+
+
+        // =====================================================
+        // ESCAPE HTML
+        // =====================================================
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // =====================================================
+        // ESCAPE CSS URL
+        // =====================================================
+
+        function escapeCssUrl(value) {
+
+            return String(value ?? "")
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+        }
+
+
+        // =====================================================
+        // LOAD FOLLOWER COUNTS
+        // =====================================================
+
+        async function loadFollowerCounts() {
+
+            console.log(
+                "👥 Loading follower counts..."
+            );
+
+            if (!allPages.length) {
+                return;
+            }
+
+            const pageIds =
+                allPages
+                    .map(function(page) {
+                        return page.id;
+                    })
+                    .filter(Boolean);
+
+            if (!pageIds.length) {
+                return;
+            }
+
+
+            const {
+                data,
+                error
+            } =
+                await pagesSupabase
+                    .from("page_followers")
+                    .select("page_id")
+                    .in(
+                        "page_id",
+                        pageIds
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    "❌ Follower count error:",
+                    error
+                );
+
+                /*
+                 * We don't stop the Pages page
+                 * if follower counting fails.
+                 */
+
+                allPages =
+                    allPages.map(
+                        function(page) {
+
+                            return {
+                                ...page,
+                                followerCount: 0
+                            };
+
+                        }
+                    );
+
+                return;
+            }
+
+
+            const counts = {};
+
+
+            (data || []).forEach(
+                function(row) {
+
+                    if (!row.page_id) {
+                        return;
+                    }
+
+                    counts[row.page_id] =
+                        (
+                            counts[row.page_id] || 0
+                        ) + 1;
+
+                }
+            );
+
+
+            allPages =
+                allPages.map(
+                    function(page) {
+
+                        return {
+                            ...page,
+
+                            followerCount:
+                                counts[page.id] || 0
+                        };
+
+                    }
+                );
+
+
+            console.log(
+                "✅ Follower counts loaded:",
+                counts
+            );
+
+        }
+
+
+        // =====================================================
+        // LOAD PAGES
+        // =====================================================
+
+        async function loadPages() {
+
+            console.log(
+                "🔄 Loading pages from Supabase..."
+            );
+
+
+            loading.style.display =
+                "block";
+
+            errorBox.style.display =
+                "none";
+
+            empty.style.display =
+                "none";
+
+            pagesGrid.innerHTML =
+                "";
+
+
+            const {
+                data,
+                error
+            } =
+                await pagesSupabase
+                    .from("pages")
+                    .select("*")
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    "❌ Supabase error:",
+                    error
+                );
+
+
+                loading.style.display =
+                    "none";
+
+                errorBox.style.display =
+                    "block";
+
+                errorBox.textContent =
+                    "❌ Failed to load pages: " +
+                    error.message;
+
+                return;
+
+            }
+
+
+            console.log(
+                "✅ Pages loaded:",
+                data
+            );
+
+
+            allPages =
+                data || [];
+
+
+            await loadFollowerCounts();
+
+
+            loading.style.display =
+                "none";
+
+
+            applyFilters();
+
+        }
+
+
+        // =====================================================
+        // APPLY FILTERS
+        // =====================================================
+
+        function applyFilters() {
+
+            const search =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const category =
+                categorySelect.value;
+
+
+            const filtered =
+                allPages.filter(
+                    function(page) {
+
+                        const name =
+                            String(
+                                page.name || ""
+                            ).toLowerCase();
+
+
+                        const description =
+                            String(
+                                page.description || ""
+                            ).toLowerCase();
+
+
+                        const pageCategory =
+                            String(
+                                page.category || ""
+                            );
+
+
+                        const matchesSearch =
+                            !search ||
+                            name.includes(search) ||
+                            description.includes(search);
+
+
+                        const matchesCategory =
+                            !category ||
+                            pageCategory === category;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesCategory
+                        );
+
+                    }
+                );
+
+
+            renderPages(filtered);
+
+        }
+
+
+        // =====================================================
+        // RENDER PAGES
+        // =====================================================
+
+        function renderPages(pages) {
+
+            pagesGrid.innerHTML = "";
+
+
+            if (!pages.length) {
+
+                empty.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            empty.style.display =
+                "none";
+
+
+            pages.forEach(
+                function(page) {
+
+                    const name =
+                        page.name ||
+                        "Unnamed Page";
+
+
+                    const initial =
+                        name
+                            .trim()
+                            .charAt(0)
+                            .toUpperCase() ||
+                        "P";
+
+
+                    const description =
+                        page.description ||
+                        "No description available.";
+
+
+                    const category =
+                        page.category ||
+                        "Other";
+
+
+                    const followerCount =
+                        Number(
+                            page.followerCount || 0
+                        );
+
+
+                    let coverStyle = "";
+
+
+                    if (page.cover_url) {
+
+                        coverStyle =
+                            "background-image:url('" +
+                            escapeCssUrl(
+                                page.cover_url
+                            ) +
+                            "');";
+
+                    }
+
+
+                    const avatarHtml =
+                        page.avatar_url
+                            ?
+
+                        `
+                            <img
+                                src="${escapeHtml(page.avatar_url)}"
+                                alt="${escapeHtml(name)}"
+                            >
+                        `
+
+                            :
+
+                        `
+                            <span class="avatar-letter">
+                                ${escapeHtml(initial)}
+                            </span>
+                        `;
+
+
+                    const createdDate =
+                        page.created_at
+                            ?
+
+                        new Date(
+                            page.created_at
+                        ).toLocaleDateString()
+
+                            :
+
+                        "";
+
+
+                    const followerText =
+                        followerCount === 1
+                            ? "follower"
+                            : "followers";
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "page-card";
+
+
+                    card.innerHTML = `
+
+                        <div
+                            class="cover"
+                            style="${escapeHtml(coverStyle)}"
+                        ></div>
+
+
+                        <div class="card-content">
+
+
+                            <div class="avatar">
+                                ${avatarHtml}
+                            </div>
+
+
+                            <div class="page-name">
+                                ${escapeHtml(name)}
+                            </div>
+
+
+                            <div class="page-category">
+                                📂 ${escapeHtml(category)}
+                            </div>
+
+
+                            <div class="page-description">
+                                ${escapeHtml(description)}
+                            </div>
+
+
+                            <div class="followers-count">
+                                👥 ${followerCount}
+                                ${followerText}
+                            </div>
+
+
+                            ${
+                                createdDate
+                                    ?
+
+                                `
+                                    <div class="page-date">
+                                        Created on
+                                        ${escapeHtml(createdDate)}
+                                    </div>
+                                `
+
+                                    :
+
+                                ""
+                            }
+
+
+                            <div class="actions">
+
+                                <button
+                                    type="button"
+                                    class="view-button"
+                                >
+                                    👁 View Page
+                                </button>
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+
+                    // =================================================
+                    // VIEW BUTTON
+                    // =================================================
+
+                    const viewButton =
+                        card.querySelector(
+                            ".view-button"
+                        );
+
+
+                    if (!viewButton) {
+
+                        console.error(
+                            "❌ View button was not created."
+                        );
+
+                        return;
+
+                    }
+
+
+                    viewButton.addEventListener(
+                        "click",
+                        function(event) {
+
+                            event.preventDefault();
+
+                            event.stopPropagation();
+
+
+                            console.log(
+                                "🔥 VIEW BUTTON CLICKED"
+                            );
+
+
+                            console.log(
+                                "📄 Page name:",
+                                page.name
+                            );
+
+
+                            console.log(
+                                "🆔 Page ID:",
+                                page.id
+                            );
+
+
+                            viewPage(
+                                page.id
+                            );
+
+                        }
+                    );
+
+
+                    pagesGrid.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // VIEW PAGE
+        // =====================================================
+
+        function viewPage(pageId) {
+
+            console.log(
+                "🚀 viewPage() called"
+            );
+
+
+            console.log(
+                "🆔 Received Page ID:",
+                pageId
+            );
+
+
+            if (!pageId) {
+
+                console.error(
+                    "❌ Page ID is missing."
+                );
+
+
+                alert(
+                    "❌ Page ID is missing."
+                );
+
+                return;
+
+            }
+
+
+            const targetUrl =
+                "./page.html?id=" +
+                encodeURIComponent(
+                    pageId
+                );
+
+
+            console.log(
+                "➡️ Target URL:",
+                targetUrl
+            );
+
+
+            window.location.assign(
+                targetUrl
+            );
+
+        }
+
+
+        // =====================================================
+        // CREATE MODAL
+        // =====================================================
+
+        function openCreateModal() {
+
+            createModal.style.display =
+                "flex";
+
+        }
+
+
+        function closeCreateModal() {
+
+            createModal.style.display =
+                "none";
+
+        }
+
+
+        // =====================================================
+        // CREATE PAGE
+        // =====================================================
+
+        async function createPage(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById(
+                        "pageNameInput"
+                    )
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById(
+                        "pageDescriptionInput"
+                    )
+                    .value
+                    .trim();
+
+
+            const category =
+                document
+                    .getElementById(
+                        "pageCategoryInput"
+                    )
+                    .value;
+
+
+            if (!name) {
+
+                alert(
+                    "❌ Please enter a page name."
+                );
+
+                return;
+
+            }
+
+
+            const {
+                data: {
+                    user
+                }
+            } =
+                await pagesSupabase.auth
+                    .getUser();
+
+
+            if (!user) {
+
+                alert(
+                    "❌ You must be logged in to create a page."
+                );
+
+                return;
+
+            }
+
+
+            const {
+                data,
+                error
+            } =
+                await pagesSupabase
+                    .from("pages")
+                    .insert({
+
+                        owner_id:
+                            user.id,
+
+                        name:
+                            name,
+
+                        description:
+                            description || null,
+
+                        category:
+                            category
+
+                    })
+                    .select()
+                    .single();
+
+
+            if (error) {
+
+                console.error(
+                    "❌ Create page error:",
+                    error
+                );
+
+
+                alert(
+                    "❌ Failed to create page: " +
+                    error.message
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "✅ Page created:",
+                data
+            );
+
+
+            createPageForm.reset();
+
+
+            closeCreateModal();
+
+
+            await loadPages();
+
+        }
+
+
+        // =====================================================
+        // CLOSE MODAL OUTSIDE CLICK
+        // =====================================================
+
+        createModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    createModal
+                ) {
+
+                    closeCreateModal();
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // START
+        // =====================================================
+
+        loadPages();
+
+    </script>
+
+</body>
+
+</html>
+

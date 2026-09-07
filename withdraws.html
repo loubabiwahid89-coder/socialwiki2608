@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SocialWiki - Withdrawals</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .home {
+            background: #2563eb;
+            color: white;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin: 0 0 8px;
+        }
+
+        .balance-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .balance {
+            font-size: 50px;
+            font-weight: bold;
+            color: #d97706;
+            margin: 15px 0;
+        }
+
+        .form-card,
+        .history-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .submit {
+            width: 100%;
+            margin-top: 20px;
+            background: #16a34a;
+            color: white;
+            font-weight: bold;
+        }
+
+        .submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .withdrawal {
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .withdrawal:last-child {
+            border-bottom: none;
+        }
+
+        .withdrawal-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #d97706;
+        }
+
+        .status {
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #f3f4f6;
+        }
+
+        .pending {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
+        .approved {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .rejected {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        .paid {
+            color: #1e40af;
+            background: #dbeafe;
+        }
+
+        .empty {
+            text-align: center;
+            color: #6b7280;
+            padding: 25px;
+        }
+
+        .error {
+            color: #dc2626;
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 12px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+
+            .balance {
+                font-size: 42px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="logo">
+        Social<span>Wiki</span>
+    </div>
+
+    <div class="buttons">
+
+        <button
+            class="home"
+            onclick="goHome()">
+            Home
+        </button>
+
+        <button
+            class="logout"
+            id="logoutButton">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <section class="welcome">
+
+        <h1 id="welcomeName">
+            Withdrawals 💸
+        </h1>
+
+        <p>
+            Request a withdrawal using your available points.
+        </p>
+
+    </section>
+
+
+    <!-- BALANCE -->
+
+    <section class="balance-card">
+
+        <div>
+            Available Points
+        </div>
+
+        <div
+            class="balance"
+            id="balance">
+            0
+        </div>
+
+        <div>
+            Points
+        </div>
+
+    </section>
+
+
+    <!-- FORM -->
+
+    <section class="form-card">
+
+        <h2>
+            💸 Request Withdrawal
+        </h2>
+
+
+        <form id="withdrawalForm">
+
+
+            <label for="points">
+                Points to withdraw
+            </label>
+
+            <input
+                type="number"
+                id="points"
+                min="1"
+                placeholder="Enter points"
+                required
+            >
+
+
+            <label for="method">
+                Withdrawal method
+            </label>
+
+            <select
+                id="method"
+                required>
+
+                <option value="">
+                    Select method
+                </option>
+
+                <option value="manual">
+                    Manual review
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label for="accountInfo">
+                Account information
+            </label>
+
+            <input
+                type="text"
+                id="accountInfo"
+                placeholder="Enter required information"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="submit"
+                id="submitButton">
+
+                Submit Withdrawal
+
+            </button>
+
+
+            <div
+                class="message"
+                id="message">
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- HISTORY -->
+
+    <section class="history-card">
+
+        <h2>
+            📋 My Withdrawal Requests
+        </h2>
+
+        <div id="history">
+
+            Loading...
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+    // ==========================================
+    // SUPABASE
+    // ==========================================
+
+    const SUPABASE_URL =
+        "YOUR_SUPABASE_URL";
+
+    const SUPABASE_ANON_KEY =
+        "YOUR_SUPABASE_ANON_KEY";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+
+    let currentUser = null;
+
+    let currentBalance = 0;
+
+
+    // ==========================================
+    // GET USER
+    // ==========================================
+
+    async function getUser() {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
+
+
+        if (error || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return null;
+        }
+
+
+        currentUser = user;
+
+        return user;
+    }
+
+
+    // ==========================================
+    // LOAD BALANCE
+    // ==========================================
+
+    async function loadBalance() {
+
+        if (!currentUser) {
+            return;
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "point_transactions"
+                )
+                .select(
+                    "points"
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Balance error:",
+                error
+            );
+
+            return;
+        }
+
+
+        currentBalance = 0;
+
+
+        data.forEach(
+            function(transaction) {
+
+                currentBalance +=
+                    Number(
+                        transaction.points
+                    ) || 0;
+
+            }
+        );
+
+
+        document.getElementById(
+            "balance"
+        ).textContent =
+            currentBalance;
+
+
+        document.getElementById(
+            "points"
+        ).max =
+            currentBalance;
+    }
+
+
+    // ==========================================
+    // LOAD PROFILE
+    // ==========================================
+
+    async function loadProfile() {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select(
+                    "username"
+                )
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .single();
+
+
+        if (!error && data) {
+
+            document.getElementById(
+                "welcomeName"
+            ).textContent =
+                "Welcome " +
+                data.username +
+                " 💸";
+        }
+    }
+
+
+    // ==========================================
+    // LOAD HISTORY
+    // ==========================================
+
+    async function loadHistory() {
+
+        const history =
+            document.getElementById(
+                "history"
+            );
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "withdrawals"
+                )
+                .select(
+                    "id, points, method, status, manager_note, created_at"
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "History error:",
+                error
+            );
+
+            history.innerHTML =
+                '<div class="error">' +
+                "Could not load withdrawal history." +
+                "</div>";
+
+            return;
+        }
+
+
+        if (!data || data.length === 0) {
+
+            history.innerHTML =
+                '<div class="empty">' +
+                "You have no withdrawal requests yet." +
+                "</div>";
+
+            return;
+        }
+
+
+        history.innerHTML = "";
+
+
+        data.forEach(
+            function(item) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "withdrawal";
+
+
+                const date =
+                    new Date(
+                        item.created_at
+                    ).toLocaleString();
+
+
+                div.innerHTML = `
+
+                    <div class="withdrawal-top">
+
+                        <div class="amount">
+                            🪙 ${item.points} Points
+                        </div>
+
+                        <div class="status ${item.status}">
+                            ${item.status}
+                        </div>
+
+                    </div>
+
+                    <div>
+                        Method:
+                        ${escapeHTML(item.method)}
+                    </div>
+
+                    <small>
+                        ${date}
+                    </small>
+
+                    ${
+                        item.manager_note
+                        ? `
+                            <div>
+                                Note:
+                                ${escapeHTML(
+                                    item.manager_note
+                                )}
+                            </div>
+                          `
+                        : ""
+                    }
+
+                `;
+
+
+                history.appendChild(
+                    div
+                );
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // SUBMIT WITHDRAWAL
+    // ==========================================
+
+    document
+        .getElementById(
+            "withdrawalForm"
+        )
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const points =
+                    Number(
+                        document.getElementById(
+                            "points"
+                        ).value
+                    );
+
+
+                const method =
+                    document.getElementById(
+                        "method"
+                    ).value;
+
+
+                const accountInfo =
+                    document.getElementById(
+                        "accountInfo"
+                    ).value.trim();
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+
+                const submitButton =
+                    document.getElementById(
+                        "submitButton"
+                    );
+
+
+                message.textContent = "";
+
+
+                if (
+                    !Number.isInteger(points) ||
+                    points <= 0
+                ) {
+
+                    message.textContent =
+                        "Enter a valid number of points.";
+
+                    return;
+                }
+
+
+                if (points > currentBalance) {
+
+                    message.textContent =
+                        "You do not have enough points.";
+
+                    return;
+                }
+
+
+                if (!method) {
+
+                    message.textContent =
+                        "Select a withdrawal method.";
+
+                    return;
+                }
+
+
+                if (!accountInfo) {
+
+                    message.textContent =
+                        "Enter the required account information.";
+
+                    return;
+                }
+
+
+                submitButton.disabled =
+                    true;
+
+                submitButton.textContent =
+                    "Submitting...";
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .from(
+                            "withdrawals"
+                        )
+                        .insert({
+
+                            user_id:
+                                currentUser.id,
+
+                            points:
+                                points,
+
+                            method:
+                                method,
+
+                            account_info:
+                                accountInfo,
+
+                            status:
+                                "pending"
+
+                        });
+
+
+                if (error) {
+
+                    console.error(
+                        "Withdrawal error:",
+                        error
+                    );
+
+                    message.textContent =
+                        "Could not submit withdrawal.";
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        "Submit Withdrawal";
+
+                    return;
+                }
+
+
+                message.textContent =
+                    "✅ Withdrawal request submitted.";
+
+
+                document
+                    .getElementById(
+                        "withdrawalForm"
+                    )
+                    .reset();
+
+
+                await loadHistory();
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    "Submit Withdrawal";
+
+            }
+        );
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    document
+        .getElementById(
+            "logoutButton"
+        )
+        .addEventListener(
+            "click",
+            async function() {
+
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+
+    // ==========================================
+    // HOME
+    // ==========================================
+
+    function goHome() {
+
+        window.location.href =
+            "index.html";
+    }
+
+
+    // ==========================================
+    // HTML SECURITY
+    // ==========================================
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.textContent =
+            value;
+
+        return div.innerHTML;
+    }
+
+
+    // ==========================================
+    // START
+    // ==========================================
+
+    async function init() {
+
+        const user =
+            await getUser();
+
+
+        if (!user) {
+            return;
+        }
+
+
+        await loadProfile();
+
+        await loadBalance();
+
+        await loadHistory();
+
+    }
+
+
+    init();
+
+</script>
+
+</body>
+
+</html>

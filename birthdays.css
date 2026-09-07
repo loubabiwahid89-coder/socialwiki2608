@@ -1,0 +1,556 @@
+
+/* =========================================================
+   SOCIALWIKI BIRTHDAYS
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f5f7fb;
+
+    color: #1f2937;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.birthday-header {
+    min-height: 82px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 14px 28px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+}
+
+
+.header-left {
+    width: 180px;
+}
+
+
+.back-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    text-decoration: none;
+
+    color: #374151;
+
+    background: #f3f4f6;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.back-button:hover {
+    background: #e5e7eb;
+}
+
+
+.header-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.header-icon {
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 14px;
+
+    background: #fff1f2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+
+.header-title h1 {
+    margin: 0 0 3px;
+
+    font-size: 24px;
+}
+
+
+.header-title p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+.birthdays-page {
+    width: min(1100px, calc(100% - 32px));
+
+    margin: 30px auto 60px;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.my-birthday-section,
+.birthday-section {
+    margin-bottom: 35px;
+}
+
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+
+.section-title > span {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+
+.section-title h2 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+.section-title p {
+    margin: 4px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MY BIRTHDAY
+   ========================================================= */
+
+.my-birthday-card {
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fff7ed
+        );
+
+    border: 1px solid #fed7aa;
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    min-height: 120px;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.05);
+}
+
+
+.my-birthday-content {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.profile-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+.avatar {
+    width: 58px;
+
+    height: 58px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #e5e7eb;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+
+.avatar img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.profile-name {
+    font-weight: 700;
+
+    font-size: 17px;
+}
+
+
+.birthday-date {
+    margin-top: 5px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.birthday-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    background: #ffffff;
+
+    border: 1px solid #fed7aa;
+
+    border-radius: 999px;
+
+    padding: 8px 12px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   BIRTHDAY GRID
+   ========================================================= */
+
+.birthday-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(260px, 1fr)
+        );
+
+    gap: 15px;
+}
+
+
+.birthday-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.04);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.birthday-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+
+.birthday-card-top {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.birthday-card-name {
+    font-weight: 700;
+
+    font-size: 15px;
+}
+
+
+.birthday-card-username {
+    margin-top: 3px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+.greeting-button {
+    border: none;
+
+    cursor: pointer;
+
+    width: 100%;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    background: #f3f4f6;
+
+    color: #111827;
+
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+
+.greeting-button:hover {
+    background: #e5e7eb;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-birthdays {
+    background: #ffffff;
+
+    border: 1px dashed #d1d5db;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    grid-column: 1 / -1;
+}
+
+
+.empty-birthdays h3 {
+    margin:
+        10px 0 5px;
+
+    color: #374151;
+}
+
+
+.empty-birthdays p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.loading {
+    color: #6b7280;
+
+    padding: 20px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.birthday-error {
+    display: none;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    color: #991b1b;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .birthday-header {
+        padding: 12px 15px;
+    }
+
+
+    .header-left {
+        width: auto;
+
+        margin-right: 12px;
+    }
+
+
+    .back-button {
+        padding:
+            8px 11px;
+
+        font-size: 13px;
+    }
+
+
+    .header-title {
+        gap: 9px;
+    }
+
+
+    .header-icon {
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 21px;
+    }
+
+
+    .header-title h1 {
+        font-size: 20px;
+    }
+
+
+    .header-title p {
+        display: none;
+    }
+
+
+    .birthdays-page {
+        width: calc(100% - 22px);
+
+        margin-top: 20px;
+    }
+
+
+    .my-birthday-content {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .birthday-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .birthday-badge {
+        align-self: flex-start;
+    }
+
+}

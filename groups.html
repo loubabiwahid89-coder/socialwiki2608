@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groups - SocialWiki</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="group.css?v=20260905"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         GROUPS PAGE
+    ====================================================== -->
+
+    <main class="groups-page">
+
+        <!-- HEADER -->
+
+        <div class="groups-navigation">
+
+    <a
+        href="index.html"
+        class="groups-home-button"
+    >
+        🏠 Home
+    </a>
+
+    <button
+        type="button"
+        class="groups-history-button"
+        onclick="history.back()"
+    >
+        ↩️ Back
+    </button>
+
+</div>
+    </div>
+
+    <div class="groups-heading">
+                    <h1>Groups</h1>
+
+                    <p>
+                        Discover and join communities
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="createGroupButton"
+                class="create-group-button"
+            >
+
+                <span class="create-plus">+</span>
+
+                Create Group
+
+            </button>
+
+        </header>
+
+
+
+        <!-- =================================================
+             SEARCH
+        ================================================== -->
+
+        <section class="groups-search-section">
+
+            <div class="groups-search-box">
+
+                <span class="search-icon">
+                    🔎
+                </span>
+
+                <input
+                    type="text"
+                    id="groupSearchInput"
+                    placeholder="Search groups..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             GROUPS
+        ================================================== -->
+
+        <section class="groups-container">
+
+            <div
+                id="groupsGrid"
+                class="groups-grid"
+            >
+
+                <div class="groups-loading">
+                    Loading groups...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         CREATE GROUP MODAL
+    ====================================================== -->
+
+    <div
+        id="createGroupModal"
+        class="group-modal"
+        hidden
+    >
+
+        <div
+            class="group-modal-overlay"
+            id="groupModalOverlay"
+        ></div>
+
+
+        <div
+            class="group-modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="createGroupTitle"
+        >
+
+            <div class="group-modal-header">
+
+                <div class="group-modal-title-area">
+
+                    <h2 id="createGroupTitle">
+                        Create Group
+                    </h2>
+
+                    <p>
+                        Create your own SocialWiki community
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeGroupModal"
+                    class="close-group-modal"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <!-- CREATE FORM -->
+
+            <form
+                id="createGroupForm"
+                class="create-group-form"
+            >
+
+                <!-- GROUP NAME -->
+
+                <div class="group-form-field">
+
+                    <label for="groupNameInput">
+                        Group name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="groupNameInput"
+                        placeholder="Enter group name"
+                        maxlength="80"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="group-form-field">
+
+                    <label for="groupDescriptionInput">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="groupDescriptionInput"
+                        placeholder="Tell people about your group..."
+                        maxlength="500"
+                        rows="5"
+                    ></textarea>
+
+                    <div class="character-hint">
+                        Tell people what your group is about.
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRIVACY -->
+
+                <div class="group-form-field">
+
+                    <label for="groupPrivacySelect">
+                        Privacy
+                    </label>
+
+                    <select
+                        id="groupPrivacySelect"
+                    >
+
+                        <option value="public">
+                            Public
+                        </option>
+
+                        <option value="private">
+                            Private
+                        </option>
+
+                    </select>
+
+                    <div class="privacy-hint">
+                        Public groups can be discovered by everyone.
+                    </div>
+
+                </div>
+
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="groupFormMessage"
+                    class="group-form-message"
+                    hidden
+                ></div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="group-form-actions">
+
+                    <button
+                        type="button"
+                        id="cancelGroupButton"
+                        class="group-cancel-button"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="saveGroupButton"
+                        class="group-save-button"
+                    >
+                        Create Group
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         EDIT GROUP MODAL
+    ====================================================== -->
+
+    <div
+        id="editGroupModal"
+        class="group-modal"
+        hidden
+    >
+
+        <!-- OVERLAY -->
+
+        <div
+            class="group-modal-overlay"
+            id="editGroupModalOverlay"
+        ></div>
+
+
+
+        <!-- MODAL CONTENT -->
+
+        <div
+            class="group-modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="editGroupTitle"
+        >
+
+
+            <!-- HEADER -->
+
+            <div class="group-modal-header">
+
+                <div class="group-modal-title-area">
+
+                    <h2 id="editGroupTitle">
+                        Edit Group
+                    </h2>
+
+                    <p>
+                        Update your SocialWiki community
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeEditGroupModal"
+                    class="close-group-modal"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 EDIT FORM
+            ================================================== -->
+
+            <form
+                id="editGroupForm"
+                class="create-group-form"
+            >
+
+
+                <!-- =================================================
+                     GROUP NAME
+                ================================================== -->
+
+                <div class="group-form-group">
+
+                    <label for="editGroupNameInput">
+                        Group Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editGroupNameInput"
+                        placeholder="Enter group name"
+                        maxlength="100"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DESCRIPTION
+                ================================================== -->
+
+                <div class="group-form-group">
+
+                    <label for="editGroupDescriptionInput">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="editGroupDescriptionInput"
+                        placeholder="Describe your community..."
+                        maxlength="500"
+                        rows="4"
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PRIVACY
+                ================================================== -->
+
+                <div class="group-form-group">
+
+                    <label for="editGroupPrivacySelect">
+                        Privacy
+                    </label>
+
+                    <select
+                        id="editGroupPrivacySelect"
+                    >
+
+                        <option value="public">
+                            🌐 Public
+                        </option>
+
+                        <option value="private">
+                            🔒 Private
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     COVER PHOTO
+                ================================================== -->
+
+                <div class="group-image-upload-section">
+
+                    <label>
+                        🖼️ Cover Photo
+                    </label>
+
+
+                    <div class="group-upload-preview cover-preview">
+
+                        <img
+                            id="editGroupCoverPreview"
+                            src=""
+                            alt="Group Cover Preview"
+                        >
+
+                    </div>
+
+
+
+                    <input
+                        type="file"
+                        id="editGroupCoverFileInput"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        hidden
+                    >
+
+
+                    <button
+                        type="button"
+                        id="editGroupCoverUploadButton"
+                        class="group-upload-button"
+                    >
+                        🖼️ Upload Cover Photo
+                    </button>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     GROUP AVATAR
+                ================================================== -->
+
+                <div class="group-image-upload-section">
+
+                    <label>
+                        👤 Group Avatar
+                    </label>
+
+
+                    <div class="group-upload-preview avatar-preview">
+
+                        <img
+                            id="editGroupAvatarPreview"
+                            src=""
+                            alt="Group Avatar Preview"
+                        >
+
+                    </div>
+
+
+
+                    <input
+                        type="file"
+                        id="editGroupAvatarFileInput"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        hidden
+                    >
+
+
+                    <button
+                        type="button"
+                        id="editGroupAvatarUploadButton"
+                        class="group-upload-button"
+                    >
+                        👤 Upload Group Avatar
+                    </button>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     MESSAGE
+                ================================================== -->
+
+                <div
+                    id="editGroupFormMessage"
+                    class="group-form-message"
+                    hidden
+                ></div>
+
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="group-form-actions">
+
+                    <button
+                        type="button"
+                        id="cancelEditGroupButton"
+                        class="cancel-group-button"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="saveEditGroupButton"
+                        class="save-group-button"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+
+    <!-- =====================================================
+         GROUPS JS
+    ====================================================== -->
+
+    <script src="js/groups.js?v=20260905"></script>
+
+
+</body>
+
+</html>

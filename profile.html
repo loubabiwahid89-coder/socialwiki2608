@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SocialWiki 26 08 - Profile</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 25px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .profile-header {
+            text-align: center;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #1877f2;
+            display: block;
+        }
+
+        .avatar.editable {
+            cursor: pointer;
+        }
+
+        .avatar.editable:hover {
+            opacity: 0.8;
+        }
+
+        .change-avatar-text {
+            font-size: 13px;
+            color: #1877f2;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .avatar-wrapper.editable .change-avatar-text {
+            display: block;
+        }
+
+        h1 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .email {
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .bio {
+            margin: 15px 0;
+            padding: 12px;
+            background: #f5f6f7;
+            border-radius: 10px;
+        }
+
+        .edit-section {
+            margin-top: 20px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #1877f2;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #profileMessage {
+            text-align: center;
+            margin-top: 12px;
+            min-height: 20px;
+        }
+
+        .logout-button {
+            background: #555;
+        }
+
+        #avatarFileInput {
+            display: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <body>
+
+<div class="profile-navigation">
+    <a href="index.html">🏠 Home</a>
+    <button type="button" onclick="history.back()">↩️ Back</button>
+</div>
+
+<div class="profile-container">
+
+<div class="profile-container">
+
+    <!-- PROFILE HEADER -->
+
+    <div class="profile-header">
+
+        <div
+            id="avatarWrapper"
+            class="avatar-wrapper"
+        >
+
+            <img
+                id="avatar"
+                class="avatar"
+                src="images/iconprofile.png"
+                alt="Profile"
+            >
+
+            <div class="change-avatar-text">
+                📷 Click to change photo
+            </div>
+
+        </div>
+
+        <!-- Hidden file input -->
+
+        <input
+            type="file"
+            id="avatarFileInput"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+        >
+
+        <h1 id="username">
+            Loading...
+        </h1>
+
+        <div id="roleBadge"></div>
+
+        <div
+            id="email"
+            class="email"
+        >
+            Loading...
+        </div>
+
+    </div>
+
+
+    <!-- BIO -->
+
+    <div class="bio">
+
+        <strong>
+            Bio
+        </strong>
+
+        <p id="bio">
+            Loading...
+        </p>
+
+    </div>
+
+
+    <!-- EDIT PROFILE -->
+
+    <div
+        id="editSection"
+        class="edit-section"
+    >
+
+        <h2>
+            Edit Profile
+        </h2>
+
+        <label>
+            Username
+        </label>
+
+        <input
+            type="text"
+            id="usernameInput"
+            placeholder="Enter username"
+        >
+
+        <label>
+            Full Name
+        </label>
+
+        <input
+            type="text"
+            id="fullNameInput"
+            placeholder="Enter full name"
+        >
+
+        <label>
+            Bio
+        </label>
+
+        <textarea
+            id="bioInput"
+            placeholder="Write something about yourself..."
+        ></textarea>
+
+        <button id="saveProfileButton">
+            Save Profile
+        </button>
+
+        <button
+            id="logoutButton"
+            class="logout-button"
+        >
+            Logout
+        </button>
+
+        <p id="profileMessage"></p>
+
+    </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<!-- PROFILE JS -->
+
+<script src="js/profile.js"></script>
+
+</body>
+
+</html>
+

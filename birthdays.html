@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>🎂 Birthdays - SocialWiki</title>
+
+    <link
+        rel="stylesheet"
+        href="birthdays.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="birthday-header">
+
+        <div class="header-left">
+
+            <a
+                href="index.html"
+                class="back-button"
+            >
+                ← Home
+            </a>
+
+        </div>
+
+
+        <div class="header-title">
+
+            <div class="header-icon">
+                🎂
+            </div>
+
+            <div>
+
+                <h1>
+                    Birthdays
+                </h1>
+
+                <p>
+                    Celebrate birthdays with the SocialWiki community
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="birthdays-page">
+
+
+        <!-- =================================================
+             MY BIRTHDAY
+        ================================================== -->
+
+        <section class="my-birthday-section">
+
+            <div class="section-title">
+
+                <span>
+                    👑
+                </span>
+
+                <div>
+
+                    <h2>
+                        My Birthday
+                    </h2>
+
+                    <p>
+                        Your birthday is always shown first.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="myBirthdayCard"
+                class="my-birthday-card"
+            >
+
+                <div class="loading">
+                    Loading your birthday...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             TODAY
+        ================================================== -->
+
+        <section class="birthday-section">
+
+            <div class="section-title">
+
+                <span>
+                    🎉
+                </span>
+
+                <div>
+
+                    <h2>
+                        Today's Birthdays
+                    </h2>
+
+                    <p>
+                        Send a birthday greeting.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="todayBirthdays"
+                class="birthday-grid"
+            >
+
+                <div class="loading">
+                    Loading birthdays...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             UPCOMING
+        ================================================== -->
+
+        <section class="birthday-section">
+
+            <div class="section-title">
+
+                <span>
+                    📅
+                </span>
+
+                <div>
+
+                    <h2>
+                        Upcoming Birthdays
+                    </h2>
+
+                    <p>
+                        The next birthdays in the community.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="upcomingBirthdays"
+                class="birthday-grid"
+            >
+
+                <div class="loading">
+                    Loading birthdays...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ERROR
+        ================================================== -->
+
+        <div
+            id="birthdayError"
+            class="birthday-error"
+        ></div>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- =====================================================
+         BIRTHDAYS JS
+    ====================================================== -->
+
+    <script src="birthdays.js"></script>
+
+
+</body>
+
+</html>
+

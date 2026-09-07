@@ -1,0 +1,356 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    background-color: rgb(245, 236, 238);
+}
+
+
+/* NAVBAR */
+
+nav {
+    width: 100%;
+    height: 60px;
+    background-color: blue;
+}
+
+
+/* PROFILE PAGE */
+
+.profile-page {
+    width: 90%;
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+
+/* COVER */
+
+.cover-photo {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.cover-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* PROFILE INFORMATION */
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 0 0 10px 10px;
+}
+
+.profile-picture {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+}
+
+.profile-name h1 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.profile-name p {
+    margin-top: 5px;
+    color: #22c55e;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+/* PROFILE MENU */
+
+.profile-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.profile-menu a {
+    text-decoration: none;
+    color: #555;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 18px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.profile-menu a:hover {
+    background-color: #1877f2;
+    color: white;
+}
+
+
+/* ABOUT */
+
+.about-section {
+    background-color: white;
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.about-section h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.about-section p {
+    color: #555;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+
+/* FRIENDS */
+
+.friends-section {
+    background-color: white;
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.friends-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.friends-title h2 {
+    margin: 0;
+    color: #333;
+}
+
+.friends-title a {
+    text-decoration: none;
+    color: #1877f2;
+}
+
+.friends-grid {
+    display: flex;
+    gap: 15px;
+}
+
+.friend-card {
+    width: 120px;
+}
+
+.friend-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.friend-card h3 {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #333;
+}
+
+
+/* PHOTOS */
+
+.photos-section {
+    background-color: white;
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.photos-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.photos-title h2 {
+    margin: 0;
+    color: #333;
+}
+
+.photos-title a {
+    text-decoration: none;
+    color: #1877f2;
+}
+
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.photos-grid img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+/* POSTS */
+
+.profile-posts {
+    margin-top: 15px;
+}
+
+.profile-posts > h2 {
+    background-color: white;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #333;
+    font-size: 20px;
+}
+
+.profile-post {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+
+/* POST USER */
+
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.post-user img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-user h3 {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.post-user span {
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* POST TEXT */
+
+.profile-post > p {
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+
+/* POST PHOTO */
+
+.post-photo {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+/* POST STATS */
+
+.post-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 5px;
+    border-bottom: 1px solid #ddd;
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* POST ACTIONS */
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.post-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f0f2f5;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.post-actions button:hover {
+    background-color: #e4e6eb;
+}
+
+
+/* COMMENT BOX */
+
+.comment-box {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.comment-box input {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+}
+
+.comment-box button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #1877f2;
+    color: white;
+    cursor: pointer;
+}

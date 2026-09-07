@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Latest News - SocialWiki</title>
+
+    <!-- Main SocialWiki CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- Latest News CSS -->
+    <link
+        rel="stylesheet"
+        href="latest-news.css?v=20260905"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         LATEST NEWS PAGE
+    ====================================================== -->
+
+    <main class="latest-news-page">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="latest-news-header">
+
+
+            <div class="latest-news-header-left">
+
+
+                <!-- BACK HOME -->
+
+                <a
+                    href="index.html"
+                    class="latest-news-back"
+                >
+                    ← Home
+                </a>
+
+
+                <!-- TITLE -->
+
+                <div>
+
+                    <h1>
+                        📰 Latest News
+                    </h1>
+
+                    <p>
+                        See the latest posts from SocialWiki
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- REFRESH -->
+
+            <button
+                type="button"
+                id="refreshNewsButton"
+                class="refresh-news-button"
+            >
+                🔄 Refresh
+            </button>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             SEARCH
+        ================================================== -->
+
+        <section class="latest-news-toolbar">
+
+
+            <div class="latest-news-search">
+
+
+                <span>
+                    🔎
+                </span>
+
+
+                <input
+                    type="text"
+                    id="newsSearchInput"
+                    placeholder="Search posts..."
+                    autocomplete="off"
+                >
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             NEWS FEED
+        ================================================== -->
+
+        <section class="latest-news-container">
+
+
+            <div id="latestNewsFeed">
+
+
+                <div class="news-loading">
+
+                    Loading latest news...
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/script.js?v=20260904"></script>
+
+<script src="js/latest-news.js?v=20260905"></script>
+
+</body>
+
+</html>

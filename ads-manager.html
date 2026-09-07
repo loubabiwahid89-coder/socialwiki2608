@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Ads Manager • SocialWiki</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    color: #1c1e21;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+    background: #ffffff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.brand h2 {
+    font-size: 21px;
+}
+
+.owner-label {
+    font-size: 13px;
+    color: #65676b;
+    margin-top: 3px;
+}
+
+.back-button {
+    text-decoration: none;
+    background: #1877f2;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+    max-width: 1250px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    font-size: 30px;
+}
+
+.page-header p {
+    color: #65676b;
+    margin-top: 7px;
+}
+
+.owner-badge {
+    background: #fff3cd;
+    color: #856404;
+    padding: 9px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.stat-title {
+    color: #65676b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   ADS CARD
+========================================================= */
+
+.ads-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.ads-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ads-card-header h2 {
+    font-size: 22px;
+}
+
+.refresh-button {
+    border: none;
+    background: #e4e6eb;
+    padding: 9px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.refresh-button:hover {
+    background: #d8dadf;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 950px;
+}
+
+th,
+td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+th {
+    background: #f7f7f7;
+    color: #65676b;
+    font-size: 13px;
+}
+
+td {
+    font-size: 14px;
+}
+
+.ad-name {
+    font-weight: bold;
+}
+
+.ad-title {
+    color: #65676b;
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-scheduled {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-draft {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.status-finished {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-paused {
+    background: #fff3cd;
+    color: #856404;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.actions {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    border: none;
+    padding: 7px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.action-button:hover {
+    opacity: 0.85;
+}
+
+.view-button {
+    background: #e7f3ff;
+    color: #1877f2;
+}
+
+.pause-button {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.activate-button {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.delete-button {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING / ERROR
+========================================================= */
+
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #65676b;
+}
+
+.empty-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    color: #65676b;
+}
+
+.error-box {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 12px;
+    padding: 25px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 22px;
+}
+
+.close-modal {
+    border: none;
+    background: #eee;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.details-row {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.details-label {
+    color: #65676b;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.details-value {
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.details-value a {
+    color: #1877f2;
+    text-decoration: none;
+}
+
+.details-value a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .brand h2 {
+        font-size: 17px;
+    }
+
+    .page-header h1 {
+        font-size: 25px;
+    }
+
+    .back-button {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <img
+            src="images/logosw.jpg"
+            alt="SocialWiki"
+        >
+
+        <div>
+
+            <h2>SocialWiki 2608</h2>
+
+            <div class="owner-label">
+                Ads Manager
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="index.html"
+        class="back-button"
+    >
+        ← Back to SocialWiki
+    </a>
+
+</header>
+
+
+<!-- =========================================================
+     PAGE
+========================================================= -->
+
+<main class="page">
+
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                Ads Manager
+            </h1>
+
+            <p>
+                Manage all advertising campaigns on SocialWiki.
+            </p>
+
+        </div>
+
+
+        <div class="owner-badge">
+            👑 OWNER ONLY
+        </div>
+
+    </div>
+
+
+    <div
+        id="errorBox"
+        class="error-box"
+    ></div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Ads
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalAds"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Active Ads
+            </div>
+
+            <div
+                class="stat-value"
+                id="activeAds"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Scheduled Ads
+            </div>
+
+            <div
+                class="stat-value"
+                id="scheduledAds"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Budget
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalBudget"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ADS TABLE
+    ====================================================== -->
+
+    <section class="ads-card">
+
+
+        <div class="ads-card-header">
+
+            <h2>
+                All Campaigns
+            </h2>
+
+            <button
+                type="button"
+                class="refresh-button"
+                id="refreshButton"
+            >
+                🔄 Refresh
+            </button>
+
+        </div>
+
+
+        <div
+            id="loading"
+            class="loading"
+        >
+            Loading campaigns...
+        </div>
+
+
+        <div
+            id="emptyState"
+            class="empty"
+            style="display:none;"
+        >
+
+            <div class="empty-icon">
+                📢
+            </div>
+
+            <h3>
+                No advertising campaigns yet
+            </h3>
+
+            <p>
+                Advertisers will appear here when campaigns are created.
+            </p>
+
+        </div>
+
+
+        <div
+            id="tableWrapper"
+            class="table-wrapper"
+            style="display:none;"
+        >
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Campaign
+                        </th>
+
+                        <th>
+                            Owner
+                        </th>
+
+                        <th>
+                            Language
+                        </th>
+
+                        <th>
+                            Budget
+                        </th>
+
+                        <th>
+                            Dates
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="adsTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     DETAILS MODAL
+========================================================= -->
+
+<div
+    id="detailsModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Campaign Details
+            </h2>
+
+            <button
+                type="button"
+                class="close-modal"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div id="detailsContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+console.log("👑 ADS MANAGER LOADED");
+
+
+// =========================================================
+// SUPABASE
+// =========================================================
+
+const SUPABASE_URL =
+    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+
+const adManagerSupabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+// =========================================================
+// ELEMENTS
+// =========================================================
+
+const loading =
+    document.getElementById("loading");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const tableWrapper =
+    document.getElementById("tableWrapper");
+
+const adsTableBody =
+    document.getElementById("adsTableBody");
+
+const errorBox =
+    document.getElementById("errorBox");
+
+const totalAds =
+    document.getElementById("totalAds");
+
+const activeAds =
+    document.getElementById("activeAds");
+
+const scheduledAds =
+    document.getElementById("scheduledAds");
+
+const totalBudget =
+    document.getElementById("totalBudget");
+
+
+// =========================================================
+// ESCAPE HTML
+// =========================================================
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// =========================================================
+// GET CURRENT STATUS
+// =========================================================
+
+function getAdStatus(ad) {
+
+    /*
+        IMPORTANT:
+
+        Paused must remain Paused.
+        Previously it was incorrectly returning Active.
+    */
+
+    if (ad.status === "paused") {
+        return "paused";
+    }
+
+
+    if (ad.status === "draft") {
+        return "draft";
+    }
+
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    if (
+        ad.start_date &&
+        today < ad.start_date
+    ) {
+
+        return "scheduled";
+
+    }
+
+
+    if (
+        ad.end_date &&
+        today > ad.end_date
+    ) {
+
+        return "finished";
+
+    }
+
+
+    if (ad.status === "active") {
+        return "active";
+    }
+
+
+    return "draft";
+
+}
+
+
+// =========================================================
+// STATUS LABEL
+// =========================================================
+
+function getStatusLabel(status) {
+
+    if (status === "active") {
+        return "Active";
+    }
+
+    if (status === "scheduled") {
+        return "Scheduled";
+    }
+
+    if (status === "finished") {
+        return "Finished";
+    }
+
+    if (status === "paused") {
+        return "Paused";
+    }
+
+    return "Draft";
+
+}
+
+
+// =========================================================
+// STATUS CLASS
+// =========================================================
+
+function getStatusClass(status) {
+
+    if (status === "active") {
+        return "status-active";
+    }
+
+    if (status === "scheduled") {
+        return "status-scheduled";
+    }
+
+    if (status === "finished") {
+        return "status-finished";
+    }
+
+    if (status === "paused") {
+        return "status-paused";
+    }
+
+    return "status-draft";
+
+}
+
+
+// =========================================================
+// LANGUAGE
+// =========================================================
+
+function formatLanguage(language) {
+
+    if (language === "fr") {
+        return "Français";
+    }
+
+    if (language === "ar") {
+        return "العربية";
+    }
+
+    return "English";
+
+}
+
+
+// =========================================================
+// FORMAT NUMBER
+// =========================================================
+
+function formatNumber(number) {
+
+    return Number(number || 0)
+        .toLocaleString();
+
+}
+
+
+// =========================================================
+// FORMAT BUDGET
+// =========================================================
+
+function formatBudget(ad) {
+
+    return (
+        formatNumber(ad.budget)
+        + " "
+        + escapeHTML(
+            ad.currency || ""
+        )
+    );
+
+}
+
+
+// =========================================================
+// LOAD ALL ADS
+// =========================================================
+
+async function loadAllAds() {
+
+    console.log(
+        "📢 Loading all campaigns..."
+    );
+
+
+    loading.style.display = "block";
+
+    emptyState.style.display = "none";
+
+    tableWrapper.style.display = "none";
+
+    errorBox.style.display = "none";
+
+
+    const {
+        data: ads,
+        error
+    } =
+        await adManagerSupabase
+            .from("ad_campaigns")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "❌ Ads Manager error:",
+            error
+        );
+
+
+        loading.style.display = "none";
+
+
+        errorBox.textContent =
+            "Unable to load campaigns: "
+            + error.message;
+
+
+        errorBox.style.display = "block";
+
+
+        return;
+
+    }
+
+
+    loading.style.display = "none";
+
+
+    if (
+        !ads ||
+        ads.length === 0
+    ) {
+
+        emptyState.style.display = "block";
+
+        updateStats([]);
+
+        return;
+
+    }
+
+
+    updateStats(ads);
+
+    renderAds(ads);
+
+}
+
+
+// =========================================================
+// UPDATE STATS
+// =========================================================
+
+function updateStats(ads) {
+
+    totalAds.textContent =
+        ads.length;
+
+
+    let activeCount = 0;
+
+    let scheduledCount = 0;
+
+    let budgetTotal = 0;
+
+
+    ads.forEach(
+        function(ad) {
+
+            const status =
+                getAdStatus(ad);
+
+
+            if (
+                status === "active"
+            ) {
+
+                activeCount++;
+
+            }
+
+
+            if (
+                status === "scheduled"
+            ) {
+
+                scheduledCount++;
+
+            }
+
+
+            budgetTotal +=
+                Number(
+                    ad.budget || 0
+                );
+
+        }
+    );
+
+
+    activeAds.textContent =
+        activeCount;
+
+
+    scheduledAds.textContent =
+        scheduledCount;
+
+
+    totalBudget.textContent =
+        formatNumber(
+            budgetTotal
+        );
+
+}
+
+
+// =========================================================
+// RENDER ADS
+// =========================================================
+
+function renderAds(ads) {
+
+    adsTableBody.innerHTML = "";
+
+
+    ads.forEach(
+        function(ad) {
+
+            const status =
+                getAdStatus(ad);
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    <div class="ad-name">
+                        ${escapeHTML(
+                            ad.ad_name
+                        )}
+                    </div>
+
+                    <div class="ad-title">
+                        ${escapeHTML(
+                            ad.ad_title
+                        )}
+                    </div>
+
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        ad.user_id
+                    )}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(
+                        formatLanguage(
+                            ad.language
+                        )
+                    )}
+                </td>
+
+
+                <td>
+                    ${formatBudget(ad)}
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        ad.start_date || "—"
+                    )}
+
+                    <br>
+
+                    ${escapeHTML(
+                        ad.end_date || "—"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="status ${getStatusClass(status)}"
+                    >
+                        ${getStatusLabel(status)}
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            type="button"
+                            class="action-button view-button"
+                            onclick="viewAd('${ad.id}')"
+                        >
+                            View
+                        </button>
+
+
+                        ${
+                            status === "active"
+                            ?
+                            `
+                            <button
+                                type="button"
+                                class="action-button pause-button"
+                                onclick="pauseAd('${ad.id}')"
+                            >
+                                Pause
+                            </button>
+                            `
+                            :
+                            `
+                            <button
+                                type="button"
+                                class="action-button activate-button"
+                                onclick="activateAd('${ad.id}')"
+                            >
+                                Activate
+                            </button>
+                            `
+                        }
+
+
+                        <button
+                            type="button"
+                            class="action-button delete-button"
+                            onclick="deleteAd('${ad.id}')"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+            adsTableBody.appendChild(row);
+
+        }
+    );
+
+
+    tableWrapper.style.display = "block";
+
+}
+
+
+// =========================================================
+// VIEW AD
+// =========================================================
+
+async function viewAd(id) {
+
+    const {
+        data: ad,
+        error
+    } =
+        await adManagerSupabase
+            .from("ad_campaigns")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+
+    if (error) {
+
+        alert(
+            "Unable to load campaign."
+        );
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    const status =
+        getAdStatus(ad);
+
+
+    const detailsContent =
+        document.getElementById(
+            "detailsContent"
+        );
+
+
+    detailsContent.innerHTML = `
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Campaign Name
+            </div>
+
+            <div class="details-value">
+                ${escapeHTML(
+                    ad.ad_name
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Ad Title
+            </div>
+
+            <div class="details-value">
+                ${escapeHTML(
+                    ad.ad_title
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Description
+            </div>
+
+            <div class="details-value">
+                ${escapeHTML(
+                    ad.description
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Language
+            </div>
+
+            <div class="details-value">
+                ${escapeHTML(
+                    formatLanguage(
+                        ad.language
+                    )
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Budget
+            </div>
+
+            <div class="details-value">
+                ${formatBudget(ad)}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Estimated Reach
+            </div>
+
+            <div class="details-value">
+
+                ${formatNumber(
+                    ad.estimated_reach_min
+                )}
+
+                -
+
+                ${formatNumber(
+                    ad.estimated_reach_max
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Start Date
+            </div>
+
+            <div class="details-value">
+                ${escapeHTML(
+                    ad.start_date || "—"
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                End Date
+            </div>
+
+            <div class="details-value">
+                ${escapeHTML(
+                    ad.end_date || "—"
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Status
+            </div>
+
+            <div class="details-value">
+
+                <span
+                    class="status ${getStatusClass(status)}"
+                >
+                    ${getStatusLabel(status)}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-row">
+
+            <div class="details-label">
+                Destination Link
+            </div>
+
+            <div class="details-value">
+
+                ${
+                    ad.destination_link
+                    ?
+                    `
+                    <a
+                        href="${escapeHTML(
+                            ad.destination_link
+                        )}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Open Destination
+                    </a>
+                    `
+                    :
+                    "—"
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById(
+            "detailsModal"
+        )
+        .classList.add("show");
+
+}
+
+
+// =========================================================
+// PAUSE AD
+// =========================================================
+
+async function pauseAd(id) {
+
+    const confirmed =
+        confirm(
+            "Pause this advertising campaign?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const {
+        error
+    } =
+        await adManagerSupabase
+            .from("ad_campaigns")
+            .update({
+                status: "paused"
+            })
+            .eq("id", id);
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to pause campaign: "
+            + error.message
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "⏸️ Campaign paused:",
+        id
+    );
+
+
+    await loadAllAds();
+
+}
+
+
+// =========================================================
+// ACTIVATE AD
+// =========================================================
+
+async function activateAd(id) {
+
+    const confirmed =
+        confirm(
+            "Activate this advertising campaign?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const {
+        error
+    } =
+        await adManagerSupabase
+            .from("ad_campaigns")
+            .update({
+                status: "active"
+            })
+            .eq("id", id);
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to activate campaign: "
+            + error.message
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "▶️ Campaign activated:",
+        id
+    );
+
+
+    await loadAllAds();
+
+}
+
+
+// =========================================================
+// DELETE AD
+// =========================================================
+
+async function deleteAd(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this advertising campaign permanently?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const {
+        error
+    } =
+        await adManagerSupabase
+            .from("ad_campaigns")
+            .delete()
+            .eq("id", id);
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to delete campaign: "
+            + error.message
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "🗑️ Campaign deleted:",
+        id
+    );
+
+
+    await loadAllAds();
+
+}
+
+
+// =========================================================
+// REFRESH
+// =========================================================
+
+document
+    .getElementById("refreshButton")
+    .addEventListener(
+        "click",
+        loadAllAds
+    );
+
+
+// =========================================================
+// CLOSE MODAL
+// =========================================================
+
+document
+    .getElementById("closeModal")
+    .addEventListener(
+        "click",
+        function() {
+
+            document
+                .getElementById(
+                    "detailsModal"
+                )
+                .classList.remove(
+                    "show"
+                );
+
+        }
+    );
+
+
+// =========================================================
+// CLOSE MODAL BY BACKDROP
+// =========================================================
+
+document
+    .getElementById("detailsModal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                this.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+
+// =========================================================
+// START
+// =========================================================
+
+loadAllAds();
+
+</script>
+
+
+</body>
+
+</html>

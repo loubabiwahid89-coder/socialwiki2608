@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SocialWiki - Earn Points</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .back-button {
+            border: none;
+            background: #2563eb;
+            color: white;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .welcome {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(37, 99, 235, 0.18);
+        }
+
+        .welcome h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .welcome p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .balance {
+            background: white;
+
+            padding: 20px 25px;
+
+            border-radius: 15px;
+
+            margin-bottom: 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .balance-title {
+            color: #6b7280;
+        }
+
+        .balance-number {
+            font-size: 28px;
+
+            font-weight: bold;
+
+            color: #d97706;
+        }
+
+        .tasks-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 20px;
+        }
+
+        .task-card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0,0,0,0.04);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(0,0,0,0.08);
+        }
+
+        .task-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 10px;
+        }
+
+        .task-title {
+            margin: 0;
+
+            font-size: 19px;
+        }
+
+        .points {
+            color: #d97706;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        .description {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            min-height: 45px;
+
+            margin: 14px 0;
+        }
+
+        .tags {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+            margin-bottom: 18px;
+        }
+
+        .tag {
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            font-size: 12px;
+        }
+
+        .easy {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .medium {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .hard {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .start-button {
+            width: 100%;
+
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 11px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+        .start-button:hover {
+            background: #1d4ed8;
+        }
+
+        .empty {
+            text-align: center;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            color: #6b7280;
+        }
+
+        .error {
+            text-align: center;
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            padding: 20px;
+
+            border-radius: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+
+            .balance {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="logo">
+
+        🌐 Social<span>Wiki</span>
+
+    </div>
+
+
+    <button
+        class="back-button"
+        id="backButton"
+    >
+
+        ← Back
+
+    </button>
+
+</header>
+
+
+
+<div class="container">
+
+
+    <div class="welcome">
+
+        <h1>
+            🎯 Earn Points
+        </h1>
+
+        <p>
+            Complete tasks and earn points on SocialWiki.
+        </p>
+
+    </div>
+
+
+
+    <div class="balance">
+
+        <div>
+
+            <div class="balance-title">
+                Your Points
+            </div>
+
+            <div class="balance-number"
+                 id="balanceNumber">
+
+                0 🪙
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div
+        class="tasks-grid"
+        id="tasksList"
+    >
+
+        Loading tasks...
+
+    </div>
+
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+    console.log("tasks.html is working");
+
+
+    // =========================
+    // SUPABASE
+    // =========================
+
+    const supabaseUrl =
+        "https://hvslktufqrgdgrgxmvcm.supabase.co";
+
+    const supabaseKey =
+        "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            supabaseUrl,
+            supabaseKey
+        );
+
+
+    // =========================
+    // HTML
+    // =========================
+
+    const tasksList =
+        document.getElementById(
+            "tasksList"
+        );
+
+    const balanceNumber =
+        document.getElementById(
+            "balanceNumber"
+        );
+
+
+    // =========================
+    // GET CURRENT USER
+    // =========================
+
+    async function getCurrentUser() {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient.auth.getUser();
+
+
+        if (error || !user) {
+
+            window.location.href =
+                "auth.html";
+
+            return null;
+
+        }
+
+
+        return user;
+
+    }
+
+
+    // =========================
+    // LOAD BALANCE
+    // =========================
+
+    async function loadBalance(user) {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("point_transactions")
+                .select("points")
+                .eq(
+                    "user_id",
+                    user.id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Balance error:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        let total = 0;
+
+
+        data.forEach(
+            function(transaction) {
+
+                total +=
+                    Number(
+                        transaction.points
+                    ) || 0;
+
+            }
+        );
+
+
+        balanceNumber.textContent =
+            total + " 🪙";
+
+    }
+
+
+    // =========================
+    // LOAD TASKS
+    // =========================
+
+    async function loadTasks() {
+
+        const {
+            data: tasks,
+            error
+        } =
+            await supabaseClient
+                .from("tasks")
+                .select(
+                    "id, title, description, difficulty, points, task_type, status, daily_limit, created_at"
+                )
+                .eq(
+                    "status",
+                    "active"
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Tasks error:",
+                error
+            );
+
+
+            tasksList.innerHTML = `
+
+                <div class="error">
+
+                    ❌ Could not load tasks.
+
+                    <br><br>
+
+                    ${error.message}
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        if (
+            !tasks ||
+            tasks.length === 0
+        ) {
+
+            tasksList.innerHTML = `
+
+                <div class="empty">
+
+                    🎯
+
+                    <br><br>
+
+                    No active tasks available
+                    right now.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        tasksList.innerHTML = "";
+
+
+        tasks.forEach(
+            function(task) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "task-card";
+
+
+                let difficultyClass =
+                    "";
+
+
+                if (
+                    task.difficulty
+                    &&
+                    task.difficulty
+                        .toLowerCase()
+                        === "easy"
+                ) {
+
+                    difficultyClass =
+                        "easy";
+
+                }
+
+                else if (
+                    task.difficulty
+                    &&
+                    task.difficulty
+                        .toLowerCase()
+                        === "medium"
+                ) {
+
+                    difficultyClass =
+                        "medium";
+
+                }
+
+                else if (
+                    task.difficulty
+                    &&
+                    task.difficulty
+                        .toLowerCase()
+                        === "hard"
+                ) {
+
+                    difficultyClass =
+                        "hard";
+
+                }
+
+
+                const dailyLimit =
+                    task.daily_limit === null
+                        ? "Unlimited"
+                        : task.daily_limit;
+
+
+                card.innerHTML = `
+
+                    <div class="task-top">
+
+                        <h3 class="task-title">
+
+                            ${task.title}
+
+                        </h3>
+
+                        <div class="points">
+
+                            +${task.points} 🪙
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="description">
+
+                        ${
+                            task.description
+                            ||
+                            "Complete this task to earn points."
+                        }
+
+                    </div>
+
+
+                    <div class="tags">
+
+                        <span
+                            class="tag ${difficultyClass}"
+                        >
+
+                            ${
+                                task.difficulty
+                                ||
+                                "Normal"
+                            }
+
+                        </span>
+
+
+                        <span class="tag">
+
+                            ${
+                                task.task_type
+                                ||
+                                "Task"
+                            }
+
+                        </span>
+
+
+                        <span class="tag">
+
+                            Daily:
+                            ${dailyLimit}
+
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="start-button"
+                        data-task-id="${task.id}"
+                    >
+
+                        Start Task
+
+                    </button>
+
+                `;
+
+
+                tasksList.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+        // =========================
+        // BUTTONS
+        // =========================
+
+        document
+            .querySelectorAll(
+                ".start-button"
+            )
+            .forEach(
+                function(button) {
+
+                    button.addEventListener(
+                        "click",
+                        function() {
+
+                            const taskId =
+                                this.dataset.taskId;
+
+
+                            startTask(
+                                taskId
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    // =========================
+    // START TASK
+    // =========================
+
+    function startTask(taskId) {
+
+        console.log(
+            "Starting task:",
+            taskId
+        );
+
+
+        alert(
+            "Task started! Task ID: "
+            + taskId
+        );
+
+    }
+
+
+    // =========================
+    // BACK
+    // =========================
+
+    document
+        .getElementById("backButton")
+        .addEventListener(
+            "click",
+            function() {
+
+                window.location.href =
+                    "index.html";
+
+            }
+        );
+
+
+    // =========================
+    // START
+    // =========================
+
+    async function start() {
+
+        const user =
+            await getCurrentUser();
+
+
+        if (!user) {
+            return;
+        }
+
+
+        await loadBalance(user);
+
+        await loadTasks();
+
+    }
+
+
+    start();
+
+</script>
+
+
+</body>
+
+</html>

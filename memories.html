@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Memories • SocialWiki</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #777;
+        }
+
+        .language-select {
+            padding: 9px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .language-select:focus {
+            outline: none;
+            border-color: #1877f2;
+        }
+
+        .loading,
+        .empty,
+        .error {
+            background: white;
+            padding: 35px;
+            text-align: center;
+            border-radius: 18px;
+        }
+
+        .memory-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+        .memory-date {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .memory-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .memory-content {
+            font-size: 17px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+
+        .memory-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .memory-button {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            background: #f0f2f5;
+        }
+
+        .memory-button:hover {
+            background: #e4e7eb;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #1877f2;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        [dir="rtl"] {
+            text-align: right;
+        }
+
+        [dir="rtl"] .header-top {
+            direction: rtl;
+        }
+
+        [dir="rtl"] .memory-actions {
+            direction: rtl;
+        }
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 20px 12px;
+            }
+
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .language-select {
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<main class="page">
+
+    <!-- =====================================================
+         HOME
+    ====================================================== -->
+
+    <a
+        href="index.html"
+        class="back-button"
+        id="homeLink"
+    >
+        ← Home
+    </a>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <section class="header">
+
+        <div class="header-top">
+
+            <div>
+
+                <h1 id="memoriesTitle">
+                    🕰️ Memories
+                </h1>
+
+                <p id="memoriesSubtitle">
+                    Your memories from SocialWiki
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 LANGUAGE SELECTOR
+            ================================================== -->
+
+            <select
+                id="languageSelect"
+                class="language-select"
+                aria-label="Language"
+            >
+
+                <option value="en">
+                    🇬🇧 English
+                </option>
+
+                <option value="fr">
+                    🇫🇷 Français
+                </option>
+
+                <option value="ar">
+                    🇲🇦 العربية
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MEMORIES
+    ====================================================== -->
+
+    <section id="memoriesContainer">
+
+        <div class="loading">
+            Loading memories...
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     SUPABASE LIBRARY
+========================================================= -->
+
+<!--
+    Supabase is already loaded in <head>.
+-->
+
+
+<!-- =========================================================
+     MEMORIES JAVASCRIPT
+========================================================= -->
+
+<script src="memories.js"></script>
+
+
+</body>
+
+</html>

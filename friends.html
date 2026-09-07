@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Friends - SocialWiki</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+
+</head>
+
+<body>
+
+<main class="friends-page">
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="friends-header">
+
+    <div class="friends-navigation">
+
+        <a
+            href="index.html"
+            class="back-home-btn"
+        >
+            🏠 Home
+        </a>
+
+        <button
+            type="button"
+            class="back-btn"
+            onclick="history.back()"
+        >
+            ↩️ Back
+        </button>
+
+    </div>
+
+    <h1>Friends</h1>
+
+</header>
+
+
+<!-- =====================================================
+     SEARCH
+====================================================== -->
+
+<section class="friends-search">
+
+    <input
+        type="text"
+        id="friendSearchInput"
+        placeholder="Search users..."
+        autocomplete="off"
+    >
+
+    <button
+        type="button"
+        id="friendSearchBtn"
+    >
+        Search
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     SEARCH RESULTS
+====================================================== -->
+
+<section class="friends-section">
+
+    <h2>People</h2>
+
+    <div id="friendSearchResults">
+
+        <p>Search for users to add as friends.</p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FRIEND REQUESTS
+====================================================== -->
+
+<section class="friends-section">
+
+    <h2>Friend Requests</h2>
+
+    <div id="friendRequests">
+
+        <p>No friend requests.</p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MY FRIENDS
+====================================================== -->
+
+<section class="friends-section">
+
+    <h2>My Friends</h2>
+
+    <div id="myFriends">
+
+        <p>No friends yet.</p>
+
+    </div>
+
+</section>
+
+
+</main>
+
+<!-- =====================================================
+     SUPABASE
+====================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- =====================================================
+     FRIENDS JS
+====================================================== -->
+
+<script src="js/friends.js"></script>
+
+</body>
+
+</html>

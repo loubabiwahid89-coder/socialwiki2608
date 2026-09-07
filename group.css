@@ -1,0 +1,1324 @@
+/* =========================================================
+   SOCIALWIKI
+   GROUPS PAGE
+   FACEBOOK-STYLE DESIGN
+   COVER + AVATAR
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f0f2f5;
+    color: #1c1e21;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.groups-page {
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.groups-header {
+    width: 100%;
+    min-height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid #dddfe2;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 28px;
+
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.08);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   HEADER LEFT
+   ========================================================= */
+
+.groups-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.groups-back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+    padding: 9px 15px;
+
+    background: #e4e6eb;
+    color: #050505;
+
+    text-decoration: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease;
+}
+
+.groups-back-button:hover {
+    background: #d8dadf;
+}
+
+.groups-back-button:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.groups-heading h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #050505;
+    margin-bottom: 3px;
+}
+
+.groups-heading p {
+    font-size: 14px;
+    color: #65676b;
+}
+
+
+/* =========================================================
+   CREATE GROUP BUTTON
+   ========================================================= */
+
+#createGroupButton {
+    border: none;
+
+    background: #1877f2;
+    color: #ffffff;
+
+    min-height: 42px;
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease,
+        box-shadow 0.2s ease;
+}
+
+#createGroupButton:hover {
+    background: #166fe5;
+
+    box-shadow:
+        0 2px 6px rgba(24, 119, 242, 0.25);
+}
+
+#createGroupButton:active {
+    transform: scale(0.97);
+}
+
+.create-plus {
+    font-size: 19px;
+    line-height: 1;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.groups-search-section {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 22px 20px 5px;
+}
+
+.groups-search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+
+    left: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 16px;
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+#groupSearchInput {
+    width: 100%;
+    height: 46px;
+
+    border: 1px solid #ccd0d5;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    padding:
+        0 16px 0 44px;
+
+    outline: none;
+
+    font-size: 15px;
+    color: #050505;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#groupSearchInput:hover {
+    border-color: #b7b9bd;
+}
+
+#groupSearchInput:focus {
+    border-color: #1877f2;
+
+    box-shadow:
+        0 0 0 2px rgba(24, 119, 242, 0.15);
+}
+
+#groupSearchInput::placeholder {
+    color: #65676b;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.groups-container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding:
+        18px 20px 60px;
+}
+
+
+/* =========================================================
+   GROUPS GRID
+   ========================================================= */
+
+.groups-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   GROUP CARD
+   ========================================================= */
+
+.group-card {
+    background: #ffffff;
+
+    border: 1px solid #dddfe2;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.group-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 16px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   GROUP COVER
+   ========================================================= */
+
+.group-cover {
+    width: 100%;
+    height: 150px;
+
+    position: relative;
+
+    overflow: visible;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e7f3ff,
+            #dbe7f7
+        );
+
+    border-bottom: 1px solid #dddfe2;
+}
+
+
+/* =========================================================
+   COVER IMAGE
+   ========================================================= */
+
+.group-cover > img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e7f3ff,
+            #dbe7f7
+        );
+}
+
+
+/* =========================================================
+   GROUP AVATAR
+   ========================================================= */
+
+.group-avatar {
+    position: absolute;
+
+    left: 18px;
+    bottom: -35px;
+
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    padding: 3px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.20);
+
+    overflow: hidden;
+
+    z-index: 5;
+}
+
+.group-avatar img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   GROUP CONTENT
+   ========================================================= */
+
+.group-content {
+    padding: 48px 17px 17px;
+}
+
+.group-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #050505;
+
+    margin-bottom: 7px;
+}
+
+.group-description {
+    color: #65676b;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    min-height: 42px;
+
+    margin-bottom: 13px;
+}
+
+
+/* =========================================================
+   GROUP META
+   ========================================================= */
+
+.group-meta {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    color: #65676b;
+
+    font-size: 13px;
+
+    margin-bottom: 15px;
+}
+
+.group-meta span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 3px;
+}
+
+
+/* =========================================================
+   JOIN BUTTON
+   ========================================================= */
+
+.join-group-button {
+    width: 100%;
+    height: 40px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #e7f3ff;
+
+    color: #1877f2;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease;
+}
+
+.join-group-button:hover {
+    background: #d8ebff;
+}
+
+.join-group-button:active {
+    transform: scale(0.98);
+}
+
+.join-group-button.joined {
+    background: #e4e6eb;
+
+    color: #65676b;
+
+    cursor: default;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.groups-empty {
+    grid-column: 1 / -1;
+
+    background: #ffffff;
+
+    border: 1px solid #dddfe2;
+
+    border-radius: 12px;
+
+    padding: 65px 20px;
+
+    text-align: center;
+}
+
+.groups-empty-icon {
+    font-size: 42px;
+    margin-bottom: 14px;
+}
+
+.groups-empty h2 {
+    color: #050505;
+
+    font-size: 20px;
+
+    margin-bottom: 8px;
+}
+
+.groups-empty p {
+    color: #65676b;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.groups-loading {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 50px;
+
+    color: #65676b;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    border: 1px solid #dddfe2;
+}
+
+
+/* =========================================================
+   CREATE GROUP MODAL
+   ========================================================= */
+
+.group-modal {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 99999;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+   ========================================================= */
+
+.group-modal-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        rgba(0, 0, 0, 0.55);
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   MODAL CONTENT
+   ========================================================= */
+
+.group-modal-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    max-width: 520px;
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.30);
+
+    animation:
+        groupModalOpen 0.18s ease;
+}
+
+@keyframes groupModalOpen {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.96)
+            translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   MODAL HEADER
+   ========================================================= */
+
+.group-modal-header {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding:
+        20px 60px 18px 22px;
+
+    border-bottom:
+        1px solid #e4e6eb;
+}
+
+.group-modal-title-area {
+    width: 100%;
+}
+
+.group-modal-title-area h2 {
+    color: #050505;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+.group-modal-title-area p {
+    color: #65676b;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.close-group-modal {
+    position: absolute;
+
+    top: 13px;
+    right: 13px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #e4e6eb;
+
+    color: #050505;
+
+    font-size: 24px;
+    line-height: 38px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease;
+}
+
+.close-group-modal:hover {
+    background: #d8dadf;
+}
+
+.close-group-modal:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.create-group-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    padding:
+        21px 22px 22px;
+}
+
+
+/* =========================================================
+   FORM FIELD
+   ========================================================= */
+
+.group-form-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.group-form-field label {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #050505;
+}
+
+
+/* =========================================================
+   INPUT / TEXTAREA / SELECT
+   ========================================================= */
+
+.group-form-field input,
+.group-form-field textarea,
+.group-form-field select {
+
+    width: 100%;
+
+    border:
+        1px solid #ccd0d5;
+
+    border-radius: 8px;
+
+    background: #f5f6f7;
+
+    color: #050505;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.group-form-field input,
+.group-form-field select {
+
+    height: 46px;
+
+    padding:
+        0 13px;
+}
+
+.group-form-field textarea {
+
+    min-height: 110px;
+
+    padding:
+        12px 13px;
+
+    resize: vertical;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   INPUT HOVER
+   ========================================================= */
+
+.group-form-field input:hover,
+.group-form-field textarea:hover,
+.group-form-field select:hover {
+
+    border-color: #b7b9bd;
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+   ========================================================= */
+
+.group-form-field input:focus,
+.group-form-field textarea:focus,
+.group-form-field select:focus {
+
+    background: #ffffff;
+
+    border-color: #1877f2;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(24, 119, 242, 0.15);
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+   ========================================================= */
+
+.group-form-field input::placeholder,
+.group-form-field textarea::placeholder {
+
+    color: #8a8d91;
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+.group-form-field select {
+    cursor: pointer;
+}
+
+.group-form-field select option {
+    background: #ffffff;
+    color: #050505;
+}
+
+
+/* =========================================================
+   HINTS
+   ========================================================= */
+
+.character-hint,
+.privacy-hint {
+
+    color: #65676b;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.group-form-message {
+
+    padding:
+        10px 12px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+.group-form-message.error {
+
+    background: #ffebe9;
+
+    color: #b42318;
+
+    border:
+        1px solid #f3c5c0;
+}
+
+.group-form-message.success {
+
+    background: #eaf7ee;
+
+    color: #18794e;
+
+    border:
+        1px solid #b9e2c5;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
+
+.group-form-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding-top: 6px;
+
+    border-top:
+        1px solid #e4e6eb;
+}
+
+.group-form-actions button {
+
+    flex: 1;
+
+    height: 44px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease,
+        opacity 0.2s ease;
+}
+
+
+/* =========================================================
+   CANCEL
+   ========================================================= */
+
+.group-cancel-button {
+
+    background: #e4e6eb;
+
+    color: #050505;
+}
+
+.group-cancel-button:hover {
+    background: #d8dadf;
+}
+
+
+/* =========================================================
+   CREATE
+   ========================================================= */
+
+.group-save-button {
+
+    background: #1877f2;
+
+    color: #ffffff;
+}
+
+.group-save-button:hover {
+    background: #166fe5;
+}
+
+.group-form-actions button:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   DISABLED
+   ========================================================= */
+
+.group-save-button:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MODAL SCROLLBAR
+   ========================================================= */
+
+.group-modal-content::-webkit-scrollbar {
+    width: 7px;
+}
+
+.group-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.group-modal-content::-webkit-scrollbar-thumb {
+
+    background: #bcc0c4;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+
+    outline:
+        3px solid
+        rgba(24, 119, 242, 0.25);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   HIDDEN
+   ========================================================= */
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .groups-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .groups-container {
+
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .groups-search-section {
+
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .groups-header {
+
+        min-height: 64px;
+
+        padding:
+            10px 12px;
+
+        gap: 10px;
+    }
+
+    .groups-header-left {
+        gap: 9px;
+    }
+
+    .groups-heading h1 {
+        font-size: 20px;
+    }
+
+    .groups-heading p {
+        display: none;
+    }
+
+    .groups-back-button {
+
+        min-height: 40px;
+
+        padding:
+            8px 11px;
+
+        font-size: 13px;
+    }
+
+    #createGroupButton {
+
+        min-height: 40px;
+
+        padding:
+            8px 12px;
+
+        font-size: 13px;
+    }
+
+    .groups-search-section {
+
+        padding:
+            16px 12px 5px;
+    }
+
+    .groups-container {
+
+        padding:
+            15px 12px 40px;
+    }
+
+    .groups-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 13px;
+    }
+
+    .group-cover {
+        height: 130px;
+    }
+
+    .group-avatar {
+
+        width: 68px;
+        height: 68px;
+
+        left: 16px;
+
+        bottom: -34px;
+    }
+
+    .group-content {
+
+        padding:
+            46px 15px 15px;
+    }
+
+    .group-modal {
+        padding: 12px;
+    }
+
+    .group-modal-content {
+
+        max-height:
+            calc(100vh - 24px);
+
+        border-radius: 10px;
+    }
+
+    .group-modal-header {
+
+        padding:
+            18px 55px 16px 18px;
+    }
+
+    .group-modal-title-area h2 {
+        font-size: 20px;
+    }
+
+    .create-group-form {
+        padding: 18px;
+    }
+
+    .group-form-actions {
+        padding-top: 14px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .groups-heading h1 {
+        font-size: 18px;
+    }
+
+    #createGroupButton {
+
+        padding:
+            8px 10px;
+
+        font-size: 12px;
+    }
+
+    .create-plus {
+        font-size: 17px;
+    }
+
+    .group-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .group-form-actions button {
+        width: 100%;
+    }
+/* =========================================================
+   GROUP TITLE ROW
+========================================================= */
+
+.group-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.group-title-row h3 {
+    margin: 0;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   EDIT GROUP BUTTON
+========================================================= */
+
+.edit-group-button {
+    border: none;
+    background: #e4e6eb;
+    color: #050505;
+    padding: 7px 11px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.edit-group-button:hover {
+    background: #d8dadf;
+}
+
+.edit-group-button:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   EDIT MODAL INPUTS
+========================================================= */
+
+#editGroupModal input,
+#editGroupModal textarea,
+#editGroupModal select {
+    width: 100%;
+    border: 1px solid #ccd0d5;
+    border-radius: 8px;
+    padding: 11px 12px;
+    font-size: 14px;
+    outline: none;
+    background: #ffffff;
+    color: #050505;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+#editGroupModal input:focus,
+#editGroupModal textarea:focus,
+#editGroupModal select:focus {
+    border-color: #1877f2;
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.12);
+}
+
+
+/* =========================================================
+   EDIT MODAL TEXTAREA
+========================================================= */
+
+#editGroupModal textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+/* =========================================================
+   EDIT MODAL RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .group-title-row {
+        align-items: flex-start;
+    }
+
+    .edit-group-button {
+        font-size: 12px;
+        padding: 6px 9px;
+    }
+
+}
+

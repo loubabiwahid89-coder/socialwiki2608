@@ -1,0 +1,935 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SocialWiki - Page</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            color: #1c1e21;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+
+            height: 60px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #ddd;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 25px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            color: #1877f2;
+        }
+
+
+        .back-button {
+
+            border: none;
+
+            background: #e4e6eb;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .back-button:hover {
+
+            background: #d8dadf;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+
+            max-width: 900px;
+
+            margin: 30px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* =========================
+           PAGE CARD
+        ========================= */
+
+        .page-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           COVER
+        ========================= */
+
+        .cover {
+
+            height: 260px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1877f2,
+                    #8b5cf6,
+                    #ec4899
+                );
+
+            background-size: cover;
+
+            background-position: center;
+
+            position: relative;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+
+            padding: 25px;
+
+            position: relative;
+        }
+
+
+        /* =========================
+           AVATAR
+        ========================= */
+
+        .avatar {
+
+            width: 120px;
+
+            height: 120px;
+
+            border-radius: 50%;
+
+            border: 5px solid white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1877f2,
+                    #8b5cf6
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-top: -85px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .avatar img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .avatar-letter {
+
+            color: white;
+
+            font-size: 48px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =========================
+           NAME
+        ========================= */
+
+        .page-name {
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            margin-top: 15px;
+        }
+
+
+        .page-category {
+
+            color: #65676b;
+
+            margin-top: 7px;
+
+            font-size: 15px;
+        }
+
+
+        .page-description {
+
+            margin-top: 20px;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+            color: #333;
+
+            white-space: pre-wrap;
+        }
+
+
+        .page-date {
+
+            margin-top: 15px;
+
+            color: #65676b;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .action-button {
+
+            border: none;
+
+            padding: 12px 22px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 15px;
+        }
+
+
+        .follow-button {
+
+            background: #1877f2;
+
+            color: white;
+        }
+
+
+        .follow-button:hover {
+
+            background: #166fe5;
+        }
+
+
+        .contact-button {
+
+            background: #e4e6eb;
+
+            color: #1c1e21;
+        }
+
+
+        .contact-button:hover {
+
+            background: #d8dadf;
+        }
+
+
+        /* =========================
+           STATES
+        ========================= */
+
+        .state {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.08);
+
+            color: #65676b;
+        }
+
+
+        .error {
+
+            color: #d93025;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .topbar {
+
+                padding: 0 15px;
+            }
+
+
+            .container {
+
+                padding: 0 10px;
+
+                margin-top: 15px;
+            }
+
+
+            .cover {
+
+                height: 190px;
+            }
+
+
+            .content {
+
+                padding: 18px;
+            }
+
+
+            .avatar {
+
+                width: 95px;
+
+                height: 95px;
+
+                margin-top: -65px;
+            }
+
+
+            .avatar-letter {
+
+                font-size: 38px;
+            }
+
+
+            .page-name {
+
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="topbar">
+
+        <div class="logo">
+            SocialWiki
+        </div>
+
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="goBack()"
+        >
+            ← Pages
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container">
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loading"
+            class="state"
+        >
+            Loading page...
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="error"
+            class="state error"
+            style="display:none;"
+        ></div>
+
+
+        <!-- PAGE -->
+
+        <div
+            id="pageCard"
+            class="page-card"
+            style="display:none;"
+        >
+
+
+            <!-- COVER -->
+
+            <div
+                id="pageCover"
+                class="cover"
+            ></div>
+
+
+            <!-- CONTENT -->
+
+            <div class="content">
+
+
+                <!-- AVATAR -->
+
+                <div
+                    id="pageAvatar"
+                    class="avatar"
+                >
+
+                    <span
+                        id="avatarLetter"
+                        class="avatar-letter"
+                    >
+                        P
+                    </span>
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <div
+                    id="pageName"
+                    class="page-name"
+                ></div>
+
+
+                <!-- CATEGORY -->
+
+                <div
+                    id="pageCategory"
+                    class="page-category"
+                ></div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div
+                    id="pageDescription"
+                    class="page-description"
+                ></div>
+
+
+                <!-- DATE -->
+
+                <div
+                    id="pageDate"
+                    class="page-date"
+                ></div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="actions">
+
+
+                    <button
+                        type="button"
+                        class="action-button follow-button"
+                        onclick="followPage()"
+                    >
+                        Follow
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="action-button contact-button"
+                        onclick="contactPage()"
+                    >
+                        Contact
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         SUPABASE
+    ========================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        console.log("📄 page.html loaded");
+
+
+        // =====================================================
+        // SUPABASE
+        // =====================================================
+
+        const SUPABASE_URL =
+            "https://hvslktufqrgdgrgxmvcm.supabase.co";
+
+
+        const SUPABASE_KEY =
+            "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+
+
+        const pageSupabase =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        // =====================================================
+        // DOM
+        // =====================================================
+
+        const loading =
+            document.getElementById("loading");
+
+
+        const errorBox =
+            document.getElementById("error");
+
+
+        const pageCard =
+            document.getElementById("pageCard");
+
+
+        const pageCover =
+            document.getElementById("pageCover");
+
+
+        const pageAvatar =
+            document.getElementById("pageAvatar");
+
+
+        const avatarLetter =
+            document.getElementById("avatarLetter");
+
+
+        const pageName =
+            document.getElementById("pageName");
+
+
+        const pageCategory =
+            document.getElementById("pageCategory");
+
+
+        const pageDescription =
+            document.getElementById("pageDescription");
+
+
+        const pageDate =
+            document.getElementById("pageDate");
+
+
+        // =====================================================
+        // GET PAGE ID
+        // =====================================================
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const pageId =
+            urlParams.get("id");
+
+
+        console.log(
+            "📌 Page ID:",
+            pageId
+        );
+
+
+        // =====================================================
+        // SHOW ERROR
+        // =====================================================
+
+        function showError(message) {
+
+            loading.style.display =
+                "none";
+
+
+            pageCard.style.display =
+                "none";
+
+
+            errorBox.style.display =
+                "block";
+
+
+            errorBox.textContent =
+                message;
+        }
+
+
+        // =====================================================
+        // LOAD PAGE
+        // =====================================================
+
+        async function loadPage() {
+
+            console.log(
+                "🔄 Loading page..."
+            );
+
+
+            if (!pageId) {
+
+                showError(
+                    "❌ Page ID is missing."
+                );
+
+                return;
+            }
+
+
+            const {
+                data,
+                error
+            } =
+                await pageSupabase
+                    .from("pages")
+                    .select("*")
+                    .eq("id", pageId)
+                    .single();
+
+
+            if (error) {
+
+                console.error(
+                    "❌ Supabase error:",
+                    error
+                );
+
+
+                showError(
+                    "❌ Page not found."
+                );
+
+
+                return;
+            }
+
+
+            if (!data) {
+
+                showError(
+                    "❌ Page not found."
+                );
+
+
+                return;
+            }
+
+
+            console.log(
+                "✅ Page loaded:",
+                data
+            );
+
+
+            displayPage(data);
+        }
+
+
+        // =====================================================
+        // DISPLAY PAGE
+        // =====================================================
+
+        function displayPage(page) {
+
+            loading.style.display =
+                "none";
+
+
+            errorBox.style.display =
+                "none";
+
+
+            pageCard.style.display =
+                "block";
+
+
+            // =================================================
+            // NAME
+            // =================================================
+
+            const name =
+                page.name ||
+                "Unnamed Page";
+
+
+            pageName.textContent =
+                name;
+
+
+            // =================================================
+            // AVATAR LETTER
+            // =================================================
+
+            avatarLetter.textContent =
+                name
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase() ||
+                "P";
+
+
+            // =================================================
+            // AVATAR IMAGE
+            // =================================================
+
+            if (page.avatar_url) {
+
+                const image =
+                    document.createElement("img");
+
+                image.src =
+                    page.avatar_url;
+
+                image.alt =
+                    name;
+
+
+                image.onerror =
+                    function() {
+
+                        image.remove();
+
+                        avatarLetter.style.display =
+                            "block";
+                    };
+
+
+                avatarLetter.style.display =
+                    "none";
+
+
+                pageAvatar.appendChild(
+                    image
+                );
+            }
+
+
+            // =================================================
+            // CATEGORY
+            // =================================================
+
+            pageCategory.textContent =
+                "📂 " +
+                (
+                    page.category ||
+                    "Other"
+                );
+
+
+            // =================================================
+            // DESCRIPTION
+            // =================================================
+
+            pageDescription.textContent =
+                page.description ||
+                "No description available.";
+
+
+            // =================================================
+            // DATE
+            // =================================================
+
+            if (page.created_at) {
+
+                const date =
+                    new Date(
+                        page.created_at
+                    );
+
+
+                pageDate.textContent =
+                    "Created on " +
+                    date.toLocaleDateString();
+            }
+
+
+            // =================================================
+            // COVER
+            // =================================================
+
+            if (page.cover_url) {
+
+                pageCover.style.backgroundImage =
+                    `url("${page.cover_url}")`;
+            }
+
+        }
+
+
+        // =====================================================
+        // FOLLOW
+        // =====================================================
+
+        function followPage() {
+
+            alert(
+                "👤 Follow system will be added next."
+            );
+        }
+
+
+        // =====================================================
+        // CONTACT
+        // =====================================================
+
+        function contactPage() {
+
+            alert(
+                "💬 Contact system will be added next."
+            );
+        }
+
+
+        // =====================================================
+        // BACK
+        // =====================================================
+
+        function goBack() {
+
+            window.location.href =
+                "./pages.html";
+        }
+
+
+        // =====================================================
+        // START
+        // =====================================================
+
+        loadPage();
+
+    </script>
+
+</body>
+
+</html>
+
