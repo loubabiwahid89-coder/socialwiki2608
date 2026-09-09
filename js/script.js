@@ -4,7 +4,12 @@
 // SCRIPT.JS
 // SUPABASE + SESSION + LOGOUT + SEARCH + NAVBAR PROFILE
 
-
+// تأكد من أن supabaseClient موجود
+if (!window.supabaseClient) {
+    const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
 console.log("🚨 SCRIPT.JS START 🚨");
 
 // SUPABASE CONFIG

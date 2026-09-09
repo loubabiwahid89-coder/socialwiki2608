@@ -1,286 +1,951 @@
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>SocialWiki 26 08 - Profile</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialWiki - Profile</title>
+    <link rel="stylesheet" href="socialwiki.css">
     <style>
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
+        /* =========================================================
+           NAVBAR (بسيط)
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-
-        .profile-container {
-            max-width: 600px;
-            margin: 25px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        .profile-header {
-            text-align: center;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #1877f2;
-            display: block;
-        }
-
-        .avatar.editable {
-            cursor: pointer;
-        }
-
-        .avatar.editable:hover {
-            opacity: 0.8;
-        }
-
-        .change-avatar-text {
-            font-size: 13px;
-            color: #1877f2;
-            margin-top: 6px;
-            display: none;
-        }
-
-        .avatar-wrapper.editable .change-avatar-text {
-            display: block;
-        }
-
-        h1 {
-            margin-top: 10px;
-            margin-bottom: 5px;
+        
+        .logo {
+            color: white;
             font-size: 24px;
+            font-weight: 800;
+            text-decoration: none;
         }
-
-        .email {
-            color: #777;
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-icons a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+        
+        .nav-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* =========================================================
+           PROFILE PAGE - FACEBOOK STYLE
+        ========================================================= */
+        
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* الغلاف */
+        .profile-cover {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #1877f2, #8b5cf6);
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            overflow: hidden;
+            cursor: move;
+        }
+        
+        .cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.1s ease;
+        }
+        
+        .cover-overlay {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .cover-overlay:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        
+        /* الصورة الشخصية */
+        .profile-avatar-wrapper {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        
+        .profile-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 6px solid white;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            cursor: move;
+        }
+        
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.1s ease;
+        }
+        
+        .avatar-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            padding: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .profile-avatar:hover .avatar-overlay {
+            opacity: 1;
+        }
+        
+        /* معلومات الملف */
+        .profile-info {
+            background: white;
+            border-radius: 0 0 12px 12px;
+            padding: 100px 20px 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: -80px;
+        }
+        
+        .profile-name {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .profile-username {
+            color: #65676b;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .profile-bio {
+            color: #65676b;
+            font-size: 14px;
             margin-bottom: 15px;
         }
-
-        .bio {
-            margin: 15px 0;
-            padding: 12px;
-            background: #f5f6f7;
-            border-radius: 10px;
+        
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 15px 0;
+            border-top: 1px solid #e4e6eb;
+            border-bottom: 1px solid #e4e6eb;
+            margin-bottom: 20px;
         }
-
-        .edit-section {
-            margin-top: 20px;
+        
+        .stat-item {
+            text-align: center;
         }
-
-        input,
-        textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 12px;
-            border: 1px solid #ccc;
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #65676b;
+        }
+        
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-actions button {
+            padding: 10px 20px;
             border-radius: 8px;
-            font-size: 15px;
-        }
-
-        textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
             border: none;
-            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .edit-btn {
             background: #1877f2;
             color: white;
-            font-size: 15px;
+        }
+        
+        .message-btn {
+            background: #e4e6eb;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            border-bottom: 2px solid #e4e6eb;
+            margin-bottom: 20px;
+        }
+        
+        .profile-tab {
+            padding: 12px 20px;
             cursor: pointer;
-            margin-top: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #65676b;
+            border-bottom: 3px solid transparent;
         }
-
-        button:hover {
-            opacity: 0.9;
+        
+        .profile-tab.active {
+            color: #1877f2;
+            border-bottom-color: #1877f2;
         }
-
-        #profileMessage {
-            text-align: center;
-            margin-top: 12px;
-            min-height: 20px;
+        
+        .profile-posts {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
-        .logout-button {
-            background: #555;
+        
+        .profile-posts h3 {
+            margin: 0 0 15px;
         }
-
-        #avatarFileInput {
-            display: none;
+        
+        .profile-post {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
         }
-
+        
+        .profile-post p {
+            margin: 0 0 10px;
+        }
+        
+        .profile-post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #65676b;
+        }
+        
+        .profile-post-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .profile-post-action {
+            cursor: pointer;
+            color: #65676b;
+        }
+        
+        .profile-post-action:hover {
+            color: #1877f2;
+        }
+        
+        /* =========================================================
+           BACK & HOME BUTTONS
+        ========================================================= */
+        
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
     </style>
-
 </head>
-
 <body>
-    <body>
 
-<div class="profile-navigation">
-    <a href="index.html">🏠 Home</a>
-    <button type="button" onclick="history.back()">↩️ Back</button>
-</div>
+    <!-- =========================================================
+         BACK & HOME BUTTONS
+    ========================================================= -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn">
+            ← Back
+        </a>
+        <a href="index.html" class="home-btn">
+            🏠 Home
+        </a>
+    </div>
 
-<div class="profile-container">
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
-<div class="profile-container">
-
-    <!-- PROFILE HEADER -->
-
-    <div class="profile-header">
-
-        <div
-            id="avatarWrapper"
-            class="avatar-wrapper"
-        >
-
-            <img
-                id="avatar"
-                class="avatar"
-                src="images/iconprofile.png"
-                alt="Profile"
-            >
-
-            <div class="change-avatar-text">
-                📷 Click to change photo
+    <!-- =========================================================
+         PROFILE CONTAINER - FACEBOOK STYLE
+    ========================================================= -->
+    <div class="profile-container">
+        
+        <!-- الغلاف (قابل للتحريك والتكبير) -->
+        <div class="profile-cover" id="coverContainer">
+            <img src="https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff" class="cover-img" id="coverImg" alt="Cover" draggable="false">
+            <button class="cover-overlay" onclick="changeCover()">📷 Change Cover</button>
+        </div>
+        
+        <!-- الصورة الشخصية (قابلة للتحريك والتكبير) -->
+        <div class="profile-avatar-wrapper">
+            <div class="profile-avatar" id="avatarContainer">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" class="avatar-img" id="avatarImg" alt="Avatar" draggable="false">
+                <button class="avatar-overlay" onclick="changeAvatar()">📷 Change</button>
             </div>
-
         </div>
-
-        <!-- Hidden file input -->
-
-        <input
-            type="file"
-            id="avatarFileInput"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-        >
-
-        <h1 id="username">
-            Loading...
-        </h1>
-
-        <div id="roleBadge"></div>
-
-        <div
-            id="email"
-            class="email"
-        >
-            Loading...
+        
+        <!-- معلومات الملف -->
+        <div class="profile-info">
+            <div class="profile-name" id="profileName">User</div>
+            <div class="profile-username" id="profileUsername">@user</div>
+            <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="friendsCount">0</div>
+                    <div class="stat-label">Friends</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="postsCount">0</div>
+                    <div class="stat-label">Posts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="followersCount">0</div>
+                    <div class="stat-label">Followers</div>
+                </div>
+            </div>
+            
+            <div class="profile-actions">
+                <button class="edit-btn" onclick="editProfile()">Edit Profile</button>
+                <button class="message-btn" onclick="sendMessage()">Message</button>
+            </div>
         </div>
-
+        
+        <!-- التبويبات -->
+        <div class="profile-tabs">
+            <div class="profile-tab active" onclick="showTab('posts', this)">Posts</div>
+            <div class="profile-tab" onclick="showTab('about', this)">About</div>
+            <div class="profile-tab" onclick="showTab('friends', this)">Friends</div>
+            <div class="profile-tab" onclick="showTab('photos', this)">Photos</div>
+        </div>
+        
+        <!-- المحتوى -->
+        <div id="profileTabContent">
+            <div class="profile-posts">
+                <h3>Posts</h3>
+                <div id="userPosts">
+                    <!-- ستظهر المنشورات هنا -->
+                </div>
+            </div>
+        </div>
     </div>
 
-
-    <!-- BIO -->
-
-    <div class="bio">
-
-        <strong>
-            Bio
-        </strong>
-
-        <p id="bio">
-            Loading...
-        </p>
-
-    </div>
-
-
-    <!-- EDIT PROFILE -->
-
-    <div
-        id="editSection"
-        class="edit-section"
-    >
-
-        <h2>
-            Edit Profile
-        </h2>
-
-        <label>
-            Username
-        </label>
-
-        <input
-            type="text"
-            id="usernameInput"
-            placeholder="Enter username"
-        >
-
-        <label>
-            Full Name
-        </label>
-
-        <input
-            type="text"
-            id="fullNameInput"
-            placeholder="Enter full name"
-        >
-
-        <label>
-            Bio
-        </label>
-
-        <textarea
-            id="bioInput"
-            placeholder="Write something about yourself..."
-        ></textarea>
-
-        <button id="saveProfileButton">
-            Save Profile
-        </button>
-
-        <button
-            id="logoutButton"
-            class="logout-button"
-        >
-            Logout
-        </button>
-
-        <p id="profileMessage"></p>
-
-    </div>
-
-</div>
-
-
-<!-- SUPABASE -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<!-- PROFILE JS -->
-
-<script src="js/profile.js"></script>
-
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // GET USER ID FROM URL
+        // =========================================================
+        
+        function getUserIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+        
+        // =========================================================
+        // DRAG & ZOOM (تحريك وتكبير الصور)
+        // =========================================================
+        
+        function enableDragZoom(containerId, imgId) {
+            const container = document.getElementById(containerId);
+            const img = document.getElementById(imgId);
+            
+            let isDragging = false;
+            let startX, startY;
+            let translateX = 0, translateY = 0;
+            let scale = 1;
+            let startScale = 1;
+            let startDistance = 0;
+            
+            // تكبير بعجلة الماوس
+            container.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                scale = Math.min(Math.max(1, scale + delta), 3);
+                img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            });
+            
+            // تحريك بالنقر والسحب
+            container.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                container.style.cursor = 'grabbing';
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                container.style.cursor = 'move';
+            });
+            
+            // تكبير باللمس (للجوال)
+            container.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    startX = e.touches[0].clientX - translateX;
+                    startY = e.touches[0].clientY - translateY;
+                } else if (e.touches.length === 2) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    startDistance = Math.sqrt(dx * dx + dy * dy);
+                    startScale = scale;
+                }
+            });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length === 1 && isDragging) {
+                    translateX = e.touches[0].clientX - startX;
+                    translateY = e.touches[0].clientY - startY;
+                    img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+                } else if (e.touches.length === 2) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    scale = Math.min(Math.max(1, startScale * (distance / startDistance)), 3);
+                    img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+            
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+        }
+        
+        // =========================================================
+        // LOAD PROFILE
+        // =========================================================
+        
+        async function loadProfile() {
+            const userId = getUserIdFromUrl();
+            
+            if (!userId) {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (user) {
+                    loadUserProfile(user.id);
+                } else {
+                    window.location.href = 'auth.html';
+                }
+            } else {
+                loadUserProfile(userId);
+            }
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE DATA
+        // =========================================================
+        
+        async function loadUserProfile(userId) {
+            try {
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const username = profile?.username || 'User';
+                const fullName = profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                const coverUrl = profile?.cover_url || 'https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff';
+                
+                // تحديث الواجهة
+                document.getElementById('profileName').textContent = fullName;
+                document.getElementById('profileUsername').textContent = '@' + username;
+                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+                document.getElementById('avatarImg').src = avatarUrl;
+                document.getElementById('coverImg').src = coverUrl;
+                
+                // تحديث الـ Navbar
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = fullName;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+                // جلب عدد المنشورات
+                const { count: postsCount } = await supabaseClient
+                    .from('posts')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('user_id', userId);
+                
+                document.getElementById('postsCount').textContent = postsCount || 0;
+                
+                // جلب المنشورات
+                loadUserPosts(userId);
+                
+                // تفعيل تحريك وتكبير الصور
+                enableDragZoom('coverContainer', 'coverImg');
+                enableDragZoom('avatarContainer', 'avatarImg');
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // LOAD USER POSTS
+        // =========================================================
+        
+        async function loadUserPosts(userId) {
+            try {
+                const { data: posts, error } = await supabaseClient
+                    .from('posts')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading posts:', error);
+                    return;
+                }
+                
+                const postsContainer = document.getElementById('userPosts');
+                postsContainer.innerHTML = '';
+                
+                if (!posts || posts.length === 0) {
+                    postsContainer.innerHTML = '<p style="color: #65676b; text-align: center;">No posts yet</p>';
+                    return;
+                }
+                
+                posts.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'profile-post';
+                    
+                    const timeAgo = formatTimeAgo(post.created_at);
+                    
+                    postDiv.innerHTML = `
+                        <p>${escapeHtml(post.content)}</p>
+                        <div class="profile-post-footer">
+                            <span>${timeAgo}</span>
+                            <div class="profile-post-actions">
+                                <span class="profile-post-action">👍 Like</span>
+                                <span class="profile-post-action">💬 Comment</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    postsContainer.appendChild(postDiv);
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // CHANGE AVATAR (تغيير الصورة الشخصية)
+        // =========================================================
+        
+        function changeAvatar() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                try {
+                    const { data: { user } } = await supabaseClient.auth.getUser();
+                    
+                    if (!user) {
+                        alert('Please login first!');
+                        return;
+                    }
+                    
+                    // رفع الصورة إلى Supabase Storage
+                    const fileName = `avatars/${user.id}/${Date.now()}_${file.name}`;
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('avatars')
+                        .upload(fileName, file);
+                    
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        alert('Error uploading: ' + uploadError.message);
+                        return;
+                    }
+                    
+                    // الحصول على الرابط
+                    const { data: urlData } = supabaseClient.storage
+                        .from('avatars')
+                        .getPublicUrl(fileName);
+                    
+                    const avatarUrl = urlData.publicUrl;
+                    
+                    // تحديث قاعدة البيانات
+                    await supabaseClient
+                        .from('profiles')
+                        .update({ avatar_url: avatarUrl })
+                        .eq('id', user.id);
+                    
+                    // تحديث الواجهة
+                    document.getElementById('avatarImg').src = avatarUrl;
+                    document.getElementById('navProfileImg').src = avatarUrl;
+                    
+                    alert('Profile picture updated!');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error: ' + error.message);
+                }
+            };
+            input.click();
+        }
+        
+        // =========================================================
+        // CHANGE COVER (تغيير صورة الغلاف)
+        // =========================================================
+        
+        function changeCover() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                try {
+                    const { data: { user } } = await supabaseClient.auth.getUser();
+                    
+                    if (!user) {
+                        alert('Please login first!');
+                        return;
+                    }
+                    
+                    // رفع الصورة إلى Supabase Storage
+                    const fileName = `covers/${user.id}/${Date.now()}_${file.name}`;
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from('covers')
+                        .upload(fileName, file);
+                    
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        alert('Error uploading: ' + uploadError.message);
+                        return;
+                    }
+                    
+                    // الحصول على الرابط
+                    const { data: urlData } = supabaseClient.storage
+                        .from('covers')
+                        .getPublicUrl(fileName);
+                    
+                    const coverUrl = urlData.publicUrl;
+                    
+                    // تحديث قاعدة البيانات
+                    await supabaseClient
+                        .from('profiles')
+                        .update({ cover_url: coverUrl })
+                        .eq('id', user.id);
+                    
+                    // تحديث الواجهة
+                    document.getElementById('coverImg').src = coverUrl;
+                    
+                    alert('Cover image updated!');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error: ' + error.message);
+                }
+            };
+            input.click();
+        }
+        
+        // =========================================================
+        // EDIT PROFILE (تعديل الملف)
+        // =========================================================
+        
+        async function editProfile() {
+            const name = prompt("Enter your new display name:");
+            if (name) {
+                await updateProfile({ full_name: name });
+            }
+            
+            const username = prompt("Enter your new username:");
+            if (username) {
+                await updateProfile({ username: username });
+            }
+            
+            const bio = prompt("Enter your new bio:");
+            if (bio) {
+                await updateProfile({ bio: bio });
+            }
+        }
+        
+        async function updateProfile(updates) {
+            try {
+                // منع تغيير الاسم إلى admin أو owner
+                if (updates.username) {
+                    const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
+                    if (forbiddenNames.includes(updates.username.toLowerCase())) {
+                        alert('This username is not allowed!');
+                        return;
+                    }
+                }
+                
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert("Please login first!");
+                    window.location.href = "auth.html";
+                    return;
+                }
+                
+                const { error } = await supabaseClient
+                    .from("profiles")
+                    .update(updates)
+                    .eq("id", user.id);
+                
+                if (error) {
+                    console.error("Error updating profile:", error);
+                    alert("Error updating profile: " + error.message);
+                    return;
+                }
+                
+                alert("Profile updated successfully!");
+                window.location.reload();
+                
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred: " + error.message);
+            }
+        }
+        
+        // =========================================================
+        // SEND MESSAGE
+        // =========================================================
+        
+        function sendMessage() {
+            alert("Message feature coming soon!");
+        }
+        
+        // =========================================================
+        // TAB SWITCHING
+        // =========================================================
+        
+        function showTab(tab, element) {
+            document.querySelectorAll('.profile-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            element.classList.add('active');
+            
+            const content = document.getElementById('profileTabContent');
+            
+            if (tab === 'posts') {
+                content.innerHTML = '<div class="profile-posts"><h3>Posts</h3><div id="userPosts"></div></div>';
+                const userId = getUserIdFromUrl();
+                if (userId) loadUserPosts(userId);
+            } else if (tab === 'about') {
+                content.innerHTML = '<div class="profile-posts"><h3>About</h3><p>Profile information will appear here.</p></div>';
+            } else if (tab === 'friends') {
+                content.innerHTML = '<div class="profile-posts"><h3>Friends</h3><p>Friends list will appear here.</p></div>';
+            } else if (tab === 'photos') {
+                content.innerHTML = '<div class="profile-posts"><h3>Photos</h3><p>Photos will appear here.</p></div>';
+            }
+        }
+        
+        // =========================================================
+        // FORMAT TIME
+        // =========================================================
+        
+        function formatTimeAgo(timestamp) {
+            if (!timestamp) return 'Just now';
+            
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} min ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} hr ago`;
+            
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days} days ago`;
+            
+            return date.toLocaleDateString();
+        }
+        
+        // =========================================================
+        // ESCAPE HTML
+        // =========================================================
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // =========================================================
+        // START
+        // =========================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+        });
+    </script>
 </body>
-
 </html>
-

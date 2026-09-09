@@ -58,6 +58,55 @@
         #authMessage {
             text-align: center;
             margin-top: 15px;
+            color: #333;
+        }
+
+        /* زر Google */
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .google-btn:hover {
+            background: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* فاصل */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider span {
+            padding: 0 10px;
         }
     </style>
 </head>
@@ -67,6 +116,17 @@
     <div class="auth-container">
 
         <h1>SocialWiki</h1>
+
+        <!-- زر Google -->
+        <button class="google-btn" onclick="loginWithGoogle()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+            <span>Sign in with Google</span>
+        </button>
+
+        <!-- فاصل -->
+        <div class="divider">
+            <span>or</span>
+        </div>
 
         <input
             type="email"
@@ -88,19 +148,45 @@
             Login
         </button>
 
-         <button id="forgotPasswordButton" type="button">
-        Forgot Password?
-    </button>
+        <button id="forgotPasswordButton" type="button">
+            Forgot Password?
+        </button>
 
         <p id="authMessage"></p>
 
     </div>
 
     <!-- Supabase -->
-   
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js?v=20260904"></script>
+<script>
+    // =========================================================
+    // LOGIN WITH GOOGLE
+    // =========================================================
 
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/auth.js?v=20260904"></script>
-
+    async function loginWithGoogle() {
+        try {
+            const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin + '/index.html'
+                }
+            });
+            
+            if (error) {
+                console.error('Error signing in with Google:', error);
+                alert('Error: ' + error.message);
+                return;
+            }
+            
+            console.log('Redirecting to Google...');
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error: ' + error.message);
+        }
+    }
+    <script src="js/auth.js"></script>
+</script>
 </body>
 </html>

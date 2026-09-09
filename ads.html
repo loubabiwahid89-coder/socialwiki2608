@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks - SocialWiki</title>
+    <title>Ads - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
     <style>
         /* =========================================================
@@ -89,23 +89,23 @@
         }
         
         /* =========================================================
-           TASKS PAGE
+           ADS PAGE
         ========================================================= */
         
-        .tasks-container {
-            max-width: 900px;
+        .ads-container {
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        .tasks-header {
+        .ads-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
         
-        .tasks-header h2 {
+        .ads-header h2 {
             font-size: 24px;
         }
         
@@ -119,96 +119,83 @@
             box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4);
         }
         
-        .task-card {
+        .ad-card {
             background: white;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
         }
         
-        .task-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        .task-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            background: #f0f2f5;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            background: #f0f2f5;
+            font-size: 40px;
+            margin-bottom: 15px;
+            overflow: hidden;
         }
         
-        .task-info {
-            flex: 1;
+        .ad-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .task-title {
+        .ad-video {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .ad-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .ad-description {
+            color: #65676b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .ad-reward {
+            color: #f7b928;
             font-weight: bold;
             font-size: 16px;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         }
         
-        .task-reward {
-            color: #f7b928;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        
-        .task-difficulty {
-            font-size: 12px;
-            padding: 3px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        
-        .easy {
-            background: #e7f3ff;
-            color: #1877f2;
-        }
-        
-        .medium {
-            background: #fff3cd;
-            color: #f7b928;
-        }
-        
-        .hard {
-            background: #f8d7da;
-            color: #dc3545;
-        }
-        
-        .task-status {
-            padding: 8px 16px;
+        .watch-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 12px 30px;
             border-radius: 20px;
+            cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: 0.2s;
         }
         
-        .task-status.completed {
+        .watch-btn:hover {
+            background: #166fe5;
+        }
+        
+        .watch-btn.completed {
             background: #42b72a;
-            color: white;
             cursor: default;
         }
         
-        .task-status.pending {
-            background: #1877f2;
-            color: white;
-        }
-        
-        .task-status.pending:hover {
-            background: #166fe5;
+        .ad-timer {
+            font-size: 14px;
+            color: #65676b;
+            margin-top: 10px;
         }
         
         /* =========================================================
@@ -284,26 +271,18 @@
     </nav>
 
     <!-- =========================================================
-         TASKS CONTAINER
+         ADS CONTAINER
     ========================================================= -->
-    <div class="tasks-container">
-        <div class="tasks-header">
-            <h2>✅ Tasks</h2>
+    <div class="ads-container">
+        <div class="ads-header">
+            <h2>📢 Watch Ads</h2>
             <div class="points-display" id="pointsDisplay">
                 🪙 0 Points
             </div>
         </div>
 
-        <!-- فلتر الصعوبة -->
-        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button onclick="filterTasks('all')" style="padding: 8px 15px; border-radius: 20px; border: 2px solid #1877f2; background: #1877f2; color: white; cursor: pointer;">All</button>
-            <button onclick="filterTasks('easy')" style="padding: 8px 15px; border-radius: 20px; border: 2px solid #1877f2; background: white; color: #1877f2; cursor: pointer;">Easy</button>
-            <button onclick="filterTasks('medium')" style="padding: 8px 15px; border-radius: 20px; border: 2px solid #f7b928; background: white; color: #f7b928; cursor: pointer;">Medium</button>
-            <button onclick="filterTasks('hard')" style="padding: 8px 15px; border-radius: 20px; border: 2px solid #dc3545; background: white; color: #dc3545; cursor: pointer;">Hard</button>
-        </div>
-
-        <div id="tasksList">
-            <!-- المهام ستظهر هنا -->
+        <div id="adsList">
+            <!-- الإعلانات ستظهر هنا -->
         </div>
     </div>
 
@@ -316,9 +295,6 @@
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        let allTasks = [];
-        let currentFilter = 'all';
         
         // =========================================================
         // LOGOUT
@@ -383,67 +359,65 @@
         }
         
         // =========================================================
-        // LOAD TASKS
+        // LOAD ADS
         // =========================================================
         
-        async function loadTasks() {
+        async function loadAds() {
             try {
-                const { data: tasks, error } = await supabaseClient
-                    .from('tasks')
+                const { data: ads, error } = await supabaseClient
+                    .from('ads')
                     .select('*')
-                    .order('points_reward', { ascending: false });
+                    .order('created_at', { ascending: false });
                 
                 if (error) {
-                    console.error('Error loading tasks:', error);
+                    console.error('Error loading ads:', error);
                     return;
                 }
                 
-                allTasks = tasks || [];
-                displayTasks(allTasks);
+                allAds = ads || [];
+                displayAds(allAds);
                 
             } catch (error) {
                 console.error('Error:', error);
             }
         }
         
+        let allAds = [];
+        
         // =========================================================
-        // DISPLAY TASKS
+        // DISPLAY ADS
         // =========================================================
         
-        function displayTasks(tasks) {
-            const container = document.getElementById('tasksList');
+        function displayAds(ads) {
+            const container = document.getElementById('adsList');
             container.innerHTML = '';
             
-            // تصفية المهام حسب الفلتر
-            const filteredTasks = currentFilter === 'all' 
-                ? tasks 
-                : tasks.filter(task => task.difficulty === currentFilter);
-            
-            if (!filteredTasks || filteredTasks.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No tasks available</p>';
+            if (!ads || ads.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No ads available</p>';
                 return;
             }
             
-            filteredTasks.forEach(task => {
+            ads.forEach(ad => {
                 const card = document.createElement('div');
-                card.className = 'task-card';
+                card.className = 'ad-card';
                 
-                let icon = '📋';
-                if (task.difficulty === 'easy') icon = '🟢';
-                if (task.difficulty === 'medium') icon = '🟡';
-                if (task.difficulty === 'hard') icon = '🔴';
+                let mediaHTML = '';
                 
-                const difficultyClass = task.difficulty || 'easy';
+                if (ad.video_url) {
+                    mediaHTML = `<video class="ad-video" src="${ad.video_url}" controls></video>`;
+                } else if (ad.image_url) {
+                    mediaHTML = `<div class="ad-image"><img src="${ad.image_url}" alt="Ad"></div>`;
+                } else {
+                    mediaHTML = '<div class="ad-image">📢</div>';
+                }
                 
                 card.innerHTML = `
-                    <div class="task-icon">${icon}</div>
-                    <div class="task-info">
-                        <div class="task-title">${escapeHtml(task.title)}</div>
-                        <div class="task-reward">+${task.points_reward} Points</div>
-                        <span class="task-difficulty ${difficultyClass}">${task.difficulty.toUpperCase()}</span>
-                    </div>
-                    <button class="task-status pending" onclick="completeTask('${task.id}', this)">
-                        Complete
+                    ${mediaHTML}
+                    <div class="ad-title">${escapeHtml(ad.title)}</div>
+                    <div class="ad-description">${escapeHtml(ad.description || '')}</div>
+                    <div class="ad-reward">Reward: ${ad.points_reward} Points</div>
+                    <button class="watch-btn" onclick="watchAd('${ad.id}', this, ${ad.points_reward})">
+                        Watch Ad
                     </button>
                 `;
                 
@@ -452,134 +426,70 @@
         }
         
         // =========================================================
-        // FILTER TASKS
+        // WATCH AD (مشاهدة إعلان)
         // =========================================================
         
-        function filterTasks(filter) {
-            currentFilter = filter;
+        function watchAd(adId, btn, pointsReward) {
+            // منع إعادة النقر
+            if (btn.classList.contains('completed')) return;
             
-            // تحديث الأزرار
-            const buttons = document.querySelectorAll('button[onclick^="filterTasks"]');
-            buttons.forEach(btn => {
-                btn.style.background = 'white';
-                btn.style.color = '#1877f2';
-            });
+            // تغيير حالة الزر
+            btn.textContent = '⏳ Watching...';
+            btn.disabled = true;
             
-            if (filter === 'all') {
-                buttons[0].style.background = '#1877f2';
-                buttons[0].style.color = 'white';
-            } else if (filter === 'easy') {
-                buttons[1].style.background = '#1877f2';
-                buttons[1].style.color = 'white';
-            } else if (filter === 'medium') {
-                buttons[2].style.background = '#f7b928';
-                buttons[2].style.color = 'white';
-            } else if (filter === 'hard') {
-                buttons[3].style.background = '#dc3545';
-                buttons[3].style.color = 'white';
-            }
-            
-            displayTasks(allTasks);
+            // محاكاة مشاهدة الإعلان (مدة 5 ثواني)
+            setTimeout(async function() {
+                try {
+                    const { data: { user } } = await supabaseClient.auth.getUser();
+                    
+                    if (!user) {
+                        alert('Please login first!');
+                        window.location.href = 'auth.html';
+                        return;
+                    }
+                    
+                    // التحقق من عدم المشاهدة من قبل
+                    const { data: existingView } = await supabaseClient
+                        .from('ad_views')
+                        .select('*')
+                        .eq('ad_id', adId)
+                        .eq('user_id', user.id)
+                        .maybeSingle();
+                    
+                    if (existingView) {
+                        alert('You have already watched this ad!');
+                        btn.textContent = '✅ Watched';
+                        btn.classList.add('completed');
+                        return;
+                    }
+                    
+                    // تسجيل المشاهدة
+                    await supabaseClient
+                        .from('ad_views')
+                        .insert({
+                            ad_id: adId,
+                            user_id: user.id
+                        });
+                    
+                    // إضافة النقاط
+                    await addPoints(pointsReward, 'ad_view', 'مشاهدة إعلان');
+                    
+                    // تحديث الزر
+                    btn.textContent = '✅ Watched';
+                    btn.classList.add('completed');
+                    
+                    // تحديث النقاط
+                    loadPoints();
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error: ' + error.message);
+                    btn.disabled = false;
+                    btn.textContent = 'Watch Ad';
+                }
+            }, 5000); // 5 ثواني
         }
         
-        // =========================================================
-        // COMPLETE TASK
-        // =========================================================
-        
-     async function completeTask(taskId, btn) {
-    // منع إعادة النقر
-    if (btn.classList.contains('completed')) return;
-    
-    // تغيير حالة الزر
-    btn.textContent = '⏳...';
-    btn.disabled = true;
-    
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        
-        if (!user) {
-            alert('Please login first!');
-            window.location.href = 'auth.html';
-            return;
-        }
-        
-        // جلب معلومات المهمة
-        const { data: task } = await supabaseClient
-            .from('tasks')
-            .select('*')
-            .eq('id', taskId)
-            .single();
-        
-        if (!task) {
-            alert('Task not found!');
-            btn.disabled = false;
-            btn.textContent = 'Complete';
-            return;
-        }
-        
-        // التحقق من إكمال المهمة حسب النوع
-        
-        // مشاهدة إعلان - يجب تأكيد المشاهدة
-        if (task.title.includes('مشاهدة إعلان') || task.title.includes('Watch Ad')) {
-            const confirmed = confirm('هل شاهدت الإعلان؟ اضغط "موافق" بعد المشاهدة.');
-            if (!confirmed) {
-                btn.disabled = false;
-                btn.textContent = 'Complete';
-                return;
-            }
-        }
-        
-        // إنشاء محتوى - يجب كتابة محتوى
-        if (task.title.includes('إنشاء محتوى') || task.title.includes('Create Content')) {
-            const content = prompt('اكتب محتواك هنا لإثبات أنك أنشأت محتوى:');
-            if (!content || content.length < 10) {
-                alert('يجب كتابة محتوى (على الأقل 10 أحرف) لإكمال المهمة!');
-                btn.disabled = false;
-                btn.textContent = 'Complete';
-                return;
-            }
-        }
-        
-        // تحميل تطبيق - يجب تأكيد التحميل
-        if (task.title.includes('تحميل تطبيق') || task.title.includes('Download App')) {
-            const confirmed = confirm('هل قمت بتحميل التطبيق؟ اضغط "موافق" بعد التحميل.');
-            if (!confirmed) {
-                btn.disabled = false;
-                btn.textContent = 'Complete';
-                return;
-            }
-        }
-        
-        // إضافة النقاط
-        await addPoints(task.points_reward, 'task', task.title);
-        
-        // تسجيل إكمال المهمة
-        await supabaseClient
-            .from('user_tasks')
-            .insert({
-                user_id: user.id,
-                task_id: taskId,
-                completed: true,
-                completed_at: new Date(),
-                points_earned: task.points_reward
-            });
-        
-        // تحديث الزر
-        btn.textContent = '✅ Completed';
-        btn.classList.add('completed');
-        btn.classList.remove('pending');
-        btn.disabled = true;
-        
-        // تحديث النقاط
-        loadPoints();
-        
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error completing task: ' + error.message);
-        btn.disabled = false;
-        btn.textContent = 'Complete';
-    }
-}
         // =========================================================
         // ADD POINTS
         // =========================================================
@@ -630,7 +540,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadUserProfile();
             loadPoints();
-            loadTasks();
+            loadAds();
         });
     </script>
 </body>

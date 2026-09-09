@@ -1,1664 +1,2346 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
->
-
-<title>SocialWiki 2608</title>
-
-<link
-    rel="stylesheet"
-    href="style.css"
->
-
-<link
-    rel="stylesheet"
-    href="notification.css"
->
-
-<!-- =====================================================
-     SUPABASE LIBRARY
-====================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialWiki - Home</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        /* =========================================================
+           FACEBOOK STYLE - MAIN LAYOUT (V1)
+        ========================================================= */
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* =========================================================
+           NAVBAR - BLUE (مثل فيسبوك)
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 26px;
+            font-weight: 800;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-container input {
+            background: rgba(255,255,255,0.2);
+            width: 240px;
+            height: 40px;
+            border-radius: 50px;
+            border: none;
+            padding: 0 15px;
+            outline: none;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .search-container input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: none;
+        }
+        
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        
+        .search-result-item:hover {
+            background: #f0f2f5;
+        }
+        
+        .search-result-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .search-result-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .search-result-username {
+            font-size: 12px;
+            color: #65676b;
+        }
+        
+        .search-no-results {
+            padding: 15px;
+            text-align: center;
+            color: #65676b;
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+        }
+        
+        .nav-icons a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-icons a.active {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+        }
+        
+        .nav-profile:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .nav-profile span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        
+        .logout-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .language-selector {
+            position: relative;
+        }
+        
+        .language-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 18px;
+            color: white;
+            transition: 0.2s;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .language-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            min-width: 150px;
+        }
+        
+        .language-menu.show {
+            display: block;
+        }
+        
+        .language-menu button {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        
+        .language-menu button:hover {
+            background: #f0f2f5;
+        }
+        
+        /* =========================================================
+           MAIN 3 COLUMN LAYOUT
+        ========================================================= */
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 20% minmax(0, 1fr) 20%;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .left-sidebar {
+            grid-column: 1;
+            padding: 10px;
+        }
+        
+        .content {
+            grid-column: 2;
+        }
+        
+        .right-sidebar {
+            grid-column: 3;
+            padding: 10px;
+        }
+        
+        /* =========================================================
+           LEFT SIDEBAR
+        ========================================================= */
+        
+        .left-sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #050505;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        
+        .left-sidebar a:hover {
+            background: #e4e6eb;
+        }
+        
+        .left-sidebar .emoji-icon {
+            font-size: 28px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* =========================================================
+           RIGHT SIDEBAR
+        ========================================================= */
+        
+        .right-profile-box {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .right-profile-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #050505;
+        }
+        
+        .right-profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .right-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .right-profile-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .right-profile-username {
+            color: #65676b;
+            font-size: 12px;
+        }
+        
+        .right-box {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .right-box h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #050505;
+        }
+        
+        .right-box a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #050505;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        
+        .right-box a:hover {
+            background: #f0f2f5;
+        }
+        
+        .ad-box {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .ad-box img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .ad-box p {
+            font-size: 13px;
+            color: #65676b;
+            margin: 0 0 5px;
+        }
+        
+        /* =========================================================
+           CREATE POST
+        ========================================================= */
+        
+        .create-post {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .post-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .post-top img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .post-top input {
+            flex: 1;
+            height: 40px;
+            border: none;
+            border-radius: 20px;
+            padding: 0 15px;
+            background: #f0f2f5;
+            outline: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .posting {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #e4e6eb;
+            padding-top: 10px;
+        }
+        
+        .posting button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #65676b;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .posting button:hover {
+            background: #f0f2f5;
+        }
+        
+        /* =========================================================
+           STORIES
+        ========================================================= */
+        
+        .stories {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .story-header {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .story-list {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        
+        .story-item {
+            min-width: 100px;
+            height: 150px;
+            border-radius: 10px;
+            background: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .story-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .story-name {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        /* =========================================================
+           FEED POSTS
+        ========================================================= */
+        
+        .feed-post {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .feed-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .feed-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .feed-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .feed-time {
+            color: #65676b;
+            font-size: 12px;
+        }
+        
+        .feed-content {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .feed-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .feed-actions {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #e4e6eb;
+            padding-top: 10px;
+        }
+        
+        .feed-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #65676b;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        
+        .feed-action:hover {
+            background: #f0f2f5;
+        }
+        
+        /* =========================================================
+           NOTIFICATION BADGE
+        ========================================================= */
+        
+        .notification-btn {
+            position: relative;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fa3e3e;
+            color: white;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+        
+        /* =========================================================
+           MODALS
+        ========================================================= */
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 500px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: #f0f2f5;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .modal-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .modal-profile span {
+            font-weight: 600;
+        }
+        
+        .modal-textarea {
+            width: 100%;
+            height: 150px;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            resize: none;
+            margin-bottom: 15px;
+        }
+        
+        .modal-tools {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .modal-tools > span {
+            font-size: 14px;
+            color: #65676b;
+        }
+        
+        .modal-tools-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .modal-tools-buttons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        .modal-submit {
+            width: 100%;
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .modal-submit:hover {
+            background: #166fe5;
+        }
+        
+        /* =========================================================
+           FEELING MODAL
+        ========================================================= */
+        
+        .feeling-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .feeling-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 40px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .feeling-btn:hover {
+            background: #f0f2f5;
+        }
+        
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+        
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 20% minmax(0, 1fr) 20%;
+                padding: 10px;
+            }
+            
+            .search-container input {
+                width: 200px;
+            }
+        }
+        
+        @media (max-width: 700px) {
+            .main-container {
+                display: flex;
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .left-sidebar,
+            .right-sidebar {
+                width: 100%;
+                order: 1;
+            }
+            
+            .content {
+                width: 100%;
+                order: 2;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- =========================================================
-     NAVBAR
-========================================================= -->
+    <!-- =========================================================
+         NAVBAR - BLUE
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+            <div class="search-container">
+                <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search SocialWiki..." autocomplete="off" oninput="searchUsers(this.value)">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html" class="active" title="Home">🏠</a></li>
+            <li><a href="friends.html" title="Friends">👥</a></li>
+            <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+            <li><a href="events.html" title="Events">📅</a></li>
+            <li><a href="notifications.html" title="Notifications">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <!-- زر الإشعارات -->
+            <a href="notifications.html" class="notification-btn" title="Notifications" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none;">
+                🔔
+                <span class="notification-badge" id="navNotificationBadge" style="display: none;">0</span>
+            </a>
+            
+            <!-- الملف الشخصي -->
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+                <div class="language-menu" id="languageMenu">
+                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                </div>
+            </div>
+            
+            <!-- زر الخروج -->
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
 
-<nav>
+    <!-- =========================================================
+         MAIN 3 COLUMN LAYOUT
+    ========================================================= -->
+    <div class="main-container">
 
-<div class="nav-right">
-
-<img
-src="images/logosw.jpg"
-alt="logo"
-class="logo"
-
->
-
-<ul class="nav-icons">
-
-
-<!-- NOTIFICATIONS -->
-
-<li class="notification-menu">
-
-    <button
-        type="button"
-        id="notificationButton"
-        class="notification-button"
-        aria-label="Notifications"
-    >
-
-        <img
-            src="images/iconnotification.png"
-            alt="notification"
-        >
-
-        <span
-            id="notificationBadge"
-            class="notification-badge"
-            hidden
-        >
-            0
-        </span>
-
-    </button>
-
-    <div
-        id="notificationsPanel"
-        class="notifications-panel"
-        hidden
-    >
-
-        <div class="notifications-header">
-
-            <h3>
-                Notifications
-            </h3>
-
-            <button
-                type="button"
-                id="markAllNotificationsRead"
-            >
-                Mark all as read
-            </button>
-
+        <!-- القائمة اليسرى -->
+        <div class="left-sidebar">
+            <a href="profile.html">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="sidebarImg" alt="Profile" style="width: 28px; height: 28px; border-radius: 50%;">
+                <span id="sidebarName">User</span>
+            </a>
+            <a href="friends.html">
+                <span class="emoji-icon">👥</span>
+                <span data-i18n="friends">Friends</span>
+            </a>
+            <a href="market-plus.html">
+                <span class="emoji-icon">🛍️</span>
+                <span data-i18n="marketplace">Marketplace</span>
+            </a>
+            <a href="events.html">
+                <span class="emoji-icon">📅</span>
+                <span data-i18n="events">Events</span>
+            </a>
+            <a href="groups.html">
+                <span class="emoji-icon">👥</span>
+                <span data-i18n="groups">Groups</span>
+            </a>
+            <a href="notifications.html">
+                <span class="emoji-icon">🔔</span>
+                <span data-i18n="notifications">Notifications</span>
+            </a>
+            <a href="gifts.html">
+                <span class="emoji-icon">🎁</span>
+                <span data-i18n="gifts">Gifts</span>
+            </a>
+            <a href="tasks.html">
+                <span class="emoji-icon">✅</span>
+                <span data-i18n="tasks">Tasks</span>
+            </a>
+            
+            <!-- ⬇️⬇️⬇️ رابط لوحة التحكم (يظهر للأدمن فقط) ⬇️⬇️⬇️ -->
+            <a href="owner-dashboard.html" id="dashboardLink" style="display: none;">
+                <span class="emoji-icon">👑</span>
+                <span data-i18n="dashboard">Dashboard</span>
+            </a>
+            <!-- ⬆️⬆️⬆️ انتهى هنا ⬆️⬆️⬆️ -->
+            
+            <a href="reels.html">
+                <span class="emoji-icon">🎬</span>
+                <span data-i18n="reels">Reels</span>
+            </a>
+            <a href="gaming.html">
+                <span class="emoji-icon">🎮</span>
+                <span data-i18n="gaming">Gaming</span>
+            </a>
+            <a href="memories.html">
+                <span class="emoji-icon">💭</span>
+                <span data-i18n="memories">Memories</span>
+            </a>
+            <a href="ad-center.html">
+                <span class="emoji-icon">📢</span>
+                <span data-i18n="ad_center">Ad Center</span>
+            </a>
+            <a href="ad-manager.html">
+                <span class="emoji-icon">📊</span>
+                <span data-i18n="ad_manager">Ad Manager</span>
+            </a>
+            <a href="feeds.html">
+                <span class="emoji-icon">📰</span>
+                <span data-i18n="feeds">Feeds</span>
+            </a>
+            <a href="games.html">
+                <span class="emoji-icon">🕹️</span>
+                <span data-i18n="games">Games</span>
+            </a>
+            <a href="ad-activity.html">
+                <span class="emoji-icon">📈</span>
+                <span data-i18n="ad_activity">Ad Activity</span>
+            </a>
         </div>
 
-        <div
-            id="notificationsList"
-            class="notifications-list"
-        >
+        <!-- المحتوى الرئيسي -->
+        <div class="content">
 
-            <div class="notifications-empty">
-                No notifications yet.
+            <!-- إنشاء منشور -->
+            <div class="create-post">
+                <div class="post-top">
+                    <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="postProfileImg" alt="Profile">
+                    <input type="text" data-i18n-placeholder="create_post" placeholder="What's on your mind?" onclick="openCreatePostModal()" readonly>
+                </div>
+                <div class="posting">
+                    <button onclick="openCreatePostModal()">
+                        <span style="color: #45bd62;">📷</span> <span data-i18n="photo_video">Photo</span>
+                    </button>
+                    <button onclick="openFeelingModal()">
+                        <span style="color: #f7b928;">😊</span> <span data-i18n="feeling_activity">Feeling</span>
+                    </button>
+                    <button onclick="openLiveVideo()">
+                        <span style="color: #f02849;">🔴</span> <span data-i18n="live_video">Live</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- القصص -->
+            <div class="stories">
+                <div class="story-header" data-i18n="story">Stories</div>
+                <div class="story-list">
+                    <!-- قصة المستخدم -->
+                    <div class="story-item" onclick="openStoryModal()" style="background: #1877f2;">
+                        <div style="position: absolute; top: 10px; left: 10px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer;">+</div>
+                        <div style="position: absolute; bottom: 10px; left: 0; right: 0; z-index: 3; text-align: center; color: white; font-weight: 600;" data-i18n="create_story">Create Story</div>
+                    </div>
+                    
+                    <!-- قصص الأصدقاء -->
+                    <div class="story-item" onclick="openStory('user1')">
+                        <img src="https://ui-avatars.com/api/?name=Friend+1&background=42b72a&color=fff" alt="Story">
+                        <span class="story-name">Friend 1</span>
+                    </div>
+                    <div class="story-item" onclick="openStory('user2')">
+                        <img src="https://ui-avatars.com/api/?name=Friend+2&background=f7b928&color=fff" alt="Story">
+                        <span class="story-name">Friend 2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المشاركات -->
+            <div id="feedContainer">
+                <!-- ستظهر المشاركات هنا -->
             </div>
 
         </div>
 
-    </div>
-
-</li>
-
-
-<!-- MESSENGER -->
-
-<li>
-
-    <img
-        src="images/iconmessenger.png"
-        alt="messenger"
-    >
-
-</li>
-
-
-<!-- VIDEOS -->
-
-<li>
-
-    <img
-        src="images/icon videos.png"
-        alt="videos"
-    >
-
-</li>
-
-
-<!-- FRIENDS -->
-
-<li class="friends-menu">
-
-    <a
-        href="friends.html"
-        class="friends-button"
-        aria-label="Friends"
-    >
-
-        <img
-            src="images/iconfriends.png"
-            alt="friends"
-        >
-
-        <span
-            id="friendsBadge"
-            class="friends-badge"
-            hidden
-        >
-            0
-        </span>
-
-    </a>
-
-</li>
-
-
-</ul>
-
-</div>
-
-<!-- NAV LEFT -->
-
-<div class="nav-left">
-
-<!-- HOME -->
-
-<a
-href="index.html"
-class="home-nav-link"
-
->
-
-
-<span>
-    🏠
-</span>
-
-<span>
-    Home
-</span>
-
-
-</a>
-
-<!-- POINTS -->
-
-<a href="points.html">
-
-
-<span>
-    🪙
-</span>
-
-<span>
-    Points
-</span>
-
-
-</a>
-
-<!-- SEARCH -->
-
-<div class="search-container">
-
-
-<div class="search">
-
-    <img
-        src="images/imgsearch1.jpg"
-        alt="search"
-    >
-
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search..."
-        autocomplete="off"
-    >
-
-</div>
-
-<div
-    id="searchResults"
-    class="search-results"
-    hidden
-></div>
-
-
-</div>
-
-<!-- PROFILE -->
-
-<a
-href="profile.html"
-class="nav-user-profile online"
-id="profileNavLink"
-title="My Profile"
-
->
-
-
-<img
-    id="navProfileAvatar"
-    src="images/iconprofile.png"
-    alt="My Profile"
->
-
-<span id="navProfileName">
-    Loading...
-</span>
-
-
-</a>
-
-<!-- LOGOUT -->
-
-<button
-type="button"
-id="logoutButton"
-class="logout-button"
-title="Logout"
-
->
-
-
-<span>
-    🚪
-</span>
-
-<span data-i18n="logout">
-    Logout
-</span>
-
-
-</button>
-
-<!-- LANGUAGE -->
-
-<select
-id="languageSelect"
-class="language-select"
-aria-label="Language"
-
->
-
-
-<option value="en">
-    🇬🇧 English
-</option>
-
-<option value="fr">
-    🇫🇷 Français
-</option>
-
-<option value="ar">
-    🇲🇦 العربية
-</option>
-
-
-</select>
-
-</div>
-
-</nav>
-
-<!-- =========================================================
-     MAIN CONTAINER
-========================================================= -->
-
-<div class="main-container">
-
-<!-- =====================================================
-     RIGHT SIDEBAR
-====================================================== -->
-
-<div class="right-sidebar">
-
-<div class="empt-links">
-
-
-<!-- LAST NEWS -->
-
-<a href="latest-news.html">
-
-    <img
-        src="images/right icon last news.webp"
-        alt=""
-    >
-
-    <span data-i18n="lastNews">
-        Last News
-    </span>
-
-</a>
-
-
-<!-- FRIENDS -->
-
-<a
-    href="friends.html"
-    class="friends-link"
->
-
-    <img
-        src="images/right icon friends.png"
-        alt=""
-    >
-
-    <span data-i18n="friends">
-        Friends
-    </span>
-
-    <span
-        id="friendRequestBadge"
-        class="friend-request-badge"
-        hidden
-    >
-        0
-    </span>
-
-</a>
-
-
-<!-- GROUPS -->
-
-<a href="groups.html">
-
-    <img
-        src="images/right icon groups.jpg"
-        alt="Groups"
-    >
-
-    <span data-i18n="groups">
-        Groups
-    </span>
-
-</a>
-
-
-<!-- MARKET PLUS -->
-
-<a href="./market-plus.html">
-
-    <img
-        src="images/right icon marketplus.jpg"
-        alt="Market Plus"
-    >
-
-    <span data-i18n="market">
-        Market Plus
-    </span>
-
-</a>
-
-
-<!-- MESSENGER -->
-
-<a href="messenger.html">
-
-    <img
-        src="images/right icon messenger.png"
-        alt="Messenger"
-    >
-
-    <span data-i18n="messenger">
-        Messenger
-    </span>
-
-</a>
-
-
-<!-- PAGES -->
-
-<a href="./pages.html">
-
-    <img
-        src="images/right icon pages.jpg"
-        alt=""
-    >
-
-    <span data-i18n="pages">
-        Pages
-    </span>
-
-</a>
-
-
-<!-- ORDERS -->
-
-<a href="orders-payments.html">
-
-    <img
-        src="images/righticonmastercard.png"
-        alt=""
-    >
-
-    <span data-i18n="ordersPayments">
-        Orders and Payments
-    </span>
-
-</a>
-
-
-<!-- MEMORIES -->
-
-<button
-    type="button"
-    class="sidebar-item"
-    onclick="window.location.href='memories.html'"
->
-
-    <span>
-        🕰️
-    </span>
-
-    <span>
-        Memories
-    </span>
-
-</button>
-
-
-<!-- BIRTHDAYS -->
-
-<a
-    href="birthdays.html"
-    class="sidebar-item"
->
-
-    <span>
-        🎂
-    </span>
-
-    <span data-i18n="birthday">
-        Birthdays
-    </span>
-
-</a>
-
-
-<!-- ADS MANAGER -->
-
-<a href="ads-manager.html">
-
-    <img
-        src="images/righticonadsmanager.png"
-        alt=""
-    >
-
-    <span data-i18n="adsManager">
-        Ads Manager
-    </span>
-
-</a>
-
-
-<!-- AD CENTER -->
-
-<a href="ad-center.html">
-
-    <img
-        src="images/righticonmastercard.png"
-        alt=""
-    >
-
-    <span data-i18n="adCenter">
-        Ad Center
-    </span>
-
-</a>
-
-
-</div>
-
-<!-- SHORTCUTS -->
-
-<div class="shortcut-links">
-
-
-<p data-i18n="yourShortcuts">
-    Your shortcuts
-</p>
-
-<a href="#">
-
-    <img
-        src="images/shortcutlearnenglish.jpg"
-        alt=""
-    >
-
-    <span data-i18n="learnEnglish">
-        Learn English
-    </span>
-
-</a>
-
-
-</div>
-
-</div>
-
-<!-- =====================================================
-     CENTER CONTENT
-====================================================== -->
-
-<div class="content">
-
-<div class="create-post">
-
-
-<!-- CREATE POST TOP -->
-
-<div class="post-top">
-
-    <img
-        src="images/storyimage.jpeg"
-        alt="Profile"
-    >
-
-    <div class="post-input">
-
-        <input
-            type="text"
-            id="postInput"
-            placeholder="What's on your mind?"
-        >
-
-        <button
-            type="button"
-            id="postButton"
-        >
-
-            <span data-i18n="post">
-                Post
-            </span>
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- POSTS FEED -->
-
-<div id="postsFeed"></div>
-
-
-<!-- LIKE / COMMENT / SHARE -->
-
-<div class="posting">
-
-    <button
-        type="button"
-        id="likeButton"
-    >
-
-        <img
-            src="images/postingiconlike.png"
-            alt="like"
-        >
-
-        <span id="likeText">
-            Like
-        </span>
-
-        <span id="likeCount">
-            0
-        </span>
-
-    </button>
-
-
-    <button
-        type="button"
-        id="commentButton"
-    >
-
-        <img
-            src="images/postingiconcomment.png"
-            alt="comment"
-        >
-
-        <span id="commentText">
-            Comment
-        </span>
-
-        <span id="commentCount">
-            0
-        </span>
-
-    </button>
-
-
-    <button
-        type="button"
-        id="shareButton"
-    >
-
-        <img
-            src="images/postingiconshare.png"
-            alt="share"
-        >
-
-        <span id="shareText">
-            Share
-        </span>
-
-        <span id="shareCount">
-            0
-        </span>
-
-    </button>
-
-</div>
-
-
-<hr>
-
-
-<!-- ADD POST BUTTONS -->
-
-<div class="add-post-buttons">
-
-    <!-- PHOTO / VIDEO -->
-
-    <button
-        type="button"
-        class="photo-btn"
-        id="mediaButton"
-        title="Photo or Video"
-    >
-
-        <img
-            src="images/imageuploadimage5.png"
-            alt="Photo or Video"
-        >
-
-    </button>
-
-
-    <input
-        type="file"
-        id="mediaInput"
-        accept="image/*,video/*"
-        hidden
-    >
-
-
-    <!-- LIVE -->
-
-    <button
-        type="button"
-        class="live-btn"
-        title="Live"
-    >
-
-        <img
-            src="images/imagelivevideo.png"
-            alt="Live"
-        >
-
-    </button>
-
-
-    <!-- REELS -->
-
-    <button
-        type="button"
-        class="reels-btn"
-        title="Reels"
-    >
-
-        <img
-            src="images/imagereelcontent.jpg"
-            alt="Reels"
-        >
-
-    </button>
-
-
-    <!-- FEELING -->
-
-    <button
-        type="button"
-        class="feeling-btn"
-        title="Feeling"
-    >
-
-        <img
-            src="images/imagefeeling.jpg"
-            alt="Feeling"
-        >
-
-    </button>
-
-</div>
-
-
-</div>
-
-<!-- =================================================
-     SPONSORED ADS
-================================================== -->
-
-<div
-    id="sponsoredAdsFeed"
-    style="
-        display:block;
-        visibility:visible;
-        opacity:1;
-        width:100%;
-        box-sizing:border-box;
-    "
-></div>
-
-</div>
-
-<!-- =====================================================
-     LEFT SIDEBAR
-====================================================== -->
-
-<div class="left-sidebar">
-
-<!-- EVENTS -->
-
-<div class="events-ad-box">
-
-
-<div class="sidebar-title">
-
-    <h3 data-i18n="events">
-        Events
-    </h3>
-
-    <a
-        href="#"
-        data-i18n="seeMore"
-    >
-        See More
-    </a>
-
-</div>
-
-
-<div class="left-event">
-
-    <div class="left-activity">
-
-        <h3>
-            04
-        </h3>
-
-        <span data-i18n="june">
-            June
-        </span>
-
-    </div>
-
-
-    <div class="right-activity">
-
-        <h4 data-i18n="birthday">
-            Birthday
-        </h4>
-
-        <p>
-            Wiki, Moroccan
-        </p>
-
-        <a
-            href="#"
-            data-i18n="moreInfo"
-        >
-            More Info
-        </a>
-
-    </div>
-
-</div>
-
-
-</div>
-
-<!-- ADS -->
-
-<div class="sidebar-title">
-
-    <h3 data-i18n="ads">
-        Ads
-    </h3>
-
-    <a
-        href="#"
-        data-i18n="close"
-    >
-        Close
-    </a>
-
-</div>
-
-<a
-    href="https://www.profitableratecpmnetwork.com/f002hhqw6?key=4a2ad85293b9cc1b3f42605fb07ec42a"
-    target="_blank"
-    rel="nofollow noopener noreferrer"
-    title="adsterra"
->
-
-    <img
-        src="images/adsterra-ads-banner.png"
-        class="sidebar-ads"
-        alt="Sponsored Advertisement"
-    >
-
-</a>
-<!-- CONVERSATIONS -->
-
-<div class="sidebar-title">
-
-
-<h3 data-i18n="conversations">
-    Conversations
-</h3>
-
-<a
-    href="#"
-    data-i18n="hide"
->
-    Hide
-</a>
-
-
-</div>
-
-<div class="online-list">
-    <div class="online"></div>
-</div>
-
-<div class="online-list">
-    <div class="online"></div>
-</div>
-
-</div>
-
-</div>
-
-<!-- =========================================================
-     LANGUAGE SYSTEM
-========================================================= -->
-
-<script>
-
-const translations = {
-
-    en: {
-
-        lastNews: "Last News",
-        friends: "Friends",
-        dashboard: "Dashboard",
-        groups: "Groups",
-        market: "Market Plus",
-        messenger: "Messenger",
-        pages: "Pages",
-        ordersPayments: "Orders and Payments",
-        memories: "Memories",
-        birthday: "Birthday",
-        adsManager: "Ads Manager",
-        adCenter: "Ad Center",
-        yourShortcuts: "Your shortcuts",
-        learnEnglish: "Learn English",
-        post: "Post",
-        events: "Events",
-        seeMore: "See More",
-        june: "June",
-        moreInfo: "More Info",
-        ads: "Ads",
-        close: "Close",
-        conversations: "Conversations",
-        hide: "Hide",
-        logout: "Logout"
-
-    },
-
-    fr: {
-
-        lastNews: "Dernières nouvelles",
-        friends: "Amis",
-        dashboard: "Tableau de bord",
-        groups: "Groupes",
-        market: "Marché Plus",
-        messenger: "Messenger",
-        pages: "Pages",
-        ordersPayments: "Commandes et paiements",
-        memories: "Souvenirs",
-        birthday: "Anniversaire",
-        adsManager: "Gestionnaire de publicités",
-        adCenter: "Centre publicitaire",
-        yourShortcuts: "Vos raccourcis",
-        learnEnglish: "Apprendre l'anglais",
-        post: "Publier",
-        events: "Événements",
-        seeMore: "Voir plus",
-        june: "Juin",
-        moreInfo: "Plus d'informations",
-        ads: "Publicités",
-        close: "Fermer",
-        conversations: "Conversations",
-        hide: "Masquer",
-        logout: "Déconnexion"
-
-    },
-
-    ar: {
-
-        lastNews: "آخر الأخبار",
-        friends: "الأصدقاء",
-        dashboard: "لوحة التحكم",
-        groups: "المجموعات",
-        market: "السوق بلس",
-        messenger: "الرسائل",
-        pages: "الصفحات",
-        ordersPayments: "الطلبات والمدفوعات",
-        memories: "الذكريات",
-        birthday: "أعياد الميلاد",
-        adsManager: "مدير الإعلانات",
-        adCenter: "مركز الإعلانات",
-        yourShortcuts: "اختصاراتك",
-        learnEnglish: "تعلم الإنجليزية",
-        post: "نشر",
-        events: "الأحداث",
-        seeMore: "عرض المزيد",
-        june: "يونيو",
-        moreInfo: "معلومات أكثر",
-        ads: "الإعلانات",
-        close: "إغلاق",
-        conversations: "المحادثات",
-        hide: "إخفاء",
-        logout: "تسجيل الخروج"
-
-    }
-
-};
-
-
-const languageSelect =
-    document.getElementById(
-        "languageSelect"
-    );
-
-
-function applyLanguage(language) {
-
-    const selected =
-        translations[language];
-
-
-    if (!selected) {
-
-        console.error(
-            "❌ Unknown language:",
-            language
-        );
-
-        return;
-
-    }
-
-
-    document
-        .querySelectorAll(
-            "[data-i18n]"
-        )
-        .forEach(
-            function(element) {
-
-                const key =
-                    element.getAttribute(
-                        "data-i18n"
-                    );
-
-
-                if (selected[key]) {
-
-                    element.textContent =
-                        selected[key];
-
-                }
-
-            }
-        );
-
-
-    document.documentElement.lang =
-        language;
-
-
-    if (language === "ar") {
-
-        document.documentElement.dir =
-            "rtl";
-
-        document.body.dir =
-            "rtl";
-
-    } else {
-
-        document.documentElement.dir =
-            "ltr";
-
-        document.body.dir =
-            "ltr";
-
-    }
-
-
-    localStorage.setItem(
-        "socialwiki_language",
-        language
-    );
-
-}
-
-
-if (languageSelect) {
-
-    languageSelect.addEventListener(
-        "change",
-        function() {
-
-            applyLanguage(
-                this.value
-            );
-
-        }
-    );
-
-
-    const savedLanguage =
-        localStorage.getItem(
-            "socialwiki_language"
-        );
-
-
-    if (
-        savedLanguage &&
-        translations[savedLanguage]
-    ) {
-
-        languageSelect.value =
-            savedLanguage;
-
-        applyLanguage(
-            savedLanguage
-        );
-
-    } else {
-
-        languageSelect.value =
-            "en";
-
-        applyLanguage(
-            "en"
-        );
-
-    }
-
-}
-
-</script>
-
-<!-- =========================================================
-     SOCIALWIKI SCRIPTS
-========================================================= -->
-
-<script
-    src="js/script.js?v=20260904"
-></script>
-
-<script
-    src="js/posts.js?v=20260904"
-></script>
-
-<script
-    src="js/notifications.js?v=20260904"
-></script>
-
-<script
-    src="js/friend-badge.js?v=20260904"
-></script>
-
-<!-- =========================================================
-     SPONSORED ADS SYSTEM
-     FIXED:
-     - LOAD ALL ADS
-     - LOAD MEDIA URL
-     - LOAD MEDIA TYPE
-     - SHOW IMAGE ADS
-     - SHOW TEXT ADS
-========================================================= -->
-
-<script>
-
-console.log(
-    "📢 Sponsored Ads system starting..."
-);
-
-
-// =========================================================
-// SUPABASE
-// =========================================================
-
-const SPONSORED_ADS_URL =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
-
-
-const SPONSORED_ADS_KEY =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-
-
-const sponsoredAdsSupabase =
-    window.supabase.createClient(
-        SPONSORED_ADS_URL,
-        SPONSORED_ADS_KEY
-    );
-
-
-// =========================================================
-// ESCAPE HTML
-// =========================================================
-
-function escapeSponsoredAdHTML(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-// =========================================================
-// LOAD ACTIVE ADS
-// =========================================================
-
-async function loadSponsoredAds() {
-
-    const container =
-        document.getElementById(
-            "sponsoredAdsFeed"
-        );
-
-
-    if (!container) {
-
-        console.error(
-            "❌ sponsoredAdsFeed not found"
-        );
-
-        return;
-
-    }
-
-
-    console.log(
-        "📢 Loading active sponsored ads..."
-    );
-
-
-    const {
-        data: ads,
-        error
-    } =
-        await sponsoredAdsSupabase
-
-            .from(
-                "ad_campaigns"
-            )
-
-            .select(
-                `
-                id,
-                ad_name,
-                ad_title,
-                description,
-                destination_link,
-                language,
-                currency,
-                budget,
-                start_date,
-                end_date,
-                status,
-                media_url,
-                media_type,
-                created_at
-                `
-            )
-
-            .eq(
-                "status",
-                "active"
-            )
-
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
-
-
-    if (error) {
-
-        console.error(
-            "❌ Sponsored Ads error:",
-            error
-        );
-
-        return;
-
-    }
-
-
-    console.log(
-        "✅ Active ads found:",
-        ads ? ads.length : 0
-    );
-
-
-    renderSponsoredAds(
-        ads || []
-    );
-
-}
-
-
-// =========================================================
-// RENDER ALL ADS
-// =========================================================
-
-function renderSponsoredAds(ads) {
-
-    const container =
-        document.getElementById(
-            "sponsoredAdsFeed"
-        );
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    // CLEAR OLD ADS
-
-    container.innerHTML = "";
-
-
-    if (
-        !ads ||
-        ads.length === 0
-    ) {
-
-        container.style.display =
-            "none";
-
-        console.log(
-            "ℹ️ No active sponsored ads to display."
-        );
-
-        return;
-
-    }
-
-
-    container.style.display =
-        "block";
-
-
-    // =====================================================
-    // SPONSORED HEADER
-    // =====================================================
-
-    const header =
-        document.createElement(
-            "div"
-        );
-
-    header.style.cssText = `
-        font-size:18px;
-        font-weight:700;
-        margin:20px 0 12px 0;
-        color:#1c1e21;
-    `;
-
-    header.textContent =
-        "Sponsored";
-
-    container.appendChild(
-        header
-    );
-
-
-    // =====================================================
-    // LOOP THROUGH ALL ADS
-    // =====================================================
-
-    ads.forEach(
-        function(ad, index) {
-
-            const card =
-                document.createElement(
-                    "article"
-                );
-
-
-            card.style.cssText = `
-                background:#ffffff;
-                border-radius:12px;
-                padding:18px;
-                margin:0 0 18px 0;
-                box-shadow:0 2px 8px rgba(0,0,0,0.08);
-                border:1px solid #e4e6eb;
-                box-sizing:border-box;
-                width:100%;
-            `;
-
-
-            const adName =
-                escapeSponsoredAdHTML(
-                    ad.ad_name
-                );
-
-
-            const title =
-                escapeSponsoredAdHTML(
-                    ad.ad_title
-                );
-
-
-            const description =
-                escapeSponsoredAdHTML(
-                    ad.description
-                );
-
-
-            const link =
-                escapeSponsoredAdHTML(
-                    ad.destination_link
-                );
-
-
-            const mediaURL =
-                escapeSponsoredAdHTML(
-                    ad.media_url
-                );
-
-
-            const mediaType =
-                String(
-                    ad.media_type || ""
-                ).toLowerCase();
-
-
-            // =================================================
-            // IMAGE
-            // =================================================
-
-            let mediaHTML = "";
-
-
-            if (
-                mediaURL &&
-                (
-                    mediaType === "image" ||
-                    mediaType === "img" ||
-                    mediaType === ""
-                )
-            ) {
-
-                mediaHTML = `
-
-                    <img
-                        src="${mediaURL}"
-                        alt="${title || adName || "Sponsored advertisement"}"
-                        loading="lazy"
-                        style="
-                            display:block;
-                            width:100%;
-                            max-height:420px;
-                            object-fit:cover;
-                            border-radius:10px;
-                            margin:0 0 14px 0;
-                        "
-                    >
-
-                `;
-
-            }
-
-
-            // =================================================
-            // VIDEO
-            // =================================================
-
-            if (
-                mediaURL &&
-                (
-                    mediaType === "video" ||
-                    mediaType === "mp4"
-                )
-            ) {
-
-                mediaHTML = `
-
-                    <video
-                        src="${mediaURL}"
-                        controls
-                        preload="metadata"
-                        style="
-                            display:block;
-                            width:100%;
-                            max-height:420px;
-                            border-radius:10px;
-                            margin:0 0 14px 0;
-                        "
-                    ></video>
-
-                `;
-
-            }
-
-
-            // =================================================
-            // DESTINATION BUTTON
-            // =================================================
-
-            let linkHTML = "";
-
-
-            if (link) {
-
-                linkHTML = `
-
-                    <a
-                        href="${link}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="
-                            display:inline-block;
-                            background:#1877f2;
-                            color:#ffffff;
-                            text-decoration:none;
-                            padding:9px 16px;
-                            border-radius:7px;
-                            font-weight:bold;
-                            margin-top:4px;
-                        "
-                    >
-                        Learn More
-                    </a>
-
-                `;
-
-            }
-
-
-            // =================================================
-            // BUILD CARD
-            // =================================================
-
-            card.innerHTML = `
-
-                <div style="
-                    font-size:12px;
-                    color:#65676b;
-                    margin-bottom:8px;
-                    font-weight:bold;
-                ">
-                    Sponsored
-                </div>
-
-
-                ${
-                    adName
-                    ?
-                    `
-                    <div style="
-                        font-size:12px;
-                        color:#65676b;
-                        margin-bottom:8px;
-                    ">
-                        📢 ${adName}
+        <!-- القائمة اليمنى -->
+        <div class="right-sidebar">
+            <div class="right-profile-box">
+                <a href="profile.html" class="right-profile-link">
+                    <div class="right-profile-avatar">
+                        <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="rightProfileImg" alt="Profile">
                     </div>
-                    `
-                    :
-                    ""
-                }
+                    <div>
+                        <div class="right-profile-name" id="rightProfileName">User</div>
+                        <div class="right-profile-username" id="rightProfileUsername">@user</div>
+                    </div>
+                </a>
+            </div>
 
+            <div class="right-box">
+                <h3 data-i18n="groups">Your Groups</h3>
+                <a href="groups.html">👥 Group 1</a>
+                <a href="groups.html">👥 Group 2</a>
+                <a href="groups.html">👥 Group 3</a>
+            </div>
 
-                ${mediaHTML}
+            <div class="right-box">
+                <h3 data-i18n="events">Upcoming Events</h3>
+                <a href="events.html">📅 Event 1</a>
+                <a href="events.html">📅 Event 2</a>
+            </div>
 
+           <!-- الإعلانات المتعددة -->
+<div class="ad-box">
+    <h3>Sponsored</h3>
+    <img src="https://via.placeholder.com/300x200/1877f2/fff?text=Ad+1" alt="Ad">
+    <p>Advertisement</p>
+    <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
+</div>
 
-                ${
-                    title
-                    ?
-                    `
-                    <h3 style="
-                        margin:0 0 8px 0;
-                        font-size:19px;
-                    ">
-                        ${title}
-                    </h3>
-                    `
-                    :
-                    ""
-                }
+<div class="ad-box">
+    <h3>Sponsored</h3>
+    <img src="https://via.placeholder.com/300x200/42b72a/fff?text=Ad+2" alt="Ad">
+    <p>Advertisement</p>
+    <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
+</div>
 
+<div class="ad-box">
+    <h3>Sponsored</h3>
+    <img src="https://via.placeholder.com/300x200/f7b928/fff?text=Ad+3" alt="Ad">
+    <p>Advertisement</p>
+    <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
+</div>
+    <!-- =========================================================
+         CREATE POST MODAL
+    ========================================================= -->
+    <div id="createPostModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="create_post">Create Post</h3>
+                <button class="modal-close" onclick="closeCreatePostModal()">✕</button>
+            </div>
+            
+            <div class="modal-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="modalProfileImg" alt="Profile">
+                <span id="modalProfileName">User</span>
+            </div>
+            
+            <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?"></textarea>
+            
+            <div class="modal-tools">
+                <span data-i18n="photo_video">Add to your post</span>
+                <div class="modal-tools-buttons">
+                    <button onclick="uploadPostImage()" title="Photo">📷</button>
+                    <button onclick="uploadPostVideo()" title="Video">🎬</button>
+                    <button onclick="tagFriends()" title="Tag">🏷️</button>
+                    <button onclick="addFeeling()" title="Feeling">😊</button>
+                </div>
+            </div>
+            
+            <button class="modal-submit" onclick="publishPost()" data-i18n="post">Post</button>
+        </div>
+    </div>
 
-                ${
-                    description
-                    ?
-                    `
-                    <p style="
-                        margin:0 0 15px 0;
-                        line-height:1.5;
-                        color:#444;
-                    ">
-                        ${description}
-                    </p>
-                    `
-                    :
-                    ""
-                }
+    <!-- =========================================================
+         FEELING MODAL
+    ========================================================= -->
+    <div id="feelingModal" class="modal-overlay">
+        <div class="modal-content" style="width: 400px;">
+            <div class="modal-header">
+                <h3 data-i18n="feeling_activity">How are you feeling?</h3>
+                <button class="modal-close" onclick="closeFeelingModal()">✕</button>
+            </div>
+            
+            <div class="feeling-grid">
+                <button class="feeling-btn" onclick="selectFeeling('😊')">😊</button>
+                <button class="feeling-btn" onclick="selectFeeling('😢')">😢</button>
+                <button class="feeling-btn" onclick="selectFeeling('😡')">😡</button>
+                <button class="feeling-btn" onclick="selectFeeling('😍')">😍</button>
+                <button class="feeling-btn" onclick="selectFeeling('🤔')">🤔</button>
+                <button class="feeling-btn" onclick="selectFeeling('🎉')">🎉</button>
+                <button class="feeling-btn" onclick="selectFeeling('😴')">😴</button>
+                <button class="feeling-btn" onclick="selectFeeling('🤗')">🤗</button>
+                <button class="feeling-btn" onclick="selectFeeling('😎')">😎</button>
+                <button class="feeling-btn" onclick="selectFeeling('🤩')">🤩</button>
+                <button class="feeling-btn" onclick="selectFeeling('🥳')">🥳</button>
+                <button class="feeling-btn" onclick="selectFeeling('😭')">😭</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- =========================================================
+         STORY MODAL
+    ========================================================= -->
+    <div id="storyModal" class="modal-overlay">
+        <div class="modal-content" style="width: 400px;">
+            <div class="modal-header">
+                <h3 data-i18n="create_story">Create Story</h3>
+                <button class="modal-close" onclick="closeStoryModal()">✕</button>
+            </div>
+            
+            <input type="file" id="storyFile" accept="image/*,video/*" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px;">
+            
+            <button class="modal-submit" onclick="publishStory()" data-i18n="create_story">Share to Story</button>
+            <button class="modal-close" style="width: 100%; padding: 12px; background: #e4e6eb; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="closeStoryModal()">Cancel</button>
+        </div>
+    </div>
 
-                ${linkHTML}
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/main.js"></script>
+    <script src="js/friend-badge.js"></script>
+    <script src="js/birthdays.js"></script>
 
-            `;
+    <!-- =========================================================
+         TRANSLATIONS + ALL SCRIPTS
+    ========================================================= -->
+    <script>
+        // =========================================================
+// HANDLE OAUTH CALLBACK (التعامل مع إعادة التوجيه من Google)
+// =========================================================
 
-
-            container.appendChild(
-                card
-            );
-
-
-            console.log(
-                `📢 Sponsored ad ${index + 1}/${ads.length}:`,
-                ad.ad_name,
-                "| media:",
-                ad.media_url
-                    ? ad.media_url
-                    : "NO MEDIA"
-            );
-
+async function handleAuthCallback() {
+    const urlParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = urlParams.get('access_token');
+    const refreshToken = urlParams.get('refresh_token');
+    
+    if (accessToken && refreshToken) {
+        try {
+            // تعيين الجلسة
+            await supabaseClient.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken
+            });
+            
+            console.log('✅ OAuth session set successfully!');
+            
+            // تنظيف الرابط
+            window.history.replaceState({}, document.title, '/index.html');
+            
+        } catch (error) {
+            console.error('Error setting session:', error);
         }
-    );
-
-
-    console.log(
-        "✅ ALL SPONSORED ADS RENDERED:",
-        ads.length
-    );
-
+    }
 }
 
+// تشغيل عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    handleAuthCallback();
+});
+    // =========================================================
+    // TRANSLATIONS
+    // =========================================================
+    
+    const translations = {
+        ar: {
+            "search_placeholder": "ابحث في SocialWiki",
+            "home": "الرئيسية",
+            "friends": "الأصدقاء",
+            "marketplace": "السوق",
+            "events": "الأحداث",
+            "groups": "المجموعات",
+            "notifications": "الإشعارات",
+            "gifts": "الهدايا",
+            "tasks": "المهام",
+            "reels": "ريلز",
+            "gaming": "ألعاب",
+            "memories": "ذكريات",
+            "ad_center": "مركز الإعلانات",
+            "ad_manager": "إدارة الإعلانات",
+            "feeds": "موجز الأخبار",
+            "games": "ألعاب",
+            "ad_activity": "نشاط الإعلانات",
+            "dashboard": "لوحة التحكم",
+            "profile": "الملف الشخصي",
+            "logout": "تسجيل الخروج",
+            "create_post": "ما الذي يدور في ذهنك؟",
+            "photo_video": "صورة / فيديو",
+            "feeling_activity": "شعور / نشاط",
+            "live_video": "بث مباشر",
+            "story": "القصص",
+            "create_story": "إنشاء قصة",
+            "post": "نشر"
+        },
+        fr: {
+            "search_placeholder": "Rechercher sur SocialWiki",
+            "home": "Accueil",
+            "friends": "Amis",
+            "marketplace": "Marketplace",
+            "events": "Événements",
+            "groups": "Groupes",
+            "notifications": "Notifications",
+            "gifts": "Cadeaux",
+            "tasks": "Tâches",
+            "reels": "Reels",
+            "gaming": "Jeux",
+            "memories": "Souvenirs",
+            "ad_center": "Centre publicitaire",
+            "ad_manager": "Gestion des publicités",
+            "feeds": "Flux",
+            "games": "Jeux",
+            "ad_activity": "Activité publicitaire",
+            "dashboard": "Tableau de bord",
+            "profile": "Profil",
+            "logout": "Déconnexion",
+            "create_post": "Quoi de neuf ?",
+            "photo_video": "Photo / Vidéo",
+            "feeling_activity": "Sentiment / Activité",
+            "live_video": "Vidéo en direct",
+            "story": "Stories",
+            "create_story": "Créer une story",
+            "post": "Publier"
+        },
+        en: {
+            "search_placeholder": "Search SocialWiki",
+            "home": "Home",
+            "friends": "Friends",
+            "marketplace": "Marketplace",
+            "events": "Events",
+            "groups": "Groups",
+            "notifications": "Notifications",
+            "gifts": "Gifts",
+            "tasks": "Tasks",
+            "reels": "Reels",
+            "gaming": "Gaming",
+            "memories": "Memories",
+            "ad_center": "Ad Center",
+            "ad_manager": "Ad Manager",
+            "feeds": "Feeds",
+            "games": "Games",
+            "ad_activity": "Ad Activity",
+            "dashboard": "Dashboard",
+            "profile": "Profile",
+            "logout": "Log Out",
+            "create_post": "What's on your mind?",
+            "photo_video": "Photo / Video",
+            "feeling_activity": "Feeling / Activity",
+            "live_video": "Live Video",
+            "story": "Stories",
+            "create_story": "Create Story",
+            "post": "Post"
+        }
+    };
 
-// =========================================================
-// START
-// =========================================================
+    // =========================================================
+    // LANGUAGE FUNCTIONS
+    // =========================================================
 
-loadSponsoredAds();
+    function getCurrentLanguage() {
+        return localStorage.getItem("socialwiki_lang") || "en";
+    }
 
-</script>
+    function setLanguage(lang) {
+        localStorage.setItem("socialwiki_lang", lang);
+        
+        if (lang === "ar") {
+            document.documentElement.dir = "rtl";
+        } else {
+            document.documentElement.dir = "ltr";
+        }
+        
+        applyTranslations();
+    }
+
+    function applyTranslations() {
+        const lang = getCurrentLanguage();
+        const t = translations[lang] || translations.en;
+        
+        document.querySelectorAll("[data-i18n]").forEach(element => {
+            const key = element.getAttribute("data-i18n");
+            if (t[key]) {
+                element.textContent = t[key];
+            }
+        });
+        
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+            const key = element.getAttribute("data-i18n-placeholder");
+            if (t[key]) {
+                element.placeholder = t[key];
+            }
+        });
+    }
+
+    function toggleLanguageMenu() {
+        const menu = document.getElementById("languageMenu");
+        if (menu) {
+            menu.classList.toggle("show");
+        }
+    }
+
+    function changeLanguage(lang) {
+        setLanguage(lang);
+        toggleLanguageMenu();
+    }
+
+    // تعريض الدوال للنطاق العام
+    window.setLanguage = setLanguage;
+    window.changeLanguage = changeLanguage;
+    window.toggleLanguageMenu = toggleLanguageMenu;
+    window.applyTranslations = applyTranslations;
+    window.getCurrentLanguage = getCurrentLanguage;
+
+    // =========================================================
+    // SETUP SUPABASE CLIENT
+    // =========================================================
+    
+    if (!window.supabaseClient) {
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log("✅ Supabase client created in post script");
+    }
+
+    // =========================================================
+    // LOGOUT
+    // =========================================================
+    
+    async function logout() {
+        await window.supabaseClient.auth.signOut();
+        window.location.href = "auth.html";
+    }
+
+    // =========================================================
+    // UPDATE NOTIFICATION BADGE
+    // =========================================================
+    
+    async function updateNotificationBadge() {
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) return;
+            
+            const { count, error } = await window.supabaseClient
+                .from('notifications')
+                .select('id', { count: 'exact', head: true })
+                .eq('receiver_id', user.id)
+                .eq('is_read', false);
+            
+            if (error) {
+                console.error('Error counting notifications:', error);
+                return;
+            }
+            
+            const badge = document.getElementById('navNotificationBadge');
+            if (badge) {
+                if (count && count > 0) {
+                    badge.textContent = count > 99 ? '99+' : count;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // =========================================================
+    // CHECK ROLE (التحقق من الدور)
+    // =========================================================
+    
+    async function checkRole() {
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) return;
+            
+            const { data: profile, error } = await window.supabaseClient
+                .from('profiles')
+                .select('role')
+                .eq('id', user.id)
+                .single();
+            
+            if (error) {
+                console.error('Error loading profile:', error);
+                return;
+            }
+            
+            const role = profile?.role || 'user';
+            
+            // ⬅️ فقط Owner و Super Admin و Admin يشاهدون لوحة التحكم
+            if (role === 'owner' || role === 'super_admin' || role === 'admin') {
+                document.getElementById('dashboardLink').style.display = 'block';
+            } else {
+                // إخفاء لوحة التحكم عن الجميع
+                document.getElementById('dashboardLink').style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // =========================================================
+    // LOAD USER PROFILE (جلب ملف المستخدم)
+    // =========================================================
+    
+    async function loadUserProfile() {
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) return;
+            
+            const { data: profile, error } = await window.supabaseClient
+                .from('profiles')
+                .select('username, full_name, avatar_url, role')
+                .eq('id', user.id)
+                .single();
+            
+            if (error) {
+                console.error('Error loading profile:', error);
+                return;
+            }
+            
+            // ⬅️ استخدم full_name فقط - لا تستخدم username أبداً للاسم الظاهر
+            const displayName = profile?.full_name || profile?.username || 'User';
+            const username = profile?.username || 'User';
+            const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
+            
+            // تحديث الـ Navbar
+            const navProfileName = document.getElementById('navProfileName');
+            if (navProfileName) {
+                navProfileName.textContent = displayName;
+                
+                // إذا كان Owner، اجعل الاسم ذهبي
+                if (profile?.role === 'owner') {
+                    navProfileName.style.color = '#FFD700';
+                    navProfileName.style.fontWeight = 'bold';
+                }
+            }
+            
+            const navProfileImg = document.getElementById('navProfileImg');
+            if (navProfileImg) navProfileImg.src = avatarUrl;
+            
+            // تحديث القائمة اليسرى
+            const sidebarName = document.getElementById('sidebarName');
+            if (sidebarName) sidebarName.textContent = displayName;
+            
+            const sidebarImg = document.getElementById('sidebarImg');
+            if (sidebarImg) sidebarImg.src = avatarUrl;
+            
+            // تحديث القائمة اليمنى
+            const rightProfileName = document.getElementById('rightProfileName');
+            if (rightProfileName) rightProfileName.textContent = displayName;
+            
+            const rightProfileUsername = document.getElementById('rightProfileUsername');
+            if (rightProfileUsername) rightProfileUsername.textContent = '@' + username;
+            
+            const rightProfileImg = document.getElementById('rightProfileImg');
+            if (rightProfileImg) rightProfileImg.src = avatarUrl;
+            
+            // تحديث صورة المنشور
+            const postProfileImg = document.getElementById('postProfileImg');
+            if (postProfileImg) postProfileImg.src = avatarUrl;
+            
+            // تحديث المودال
+            const modalProfileImg = document.getElementById('modalProfileImg');
+            if (modalProfileImg) modalProfileImg.src = avatarUrl;
+            
+            const modalProfileName = document.getElementById('modalProfileName');
+            if (modalProfileName) modalProfileName.textContent = displayName;
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // =========================================================
+    // EDIT PROFILE (تعديل الملف الشخصي)
+    // =========================================================
+    
+    async function editProfile() {
+        const name = prompt("Enter your new display name:");
+        if (name) {
+            await updateProfile({ full_name: name });
+        }
+        
+        const username = prompt("Enter your new username:");
+        if (username) {
+            await updateProfile({ username: username });
+        }
+        
+        const bio = prompt("Enter your new bio:");
+        if (bio) {
+            await updateProfile({ bio: bio });
+        }
+    }
+    
+    async function updateProfile(updates) {
+        try {
+            // منع تغيير الاسم إلى admin أو owner
+            if (updates.username) {
+                const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
+                if (forbiddenNames.includes(updates.username.toLowerCase())) {
+                    alert('This username is not allowed!');
+                    return;
+                }
+            }
+            
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) {
+                alert("Please login first!");
+                window.location.href = "auth.html";
+                return;
+            }
+            
+            const { error } = await window.supabaseClient
+                .from("profiles")
+                .update(updates)
+                .eq("id", user.id);
+            
+            if (error) {
+                console.error("Error updating profile:", error);
+                alert("Error updating profile: " + error.message);
+                return;
+            }
+            
+            alert("Profile updated successfully!");
+            window.location.reload();
+            
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred: " + error.message);
+        }
+    }
+
+    // =========================================================
+    // SEARCH USERS
+    // =========================================================
+    
+    async function searchUsers(query) {
+        if (!query || query.length < 2) {
+            document.getElementById('searchResults').style.display = 'none';
+            return;
+        }
+        
+        const { data: users, error } = await window.supabaseClient
+            .from('profiles')
+            .select('id, username, full_name, avatar_url')
+            .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
+            .limit(10);
+        
+        if (error) {
+            console.error('Search error:', error);
+            return;
+        }
+        
+        const resultsDiv = document.getElementById('searchResults');
+        resultsDiv.innerHTML = '';
+        resultsDiv.style.display = 'block';
+        
+        if (!users || users.length === 0) {
+            resultsDiv.innerHTML = '<div class="search-no-results">No results found</div>';
+            return;
+        }
+        
+        users.forEach(user => {
+            const item = document.createElement('div');
+            item.className = 'search-result-item';
+            item.onclick = () => window.location.href = `profile.html?id=${user.id}`;
+            
+            const avatar = user.avatar_url 
+                ? `<img src="${user.avatar_url}" alt="Profile">`
+                : `<img src="https://ui-avatars.com/api/?name=${user.username || 'User'}&background=1877f2&color=fff" alt="Profile">`;
+            
+            item.innerHTML = `
+                ${avatar}
+                <div class="search-result-info">
+                    <div class="search-result-name">${user.full_name || user.username}</div>
+                    <div class="search-result-username">@${user.username}</div>
+                </div>
+            `;
+            
+            resultsDiv.appendChild(item);
+        });
+    }
+
+    // =========================================================
+    // CREATE POST MODAL
+    // =========================================================
+
+    function openCreatePostModal() {
+        document.getElementById('createPostModal').classList.add('show');
+        document.getElementById('postContent').focus();
+    }
+
+    function closeCreatePostModal() {
+        document.getElementById('createPostModal').classList.remove('show');
+    }
+
+    async function publishPost() {
+        const content = document.getElementById('postContent').value.trim();
+        
+        if (!content) {
+            alert('Please write something first!');
+            return;
+        }
+        
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) {
+                alert('Please login first!');
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            const { error } = await window.supabaseClient
+                .from('posts')
+                .insert({
+                    user_id: user.id,
+                    content: content,
+                    created_at: new Date()
+                });
+            
+            if (error) {
+                console.error('Error creating post:', error);
+                alert('Error creating post: ' + error.message);
+                return;
+            }
+            
+            closeCreatePostModal();
+            window.location.reload();
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
+        }
+    }
+
+    // =========================================================
+    // FEELING MODAL
+    // =========================================================
+
+    function openFeelingModal() {
+        document.getElementById('feelingModal').classList.add('show');
+    }
+
+    function closeFeelingModal() {
+        document.getElementById('feelingModal').classList.remove('show');
+    }
+
+    function selectFeeling(emoji) {
+        const postContent = document.getElementById('postContent');
+        if (postContent) {
+            postContent.value += ` ${emoji} `;
+            closeFeelingModal();
+            document.getElementById('createPostModal').classList.add('show');
+        }
+    }
+
+    // =========================================================
+    // UPLOAD POST IMAGE / VIDEO
+    // =========================================================
+
+    function uploadPostImage() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                    
+                    if (!user) {
+                        alert('Please login first!');
+                        return;
+                    }
+                    
+                    const fileName = `posts/${user.id}/${Date.now()}_${file.name}`;
+                    const { error: uploadError } = await window.supabaseClient.storage
+                        .from('post-images')
+                        .upload(fileName, file);
+                    
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        alert('Error uploading image: ' + uploadError.message);
+                        return;
+                    }
+                    
+                    const { data: urlData } = window.supabaseClient.storage
+                        .from('post-images')
+                        .getPublicUrl(fileName);
+                    
+                    const imageUrl = urlData.publicUrl;
+                    
+                    const postContent = document.getElementById('postContent');
+                    postContent.value += `\n[Image: ${imageUrl}]`;
+                    
+                    alert('Image uploaded successfully!');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error uploading image: ' + error.message);
+                }
+            }
+        };
+        input.click();
+    }
+
+    function uploadPostVideo() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'video/*';
+        input.onchange = async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                    
+                    if (!user) {
+                        alert('Please login first!');
+                        return;
+                    }
+                    
+                    const fileName = `posts/${user.id}/${Date.now()}_${file.name}`;
+                    const { error: uploadError } = await window.supabaseClient.storage
+                        .from('post-videos')
+                        .upload(fileName, file);
+                    
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        alert('Error uploading video: ' + uploadError.message);
+                        return;
+                    }
+                    
+                    const { data: urlData } = window.supabaseClient.storage
+                        .from('post-videos')
+                        .getPublicUrl(fileName);
+                    
+                    const videoUrl = urlData.publicUrl;
+                    
+                    const postContent = document.getElementById('postContent');
+                    postContent.value += `\n[Video: ${videoUrl}]`;
+                    
+                    alert('Video uploaded successfully!');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error uploading video: ' + error.message);
+                }
+            }
+        };
+        input.click();
+    }
+
+    function tagFriends() {
+        alert('Friend tagging feature coming soon!');
+    }
+
+    function addFeeling() {
+        document.getElementById('feelingModal').classList.add('show');
+    }
+
+    // =========================================================
+    // STORY MODAL
+    // =========================================================
+
+    function openStoryModal() {
+        document.getElementById('storyModal').classList.add('show');
+    }
+
+    function closeStoryModal() {
+        document.getElementById('storyModal').classList.remove('show');
+    }
+
+    async function publishStory() {
+        const fileInput = document.getElementById('storyFile');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            alert('Please select an image or video!');
+            return;
+        }
+        
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) {
+                alert('Please login first!');
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+            
+            const fileName = `stories/${user.id}/${Date.now()}_${file.name}`;
+            const { error: uploadError } = await window.supabaseClient.storage
+                .from('stories')
+                .upload(fileName, file);
+            
+            if (uploadError) {
+                console.error('Upload error:', uploadError);
+                alert('Error uploading story: ' + uploadError.message);
+                return;
+            }
+            
+            const { data: newStory, error } = await window.supabaseClient
+                .from('stories')
+                .insert({
+                    user_id: user.id,
+                    media_url: fileName,
+                    media_type: mediaType,
+                    caption: ''
+                })
+                .select()
+                .single();
+            
+            if (error) {
+                console.error('Error creating story:', error);
+                alert('Error creating story: ' + error.message);
+                return;
+            }
+            
+            alert('Story uploaded successfully!');
+            closeStoryModal();
+            loadStories();
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
+        }
+    }
+
+    function openStory(userId) {
+        alert('Opening story: ' + userId);
+    }
+
+    function openLiveVideo() {
+        alert('Live video feature coming soon!');
+    }
+
+    // =========================================================
+    // LOAD STORIES
+    // =========================================================
+
+    async function loadStories() {
+        try {
+            const { data: stories, error } = await window.supabaseClient
+                .from('stories')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(20);
+            
+            if (error) {
+                console.error('Error loading stories:', error);
+                return;
+            }
+            
+            if (!stories || stories.length === 0) return;
+            
+            const userIds = stories.map(story => story.user_id);
+            
+            const { data: profiles } = await window.supabaseClient
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .in('id', userIds);
+            
+            const profilesMap = {};
+            if (profiles) {
+                profiles.forEach(profile => {
+                    profilesMap[profile.id] = profile;
+                });
+            }
+            
+            const storyList = document.querySelector('.story-list');
+            
+            const existingStories = storyList.querySelectorAll('.story-item:not(:first-child)');
+            existingStories.forEach(story => story.remove());
+            
+            stories.forEach(story => {
+                const profile = profilesMap[story.user_id] || {};
+                const username = profile.username || profile.full_name || 'User';
+                const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const storyItem = document.createElement('div');
+                storyItem.className = 'story-item';
+                storyItem.onclick = () => openStory(story.id);
+                
+                const { data: urlData } = window.supabaseClient.storage
+                    .from('stories')
+                    .getPublicUrl(story.media_url);
+                
+                const mediaUrl = urlData.publicUrl;
+                
+                if (story.media_type === 'video') {
+                    storyItem.innerHTML = `
+                        <video src="${mediaUrl}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
+                        <span class="story-name">${escapeHtml(username)}</span>
+                    `;
+                } else {
+                    storyItem.innerHTML = `
+                        <img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                        <span class="story-name">${escapeHtml(username)}</span>
+                    `;
+                }
+                
+                storyList.appendChild(storyItem);
+            });
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // =========================================================
+    // CREATE NOTIFICATION
+    // =========================================================
+
+    async function createNotification(receiverId, senderId, type, message) {
+        try {
+            if (receiverId === senderId) return;
+            
+            const { error } = await window.supabaseClient
+                .from('notifications')
+                .insert({
+                    receiver_id: receiverId,
+                    sender_id: senderId,
+                    type: type,
+                    message: message,
+                    is_read: false,
+                    created_at: new Date()
+                });
+            
+            if (error) {
+                console.error('Error creating notification:', error);
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // =========================================================
+    // LIKE POST
+    // =========================================================
+
+    async function likePost(postId, btn) {
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) {
+                alert('Please login first!');
+                return;
+            }
+            
+            const { data: post } = await window.supabaseClient
+                .from('posts')
+                .select('user_id')
+                .eq('id', postId)
+                .single();
+            
+            if (!post) return;
+            
+            const postOwnerId = post.user_id;
+            
+            const { data: existingLike } = await window.supabaseClient
+                .from('likes')
+                .select('*')
+                .eq('post_id', postId)
+                .eq('user_id', user.id)
+                .maybeSingle();
+            
+            if (existingLike) {
+                await window.supabaseClient
+                    .from('likes')
+                    .delete()
+                    .eq('post_id', postId)
+                    .eq('user_id', user.id);
+                
+                btn.innerHTML = '👍 Like';
+                btn.style.color = '#65676b';
+            } else {
+                await window.supabaseClient
+                    .from('likes')
+                    .insert({
+                        post_id: postId,
+                        user_id: user.id
+                    });
+                
+                btn.innerHTML = '👍 Liked';
+                btn.style.color = '#1877f2';
+                
+                const { data: senderProfile } = await window.supabaseClient
+                    .from('profiles')
+                    .select('username, full_name')
+                    .eq('id', user.id)
+                    .single();
+                
+                const senderName = senderProfile?.username || senderProfile?.full_name || 'Someone';
+                
+                await createNotification(
+                    postOwnerId,
+                    user.id,
+                    'like',
+                    `${senderName} liked your post`
+                );
+            }
+            
+            const { count } = await window.supabaseClient
+                .from('likes')
+                .select('id', { count: 'exact', head: true })
+                .eq('post_id', postId);
+            
+            btn.textContent = `👍 ${count || 0}`;
+            
+        } catch (error) {
+            console.error('Like error:', error);
+        }
+    }
+
+    // =========================================================
+    // COMMENT POST
+    // =========================================================
+
+    function commentPost(postId) {
+        const comment = prompt('Write a comment:');
+        
+        if (comment) {
+            addComment(postId, comment);
+        }
+    }
+
+    async function addComment(postId, content) {
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) {
+                alert('Please login first!');
+                return;
+            }
+            
+            const { data: post } = await window.supabaseClient
+                .from('posts')
+                .select('user_id')
+                .eq('id', postId)
+                .single();
+            
+            if (!post) return;
+            
+            const postOwnerId = post.user_id;
+            
+            const { data: newComment, error } = await window.supabaseClient
+                .from('comments')
+                .insert({
+                    post_id: postId,
+                    user_id: user.id,
+                    content: content,
+                    created_at: new Date()
+                })
+                .select()
+                .single();
+            
+            if (error) {
+                console.error('Error adding comment:', error);
+                alert('Error adding comment: ' + error.message);
+                return;
+            }
+            
+            const { data: senderProfile } = await window.supabaseClient
+                .from('profiles')
+                .select('username, full_name')
+                .eq('id', user.id)
+                .single();
+            
+            const senderName = senderProfile?.username || senderProfile?.full_name || 'Someone';
+            
+            await createNotification(
+                postOwnerId,
+                user.id,
+                'comment',
+                `${senderName} commented on your post: "${content.substring(0, 50)}"`
+            );
+            
+            loadComments(postId);
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // =========================================================
+    // LOAD COMMENTS
+    // =========================================================
+
+    async function loadComments(postId) {
+        try {
+            const { data: comments, error } = await window.supabaseClient
+                .from('comments')
+                .select('*')
+                .eq('post_id', postId)
+                .order('created_at', { ascending: true });
+            
+            if (error) {
+                console.error('Error loading comments:', error);
+                return;
+            }
+            
+            const commentsContainer = document.getElementById(`comments_${postId}`);
+            if (!commentsContainer) return;
+            
+            commentsContainer.innerHTML = '';
+            
+            if (!comments || comments.length === 0) {
+                commentsContainer.innerHTML = '<p style="color: #65676b; font-size: 13px; margin: 5px 0;">No comments yet</p>';
+                return;
+            }
+            
+            const userIds = comments.map(comment => comment.user_id);
+            
+            const { data: profiles } = await window.supabaseClient
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .in('id', userIds);
+            
+            const profilesMap = {};
+            if (profiles) {
+                profiles.forEach(profile => {
+                    profilesMap[profile.id] = profile;
+                });
+            }
+            
+            comments.forEach(comment => {
+                const profile = profilesMap[comment.user_id] || {};
+                const username = profile.username || profile.full_name || 'User';
+                const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const commentDiv = document.createElement('div');
+                commentDiv.style.display = 'flex';
+                commentDiv.style.alignItems = 'center';
+                commentDiv.style.gap = '8px';
+                commentDiv.style.marginBottom = '8px';
+                
+                commentDiv.innerHTML = `
+                    <img src="${avatarUrl}" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+                    <div style="background: #f0f2f5; border-radius: 12px; padding: 8px 12px; flex: 1;">
+                        <strong style="font-size: 13px;">${escapeHtml(username)}</strong>
+                        <p style="margin: 0; font-size: 13px;">${escapeHtml(comment.content)}</p>
+                    </div>
+                `;
+                
+                commentsContainer.appendChild(commentDiv);
+            });
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    function sharePost(postId) {
+        const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
+        navigator.clipboard.writeText(url);
+        alert('Post link copied!');
+    }
+
+    // =========================================================
+    // LOAD POSTS
+    // =========================================================
+
+   async function loadPosts() {
+    const feedContainer = document.getElementById('feedContainer');
+    
+    if (!feedContainer) return;
+    
+    try {
+        const { data: posts, error } = await window.supabaseClient
+            .from('posts')
+            .select('*')
+            .order('created_at', { ascending: false });
+        
+        if (error) {
+            console.error('Error loading posts:', error);
+            return;
+        }
+        
+        if (!posts || posts.length === 0) {
+            feedContainer.innerHTML = '<div class="feed-post" style="text-align: center; padding: 40px;">No posts yet</div>';
+            return;
+        }
+        
+        const userIds = posts.map(post => post.user_id);
+        
+        const { data: profiles } = await window.supabaseClient
+            .from('profiles')
+            .select('id, username, full_name, avatar_url')
+            .in('id', userIds);
+        
+        const profilesMap = {};
+        if (profiles) {
+            profiles.forEach(profile => {
+                profilesMap[profile.id] = profile;
+            });
+        }
+        
+        feedContainer.innerHTML = '';
+        
+        // عداد المنشورات
+        let postCount = 0;
+        let adCount = 0;
+        
+        posts.forEach(post => {
+            // عرض المنشور
+            const profile = profilesMap[post.user_id] || {};
+            const username = profile.username || profile.full_name || 'User';
+            const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+            const timeAgo = formatTimeAgo(post.created_at);
+            
+            let contentHTML = '';
+            if (post.content) {
+                contentHTML += `<div class="feed-content">${escapeHtml(post.content)}</div>`;
+            }
+            
+          if (post.image_url) {
+    contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">`;
+}
+            
+            if (post.video_url) {
+                contentHTML += `<video src="${post.video_url}" controls class="feed-image"></video>`;
+            }
+            
+            const postDiv = document.createElement('div');
+            postDiv.className = 'feed-post';
+            postDiv.innerHTML = `
+                <div class="feed-header">
+                    <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
+                        <img src="${avatarUrl}" alt="Profile" class="feed-avatar" style="cursor: pointer;">
+                    </a>
+                    <div>
+                        <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
+                            <div class="feed-name">${escapeHtml(username)}</div>
+                        </a>
+                        <div class="feed-time">${timeAgo}</div>
+                    </div>
+                </div>
+                ${contentHTML}
+                <div class="feed-actions">
+                    <button class="feed-action" onclick="likePost('${post.id}', this)">
+                        👍 Like
+                    </button>
+                    <button class="feed-action" onclick="commentPost('${post.id}')">
+                        💬 Comment
+                    </button>
+                    <button class="feed-action" onclick="sharePost('${post.id}')">
+                        ↗️ Share
+                    </button>
+                </div>
+                <div class="feed-comments" id="comments_${post.id}"></div>
+                <input type="text" placeholder="Write a comment..." onkeypress="if(event.key === 'Enter') commentPost('${post.id}')" style="width: 100%; padding: 8px; border: none; background: #f0f2f5; border-radius: 20px; margin-top: 10px; outline: none;">
+            `;
+            
+            feedContainer.appendChild(postDiv);
+            setTimeout(() => loadComments(post.id), 100);
+            
+            // زيادة العداد
+            postCount++;
+            
+            // بعد كل 5 منشورات، أضف إعلاناً
+            if (postCount % 5 === 0) {
+                adCount++;
+                const adDiv = document.createElement('div');
+                adDiv.className = 'feed-post';
+                adDiv.style.background = '#f8f9fa';
+                adDiv.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <h3 style="margin-bottom: 10px;">Sponsored</h3>
+                        <img src="https://via.placeholder.com/500x200/1877f2/fff?text=Ad+${adCount}" alt="Ad" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
+                        <p style="color: #65676b; font-size: 14px;">Advertisement</p>
+                    </div>
+                `;
+                feedContainer.appendChild(adDiv);
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+    function formatTimeAgo(timestamp) {
+        if (!timestamp) return 'Just now';
+        
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        
+        const minutes = Math.floor(diff / 60000);
+        if (minutes < 1) return 'Just now';
+        if (minutes < 60) return `${minutes} min ago`;
+        
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} hr ago`;
+        
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days} days ago`;
+        
+        return date.toLocaleDateString();
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // =========================================================
+    // INITIALIZE
+    // =========================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("🔴 DOMContentLoaded fired");
+        
+        // تطبيق اللغة المحفوظة
+        const lang = getCurrentLanguage();
+        setLanguage(lang);
+        applyTranslations();
+        
+        setTimeout(updateNotificationBadge, 500);
+        setTimeout(checkRole, 500); // ⬅️ تحقق من الدور
+        setTimeout(loadUserProfile, 500);
+        setTimeout(loadStories, 500);
+        setTimeout(loadPosts, 500);
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔴 DOMContentLoaded fired");
+    
+    // ⬅️ أضف هذا
+    handleAuthCallback();
+    
+    // تطبيق اللغة المحفوظة
+    const lang = getCurrentLanguage();
+    setLanguage(lang);
+    applyTranslations();
+    
+    setTimeout(updateNotificationBadge, 500);
+    setTimeout(checkRole, 500);
+    setTimeout(loadUserProfile, 500);
+    setTimeout(loadStories, 500);
+    setTimeout(loadPosts, 500);
+});
+    </script>
 
 </body>
-
 </html>

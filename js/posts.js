@@ -2,16 +2,11 @@
 // =========================================================
 // POSTS.JS
 // SOCIALWIKI POSTS SYSTEM
-// TEXT + IMAGE + VIDEO + FEELING
-// REAL LIKES + COMMENTS + SHARES
-// CREATE + EDIT + DELETE
-// NOTIFICATIONS
-// MULTIPLE SPONSORED ADS
+// FULL VERSION 20260908
 // =========================================================
 
-console.log("🔥🔥 POSTS.JS NEW VERSION 20260907 🔥🔥");
-console.log("📝 posts.js loaded");
-console.log("🔥 POSTS VERSION: FACEBOOK-CREATE-POST-MEDIA-FEELING-ADS-3");
+console.log("🔥 POSTS.JS VERSION 20260908");
+console.log("📝 SocialWiki Posts System loaded");
 
 
 // =========================================================
@@ -24,13 +19,17 @@ const POSTS_SUPABASE_URL =
 const POSTS_SUPABASE_KEY =
     "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
 
-let postsSupabase = window.supabaseClient || null;
+let postsSupabase =
+    window.supabaseClient || null;
 
 if (!postsSupabase) {
-    postsSupabase = window.supabase.createClient(
-        POSTS_SUPABASE_URL,
-        POSTS_SUPABASE_KEY
-    );
+
+    postsSupabase =
+        window.supabase.createClient(
+            POSTS_SUPABASE_URL,
+            POSTS_SUPABASE_KEY
+        );
+
 }
 
 console.log("✅ Posts Supabase ready");
@@ -41,9 +40,13 @@ console.log("✅ Posts Supabase ready");
 // =========================================================
 
 let postsProfiles = [];
+
 let selectedPostMediaFile = null;
+
 let selectedPostMediaPreviewUrl = null;
+
 let selectedPostFeeling = null;
+
 let createPostModal = null;
 
 
@@ -52,91 +55,121 @@ let createPostModal = null;
 // =========================================================
 
 const SOCIALWIKI_FEELINGS = [
+
     {
         emoji: "😊",
         name: "Happy"
     },
+
     {
         emoji: "😍",
         name: "Loved"
     },
+
     {
         emoji: "🥰",
         name: "Lovely"
     },
+
     {
         emoji: "😎",
         name: "Cool"
     },
+
     {
         emoji: "🤩",
         name: "Excited"
     },
+
     {
         emoji: "😂",
         name: "Funny"
     },
+
     {
         emoji: "🥳",
         name: "Celebrating"
     },
+
     {
         emoji: "😢",
         name: "Sad"
     },
+
     {
         emoji: "😡",
         name: "Angry"
     },
+
     {
         emoji: "😴",
         name: "Tired"
     },
+
     {
         emoji: "🙏",
         name: "Grateful"
     },
+
     {
         emoji: "🤔",
         name: "Thoughtful"
     }
+
 ];
 
 
 // =========================================================
-// UUID CHECK
+// UUID
 // =========================================================
 
 function isValidUUID(value) {
 
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
         .test(value || "");
+
 }
 
 
 // =========================================================
-// GET POST OWNER
+// POST OWNER
 // =========================================================
 
 function getPostOwnerId(post) {
 
-    if (!post) return null;
+    if (!post) {
+        return null;
+    }
 
     const possibleIds = [
+
         post.user_id,
+
         post.author_id,
+
         post.owner_id,
+
         post.profile_id,
+
         post.userId,
+
         post.authorId,
+
         post.ownerId
+
     ];
 
     for (const id of possibleIds) {
 
-        if (id && isValidUUID(id)) {
+        if (
+            id &&
+            isValidUUID(id)
+        ) {
+
             return id;
+
         }
+
     }
 
     return null;
@@ -144,20 +177,23 @@ function getPostOwnerId(post) {
 
 
 // =========================================================
-// GET CURRENT USER
+// CURRENT USER
 // =========================================================
 
 async function getCurrentPostsUser() {
 
     try {
 
-        const { data, error } =
+        const {
+            data,
+            error
+        } =
             await postsSupabase.auth.getUser();
 
         if (error) {
 
             console.error(
-                "❌ getCurrentPostsUser error:",
+                "❌ getCurrentPostsUser:",
                 error
             );
 
@@ -179,104 +215,168 @@ async function getCurrentPostsUser() {
 
 
 // =========================================================
+// ESCAPE HTML
+// =========================================================
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+// =========================================================
 // NOTIFICATIONS
 // =========================================================
 
 async function createNotification({
+
     receiverId,
+
     senderId,
+
     type,
+
     message,
+
     postId = null
+
 }) {
 
-    console.log("🔔 createNotification()", {
-        receiverId,
-        senderId,
-        type,
-        message,
-        postId
-    });
+    console.log(
+        "🔔 createNotification:",
+        {
+            receiverId,
+            senderId,
+            type,
+            message,
+            postId
+        }
+    );
 
-    if (!receiverId || !senderId) {
+
+    if (
+        !receiverId ||
+        !senderId
+    ) {
 
         console.warn(
-            "⚠️ Notification cancelled: missing receiverId/senderId"
+            "⚠️ Notification cancelled: missing user"
         );
 
         return null;
     }
 
-    if (receiverId === senderId) {
+
+    if (
+        receiverId === senderId
+    ) {
 
         console.log(
-            "ℹ️ Notification skipped because sender = receiver"
+            "ℹ️ Notification skipped: self action"
         );
 
         return null;
     }
+
+
+    if (
+        !isValidUUID(receiverId) ||
+        !isValidUUID(senderId)
+    ) {
+
+        console.error(
+            "❌ Invalid notification UUID"
+        );
+
+        return null;
+    }
+
+
+    const notificationData = {
+
+        receiver_id:
+            receiverId,
+
+        sender_id:
+            senderId,
+
+        post_id:
+            postId,
+
+        type:
+            type,
+
+        message:
+            message,
+
+        is_read:
+            false
+
+    };
+
 
     try {
 
-        const notificationData = {
-            receiver_id: receiverId,
-            sender_id: senderId,
-            post_id: postId,
-            type: type,
-            message: message,
-            is_read: false
-        };
-
-        console.log(
-            "📤 Notification INSERT:",
-            notificationData
-        );
-
         const {
-            data,
             error
-        } = await postsSupabase
-            .from("notifications")
-            .insert(notificationData)
-            .select()
-            .single();
+        } =
+            await postsSupabase
+                .from("notifications")
+                .insert(
+                    notificationData
+                );
+
 
         if (error) {
 
             console.error(
-                "❌ Notification INSERT ERROR:",
+                "❌ Notification insert failed:",
                 error
-            );
-
-            console.error(
-                "❌ Notification error code:",
-                error.code
-            );
-
-            console.error(
-                "❌ Notification error message:",
-                error.message
-            );
-
-            console.error(
-                "❌ Notification error details:",
-                error.details
-            );
-
-            console.error(
-                "❌ Notification error hint:",
-                error.hint
             );
 
             return null;
         }
 
+
         console.log(
-            "✅ Notification created:",
-            data
+            "✅ Notification inserted"
         );
 
-        return data;
+        return notificationData;
 
     } catch (error) {
 
@@ -291,7 +391,7 @@ async function createNotification({
 
 
 // =========================================================
-// LOAD PROFILES
+// PROFILES
 // =========================================================
 
 async function loadPostsProfiles() {
@@ -301,22 +401,28 @@ async function loadPostsProfiles() {
         const {
             data,
             error
-        } = await postsSupabase
-            .from("profiles")
-            .select("*");
+        } =
+            await postsSupabase
+                .from("profiles")
+                .select("*");
+
 
         if (error) {
 
             console.error(
-                "❌ Profiles loading error:",
+                "❌ Profiles error:",
                 error
             );
 
             postsProfiles = [];
+
             return;
         }
 
-        postsProfiles = data || [];
+
+        postsProfiles =
+            data || [];
+
 
         console.log(
             "👥 Profiles loaded:",
@@ -326,7 +432,7 @@ async function loadPostsProfiles() {
     } catch (error) {
 
         console.error(
-            "❌ loadPostsProfiles exception:",
+            "❌ loadPostsProfiles:",
             error
         );
 
@@ -341,10 +447,13 @@ async function loadPostsProfiles() {
 
 function getPostProfile(userId) {
 
-    if (!userId) return null;
+    if (!userId) {
+        return null;
+    }
 
     return postsProfiles.find(
-        profile => profile.id === userId
+        profile =>
+            profile.id === userId
     ) || null;
 }
 
@@ -383,6 +492,7 @@ function getProfileAvatar(profile) {
     ) {
 
         return profile.avatar_url;
+
     }
 
     return "images/storyimage.jpeg";
@@ -390,7 +500,7 @@ function getProfileAvatar(profile) {
 
 
 // =========================================================
-// FORMAT DATE
+// DATE
 // =========================================================
 
 function formatPostDate(dateValue) {
@@ -399,9 +509,15 @@ function formatPostDate(dateValue) {
         return "";
     }
 
-    const date = new Date(dateValue);
+    const date =
+        new Date(dateValue);
 
-    if (isNaN(date.getTime())) {
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
         return "";
     }
 
@@ -410,26 +526,7 @@ function formatPostDate(dateValue) {
 
 
 // =========================================================
-// ESCAPE HTML
-// =========================================================
-
-function escapeHTML(value) {
-
-    if (value === null || value === undefined) {
-        return "";
-    }
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-// =========================================================
-// CREATE POST MODAL CSS
+// CREATE POST STYLES
 // =========================================================
 
 function addCreatePostStyles() {
@@ -443,396 +540,387 @@ function addCreatePostStyles() {
         return;
     }
 
+
     const style =
-        document.createElement("style");
+        document.createElement(
+            "style"
+        );
+
 
     style.id =
         "socialwikiCreatePostStyles";
 
+
     style.textContent = `
-    
-    .sw-post-modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.55);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 99999;
-        padding: 20px;
-    }
 
-    .sw-post-modal {
-        width: min(600px, 100%);
-        max-height: 90vh;
-        overflow-y: auto;
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 15px 50px rgba(0,0,0,.3);
-        color: #111;
-    }
+        .sw-post-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 20px;
+        }
 
-    .sw-post-modal-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 20px;
-        border-bottom: 1px solid #ddd;
-    }
+        .sw-post-modal {
+            width: min(600px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 15px 50px rgba(0,0,0,.3);
+            color: #111;
+        }
 
-    .sw-post-modal-title {
-        font-size: 20px;
-        font-weight: 700;
-        margin: 0;
-    }
+        .sw-post-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #ddd;
+        }
 
-    .sw-post-modal-close {
-        width: 36px;
-        height: 36px;
-        border: none;
-        border-radius: 50%;
-        background: #eee;
-        font-size: 22px;
-        cursor: pointer;
-    }
+        .sw-post-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
 
-    .sw-post-modal-body {
-        padding: 18px;
-    }
+        .sw-post-modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: #eee;
+            font-size: 22px;
+            cursor: pointer;
+        }
 
-    .sw-post-user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 14px;
-    }
+        .sw-post-modal-body {
+            padding: 18px;
+        }
 
-    .sw-post-user img {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+        .sw-post-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
 
-    .sw-post-user-name {
-        font-weight: 700;
-    }
+        .sw-post-user img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-    .sw-post-textarea {
-        width: 100%;
-        min-height: 130px;
-        resize: vertical;
-        border: none;
-        outline: none;
-        font-size: 19px;
-        font-family: inherit;
-        padding: 8px 0;
-        box-sizing: border-box;
-    }
+        .sw-post-user-name {
+            font-weight: 700;
+        }
 
-    .sw-post-media-preview {
-        margin-top: 12px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        overflow: hidden;
-        position: relative;
-        background: #f5f5f5;
-    }
+        .sw-post-textarea {
+            width: 100%;
+            min-height: 130px;
+            resize: vertical;
+            border: none;
+            outline: none;
+            font-size: 19px;
+            font-family: inherit;
+            padding: 8px 0;
+            box-sizing: border-box;
+        }
 
-    .sw-post-media-preview img,
-    .sw-post-media-preview video {
-        display: block;
-        width: 100%;
-        max-height: 400px;
-        object-fit: contain;
-        background: #000;
-    }
+        .sw-post-media-preview {
+            margin-top: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: #f5f5f5;
+        }
 
-    .sw-remove-media {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        width: 34px;
-        height: 34px;
-        border: none;
-        border-radius: 50%;
-        background: rgba(0,0,0,.7);
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-    }
+        .sw-post-media-preview img,
+        .sw-post-media-preview video {
+            display: block;
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            background: #000;
+        }
 
-    .sw-post-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px;
-        margin-top: 12px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-    }
-
-    .sw-post-action {
-        flex: 1;
-        border: none;
-        background: transparent;
-        padding: 10px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-
-    .sw-post-action:hover {
-        background: #f0f2f5;
-    }
-
-    .sw-post-action.photo {
-        color: #16802d;
-    }
-
-    .sw-post-action.live {
-        color: #d93025;
-    }
-
-    .sw-post-action.feeling {
-        color: #d89b00;
-    }
-
-    .sw-post-publish {
-        width: 100%;
-        margin-top: 14px;
-        border: none;
-        border-radius: 8px;
-        padding: 12px;
-        background: #1877f2;
-        color: white;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    .sw-post-publish:disabled {
-        opacity: .55;
-        cursor: not-allowed;
-    }
-
-    .sw-create-trigger {
-        cursor: pointer !important;
-    }
-
-    .sw-feed-media {
-        margin-top: 12px;
-        border-radius: 10px;
-        overflow: hidden;
-        background: #000;
-    }
-
-    .sw-feed-media img,
-    .sw-feed-media video {
-        display: block;
-        width: 100%;
-        max-height: 600px;
-        object-fit: contain;
-    }
-
-    /* ================================================
-       FEELING PICKER
-       ================================================ */
-
-    .sw-feeling-picker {
-        margin-top: 12px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        background: #fff;
-        padding: 12px;
-    }
-
-    .sw-feeling-picker-title {
-        font-weight: 700;
-        margin-bottom: 10px;
-        font-size: 15px;
-    }
-
-    .sw-feeling-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-    }
-
-    .sw-feeling-option {
-        border: 1px solid #e0e0e0;
-        background: #f8f9fa;
-        border-radius: 10px;
-        padding: 10px 6px;
-        cursor: pointer;
-        text-align: center;
-        transition: .15s;
-    }
-
-    .sw-feeling-option:hover {
-        background: #f0f2f5;
-        transform: translateY(-1px);
-    }
-
-    .sw-feeling-emoji {
-        display: block;
-        font-size: 27px;
-        margin-bottom: 4px;
-    }
-
-    .sw-feeling-name {
-        display: block;
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .sw-selected-feeling {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 10px;
-        padding: 9px 12px;
-        border-radius: 10px;
-        background: #fff7df;
-        border: 1px solid #f0d98c;
-        font-size: 14px;
-    }
-
-    .sw-selected-feeling-remove {
-        margin-left: auto;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        font-size: 18px;
-        color: #777;
-    }
-
-
-    /* ================================================
-       SPONSORED ADS
-       ================================================ */
-
-    #sponsoredAdsFeed {
-        width: 100%;
-        margin: 20px 0;
-    }
-
-    .sw-sponsored-wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        width: 100%;
-    }
-
-    .sw-sponsored-card {
-        width: 100%;
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
-
-    .sw-sponsored-label {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: #777;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    .sw-sponsored-title {
-        font-size: 19px;
-        font-weight: 700;
-        margin-bottom: 6px;
-    }
-
-    .sw-sponsored-campaign {
-        color: #777;
-        font-size: 12px;
-        margin-bottom: 12px;
-    }
-
-    .sw-sponsored-image {
-        width: 100%;
-        max-height: 420px;
-        object-fit: cover;
-        border-radius: 10px;
-        display: block;
-        margin-bottom: 14px;
-        border: 1px solid #e2e2e2;
-    }
-
-    .sw-sponsored-description {
-        color: #555;
-        line-height: 1.5;
-        margin-bottom: 12px;
-        white-space: normal;
-        word-break: break-word;
-    }
-
-    .sw-sponsored-link {
-        display: inline-block;
-        color: #1877f2;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 14px;
-    }
-
-    .sw-sponsored-link:hover {
-        text-decoration: underline;
-    }
-
-    .sw-sponsored-empty {
-        padding: 15px;
-        text-align: center;
-        color: #777;
-        font-size: 13px;
-    }
-
-
-    @media (max-width: 500px) {
-
-        .sw-feeling-grid {
-            grid-template-columns: repeat(3, 1fr);
+        .sw-remove-media {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0,0,0,.7);
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
         }
 
         .sw-post-actions {
-            flex-direction: column;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
         }
 
         .sw-post-action {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .sw-post-action:hover {
+            background: #f0f2f5;
+        }
+
+        .sw-post-action.photo {
+            color: #16802d;
+        }
+
+        .sw-post-action.live {
+            color: #d93025;
+        }
+
+        .sw-post-action.feeling {
+            color: #d89b00;
+        }
+
+        .sw-post-publish {
+            width: 100%;
+            margin-top: 14px;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            background: #1877f2;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .sw-post-publish:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .sw-create-trigger {
+            cursor: pointer;
+        }
+
+        .sw-feed-media {
+            margin-top: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .sw-feed-media img,
+        .sw-feed-media video {
+            display: block;
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain;
+        }
+
+        .sw-feeling-picker {
+            margin-top: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #fff;
+            padding: 12px;
+        }
+
+        .sw-feeling-picker-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .sw-feeling-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .sw-feeling-option {
+            border: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 6px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .sw-feeling-option:hover {
+            background: #f0f2f5;
+        }
+
+        .sw-feeling-emoji {
+            display: block;
+            font-size: 27px;
+            margin-bottom: 4px;
+        }
+
+        .sw-feeling-name {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .sw-selected-feeling {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            background: #fff7df;
+            border: 1px solid #f0d98c;
+            font-size: 14px;
+        }
+
+        .sw-selected-feeling-remove {
+            margin-left: auto;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 18px;
+            color: #777;
+        }
+
+        #sponsoredAdsFeed {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .sw-sponsored-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
             width: 100%;
         }
-    }
+
+        .sw-sponsored-card {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        }
+
+        .sw-sponsored-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #777;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .sw-sponsored-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .sw-sponsored-campaign {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .sw-sponsored-image {
+            width: 100%;
+            max-height: 420px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .sw-sponsored-description {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .sw-sponsored-link {
+            display: inline-block;
+            color: #1877f2;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .sw-sponsored-link:hover {
+            text-decoration: underline;
+        }
+
+        .sw-sponsored-empty {
+            padding: 15px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+
+            .sw-feeling-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .sw-post-actions {
+                flex-direction: column;
+            }
+
+            .sw-post-action {
+                width: 100%;
+            }
+
+        }
 
     `;
 
-    document.head.appendChild(style);
+
+    document.head.appendChild(
+        style
+    );
 }
 
 
 // =========================================================
-// UPDATE FEELING DISPLAY
+// FEELING DISPLAY
 // =========================================================
 
 function updateFeelingDisplay() {
-
-    const picker =
-        document.getElementById(
-            "swFeelingPicker"
-        );
 
     const selected =
         document.getElementById(
             "swSelectedFeeling"
         );
 
-    if (!picker || !selected) {
+    if (!selected) {
         return;
     }
+
 
     if (!selectedPostFeeling) {
 
@@ -844,13 +932,10 @@ function updateFeelingDisplay() {
         return;
     }
 
+
     selected.innerHTML = `
 
-        <span
-            style="
-                font-size:24px;
-            "
-        >
+        <span style="font-size:24px;">
             ${escapeHTML(
                 selectedPostFeeling.emoji
             )}
@@ -869,17 +954,21 @@ function updateFeelingDisplay() {
             type="button"
             class="sw-selected-feeling-remove"
             id="swRemoveFeeling"
-            title="Remove feeling"
         >
             ×
         </button>
+
     `;
+
 
     selected.style.display =
         "flex";
 
+
     document
-        .getElementById("swRemoveFeeling")
+        .getElementById(
+            "swRemoveFeeling"
+        )
         ?.addEventListener(
             "click",
             () => {
@@ -888,14 +977,16 @@ function updateFeelingDisplay() {
                     null;
 
                 updateFeelingDisplay();
+
                 updatePublishButton();
+
             }
         );
 }
 
 
 // =========================================================
-// OPEN FEELING PICKER
+// FEELING PICKER
 // =========================================================
 
 function openFeelingPicker() {
@@ -909,30 +1000,19 @@ function openFeelingPicker() {
         return;
     }
 
-    if (
-        picker.style.display ===
-        "none"
-    ) {
-
-        picker.style.display =
-            "block";
-
-    } else {
-
-        picker.style.display =
-            "none";
-    }
+    picker.style.display =
+        picker.style.display === "none"
+            ? "block"
+            : "none";
 }
 
-
-// =========================================================
-// CREATE FEELING PICKER
-// =========================================================
 
 function createFeelingPicker() {
 
     const picker =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     picker.id =
         "swFeelingPicker";
@@ -943,7 +1023,9 @@ function createFeelingPicker() {
     picker.style.display =
         "none";
 
+
     let optionsHTML = "";
+
 
     SOCIALWIKI_FEELINGS.forEach(
         feeling => {
@@ -958,26 +1040,25 @@ function createFeelingPicker() {
                     )}"
                 >
 
-                    <span
-                        class="sw-feeling-emoji"
-                    >
+                    <span class="sw-feeling-emoji">
                         ${escapeHTML(
                             feeling.emoji
                         )}
                     </span>
 
-                    <span
-                        class="sw-feeling-name"
-                    >
+                    <span class="sw-feeling-name">
                         ${escapeHTML(
                             feeling.name
                         )}
                     </span>
 
                 </button>
+
             `;
+
         }
     );
+
 
     picker.innerHTML = `
 
@@ -991,53 +1072,61 @@ function createFeelingPicker() {
 
     `;
 
+
     picker
         .querySelectorAll(
             ".sw-feeling-option"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const name =
-                        button.dataset
-                            .feelingName;
+                        const name =
+                            button.dataset
+                                .feelingName;
 
-                    const feeling =
-                        SOCIALWIKI_FEELINGS.find(
-                            item =>
-                                item.name ===
-                                name
-                        );
 
-                    if (!feeling) {
-                        return;
-                    }
+                        const feeling =
+                            SOCIALWIKI_FEELINGS.find(
+                                item =>
+                                    item.name ===
+                                    name
+                            );
 
-                    selectedPostFeeling = {
-                        emoji: feeling.emoji,
-                        name: feeling.name
-                    };
 
-                    console.log(
-                        "😊 Feeling selected:",
-                        selectedPostFeeling
-                    );
+                        if (!feeling) {
+                            return;
+                        }
 
-                    picker.style.display =
-                        "none";
 
-                    updateFeelingDisplay();
-                    updatePublishButton();
+                        selectedPostFeeling = {
 
-                    setTimeout(() => {
+                            emoji:
+                                feeling.emoji,
+
+                            name:
+                                feeling.name
+
+                        };
+
+
+                        picker.style.display =
+                            "none";
+
+
+                        updateFeelingDisplay();
+
                         updatePublishButton();
-                    }, 0);
-                }
-            );
-        });
+
+                    }
+                );
+
+            }
+        );
+
 
     return picker;
 }
@@ -1053,35 +1142,49 @@ function openCreatePostModal(
 
     addCreatePostStyles();
 
+
     if (createPostModal) {
 
         createPostModal.remove();
 
-        createPostModal = null;
+        createPostModal =
+            null;
     }
+
 
     selectedPostFeeling =
         null;
 
+
     const overlay =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     overlay.className =
         "sw-post-modal-overlay";
 
+
     const modal =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     modal.className =
         "sw-post-modal";
 
+
     const header =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     header.className =
         "sw-post-modal-header";
 
+
     header.innerHTML = `
+
         <h2 class="sw-post-modal-title">
             Create Post
         </h2>
@@ -1093,16 +1196,21 @@ function openCreatePostModal(
         >
             ×
         </button>
+
     `;
 
+
     const body =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     body.className =
         "sw-post-modal-body";
 
+
     body.innerHTML = `
-        
+
         <div class="sw-post-user">
 
             <img
@@ -1120,11 +1228,13 @@ function openCreatePostModal(
 
         </div>
 
+
         <textarea
             id="swCreatePostText"
             class="sw-post-textarea"
             placeholder="What's on your mind?"
         ></textarea>
+
 
         <div
             id="swSelectedFeeling"
@@ -1132,11 +1242,13 @@ function openCreatePostModal(
             style="display:none;"
         ></div>
 
+
         <div
             id="swPostMediaPreview"
             class="sw-post-media-preview"
             style="display:none;"
         ></div>
+
 
         <div class="sw-post-actions">
 
@@ -1166,6 +1278,7 @@ function openCreatePostModal(
 
         </div>
 
+
         <button
             type="button"
             class="sw-post-publish"
@@ -1173,94 +1286,112 @@ function openCreatePostModal(
         >
             Post
         </button>
+
     `;
 
-    const feelingPicker =
-        createFeelingPicker();
 
     body.appendChild(
-        feelingPicker
+        createFeelingPicker()
     );
+
 
     modal.appendChild(header);
+
     modal.appendChild(body);
+
     overlay.appendChild(modal);
 
-    document.body.appendChild(
-        overlay
-    );
+    document.body.appendChild(overlay);
+
 
     createPostModal =
         overlay;
 
-    getCurrentPostsUser().then(
-        user => {
 
-            if (!user) {
-                return;
+    getCurrentPostsUser()
+        .then(
+            user => {
+
+                if (!user) {
+                    return;
+                }
+
+
+                const profile =
+                    getPostProfile(
+                        user.id
+                    );
+
+
+                const avatar =
+                    getProfileAvatar(
+                        profile
+                    );
+
+
+                const name =
+                    getProfileDisplayName(
+                        profile,
+                        user.email || "User"
+                    );
+
+
+                const avatarElement =
+                    document.getElementById(
+                        "swCreatePostAvatar"
+                    );
+
+
+                const nameElement =
+                    document.getElementById(
+                        "swCreatePostName"
+                    );
+
+
+                if (avatarElement) {
+
+                    avatarElement.src =
+                        avatar;
+
+                }
+
+
+                if (nameElement) {
+
+                    nameElement.textContent =
+                        name;
+
+                }
+
             }
+        );
 
-            const profile =
-                getPostProfile(
-                    user.id
-                );
-
-            const avatar =
-                getProfileAvatar(
-                    profile
-                );
-
-            const name =
-                getProfileDisplayName(
-                    profile,
-                    user.email || "User"
-                );
-
-            const avatarElement =
-                document.getElementById(
-                    "swCreatePostAvatar"
-                );
-
-            const nameElement =
-                document.getElementById(
-                    "swCreatePostName"
-                );
-
-            if (avatarElement) {
-
-                avatarElement.src =
-                    avatar;
-            }
-
-            if (nameElement) {
-
-                nameElement.textContent =
-                    name;
-            }
-        }
-    );
 
     const textarea =
         document.getElementById(
             "swCreatePostText"
         );
 
+
     if (textarea) {
 
         textarea.value =
             initialText || "";
+
 
         textarea.addEventListener(
             "input",
             updatePublishButton
         );
 
-        setTimeout(() => {
 
-            textarea.focus();
+        setTimeout(
+            () => textarea.focus(),
+            50
+        );
 
-        }, 50);
     }
+
 
     document
         .getElementById(
@@ -1270,6 +1401,7 @@ function openCreatePostModal(
             "click",
             closeCreatePostModal
         );
+
 
     overlay.addEventListener(
         "click",
@@ -1281,9 +1413,12 @@ function openCreatePostModal(
             ) {
 
                 closeCreatePostModal();
+
             }
+
         }
     );
+
 
     document
         .getElementById(
@@ -1293,17 +1428,15 @@ function openCreatePostModal(
             "click",
             () => {
 
-                const mediaInput =
-                    document.getElementById(
+                document
+                    .getElementById(
                         "mediaInput"
-                    );
+                    )
+                    ?.click();
 
-                if (mediaInput) {
-
-                    mediaInput.click();
-                }
             }
         );
+
 
     document
         .getElementById(
@@ -1316,8 +1449,10 @@ function openCreatePostModal(
                 alert(
                     "🔴 Live feature will be added later."
                 );
+
             }
         );
+
 
     document
         .getElementById(
@@ -1325,11 +1460,9 @@ function openCreatePostModal(
         )
         ?.addEventListener(
             "click",
-            () => {
-
-                openFeelingPicker();
-            }
+            openFeelingPicker
         );
+
 
     document
         .getElementById(
@@ -1340,15 +1473,18 @@ function openCreatePostModal(
             publishCreatePost
         );
 
+
     updateFeelingDisplay();
+
     updatePublishButton();
+
 
     return overlay;
 }
 
 
 // =========================================================
-// CLOSE CREATE POST
+// CLOSE MODAL
 // =========================================================
 
 function closeCreatePostModal() {
@@ -1357,11 +1493,14 @@ function closeCreatePostModal() {
 
         createPostModal.remove();
 
-        createPostModal = null;
+        createPostModal =
+            null;
     }
+
 
     selectedPostFeeling =
         null;
+
 
     clearSelectedMedia();
 }
@@ -1378,11 +1517,14 @@ function showSelectedMediaPreview(file) {
             "swPostMediaPreview"
         );
 
+
     if (!preview) {
         return;
     }
 
+
     preview.innerHTML = "";
+
 
     if (!file) {
 
@@ -1391,6 +1533,7 @@ function showSelectedMediaPreview(file) {
 
         return;
     }
+
 
     if (
         !file.type.startsWith("image/") &&
@@ -1404,8 +1547,10 @@ function showSelectedMediaPreview(file) {
         return;
     }
 
+
     selectedPostMediaFile =
         file;
+
 
     if (
         selectedPostMediaPreviewUrl
@@ -1414,17 +1559,22 @@ function showSelectedMediaPreview(file) {
         URL.revokeObjectURL(
             selectedPostMediaPreviewUrl
         );
+
     }
+
 
     selectedPostMediaPreviewUrl =
         URL.createObjectURL(file);
+
 
     if (
         file.type.startsWith("image/")
     ) {
 
         const img =
-            document.createElement("img");
+            document.createElement(
+                "img"
+            );
 
         img.src =
             selectedPostMediaPreviewUrl;
@@ -1432,14 +1582,14 @@ function showSelectedMediaPreview(file) {
         img.alt =
             "Selected media";
 
-        preview.appendChild(
-            img
-        );
+        preview.appendChild(img);
 
     } else {
 
         const video =
-            document.createElement("video");
+            document.createElement(
+                "video"
+            );
 
         video.src =
             selectedPostMediaPreviewUrl;
@@ -1447,13 +1597,16 @@ function showSelectedMediaPreview(file) {
         video.controls =
             true;
 
-        preview.appendChild(
-            video
-        );
+        preview.appendChild(video);
+
     }
 
+
     const removeButton =
-        document.createElement("button");
+        document.createElement(
+            "button"
+        );
+
 
     removeButton.type =
         "button";
@@ -1464,17 +1617,21 @@ function showSelectedMediaPreview(file) {
     removeButton.textContent =
         "×";
 
+
     removeButton.addEventListener(
         "click",
         clearSelectedMedia
     );
 
+
     preview.appendChild(
         removeButton
     );
 
+
     preview.style.display =
         "block";
+
 
     updatePublishButton();
 }
@@ -1489,6 +1646,7 @@ function clearSelectedMedia() {
     selectedPostMediaFile =
         null;
 
+
     if (
         selectedPostMediaPreviewUrl
     ) {
@@ -1502,19 +1660,24 @@ function clearSelectedMedia() {
         } catch (error) {
 
             console.warn(
-                "⚠️ Could not revoke preview URL",
+                "Could not revoke media URL",
                 error
             );
+
         }
+
     }
+
 
     selectedPostMediaPreviewUrl =
         null;
+
 
     const preview =
         document.getElementById(
             "swPostMediaPreview"
         );
+
 
     if (preview) {
 
@@ -1522,25 +1685,29 @@ function clearSelectedMedia() {
 
         preview.style.display =
             "none";
+
     }
+
 
     const mediaInput =
         document.getElementById(
             "mediaInput"
         );
 
+
     if (mediaInput) {
 
-        mediaInput.value =
-            "";
+        mediaInput.value = "";
+
     }
+
 
     updatePublishButton();
 }
 
 
 // =========================================================
-// UPDATE PUBLISH BUTTON
+// PUBLISH BUTTON
 // =========================================================
 
 function updatePublishButton() {
@@ -1550,50 +1717,41 @@ function updatePublishButton() {
             "swPublishPostButton"
         );
 
+
     const textarea =
         document.getElementById(
             "swCreatePostText"
         );
 
+
     if (!button) {
         return;
     }
+
 
     const hasText =
         !!(
             textarea &&
             textarea.value &&
-            textarea.value.trim().length > 0
+            textarea.value.trim()
         );
+
 
     const hasMedia =
         !!selectedPostMediaFile;
 
+
     const hasFeeling =
         !!selectedPostFeeling;
 
-    const canPublish =
-        hasText ||
-        hasMedia ||
-        hasFeeling;
 
     button.disabled =
-        !canPublish;
-
-    console.log(
-        "🔘 Publish button state:",
-        {
-            hasText,
-            hasMedia,
-            hasFeeling,
-            canPublish
-        }
-    );
+        !(hasText || hasMedia || hasFeeling);
 }
 
 
 // =========================================================
-// HANDLE MEDIA INPUT
+// MEDIA INPUT
 // =========================================================
 
 function setupMediaInput() {
@@ -1602,6 +1760,7 @@ function setupMediaInput() {
         document.getElementById(
             "mediaInput"
         );
+
 
     if (!mediaInput) {
 
@@ -1612,18 +1771,19 @@ function setupMediaInput() {
         return;
     }
 
+
     if (
-        mediaInput.dataset
-            .socialwikiReady ===
+        mediaInput.dataset.socialwikiReady ===
         "true"
     ) {
 
         return;
     }
 
-    mediaInput.dataset
-        .socialwikiReady =
+
+    mediaInput.dataset.socialwikiReady =
         "true";
+
 
     mediaInput.addEventListener(
         "change",
@@ -1632,9 +1792,11 @@ function setupMediaInput() {
             const file =
                 event.target.files?.[0];
 
+
             if (!file) {
                 return;
             }
+
 
             if (
                 !file.type.startsWith("image/") &&
@@ -1645,32 +1807,39 @@ function setupMediaInput() {
                     "Only images and videos are supported."
                 );
 
-                mediaInput.value =
-                    "";
+                mediaInput.value = "";
 
                 return;
             }
+
 
             if (!createPostModal) {
 
                 openCreatePostModal();
 
-                setTimeout(() => {
 
-                    showSelectedMediaPreview(
-                        file
-                    );
+                setTimeout(
+                    () => {
 
-                }, 100);
+                        showSelectedMediaPreview(
+                            file
+                        );
+
+                    },
+                    100
+                );
 
             } else {
 
                 showSelectedMediaPreview(
                     file
                 );
+
             }
+
         }
     );
+
 
     console.log(
         "✅ Media input ready"
@@ -1679,7 +1848,7 @@ function setupMediaInput() {
 
 
 // =========================================================
-// UPLOAD MEDIA TO SUPABASE STORAGE
+// UPLOAD MEDIA
 // =========================================================
 
 async function uploadPostMedia(
@@ -1694,73 +1863,66 @@ async function uploadPostMedia(
         );
     }
 
-    const originalName =
-        file.name || "media";
 
     const safeName =
-        originalName.replace(
+        (
+            file.name ||
+            "media"
+        ).replace(
             /[^a-zA-Z0-9._-]/g,
             "_"
         );
 
-    const timestamp =
-        Date.now();
-
-    const randomPart =
-        Math.random()
-            .toString(36)
-            .substring(2, 10);
 
     const storagePath =
-        `${userId}/${timestamp}_${randomPart}_${safeName}`;
+        `${userId}/${Date.now()}_${Math.random()
+            .toString(36)
+            .substring(2,10)}_${safeName}`;
 
-    console.log(
-        "📤 Uploading post media:",
-        storagePath
-    );
 
     const {
         data,
         error
-    } = await postsSupabase
-        .storage
-        .from("post_media")
-        .upload(
-            storagePath,
-            file,
-            {
-                cacheControl: "3600",
-                upsert: false,
-                contentType: file.type
-            }
-        );
+    } =
+        await postsSupabase
+            .storage
+            .from("post_media")
+            .upload(
+                storagePath,
+                file,
+                {
+                    cacheControl: "3600",
+                    upsert: false,
+                    contentType: file.type
+                }
+            );
+
 
     if (error) {
 
         console.error(
-            "❌ Storage upload error:",
+            "❌ Media upload error:",
             error
         );
 
         throw error;
     }
 
-    console.log(
-        "✅ Media uploaded:",
-        data
-    );
 
     const {
         data: publicData
-    } = postsSupabase
-        .storage
-        .from("post_media")
-        .getPublicUrl(
-            storagePath
-        );
+    } =
+        postsSupabase
+            .storage
+            .from("post_media")
+            .getPublicUrl(
+                storagePath
+            );
+
 
     const publicUrl =
         publicData?.publicUrl || "";
+
 
     if (!publicUrl) {
 
@@ -1769,53 +1931,58 @@ async function uploadPostMedia(
         );
     }
 
-    console.log(
-        "🌐 Public media URL:",
-        publicUrl
-    );
-
-    const mediaType =
-        file.type.startsWith("video/")
-            ? "video"
-            : "image";
 
     return {
-        path: storagePath,
-        url: publicUrl,
-        type: mediaType
+
+        path:
+            storagePath,
+
+        url:
+            publicUrl,
+
+        type:
+            file.type.startsWith("video/")
+                ? "video"
+                : "image"
+
     };
 }
 
 
 // =========================================================
-// PUBLISH CREATE POST
+// PUBLISH POST
 // =========================================================
 
 async function publishCreatePost() {
 
-    const publishButton =
+    const button =
         document.getElementById(
             "swPublishPostButton"
         );
+
 
     const textarea =
         document.getElementById(
             "swCreatePostText"
         );
 
-    if (publishButton) {
 
-        publishButton.disabled =
+    if (button) {
+
+        button.disabled =
             true;
 
-        publishButton.textContent =
+        button.textContent =
             "Posting...";
+
     }
+
 
     try {
 
         const user =
             await getCurrentPostsUser();
+
 
         if (!user) {
 
@@ -1826,10 +1993,10 @@ async function publishCreatePost() {
             return;
         }
 
+
         const text =
-            textarea
-                ? textarea.value.trim()
-                : "";
+            textarea?.value?.trim() || "";
+
 
         if (
             !text &&
@@ -1844,11 +2011,11 @@ async function publishCreatePost() {
             return;
         }
 
-        let mediaUrl =
-            null;
 
-        let mediaType =
-            null;
+        let mediaUrl = null;
+
+        let mediaType = null;
+
 
         if (selectedPostMediaFile) {
 
@@ -1858,6 +2025,7 @@ async function publishCreatePost() {
                     user.id
                 );
 
+
             mediaUrl =
                 uploaded.url;
 
@@ -1866,17 +2034,15 @@ async function publishCreatePost() {
         }
 
 
-        // =================================================
-        // BUILD POST CONTENT
-        // =================================================
-
         let finalContent =
             text;
+
 
         if (selectedPostFeeling) {
 
             const feelingText =
                 `${selectedPostFeeling.emoji} Feeling ${selectedPostFeeling.name}`;
+
 
             finalContent =
                 finalContent
@@ -1884,40 +2050,31 @@ async function publishCreatePost() {
                     : feelingText;
         }
 
-        console.log(
-            "📝 Final post content:",
-            finalContent
-        );
-
-
-        // =================================================
-        // CREATE POST
-        // =================================================
-
-        console.log(
-            "📤 Creating post..."
-        );
 
         const {
             data: newPost,
             error
-        } = await postsSupabase
-            .from("posts")
-            .insert({
-                user_id:
-                    user.id,
+        } =
+            await postsSupabase
+                .from("posts")
+                .insert({
 
-                content:
-                    finalContent || "",
+                    user_id:
+                        user.id,
 
-                media_url:
-                    mediaUrl,
+                    content:
+                        finalContent || "",
 
-                media_type:
-                    mediaType
-            })
-            .select()
-            .single();
+                    media_url:
+                        mediaUrl,
+
+                    media_type:
+                        mediaType
+
+                })
+                .select()
+                .single();
+
 
         if (error) {
 
@@ -1934,30 +2091,36 @@ async function publishCreatePost() {
             return;
         }
 
+
         console.log(
             "✅ Post created:",
             newPost
         );
 
+
         closeCreatePostModal();
+
 
         const oldInput =
             document.getElementById(
                 "postInput"
             );
 
+
         if (oldInput) {
 
-            oldInput.value =
-                "";
+            oldInput.value = "";
+
         }
 
+
         await loadPosts();
+
 
     } catch (error) {
 
         console.error(
-            "❌ publishCreatePost exception:",
+            "❌ publishCreatePost:",
             error
         );
 
@@ -1965,18 +2128,21 @@ async function publishCreatePost() {
             "Something went wrong while creating the post."
         );
 
+
     } finally {
 
-        if (publishButton) {
+        if (button) {
 
-            publishButton.disabled =
+            button.disabled =
                 false;
 
-            publishButton.textContent =
+            button.textContent =
                 "Post";
+
         }
 
         updatePublishButton();
+
     }
 }
 
@@ -1992,63 +2158,61 @@ function setupCreatePost() {
             "postInput"
         );
 
+
     const postButton =
         document.getElementById(
             "postButton"
         );
+
 
     const mediaButton =
         document.getElementById(
             "mediaButton"
         );
 
-    if (!postInput) {
 
-        console.warn(
-            "⚠️ #postInput not found"
+    if (
+        postInput &&
+        postInput.dataset.socialwikiCreateReady !==
+            "true"
+    ) {
+
+        postInput.dataset.socialwikiCreateReady =
+            "true";
+
+
+        postInput.classList.add(
+            "sw-create-trigger"
         );
 
-    } else {
 
-        if (
-            postInput.dataset
-                .socialwikiCreateReady !==
-            "true"
-        ) {
+        postInput.readOnly =
+            true;
 
-            postInput.dataset
-                .socialwikiCreateReady =
-                "true";
 
-            postInput.classList.add(
-                "sw-create-trigger"
-            );
+        postInput.addEventListener(
+            "click",
+            () => {
 
-            postInput.readOnly =
-                true;
+                openCreatePostModal(
+                    postInput.value || ""
+                );
 
-            postInput.addEventListener(
-                "click",
-                () => {
+            }
+        );
 
-                    openCreatePostModal(
-                        postInput.value || ""
-                    );
-                }
-            );
-        }
     }
+
 
     if (
         postButton &&
-        postButton.dataset
-            .socialwikiCreateReady !==
-        "true"
+        postButton.dataset.socialwikiCreateReady !==
+            "true"
     ) {
 
-        postButton.dataset
-            .socialwikiCreateReady =
+        postButton.dataset.socialwikiCreateReady =
             "true";
+
 
         postButton.addEventListener(
             "click",
@@ -2057,54 +2221,51 @@ function setupCreatePost() {
                 openCreatePostModal(
                     postInput?.value || ""
                 );
+
             }
         );
+
     }
+
 
     if (
         mediaButton &&
-        mediaButton.dataset
-            .socialwikiCreateReady !==
-        "true"
+        mediaButton.dataset.socialwikiCreateReady !==
+            "true"
     ) {
 
-        mediaButton.dataset
-            .socialwikiCreateReady =
+        mediaButton.dataset.socialwikiCreateReady =
             "true";
+
 
         mediaButton.addEventListener(
             "click",
             () => {
 
-                if (!createPostModal) {
+                openCreatePostModal();
 
-                    openCreatePostModal();
 
-                    setTimeout(() => {
+                setTimeout(
+                    () => {
 
-                        const mediaInput =
-                            document.getElementById(
+                        document
+                            .getElementById(
                                 "mediaInput"
-                            );
+                            )
+                            ?.click();
 
-                        mediaInput?.click();
+                    },
+                    100
+                );
 
-                    }, 100);
-
-                } else {
-
-                    const mediaInput =
-                        document.getElementById(
-                            "mediaInput"
-                        );
-
-                    mediaInput?.click();
-                }
             }
         );
+
     }
 
+
     setupMediaInput();
+
 
     console.log(
         "✅ Create Post system ready"
@@ -2125,32 +2286,36 @@ async function loadComments(
         return;
     }
 
+
     container.innerHTML =
         `<div style="padding:10px;">Loading comments...</div>`;
+
 
     try {
 
         const {
             data: comments,
             error
-        } = await postsSupabase
-            .from("comments")
-            .select("*")
-            .eq(
-                "post_id",
-                postId
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: true
-                }
-            );
+        } =
+            await postsSupabase
+                .from("comments")
+                .select("*")
+                .eq(
+                    "post_id",
+                    postId
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: true
+                    }
+                );
+
 
         if (error) {
 
             console.error(
-                "❌ Comments loading error:",
+                "❌ Comments error:",
                 error
             );
 
@@ -2159,6 +2324,7 @@ async function loadComments(
 
             return;
         }
+
 
         if (
             !comments ||
@@ -2171,94 +2337,104 @@ async function loadComments(
             return;
         }
 
-        container.innerHTML =
-            "";
 
-        for (
-            const comment
-            of comments
-        ) {
+        container.innerHTML = "";
 
-            const profile =
-                getPostProfile(
-                    comment.user_id
-                );
 
-            const name =
-                getProfileDisplayName(
-                    profile,
-                    "User"
-                );
+        comments.forEach(
+            comment => {
 
-            const avatar =
-                getProfileAvatar(
-                    profile
-                );
+                const profile =
+                    getPostProfile(
+                        comment.user_id
+                    );
 
-            const item =
-                document.createElement(
-                    "div"
-                );
 
-            item.style.display =
-                "flex";
+                const name =
+                    getProfileDisplayName(
+                        profile
+                    );
 
-            item.style.gap =
-                "8px";
 
-            item.style.padding =
-                "8px 0";
+                const avatar =
+                    getProfileAvatar(
+                        profile
+                    );
 
-            item.innerHTML = `
 
-                <img
-                    src="${escapeHTML(avatar)}"
-                    style="
-                        width:34px;
-                        height:34px;
-                        border-radius:50%;
-                        object-fit:cover;
-                    "
-                >
+                const item =
+                    document.createElement(
+                        "div"
+                    );
 
-                <div
-                    style="
-                        flex:1;
-                        background:#f0f2f5;
-                        border-radius:12px;
-                        padding:8px 10px;
-                    "
-                >
+
+                item.style.display =
+                    "flex";
+
+                item.style.gap =
+                    "8px";
+
+                item.style.padding =
+                    "8px 0";
+
+
+                item.innerHTML = `
+
+                    <img
+                        src="${escapeHTML(avatar)}"
+                        alt="Profile"
+                        style="
+                            width:34px;
+                            height:34px;
+                            border-radius:50%;
+                            object-fit:cover;
+                        "
+                    >
 
                     <div
                         style="
-                            font-weight:700;
-                            margin-bottom:3px;
+                            flex:1;
+                            background:#f0f2f5;
+                            border-radius:12px;
+                            padding:8px 10px;
                         "
                     >
-                        ${escapeHTML(name)}
+
+                        <div
+                            style="
+                                font-weight:700;
+                                margin-bottom:3px;
+                            "
+                        >
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div>
+                            ${escapeHTML(
+                                comment.content || ""
+                            )}
+                        </div>
+
                     </div>
 
-                    <div>
-                        ${escapeHTML(
-                            comment.content || ""
-                        )}
-                    </div>
+                `;
 
-                </div>
-            `;
 
-            container.appendChild(
-                item
-            );
-        }
+                container.appendChild(
+                    item
+                );
+
+            }
+        );
+
 
     } catch (error) {
 
         console.error(
-            "❌ loadComments exception:",
+            "❌ loadComments:",
             error
         );
+
     }
 }
 
@@ -2283,37 +2459,44 @@ async function addComment(
         return;
     }
 
+
     const text =
-        commentInput
-            ?.value
-            ?.trim();
+        commentInput?.value?.trim();
+
 
     if (!text) {
         return;
     }
+
 
     try {
 
         const {
             data: comment,
             error
-        } = await postsSupabase
-            .from("comments")
-            .insert({
-                post_id:
-                    post.id,
-                user_id:
-                    currentUser.id,
-                content:
-                    text
-            })
-            .select()
-            .single();
+        } =
+            await postsSupabase
+                .from("comments")
+                .insert({
+
+                    post_id:
+                        post.id,
+
+                    user_id:
+                        currentUser.id,
+
+                    content:
+                        text
+
+                })
+                .select()
+                .single();
+
 
         if (error) {
 
             console.error(
-                "❌ Add comment error:",
+                "❌ Add comment:",
                 error
             );
 
@@ -2324,25 +2507,33 @@ async function addComment(
             return;
         }
 
+
         console.log(
             "✅ Comment created:",
             comment
         );
 
-        commentInput.value =
-            "";
+
+        commentInput.value = "";
+
 
         await loadComments(
             post.id,
             commentsContainer
         );
 
+
         const ownerId =
             getPostOwnerId(post);
 
-        if (ownerId) {
+
+        if (
+            ownerId &&
+            ownerId !== currentUser.id
+        ) {
 
             await createNotification({
+
                 receiverId:
                     ownerId,
 
@@ -2357,99 +2548,19 @@ async function addComment(
 
                 postId:
                     post.id
+
             });
+
         }
+
 
     } catch (error) {
 
         console.error(
-            "❌ addComment exception:",
+            "❌ addComment:",
             error
         );
-    }
-}
 
-
-// =========================================================
-// DELETE COMMENT
-// =========================================================
-
-async function deleteComment(
-    commentId,
-    currentUserId
-) {
-
-    try {
-
-        const {
-            data: comment,
-            error: getError
-        } = await postsSupabase
-            .from("comments")
-            .select("*")
-            .eq(
-                "id",
-                commentId
-            )
-            .single();
-
-        if (getError) {
-
-            console.error(
-                "❌ Get comment error:",
-                getError
-            );
-
-            return;
-        }
-
-        if (
-            !comment ||
-            comment.user_id !==
-                currentUserId
-        ) {
-
-            alert(
-                "You can only delete your own comment."
-            );
-
-            return;
-        }
-
-        const {
-            error
-        } = await postsSupabase
-            .from("comments")
-            .delete()
-            .eq(
-                "id",
-                commentId
-            )
-            .eq(
-                "user_id",
-                currentUserId
-            );
-
-        if (error) {
-
-            console.error(
-                "❌ Delete comment error:",
-                error
-            );
-
-            return;
-        }
-
-        console.log(
-            "✅ Comment deleted"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "❌ deleteComment exception:",
-            error
-        );
     }
 }
 
@@ -2467,13 +2578,14 @@ async function editPost(
         return;
     }
 
+
     const ownerId =
         getPostOwnerId(post);
 
+
     if (
         !ownerId ||
-        ownerId !==
-            currentUser.id
+        ownerId !== currentUser.id
     ) {
 
         alert(
@@ -2483,21 +2595,22 @@ async function editPost(
         return;
     }
 
-    const currentText =
-        post.content || "";
 
     const newText =
         prompt(
             "Edit your post:",
-            currentText
+            post.content || ""
         );
+
 
     if (newText === null) {
         return;
     }
 
+
     const updatedText =
         newText.trim();
+
 
     if (
         !updatedText &&
@@ -2511,32 +2624,32 @@ async function editPost(
         return;
     }
 
+
     try {
 
         const {
-            data,
             error
-        } = await postsSupabase
-            .from("posts")
-            .update({
-                content:
-                    updatedText
-            })
-            .eq(
-                "id",
-                post.id
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .select()
-            .single();
+        } =
+            await postsSupabase
+                .from("posts")
+                .update({
+                    content:
+                        updatedText
+                })
+                .eq(
+                    "id",
+                    post.id
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
 
         if (error) {
 
             console.error(
-                "❌ Edit post error:",
+                "❌ Edit post:",
                 error
             );
 
@@ -2547,19 +2660,17 @@ async function editPost(
             return;
         }
 
-        console.log(
-            "✅ Post edited:",
-            data
-        );
 
         await loadPosts();
+
 
     } catch (error) {
 
         console.error(
-            "❌ editPost exception:",
+            "❌ editPost:",
             error
         );
+
     }
 }
 
@@ -2577,13 +2688,14 @@ async function deletePost(
         return;
     }
 
+
     const ownerId =
         getPostOwnerId(post);
 
+
     if (
         !ownerId ||
-        ownerId !==
-            currentUser.id
+        ownerId !== currentUser.id
     ) {
 
         alert(
@@ -2593,35 +2705,39 @@ async function deletePost(
         return;
     }
 
-    const confirmed =
-        confirm(
-            "Delete this post?"
-        );
 
-    if (!confirmed) {
+    if (
+        !confirm(
+            "Delete this post?"
+        )
+    ) {
+
         return;
     }
+
 
     try {
 
         const {
             error
-        } = await postsSupabase
-            .from("posts")
-            .delete()
-            .eq(
-                "id",
-                post.id
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            );
+        } =
+            await postsSupabase
+                .from("posts")
+                .delete()
+                .eq(
+                    "id",
+                    post.id
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
 
         if (error) {
 
             console.error(
-                "❌ Delete post error:",
+                "❌ Delete post:",
                 error
             );
 
@@ -2632,18 +2748,17 @@ async function deletePost(
             return;
         }
 
-        console.log(
-            "✅ Post deleted"
-        );
 
         await loadPosts();
+
 
     } catch (error) {
 
         console.error(
-            "❌ deletePost exception:",
+            "❌ deletePost:",
             error
         );
+
     }
 }
 
@@ -2662,58 +2777,59 @@ async function createPostElement(
             "article"
         );
 
+
     postElement.className =
         "post-card";
+
 
     postElement.dataset.postId =
         post.id;
 
+
     const ownerId =
         getPostOwnerId(post);
+
 
     const profile =
         getPostProfile(ownerId);
 
+
     const displayName =
         getProfileDisplayName(
             profile,
-            post.username ||
-                "User"
+            post.username || "User"
         );
+
 
     const avatar =
-        getProfileAvatar(
-            profile
-        );
+        getProfileAvatar(profile);
 
 
-    // -----------------------------------------------------
-    // LIKE COUNT
-    // -----------------------------------------------------
+    let likesCount = 0;
 
-    let likesCount =
-        0;
+    let userLiked = false;
 
-    let userLiked =
-        false;
 
     try {
 
         const {
             data: likes,
             error
-        } = await postsSupabase
-            .from("likes")
-            .select("*")
-            .eq(
-                "post_id",
-                post.id
-            );
+        } =
+            await postsSupabase
+                .from("likes")
+                .select("*")
+                .eq(
+                    "post_id",
+                    post.id
+                );
+
 
         if (!error && likes) {
 
             likesCount =
                 likes.length;
+
 
             userLiked =
                 likes.some(
@@ -2721,110 +2837,107 @@ async function createPostElement(
                         like.user_id ===
                         currentUser?.id
                 );
+
         }
 
     } catch (error) {
 
         console.warn(
-            "⚠️ Could not load likes:",
+            "⚠️ Likes loading:",
             error
         );
+
     }
 
 
-    // -----------------------------------------------------
-    // COMMENTS COUNT
-    // -----------------------------------------------------
+    let commentsCount = 0;
 
-    let commentsCount =
-        0;
 
     try {
 
         const {
             count,
             error
-        } = await postsSupabase
-            .from("comments")
-            .select(
-                "*",
-                {
-                    count: "exact",
-                    head: true
-                }
-            )
-            .eq(
-                "post_id",
-                post.id
-            );
+        } =
+            await postsSupabase
+                .from("comments")
+                .select(
+                    "*",
+                    {
+                        count: "exact",
+                        head: true
+                    }
+                )
+                .eq(
+                    "post_id",
+                    post.id
+                );
+
 
         if (!error) {
 
             commentsCount =
                 count || 0;
+
         }
 
     } catch (error) {
 
         console.warn(
-            "⚠️ Could not count comments:",
+            "⚠️ Comments count:",
             error
         );
+
     }
 
 
-    // -----------------------------------------------------
-    // SHARES COUNT
-    // -----------------------------------------------------
+    let sharesCount = 0;
 
-    let sharesCount =
-        0;
 
     try {
 
         const {
             count,
             error
-        } = await postsSupabase
-            .from("shares")
-            .select(
-                "*",
-                {
-                    count: "exact",
-                    head: true
-                }
-            )
-            .eq(
-                "post_id",
-                post.id
-            );
+        } =
+            await postsSupabase
+                .from("shares")
+                .select(
+                    "*",
+                    {
+                        count: "exact",
+                        head: true
+                    }
+                )
+                .eq(
+                    "post_id",
+                    post.id
+                );
+
 
         if (!error) {
 
             sharesCount =
                 count || 0;
+
         }
 
     } catch (error) {
 
         console.warn(
-            "⚠️ Could not count shares:",
+            "⚠️ Shares count:",
             error
         );
+
     }
 
 
-    // -----------------------------------------------------
-    // MEDIA HTML
-    // -----------------------------------------------------
+    let mediaHTML = "";
 
-    let mediaHTML =
-        "";
 
     if (
         post.media_url &&
-        post.media_type ===
-            "image"
+        post.media_type === "image"
     ) {
 
         mediaHTML = `
@@ -2832,20 +2945,18 @@ async function createPostElement(
             <div class="sw-feed-media">
 
                 <img
-                    src="${escapeHTML(
-                        post.media_url
-                    )}"
+                    src="${escapeHTML(post.media_url)}"
                     alt="Post image"
                     loading="lazy"
                 >
 
             </div>
+
         `;
 
     } else if (
         post.media_url &&
-        post.media_type ===
-            "video"
+        post.media_type === "video"
     ) {
 
         mediaHTML = `
@@ -2853,29 +2964,24 @@ async function createPostElement(
             <div class="sw-feed-media">
 
                 <video
-                    src="${escapeHTML(
-                        post.media_url
-                    )}"
+                    src="${escapeHTML(post.media_url)}"
                     controls
                     preload="metadata"
                 ></video>
 
             </div>
+
         `;
+
     }
 
 
-    // -----------------------------------------------------
-    // OWNER MENU
-    // -----------------------------------------------------
+    let ownerMenuHTML = "";
 
-    let ownerMenuHTML =
-        "";
 
     if (
         currentUser &&
-        ownerId ===
-            currentUser.id
+        ownerId === currentUser.id
     ) {
 
         ownerMenuHTML = `
@@ -2904,13 +3010,11 @@ async function createPostElement(
                 </button>
 
             </div>
+
         `;
+
     }
 
-
-    // -----------------------------------------------------
-    // POST HTML
-    // -----------------------------------------------------
 
     postElement.innerHTML = `
 
@@ -2941,9 +3045,7 @@ async function createPostElement(
                         font-weight:700;
                     "
                 >
-                    ${escapeHTML(
-                        displayName
-                    )}
+                    ${escapeHTML(displayName)}
                 </div>
 
                 <div
@@ -2965,12 +3067,12 @@ async function createPostElement(
 
         </div>
 
+
         <div
             class="post-content"
-            style="
-                margin-top:12px;
-            "
+            style="margin-top:12px;"
         >
+
             ${
                 post.content
                     ? escapeHTML(
@@ -2985,6 +3087,7 @@ async function createPostElement(
             ${mediaHTML}
 
         </div>
+
 
         <div
             class="post-stats"
@@ -3001,13 +3104,14 @@ async function createPostElement(
                 👍 ${likesCount}
             </span>
 
-            <span>
+            <span class="post-counts">
                 ${commentsCount} comments
                 ·
                 ${sharesCount} shares
             </span>
 
         </div>
+
 
         <div
             class="post-actions"
@@ -3038,6 +3142,7 @@ async function createPostElement(
                 }
             </button>
 
+
             <button
                 type="button"
                 class="post-comment-btn"
@@ -3052,6 +3157,7 @@ async function createPostElement(
             >
                 💬 Comment
             </button>
+
 
             <button
                 type="button"
@@ -3070,6 +3176,7 @@ async function createPostElement(
 
         </div>
 
+
         <div
             class="comments-section"
             style="
@@ -3078,9 +3185,8 @@ async function createPostElement(
             "
         >
 
-            <div
-                class="comments-list"
-            ></div>
+            <div class="comments-list"></div>
+
 
             <div
                 style="
@@ -3113,47 +3219,51 @@ async function createPostElement(
             </div>
 
         </div>
+
     `;
 
-
-    // =====================================================
-    // ELEMENTS
-    // =====================================================
 
     const likeButton =
         postElement.querySelector(
             ".post-like-btn"
         );
 
+
     const likeCountElement =
         postElement.querySelector(
             ".like-count"
         );
+
 
     const commentButton =
         postElement.querySelector(
             ".post-comment-btn"
         );
 
+
     const shareButton =
         postElement.querySelector(
             ".post-share-btn"
         );
+
 
     const commentsSection =
         postElement.querySelector(
             ".comments-section"
         );
 
+
     const commentsList =
         postElement.querySelector(
             ".comments-list"
         );
 
+
     const commentInput =
         postElement.querySelector(
             ".comment-input"
         );
+
 
     const sendCommentButton =
         postElement.querySelector(
@@ -3178,8 +3288,10 @@ async function createPostElement(
                 return;
             }
 
+
             likeButton.disabled =
                 true;
+
 
             try {
 
@@ -3187,30 +3299,34 @@ async function createPostElement(
 
                     const {
                         error
-                    } = await postsSupabase
-                        .from("likes")
-                        .delete()
-                        .eq(
-                            "post_id",
-                            post.id
-                        )
-                        .eq(
-                            "user_id",
-                            currentUser.id
-                        );
+                    } =
+                        await postsSupabase
+                            .from("likes")
+                            .delete()
+                            .eq(
+                                "post_id",
+                                post.id
+                            )
+                            .eq(
+                                "user_id",
+                                currentUser.id
+                            );
+
 
                     if (error) {
 
                         console.error(
-                            "❌ Unlike error:",
+                            "❌ Unlike:",
                             error
                         );
 
                         return;
                     }
 
+
                     userLiked =
                         false;
+
 
                     likesCount =
                         Math.max(
@@ -3218,55 +3334,56 @@ async function createPostElement(
                             likesCount - 1
                         );
 
+
                     likeButton.textContent =
                         "👍 Like";
+
 
                 } else {
 
                     const {
                         error
-                    } = await postsSupabase
-                        .from("likes")
-                        .insert({
-                            post_id:
-                                post.id,
-                            user_id:
-                                currentUser.id
-                        });
+                    } =
+                        await postsSupabase
+                            .from("likes")
+                            .insert({
+
+                                post_id:
+                                    post.id,
+
+                                user_id:
+                                    currentUser.id
+
+                            });
+
 
                     if (error) {
 
                         console.error(
-                            "❌ Like error:",
+                            "❌ Like:",
                             error
                         );
 
                         return;
                     }
 
+
                     userLiked =
                         true;
 
+
                     likesCount++;
+
 
                     likeButton.textContent =
                         "👍 Liked";
+
 
                     const receiverId =
                         getPostOwnerId(
                             post
                         );
 
-                    console.log(
-                        "🔎 POST OWNER CHECK:",
-                        {
-                            postId:
-                                post.id,
-                            receiverId,
-                            senderId:
-                                currentUser.id
-                        }
-                    );
 
                     if (
                         receiverId &&
@@ -3275,39 +3392,52 @@ async function createPostElement(
                     ) {
 
                         await createNotification({
-                            receiverId,
+
+                            receiverId:
+                                receiverId,
+
                             senderId:
                                 currentUser.id,
+
                             type:
                                 "like",
+
                             message:
                                 "liked your post.",
+
                             postId:
                                 post.id
+
                         });
+
                     }
+
                 }
 
-                if (
-                    likeCountElement
-                ) {
+
+                if (likeCountElement) {
 
                     likeCountElement.textContent =
                         `👍 ${likesCount}`;
+
                 }
+
 
             } catch (error) {
 
                 console.error(
-                    "❌ Like handler exception:",
+                    "❌ Like handler:",
                     error
                 );
+
 
             } finally {
 
                 likeButton.disabled =
                     false;
+
             }
+
         }
     );
 
@@ -3328,6 +3458,7 @@ async function createPostElement(
                 commentsSection.style.display =
                     "block";
 
+
                 await loadComments(
                     post.id,
                     commentsList
@@ -3337,9 +3468,12 @@ async function createPostElement(
 
                 commentsSection.style.display =
                     "none";
+
             }
+
         }
     );
+
 
     sendCommentButton?.addEventListener(
         "click",
@@ -3351,8 +3485,10 @@ async function createPostElement(
                 commentInput,
                 commentsList
             );
+
         }
     );
+
 
     commentInput?.addEventListener(
         "keydown",
@@ -3365,13 +3501,16 @@ async function createPostElement(
 
                 event.preventDefault();
 
+
                 await addComment(
                     post,
                     currentUser,
                     commentInput,
                     commentsList
                 );
+
             }
+
         }
     );
 
@@ -3393,39 +3532,41 @@ async function createPostElement(
                 return;
             }
 
+
             try {
 
                 const {
                     data: existingShares,
-                    error:
-                        checkError
-                } = await postsSupabase
-                    .from("shares")
-                    .select("id")
-                    .eq(
-                        "post_id",
-                        post.id
-                    )
-                    .eq(
-                        "user_id",
-                        currentUser.id
-                    )
-                    .limit(1);
+                    error: checkError
+                } =
+                    await postsSupabase
+                        .from("shares")
+                        .select("id")
+                        .eq(
+                            "post_id",
+                            post.id
+                        )
+                        .eq(
+                            "user_id",
+                            currentUser.id
+                        )
+                        .limit(1);
+
 
                 if (checkError) {
 
                     console.error(
-                        "❌ Share check error:",
+                        "❌ Share check:",
                         checkError
                     );
 
                     return;
                 }
 
+
                 if (
                     existingShares &&
-                    existingShares.length >
-                        0
+                    existingShares.length
                 ) {
 
                     alert(
@@ -3435,37 +3576,42 @@ async function createPostElement(
                     return;
                 }
 
+
                 const {
                     error
-                } = await postsSupabase
-                    .from("shares")
-                    .insert({
-                        post_id:
-                            post.id,
-                        user_id:
-                            currentUser.id
-                    });
+                } =
+                    await postsSupabase
+                        .from("shares")
+                        .insert({
+
+                            post_id:
+                                post.id,
+
+                            user_id:
+                                currentUser.id
+
+                        });
+
 
                 if (error) {
 
                     console.error(
-                        "❌ Share error:",
+                        "❌ Share:",
                         error
                     );
 
                     return;
                 }
 
+
                 sharesCount++;
 
-                alert(
-                    "✅ Post shared!"
-                );
 
                 const receiverId =
                     getPostOwnerId(
                         post
                     );
+
 
                 if (
                     receiverId &&
@@ -3474,17 +3620,45 @@ async function createPostElement(
                 ) {
 
                     await createNotification({
-                        receiverId,
+
+                        receiverId:
+                            receiverId,
+
                         senderId:
                             currentUser.id,
+
                         type:
                             "share",
+
                         message:
                             "shared your post.",
+
                         postId:
                             post.id
+
                     });
+
                 }
+
+
+                const counts =
+                    postElement.querySelector(
+                        ".post-counts"
+                    );
+
+
+                if (counts) {
+
+                    counts.textContent =
+                        `${commentsCount} comments · ${sharesCount} shares`;
+
+                }
+
+
+                alert(
+                    "✅ Post shared!"
+                );
+
 
             } catch (error) {
 
@@ -3492,7 +3666,9 @@ async function createPostElement(
                     "❌ Share exception:",
                     error
                 );
+
             }
+
         }
     );
 
@@ -3501,49 +3677,50 @@ async function createPostElement(
     // EDIT
     // =====================================================
 
-    const editButton =
-        postElement.querySelector(
+    postElement
+        .querySelector(
             ".edit-post-btn"
+        )
+        ?.addEventListener(
+            "click",
+            async () => {
+
+                await editPost(
+                    post,
+                    currentUser
+                );
+
+            }
         );
-
-    editButton?.addEventListener(
-        "click",
-        async () => {
-
-            await editPost(
-                post,
-                currentUser
-            );
-        }
-    );
 
 
     // =====================================================
     // DELETE
     // =====================================================
 
-    const deleteButton =
-        postElement.querySelector(
+    postElement
+        .querySelector(
             ".delete-post-btn"
+        )
+        ?.addEventListener(
+            "click",
+            async () => {
+
+                await deletePost(
+                    post,
+                    currentUser
+                );
+
+            }
         );
 
-    deleteButton?.addEventListener(
-        "click",
-        async () => {
-
-            await deletePost(
-                post,
-                currentUser
-            );
-        }
-    );
 
     return postElement;
 }
 
 
 // =========================================================
-// LOAD SPONSORED ADS
+// SPONSORED ADS
 // =========================================================
 
 async function loadSponsoredAds() {
@@ -3552,12 +3729,14 @@ async function loadSponsoredAds() {
         "📢 Loading sponsored ads..."
     );
 
-    const sponsoredAdsFeed =
+
+    const container =
         document.getElementById(
             "sponsoredAdsFeed"
         );
 
-    if (!sponsoredAdsFeed) {
+
+    if (!container) {
 
         console.warn(
             "⚠️ #sponsoredAdsFeed not found"
@@ -3567,74 +3746,49 @@ async function loadSponsoredAds() {
     }
 
 
-    // -----------------------------------------------------
-    // CLEAR OLD ADS
-    // -----------------------------------------------------
-
-    sponsoredAdsFeed.innerHTML = "";
-
-
     try {
-
-        // =================================================
-        // GET ADS
-        // =================================================
 
         const {
             data: ads,
             error
-        } = await postsSupabase
-            .from("ad_campaigns")
-            .select(`
-                id,
-                ad_name,
-                ad_title,
-                description,
-                destination_link,
-                media_url,
-                media_type,
-                language,
-                currency,
-                budget,
-                start_date,
-                end_date,
-                status,
-                created_at
-            `)
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+        } =
+            await postsSupabase
+                .from("ad_campaigns")
+                .select(`
+                    id,
+                    ad_name,
+                    ad_title,
+                    description,
+                    destination_link,
+                    media_url,
+                    media_type,
+                    language,
+                    currency,
+                    budget,
+                    start_date,
+                    end_date,
+                    status,
+                    created_at
+                `)
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
 
 
         if (error) {
 
             console.error(
-                "❌ Sponsored ads loading error:",
+                "❌ Sponsored ads:",
                 error
             );
 
-            sponsoredAdsFeed.innerHTML = `
-                <div class="sw-sponsored-empty">
-                    Could not load sponsored ads.
-                </div>
-            `;
+            container.innerHTML = "";
 
             return;
         }
-
-
-        console.log(
-            "📢 Sponsored ads loaded:",
-            ads
-        );
-
-        console.log(
-            "📢 Number of sponsored ads:",
-            ads?.length || 0
-        );
 
 
         if (
@@ -3642,57 +3796,36 @@ async function loadSponsoredAds() {
             ads.length === 0
         ) {
 
-            sponsoredAdsFeed.innerHTML = `
-                <div class="sw-sponsored-empty">
-                    No sponsored ads available.
-                </div>
-            `;
+            container.innerHTML = "";
 
             return;
         }
 
-
-        // =================================================
-        // WRAPPER
-        // =================================================
 
         const wrapper =
             document.createElement(
                 "div"
             );
 
+
         wrapper.className =
             "sw-sponsored-wrapper";
 
 
-        // =================================================
-        // RENDER EVERY AD
-        // =================================================
-
         ads.forEach(
-            function (ad, index) {
-
-                console.log(
-                    `📢 Rendering sponsored ad #${index + 1}:`,
-                    ad
-                );
-
+            ad => {
 
                 const card =
                     document.createElement(
                         "div"
                     );
 
+
                 card.className =
                     "sw-sponsored-card";
 
 
-                // =================================================
-                // IMAGE
-                // =================================================
-
-                let imageHTML =
-                    "";
+                let mediaHTML = "";
 
 
                 if (
@@ -3701,7 +3834,8 @@ async function loadSponsoredAds() {
                         "image"
                 ) {
 
-                    imageHTML = `
+                    mediaHTML = `
+
                         <img
                             class="sw-sponsored-image"
                             src="${escapeHTML(
@@ -3713,17 +3847,32 @@ async function loadSponsoredAds() {
                             )}"
                             loading="lazy"
                         >
+
+                    `;
+
+                } else if (
+                    ad.media_url &&
+                    ad.media_type ===
+                        "video"
+                ) {
+
+                    mediaHTML = `
+
+                        <video
+                            class="sw-sponsored-image"
+                            src="${escapeHTML(
+                                ad.media_url
+                            )}"
+                            controls
+                            preload="metadata"
+                        ></video>
+
                     `;
 
                 }
 
 
-                // =================================================
-                // DESTINATION LINK
-                // =================================================
-
-                let linkHTML =
-                    "";
+                let linkHTML = "";
 
 
                 if (
@@ -3731,6 +3880,7 @@ async function loadSponsoredAds() {
                 ) {
 
                     linkHTML = `
+
                         <a
                             class="sw-sponsored-link"
                             href="${escapeHTML(
@@ -3741,13 +3891,11 @@ async function loadSponsoredAds() {
                         >
                             🔗 Learn More
                         </a>
+
                     `;
+
                 }
 
-
-                // =================================================
-                // CARD
-                // =================================================
 
                 card.innerHTML = `
 
@@ -3769,12 +3917,11 @@ async function loadSponsoredAds() {
                         )}
                     </div>
 
-                    ${imageHTML}
+                    ${mediaHTML}
 
                     <div class="sw-sponsored-description">
                         ${escapeHTML(
-                            ad.description ||
-                            ""
+                            ad.description || ""
                         ).replace(
                             /\n/g,
                             "<br>"
@@ -3794,28 +3941,26 @@ async function loadSponsoredAds() {
         );
 
 
-        sponsoredAdsFeed.appendChild(
+        container.innerHTML = "";
+
+        container.appendChild(
             wrapper
         );
 
 
         console.log(
-            "✅ All sponsored ads rendered:",
+            "✅ Sponsored ads rendered:",
             ads.length
         );
+
 
     } catch (error) {
 
         console.error(
-            "❌ loadSponsoredAds exception:",
+            "❌ loadSponsoredAds:",
             error
         );
 
-        sponsoredAdsFeed.innerHTML = `
-            <div class="sw-sponsored-empty">
-                Something went wrong while loading sponsored ads.
-            </div>
-        `;
     }
 }
 
@@ -3830,31 +3975,30 @@ async function loadPosts() {
         "📥 Loading posts..."
     );
 
+
     try {
 
         const {
             data: userData,
             error: userError
-        } = await postsSupabase.auth.getUser();
+        } =
+            await postsSupabase.auth.getUser();
+
 
         if (userError) {
 
             console.error(
-                "❌ Auth error:",
+                "❌ Auth:",
                 userError
             );
 
             return;
         }
 
-        const currentUser =
-            userData?.user ||
-            null;
 
-        console.log(
-            "Current user:",
-            currentUser
-        );
+        const currentUser =
+            userData?.user || null;
+
 
         if (!currentUser) {
 
@@ -3865,75 +4009,45 @@ async function loadPosts() {
             return;
         }
 
+
         window.currentUserForPosts =
             currentUser;
 
+
         await loadPostsProfiles();
+
 
         const {
             data: posts,
             error
-        } = await postsSupabase
-            .from("posts")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+        } =
+            await postsSupabase
+                .from("posts")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
 
         if (error) {
 
             console.error(
-                "❌ Posts loading error:",
+                "❌ Posts:",
                 error
             );
 
             return;
         }
 
-        console.log(
-            "✅ Posts loaded:",
-            posts
-        );
-
-
-        // =================================================
-        // GET SPONSORED ADS CONTAINER
-        // =================================================
-
-        const sponsoredAdsFeed =
-            document.getElementById(
-                "sponsoredAdsFeed"
-            );
-
-        if (sponsoredAdsFeed) {
-
-            console.log(
-                "📢 Sponsored Ads container found"
-            );
-
-            // Remove temporarily so we can
-            // place it exactly after post #5.
-            sponsoredAdsFeed.remove();
-
-        } else {
-
-            console.warn(
-                "⚠️ #sponsoredAdsFeed not found"
-            );
-        }
-
-
-        // =================================================
-        // CLEAR POSTS FEED
-        // =================================================
 
         const feed =
             document.getElementById(
                 "postsFeed"
             );
+
 
         if (!feed) {
 
@@ -3944,13 +4058,20 @@ async function loadPosts() {
             return;
         }
 
-        feed.innerHTML =
-            "";
+
+        /*
+         * IMPORTANT:
+         * We DO NOT remove #sponsoredAdsFeed.
+         */
+
+        const sponsoredAdsFeed =
+            document.getElementById(
+                "sponsoredAdsFeed"
+            );
 
 
-        // =================================================
-        // NO POSTS
-        // =================================================
+        feed.innerHTML = "";
+
 
         if (
             !posts ||
@@ -3958,6 +4079,7 @@ async function loadPosts() {
         ) {
 
             feed.innerHTML = `
+
                 <div
                     style="
                         padding:30px;
@@ -3967,7 +4089,9 @@ async function loadPosts() {
                 >
                     No posts yet.
                 </div>
+
             `;
+
 
             if (sponsoredAdsFeed) {
 
@@ -3977,18 +4101,12 @@ async function loadPosts() {
 
                 await loadSponsoredAds();
 
-                console.log(
-                    "📢 No posts → Sponsored Ads inserted"
-                );
             }
+
 
             return;
         }
 
-
-        // =================================================
-        // RENDER POSTS
-        // =================================================
 
         for (
             let i = 0;
@@ -3996,23 +4114,17 @@ async function loadPosts() {
             i++
         ) {
 
-            const post =
-                posts[i];
-
             const element =
                 await createPostElement(
-                    post,
+                    posts[i],
                     currentUser
                 );
+
 
             feed.appendChild(
                 element
             );
 
-
-            // =================================================
-            // INSERT SPONSORED ADS AFTER POST #5
-            // =================================================
 
             if (
                 i === 4 &&
@@ -4023,18 +4135,13 @@ async function loadPosts() {
                     sponsoredAdsFeed
                 );
 
+
                 await loadSponsoredAds();
 
-                console.log(
-                    "📢 Sponsored Ads inserted AFTER POST #5"
-                );
             }
+
         }
 
-
-        // =================================================
-        // IF LESS THAN 5 POSTS
-        // =================================================
 
         if (
             sponsoredAdsFeed &&
@@ -4045,28 +4152,399 @@ async function loadPosts() {
                 sponsoredAdsFeed
             );
 
+
             await loadSponsoredAds();
 
-            console.log(
-                "📢 Less than 5 posts → Sponsored Ads inserted at end"
-            );
         }
 
-
-        // =================================================
-        // FINAL RESULT
-        // =================================================
 
         console.log(
             "✅ All posts rendered"
         );
 
+
     } catch (error) {
 
         console.error(
-            "❌ loadPosts exception:",
+            "❌ loadPosts:",
             error
         );
+
+    }
+}
+
+
+// =========================================================
+// RIGHT SIDEBAR
+// =========================================================
+
+async function loadRightSidebar() {
+
+    console.log(
+        "➡️ Loading Right Sidebar..."
+    );
+
+
+    const profileBox =
+        document.getElementById(
+            "rightProfileBox"
+        );
+
+
+    const switchBox =
+        document.getElementById(
+            "switchAccountBox"
+        );
+
+
+    const groupsBox =
+        document.getElementById(
+            "rightGroupsBox"
+        );
+
+
+    const contentBox =
+        document.getElementById(
+            "rightSidebarContent"
+        );
+
+
+    if (
+        !profileBox &&
+        !switchBox &&
+        !groupsBox &&
+        !contentBox
+    ) {
+
+        console.warn(
+            "⚠️ Right Sidebar containers not found"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const user =
+            await getCurrentPostsUser();
+
+
+        if (!user) {
+
+            console.warn(
+                "⚠️ No current user for Right Sidebar"
+            );
+
+            return;
+        }
+
+
+        let profile = null;
+
+
+        const {
+            data,
+            error
+        } =
+            await postsSupabase
+                .from("profiles")
+                .select(
+                    "id, username, full_name, bio, avatar_url"
+                )
+                .eq(
+                    "id",
+                    user.id
+                )
+                .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "❌ Right Sidebar profile:",
+                error
+            );
+
+        } else {
+
+            profile = data;
+
+        }
+
+
+        const name =
+            getProfileDisplayName(
+                profile,
+                user.email || "User"
+            );
+
+
+        const username =
+            profile?.username
+                ? "@" + profile.username
+                : "View profile";
+
+
+        const avatar =
+            getProfileAvatar(profile);
+
+
+        // =================================================
+        // PROFILE
+        // =================================================
+
+        if (profileBox) {
+
+            profileBox.innerHTML = `
+
+                <a
+                    href="profile.html"
+                    class="right-profile-link"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                        text-decoration:none;
+                        color:inherit;
+                    "
+                >
+
+                    <img
+                        src="${escapeHTML(avatar)}"
+                        alt="Profile"
+                        style="
+                            width:48px;
+                            height:48px;
+                            border-radius:50%;
+                            object-fit:cover;
+                            flex-shrink:0;
+                        "
+                    >
+
+                    <div>
+
+                        <div
+                            style="
+                                font-weight:700;
+                                font-size:15px;
+                            "
+                        >
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div
+                            style="
+                                color:#777;
+                                font-size:13px;
+                                margin-top:3px;
+                            "
+                        >
+                            ${escapeHTML(username)}
+                        </div>
+
+                    </div>
+
+                </a>
+
+            `;
+
+        }
+
+
+        // =================================================
+        // SWITCH ACCOUNT
+        // =================================================
+
+        if (switchBox) {
+
+            switchBox.innerHTML = `
+
+                <div
+                    class="right-box-title"
+                    style="
+                        font-weight:700;
+                        margin-bottom:10px;
+                    "
+                >
+                    Switch Account
+                </div>
+
+                <button
+                    type="button"
+                    id="rightSwitchAccountButton"
+                    style="
+                        width:100%;
+                        border:none;
+                        background:#f0f2f5;
+                        border-radius:8px;
+                        padding:10px;
+                        cursor:pointer;
+                        font-weight:600;
+                    "
+                >
+                    🔄 Switch Account
+                </button>
+
+            `;
+
+
+            document
+                .getElementById(
+                    "rightSwitchAccountButton"
+                )
+                ?.addEventListener(
+                    "click",
+                    () => {
+
+                        alert(
+                            "Switch Account will be connected to multiple accounts."
+                        );
+
+                    }
+                );
+
+        }
+
+
+        // =================================================
+        // GROUPS
+        // =================================================
+
+        if (groupsBox) {
+
+            groupsBox.innerHTML = `
+
+                <div
+                    class="right-box-title"
+                    style="
+                        font-weight:700;
+                        margin-bottom:10px;
+                    "
+                >
+                    Your Groups
+                </div>
+
+                <a
+                    href="groups.html"
+                    style="
+                        display:block;
+                        padding:8px 0;
+                        text-decoration:none;
+                        color:inherit;
+                    "
+                >
+                    👥 Groups
+                </a>
+
+                <a
+                    href="groups.html"
+                    style="
+                        display:block;
+                        padding:8px 0;
+                        text-decoration:none;
+                        color:inherit;
+                    "
+                >
+                    ➕ Discover Groups
+                </a>
+
+                <a
+                    href="groups.html"
+                    style="
+                        display:block;
+                        padding:8px 0;
+                        text-decoration:none;
+                        color:inherit;
+                    "
+                >
+                    📜 Group History
+                </a>
+
+            `;
+
+        }
+
+
+        // =================================================
+        // RIGHT LINKS
+        // =================================================
+
+        if (contentBox) {
+
+            contentBox.innerHTML = `
+
+                <div
+                    class="right-box-title"
+                    style="
+                        font-weight:700;
+                        margin-bottom:10px;
+                    "
+                >
+                    Shortcuts
+                </div>
+
+                <a href="news.html">
+                    📰 Last News
+                </a>
+
+                <a href="friends.html">
+                    👥 Friends
+                </a>
+
+                <a href="groups.html">
+                    👥 Groups
+                </a>
+
+                <a href="market.html">
+                    🛒 Market Plus
+                </a>
+
+                <a href="conversations.html">
+                    💬 Messenger
+                </a>
+
+                <a href="pages.html">
+                    📄 Pages
+                </a>
+
+                <a href="orders.html">
+                    💳 Orders and Payments
+                </a>
+
+                <a href="memories.html">
+                    🕰️ Memories
+                </a>
+
+                <a href="birthdays.html">
+                    🎂 Birthdays
+                </a>
+
+                <a href="ads-manager.html">
+                    📢 Ads Manager
+                </a>
+
+                <a href="ad-center.html">
+                    📣 Ad Center
+                </a>
+
+            `;
+
+        }
+
+
+        console.log(
+            "✅ Right Sidebar loaded"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Right Sidebar exception:",
+            error
+        );
+
     }
 }
 
@@ -4080,18 +4558,26 @@ document.addEventListener(
     async () => {
 
         console.log(
-            "🚀 Posts system initializing..."
+            "🚀 SocialWiki Posts initializing..."
         );
+
 
         addCreatePostStyles();
 
+
         setupCreatePost();
+
 
         await loadPosts();
 
+
+        await loadRightSidebar();
+
+
         console.log(
-            "✅ Posts system initialized"
+            "✅ SocialWiki Posts initialized"
         );
+
     }
 );
 
@@ -4103,17 +4589,26 @@ document.addEventListener(
 window.loadPosts =
     loadPosts;
 
+
 window.loadSponsoredAds =
     loadSponsoredAds;
+
 
 window.createNotification =
     createNotification;
 
+
 window.openCreatePostModal =
     openCreatePostModal;
 
+
 window.closeCreatePostModal =
     closeCreatePostModal;
+
+
+window.loadRightSidebar =
+    loadRightSidebar;
+
 
 console.log(
     "🌍 Posts functions exposed globally"

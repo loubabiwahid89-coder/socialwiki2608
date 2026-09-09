@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        /* =========================================================
+           NAVBAR (بسيط)
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-icons a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+        
+        .nav-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* =========================================================
+           EVENTS PAGE
+        ========================================================= */
+        
+        .events-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .events-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .events-header h2 {
+            font-size: 24px;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .event-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            background: #f0f2f5;
+        }
+        
+        .event-info {
+            flex: 1;
+        }
+        
+        .event-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .event-description {
+            color: #65676b;
+            font-size: 14px;
+        }
+        
+        .event-reward {
+            color: #f7b928;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        
+        .event-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: #1877f2;
+            color: white;
+        }
+        
+        /* =========================================================
+           BACK & HOME BUTTONS
+        ========================================================= */
+        
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================================
+         BACK & HOME BUTTONS
+    ========================================================= -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn">
+            ← Back
+        </a>
+        <a href="index.html" class="home-btn">
+            🏠 Home
+        </a>
+    </div>
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html" class="active">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         EVENTS CONTAINER
+    ========================================================= -->
+    <div class="events-container">
+        <div class="events-header">
+            <h2>🏆 Weekly Events</h2>
+        </div>
+
+        <div id="eventsList">
+            <!-- الأحداث ستظهر هنا -->
+        </div>
+    </div>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = username;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // LOAD EVENTS
+        // =========================================================
+        
+        async function loadEvents() {
+            try {
+                const { data: events, error } = await supabaseClient
+                    .from('events')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading events:', error);
+                    return;
+                }
+                
+                displayEvents(events || []);
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // DISPLAY EVENTS
+        // =========================================================
+        
+        function displayEvents(events) {
+            const container = document.getElementById('eventsList');
+            container.innerHTML = '';
+            
+            if (!events || events.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No events available</p>';
+                return;
+            }
+            
+            events.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                
+                card.innerHTML = `
+                    <div class="event-icon">🏆</div>
+                    <div class="event-info">
+                        <div class="event-title">${escapeHtml(event.title)}</div>
+                        <div class="event-description">${escapeHtml(event.description)}</div>
+                        <div class="event-reward">Reward: ${event.points_reward} Points</div>
+                    </div>
+                    <button class="event-status" onclick="joinEvent('${event.id}')">Join</button>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // =========================================================
+        // JOIN EVENT
+        // =========================================================
+        
+        async function joinEvent(eventId) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // التحقق من عدم الانضمام من قبل
+                const { data: existingJoin } = await supabaseClient
+                    .from('event_participants')
+                    .select('*')
+                    .eq('event_id', eventId)
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+                
+                if (existingJoin) {
+                    alert('You have already joined this event!');
+                    return;
+                }
+                
+                // الانضمام للحدث
+                await supabaseClient
+                    .from('event_participants')
+                    .insert({
+                        event_id: eventId,
+                        user_id: user.id
+                    });
+                
+                alert('You have joined the event!');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // =========================================================
+        // ESCAPE HTML
+        // =========================================================
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // =========================================================
+        // START
+        // =========================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+            loadEvents();
+        });
+    </script>
+</body>
+</html>

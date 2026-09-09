@@ -1,5159 +1,836 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
->
-
-<title>Market Plus - SocialWiki</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        /* =========================================================
+           NAVBAR (بسيط)
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-icons a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-icons a.active {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+        
+        .nav-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* =========================================================
+           MARKETPLACE PAGE
+        ========================================================= */
+        
+        .marketplace-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .marketplace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .marketplace-header h2 {
+            font-size: 24px;
+        }
+        
+        .sell-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #1877f2;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .product-location {
+            color: #65676b;
+            font-size: 13px;
+        }
+        
+        .product-description {
+            color: #65676b;
+            font-size: 13px;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .buy-btn {
+            flex: 1;
+            padding: 8px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .contact-btn {
+            flex: 1;
+            padding: 8px;
+            background: #e4e6eb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .contact-btn:hover {
+            background: #1877f2;
+            color: white;
+        }
+        
+        /* =========================================================
+           MODAL
+        ========================================================= */
+        
+         .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 20px;
+    }
+        
+         .modal-box {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group select {
+            cursor: pointer;
+        }
+        
+        .form-group input[type="file"] {
+            padding: 8px;
+            background: #f0f2f5;
+        }
+        
+        .currency-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .currency-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e4e6eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            transition: 0.2s;
+        }
+        
+        .currency-btn.active {
+            border-color: #1877f2;
+            background: #e7f3ff;
+            color: #1877f2;
+        }
+        
+        .price-display {
+            background: #f0f2f5;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 600;
+            color: #1877f2;
+            font-size: 16px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .cancel-button,
+        .submit-button {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .cancel-button {
+            background: #e4e6eb;
+        }
+        
+        .submit-button {
+            background: #1877f2;
+            color: white;
+        }
+        
+        /* =========================================================
+           BACK & HOME BUTTONS
+        ========================================================= */
+        
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+    </style>
 </head>
-
 <body>
-    <!-- =====================================================
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header class="market-header">
-<a
-href="index.html"
-class="back-button"
-id="homeLink"
-
->
-← Home
-
-</a>
-
-<div>
-
-<h1
-    class="market-title"
-    id="marketTitle"
->
-    ⭐ Market Plus
-</h1>
-
-<p
-    class="market-subtitle"
-    id="marketSubtitle"
->
-    Discover products and special offers
-</p>
-
-
-</div>
-
-</header>
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="market-container">
-
-<section class="market-tools">
-
-<div class="search-box">
-
-   <div class="search-box">
-
-    <span>🔎</span>
-
-    <input
-        type="text"
-        id="productSearch"
-        placeholder="Search products..."
-        autocomplete="off"
-    >
-
-    <select id="productSort">
-        <option value="newest">🆕 Newest</option>
-        <option value="oldest">🕐 Oldest</option>
-        <option value="price_low">💰 Price: Low → High</option>
-        <option value="price_high">💰 Price: High → Low</option>
-    </select>
-
-</div>
-</div>
-
-<select
-    id="languageSelect"
-    class="language-select"
->
-
-    <option value="en">
-        🇬🇧 English
-    </option>
-
-    <option value="fr">
-        🇫🇷 Français
-    </option>
-
-    <option value="ar">
-        🇸🇦 العربية
-    </option>
-
-</select>
-
-<select
-    id="currencySelect"
-    class="currency-select"
->
-
-    <option value="USD">
-        $ USD
-    </option>
-
-    <option value="EUR">
-        € EUR
-    </option>
-
-    <option value="MAD">
-        د.م. MAD
-    </option>
-
-</select>
-
-<button
-    class="add-product-button"
-    id="addProductButton"
->
-    ➕ Add Product
-</button>
-
-
-</section>
-
-<div
-    id="statusBox"
-    class="status-box"
-></div>
-
-<!-- =====================================================
-     CATEGORIES + FAVORITES
-===================================================== -->
-
-<section class="categories">
-
-
-<button
-    class="category-button active"
-    data-category="all"
->
-    🛍️ All
-</button>
-
-<button
-    class="category-button"
-    id="myProductsButton"
-    data-category="my-products"
->
-    👤 My Products
-</button>
-
-<button
-    class="category-button"
-    data-category="electronics"
->
-    📱 Electronics
-</button>
-
-<button
-    class="category-button"
-    data-category="fashion"
->
-    👕 Fashion
-</button>
-
-<button
-    class="category-button"
-    data-category="home"
->
-    🏠 Home
-</button>
-
-<button
-    class="category-button"
-    data-category="gaming"
->
-    🎮 Gaming
-</button>
-
-<button
-    class="category-button"
-    id="favoritesButton"
-    data-category="favorites"
->
-    🤍 Favorites
-</button>
-
-
-</section>
-
-<div
-    id="loadingBox"
-    class="loading-box"
->
-    ⏳ Loading products...
-</div>
-
-<section
-    id="productsGrid"
-    class="products-grid"
-></section>
-
-<div
-    id="noResults"
-    class="no-results"
->
-    🔎 No products found.
-</div>
-
-</main>
-
-<!-- =====================================================
-     ADD / EDIT PRODUCT MODAL
-===================================================== -->
-
-<div
-    id="productModal"
-    class="modal-overlay"
->
-
-<div class="modal">
-
-
-<div class="modal-header">
-
-    <h2 id="modalTitle">
-        ➕ Add Product
-    </h2>
-
-    <button
-        class="close-modal"
-        id="closeModalButton"
-        type="button"
-    >
-        ✕
-    </button>
-
-</div>
-
-<form id="productForm">
-
-    <div class="form-group">
-
-        <label for="productName">
-            Product Name
-        </label>
-
-        <input
-            type="text"
-            id="productName"
-            required
-            maxlength="120"
-        >
-
+    <!-- =========================================================
+         BACK & HOME BUTTONS
+    ========================================================= -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn">
+            ← Back
+        </a>
+        <a href="index.html" class="home-btn">
+            🏠 Home
+        </a>
     </div>
 
-    <div class="form-group">
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html" class="active">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
-        <label for="productDescription">
-            Description
-        </label>
+    <!-- =========================================================
+         MARKETPLACE CONTAINER
+    ========================================================= -->
+    <div class="marketplace-container">
+        <div class="marketplace-header">
+            <h2>🛍️ Marketplace</h2>
+            <button class="sell-btn" onclick="openSellModal()">+ Add Product</button>
+        </div>
 
-        <textarea
-            id="productDescription"
-            maxlength="1000"
-        ></textarea>
-
+        <div class="market-grid" id="marketGrid">
+            <!-- المنتجات ستظهر هنا -->
+        </div>
     </div>
 
-    <div class="form-row">
-
-        <div class="form-group">
-
-            <label for="productCategory">
-                Category
-            </label>
-
-            <select
-                id="productCategory"
-                required
-            >
-
-                <option value="electronics">
-                    📱 Electronics
-                </option>
-
-                <option value="fashion">
-                    👕 Fashion
-                </option>
-
-                <option value="home">
-                    🏠 Home
-                </option>
-
-                <option value="gaming">
-                    🎮 Gaming
-                </option>
-
-            </select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label for="productCondition">
-                Condition
-            </label>
-
-            <select id="productCondition">
-
-                <option value="new">
-                    New
-                </option>
-
-                <option value="used">
-                    Used
-                </option>
-
-                <option value="like_new">
-                    Like New
-                </option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-    <div class="form-row">
-
-        <div class="form-group">
-
-            <label for="productPrice">
-                Price
-            </label>
-
-            <input
-                type="number"
-                id="productPrice"
-                min="0"
-                step="0.01"
-                required
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label for="productCurrency">
-                Currency
-            </label>
-
-            <select id="productCurrency">
-
-                <option value="USD">
-                    $ USD
-                </option>
-
-                <option value="EUR">
-                    € EUR
-                </option>
-
-                <option value="MAD">
-                    د.م. MAD
-                </option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-    <div class="form-group">
-
-        <label for="productLocation">
-            Location
-        </label>
-
-        <input
-            type="text"
-            id="productLocation"
-            maxlength="150"
-            placeholder="City / Country"
-        >
-
-    </div>
-
-    <div class="form-group">
-
-        <label
-            for="productImageFile"
-            id="productImageLabel"
-        >
-            📷 Product Image
-        </label>
-
-        <div class="image-upload-box">
-
-            <input
-                type="file"
-                id="productImageFile"
-                class="image-upload-input"
-                accept="image/*"
-            >
-
-            <p
-                class="image-help"
-                id="imageHelp"
-            >
-                JPG, PNG, WEBP — maximum 5 MB
-            </p>
-
-            <img
-                id="productImagePreview"
-                class="image-preview"
-                alt="Product preview"
-            >
-
-        </div>
-
-    </div>
-
-    <div class="modal-actions">
-
-        <button
-            type="button"
-            class="cancel-button"
-            id="cancelModalButton"
-        >
-            Cancel
-        </button>
-
-        <button
-            type="submit"
-            class="save-product-button"
-            id="saveProductButton"
-        >
-            Publish Product
-        </button>
-
-    </div>
-
-</form>
-
-
-</div>
-
-</div>
-
-<!-- =====================================================
-     PRODUCT DETAILS MODAL
-===================================================== -->
-
-<div
-    id="productDetailsOverlay"
-    class="product-details-overlay"
->
-
-<div class="product-details-modal">
-
-
-<div class="product-details-header">
-
-    <button
-        type="button"
-        class="product-details-close"
-        id="productDetailsCloseButton"
-        aria-label="Close"
-    >
-        ✕
-    </button>
-
-</div>
-
-<img
-    id="productDetailsImage"
-    class="product-details-image"
-    alt="Product"
->
-
-<div class="product-details-content">
-
-    <div
-        id="productDetailsCategory"
-        class="product-details-category"
-    >
-    </div>
-
-    <h2
-        id="productDetailsName"
-        class="product-details-name"
-    >
-    </h2>
-
-    <div
-        id="productDetailsPrice"
-        class="product-details-price"
-    >
-    </div>
-
-    <div class="product-details-info">
-
-        <div class="product-details-info-box">
-
-            <span
-                class="product-details-info-label"
-                id="detailsConditionLabel"
-            >
-                Condition
-            </span>
-
-            <span
-                class="product-details-info-value"
-                id="productDetailsCondition"
-            >
-                -
-            </span>
-
-        </div>
-
-        <div class="product-details-info-box">
-
-            <span
-                class="product-details-info-label"
-                id="detailsLocationLabel"
-            >
-                Location
-            </span>
-
-            <span
-                class="product-details-info-value"
-                id="productDetailsLocation"
-            >
-                -
-            </span>
-
-        </div>
-
-    </div>
-
-    <h3
-        class="product-details-description-title"
-        id="detailsDescriptionLabel"
-    >
-        Description
-    </h3>
-
-    <p
-        id="productDetailsDescription"
-        class="product-details-description"
-    >
-    </p>
-
-</div>
-
-<div class="product-details-footer">
-
-    <button
-        type="button"
-        class="product-details-close-bottom"
-        id="productDetailsCloseBottom"
-    >
-        Close
-    </button>
-
-</div>
-
-
-</div>
-
-</div>
-<!-- =====================================================
-     SELLER PROFILE MODAL
-===================================================== -->
-
-<div id="sellerProfileOverlay" class="seller-profile-overlay">
-
-    <div class="seller-profile-modal">
-
-        <div class="seller-profile-header">
-
-            <button
-                type="button"
-                id="sellerProfileCloseButton"
-                class="seller-profile-close"
-                aria-label="Close"
-            >
-                ✕
-            </button>
-
-        </div>
-
-        <div class="seller-profile-top">
-
-           <img
-    id="sellerProfileAvatar"
-    class="seller-profile-avatar"
-    src="images/iconprofile.png"
-    alt="Seller"
->
-
-            <h2
-                id="sellerProfileName"
-                class="seller-profile-name"
-            >
-                Seller
-            </h2>
-
-            <div
-                id="sellerProfileUsername"
-                class="seller-profile-username"
-            >
-                @seller
-            </div>
-
-            <p
-                id="sellerProfileBio"
-                class="seller-profile-bio"
-            >
-            </p>
-
-        </div>
-
-        <div class="seller-profile-stats">
-
-            <div class="seller-stat">
-
-                <strong id="sellerProfileProductCount">
-                    0
-                </strong>
-
-                <span>
-                    Products
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="seller-profile-actions">
-
-            <button
-                type="button"
-                id="sellerProfileContactButton"
-                class="seller-profile-contact"
-            >
-                💬 Contact Seller
-            </button>
-
-        </div>
-
-        <h3
-            id="sellerProfileProductsTitle"
-            class="seller-profile-products-title"
-        >
-            Seller Products
-        </h3>
-
-        <div
-            id="sellerProfileProducts"
-            class="seller-profile-products"
-        >
-        </div>
-
-    </div>
-
-</div>
-<script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-
-let marketSupabase = null;
-
-if (window.supabaseClient) {
-
-    marketSupabase =
-        window.supabaseClient;
-
-    console.log(
-        "✅ Using existing SocialWiki Supabase client"
-    );
-
-} else if (window.supabase) {
-
-    marketSupabase =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY,
-            {
-                auth: {
-                    persistSession: true,
-                    autoRefreshToken: true,
-                    detectSessionInUrl: true
-                }
-            }
-        );
-
-    console.log(
-        "✅ Market Plus Supabase client created"
-    );
-
-} else {
-
-    console.error(
-        "❌ Supabase library not found"
-    );
-
-}
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const searchInput =
-    document.getElementById("productSearch");
-
-const languageSelect =
-    document.getElementById("languageSelect");
-
-const currencySelect =
-    document.getElementById("currencySelect");
-
-const addProductButton =
-    document.getElementById("addProductButton");
-
-const productsGrid =
-    document.getElementById("productsGrid");
-
-const noResults =
-    document.getElementById("noResults");
-
-const loadingBox =
-    document.getElementById("loadingBox");
-
-const categoryButtons =
-    document.querySelectorAll(".category-button");
-
-const favoritesButton =
-    document.getElementById("favoritesButton");
-
-    const myProductsButton =
-    document.getElementById("myProductsButton");
-
-const statusBox =
-    document.getElementById("statusBox");
-
-const productModal =
-    document.getElementById("productModal");
-
-const productForm =
-    document.getElementById("productForm");
-
-const closeModalButton =
-    document.getElementById("closeModalButton");
-
-const cancelModalButton =
-    document.getElementById("cancelModalButton");
-
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const saveProductButton =
-    document.getElementById("saveProductButton");
-
-const productImageFile =
-    document.getElementById("productImageFile");
-
-const productImagePreview =
-    document.getElementById("productImagePreview");
-
-const productImageLabel =
-    document.getElementById("productImageLabel");
-
-const imageHelp =
-    document.getElementById("imageHelp");
-
-
-/* =====================================================
-   PRODUCT DETAILS ELEMENTS
-===================================================== */
-
-const productDetailsOverlay =
-    document.getElementById("productDetailsOverlay");
-
-const productDetailsCloseButton =
-    document.getElementById("productDetailsCloseButton");
-
-const productDetailsCloseBottom =
-    document.getElementById("productDetailsCloseBottom");
-
-const productDetailsImage =
-    document.getElementById("productDetailsImage");
-
-const productDetailsCategory =
-    document.getElementById("productDetailsCategory");
-
-const productDetailsName =
-    document.getElementById("productDetailsName");
-
-const productDetailsPrice =
-    document.getElementById("productDetailsPrice");
-
-const productDetailsCondition =
-    document.getElementById("productDetailsCondition");
-
-const productDetailsLocation =
-    document.getElementById("productDetailsLocation");
-
-const productDetailsDescription =
-    document.getElementById("productDetailsDescription");
-
-const detailsConditionLabel =
-    document.getElementById("detailsConditionLabel");
-
-const detailsLocationLabel =
-    document.getElementById("detailsLocationLabel");
-
-const detailsDescriptionLabel =
-    document.getElementById("detailsDescriptionLabel");
-
-    /* =====================================================
-   SELLER PROFILE ELEMENTS
-===================================================== */
-
-const sellerProfileOverlay =
-    document.getElementById(
-        "sellerProfileOverlay"
-    );
-
-const sellerProfileCloseButton =
-    document.getElementById(
-        "sellerProfileCloseButton"
-    );
-
-const sellerProfileAvatar =
-    document.getElementById(
-        "sellerProfileAvatar"
-    );
-
-const sellerProfileName =
-    document.getElementById(
-        "sellerProfileName"
-    );
-
-const sellerProfileUsername =
-    document.getElementById(
-        "sellerProfileUsername"
-    );
-
-const sellerProfileBio =
-    document.getElementById(
-        "sellerProfileBio"
-    );
-
-const sellerProfileProductCount =
-    document.getElementById(
-        "sellerProfileProductCount"
-    );
-
-const sellerProfileContactButton =
-    document.getElementById(
-        "sellerProfileContactButton"
-    );
-
-const sellerProfileProductsTitle =
-    document.getElementById(
-        "sellerProfileProductsTitle"
-    );
-
-const sellerProfileProducts =
-    document.getElementById(
-        "sellerProfileProducts"
-    );
-
-let currentSellerProfile =
-    null;
-
-/* =====================================================
-   STATE
-===================================================== */
-
-
-
-let currentUser = null;
-
-let products = [];
-
-let currentCategory =
-    "all";
-
-let currentCurrency =
-    "USD";
-
-let currentLanguage =
-    "en";
-
-let currentSort =
-    "newest";
-
-    const productSort =
-    document.getElementById("productSort");
-
-if (productSort) {
-
-    productSort.addEventListener(
-        "change",
-        function () {
-
-            currentSort =
-                this.value;
-
-            loadProducts();
-
-        }
-    );
-
-}
-let showMyProductsOnly =
-    false;
-
-let editingProductId =
-    null;
-
-let selectedImageFile =
-    null;
-
-let existingImageUrl =
-    null;
-
-let previewObjectUrl =
-    null;
-
-
-
-
-
-
-
-/* =====================================================
-   FAVORITES STATE
-===================================================== */
-
-let favoriteProductIds =
-    new Set();
-
-let showFavoritesOnly =
-    false;
-
-
-/* =====================================================
-   TRANSLATIONS
-===================================================== */
-
-const translations = {
-
-    en: {
-
-        home:
-            "← Home",
-
-        title:
-            "⭐ Market Plus",
-
-        subtitle:
-            "Discover products and special offers",
-
-        search:
-            "Search products...",
-
-        addProduct:
-            "➕ Add Product",
-
-        all:
-            "🛍️ All",
-
-        electronics:
-            "📱 Electronics",
-
-        fashion:
-            "👕 Fashion",
-
-        homeCategory:
-            "🏠 Home",
-
-        gaming:
-            "🎮 Gaming",
-
-        favorites:
-            "🤍 Favorites",
-
-        myProducts:
-            "👤 My Products",
-
-        favoritesActive:
-            "❤️ Favorites",
-
-        favoriteAdded:
-            "❤️ Added to favorites!",
-
-        favoriteRemoved:
-            "🤍 Removed from favorites.",
-
-        favoritesEmpty:
-            "❤️ You have no favorite products yet.",
-
-        view:
-            "View",
-
-        contactSeller:
-            "💬 Contact Seller",
-
-        edit:
-            "Edit",
-
-        delete:
-            "Delete",
-
-        noResults:
-            "🔎 No products found.",
-
-        loading:
-            "⏳ Loading products...",
-
-        addTitle:
-            "➕ Add Product",
-
-        editTitle:
-            "✏️ Edit Product",
-
-        publish:
-            "Publish Product",
-
-        update:
-            "Update Product",
-
-        cancel:
-            "Cancel",
-
-        close:
-            "Close",
-
-        productName:
-            "Product Name",
-
-        description:
-            "Description",
-
-        category:
-            "Category",
-
-        condition:
-            "Condition",
-
-        price:
-            "Price",
-
-        currency:
-            "Currency",
-
-        location:
-            "Location",
-
-        image:
-            "📷 Product Image",
-
-        imageHelp:
-            "JPG, PNG, WEBP — maximum 5 MB",
-
-        newCondition:
-            "New",
-
-        usedCondition:
-            "Used",
-
-        likeNew:
-            "Like New",
-
-        productCreated:
-            "✅ Product published successfully!",
-
-        productUpdated:
-            "✅ Product updated successfully!",
-
-        productDeleted:
-            "✅ Product deleted successfully.",
-
-        loginRequired:
-            "❌ Please log in first.",
-
-        error:
-            "❌ Something went wrong.",
-
-        invalidImage:
-            "❌ Please select a valid image.",
-
-        imageTooLarge:
-            "❌ Image must be 5 MB or smaller.",
-
-        uploadingImage:
-            "⏳ Uploading image...",
-
-        savingProduct:
-            "⏳ Saving...",
-
-        sellerProfile:
-            "Seller Profile",
-
-        products:
-            "Products",
-
-        sellerProducts:
-            "Seller Products",
-
-        sellerNotFound:
-            "Seller profile not found.",
-
-        sellerLoading:
-            "⏳ Loading seller profile..."
-    },
-
-
-    fr: {
-
-        home:
-            "← Accueil",
-
-        title:
-            "⭐ Market Plus",
-
-        subtitle:
-            "Découvrez des produits et des offres spéciales",
-
-        search:
-            "Rechercher des produits...",
-
-        addProduct:
-            "➕ Ajouter un produit",
-
-        all:
-            "🛍️ Tous",
-
-        electronics:
-            "📱 Électronique",
-
-        fashion:
-            "👕 Mode",
-
-        homeCategory:
-            "🏠 Maison",
-
-        gaming:
-            "🎮 Jeux vidéo",
-
-        favorites:
-            "🤍 Favoris",
-
-        myProducts:
-            "👤 Mes produits",
-
-        favoritesActive:
-            "❤️ Favoris",
-
-        favoriteAdded:
-            "❤️ Ajouté aux favoris !",
-
-        favoriteRemoved:
-            "🤍 Retiré des favoris.",
-
-        favoritesEmpty:
-            "❤️ Vous n'avez pas encore de favoris.",
-
-        view:
-            "Voir",
-
-        contactSeller:
-            "💬 Contacter le vendeur",
-
-        edit:
-            "Modifier",
-
-        delete:
-            "Supprimer",
-
-        noResults:
-            "🔎 Aucun produit trouvé.",
-
-        loading:
-            "⏳ Chargement des produits...",
-
-        addTitle:
-            "➕ Ajouter un produit",
-
-        editTitle:
-            "✏️ Modifier le produit",
-
-        publish:
-            "Publier le produit",
-
-        update:
-            "Mettre à jour",
-
-        cancel:
-            "Annuler",
-
-        close:
-            "Fermer",
-
-        productName:
-            "Nom du produit",
-
-        description:
-            "Description",
-
-        category:
-            "Catégorie",
-
-        condition:
-            "État",
-
-        price:
-            "Prix",
-
-        currency:
-            "Devise",
-
-        location:
-            "Emplacement",
-
-        image:
-            "📷 Image du produit",
-
-        imageHelp:
-            "JPG, PNG, WEBP — maximum 5 Mo",
-
-        newCondition:
-            "Neuf",
-
-        usedCondition:
-            "Occasion",
-
-        likeNew:
-            "Comme neuf",
-
-        productCreated:
-            "✅ Produit publié avec succès !",
-
-        productUpdated:
-            "✅ Produit mis à jour !",
-
-        productDeleted:
-            "✅ Produit supprimé.",
-
-        loginRequired:
-            "❌ Veuillez vous connecter.",
-
-        error:
-            "❌ Une erreur est survenue.",
-
-        invalidImage:
-            "❌ Veuillez sélectionner une image valide.",
-
-        imageTooLarge:
-            "❌ L'image doit faire 5 Mo ou moins.",
-
-        uploadingImage:
-            "⏳ Téléchargement de l'image...",
-
-        savingProduct:
-            "⏳ Enregistrement...",
-
-        sellerProfile:
-            "Profil du vendeur",
-
-        products:
-            "Produits",
-
-        sellerProducts:
-            "Produits du vendeur",
-
-        sellerNotFound:
-            "Profil du vendeur introuvable.",
-
-        sellerLoading:
-            "⏳ Chargement du profil..."
-    },
-
-
-    ar: {
-
-        home:
-            "الرئيسية ←",
-
-        title:
-            "⭐ ماركت بلس",
-
-        subtitle:
-            "اكتشف المنتجات والعروض الخاصة",
-
-        search:
-            "ابحث عن المنتجات...",
-
-        addProduct:
-            "➕ إضافة منتج",
-
-        all:
-            "🛍️ الكل",
-
-        electronics:
-            "📱 الإلكترونيات",
-
-        fashion:
-            "👕 الأزياء",
-
-        homeCategory:
-            "🏠 المنزل",
-
-        gaming:
-            "🎮 الألعاب",
-
-        favorites:
-            "🤍 المفضلة",
-
-        myProducts:
-            "👤 منتجاتي",
-
-        favoritesActive:
-            "❤️ المفضلة",
-
-        favoriteAdded:
-            "❤️ تمت إضافة المنتج إلى المفضلة!",
-
-        favoriteRemoved:
-            "🤍 تمت إزالة المنتج من المفضلة.",
-
-        favoritesEmpty:
-            "❤️ لا توجد منتجات مفضلة حتى الآن.",
-
-        view:
-            "عرض",
-
-        contactSeller:
-            "💬 تواصل مع البائع",
-
-        edit:
-            "تعديل",
-
-        delete:
-            "حذف",
-
-        noResults:
-            "🔎 لم يتم العثور على منتجات.",
-
-        loading:
-            "⏳ جاري تحميل المنتجات...",
-
-        addTitle:
-            "➕ إضافة منتج",
-
-        editTitle:
-            "✏️ تعديل المنتج",
-
-        publish:
-            "نشر المنتج",
-
-        update:
-            "تحديث المنتج",
-
-        cancel:
-            "إلغاء",
-
-        close:
-            "إغلاق",
-
-        productName:
-            "اسم المنتج",
-
-        description:
-            "الوصف",
-
-        category:
-            "الفئة",
-
-        condition:
-            "الحالة",
-
-        price:
-            "السعر",
-
-        currency:
-            "العملة",
-
-        location:
-            "الموقع",
-
-        image:
-            "📷 صورة المنتج",
-
-        imageHelp:
-            "JPG, PNG, WEBP — الحد الأقصى 5 MB",
-
-        newCondition:
-            "جديد",
-
-        usedCondition:
-            "مستعمل",
-
-        likeNew:
-            "كالجديد",
-
-        productCreated:
-            "✅ تم نشر المنتج بنجاح!",
-
-        productUpdated:
-            "✅ تم تحديث المنتج!",
-
-        productDeleted:
-            "✅ تم حذف المنتج.",
-
-        loginRequired:
-            "❌ يرجى تسجيل الدخول أولاً.",
-
-        error:
-            "❌ حدث خطأ.",
-
-        invalidImage:
-            "❌ يرجى اختيار صورة صحيحة.",
-
-        imageTooLarge:
-            "❌ يجب ألا يتجاوز حجم الصورة 5 MB.",
-
-        uploadingImage:
-            "⏳ جاري رفع الصورة...",
-
-        savingProduct:
-            "⏳ جاري الحفظ...",
-
-        sellerProfile:
-            "ملف البائع",
-
-        products:
-            "المنتجات",
-
-        sellerProducts:
-            "منتجات البائع",
-
-        sellerNotFound:
-            "لم يتم العثور على ملف البائع.",
-
-        sellerLoading:
-            "⏳ جاري تحميل ملف البائع..."
-    }
-
-};
-
-/* =====================================================
-   CURRENCY
-===================================================== */
-
-const currencyRates = {
-
-    USD: 1,
-
-    EUR: 0.85,
-
-    MAD: 10
-
-};
-
-const currencyConfig = {
-
-    USD: {
-        symbol: "$",
-        position: "before"
-    },
-
-    EUR: {
-        symbol: "€",
-        position: "before"
-    },
-
-    MAD: {
-        symbol: "د.م.",
-        position: "after"
-    }
-
-};
-
-
-/* =====================================================
-   CURRENT USER
-===================================================== */
-
-async function getCurrentUser() {
-
-    if (!marketSupabase) {
-        return null;
-    }
-
-    const {
-        data: {
-            session
-        },
-        error
-    } =
-        await marketSupabase
-            .auth
-            .getSession();
-
-    if (error) {
-
-        console.error(
-            "❌ Session error:",
-            error
-        );
-
-        return null;
-    }
-
-    return session?.user || null;
-
-}
-
-
-/* =====================================================
-   LOAD FAVORITES
-===================================================== */
-
-async function loadFavorites() {
-
-    favoriteProductIds =
-        new Set();
-
-    if (!currentUser) {
-
-        console.log(
-            "ℹ️ No user - favorites cleared"
-        );
-
-        return;
-
-    }
-
-    if (!marketSupabase) {
-
-        return;
-
-    }
-
-    const {
-        data,
-        error
-    } =
-        await marketSupabase
-            .from("market_favorites")
-            .select("product_id")
-            .eq(
-                "user_id",
-                currentUser.id
-            );
-
-    if (error) {
-
-        console.error(
-            "❌ Load favorites error:",
-            error
-        );
-
-        showStatus(
-            "❌ " + error.message,
-            "error"
-        );
-
-        return;
-
-    }
-
-    (data || []).forEach(
-        favorite => {
-
-            if (favorite.product_id) {
-
-                favoriteProductIds.add(
-                    favorite.product_id
-                );
-
-            }
-
-        }
-    );
-
-    console.log(
-        "❤️ Favorites loaded:",
-        favoriteProductIds.size
-    );
-
-}
-
-
-/* =====================================================
-   TOGGLE FAVORITE
-===================================================== */
-
-async function toggleFavorite(
-    product,
-    event
-) {
-
-    if (event) {
-
-        event.preventDefault();
-        event.stopPropagation();
-
-    }
-
-    if (!currentUser) {
-
-        showStatus(
-            translations[
-                currentLanguage
-            ].loginRequired,
-            "error"
-        );
-
-        return;
-
-    }
-
-    if (!product || !product.id) {
-
-        return;
-
-    }
-
-    const isFavorite =
-        favoriteProductIds.has(
-            product.id
-        );
-
-    const button =
-        event?.currentTarget ||
-        null;
-
-    if (button) {
-
-        button.disabled = true;
-
-    }
-
-    try {
-
-        if (isFavorite) {
-
-            const {
-                error
-            } =
-                await marketSupabase
-                    .from("market_favorites")
-                    .delete()
-                    .eq(
-                        "user_id",
-                        currentUser.id
-                    )
-                    .eq(
-                        "product_id",
-                        product.id
-                    );
-
-            if (error) {
-
-                throw error;
-
-            }
-
-            favoriteProductIds.delete(
-                product.id
-            );
-
-            showStatus(
-                translations[
-                    currentLanguage
-                ].favoriteRemoved,
-                "success"
-            );
-
-        } else {
-
-            const {
-                error
-            } =
-                await marketSupabase
-                    .from("market_favorites")
-                    .insert({
-
-                        user_id:
-                            currentUser.id,
-
-                        product_id:
-                            product.id
-
-                    });
-
-            if (error) {
-
-                throw error;
-
-            }
-
-            favoriteProductIds.add(
-                product.id
-            );
-
-            showStatus(
-                translations[
-                    currentLanguage
-                ].favoriteAdded,
-                "success"
-            );
-
-        }
-
-        renderProducts();
-
-    } catch (error) {
-
-        console.error(
-            "❌ Toggle favorite error:",
-            error
-        );
-
-        showStatus(
-            "❌ " +
-            (
-                error.message ||
-                translations[
-                    currentLanguage
-                ].error
-            ),
-            "error"
-        );
-
-    } finally {
-
-        if (button) {
-
-            button.disabled = false;
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   IMAGE PREVIEW
-===================================================== */
-
-function clearImagePreview() {
-
-    if (previewObjectUrl) {
-
-        URL.revokeObjectURL(
-            previewObjectUrl
-        );
-
-        previewObjectUrl = null;
-
-    }
-
-    productImagePreview.src = "";
-
-    productImagePreview.style.display =
-        "none";
-
-}
-
-function showImagePreview(url) {
-
-    if (!url) {
-
-        clearImagePreview();
-
-        return;
-
-    }
-
-    productImagePreview.src =
-        url;
-
-    productImagePreview.style.display =
-        "block";
-
-}
-
-
-/* =====================================================
-   IMAGE FILE CHANGE
-===================================================== */
-
-productImageFile.addEventListener(
-    "change",
-    function () {
-
-        const file =
-            this.files &&
-            this.files[0]
-                ? this.files[0]
-                : null;
-
-        selectedImageFile =
-            null;
-
-        if (!file) {
-
-            if (existingImageUrl) {
-
-                showImagePreview(
-                    existingImageUrl
-                );
-
-            } else {
-
-                clearImagePreview();
-
-            }
-
-            return;
-
-        }
-
-        if (
-            !file.type.startsWith(
-                "image/"
-            )
-        ) {
-
-            this.value = "";
-
-            showStatus(
-                translations[
-                    currentLanguage
-                ].invalidImage,
-                "error"
-            );
-
-            return;
-
-        }
-
-        const maxSize =
-            5 * 1024 * 1024;
-
-        if (file.size > maxSize) {
-
-            this.value = "";
-
-            showStatus(
-                translations[
-                    currentLanguage
-                ].imageTooLarge,
-                "error"
-            );
-
-            return;
-
-        }
-
-        selectedImageFile =
-            file;
-
-        if (previewObjectUrl) {
-
-            URL.revokeObjectURL(
-                previewObjectUrl
-            );
-
-        }
-
-        previewObjectUrl =
-            URL.createObjectURL(
-                file
-            );
-
-        showImagePreview(
-            previewObjectUrl
-        );
-
-        console.log(
-            "📷 Image selected:",
-            file.name,
-            file.size,
-            file.type
-        );
-
-    }
-);
-
-
-/* =====================================================
-   UPLOAD PRODUCT IMAGE
-===================================================== */
-
-async function uploadProductImage(file) {
-
-    if (!marketSupabase) {
-
-        throw new Error(
-            "Supabase is not available."
-        );
-
-    }
-
-    if (!currentUser) {
-
-        throw new Error(
-            "Please log in first."
-        );
-
-    }
-
-    if (!file) {
-
-        return null;
-
-    }
-
-    const extension =
-        file.name
-            .split(".")
-            .pop()
-            .toLowerCase()
-            .replace(
-                /[^a-z0-9]/g,
-                ""
-            );
-
-    const safeName =
-        file.name
-            .replace(
-                /\.[^/.]+$/,
-                ""
-            )
-            .replace(
-                /[^a-zA-Z0-9_-]/g,
-                "-"
-            )
-            .slice(
-                0,
-                80
-            ) ||
-        "product";
-
-    const filePath =
-        currentUser.id +
-        "/" +
-        Date.now() +
-        "-" +
-        safeName +
-        "." +
-        extension;
-
-    console.log(
-        "☁️ Uploading image:",
-        filePath
-    );
-
-    const {
-        error: uploadError
-    } =
-        await marketSupabase
-            .storage
-            .from("market-products")
-            .upload(
-                filePath,
-                file,
-                {
-                    cacheControl:
-                        "3600",
-
-                    upsert:
-                        false,
-
-                    contentType:
-                        file.type
-                }
-            );
-
-    if (uploadError) {
-
-        console.error(
-            "❌ Image upload error:",
-            uploadError
-        );
-
-        throw uploadError;
-
-    }
-
-    const {
-        data
-    } =
-        marketSupabase
-            .storage
-            .from("market-products")
-            .getPublicUrl(
-                filePath
-            );
-
-    if (!data?.publicUrl) {
-
-        throw new Error(
-            "Could not get image public URL."
-        );
-
-    }
-
-    console.log(
-        "✅ Image uploaded:",
-        data.publicUrl
-    );
-
-    return {
-
-        url:
-            data.publicUrl,
-
-        path:
-            filePath
-
-    };
-
-}
-
-
-/* =====================================================
-   GET STORAGE PATH
-===================================================== */
-
-function getStoragePathFromUrl(url) {
-
-    if (!url) {
-
-        return null;
-
-    }
-
-    const marker =
-        "/storage/v1/object/public/market-products/";
-
-    const index =
-        url.indexOf(
-            marker
-        );
-
-    if (index === -1) {
-
-        return null;
-
-    }
-
-    return decodeURIComponent(
-        url.slice(
-            index +
-            marker.length
-        )
-    );
-
-}
-
-
-/* =====================================================
-   DELETE STORAGE IMAGE
-===================================================== */
-
-async function deleteStorageImage(url) {
-
-    const path =
-        getStoragePathFromUrl(
-            url
-        );
-
-    if (!path) {
-
-        return;
-
-    }
-
-    try {
-
-        const {
-            error
-        } =
-            await marketSupabase
-                .storage
-                .from(
-                    "market-products"
-                )
-                .remove([
-                    path
-                ]);
-
-        if (error) {
-
-            console.warn(
-                "⚠️ Could not delete image:",
-                error
-            );
-
-            return;
-
-        }
-
-        console.log(
-            "🗑️ Storage image deleted:",
-            path
-        );
-
-    } catch (error) {
-
-        console.warn(
-            "⚠️ Storage delete failed:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   LOAD PRODUCTS
-===================================================== */
-
-async function loadProducts() {
-
-    loadingBox.style.display =
-        "block";
-
-    productsGrid.innerHTML =
-        "";
-
-    noResults.style.display =
-        "none";
-
-    if (!marketSupabase) {
-
-        loadingBox.textContent =
-            "❌ Supabase is not available.";
-
-        return;
-
-    }
-
-    const {
-        data,
-        error
-    } =
-        await marketSupabase
-            .from("market_products")
-            .select(`
-                id,
-                seller_id,
-                name,
-                description,
-                category,
-                price,
-                currency,
-                location,
-                condition,
-                image_url,
-                created_at,
-                updated_at
-            `)
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
-
-    loadingBox.style.display =
-        "none";
-
-    if (error) {
-
-        console.error(
-            "❌ Market products error:",
-            error
-        );
-
-        showStatus(
-            "❌ " +
-            error.message,
-            "error"
-        );
-
-        return;
-
-    }
-
-    products =
-        data || [];
-
-    console.log(
-        "🛒 Market products loaded:",
-        products.length
-    );
-
-    renderProducts();
-
-}
-
-
-/* =====================================================
-   
-/* =====================================================
-   RENDER PRODUCTS
-===================================================== */
-
-function renderProducts() {
-
-    const search =
-        searchInput.value
-            .toLowerCase()
-            .trim();
-
-    productsGrid.innerHTML =
-        "";
-
-    let visibleProducts =
-        0;
-
-
-    // =====================================================
-    // // =====================================================
-// SORT PRODUCTS
-// =====================================================
-
-let sortedProducts =
-    [...products];
-
-if (
-    currentSort ===
-    "newest"
-) {
-
-    sortedProducts.sort(
-        (a, b) =>
-            new Date(
-                b.created_at
-            ).getTime() -
-            new Date(
-                a.created_at
-            ).getTime()
-    );
-
-} else if (
-    currentSort ===
-    "oldest"
-) {
-
-    sortedProducts.sort(
-        (a, b) =>
-            new Date(
-                a.created_at
-            ).getTime() -
-            new Date(
-                b.created_at
-            ).getTime()
-    );
-
-} else if (
-    currentSort ===
-    "price_low"
-) {
-
-    sortedProducts.sort(
-        (a, b) => {
-
-            const priceA =
-                parseFloat(
-                    String(
-                        a.price ?? 0
-                    ).replace(
-                        /[^0-9.-]/g,
-                        ""
-                    )
-                ) || 0;
-
-            const priceB =
-                parseFloat(
-                    String(
-                        b.price ?? 0
-                    ).replace(
-                        /[^0-9.-]/g,
-                        ""
-                    )
-                ) || 0;
-
-            return priceA - priceB;
-        }
-    );
-
-} else if (
-    currentSort ===
-    "price_high"
-) {
-
-    sortedProducts.sort(
-        (a, b) => {
-
-            const priceA =
-                parseFloat(
-                    String(
-                        a.price ?? 0
-                    ).replace(
-                        /[^0-9.-]/g,
-                        ""
-                    )
-                ) || 0;
-
-            const priceB =
-                parseFloat(
-                    String(
-                        b.price ?? 0
-                    ).replace(
-                        /[^0-9.-]/g,
-                        ""
-                    )
-                ) || 0;
-
-            return priceB - priceA;
-        }
-    );
-
-}
-
-    // =====================================================
-    // DISPLAY PRODUCTS
-    // =====================================================
-
-    sortedProducts.forEach(
-        product => {
-
-            const name =
-                String(
-                    product.name || ""
-                )
-                .toLowerCase();
-
-            const description =
-                String(
-                    product.description || ""
-                )
-                .toLowerCase();
-
-            const category =
-                String(
-                    product.category || ""
-                )
-                .toLowerCase();
-
-            const location =
-                String(
-                    product.location || ""
-                )
-                .toLowerCase();
-
-
+    <!-- =========================================================
+         SELL MODAL
+    ========================================================= -->
+    <div id="sellModal" class="modal">
+        <div class="modal-box">
+            <div class="modal-title">🛍️ Add Product</div>
             
-            // CATEGORY FILTER
+            <form id="sellForm" onsubmit="createProduct(event)">
+                <!-- اسم المنتج -->
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" required placeholder="Enter product name">
+                </div>
+                
+                <!-- وصف المنتج -->
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" placeholder="Describe your product..."></textarea>
+                </div>
+                
+                <!-- صورة / فيديو -->
+                <div class="form-group">
+                    <label for="productMedia">Upload Image or Video</label>
+                    <input type="file" id="productMedia" accept="image/*,video/*" onchange="previewMedia(event)">
+                    <div id="mediaPreview" style="margin-top: 10px;"></div>
+                </div>
+                
+                <!-- السعر -->
+                <div class="form-group">
+                    <label for="productPrice">Price</label>
+                    <input type="number" id="productPrice" required placeholder="Enter price">
+                </div>
+                
+                <!-- اختيار العملة -->
+                <div class="form-group">
+                    <label>Currency</label>
+                    <div class="currency-selector">
+                        <button type="button" class="currency-btn active" onclick="selectCurrency('MAD', this)" data-rate="1">🇲🇦 MAD</button>
+                        <button type="button" class="currency-btn" onclick="selectCurrency('EUR', this)" data-rate="0.092">🇪🇺 EUR</button>
+                        <button type="button" class="currency-btn" onclick="selectCurrency('USD', this)" data-rate="0.10">🇺🇸 USD</button>
+                    </div>
+                    <div class="price-display" id="priceDisplay">
+                        Price will appear here
+                    </div>
+                </div>
+                
+                <!-- الموقع -->
+                <div class="form-group">
+                    <label for="productLocation">Location</label>
+                    <input type="text" id="productLocation" required placeholder="Enter location">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="cancel-button" onclick="closeSellModal()">Cancel</button>
+                    <button type="submit" class="submit-button">✅ Publish Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // CURRENCY
+        // =========================================================
+        
+        let selectedCurrency = 'MAD';
+        let selectedRate = 1;
+        
+        function selectCurrency(currency, btn) {
+            document.querySelectorAll('.currency-btn').forEach(button => {
+                button.classList.remove('active');
+            });
             
-            const categoryMatch =
-                currentCategory === "all" ||
-                category === currentCategory;
-
-
-            // =================================================
-            // FAVORITES FILTER
-            // =================================================
-
-            const favoriteMatch =
-                !showFavoritesOnly ||
-                favoriteProductIds.has(
-                    product.id
-                );
-
-                // =================================================
-// MY PRODUCTS FILTER
-// =================================================
-
-
-
-            // =================================================
-            // MY PRODUCTS FILTER
-            // =================================================
-
-           
-const myProductsMatch =
-    !showMyProductsOnly ||
-    (
-        currentUser &&
-        String(product.seller_id).trim() ===
-        String(currentUser.id).trim()
-    );
-
-
-console.log(
-    "👤 My Products:",
-    "Product:",
-    product.name,
-    "| seller_id:",
-    String(product.seller_id),
-    "| currentUser_id:",
-    String(currentUser?.id),
-    "| MATCH:",
-    String(product.seller_id).trim() ===
-    String(currentUser?.id).trim()
-);
-
-
-
-
-            // =================================================
-            // SEARCH FILTER
-            // =================================================
-
-            const searchMatch =
-                search === "" ||
-                name.includes(search) ||
-                description.includes(search) ||
-                category.includes(search) ||
-                location.includes(search);
-
-
-            // =================================================
-            // FILTER
-            // =================================================
-
-            if (
-                !categoryMatch ||
-                !favoriteMatch ||
-                !myProductsMatch ||
-                !searchMatch
-            ) {
-
-                return;
-
-            }
-
-
-            // =================================================
-            // CREATE CARD
-            // =================================================
-
-            visibleProducts++;
-
-
-            const card =
-                createProductCard(
-                    product
-                );
-
-
-            productsGrid.appendChild(
-                card
-            );
-
+            btn.classList.add('active');
+            selectedCurrency = currency;
+            selectedRate = parseFloat(btn.getAttribute('data-rate'));
+            updatePriceDisplay();
         }
-    );
-
-
-    // =====================================================
-    // NO RESULTS MESSAGE
-    // =====================================================
-
-    if (
-        showMyProductsOnly &&
-        visibleProducts === 0
-    ) {
-
-        noResults.textContent =
-            translations[
-                currentLanguage
-            ].myProductsEmpty ||
-            "👤 You have no products yet.";
-
-    } else if (
-        showFavoritesOnly &&
-        visibleProducts === 0
-    ) {
-
-        noResults.textContent =
-            translations[
-                currentLanguage
-            ].favoritesEmpty;
-
-    } else {
-
-        noResults.textContent =
-            translations[
-                currentLanguage
-            ].noResults;
-
-    }
-
-
-    noResults.style.display =
-        visibleProducts === 0
-            ? "block"
-            : "none";
-
-}
-
-
-
-/* =====================================================
-   CREATE PRODUCT CARD
-===================================================== */
-
-function createProductCard(product) {
-
-    const card =
-        document.createElement(
-            "article"
-        );
-
-    card.className =
-        "product-card";
-
-    card.style.cursor =
-        "pointer";
-
-    card.addEventListener(
-        "click",
-        function (event) {
-
-            if (
-                event.target.closest(
-                    ".view-button"
-                ) ||
-                event.target.closest(
-                    ".edit-button"
-                ) ||
-                event.target.closest(
-                    ".delete-button"
-                ) ||
-                event.target.closest(
-                    ".contact-seller-button"
-                ) ||
-                event.target.closest(
-                    ".favorite-button"
-                ) ||
-                event.target.closest(
-                    ".seller-info-button"
-                )
-            ) {
-
+        
+        function updatePriceDisplay() {
+            const priceInput = document.getElementById('productPrice');
+            const priceDisplay = document.getElementById('priceDisplay');
+            
+            const price = parseFloat(priceInput.value);
+            
+            if (!price) {
+                priceDisplay.textContent = 'Price will appear here';
                 return;
             }
-
-            viewProduct(
-                product
-            );
-
-        }
-    );
-
-    /* =================================================
-       IMAGE WRAPPER
-    ================================================= */
-
-    const imageWrapper =
-        document.createElement(
-            "div"
-        );
-
-    imageWrapper.className =
-        "product-image-wrapper";
-
-
-    /* =================================================
-       IMAGE
-    ================================================= */
-
-    const image =
-        document.createElement(
-            "img"
-        );
-
-    image.className =
-        "product-image";
-
-    image.alt =
-        product.name ||
-        "Product";
-
-    image.src =
-        product.image_url ||
-        "assets1/market-placeholder.svg";
-
-    image.onerror =
-        function () {
-
-            this.onerror = null;
-
-            this.src =
-                "assets1/market-placeholder.svg";
-
-        };
-
-
-    /* =================================================
-       FAVORITE BUTTON
-    ================================================= */
-
-    const favoriteButton =
-        document.createElement(
-            "button"
-        );
-
-    favoriteButton.type =
-        "button";
-
-    favoriteButton.className =
-        "favorite-button";
-
-    const isFavorite =
-        favoriteProductIds.has(
-            product.id
-        );
-
-    favoriteButton.textContent =
-        isFavorite
-            ? "❤️"
-            : "🤍";
-
-    favoriteButton.title =
-        isFavorite
-            ? translations[
-                currentLanguage
-              ].favoriteRemoved
-            : translations[
-                currentLanguage
-              ].favorites;
-
-    if (isFavorite) {
-
-        favoriteButton.classList.add(
-            "is-favorite"
-        );
-
-    }
-
-    favoriteButton.setAttribute(
-        "aria-label",
-        isFavorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-    );
-
-    favoriteButton.addEventListener(
-        "click",
-        function (event) {
-
-            toggleFavorite(
-                product,
-                event
-            );
-
-        }
-    );
-
-    imageWrapper.appendChild(
-        image
-    );
-
-    imageWrapper.appendChild(
-        favoriteButton
-    );
-
-
-    /* =================================================
-       CONTENT
-    ================================================= */
-
-    const content =
-        document.createElement(
-            "div"
-        );
-
-    content.className =
-        "product-content";
-
-
-    /* =================================================
-       CATEGORY
-    ================================================= */
-
-    const category =
-        document.createElement(
-            "div"
-        );
-
-    category.className =
-        "product-category";
-
-    category.textContent =
-        getCategoryLabel(
-            product.category
-        );
-
-
-    /* =================================================
-       NAME
-    ================================================= */
-
-    const name =
-        document.createElement(
-            "h2"
-        );
-
-    name.className =
-        "product-name";
-
-    name.textContent =
-        product.name ||
-        "";
-
-
-    /* =================================================
-       DESCRIPTION
-    ================================================= */
-
-    const description =
-        document.createElement(
-            "p"
-        );
-
-    description.className =
-        "product-description";
-
-    description.textContent =
-        product.description ||
-        "";
-
-
-    /* =================================================
-       BOTTOM
-    ================================================= */
-
-    const bottom =
-        document.createElement(
-            "div"
-        );
-
-    bottom.className =
-        "product-bottom";
-
-
-    /* =================================================
-       PRICE
-    ================================================= */
-
-    const price =
-        document.createElement(
-            "span"
-        );
-
-    price.className =
-        "product-price";
-
-    price.textContent =
-        formatProductPrice(
-            product
-        );
-
-
-    /* =================================================
-       ACTIONS
-    ================================================= */
-
-    const actions =
-        document.createElement(
-            "div"
-        );
-
-    actions.className =
-        "product-actions";
-
-
-    /* =================================================
-       VIEW
-    ================================================= */
-
-    const viewButton =
-        document.createElement(
-            "button"
-        );
-
-    viewButton.type =
-        "button";
-
-    viewButton.className =
-        "view-button";
-
-    viewButton.textContent =
-        translations[
-            currentLanguage
-        ].view;
-
-    viewButton.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-            viewProduct(
-                product
-            );
-
-        }
-    );
-
-    actions.appendChild(
-        viewButton
-    );
-
-
-    /* =================================================
-       OWNER PRODUCTS
-    ================================================= */
-
-    if (
-        currentUser &&
-        currentUser.id ===
-        product.seller_id
-    ) {
-
-        /* =============================================
-           EDIT
-        ============================================= */
-
-        const editButton =
-            document.createElement(
-                "button"
-            );
-
-        editButton.type =
-            "button";
-
-        editButton.className =
-            "edit-button";
-
-        editButton.textContent =
-            translations[
-                currentLanguage
-            ].edit;
-
-        editButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-                openEditProduct(
-                    product
-                );
-
-            }
-        );
-
-
-        /* =============================================
-           DELETE
-        ============================================= */
-
-        const deleteButton =
-            document.createElement(
-                "button"
-            );
-
-        deleteButton.type =
-            "button";
-
-        deleteButton.className =
-            "delete-button";
-
-        deleteButton.textContent =
-            translations[
-                currentLanguage
-            ].delete;
-
-        deleteButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-                deleteProduct(
-                    product.id
-                );
-
-            }
-        );
-
-        actions.appendChild(
-            editButton
-        );
-
-        actions.appendChild(
-            deleteButton
-        );
-
-    } else {
-
-
-        /* =====================================================
-   OPEN SELLER PROFILE
-===================================================== */
-
-async function openSellerProfile(sellerId) {
-
-    if (!sellerId) {
-        return;
-    }
-
-    if (!marketSupabase) {
-        return;
-    }
-
-    currentSellerProfile =
-        sellerId;
-
-    sellerProfileOverlay.style.display =
-        "block";
-
-    document.body.style.overflow =
-        "hidden";
-
-    sellerProfileProducts.innerHTML =
-        "";
-
-    sellerProfileName.textContent =
-        translations[
-            currentLanguage
-        ].sellerLoading;
-
-    sellerProfileUsername.textContent =
-        "";
-
-    sellerProfileBio.textContent =
-        "";
-
-    sellerProfileProductCount.textContent =
-        "0";
-
-    try {
-
-        /* =============================================
-           LOAD SELLER PROFILE
-        ============================================= */
-
-        console.log(
-    "🔎 Loading Seller Profile:",
-    sellerId
-);
-
-console.log(
-    "🔎 Loading Seller Profile:",
-    sellerId
-);
-
-const {
-    data: profile,
-    error: profileError
-} = await marketSupabase
-    .from("profiles")
-    .select(`
-        id,
-        username,
-        full_name,
-        bio,
-        avatar_url
-    `)
-    .eq("id", String(sellerId))
-    .maybeSingle();
-
-console.log(
-    "👤 Seller Profile Result:",
-    profile
-);
-
-console.log(
-    "❌ Seller Profile Error:",
-    profileError
-);
-
-console.log(
-    "👤 Seller Profile Result:",
-    profile
-);
-
-console.log(
-    "❌ Seller Profile Error:",
-    profileError
-);
-
-        if (profileError) {
-            throw profileError;
-        }
-
-        if (!profile) {
-
-            sellerProfileName.textContent =
-                translations[
-                    currentLanguage
-                ].sellerNotFound;
-
-            return;
-        }
-
-        /* =============================================
-           PROFILE DATA
-        ============================================= */
-
-       sellerProfileName.textContent =
-    profile.full_name ||
-    profile.username ||
-    "Seller";
-
-sellerProfileUsername.textContent =
-    profile.username
-        ? "@" + profile.username
-        : "";
-
-sellerProfileBio.textContent =
-    profile.bio ||
-    "";
-
-console.log(
-    "✅ FINAL SELLER UI:",
-    sellerProfileName.textContent,
-    sellerProfileUsername.textContent
-);
-console.log(
-    "✅ SELLER NAME TO DISPLAY:",
-    profile.full_name
-);
-sellerProfileUsername.textContent =
-    profile.username
-        ? "@" + profile.username
-        : "";
-
-      sellerProfileBio.textContent =
-    profile.bio ||
-    "";
-
-sellerProfileAvatar.src =
-    profile.avatar_url ||
-    "images/iconprofile.png";
-
-sellerProfileAvatar.onerror =
-    function () {
-        this.onerror = null;
-        this.src =
-            "images/iconprofile.png";
-    };
-
-                this.onerror = null;
-
-               this.src =
-    "images/iconprofile.png";
-
-        /* =============================================
-           LOAD SELLER PRODUCTS
-        ============================================= */
-
-        const {
-            data: sellerProducts,
-            error: productsError
-        } =
-            await marketSupabase
-                .from("market_products")
-                .select(`
-                    id,
-                    seller_id,
-                    name,
-                    description,
-                    category,
-                    price,
-                    currency,
-                    location,
-                    condition,
-                    image_url,
-                    created_at,
-                    updated_at
-                `)
-                .eq(
-                    "seller_id",
-                    sellerId
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                );
-
-        if (productsError) {
-            throw productsError;
-        }
-
-        const list =
-            sellerProducts || [];
-
-        sellerProfileProductCount.textContent =
-            list.length;
-
-        renderSellerProducts(
-            list
-        );
-
-    } catch (error) {
-
-        console.error(
-            "❌ Seller profile error:",
-            error
-        );
-
-        sellerProfileName.textContent =
-            translations[
-                currentLanguage
-            ].sellerNotFound;
-
-        showStatus(
-            "❌ " +
-            (
-                error.message ||
-                translations[
-                    currentLanguage
-                ].error
-            ),
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   RENDER SELLER PRODUCTS
-===================================================== */
-
-function renderSellerProducts(
-    sellerProducts
-) {
-
-    sellerProfileProducts.innerHTML =
-        "";
-
-    if (
-        !sellerProducts ||
-        sellerProducts.length === 0
-    ) {
-
-        sellerProfileProducts.innerHTML =
-            `
-            <p class="seller-no-products">
-                ${translations[currentLanguage].noResults}
-            </p>
-            `;
-
-        return;
-    }
-
-    sellerProducts.forEach(
-        product => {
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-            card.className =
-                "seller-product-card";
-
-            card.addEventListener(
-                "click",
-                function () {
-
-                    closeSellerProfile();
-
-                    viewProduct(
-                        product
-                    );
-
-                }
-            );
-
-            const image =
-    document.createElement("img");
-
-image.className =
-    "seller-product-image";
-
-image.src =
-    product.image_url ||
-    "assets1/market-placeholder.svg";
-
-image.alt =
-    product.name || "Product";
-
-image.onerror =
-    function () {
-        this.onerror = null;
-        this.src =
-            "assets1/market-placeholder.svg";
-    };
-            const info =
-                document.createElement(
-                    "div"
-                );
-
-            info.className =
-                "seller-product-info";
-
-
-            const category =
-                document.createElement(
-                    "div"
-                );
-
-            category.className =
-                "seller-product-category";
-
-            category.textContent =
-                getCategoryLabel(
-                    product.category
-                );
-
-
-            const name =
-                document.createElement(
-                    "h4"
-                );
-
-            name.className =
-                "seller-product-name";
-
-            name.textContent =
-                product.name ||
-                "";
-
-
-            const price =
-                document.createElement(
-                    "div"
-                );
-
-            price.className =
-                "seller-product-price";
-
-            price.textContent =
-                formatProductPrice(
-                    product
-                );
-
-
-            info.appendChild(
-                category
-            );
-
-            info.appendChild(
-                name
-            );
-
-            info.appendChild(
-                price
-            );
-
-            card.appendChild(
-                image
-            );
-
-            card.appendChild(
-                info
-            );
-
-            sellerProfileProducts.appendChild(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   CLOSE SELLER PROFILE
-===================================================== */
-
-function closeSellerProfile() {
-
-    sellerProfileOverlay.style.display =
-        "none";
-
-    document.body.style.overflow =
-        "";
-
-    currentSellerProfile =
-        null;
-
-}
-        /* =============================================
-           CONTACT SELLER
-        ============================================= */
-const sellerButton =
-    document.createElement("button");
-
-sellerButton.type =
-    "button";
-
-sellerButton.className =
-    "seller-info-button";
-
-sellerButton.textContent =
-    "👤 " + (
-        product.seller_name ||
-        "Seller"
-    );
-
-sellerButton.addEventListener(
-    "click",
-    async function (event) {
-
-        event.stopPropagation();
-
-        await openSellerProfile(
-            product.seller_id
-        );
-    }
-);
-        const contactButton =
-            document.createElement(
-                "button"
-            );
-
-
-
-        contactButton.type =
-            "button";
-
-        contactButton.className =
-            "contact-seller-button";
-
-        contactButton.textContent =
-            translations[
-                currentLanguage
-            ].contactSeller;
-
-        contactButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-                contactSeller(
-                    product
-                );
-
-            }
-        );
-
-        actions.appendChild(
-            contactButton
-        );
-
-        actions.appendChild(
-    sellerButton
-);
-
-    }
-
-
-    /* =================================================
-       BUILD CARD
-    ================================================= */
-
-    bottom.appendChild(
-        price
-    );
-
-    bottom.appendChild(
-        actions
-    );
-
-    content.appendChild(
-        category
-    );
-
-    content.appendChild(
-        name
-    );
-
-    content.appendChild(
-        description
-    );
-
-    content.appendChild(
-        bottom
-    );
-
-    card.appendChild(
-        imageWrapper
-    );
-
-    card.appendChild(
-        content
-    );
-
-    return card;
-
-}
-
-
-/* =====================================================
-   CONTACT SELLER
-===================================================== */
-
-function contactSeller(product) {
-
-    if (!currentUser) {
-
-        showStatus(
-            translations[
-                currentLanguage
-            ].loginRequired,
-            "error"
-        );
-
-        return;
-
-    }
-
-    if (
-        !product ||
-        !product.seller_id
-    ) {
-
-        showStatus(
-            "❌ Seller information is not available.",
-            "error"
-        );
-
-        return;
-
-    }
-
-    if (
-        currentUser.id ===
-        product.seller_id
-    ) {
-
-        return;
-
-    }
-
-    console.log(
-        "💬 Contact Seller:",
-        product.seller_id
-    );
-
-    window.location.href =
-        "messenger.html?user_id=" +
-        encodeURIComponent(
-            product.seller_id
-        );
-
-}
-
-
-/* =====================================================
-   CATEGORY LABEL
-===================================================== */
-
-function getCategoryLabel(category) {
-
-    const text =
-        translations[
-            currentLanguage
-        ];
-
-    const labels = {
-
-        electronics:
-            text.electronics,
-
-        fashion:
-            text.fashion,
-
-        home:
-            text.homeCategory,
-
-        gaming:
-            text.gaming
-
-    };
-
-    return (
-        labels[category] ||
-        category ||
-        ""
-    );
-
-}
-
-
-/* =====================================================
-   FORMAT PRICE
-===================================================== */
-
-function formatProductPrice(product) {
-
-    const originalCurrency =
-        product.currency ||
-        "USD";
-
-    const originalPrice =
-        Number(
-            product.price
-        );
-
-    if (
-        !Number.isFinite(
-            originalPrice
-        )
-    ) {
-
-        return "";
-
-    }
-
-    const originalRate =
-        currencyRates[
-            originalCurrency
-        ] || 1;
-
-    const targetRate =
-        currencyRates[
-            currentCurrency
-        ] || 1;
-
-    const usdValue =
-        originalPrice /
-        originalRate;
-
-    const converted =
-        usdValue *
-        targetRate;
-
-    const config =
-        currencyConfig[
-            currentCurrency
-        ];
-
-    let locale =
-        "en-US";
-
-    if (
-        currentLanguage ===
-        "fr"
-    ) {
-
-        locale =
-            "fr-FR";
-
-    }
-
-    if (
-        currentLanguage ===
-        "ar"
-    ) {
-
-        locale =
-            "ar-MA";
-
-    }
-
-    const formatted =
-        new Intl.NumberFormat(
-            locale,
-            {
-                minimumFractionDigits:
-                    2,
-
-                maximumFractionDigits:
-                    2
-            }
-        ).format(
-            converted
-        );
-
-    if (
-        config.position ===
-        "before"
-    ) {
-
-        return (
-            config.symbol +
-            formatted
-        );
-
-    }
-
-    return (
-        formatted +
-        " " +
-        config.symbol
-    );
-
-}
-
-
-/* =====================================================
-   VIEW PRODUCT
-===================================================== */
-
-function viewProduct(product) {
-
-    if (!product) {
-        return;
-    }
-
-    const text =
-        translations[
-            currentLanguage
-        ];
-
-    productDetailsImage.src =
-        product.image_url ||
-        "assets1/market-placeholder.svg";
-
-    productDetailsImage.alt =
-        product.name ||
-        "Product";
-
-    productDetailsImage.onerror =
-        function () {
-
-            this.onerror = null;
-
-            this.src =
-                "assets1/market-placeholder.svg";
-
-        };
-
-    productDetailsCategory.textContent =
-        getCategoryLabel(
-            product.category
-        );
-
-    productDetailsName.textContent =
-        product.name ||
-        "";
-
-    productDetailsPrice.textContent =
-        formatProductPrice(
-            product
-        );
-
-    productDetailsCondition.textContent =
-        getConditionLabel(
-            product.condition
-        );
-
-    productDetailsLocation.textContent =
-        product.location ||
-        "-";
-
-    productDetailsDescription.textContent =
-        product.description ||
-        "-";
-
-    detailsConditionLabel.textContent =
-        text.condition;
-
-    detailsLocationLabel.textContent =
-        text.location;
-
-    detailsDescriptionLabel.textContent =
-        text.description;
-
-    productDetailsCloseBottom.textContent =
-        text.close;
-
-    productDetailsOverlay.style.display =
-        "block";
-
-    document.body.style.overflow =
-        "hidden";
-
-}
-
-
-/* =====================================================
-   CONDITION LABEL
-===================================================== */
-
-function getConditionLabel(condition) {
-
-    const text =
-        translations[
-            currentLanguage
-        ];
-
-    if (
-        condition ===
-        "new"
-    ) {
-
-        return text.newCondition;
-
-    }
-
-    if (
-        condition ===
-        "used"
-    ) {
-
-        return text.usedCondition;
-
-    }
-
-    if (
-        condition ===
-        "like_new"
-    ) {
-
-        return text.likeNew;
-
-    }
-
-    return condition || "-";
-
-}
-
-
-/* =====================================================
-   CLOSE PRODUCT DETAILS
-===================================================== */
-
-function closeProductDetails() {
-
-    productDetailsOverlay.style.display =
-        "none";
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-/* =====================================================
-   OPEN ADD PRODUCT
-===================================================== */
-
-function openAddProduct() {
-
-    if (!currentUser) {
-
-        showStatus(
-            translations[
-                currentLanguage
-            ].loginRequired,
-            "error"
-        );
-
-        return;
-
-    }
-
-    editingProductId =
-        null;
-
-    existingImageUrl =
-        null;
-
-    selectedImageFile =
-        null;
-
-    productForm.reset();
-
-    clearImagePreview();
-
-    productCurrency.value =
-        currentCurrency;
-
-    productImageFile.value =
-        "";
-
-    modalTitle.textContent =
-        translations[
-            currentLanguage
-        ].addTitle;
-
-    saveProductButton.textContent =
-        translations[
-            currentLanguage
-        ].publish;
-
-    productModal.style.display =
-        "block";
-
-}
-
-
-/* =====================================================
-   OPEN EDIT PRODUCT
-===================================================== */
-
-function openEditProduct(product) {
-
-    if (!currentUser) {
-        return;
-    }
-
-    if (
-        currentUser.id !==
-        product.seller_id
-    ) {
-        return;
-    }
-
-    editingProductId =
-        product.id;
-
-    selectedImageFile =
-        null;
-
-    existingImageUrl =
-        product.image_url ||
-        null;
-
-    modalTitle.textContent =
-        translations[
-            currentLanguage
-        ].editTitle;
-
-    saveProductButton.textContent =
-        translations[
-            currentLanguage
-        ].update;
-
-    document.getElementById(
-        "productName"
-    ).value =
-        product.name ||
-        "";
-
-    document.getElementById(
-        "productDescription"
-    ).value =
-        product.description ||
-        "";
-
-    document.getElementById(
-        "productCategory"
-    ).value =
-        product.category ||
-        "electronics";
-
-    document.getElementById(
-        "productCondition"
-    ).value =
-        product.condition ||
-        "new";
-
-    document.getElementById(
-        "productPrice"
-    ).value =
-        product.price ||
-        "";
-
-    document.getElementById(
-        "productCurrency"
-    ).value =
-        product.currency ||
-        "USD";
-
-    document.getElementById(
-        "productLocation"
-    ).value =
-        product.location ||
-        "";
-
-    productImageFile.value =
-        "";
-
-    if (existingImageUrl) {
-
-        showImagePreview(
-            existingImageUrl
-        );
-
-    } else {
-
-        clearImagePreview();
-
-    }
-
-    productModal.style.display =
-        "block";
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
-
-function closeProductModal() {
-
-    productModal.style.display =
-        "none";
-
-    editingProductId =
-        null;
-
-    selectedImageFile =
-        null;
-
-    existingImageUrl =
-        null;
-
-    clearImagePreview();
-
-    productImageFile.value =
-        "";
-
-    productForm.reset();
-
-}
-
-
-/* =====================================================
-   SAVE PRODUCT
-===================================================== */
-
-async function saveProduct(event) {
-
-    event.preventDefault();
-
-    if (!currentUser) {
-
-        showStatus(
-            translations[
-                currentLanguage
-            ].loginRequired,
-            "error"
-        );
-
-        return;
-
-    }
-
-    const name =
-        document.getElementById(
-            "productName"
-        ).value.trim();
-
-    const description =
-        document.getElementById(
-            "productDescription"
-        ).value.trim();
-
-    const category =
-        document.getElementById(
-            "productCategory"
-        ).value;
-
-    const condition =
-        document.getElementById(
-            "productCondition"
-        ).value;
-
-    const price =
-        Number(
-            document.getElementById(
-                "productPrice"
-            ).value
-        );
-
-    const currency =
-        document.getElementById(
-            "productCurrency"
-        ).value;
-
-    const location =
-        document.getElementById(
-            "productLocation"
-        ).value.trim();
-
-    if (
-        !name ||
-        !Number.isFinite(price) ||
-        price < 0
-    ) {
-
-        showStatus(
-            "❌ Please enter a valid name and price.",
-            "error"
-        );
-
-        return;
-
-    }
-
-    saveProductButton.disabled =
-        true;
-
-    const originalEditingId =
-        editingProductId;
-
-    const wasEditing =
-        Boolean(
-            originalEditingId
-        );
-
-    try {
-
-        let finalImageUrl =
-            existingImageUrl ||
-            null;
-
-        let uploadedImagePath =
-            null;
-
-        if (selectedImageFile) {
-
-            saveProductButton.textContent =
-                translations[
-                    currentLanguage
-                ].uploadingImage;
-
-            const uploadResult =
-                await uploadProductImage(
-                    selectedImageFile
-                );
-
-            if (!uploadResult) {
-
-                throw new Error(
-                    "Image upload failed."
-                );
-
-            }
-
-            finalImageUrl =
-                uploadResult.url;
-
-            uploadedImagePath =
-                uploadResult.path;
-
-        }
-
-        saveProductButton.textContent =
-            translations[
-                currentLanguage
-            ].savingProduct;
-
-        const productData = {
-
-            name:
-                name,
-
-            description:
-                description ||
-                null,
-
-            category:
-                category,
-
-            price:
-                price,
-
-            currency:
-                currency,
-
-            location:
-                location ||
-                null,
-
-            condition:
-                condition ||
-                null,
-
-            image_url:
-                finalImageUrl
-
-        };
-
-        let result;
-
-        if (originalEditingId) {
-
-            result =
-                await marketSupabase
-                    .from(
-                        "market_products"
-                    )
-                    .update(
-                        productData
-                    )
-                    .eq(
-                        "id",
-                        originalEditingId
-                    )
-                    .eq(
-                        "seller_id",
-                        currentUser.id
-                    )
-                    .select()
-                    .single();
-
-        } else {
-
-            result =
-                await marketSupabase
-                    .from(
-                        "market_products"
-                    )
-                    .insert({
-
-                        seller_id:
-                            currentUser.id,
-
-                        ...productData
-
-                    })
-                    .select()
-                    .single();
-
-        }
-
-        if (result.error) {
-
-            if (uploadedImagePath) {
-
-                try {
-
-                    await marketSupabase
-                        .storage
-                        .from(
-                            "market-products"
-                        )
-                        .remove([
-                            uploadedImagePath
-                        ]);
-
-                } catch (
-                    cleanupError
-                ) {
-
-                    console.warn(
-                        "⚠️ Uploaded image cleanup failed:",
-                        cleanupError
-                    );
-
-                }
-
-            }
-
-            throw result.error;
-
-        }
-
-        console.log(
-            "✅ Product saved:",
-            result.data
-        );
-
-        if (
-            wasEditing &&
-            selectedImageFile &&
-            existingImageUrl &&
-            existingImageUrl !==
-                finalImageUrl
-        ) {
-
-            await deleteStorageImage(
-                existingImageUrl
-            );
-
-        }
-
-        closeProductModal();
-
-        showStatus(
-            wasEditing
-                ? translations[
-                    currentLanguage
-                  ].productUpdated
-                : translations[
-                    currentLanguage
-                  ].productCreated,
-            "success"
-        );
-
-        await loadProducts();
-
-    } catch (error) {
-
-        console.error(
-            "❌ Save product error:",
-            error
-        );
-
-        showStatus(
-            "❌ " +
-            (
-                error.message ||
-                translations[
-                    currentLanguage
-                ].error
-            ),
-            "error"
-        );
-
-    } finally {
-
-        saveProductButton.disabled =
-            false;
-
-        saveProductButton.textContent =
-            wasEditing
-                ? translations[
-                    currentLanguage
-                  ].update
-                : translations[
-                    currentLanguage
-                  ].publish;
-
-    }
-
-}
-
-
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
-
-async function deleteProduct(productId) {
-
-    if (!currentUser) {
-
-        showStatus(
-            translations[
-                currentLanguage
-            ].loginRequired,
-            "error"
-        );
-
-        return;
-
-    }
-
-    const product =
-        products.find(
-            item =>
-                item.id ===
-                productId
-        );
-
-    if (!product) {
-        return;
-    }
-
-    if (
-        product.seller_id !==
-        currentUser.id
-    ) {
-
-        showStatus(
-            "❌ You can only delete your own products.",
-            "error"
-        );
-
-        return;
-
-    }
-
-    const confirmed =
-        window.confirm(
-            "Delete this product?"
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-    const {
-        error
-    } =
-        await marketSupabase
-            .from(
-                "market_products"
-            )
-            .delete()
-            .eq(
-                "id",
-                productId
-            )
-            .eq(
-                "seller_id",
-                currentUser.id
-            );
-
-    if (error) {
-
-        console.error(
-            "❌ Delete product error:",
-            error
-        );
-
-        showStatus(
-            "❌ " +
-            error.message,
-            "error"
-        );
-
-        return;
-
-    }
-
-    /* Remove locally too */
-    favoriteProductIds.delete(
-        productId
-    );
-
-    if (product.image_url) {
-
-        await deleteStorageImage(
-            product.image_url
-        );
-
-    }
-
-    showStatus(
-        translations[
-            currentLanguage
-        ].productDeleted,
-        "success"
-    );
-
-    await loadProducts();
-
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-function showStatus(
-    message,
-    type
-) {
-
-    statusBox.textContent =
-        message;
-
-    statusBox.className =
-        "status-box";
-
-    if (
-        type ===
-        "success"
-    ) {
-
-        statusBox.classList.add(
-            "status-success"
-        );
-
-    } else {
-
-        statusBox.classList.add(
-            "status-error"
-        );
-
-    }
-
-    statusBox.style.display =
-        "block";
-
-    setTimeout(
-        function () {
-
-            statusBox.style.display =
-                "none";
-
-        },
-        4000
-    );
-
-}
-
-
-/* =====================================================
-   APPLY LANGUAGE
-===================================================== */
-
-
-function applyLanguage(language) {
-
-    if (
-        !translations[language]
-    ) {
-
-        language =
-            "en";
-
-    }
-
-    currentLanguage =
-        language;
-
-    localStorage.setItem(
-        "socialwiki_language",
-        language
-    );
-
-    languageSelect.value =
-        language;
-
-    const text =
-        translations[
-            language
-        ];
-
-    document.documentElement.lang =
-        language;
-
-    document.body.dir =
-        language === "ar"
-            ? "rtl"
-            : "ltr";
-
-    document.body.style.textAlign =
-        language === "ar"
-            ? "right"
-            : "left";
-
-    if (
-        language === "ar"
-    ) {
-
-        document.body.style.fontFamily =
-            "Arial, Tahoma, sans-serif";
-
-        document.title =
-            "ماركت بلس - SocialWiki";
-
-    } else {
-
-        document.body.style.fontFamily =
-            "Arial, Helvetica, sans-serif";
-
-        document.title =
-            "Market Plus - SocialWiki";
-
-    }
-
-
-    // =========================================================
-    // MAIN TEXT
-    // =========================================================
-
-    document.getElementById(
-        "homeLink"
-    ).textContent =
-        text.home;
-
-    document.getElementById(
-        "marketTitle"
-    ).textContent =
-        text.title;
-
-    document.getElementById(
-        "marketSubtitle"
-    ).textContent =
-        text.subtitle;
-
-    searchInput.placeholder =
-        text.search;
-
-    addProductButton.textContent =
-        text.addProduct;
-
-    loadingBox.textContent =
-        text.loading;
-
-
-    // =========================================================
-    // CATEGORY BUTTONS
-    // =========================================================
-
-    categoryButtons.forEach(
-        button => {
-
-            const category =
-                button.dataset.category;
-
-
-            // FAVORITES
-            if (
-                category ===
-                "favorites"
-            ) {
-
-                button.textContent =
-                    showFavoritesOnly
-                        ? text.favoritesActive
-                        : text.favorites;
-
-                return;
-            }
-
-
-            // MY PRODUCTS
-            if (
-                category ===
-                "my-products"
-            ) {
-
-                button.textContent =
-                    text.myProducts;
-
-                return;
-            }
-
-
-            // NORMAL CATEGORIES
-            const categoryText = {
-
-                all:
-                    text.all,
-
-                electronics:
-                    text.electronics,
-
-                fashion:
-                    text.fashion,
-
-                home:
-                    text.homeCategory,
-
-                gaming:
-                    text.gaming
-
+            
+            const convertedPrice = price * selectedRate;
+            
+            const currencySymbols = {
+                'MAD': 'MAD',
+                'EUR': '€',
+                'USD': '$'
             };
-
-            button.textContent =
-                categoryText[
-                    category
-                ] || category;
-
+            
+            priceDisplay.textContent = `${currencySymbols[selectedCurrency]} ${convertedPrice.toFixed(2)}`;
         }
-    );
-
-
-    // =========================================================
-    // PRODUCT FORM
-    // =========================================================
-
-    document.querySelector(
-        'label[for="productName"]'
-    ).textContent =
-        text.productName;
-
-    document.querySelector(
-        'label[for="productDescription"]'
-    ).textContent =
-        text.description;
-
-    document.querySelector(
-        'label[for="productCategory"]'
-    ).textContent =
-        text.category;
-
-    document.querySelector(
-        'label[for="productCondition"]'
-    ).textContent =
-        text.condition;
-
-    document.querySelector(
-        'label[for="productPrice"]'
-    ).textContent =
-        text.price;
-
-    document.querySelector(
-        'label[for="productCurrency"]'
-    ).textContent =
-        text.currency;
-
-    document.querySelector(
-        'label[for="productLocation"]'
-    ).textContent =
-        text.location;
-
-    productImageLabel.textContent =
-        text.image;
-
-    imageHelp.textContent =
-        text.imageHelp;
-
-    cancelModalButton.textContent =
-        text.cancel;
-
-    saveProductButton.textContent =
-        editingProductId
-            ? text.update
-            : text.publish;
-
-
-    if (
-        !editingProductId
-    ) {
-
-        modalTitle.textContent =
-            text.addTitle;
-
-    }
-
-
-    // =========================================================
-    // PRODUCT DETAILS
-    // =========================================================
-
-    productDetailsCloseBottom.textContent =
-        text.close;
-
-    detailsConditionLabel.textContent =
-        text.condition;
-
-    detailsLocationLabel.textContent =
-        text.location;
-
-    detailsDescriptionLabel.textContent =
-        text.description;
-
-
-    // =========================================================
-    // RENDER
-    // =========================================================
-
-    renderProducts();
-
-}
-
-
-/* =====================================================
-   
-/* =====================================================
-   CATEGORY / FAVORITES / MY PRODUCTS FILTER
-===================================================== */
-
-categoryButtons.forEach(
-    button => {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const selectedCategory =
-                    this.dataset.category;
-
-
-                // =================================================
-                // FAVORITES
-                // =================================================
-
-                if (
-                    selectedCategory ===
-                    "favorites"
-                ) {
-
-                    showFavoritesOnly =
-                        !showFavoritesOnly;
-
-                    showMyProductsOnly =
-                        false;
-
-                    currentCategory =
-                        "all";
-
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
                 }
-
-
                 
-                // MY PRODUCTS
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                 
-
-                else if (
-                    selectedCategory ===
-                    "my-products"
-                ) {
-
-                    if (
-                        !currentUser
-                    ) {
-
-                        showStatus(
-                            translations[
-                                currentLanguage
-                            ].loginRequired ||
-                            "Please log in first.",
-                            "error"
-                        );
-
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = username;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // PREVIEW MEDIA
+        // =========================================================
+        
+        function previewMedia(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('mediaPreview');
+            
+            if (!file) return;
+            
+            if (file.type.startsWith('image')) {
+                preview.innerHTML = `<img src="${URL.createObjectURL(file)}" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
+            } else if (file.type.startsWith('video')) {
+                preview.innerHTML = `<video src="${URL.createObjectURL(file)}" controls style="max-width: 100%; max-height: 200px; border-radius: 8px;"></video>`;
+            }
+        }
+        
+        // =========================================================
+        // LOAD PRODUCTS
+        // =========================================================
+        
+        async function loadProducts() {
+            try {
+                const { data: products, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading products:', error);
+                    return;
+                }
+                
+                displayProducts(products || []);
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // DISPLAY PRODUCTS
+        // =========================================================
+        
+        function displayProducts(products) {
+            const container = document.getElementById('marketGrid');
+            container.innerHTML = '';
+            
+            if (!products || products.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px; grid-column: 1/-1;">No products yet</p>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                // عرض الصورة أو الفيديو
+                let mediaHTML = '<div class="product-image">📦</div>';
+                
+                if (product.media_url) {
+                    if (product.media_type === 'video') {
+                        mediaHTML = `<div class="product-image"><video src="${product.media_url}" controls></video></div>`;
+                    } else {
+                        mediaHTML = `<div class="product-image"><img src="${product.media_url}" alt="Product"></div>`;
+                    }
+                }
+                
+                // تحويل السعر للعملة المحددة
+                const price = parseFloat(product.price);
+                const currencySymbol = product.currency === 'EUR' ? '€' : product.currency === 'USD' ? '$' : 'MAD';
+                
+                card.innerHTML = `
+                    ${mediaHTML}
+                    <div class="product-info">
+                        <div class="product-title">${escapeHtml(product.name)}</div>
+                        <div class="product-price">${currencySymbol} ${price.toFixed(2)}</div>
+                        <div class="product-location">📍 ${escapeHtml(product.location)}</div>
+                        <div class="product-description">${escapeHtml(product.description || '')}</div>
+                        <div class="product-actions">
+                            <button class="buy-btn" onclick="buyProduct('${product.id}')">Buy Now</button>
+                            <button class="contact-btn" onclick="contactSeller('${product.seller_id}')">💬 Contact Seller</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // =========================================================
+        // OPEN SELL MODAL
+        // =========================================================
+        
+        function openSellModal() {
+            document.getElementById('sellModal').style.display = 'flex';
+        }
+        
+        function closeSellModal() {
+            document.getElementById('sellModal').style.display = 'none';
+            document.getElementById('sellForm').reset();
+            document.getElementById('mediaPreview').innerHTML = '';
+            document.getElementById('priceDisplay').textContent = 'Price will appear here';
+            selectedCurrency = 'MAD';
+            selectedRate = 1;
+            
+            document.querySelectorAll('.currency-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelector('.currency-btn').classList.add('active');
+        }
+        
+        // =========================================================
+        // CREATE PRODUCT
+        // =========================================================
+        
+        async function createProduct(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('productName').value.trim();
+            const description = document.getElementById('productDescription').value.trim();
+            const price = document.getElementById('productPrice').value;
+            const location = document.getElementById('productLocation').value.trim();
+            const mediaFile = document.getElementById('productMedia').files[0];
+            
+            if (!name || !price || !location) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                let mediaUrl = null;
+                let mediaType = null;
+                
+                // رفع الصورة أو الفيديو إلى Supabase Storage
+                if (mediaFile) {
+                    const fileName = `products/${user.id}/${Date.now()}_${mediaFile.name}`;
+                    const filePath = mediaFile.type.startsWith('video') ? 'product-videos' : 'product-images';
+                    
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from(filePath)
+                        .upload(fileName, mediaFile);
+                    
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        alert('Error uploading media: ' + uploadError.message);
                         return;
                     }
-
-                    showMyProductsOnly =
-                        !showMyProductsOnly;
-
-                    showFavoritesOnly =
-                        false;
-
-                    currentCategory =
-                        "all";
-
+                    
+                    const { data: urlData } = supabaseClient.storage
+                        .from(filePath)
+                        .getPublicUrl(fileName);
+                    
+                    mediaUrl = urlData.publicUrl;
+                    mediaType = mediaFile.type.startsWith('video') ? 'video' : 'image';
                 }
-
-
-                // =================================================
-                // NORMAL CATEGORIES
-                // =================================================
-
-                else {
-
-                    currentCategory =
-                        selectedCategory;
-
-                    showFavoritesOnly =
-                        false;
-
-                    showMyProductsOnly =
-                        false;
-
+                
+                // إضافة المنتج إلى قاعدة البيانات
+                const { error } = await supabaseClient
+                    .from('products')
+                    .insert({
+                        name: name,
+                        description: description,
+                        price: price,
+                        currency: selectedCurrency,
+                        location: location,
+                        media_url: mediaUrl,
+                        media_type: mediaType,
+                        seller_id: user.id
+                    });
+                
+                if (error) {
+                    console.error('Error creating product:', error);
+                    alert('Error creating product: ' + error.message);
+                    return;
                 }
-
-
-                // =================================================
-                // UPDATE ACTIVE BUTTON
-                // =================================================
-
-                categoryButtons.forEach(
-                    btn => {
-
-                        btn.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-                if (
-                    showFavoritesOnly
-                ) {
-
-                    favoritesButton.classList.add(
-                        "active"
-                    );
-
-                }
-
-                else if (
-                    showMyProductsOnly
-                ) {
-
-                    myProductsButton.classList.add(
-                        "active"
-                    );
-
-                }
-
-                else {
-
-                    this.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                // =================================================
-                // UPDATE LANGUAGE / UI
-                // =================================================
-
-                applyLanguage(
-                    currentLanguage
-                );
-
+                
+                alert('Product posted successfully!');
+                closeSellModal();
+                loadProducts();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
             }
-        );
-
-    }
-);
-
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-searchInput.addEventListener(
-    "input",
-    function () {
-
-        renderProducts();
-
-    }
-);
-
-
-/* =====================================================
-   CURRENCY
-===================================================== */
-
-currencySelect.addEventListener(
-    "change",
-    function () {
-
-        currentCurrency =
-            this.value;
-
-        renderProducts();
-
-    }
-);
-
-
-/* =====================================================
-   LANGUAGE
-===================================================== */
-
-languageSelect.addEventListener(
-    "change",
-    function () {
-
-        applyLanguage(
-            this.value
-        );
-
-    }
-);
-
-
-/* =====================================================
-   ADD PRODUCT BUTTON
-===================================================== */
-
-addProductButton.addEventListener(
-    "click",
-    function () {
-
-        openAddProduct();
-
-    }
-);
-
-
-/* =====================================================
-   FORM SUBMIT
-===================================================== */
-
-productForm.addEventListener(
-    "submit",
-    function (event) {
-
-        saveProduct(
-            event
-        );
-
-    }
-);
-
-
-/* =====================================================
-   CLOSE ADD / EDIT MODAL
-===================================================== */
-
-closeModalButton.addEventListener(
-    "click",
-    function () {
-
-        closeProductModal();
-
-    }
-);
-
-cancelModalButton.addEventListener(
-    "click",
-    function () {
-
-        closeProductModal();
-
-    }
-);
-
-productModal.addEventListener(
-    "click",
-    function (event) {
-
-        if (
-            event.target ===
-            productModal
-        ) {
-
-            closeProductModal();
-
         }
-
-    }
-);
-
-
-/* =====================================================
-   CLOSE PRODUCT DETAILS
-===================================================== */
-
-productDetailsCloseButton.addEventListener(
-    "click",
-    function () {
-
-        closeProductDetails();
-
-    }
-);
-
-productDetailsCloseBottom.addEventListener(
-    "click",
-    function () {
-
-        closeProductDetails();
-
-    }
-);
-
-productDetailsOverlay.addEventListener(
-    "click",
-    function (event) {
-
-        if (
-            event.target ===
-            productDetailsOverlay
-        ) {
-
-            closeProductDetails();
-
+        
+        // =========================================================
+        // BUY PRODUCT
+        // =========================================================
+        
+        function buyProduct(productId) {
+            alert('Product purchase feature coming soon!');
         }
-
-    }
-);
-
-
-/* =====================================================
-   ESC KEY
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key ===
-            "Escape"
-        ) {
-
-            if (
-                productDetailsOverlay.style.display ===
-                "block"
-            ) {
-
-                closeProductDetails();
-
-            }
-
-            if (
-                productModal.style.display ===
-                "block"
-            ) {
-
-                closeProductModal();
-
-            }
-
+        
+        // =========================================================
+        // CONTACT SELLER (تواصل مع البائع)
+        // =========================================================
+        
+        function contactSeller(sellerId) {
+            // الانتقال إلى صفحة الرسائل مع البائع
+            window.location.href = `messages.html?user=${sellerId}`;
         }
-
-    }
-);
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-async function initializeMarketPlus() {
-
-    console.log(
-        "🛒 Market Plus starting..."
-    );
-
-    currentUser =
-        await getCurrentUser();
-
-    if (currentUser) {
-
-        console.log(
-            "👤 Current user:",
-            currentUser.id
-        );
-
-        console.log(
-            "📧 Current email:",
-            currentUser.email
-        );
-
-    } else {
-
-        console.log(
-            "ℹ️ No active session"
-        );
-
-    }
-
-
-    /* ================================================
-       LOAD SAVED LANGUAGE
-    ================================================ */
-
-    const savedLanguage =
-        localStorage.getItem(
-            "socialwiki_language"
-        );
-
-    if (
-        savedLanguage &&
-        translations[
-            savedLanguage
-        ]
-    ) {
-
-        currentLanguage =
-            savedLanguage;
-
-    }
-
-    languageSelect.value =
-        currentLanguage;
-
-    currencySelect.value =
-        currentCurrency;
-
-
-    /* ================================================
-       LOAD FAVORITES FIRST
-    ================================================ */
-
-    await loadFavorites();
-
-
-    /* ================================================
-       APPLY LANGUAGE
-    ================================================ */
-
-    applyLanguage(
-        currentLanguage
-    );
-
-
-    /* ================================================
-       ALL BUTTON ACTIVE
-    ================================================ */
-
-    const allButton =
-        document.querySelector(
-            '[data-category="all"]'
-        );
-
-    if (allButton) {
-
-        allButton.classList.add(
-            "active"
-        );
-
-    }
-
-
-    /* ================================================
-       LOAD PRODUCTS
-    ================================================ */
-
-    await loadProducts();
-
-
-    console.log(
-        "✅ Market Plus ready"
-    );
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-initializeMarketPlus();
-
-</script>
-
+        
+        // =========================================================
+        // ESCAPE HTML
+        // =========================================================
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // =========================================================
+        // START
+        // =========================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            loadUserProfile();
+            
+            // تحديث عرض السعر عند كتابة السعر
+            document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
+        });
+    </script>
 </body>
-
 </html>

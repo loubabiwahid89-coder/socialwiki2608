@@ -1,362 +1,409 @@
 
 /* =========================================================
-   SOCIALWIKI - NOTIFICATIONS
+   SOCIALWIKI 2608
+   NOTIFICATIONS PAGE
 ========================================================= */
 
-.notification-menu {
-    position: relative;
-}
 
 /* =========================================================
-   NOTIFICATION BUTTON
+   NOTIFICATIONS CENTER
 ========================================================= */
 
-.notification-button {
-    position: relative;
-
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0;
-    margin: 0;
-
-    border: none;
-    background: transparent;
-
-    cursor: pointer;
+.main-container .notifications-content {
+    grid-column: 2;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
-.notification-button img {
-    width: 20px;
-    height: 20px;
-
-    display: block;
-
-    object-fit: contain;
-}
 
 /* =========================================================
-   NOTIFICATION BADGE
+   NOTIFICATIONS PAGE
 ========================================================= */
 
-.notification-badge {
-    position: absolute;
-
-    top: 1px;
-    right: 0;
-
-    min-width: 17px;
-    height: 17px;
-
-    padding: 0 4px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #e41e3f;
-    color: #ffffff;
-
-    font-size: 10px;
-    font-weight: bold;
-
-    line-height: 1;
-
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-}
-
-/* =========================================================
-   NOTIFICATIONS PANEL
-   IMPORTANT:
-   The panel is positioned relative to .notification-menu
-========================================================= */
-
-.notifications-panel{
-
-
-    position: absolute;
-
-    top: calc(100% + 8px);
-    right: 0;
-    left: auto;
-
-    width: 360px;
-
-    max-width: calc(100vw - 20px);
-    max-height: 520px;
-
-    margin: 0;
-    padding: 0;
-
+.notifications-page {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     background: #ffffff;
-
-    border: 1px solid #dddddd;
     border-radius: 12px;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-
-    z-index: 9999;
-
+    border: 1px solid #e4e6eb;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.08);
     overflow: hidden;
 }
 
+
 /* =========================================================
-   HEADER
+   NOTIFICATIONS HEADER
 ========================================================= */
 
-.notifications-header {
+.notifications-page-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: 14px 16px;
-
+    gap: 15px;
+    padding: 20px;
     background: #ffffff;
-
-    border-bottom: 1px solid #eeeeee;
+    border-bottom: 1px solid #e4e6eb;
 }
 
-.notifications-header h3 {
+.notifications-page-header h1 {
     margin: 0;
-
-    font-size: 18px;
-    font-weight: 600;
-
-    color: #222222;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c1e21;
 }
 
-.notifications-header button {
-    padding: 6px 8px;
+.notifications-page-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #65676b;
+}
 
+
+/* =========================================================
+   MARK ALL BUTTON
+========================================================= */
+
+.mark-all-button {
     border: none;
-    border-radius: 6px;
-
-    background: transparent;
-
-    color: #1877f2;
-
+    background: #1877f2;
+    color: #ffffff;
+    padding: 9px 14px;
+    border-radius: 7px;
     font-size: 13px;
-
+    font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
+    transition:
+        background 0.2s ease,
+        opacity 0.2s ease;
 }
 
-.notifications-header button:hover {
-    background: #f0f2f5;
+.mark-all-button:hover {
+    background: #166fe5;
 }
+
+.mark-all-button:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
 
 /* =========================================================
    NOTIFICATIONS LIST
 ========================================================= */
 
 .notifications-list {
-    max-height: 450px;
-
-    overflow-y: auto;
-    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    background: #ffffff;
 }
 
-.notifications-empty,
-.no-notifications {
-    padding: 35px 20px;
-
-    margin: 0;
-
-    text-align: center;
-
-    color: #777777;
-
-    font-size: 14px;
-}
 
 /* =========================================================
    NOTIFICATION ITEM
 ========================================================= */
 
 .notification-item {
+    position: relative;
     display: flex;
     align-items: center;
-
+    gap: 14px;
     width: 100%;
-
-    padding: 12px 14px;
-
     box-sizing: border-box;
-
+    padding: 15px 18px;
+    background: #ffffff;
+    border-bottom: 1px solid #e4e6eb;
     cursor: pointer;
+    transition:
+        background 0.15s ease;
+}
 
-    transition: background 0.15s ease;
+.notification-item:last-child {
+    border-bottom: none;
 }
 
 .notification-item:hover {
-    background: #f0f2f5;
+    background: #f5f6f7;
 }
 
+
+/* =========================================================
+   UNREAD NOTIFICATION
+========================================================= */
+
 .notification-item.unread {
-    background: #eaf3ff;
+    background: #eef5ff;
 }
 
 .notification-item.unread:hover {
-    background: #dfeeff;
+    background: #e4efff;
 }
 
+
 /* =========================================================
-   NOTIFICATION INNER HEADER
+   READ NOTIFICATION
 ========================================================= */
 
-.notification-item .notification-header {
-    display: flex;
-    align-items: center;
-
-    width: 100%;
-
-    gap: 12px;
-
-    padding: 0;
-
-    border: none;
-
-    background: transparent;
+.notification-item.read {
+    background: #ffffff;
 }
 
-/* =========================================================
-   AVATAR
-========================================================= */
-
-.notification-avatar {
-    width: 42px;
-    height: 42px;
-
-    min-width: 42px;
-
-    border-radius: 50%;
-
-    object-fit: cover;
-
-    background: #eeeeee;
-}
 
 /* =========================================================
-   CONTENT
+   NOTIFICATION CONTENT
+   NO AVATAR
 ========================================================= */
 
 .notification-content {
     flex: 1;
-
     min-width: 0;
+    width: 100%;
 }
 
 .notification-message {
-    margin: 0;
-
-    color: #222222;
-
-    font-size: 14px;
-
-    line-height: 1.4;
-
+    font-size: 15px;
+    line-height: 1.45;
+    color: #1c1e21;
     word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+.notification-message strong {
+    font-weight: 700;
+    color: #1c1e21;
 }
 
 .notification-time {
-    display: block;
-
-    margin-top: 3px;
-
-    color: #777777;
-
+    margin-top: 4px;
     font-size: 12px;
+    color: #65676b;
 }
+
 
 /* =========================================================
-   SCROLLBAR
+   UNREAD BLUE DOT
 ========================================================= */
 
-.notifications-list::-webkit-scrollbar {
-    width: 6px;
+.notification-unread-dot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #1877f2;
+    margin-left: auto;
 }
 
-.notifications-list::-webkit-scrollbar-track {
-    background: transparent;
+
+/* =========================================================
+   LOADING STATE
+========================================================= */
+
+.notifications-state {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
 }
 
-.notifications-list::-webkit-scrollbar-thumb {
-    background: #cccccc;
-
-    border-radius: 10px;
+.notifications-state p {
+    margin: 8px 0 0 0;
+    color: #65676b;
+    font-size: 14px;
+    line-height: 1.5;
 }
+
+.notifications-state h2 {
+    margin: 10px 0 0 0;
+    font-size: 20px;
+    color: #1c1e21;
+}
+
+
+/* =========================================================
+   EMPTY ICON
+========================================================= */
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f2f5;
+    border-radius: 50%;
+    font-size: 30px;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e4e6eb;
+    border-top-color: #1877f2;
+    border-radius: 50%;
+    animation:
+        notificationsSpin 0.8s linear infinite;
+}
+
+@keyframes notificationsSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.notifications-error {
+    margin: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff1f0;
+    border: 1px solid #ffccc7;
+    color: #cf1322;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
 
 /* =========================================================
    RTL
 ========================================================= */
 
-html[dir="rtl"] .notifications-panel  {
-    right: 0;
-    left: auto;
+html[dir="rtl"] .notification-item {
+    direction: rtl;
 }
+
+html[dir="rtl"] .notification-unread-dot {
+    margin-left: 0;
+    margin-right: auto;
+}
+
 
 /* =========================================================
-   POST HIGHLIGHT
+   TABLET
 ========================================================= */
 
-.notification-post-highlight {
-    outline: 3px solid #1877f2;
-    outline-offset: 3px;
+@media (max-width: 900px) {
 
-    border-radius: 10px;
+    .main-container .notifications-content {
+        grid-column: 2;
+        width: 100%;
+    }
+
+    .notifications-page {
+        border-radius: 10px;
+    }
+
+    .notifications-page-header {
+        padding: 16px;
+    }
+
+    .notifications-page-header h1 {
+        font-size: 21px;
+    }
+
+    .mark-all-button {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
 }
 
-/* =========================================================
-   HIDDEN
-========================================================= */
-
-.notifications-panel[hidden] {
-    display: none;
-}
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
+@media (max-width: 700px) {
+
+    .main-container .notifications-content {
+        width: 100%;
+        grid-column: auto;
+    }
+
+    .notifications-page {
+        width: 100%;
+    }
+
+}
+
+
 @media (max-width: 600px) {
 
-    .notifications-panel { 
-        position: fixed;
-
-        top: 65px;
-
-        right: 10px;
-        left: 10px;
-
-        width: auto;
-
-        max-width: none;
-
-        max-height: calc(100vh - 80px);
+    .notifications-page-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .notifications-list {
-        max-height: calc(100vh - 145px);
+    .mark-all-button {
+        width: 100%;
     }
+
+    .notification-item {
+        padding: 13px;
+        gap: 11px;
+    }
+
+    .notification-message {
+        font-size: 14px;
+    }
+
+    .notification-time {
+        font-size: 11px;
+    }
+
 }
+
 
 /* =========================================================
-   SOCIALWIKI - NOTIFICATION IMAGE SAFETY
+   END NOTIFICATIONS CSS
 ========================================================= */
 
-.notifications-panel .notification-avatar {
-    width: 42px ;
-    height: 42px ;
-    min-width: 42px ;
-    max-width: 42px ;
-    min-height: 42px ;
-    max-height: 42px ;
-    display: block;
-    border-radius: 50%;
-    object-fit: cover;
+
+### نقطة مهمة جدًا
+
+الآن **لا نحتاج أن نضع `width: 50%`** للـ Notifications.
+
+الـ `style.css` هو الذي يحدد:
+
+
+23% | CENTER | 23%
+
+
+و`notifications.css` يقول فقط:
+
+
+.notifications-content {
+    grid-column: 2;
+    width: 100%;
 }
 
+
+وبالتالي ستكون النتيجة:
+
+**Left Sidebar موجود دائمًا → Notifications في الوسط → Right Sidebar موجود دائمًا.**
+
+وبالنسبة للصورة الكبيرة: هذا الملف لم يعد يحتوي على أي `.notification-avatar`، لذلك لن يقوم CSS الخاص بنا بتكبير صورة notification.
+
+**ولا تغيّر `script.js` الآن.** جرّب فقط استبدال `notifications.css` بهذا الملف، ثم افتح `notifications.html` مباشرة واضغط `Ctrl + F5`.

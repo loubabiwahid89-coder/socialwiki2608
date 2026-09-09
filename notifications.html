@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        /* =========================================================
+           NAVBAR (بسيط)
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-icons a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-icons a.active {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* =========================================================
+           NOTIFICATIONS PAGE
+        ========================================================= */
+        
+        .notifications-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .notifications-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .notifications-header h2 {
+            font-size: 24px;
+        }
+        
+        .mark-all-read {
+            background: #e4e6eb;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .notification-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .notification-item.unread {
+            background: #e7f3ff;
+            border-left: 3px solid #1877f2;
+        }
+        
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .notification-text {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #65676b;
+        }
+        
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1877f2;
+            margin-left: auto;
+        }
+        
+        /* =========================================================
+           BACK & HOME BUTTONS
+        ========================================================= */
+        
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================================
+         BACK & HOME BUTTONS
+    ========================================================= -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn">
+            ← Back
+        </a>
+        <a href="index.html" class="home-btn">
+            🏠 Home
+        </a>
+    </div>
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html" class="active">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         NOTIFICATIONS CONTAINER
+    ========================================================= -->
+    <div class="notifications-container">
+        <div class="notifications-header">
+            <h2>🔔 Notifications</h2>
+            <button class="mark-all-read" onclick="markAllRead()">Mark all as read</button>
+        </div>
+
+        <div id="notificationsList">
+            <!-- الإشعارات ستظهر هنا -->
+        </div>
+    </div>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // LOAD NOTIFICATIONS
+        // =========================================================
+        
+        async function loadNotifications() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            
+            if (!user) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            // جلب الإشعارات
+            const { data: notifications, error } = await supabaseClient
+                .from('notifications')
+                .select('*')
+                .eq('receiver_id', user.id)
+                .order('created_at', { ascending: false });
+            
+            if (error) {
+                console.error('Error loading notifications:', error);
+                return;
+            }
+            
+            displayNotifications(notifications || []);
+        }
+        
+        // =========================================================
+        // DISPLAY NOTIFICATIONS
+        // =========================================================
+        
+        function displayNotifications(notifications) {
+            const list = document.getElementById('notificationsList');
+            list.innerHTML = '';
+            
+            if (!notifications || notifications.length === 0) {
+                list.innerHTML = '<div class="notification-item" style="justify-content: center;">No notifications yet</div>';
+                return;
+            }
+            
+            notifications.forEach(notification => {
+                let icon = '🔔';
+                if (notification.type === 'like') icon = '👍';
+                if (notification.type === 'comment') icon = '💬';
+                if (notification.type === 'friend') icon = '👥';
+                if (notification.type === 'birthday') icon = '🎂';
+                if (notification.type === 'gift') icon = '🎁';
+                if (notification.type === 'ad') icon = '📢';
+                
+                const item = document.createElement('div');
+                item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                item.onclick = () => markAsRead(notification.id);
+                
+                item.innerHTML = `
+                    <div class="notification-icon">${icon}</div>
+                    <div class="notification-text">
+                        <div class="notification-title">${notification.message}</div>
+                        <div class="notification-time">${formatTime(notification.created_at)}</div>
+                    </div>
+                    ${!notification.is_read ? '<div class="notification-dot"></div>' : ''}
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+        
+        // =========================================================
+        // MARK AS READ
+        // =========================================================
+        
+        async function markAsRead(notificationId) {
+            await supabaseClient
+                .from('notifications')
+                .update({ is_read: true })
+                .eq('id', notificationId);
+            
+            loadNotifications();
+        }
+        
+        // =========================================================
+        // MARK ALL READ
+        // =========================================================
+        
+        async function markAllRead() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            
+            await supabaseClient
+                .from('notifications')
+                .update({ is_read: true })
+                .eq('receiver_id', user.id)
+                .eq('is_read', false);
+            
+            loadNotifications();
+        }
+        
+        // =========================================================
+        // FORMAT TIME
+        // =========================================================
+        
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} min ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} hr ago`;
+            
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days} days ago`;
+            
+            return date.toLocaleDateString();
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE (للنافبار)
+        // =========================================================
+        
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = username;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // START
+        // =========================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+            loadUserProfile();
+        });
+    </script>
+</body>
+</html>
