@@ -1115,10 +1115,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/main.js"></script>
     <script src="js/friend-badge.js"></script>
-    <script src="js/birthdays.js"></script>
+    <!-- تم تعطيل birthdays.js مؤقتاً لحل مشكلة الجلسة -->
+    <!-- <script src="js/birthdays.js"></script> -->
 
     <!-- =========================================================
-         TRANSLATIONS + ALL SCRIPTS
+         TRANSLATIONS + ALL SCRIPTS + FORCE LOAD PROFILE
     ========================================================= -->
     <script>
         // =========================================================
@@ -1185,7 +1186,8 @@ document.addEventListener('DOMContentLoaded', function() {
             "live_video": "بث مباشر",
             "story": "القصص",
             "create_story": "إنشاء قصة",
-            "post": "نشر"
+            "post": "نشر",
+            "referral": "الإحالات"
         },
         fr: {
             "search_placeholder": "Rechercher sur SocialWiki",
@@ -1214,7 +1216,8 @@ document.addEventListener('DOMContentLoaded', function() {
             "live_video": "Vidéo en direct",
             "story": "Stories",
             "create_story": "Créer une story",
-            "post": "Publier"
+            "post": "Publier",
+            "referral": "Parrainage"
         },
         en: {
             "search_placeholder": "Search SocialWiki",
@@ -1243,7 +1246,8 @@ document.addEventListener('DOMContentLoaded', function() {
             "live_video": "Live Video",
             "story": "Stories",
             "create_story": "Create Story",
-            "post": "Post"
+            "post": "Post",
+            "referral": "Referral"
         }
     };
 
@@ -2310,6 +2314,76 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =========================================================
+    // FORCE LOAD USER PROFILE (إجبار تحميل الملف الشخصي)
+    // =========================================================
+
+    async function forceLoadUserProfile() {
+        try {
+            console.log('🔄 Force loading user profile...');
+            
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            
+            if (!user) {
+                console.log('⚠️ No user logged in');
+                return;
+            }
+            
+            console.log('✅ User found:', user.email);
+            
+            const { data: profile, error } = await window.supabaseClient
+                .from('profiles')
+                .select('username, full_name, avatar_url, role')
+                .eq('id', user.id)
+                .single();
+            
+            if (error) {
+                console.error('❌ Error loading profile:', error);
+                return;
+            }
+            
+            const displayName = profile?.full_name || profile?.username || 'User';
+            const username = profile?.username || 'User';
+            const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
+            
+            console.log('✅ Profile loaded:', displayName);
+            
+            // تحديث جميع عناصر الصفحة
+            const elements = {
+                'navProfileName': displayName,
+                'sidebarName': displayName,
+                'rightProfileName': displayName,
+                'modalProfileName': displayName
+            };
+            
+            Object.keys(elements).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = elements[id];
+            });
+            
+            // تحديث الصور
+            const imgElements = ['navProfileImg', 'sidebarImg', 'rightProfileImg', 'postProfileImg', 'modalProfileImg'];
+            imgElements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.src = avatarUrl;
+            });
+            
+            // تحديث الاسم المستعار
+            const usernameEl = document.getElementById('rightProfileUsername');
+            if (usernameEl) usernameEl.textContent = '@' + username;
+            
+            // إظهار لوحة التحكم إذا كان Owner
+            const dashboardLink = document.getElementById('dashboardLink');
+            if (dashboardLink && profile?.role === 'owner') {
+                dashboardLink.style.display = 'flex';
+                console.log('✅ Dashboard link shown');
+            }
+            
+        } catch (error) {
+            console.error('❌ Error loading user profile:', error);
+        }
+    }
+
+    // =========================================================
     // INITIALIZE
     // =========================================================
 
@@ -2321,32 +2395,23 @@ document.addEventListener('DOMContentLoaded', function() {
         setLanguage(lang);
         applyTranslations();
         
-        setTimeout(updateNotificationBadge, 500);
-        setTimeout(checkRole, 500); // ⬅️ تحقق من الدور
-        setTimeout(loadUserProfile, 500);
-        setTimeout(loadStories, 500);
-        setTimeout(loadPosts, 500);
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("🔴 DOMContentLoaded fired");
-        
-        // ⬅️ أضف هذا
-        handleAuthCallback();
-        
-        // تطبيق اللغة المحفوظة
-        const lang = getCurrentLanguage();
-        setLanguage(lang);
-        applyTranslations();
-        
+        // تحميل البيانات
         setTimeout(updateNotificationBadge, 500);
         setTimeout(checkRole, 500);
         setTimeout(loadUserProfile, 500);
         setTimeout(loadStories, 500);
         setTimeout(loadPosts, 500);
+        
+        // ✅ تحميل الملف الشخصي بالقوة بعد 1 ثانية
+        setTimeout(forceLoadUserProfile, 1000);
+    });
+    
+    // معالجة OAuth callback
+    document.addEventListener('DOMContentLoaded', function() {
+        handleAuthCallback();
     });
 
-     
-    
+    <!-- كود Popunder -->
     <script src="https://pl31254009.profitableratecpmnetwork.com/f9/86/7f/f9867fb6ceaa47060db964a53492a011.js">
     </script>
 
