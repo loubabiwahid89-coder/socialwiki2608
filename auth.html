@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki - Login</title>
+    <title>SocialWiki - تسجيل الدخول</title>
 
     <style>
         body {
@@ -27,6 +27,7 @@
         .auth-container h1 {
             text-align: center;
             margin-bottom: 25px;
+            color: #1877f2;
         }
 
         .auth-container input {
@@ -34,9 +35,14 @@
             box-sizing: border-box;
             padding: 12px;
             margin-bottom: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 15px;
+        }
+
+        .auth-container input:focus {
+            border-color: #1877f2;
+            outline: none;
         }
 
         .auth-container button {
@@ -49,16 +55,47 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
 
         .auth-container button:hover {
             opacity: 0.9;
         }
 
+        .auth-container button.secondary {
+            background: #e4e6eb;
+            color: #050505;
+        }
+
+        .auth-container button.secondary:hover {
+            background: #d8dadf;
+        }
+
+        .auth-container button.danger {
+            background: transparent;
+            color: #1877f2;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .auth-container button.danger:hover {
+            text-decoration: underline;
+            background: transparent;
+        }
+
         #authMessage {
             text-align: center;
             margin-top: 15px;
             color: #333;
+            font-size: 14px;
+        }
+
+        #authMessage.success {
+            color: #42b72a;
+        }
+
+        #authMessage.error {
+            color: #dc3545;
         }
 
         /* زر Google */
@@ -77,6 +114,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            transition: background 0.2s;
         }
 
         .google-btn:hover {
@@ -108,6 +146,147 @@
         .divider span {
             padding: 0 10px;
         }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group small {
+            color: #65676b;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* تبديل بين التسجيل والدخول */
+        .toggle-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #65676b;
+        }
+
+        .toggle-link a {
+            color: #1877f2;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =========================================================
+           LANGUAGE SELECTOR
+        ========================================================= */
+        
+        .language-selector {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .language-btn {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #1877f2;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            color: #1877f2;
+            font-weight: 600;
+        }
+
+        .language-btn:hover {
+            background: #e7f3ff;
+            border-color: #166fe5;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.2);
+        }
+
+        .language-btn .lang-icon {
+            font-size: 20px;
+        }
+
+        .language-btn .arrow {
+            margin-left: auto;
+            font-size: 12px;
+            color: #999;
+            transition: transform 0.2s;
+        }
+
+        .language-btn.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .language-menu {
+            display: none;
+            position: absolute;
+            top: 52px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 9999;
+            overflow: hidden;
+            border: 1px solid #e4e6eb;
+        }
+
+        .language-menu.show {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-menu button {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f0f2f5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-menu button:hover {
+            background: #e7f3ff;
+            color: #1877f2;
+            font-weight: 600;
+        }
+
+        .language-menu button:last-child {
+            border-bottom: none;
+        }
+
+        .language-menu button .lang-flag {
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -115,78 +294,538 @@
 
     <div class="auth-container">
 
-        <h1>SocialWiki</h1>
+        <!-- ✅ زر اختيار اللغة (مرة واحدة فقط) -->
+        <div class="language-selector">
+            <button class="language-btn" onclick="toggleLanguageMenu()">
+                <span class="lang-icon">🌐</span>
+                <span id="currentLanguageLabel">العربية</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="language-menu" id="languageMenu">
+                <button onclick="changeLanguage('ar')">
+                    <span class="lang-flag">🇸🇦</span> العربية
+                </button>
+                <button onclick="changeLanguage('fr')">
+                    <span class="lang-flag">🇫🇷</span> Français
+                </button>
+                <button onclick="changeLanguage('en')">
+                    <span class="lang-flag">🇬🇧</span> English
+                </button>
+            </div>
+        </div>
+
+        <h1 id="pageTitle">📘 SocialWiki</h1>
 
         <!-- زر Google -->
         <button class="google-btn" onclick="loginWithGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-            <span>Sign in with Google</span>
+            <span id="googleBtnText">تسجيل الدخول بواسطة Google</span>
         </button>
 
         <!-- فاصل -->
         <div class="divider">
-            <span>or</span>
+            <span id="orText">أو</span>
         </div>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email"
-        >
+        <!-- نموذج البريد الإلكتروني -->
+        <div id="emailForm">
+            <input
+                type="email"
+                id="email"
+                placeholder="البريد الإلكتروني"
+                dir="ltr"
+            >
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-        >
+            <input
+                type="password"
+                id="password"
+                placeholder="كلمة المرور"
+                dir="ltr"
+            >
 
-        <button id="signupButton">
-            Sign Up
-        </button>
+            <!-- حقل كود الإحالة -->
+            <div class="form-group" id="referralField">
+                <input
+                    type="text"
+                    id="referralCodeInput"
+                    placeholder="🔑 كود الإحالة (اختياري)"
+                    dir="ltr"
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin: 5px 0; box-sizing: border-box;"
+                >
+                <small id="referralHint">
+                    إذا كان لديك كود إحالة، أدخله لتحصل على مكافأة ترحيبية! 🎉
+                </small>
+            </div>
 
-        <button id="loginButton">
-            Login
-        </button>
+            <!-- أزرار -->
+            <button id="signupButton" onclick="signup()">
+                إنشاء حساب
+            </button>
 
-        <button id="forgotPasswordButton" type="button">
-            Forgot Password?
-        </button>
+            <button id="loginButton" class="secondary" onclick="login()">
+                تسجيل الدخول
+            </button>
+
+            <button id="forgotPasswordButton" class="danger" type="button" onclick="forgotPassword()">
+                نسيت كلمة المرور؟
+            </button>
+        </div>
 
         <p id="authMessage"></p>
 
+        <div class="toggle-link" id="toggleLink">
+            <span id="toggleText">ليس لديك حساب؟</span>
+            <a id="toggleAction" onclick="toggleMode()">إنشاء حساب جديد</a>
+        </div>
+
     </div>
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/auth.js?v=20260904"></script>
-<script>
-    // =========================================================
-    // LOGIN WITH GOOGLE
-    // =========================================================
+    <!-- =========================================================
+         SUPABASE + SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+    <script>
+        // =========================================================
+        // TRANSLATIONS
+        // =========================================================
 
-    async function loginWithGoogle() {
-        try {
-            const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: window.location.origin + '/index.html'
-                }
-            });
-            
-            if (error) {
-                console.error('Error signing in with Google:', error);
-                alert('Error: ' + error.message);
+        const translations = {
+            ar: {
+                title: '📘 SocialWiki',
+                google_btn: 'تسجيل الدخول بواسطة Google',
+                or: 'أو',
+                email_placeholder: 'البريد الإلكتروني',
+                password_placeholder: 'كلمة المرور',
+                referral_placeholder: '🔑 كود الإحالة (اختياري)',
+                referral_hint: 'إذا كان لديك كود إحالة، أدخله لتحصل على مكافأة ترحيبية! 🎉',
+                signup_btn: 'إنشاء حساب',
+                login_btn: 'تسجيل الدخول',
+                forgot_btn: 'نسيت كلمة المرور؟',
+                toggle_text: 'ليس لديك حساب؟',
+                toggle_action: 'إنشاء حساب جديد',
+                toggle_text_login: 'لديك حساب؟',
+                toggle_action_login: 'تسجيل الدخول',
+                signup_title: '📘 إنشاء حساب',
+                login_title: '📘 تسجيل الدخول',
+                language_label: 'العربية',
+                signup_success: '✅ تم التسجيل بنجاح! سيتم توجيهك إلى الصفحة الرئيسية.',
+                login_success: '✅ تم تسجيل الدخول بنجاح!',
+                forgot_success: '✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني',
+                error_fill: '❌ الرجاء ملء البريد الإلكتروني وكلمة المرور',
+                error_password: '❌ كلمة المرور يجب أن تكون 6 أحرف على الأقل',
+                error_email: '❌ الرجاء إدخال البريد الإلكتروني',
+                welcome_bonus: '🎉 تم تفعيل كود الإحالة! ستحصل على مكافأة ترحيبية.'
+            },
+            fr: {
+                title: '📘 SocialWiki',
+                google_btn: 'Se connecter avec Google',
+                or: 'ou',
+                email_placeholder: 'Adresse e-mail',
+                password_placeholder: 'Mot de passe',
+                referral_placeholder: '🔑 Code de parrainage (optionnel)',
+                referral_hint: 'Si vous avez un code de parrainage, entrez-le pour obtenir un bonus de bienvenue ! 🎉',
+                signup_btn: 'Créer un compte',
+                login_btn: 'Se connecter',
+                forgot_btn: 'Mot de passe oublié ?',
+                toggle_text: 'Vous n\'avez pas de compte ?',
+                toggle_action: 'Créer un nouveau compte',
+                toggle_text_login: 'Vous avez un compte ?',
+                toggle_action_login: 'Se connecter',
+                signup_title: '📘 Créer un compte',
+                login_title: '📘 Connexion',
+                language_label: 'Français',
+                signup_success: '✅ Inscription réussie ! Vous serez redirigé vers la page d\'accueil.',
+                login_success: '✅ Connexion réussie !',
+                forgot_success: '✅ Un lien de réinitialisation du mot de passe a été envoyé à votre e-mail',
+                error_fill: '❌ Veuillez remplir l\'e-mail et le mot de passe',
+                error_password: '❌ Le mot de passe doit comporter au moins 6 caractères',
+                error_email: '❌ Veuillez entrer votre adresse e-mail',
+                welcome_bonus: '🎉 Code de parrainage activé ! Vous recevrez un bonus de bienvenue.'
+            },
+            en: {
+                title: '📘 SocialWiki',
+                google_btn: 'Sign in with Google',
+                or: 'or',
+                email_placeholder: 'Email',
+                password_placeholder: 'Password',
+                referral_placeholder: '🔑 Referral Code (optional)',
+                referral_hint: 'If you have a referral code, enter it to get a welcome bonus! 🎉',
+                signup_btn: 'Create Account',
+                login_btn: 'Login',
+                forgot_btn: 'Forgot Password?',
+                toggle_text: "Don't have an account?",
+                toggle_action: 'Create new account',
+                toggle_text_login: 'Have an account?',
+                toggle_action_login: 'Login',
+                signup_title: '📘 Create Account',
+                login_title: '📘 Login',
+                language_label: 'English',
+                signup_success: '✅ Sign up successful! You will be redirected to the homepage.',
+                login_success: '✅ Login successful!',
+                forgot_success: '✅ Password reset link has been sent to your email',
+                error_fill: '❌ Please fill in both email and password',
+                error_password: '❌ Password must be at least 6 characters',
+                error_email: '❌ Please enter your email',
+                welcome_bonus: '🎉 Referral code activated! You will receive a welcome bonus.'
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('socialwiki_lang') || 'ar';
+        let isSignupMode = true;
+
+        // =========================================================
+        // LANGUAGE FUNCTIONS
+        // =========================================================
+
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.ar;
+
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('googleBtnText').textContent = t.google_btn;
+            document.getElementById('orText').textContent = t.or;
+            document.getElementById('email').placeholder = t.email_placeholder;
+            document.getElementById('password').placeholder = t.password_placeholder;
+            document.getElementById('referralCodeInput').placeholder = t.referral_placeholder;
+            document.getElementById('referralHint').textContent = t.referral_hint;
+            document.getElementById('signupButton').textContent = t.signup_btn;
+            document.getElementById('loginButton').textContent = t.login_btn;
+            document.getElementById('forgotPasswordButton').textContent = t.forgot_btn;
+            document.getElementById('currentLanguageLabel').textContent = t.language_label;
+
+            if (isSignupMode) {
+                document.getElementById('toggleText').textContent = t.toggle_text;
+                document.getElementById('toggleAction').textContent = t.toggle_action;
+                document.querySelector('.auth-container h1').textContent = t.signup_title;
+                document.getElementById('signupButton').style.display = 'block';
+                document.getElementById('referralField').style.display = 'block';
+            } else {
+                document.getElementById('toggleText').textContent = t.toggle_text_login;
+                document.getElementById('toggleAction').textContent = t.toggle_action_login;
+                document.querySelector('.auth-container h1').textContent = t.login_title;
+                document.getElementById('signupButton').style.display = 'none';
+                document.getElementById('referralField').style.display = 'none';
+            }
+
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+                document.documentElement.lang = 'ar';
+            } else {
+                document.documentElement.dir = 'ltr';
+                document.documentElement.lang = lang;
+            }
+        }
+
+        function toggleLanguageMenu() {
+            const menu = document.getElementById('languageMenu');
+            menu.classList.toggle('show');
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('socialwiki_lang', lang);
+            applyTranslations(lang);
+            document.getElementById('languageMenu').classList.remove('show');
+        }
+
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
+
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // =========================================================
+        // TOGGLE BETWEEN SIGNUP AND LOGIN
+        // =========================================================
+
+        function toggleMode() {
+            isSignupMode = !isSignupMode;
+            applyTranslations(currentLanguage);
+            document.getElementById('authMessage').textContent = '';
+            document.getElementById('authMessage').className = '';
+        }
+
+        // =========================================================
+        // READ REFERRAL CODE FROM URL
+        // =========================================================
+
+        function getReferralCodeFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('ref');
+        }
+
+        // =========================================================
+        // SIGNUP
+        // =========================================================
+
+        async function signup() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const referralCode = document.getElementById('referralCodeInput').value.trim();
+            const message = document.getElementById('authMessage');
+
+            if (!email || !password) {
+                message.textContent = translations[currentLanguage].error_fill || '❌ الرجاء ملء البريد الإلكتروني وكلمة المرور';
+                message.className = 'error';
                 return;
             }
-            
-            console.log('Redirecting to Google...');
-            
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error: ' + error.message);
+
+            if (password.length < 6) {
+                message.textContent = translations[currentLanguage].error_password || '❌ كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+                message.className = 'error';
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            username: email.split('@')[0]
+                        }
+                    }
+                });
+
+                if (error) {
+                    message.textContent = '❌ ' + error.message;
+                    message.className = 'error';
+                    return;
+                }
+
+                if (!data.user) {
+                    message.textContent = '❌ حدث خطأ في التسجيل';
+                    message.className = 'error';
+                    return;
+                }
+
+                if (referralCode) {
+                    await processReferral(referralCode, data.user.id);
+                }
+
+                await addPoints(data.user.id, 100, 'welcome_bonus', 'مكافأة ترحيبية');
+
+                message.textContent = translations[currentLanguage].signup_success || '✅ تم التسجيل بنجاح!';
+                message.className = 'success';
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = '❌ حدث خطأ: ' + error.message;
+                message.className = 'error';
+            }
         }
-    }
-    <script src="js/auth.js"></script>
-</script>
+
+        // =========================================================
+        // LOGIN
+        // =========================================================
+
+        async function login() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const message = document.getElementById('authMessage');
+
+            if (!email || !password) {
+                message.textContent = translations[currentLanguage].error_fill || '❌ الرجاء ملء البريد الإلكتروني وكلمة المرور';
+                message.className = 'error';
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    message.textContent = '❌ ' + error.message;
+                    message.className = 'error';
+                    return;
+                }
+
+                message.textContent = translations[currentLanguage].login_success || '✅ تم تسجيل الدخول بنجاح!';
+                message.className = 'success';
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = '❌ حدث خطأ: ' + error.message;
+                message.className = 'error';
+            }
+        }
+
+        // =========================================================
+        // FORGOT PASSWORD
+        // =========================================================
+
+        async function forgotPassword() {
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('authMessage');
+
+            if (!email) {
+                message.textContent = translations[currentLanguage].error_email || '❌ الرجاء إدخال البريد الإلكتروني';
+                message.className = 'error';
+                return;
+            }
+
+            try {
+                const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/reset-password.html'
+                });
+
+                if (error) {
+                    message.textContent = '❌ ' + error.message;
+                    message.className = 'error';
+                    return;
+                }
+
+                message.textContent = translations[currentLanguage].forgot_success || '✅ تم إرسال رابط إعادة تعيين كلمة المرور';
+                message.className = 'success';
+
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = '❌ حدث خطأ: ' + error.message;
+                message.className = 'error';
+            }
+        }
+
+        // =========================================================
+        // LOGIN WITH GOOGLE
+        // =========================================================
+
+        async function loginWithGoogle() {
+            try {
+                const redirectUrl = window.location.origin + '/index.html';
+
+                const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: redirectUrl
+                    }
+                });
+
+                if (error) {
+                    console.error('Error signing in with Google:', error);
+                    alert('خطأ: ' + error.message);
+                    return;
+                }
+
+                console.log('جاري التوجيه إلى Google...');
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('خطأ: ' + error.message);
+            }
+        }
+
+        // =========================================================
+        // PROCESS REFERRAL
+        // =========================================================
+
+        async function processReferral(referralCode, newUserId) {
+            try {
+                const { data: referrer, error: refError } = await supabaseClient
+                    .from('profiles')
+                    .select('id')
+                    .eq('referral_code', referralCode)
+                    .single();
+
+                if (refError || !referrer) {
+                    console.log('⚠️ كود الإحالة غير صحيح');
+                    return;
+                }
+
+                await addPoints(referrer.id, 500, 'referral', 'مكافأة إحالة صديق');
+
+                await supabaseClient
+                    .from('referrals')
+                    .insert({
+                        referrer_id: referrer.id,
+                        new_user_id: newUserId,
+                        points_earned: 500,
+                        created_at: new Date()
+                    });
+
+                console.log('✅ تمت معالجة الإحالة بنجاح');
+
+            } catch (error) {
+                console.error('Error processing referral:', error);
+            }
+        }
+
+        // =========================================================
+        // ADD POINTS
+        // =========================================================
+
+        async function addPoints(userId, points, type, description) {
+            try {
+                await supabaseClient
+                    .from('points_transactions')
+                    .insert({
+                        user_id: userId,
+                        points: points,
+                        type: type,
+                        description: description || '',
+                        created_at: new Date()
+                    });
+
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('total_points')
+                    .eq('id', userId)
+                    .single();
+
+                const newTotal = (profile?.total_points || 0) + points;
+
+                await supabaseClient
+                    .from('profiles')
+                    .update({ total_points: newTotal })
+                    .eq('id', userId);
+
+                console.log(`✅ أضيفت ${points} نقطة للمستخدم ${userId}`);
+
+            } catch (error) {
+                console.error('Error adding points:', error);
+            }
+        }
+
+        // =========================================================
+        // INIT
+        // =========================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = localStorage.getItem('socialwiki_lang') || 'ar';
+            currentLanguage = lang;
+            applyTranslations(lang);
+
+            const refCode = getReferralCodeFromURL();
+            if (refCode) {
+                const input = document.getElementById('referralCodeInput');
+                if (input) {
+                    input.value = refCode;
+                    const message = document.getElementById('authMessage');
+                    message.textContent = translations[currentLanguage].welcome_bonus || '🎉 تم تفعيل كود الإحالة!';
+                    message.className = 'success';
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                const menu = document.getElementById('languageMenu');
+                const btn = document.querySelector('.language-btn');
+                if (menu && btn && !btn.contains(event.target) && !menu.contains(event.target)) {
+                    menu.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

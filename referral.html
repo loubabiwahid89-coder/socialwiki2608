@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإحالات - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-icons a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+        
+        .nav-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* =========================================================
+           REFERRAL PAGE
+        ========================================================= */
+        
+        .referral-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .referral-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .referral-header h2 {
+            font-size: 24px;
+        }
+        
+        .points-display {
+            background: linear-gradient(135deg, #f7b928, #ffd700);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #333;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4);
+        }
+        
+        .referral-code-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .code-display {
+            background: #f0f2f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            color: #1877f2;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        
+        .btn-primary {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #166fe5;
+        }
+        
+        .btn-success {
+            background: #42b72a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        
+        .btn-success:hover {
+            background: #36a420;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .share-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            transition: 0.2s;
+        }
+        
+        .share-btn.whatsapp {
+            background: #25D366;
+        }
+        .share-btn.whatsapp:hover {
+            background: #1da851;
+        }
+        .share-btn.facebook {
+            background: #1877f2;
+        }
+        .share-btn.facebook:hover {
+            background: #166fe5;
+        }
+        .share-btn.twitter {
+            background: #000000;
+        }
+        .share-btn.twitter:hover {
+            background: #1a1a1a;
+        }
+        .share-btn.copy {
+            background: #65676b;
+        }
+        .share-btn.copy:hover {
+            background: #4a4a4e;
+        }
+        
+        /* =========================================================
+           STATS
+        ========================================================= */
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card h4 {
+            margin: 0 0 10px;
+            color: #65676b;
+            font-size: 14px;
+        }
+        
+        .stat-card .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1877f2;
+        }
+        
+        .stat-card .number.gold {
+            color: #f7b928;
+        }
+        
+        .stat-card .number.green {
+            color: #42b72a;
+        }
+        
+        /* =========================================================
+           REFERRAL LIST
+        ========================================================= */
+        
+        .referral-list {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .referral-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .referral-list th {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 2px solid #e4e6eb;
+            color: #65676b;
+            font-size: 13px;
+        }
+        
+        .referral-list td {
+            padding: 10px;
+            border-bottom: 1px solid #e4e6eb;
+            font-size: 14px;
+        }
+        
+        .referral-list tr:hover {
+            background: #f0f2f5;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #65676b;
+        }
+        
+        /* =========================================================
+           BACK & HOME BUTTONS
+        ========================================================= */
+        
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+        
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+        
+        @media (max-width: 700px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+            }
+            
+            .share-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================================
+         BACK & HOME BUTTONS
+    ========================================================= -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn">
+            ← Back
+        </a>
+        <a href="index.html" class="home-btn">
+            🏠 Home
+        </a>
+    </div>
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         REFERRAL CONTAINER
+    ========================================================= -->
+    <div class="referral-container">
+
+        <!-- HEADER -->
+        <div class="referral-header">
+            <h2>👥 الإحالات</h2>
+            <div class="points-display" id="pointsDisplay">
+                🪙 0 نقاط
+            </div>
+        </div>
+
+        <!-- كود الإحالة -->
+        <div class="referral-code-box">
+            <h3>🔑 كود الإحالة الخاص بك</h3>
+            <div class="code-display" id="referralCode">جاري التحميل...</div>
+            <button class="btn-primary" onclick="copyReferralCode()">📋 نسخ الكود</button>
+            
+            <h3 style="margin-top: 20px;">🔗 رابط الإحالة</h3>
+            <div class="code-display" id="referralLink" style="font-size: 16px; letter-spacing: 0; word-break: break-all;">
+                جاري التحميل...
+            </div>
+            <button class="btn-primary" onclick="copyReferralLink()">📋 نسخ الرابط</button>
+        </div>
+
+        <!-- أزرار المشاركة -->
+        <div class="share-buttons">
+            <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">💬 واتساب</button>
+            <button class="share-btn facebook" onclick="shareOnFacebook()">📘 فيسبوك</button>
+            <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 تويتر</button>
+            <button class="share-btn copy" onclick="copyReferralLink()">📋 نسخ الرابط</button>
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>👥 المدعوين</h4>
+                <div class="number" id="totalReferrals">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>🪙 نقاط الإحالات</h4>
+                <div class="number gold" id="referralPoints">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>💰 ما يعادلها بالدولار</h4>
+                <div class="number green" id="referralDollars">$0.00</div>
+            </div>
+        </div>
+
+        <!-- قائمة المدعوين -->
+        <div class="referral-list">
+            <h3>📋 المدعوين</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>تاريخ التسجيل</th>
+                        <th>المكافأة</th>
+                    </tr>
+                </thead>
+                <tbody id="referralTableBody">
+                    <tr>
+                        <td colspan="3" class="empty-state">لم تدعُ أي شخص بعد. ابدأ الآن! 🚀</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
+        
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = username;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // GENERATE REFERRAL CODE
+        // =========================================================
+        
+        function generateReferralCode(userId) {
+            // خذ أول 6 أحرف من userId وأضف 4 أحرف عشوائية
+            const shortId = userId.substring(0, 6);
+            const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return `REF${shortId}${random}`;
+        }
+        
+        // =========================================================
+        // GET OR CREATE REFERRAL CODE
+        // =========================================================
+        
+        async function getOrCreateReferralCode() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            
+            if (!user) return null;
+            
+            // جلب الملف الشخصي
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('referral_code')
+                .eq('id', user.id)
+                .single();
+            
+            // إذا كان لديه كود إحالة، أعده
+            if (profile?.referral_code) {
+                return profile.referral_code;
+            }
+            
+            // إذا لم يكن لديه، أنشئ كوداً جديداً
+            const newCode = generateReferralCode(user.id);
+            
+            // حفظ الكود في قاعدة البيانات
+            await supabaseClient
+                .from('profiles')
+                .update({ referral_code: newCode })
+                .eq('id', user.id);
+            
+            return newCode;
+        }
+        
+        // =========================================================
+        // LOAD REFERRAL DATA
+        // =========================================================
+        
+        async function loadReferralData() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // 1. جلب كود الإحالة
+                const referralCode = await getOrCreateReferralCode();
+                if (!referralCode) return;
+                
+                document.getElementById('referralCode').textContent = referralCode;
+                document.getElementById('referralLink').textContent = 
+                    `${window.location.origin}/auth.html?ref=${referralCode}`;
+                
+                // 2. جلب عدد المدعوين
+                const { data: referrals, error: refError } = await supabaseClient
+                    .from('referrals')
+                    .select('*')
+                    .eq('referrer_id', user.id);
+                
+                if (refError) {
+                    console.error('Error loading referrals:', refError);
+                    return;
+                }
+                
+                const totalReferrals = referrals?.length || 0;
+                const totalPoints = totalReferrals * 500; // 500 نقطة لكل مدعو
+                const totalDollars = (totalPoints / 1000).toFixed(2);
+                
+                document.getElementById('totalReferrals').textContent = totalReferrals;
+                document.getElementById('referralPoints').textContent = totalPoints;
+                document.getElementById('referralDollars').textContent = `$${totalDollars}`;
+                
+                // 3. عرض قائمة المدعوين
+                const tableBody = document.getElementById('referralTableBody');
+                tableBody.innerHTML = '';
+                
+                if (!referrals || referrals.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="3" class="empty-state">لم تدعُ أي شخص بعد. ابدأ الآن! 🚀</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // جلب أسماء المدعوين
+                const userIds = referrals.map(r => r.new_user_id);
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name')
+                    .in('id', userIds);
+                
+                const profilesMap = {};
+                if (profiles) {
+                    profiles.forEach(p => {
+                        profilesMap[p.id] = p.full_name || p.username || 'مستخدم';
+                    });
+                }
+                
+                referrals.forEach(ref => {
+                    const name = profilesMap[ref.new_user_id] || 'مستخدم';
+                    const date = new Date(ref.created_at).toLocaleDateString('ar-EG');
+                    const points = ref.points_earned || 500;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${name}</td>
+                        <td>${date}</td>
+                        <td>+${points} نقطة</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // SHARE FUNCTIONS
+        // =========================================================
+        
+        function copyReferralCode() {
+            const code = document.getElementById('referralCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ تم نسخ كود الإحالة!');
+            }).catch(() => {
+                alert('❌ حدث خطأ، حاول مرة أخرى.');
+            });
+        }
+        
+        function copyReferralLink() {
+            const link = document.getElementById('referralLink').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✅ تم نسخ رابط الإحالة!');
+            }).catch(() => {
+                alert('❌ حدث خطأ، حاول مرة أخرى.');
+            });
+        }
+        
+        function shareOnWhatsApp() {
+            const link = document.getElementById('referralLink').textContent;
+            const text = encodeURIComponent('🎉 انضم إلى SocialWiki واربح نقاطاً! استخدم رابط الإحالة الخاص بي:');
+            window.open(`https://wa.me/?text=${text}%20${encodeURIComponent(link)}`, '_blank');
+        }
+        
+        function shareOnFacebook() {
+            const link = document.getElementById('referralLink').textContent;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`, '_blank');
+        }
+        
+        function shareOnTwitter() {
+            const link = document.getElementById('referralLink').textContent;
+            const text = encodeURIComponent('🎉 انضم إلى SocialWiki واربح نقاطاً!');
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(link)}`, '_blank');
+        }
+        
+        // =========================================================
+        // LOAD POINTS
+        // =========================================================
+        
+        async function loadPoints() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            
+            if (!user) return;
+            
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('total_points')
+                .eq('id', user.id)
+                .single();
+            
+            const points = profile?.total_points || 0;
+            document.getElementById('pointsDisplay').textContent = `🪙 ${points} نقاط`;
+        }
+        
+        // =========================================================
+        // START
+        // =========================================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+            loadPoints();
+            loadReferralData();
+        });
+    </script>
+
+</body>
+</html>

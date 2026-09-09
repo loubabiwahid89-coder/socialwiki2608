@@ -219,22 +219,27 @@ a {
 ========================================================= */
 
 .language-selector {
-    position: relative;
+     position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 .language-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
+   width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #1877f2;  /* ✅ خلفية زرقاء */
+    color: white;         /* ✅ نص أبيض */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    font-size: 18px;
-    color: white;
-    transition: 0.2s;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
 }
 
 .language-btn:hover {
@@ -1029,4 +1034,73 @@ a {
         width: 100%;
         order: 2;
     }
+}
+
+.language-btn {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #1877f2;  /* إضافة border أزرق */
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s;
+    color: #1877f2;  /* النص باللون الأزرق */
+    font-weight: 600;
+}
+
+.language-btn:hover {
+    background: #e7f3ff;  /* خلفية زرقاء فاتحة عند التحويم */
+    border-color: #166fe5;
+}
+
+.language-btn .lang-icon {
+    font-size: 20px;
+}
+.language-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    z-index: 9999;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.language-menu.show {
+    display: block;
+}
+
+.language-menu button {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: 0.2s;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.language-menu button:hover {
+    background: #e7f3ff;  /* خلفية زرقاء فاتحة عند التحويم */
+    color: #1877f2;
+    font-weight: 600;
+}
+
+.language-menu button:last-child {
+    border-bottom: none;
+}
+
+.language-menu button .lang-flag {
+    margin-right: 8px;
 }

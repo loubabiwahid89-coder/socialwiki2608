@@ -885,10 +885,10 @@
                 <span class="emoji-icon">🎁</span>
                 <span data-i18n="gifts">Gifts</span>
             </a>
-            <a href="tasks.html">
-                <span class="emoji-icon">✅</span>
-                <span data-i18n="tasks">Tasks</span>
-            </a>
+           <a href="referral.html">
+    <span class="emoji-icon">👥</span>
+    <span data-i18n="referral">الإحالات</span>
+</a>
             
             <!-- ⬇️⬇️⬇️ رابط لوحة التحكم (يظهر للأدمن فقط) ⬇️⬇️⬇️ -->
             <a href="owner-dashboard.html" id="dashboardLink" style="display: none;">
@@ -1009,27 +1009,31 @@
                 <a href="events.html">📅 Event 2</a>
             </div>
 
-           <!-- الإعلانات المتعددة -->
-<div class="ad-box">
-    <h3>Sponsored</h3>
-    <img src="https://via.placeholder.com/300x200/1877f2/fff?text=Ad+1" alt="Ad">
-    <p>Advertisement</p>
-    <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
-</div>
+            <!-- الإعلانات المتعددة -->
+            <div class="ad-box">
+                <h3>Sponsored</h3>
+                <img src="C:\xampp\htdocs\socialwiki wiki2608\images\png_adsterra_ads.png" alt="Ad">
+                <p>Advertisement</p>
+                <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
+            </div>
 
-<div class="ad-box">
-    <h3>Sponsored</h3>
-    <img src="https://via.placeholder.com/300x200/42b72a/fff?text=Ad+2" alt="Ad">
-    <p>Advertisement</p>
-    <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
-</div>
+            <div class="ad-box">
+                <h3>Sponsored</h3>
+                <img src="https://via.placeholder.com/300x200/42b72a/fff?text=Ad+2" alt="Ad">
+                <p>Advertisement</p>
+                <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
+            </div>
 
-<div class="ad-box">
-    <h3>Sponsored</h3>
-    <img src="https://via.placeholder.com/300x200/f7b928/fff?text=Ad+3" alt="Ad">
-    <p>Advertisement</p>
-    <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
-</div>
+            <div class="ad-box">
+                <h3>Sponsored</h3>
+                <img src="https://via.placeholder.com/300x200/f7b928/fff?text=Ad+3" alt="Ad">
+                <p>Advertisement</p>
+                <a href="#" style="color: #1877f2; font-size: 13px;">Learn More</a>
+            </div>
+
+        </div>
+    </div>
+
     <!-- =========================================================
          CREATE POST MODAL
     ========================================================= -->
@@ -2160,7 +2164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // LOAD POSTS
     // =========================================================
 
-   async function loadPosts() {
+    async function loadPosts() {
     const feedContainer = document.getElementById('feedContainer');
     
     if (!feedContainer) return;
@@ -2197,11 +2201,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         feedContainer.innerHTML = '';
         
-        // عداد المنشورات
         let postCount = 0;
         let adCount = 0;
         
-        posts.forEach(post => {
+        posts.forEach((post, index) => {
             // عرض المنشور
             const profile = profilesMap[post.user_id] || {};
             const username = profile.username || profile.full_name || 'User';
@@ -2213,9 +2216,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 contentHTML += `<div class="feed-content">${escapeHtml(post.content)}</div>`;
             }
             
-          if (post.image_url) {
-    contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">`;
-}
+            if (post.image_url) {
+                contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">`;
+            }
             
             if (post.video_url) {
                 contentHTML += `<video src="${post.video_url}" controls class="feed-image"></video>`;
@@ -2254,21 +2257,22 @@ document.addEventListener('DOMContentLoaded', function() {
             feedContainer.appendChild(postDiv);
             setTimeout(() => loadComments(post.id), 100);
             
-            // زيادة العداد
             postCount++;
             
-            // بعد كل 5 منشورات، أضف إعلاناً
+            // ✅ بعد كل 5 منشورات، أضف Native Banner
             if (postCount % 5 === 0) {
                 adCount++;
                 const adDiv = document.createElement('div');
                 adDiv.className = 'feed-post';
                 adDiv.style.background = '#f8f9fa';
+                adDiv.style.padding = '20px';
+                adDiv.style.textAlign = 'center';
+                adDiv.style.borderRadius = '12px';
+                adDiv.style.marginBottom = '20px';
                 adDiv.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <h3 style="margin-bottom: 10px;">Sponsored</h3>
-                        <img src="https://via.placeholder.com/500x200/1877f2/fff?text=Ad+${adCount}" alt="Ad" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">
-                        <p style="color: #65676b; font-size: 14px;">Advertisement</p>
-                    </div>
+                    <h3 style="margin-bottom: 10px; color: #65676b;">Sponsored</h3>
+                    <script async="async" data-cfasync="false" src="https://pl31254010.profitableratecpmnetwork.com/57d453ef832901f97e96807b98319cd6/invoke.js"><\/script>
+                    <div id="container-57d453ef832901f97e96807b98319cd6"></div>
                 `;
                 feedContainer.appendChild(adDiv);
             }
@@ -2324,22 +2328,25 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(loadPosts, 500);
     });
     document.addEventListener('DOMContentLoaded', function() {
-    console.log("🔴 DOMContentLoaded fired");
-    
-    // ⬅️ أضف هذا
-    handleAuthCallback();
-    
-    // تطبيق اللغة المحفوظة
-    const lang = getCurrentLanguage();
-    setLanguage(lang);
-    applyTranslations();
-    
-    setTimeout(updateNotificationBadge, 500);
-    setTimeout(checkRole, 500);
-    setTimeout(loadUserProfile, 500);
-    setTimeout(loadStories, 500);
-    setTimeout(loadPosts, 500);
-});
+        console.log("🔴 DOMContentLoaded fired");
+        
+        // ⬅️ أضف هذا
+        handleAuthCallback();
+        
+        // تطبيق اللغة المحفوظة
+        const lang = getCurrentLanguage();
+        setLanguage(lang);
+        applyTranslations();
+        
+        setTimeout(updateNotificationBadge, 500);
+        setTimeout(checkRole, 500);
+        setTimeout(loadUserProfile, 500);
+        setTimeout(loadStories, 500);
+        setTimeout(loadPosts, 500);
+    });
+
+   <script src="https://pl31254009.profitableratecpmnetwork.com/f9/86/7f/f9867fb6ceaa47060db964a53492a011.js">
+
     </script>
 
 </body>
