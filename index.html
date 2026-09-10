@@ -2031,10 +2031,17 @@ async function checkSessionAndRedirect() {
         // LOAD POSTS
         // =========================================================
 
-                async function loadPosts() {
+                         // =========================================================
+        // LOAD POSTS
+        // =========================================================
+
+        async function loadPosts() {
             const feedContainer = document.getElementById('feedContainer');
             
             if (!feedContainer) return;
+            
+            // ✅ تحميل المنشورات المُشاهدة من localStorage
+            const viewedPosts = JSON.parse(localStorage.getItem('viewedPosts') || '[]');
             
             try {
                 const { data: posts, error } = await window.supabaseClient
@@ -2076,24 +2083,38 @@ async function checkSessionAndRedirect() {
                     const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                     const timeAgo = formatTimeAgo(post.created_at);
                     
+                    // =========================================================
+                    // 🔥 بناء محتوى المنشور (نص + صورة)
+                    // =========================================================
                     let contentHTML = '';
 
+                    // 1️⃣ عرض النص (مع إزالة أي روابط [Image: ...] قديمة)
                     if (post.content) {
                         let content = post.content;
+                        
+                        // إزالة أي [Image: ...] قديمة من النص
                         content = content.replace(/\[Image:\s*[^\]]+\]/g, '');
+                        
+                        // تحويل [Video: الرابط] إلى فيديو
                         content = content.replace(/\[Video:\s*([^\]]+)\]/g, function(match, url) {
                             const cleanUrl = url.trim();
                             return `<video src="${cleanUrl}" controls class="feed-image" style="width: 100%; max-height: 500px; border-radius: 8px; margin-bottom: 10px;"></video>`;
                         });
+                        
+                        // إضافة النص إذا لم يكن فارغاً بعد إزالة الروابط
                         if (content.trim()) {
                             contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
                         }
                     }
 
+                    // 2️⃣ عرض الصورة من العمود الجديد image_url
                     if (post.image_url) {
                         contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;" onerror="console.error('Failed to load image:', this.src)">`;
                     }
                     
+                    // =========================================================
+                    // 🔥 إنشاء بطاقة المنشور
+                    // =========================================================
                     const postDiv = document.createElement('div');
                     postDiv.className = 'feed-post';
                     postDiv.innerHTML = `
@@ -2127,17 +2148,75 @@ async function checkSessionAndRedirect() {
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
+                    // ✅ تسجيل المشاهدة (إذا لم تُسجل من قبل)
+                    if (!viewedPosts.includes(post.id)) {
+                        trackPostView(post.id);
+                        viewedPosts.push(post.id);
+                    }
+                    
                     postCount++;
-                }   // 👈 إغلاق حلقة for
-            } catch (error) {   // 👈 catch الخاص بـ try
+                }
+                
+                // ✅ حفظ المنشورات المُشاهدة في localStorage
+                localStorage.setItem('viewedPosts', JSON.stringify(viewedPosts));
+                
+            } catch (error) {
                 console.error('Error:', error);
             }
-        }   // 👈 إغلاق دالة loadPosts
-                    
-                   
-                
-         
+        }
 
+        // =========================================================
+        // TRACK POST VIEW (تسجيل المشاهدة)
+        // ===        // =========================================================
+        // TRACK POST VIEW (تسجيل المشاهدة + الأرباح)
+        // =========================================================
+        async function trackPostView(postId) {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: post } = await window.supabaseClient
+                    .from('posts')
+                    .select('user_id')
+                    .eq('id', postId)
+                    .single();
+                
+                if (!post) return;
+                if (post.user_id === user.id) return;
+                
+                // 1️⃣ سجل المشاهدة
+                const { error: viewError } = await window.supabaseClient
+                    .from('post_views')
+                    .insert({
+                        post_id: postId,
+                        viewer_id: user.id
+                    });
+                
+                if (viewError) {
+                    console.error('Error inserting view:', viewError);
+                    return;
+                }
+                
+                // 2️⃣ أضف النقاط
+                const { error: earnError } = await window.supabaseClient.rpc('add_earnings', {
+                    p_user_id: post.user_id,
+                    p_post_id: postId,
+                    p_source: 'views',
+                    p_points: 1,
+                    p_dollars: 0.0001
+                });
+                
+                if (earnError) {
+                    console.error('Error adding earnings:', earnError);
+                    return;
+                }
+                
+                console.log('✅ View tracked & earnings added for post:', postId);
+                
+            } catch (error) {
+                console.error('Error tracking view:', error);
+            }
+        }
         // =========================================================
         // FORMAT TIME
         // =========================================================
