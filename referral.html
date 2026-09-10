@@ -593,8 +593,10 @@
                 if (!referralCode) return;
                 
                 document.getElementById('referralCode').textContent = referralCode;
-                document.getElementById('referralLink').textContent = 
-                    `${window.location.origin}/auth.html?ref=${referralCode}`;
+                // ✅ استخدم رابط الموقع الحقيقي
+const BASE_URL = 'https://socialwiki2608.loubabiwahid89.workers.dev';
+document.getElementById('referralLink').textContent = 
+    `${BASE_URL}/auth.html?ref=${referralCode}`;
                 
                 // 2. جلب عدد المدعوين
                 const { data: referrals, error: refError } = await supabaseClient

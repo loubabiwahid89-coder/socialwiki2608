@@ -604,8 +604,8 @@
                     row.innerHTML = `
                         <td>${date}</td>
                         <td><span class="badge ${sourceClass}">${sourceText}</span></td>
-                        <td>+${e.points || 0}</td>
-                        <td>+$${(e.dollars || 0).toFixed(2)}</td>
+                        <td>+${e.points_earned || 0}</td>
+<td>+$${(e.dollars_earned || 0).toFixed(2)}</td>
                     `;
                     tbody.appendChild(row);
                 });

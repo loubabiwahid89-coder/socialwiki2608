@@ -550,9 +550,22 @@
                 await initializeUserBalance(data.user.id);
 
                 // ✅ 2. معالجة كود الإحالة
-                if (referralCode) {
-                    await processReferral(referralCode, data.user.id);
-                }
+               // ✅ انتظر 1 ثانية حتى تُنشأ الجلسة
+if (referralCode) {
+    console.log('⏳ Waiting for session...');
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // ✅ تحقق من الجلسة
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    console.log('Session:', session);
+    
+    if (session) {
+        console.log('🔗 Processing referral...');
+        await processReferral(referralCode, data.user.id);
+    } else {
+        console.log('❌ No session - cannot process referral');
+    }
+}
 
                 message.textContent = translations[currentLanguage].signup_success;
                 message.className = 'success';
@@ -671,45 +684,62 @@
         // =========================================================
 
         async function processReferral(referralCode, newUserId) {
-            try {
-                console.log('🔗 Processing referral:', referralCode);
-
-                const { data: referrer, error: refError } = await supabaseClient
-                    .from('profiles')
-                    .select('id, username')
-                    .eq('referral_code', referralCode)
-                    .maybeSingle();
-
-                if (refError || !referrer) {
-                    console.log('⚠️ Referral code not found');
-                    return;
-                }
-
-                if (referrer.id === newUserId) {
-                    console.log('⚠️ Cannot refer yourself');
-                    return;
-                }
-
-                const { error: insertError } = await supabaseClient
-                    .from('referrals')
-                    .insert({
-                        referrer_id: referrer.id,
-                        referred_id: newUserId,
-                        referral_code: referralCode,
-                        points_awarded: 50
-                    });
-
-                if (insertError) {
-                    console.error('❌ Error inserting referral:', insertError);
-                    return;
-                }
-
-                console.log('✅ Referral processed! Trigger will reward both users.');
-
-            } catch (error) {
-                console.error('Error processing referral:', error);
-            }
+    try {
+        console.log('🔗 Processing referral:', referralCode);
+        
+        // ✅ 1. احصل على auth.uid()
+        const { data: { user: authUser } } = await supabaseClient.auth.getUser();
+        
+        if (!authUser) {
+            console.log('❌ No auth user');
+            return;
         }
+        
+        console.log('Auth user:', authUser.id);
+        console.log('New user:', newUserId);
+        
+        // ✅ 2. استخدم auth.uid() (المستخدم الحالي)
+        const referredId = authUser.id;
+        
+        // ✅ 3. ابحث عن الداعي
+        const { data: referrer, error: refError } = await supabaseClient
+            .from('profiles')
+            .select('id, username')
+            .eq('referral_code', referralCode)
+            .maybeSingle();
+
+        if (refError || !referrer) {
+            console.log('⚠️ Referral code not found:', referralCode);
+            return;
+        }
+
+        // ✅ 4. لا يمكن للمستخدم دعوة نفسه
+        if (referrer.id === referredId) {
+            console.log('⚠️ Cannot refer yourself');
+            return;
+        }
+
+        // ✅ 5. أضف الإحالة
+        const { error: insertError } = await supabaseClient
+            .from('referrals')
+            .insert({
+                referrer_id: referrer.id,
+                referred_id: referredId,
+                referral_code: referralCode,
+                points_awarded: 50
+            });
+
+        if (insertError) {
+            console.error('❌ Error inserting referral:', insertError);
+            return;
+        }
+
+        console.log('✅ Referral processed successfully!');
+
+    } catch (error) {
+        console.error('❌ Error processing referral:', error);
+    }
+}
 
         // =========================================================
         // INITIALIZE USER BALANCE
