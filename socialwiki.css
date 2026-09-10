@@ -1,5 +1,5 @@
 /* =========================================================
-   SOCIALWIKI - CSS
+   SOCIALWIKI - CSS (FULL)
 ========================================================= */
 
 * {
@@ -13,7 +13,10 @@ body {
     color: #050505;
 }
 
-/* Navbar */
+/* =========================================================
+   NAVBAR
+========================================================= */
+
 .navbar {
     display: flex;
     align-items: center;
@@ -40,6 +43,10 @@ body {
     text-decoration: none;
 }
 
+.search-container {
+    position: relative;
+}
+
 .search-container input {
     background: rgba(255,255,255,0.2);
     width: 240px;
@@ -48,10 +55,61 @@ body {
     border: none;
     padding: 0 15px;
     color: white;
+    outline: none;
 }
 
 .search-container input::placeholder {
     color: rgba(255,255,255,0.7);
+}
+
+.search-results {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    display: none;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.search-result-item:hover {
+    background: #f0f2f5;
+}
+
+.search-result-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search-result-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.search-result-username {
+    font-size: 12px;
+    color: #65676b;
+}
+
+.search-no-results {
+    padding: 15px;
+    text-align: center;
+    color: #65676b;
 }
 
 .nav-icons {
@@ -75,6 +133,39 @@ body {
     background: rgba(255,255,255,0.2);
 }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 50px;
+    transition: 0.2s;
+}
+
+.nav-profile:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.nav-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nav-profile span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .logout-button {
     background: rgba(255,255,255,0.2);
     border: none;
@@ -82,9 +173,77 @@ body {
     border-radius: 20px;
     color: white;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
-/* Main Layout */
+.logout-button:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* =========================================================
+   LANGUAGE SELECTOR (NAVBAR)
+========================================================= */
+
+.language-selector {
+    position: relative;
+}
+
+.language-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    font-size: 18px;
+    color: white;
+    transition: 0.2s;
+}
+
+.language-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.language-menu {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    min-width: 150px;
+}
+
+.language-menu.show {
+    display: block;
+}
+
+.language-menu button {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.language-menu button:hover {
+    background: #f0f2f5;
+}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
 .main-container {
     display: grid;
     grid-template-columns: 20% minmax(0, 1fr) 20%;
@@ -96,6 +255,7 @@ body {
 
 .left-sidebar {
     grid-column: 1;
+    padding: 10px;
 }
 
 .content {
@@ -104,10 +264,44 @@ body {
 
 .right-sidebar {
     grid-column: 3;
+    padding: 10px;
 }
 
-/* Cards */
-.create-post, .feed-post, .stories, .right-profile-box, .right-box, .ad-box {
+/* =========================================================
+   LEFT SIDEBAR
+========================================================= */
+
+.left-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #050505;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.left-sidebar a:hover {
+    background: #e4e6eb;
+}
+
+.left-sidebar .emoji-icon {
+    font-size: 28px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================
+   RIGHT SIDEBAR
+========================================================= */
+
+.right-profile-box {
     background: white;
     border-radius: 12px;
     padding: 15px;
@@ -115,7 +309,223 @@ body {
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-/* Post Content */
+.right-profile-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #050505;
+}
+
+.right-profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.right-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.right-profile-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.right-profile-username {
+    color: #65676b;
+    font-size: 12px;
+}
+
+.right-box {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.right-box h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #050505;
+}
+
+.right-box a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #050505;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.right-box a:hover {
+    background: #f0f2f5;
+}
+
+/* =========================================================
+   ADS
+========================================================= */
+
+.ad-box {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.ad-box img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.ad-box p {
+    font-size: 13px;
+    color: #65676b;
+    margin: 0 0 5px;
+}
+
+/* =========================================================
+   CREATE POST
+========================================================= */
+
+.create-post {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.post-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.post-top img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.post-top input {
+    flex: 1;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    padding: 0 15px;
+    background: #f0f2f5;
+    outline: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.posting {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #e4e6eb;
+    padding-top: 10px;
+}
+
+.posting button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #65676b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.posting button:hover {
+    background: #f0f2f5;
+}
+
+/* =========================================================
+   STORIES
+========================================================= */
+
+.stories {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.story-header {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.story-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.story-item {
+    min-width: 100px;
+    height: 150px;
+    border-radius: 10px;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.story-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.story-name {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* =========================================================
+   FEED POSTS
+========================================================= */
+
+.feed-post {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
 .feed-header {
     display: flex;
     align-items: center;
@@ -131,6 +541,7 @@ body {
 
 .feed-name {
     font-weight: 600;
+    font-size: 14px;
 }
 
 .feed-time {
@@ -139,6 +550,8 @@ body {
 }
 
 .feed-content {
+    font-size: 14px;
+    line-height: 1.5;
     margin-bottom: 10px;
 }
 
@@ -156,23 +569,472 @@ body {
 }
 
 .feed-action {
-    background: none;
-    border: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     cursor: pointer;
+    font-size: 13px;
     color: #65676b;
-    font-size: 14px;
     padding: 5px 10px;
     border-radius: 8px;
+    transition: 0.2s;
+    background: none;
+    border: none;
 }
 
 .feed-action:hover {
     background: #f0f2f5;
 }
 
-/* Responsive */
+.feed-comments {
+    margin-top: 10px;
+}
+
+/* =========================================================
+   NOTIFICATION BADGE
+========================================================= */
+
+.notification-btn {
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fa3e3e;
+    color: white;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 2px solid white;
+}
+
+/* =========================================================
+   REFERRAL PAGE
+========================================================= */
+
+.referral-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.referral-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.referral-header h2 {
+    font-size: 24px;
+}
+
+.points-display {
+    background: linear-gradient(135deg, #f7b928, #ffd700);
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4);
+}
+
+.referral-code-box {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.code-display {
+    background: #f0f2f5;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: #1877f2;
+    margin: 15px 0;
+    font-family: monospace;
+}
+
+.btn-primary {
+    background: #1877f2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    background: #166fe5;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.share-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    transition: 0.2s;
+}
+
+.share-btn.whatsapp {
+    background: #25D366;
+}
+
+.share-btn.whatsapp:hover {
+    background: #1da851;
+}
+
+.share-btn.facebook {
+    background: #1877f2;
+}
+
+.share-btn.facebook:hover {
+    background: #166fe5;
+}
+
+.share-btn.twitter {
+    background: #000000;
+}
+
+.share-btn.twitter:hover {
+    background: #1a1a1a;
+}
+
+.share-btn.copy {
+    background: #65676b;
+}
+
+.share-btn.copy:hover {
+    background: #4a4a4e;
+}
+
+/* =========================================================
+   STATS GRID
+========================================================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-card h4 {
+    margin: 0 0 10px;
+    color: #65676b;
+    font-size: 14px;
+}
+
+.stat-card .number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1877f2;
+}
+
+.stat-card .number.gold {
+    color: #f7b928;
+}
+
+.stat-card .number.green {
+    color: #42b72a;
+}
+
+/* =========================================================
+   EARNINGS DISPLAY
+========================================================= */
+
+.earnings-box {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 1px solid #e4e6eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.earnings-box .label {
+    color: #65676b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.earnings-box .value {
+    color: #1877f2;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.earnings-box .value.gold {
+    color: #f7b928;
+}
+
+/* =========================================================
+   REFERRAL LIST
+========================================================= */
+
+.referral-list {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.referral-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.referral-list th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #e4e6eb;
+    color: #65676b;
+    font-size: 13px;
+}
+
+.referral-list td {
+    padding: 10px;
+    border-bottom: 1px solid #e4e6eb;
+    font-size: 14px;
+}
+
+.referral-list tr:hover {
+    background: #f0f2f5;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px;
+    color: #65676b;
+}
+
+/* =========================================================
+   NAV BUTTONS
+========================================================= */
+
+.nav-buttons {
+    padding: 10px 20px;
+    background: #f0f2f5;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.nav-buttons a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.back-btn {
+    color: #65676b;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.home-btn {
+    color: white;
+    background: #1877f2;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 500px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-header h3 {
+    margin: 0;
+}
+
+.modal-close {
+    background: #f0f2f5;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.modal-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.modal-profile span {
+    font-weight: 600;
+}
+
+.modal-textarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    resize: none;
+    margin-bottom: 15px;
+}
+
+.modal-tools {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-tools > span {
+    font-size: 14px;
+    color: #65676b;
+}
+
+.modal-tools-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.modal-tools-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.modal-submit {
+    width: 100%;
+    background: #1877f2;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.modal-submit:hover {
+    background: #166fe5;
+}
+
+/* =========================================================
+   FEELING MODAL
+========================================================= */
+
+.feeling-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.feeling-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 40px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.feeling-btn:hover {
+    background: #f0f2f5;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 900px) {
     .main-container {
         grid-template-columns: 20% minmax(0, 1fr) 20%;
+        padding: 10px;
+    }
+
+    .search-container input {
+        width: 200px;
     }
 }
 
@@ -180,5 +1042,29 @@ body {
     .main-container {
         display: flex;
         flex-direction: column;
+        padding: 10px;
+    }
+
+    .left-sidebar,
+    .right-sidebar {
+        width: 100%;
+        order: 1;
+    }
+
+    .content {
+        width: 100%;
+        order: 2;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .share-buttons {
+        flex-direction: column;
+    }
+
+    .share-btn {
+        width: 100%;
     }
 }

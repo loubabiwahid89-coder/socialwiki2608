@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>الإحالات - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
     <style>
@@ -374,12 +375,32 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-        <div class="nav-right">
+               <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            
+            <!-- 🔥 زر اللغة - ضعه هنا -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+               <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+</div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
 
@@ -389,70 +410,69 @@
     <div class="referral-container">
 
         <!-- HEADER -->
+                <!-- HEADER -->
         <div class="referral-header">
-            <h2>👥 الإحالات</h2>
+            <h2 data-i18n="referral">👥 الإحالات</h2>
             <div class="points-display" id="pointsDisplay">
-                🪙 0 نقاط
+                🪙 0 <span data-i18n="points">نقاط</span>
             </div>
         </div>
 
         <!-- كود الإحالة -->
         <div class="referral-code-box">
-            <h3>🔑 كود الإحالة الخاص بك</h3>
-            <div class="code-display" id="referralCode">جاري التحميل...</div>
-            <button class="btn-primary" onclick="copyReferralCode()">📋 نسخ الكود</button>
+            <h3 data-i18n="your_referral_code">🔑 كود الإحالة الخاص بك</h3>
+            <div class="code-display" id="referralCode" data-i18n="loading">جاري التحميل...</div>
+            <button class="btn-primary" onclick="copyReferralCode()" data-i18n="copy_code">📋 نسخ الكود</button>
             
-            <h3 style="margin-top: 20px;">🔗 رابط الإحالة</h3>
-            <div class="code-display" id="referralLink" style="font-size: 16px; letter-spacing: 0; word-break: break-all;">
+            <h3 style="margin-top: 20px;" data-i18n="your_referral_link">🔗 رابط الإحالة</h3>
+            <div class="code-display" id="referralLink" style="font-size: 16px; letter-spacing: 0; word-break: break-all;" data-i18n="loading">
                 جاري التحميل...
             </div>
-            <button class="btn-primary" onclick="copyReferralLink()">📋 نسخ الرابط</button>
+            <button class="btn-primary" onclick="copyReferralLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
         </div>
 
         <!-- أزرار المشاركة -->
         <div class="share-buttons">
-            <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">💬 واتساب</button>
-            <button class="share-btn facebook" onclick="shareOnFacebook()">📘 فيسبوك</button>
-            <button class="share-btn twitter" onclick="shareOnTwitter()">🐦 تويتر</button>
-            <button class="share-btn copy" onclick="copyReferralLink()">📋 نسخ الرابط</button>
+            <button class="share-btn whatsapp" onclick="shareOnWhatsApp()" data-i18n="share_whatsapp">💬 واتساب</button>
+            <button class="share-btn facebook" onclick="shareOnFacebook()" data-i18n="share_facebook">📘 فيسبوك</button>
+            <button class="share-btn twitter" onclick="shareOnTwitter()" data-i18n="share_twitter">🐦 تويتر</button>
+            <button class="share-btn copy" onclick="copyReferralLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
         </div>
 
         <!-- إحصائيات -->
         <div class="stats-grid">
             <div class="stat-card">
-                <h4>👥 المدعوين</h4>
+                <h4 data-i18n="total_referrals">👥 المدعوين</h4>
                 <div class="number" id="totalReferrals">0</div>
             </div>
             <div class="stat-card">
-                <h4>🪙 نقاط الإحالات</h4>
+                <h4 data-i18n="referral_points">🪙 نقاط الإحالات</h4>
                 <div class="number gold" id="referralPoints">0</div>
             </div>
             <div class="stat-card">
-                <h4>💰 ما يعادلها بالدولار</h4>
+                <h4 data-i18n="referral_dollars">💰 ما يعادلها بالدولار</h4>
                 <div class="number green" id="referralDollars">$0.00</div>
             </div>
         </div>
 
         <!-- قائمة المدعوين -->
         <div class="referral-list">
-            <h3>📋 المدعوين</h3>
+            <h3 data-i18n="referral_list">📋 المدعوين</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>الاسم</th>
-                        <th>تاريخ التسجيل</th>
-                        <th>المكافأة</th>
+                        <th data-i18n="name">الاسم</th>
+                        <th data-i18n="date">تاريخ التسجيل</th>
+                        <th data-i18n="reward">المكافأة</th>
                     </tr>
                 </thead>
                 <tbody id="referralTableBody">
                     <tr>
-                        <td colspan="3" class="empty-state">لم تدعُ أي شخص بعد. ابدأ الآن! 🚀</td>
+                        <td colspan="3" class="empty-state" data-i18n="no_referrals">لم تدعُ أي شخص بعد. ابدأ الآن! 🚀</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-    </div>
 
     <!-- =========================================================
          SCRIPTS
@@ -703,12 +723,18 @@
         // START
         // =========================================================
         
-        document.addEventListener('DOMContentLoaded', function() {
+               document.addEventListener('DOMContentLoaded', function() {
+            // 🔥 تطبيق اللغة أولاً
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            
+            // ثم تحميل البيانات
             loadUserProfile();
             loadPoints();
             loadReferralData();
         });
     </script>
-
+<script src="js/translations.js"></script>
 </body>
 </html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* BACK & HOME */
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+        
+        /* GAME CONTAINER */
+        .game-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .game-header h1 {
+            font-size: 36px;
+            margin: 0 0 10px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .game-header p {
+            color: #65676b;
+            margin: 0 0 20px;
+            font-size: 14px;
+        }
+        
+        /* STATS */
+        .stats {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            min-width: 100px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #65676b;
+            margin-bottom: 4px;
+        }
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1877f2;
+        }
+        
+        /* BOARD */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .card {
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+            user-select: none;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+            border-radius: 12px;
+        }
+        
+        .card.flipped .card-inner,
+        .card.matched .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, #1877f2, #4facfe);
+            color: white;
+            font-size: 30px;
+        }
+        
+        .card-back {
+            background: white;
+            border: 2px solid #e4e6eb;
+            transform: rotateY(180deg);
+        }
+        
+        .card.matched .card-back {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-color: #28a745;
+            animation: matchPulse 0.5s;
+        }
+        
+        @keyframes matchPulse {
+            0%, 100% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+        }
+        
+        .card:hover:not(.flipped):not(.matched) .card-front {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+        
+        /* CONTROLS */
+        .game-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .control-btn {
+            padding: 12px 30px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .control-btn:hover { background: #166fe5; }
+        
+        /* WIN OVERLAY */
+        .win-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .win-overlay.show { display: flex; }
+        .win-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: winBounce 0.5s;
+        }
+        @keyframes winBounce {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .win-icon { font-size: 80px; margin-bottom: 15px; }
+        .win-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #28a745;
+        }
+        .win-stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .win-stat {
+            text-align: center;
+        }
+        .win-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1877f2;
+        }
+        .win-stat-label {
+            font-size: 13px;
+            color: #65676b;
+        }
+        .win-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .win-btn:hover { background: #218838; }
+        
+        @media (max-width: 500px) {
+            .board { gap: 8px; padding: 12px; }
+            .card-front, .card-back { font-size: 32px; }
+            .game-header h1 { font-size: 26px; }
+            .stat-item { padding: 8px 15px; min-width: 80px; }
+            .stat-value { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACK & HOME -->
+    <div class="nav-buttons">
+        <a href="gaming.html" class="back-btn" data-i18n="back">← Back</a>
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- GAME CONTAINER -->
+    <div class="game-container">
+        
+        <div class="game-header">
+            <h1 data-i18n="memory_title">🧠 Memory Game</h1>
+            <p data-i18n="memory_instructions">Flip cards and find matching pairs</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label" data-i18n="moves">Moves</div>
+                <div class="stat-value" id="movesCount">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label" data-i18n="pairs_found">Pairs Found</div>
+                <div class="stat-value" id="pairsCount">0 / 8</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label" data-i18n="time">Time</div>
+                <div class="stat-value" id="timer">00:00</div>
+            </div>
+        </div>
+
+        <!-- BOARD -->
+        <div class="board" id="board"></div>
+
+        <!-- CONTROLS -->
+        <div class="game-controls">
+            <button class="control-btn" onclick="resetGame()" data-i18n="play_again">🔄 Play Again</button>
+        </div>
+
+    </div>
+
+    <!-- WIN OVERLAY -->
+    <div class="win-overlay" id="winOverlay">
+        <div class="win-box">
+            <div class="win-icon">🏆</div>
+            <div class="win-title" data-i18n="you_won">🎉 You Won!</div>
+            <div class="win-stats">
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winMoves">0</div>
+                    <div class="win-stat-label" data-i18n="moves">Moves</div>
+                </div>
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winTime">00:00</div>
+                    <div class="win-stat-label" data-i18n="time">Time</div>
+                </div>
+            </div>
+            <button class="win-btn" onclick="resetGame()" data-i18n="play_again">Play Again</button>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // =========================================================
+        // GAME STATE
+        // =========================================================
+        const emojis = ['🍎', '🍌', '🍇', '🍓', '🍊', '🍒', '🥝', '🍑'];
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let timer = null;
+        let seconds = 0;
+        let isLocked = false;
+
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // =========================================================
+        // SHUFFLE ARRAY
+        // =========================================================
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // =========================================================
+        // INIT GAME
+        // =========================================================
+        function initGame() {
+            // Create pairs
+            cards = [...emojis, ...emojis];
+            cards = shuffle(cards);
+
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            seconds = 0;
+            isLocked = false;
+
+            document.getElementById('movesCount').textContent = '0';
+            document.getElementById('pairsCount').textContent = '0 / 8';
+            document.getElementById('timer').textContent = '00:00';
+            document.getElementById('winOverlay').classList.remove('show');
+
+            // Stop timer
+            if (timer) clearInterval(timer);
+
+            // Build board
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+
+            cards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">?</div>
+                        <div class="card-back">${emoji}</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => flipCard(card));
+                board.appendChild(card);
+            });
+
+            // Start timer after first move
+        }
+
+        // =========================================================
+        // FLIP CARD
+        // =========================================================
+        function flipCard(card) {
+            if (isLocked) return;
+            if (card.classList.contains('flipped')) return;
+            if (card.classList.contains('matched')) return;
+
+            // Start timer on first move
+            if (!timer) {
+                startTimer();
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('movesCount').textContent = moves;
+                checkMatch();
+            }
+        }
+
+        // =========================================================
+        // CHECK MATCH
+        // =========================================================
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const emoji1 = card1.dataset.emoji;
+            const emoji2 = card2.dataset.emoji;
+
+            if (emoji1 === emoji2) {
+                // Match found
+                setTimeout(() => {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    matchedPairs++;
+                    document.getElementById('pairsCount').textContent = `${matchedPairs} / 8`;
+
+                    if (matchedPairs === 8) {
+                        winGame();
+                    }
+
+                    flippedCards = [];
+                }, 500);
+            } else {
+                // No match
+                isLocked = true;
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    isLocked = false;
+                }, 1000);
+            }
+        }
+
+        // =========================================================
+        // START TIMER
+        // =========================================================
+        function startTimer() {
+            timer = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        // =========================================================
+        // WIN GAME
+        // =========================================================
+        function winGame() {
+            if (timer) clearInterval(timer);
+
+            setTimeout(() => {
+                document.getElementById('winMoves').textContent = moves;
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('winTime').textContent = `${mins}:${secs}`;
+                document.getElementById('winOverlay').classList.add('show');
+            }, 800);
+        }
+
+        // =========================================================
+        // RESET GAME
+        // =========================================================
+        function resetGame() {
+            if (timer) clearInterval(timer);
+            timer = null;
+            initGame();
+        }
+
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            loadUserProfile();
+            initGame();
+        });
+    </script>
+</body>
+</html>

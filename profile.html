@@ -390,12 +390,32 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-        <div class="nav-right">
+               <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
 
@@ -439,17 +459,18 @@
                 </div>
             </div>
             
-            <div class="profile-actions">
-                <button class="edit-btn" onclick="editProfile()">Edit Profile</button>
+                        <div class="profile-actions">
+                <button class="edit-btn" onclick="editProfile()" data-i18n="profile">Edit Profile</button>
                 <button class="message-btn" onclick="sendMessage()">Message</button>
+                <a href="earnings.html" style="display: inline-flex; align-items: center; gap: 5px; padding: 10px 20px; background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;" data-i18n="earnings_title">💰 My Earnings</a>
             </div>
         </div>
         
         <!-- التبويبات -->
-        <div class="profile-tabs">
-            <div class="profile-tab active" onclick="showTab('posts', this)">Posts</div>
+              <div class="profile-tabs">
+            <div class="profile-tab active" onclick="showTab('posts', this)" data-i18n="post">Posts</div>
             <div class="profile-tab" onclick="showTab('about', this)">About</div>
-            <div class="profile-tab" onclick="showTab('friends', this)">Friends</div>
+            <div class="profile-tab" onclick="showTab('friends', this)" data-i18n="friends">Friends</div>
             <div class="profile-tab" onclick="showTab('photos', this)">Photos</div>
         </div>
         
@@ -467,7 +488,8 @@
     <!-- =========================================================
          SCRIPTS
     ========================================================= -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
     <script>
         // Supabase setup
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
@@ -943,7 +965,13 @@
         // START
         // =========================================================
         
-        document.addEventListener('DOMContentLoaded', function() {
+               document.addEventListener('DOMContentLoaded', function() {
+            // 🔥 تطبيق اللغة
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            
+            // تحميل الملف
             loadProfile();
         });
     </script>

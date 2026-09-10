@@ -420,22 +420,42 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-        <div class="nav-right">
+                <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            
+            <!-- 🔥 زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
 
     <!-- =========================================================
          MARKETPLACE CONTAINER
     ========================================================= -->
-    <div class="marketplace-container">
+       <div class="marketplace-container">
         <div class="marketplace-header">
-            <h2>🛍️ Marketplace</h2>
-            <button class="sell-btn" onclick="openSellModal()">+ Add Product</button>
+                        <h2><span>🛍️</span> <span data-i18n="marketplace">Marketplace</span></h2>
+            <button class="sell-btn" onclick="openSellModal()" data-i18n="add_product">+ Add Product</button>
         </div>
 
         <div class="market-grid" id="marketGrid">
@@ -448,65 +468,66 @@
     ========================================================= -->
     <div id="sellModal" class="modal">
         <div class="modal-box">
-            <div class="modal-title">🛍️ Add Product</div>
+                       <div class="modal-title"><span>🛍️</span> <span data-i18n="add_product">Add Product</span></div>
             
             <form id="sellForm" onsubmit="createProduct(event)">
                 <!-- اسم المنتج -->
                 <div class="form-group">
-                    <label for="productName">Product Name</label>
-                    <input type="text" id="productName" required placeholder="Enter product name">
+                    <label for="productName" data-i18n="product_name">Product Name</label>
+                    <input type="text" id="productName" required data-i18n-placeholder="enter_product_name" placeholder="Enter product name">
                 </div>
                 
                 <!-- وصف المنتج -->
                 <div class="form-group">
-                    <label for="productDescription">Description</label>
-                    <textarea id="productDescription" placeholder="Describe your product..."></textarea>
+                    <label for="productDescription" data-i18n="product_description">Description</label>
+                    <textarea id="productDescription" data-i18n-placeholder="describe_product" placeholder="Describe your product..."></textarea>
                 </div>
                 
                 <!-- صورة / فيديو -->
                 <div class="form-group">
-                    <label for="productMedia">Upload Image or Video</label>
+                    <label for="productMedia" data-i18n="upload_media">Upload Image or Video</label>
                     <input type="file" id="productMedia" accept="image/*,video/*" onchange="previewMedia(event)">
                     <div id="mediaPreview" style="margin-top: 10px;"></div>
                 </div>
                 
                 <!-- السعر -->
                 <div class="form-group">
-                    <label for="productPrice">Price</label>
-                    <input type="number" id="productPrice" required placeholder="Enter price">
+                    <label for="productPrice" data-i18n="product_price">Price</label>
+                    <input type="number" id="productPrice" required data-i18n-placeholder="enter_price" placeholder="Enter price">
                 </div>
                 
                 <!-- اختيار العملة -->
                 <div class="form-group">
-                    <label>Currency</label>
+                    <label data-i18n="product_currency">Currency</label>
                     <div class="currency-selector">
                         <button type="button" class="currency-btn active" onclick="selectCurrency('MAD', this)" data-rate="1">🇲🇦 MAD</button>
                         <button type="button" class="currency-btn" onclick="selectCurrency('EUR', this)" data-rate="0.092">🇪🇺 EUR</button>
                         <button type="button" class="currency-btn" onclick="selectCurrency('USD', this)" data-rate="0.10">🇺🇸 USD</button>
                     </div>
-                    <div class="price-display" id="priceDisplay">
+                    <div class="price-display" id="priceDisplay" data-i18n="price_will_appear">
                         Price will appear here
                     </div>
                 </div>
                 
                 <!-- الموقع -->
                 <div class="form-group">
-                    <label for="productLocation">Location</label>
-                    <input type="text" id="productLocation" required placeholder="Enter location">
+                    <label for="productLocation" data-i18n="product_location">Location</label>
+                    <input type="text" id="productLocation" required data-i18n-placeholder="enter_location" placeholder="Enter location">
                 </div>
                 
                 <div class="modal-actions">
-                    <button type="button" class="cancel-button" onclick="closeSellModal()">Cancel</button>
-                    <button type="submit" class="submit-button">✅ Publish Product</button>
+                    <button type="button" class="cancel-button" onclick="closeSellModal()" data-i18n="cancel">Cancel</button>
+                    <button type="submit" class="submit-button" data-i18n="publish_product">✅ Publish Product</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- =========================================================
+       <!-- =========================================================
          SCRIPTS
     ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
     <script>
         // Supabase setup
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
@@ -641,12 +662,13 @@
         // DISPLAY PRODUCTS
         // =========================================================
         
-        function displayProducts(products) {
+                       function displayProducts(products) {
             const container = document.getElementById('marketGrid');
             container.innerHTML = '';
             
             if (!products || products.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px; grid-column: 1/-1;">No products yet</p>';
+                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px; grid-column: 1/-1;" data-i18n="no_products">No products yet</p>';
+                applyTranslations();
                 return;
             }
             
@@ -677,15 +699,20 @@
                         <div class="product-location">📍 ${escapeHtml(product.location)}</div>
                         <div class="product-description">${escapeHtml(product.description || '')}</div>
                         <div class="product-actions">
-                            <button class="buy-btn" onclick="buyProduct('${product.id}')">Buy Now</button>
-                            <button class="contact-btn" onclick="contactSeller('${product.seller_id}')">💬 Contact Seller</button>
+                            <button class="buy-btn" onclick="buyProduct('${product.id}')" data-i18n="buy_now">Buy Now</button>
+                            <button class="contact-btn" onclick="contactSeller('${product.seller_id}')"><span>💬</span> <span data-i18n="contact_seller">Contact Seller</span></button>
                         </div>
                     </div>
                 `;
                 
                 container.appendChild(card);
             });
+            
+            // 🔥 تطبيق الترجمة بعد إضافة المنتجات
+            applyTranslations();
         }
+            
+         
         
         // =========================================================
         // OPEN SELL MODAL
@@ -824,7 +851,13 @@
         // START
         // =========================================================
         
-        document.addEventListener('DOMContentLoaded', function() {
+               document.addEventListener('DOMContentLoaded', function() {
+            // 🔥 تطبيق اللغة أولاً
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            
+            // ثم تحميل البيانات
             loadProducts();
             loadUserProfile();
             

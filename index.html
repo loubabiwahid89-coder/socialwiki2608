@@ -838,11 +838,20 @@
             <!-- زر اللغة -->
             <div class="language-selector">
                 <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
-                <div class="language-menu" id="languageMenu">
-                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
-                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
-                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
-                </div>
+                            <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+            </div>
             </div>
             
             <!-- زر الخروج -->
@@ -886,9 +895,16 @@
                 <span data-i18n="gifts">Gifts</span>
             </a>
            <a href="referral.html">
-    <span class="emoji-icon">👥</span>
-    <span data-i18n="referral">الإحالات</span>
-</a>
+                <span class="emoji-icon">👥</span>
+                <span data-i18n="referral">الإحالات</span>
+            </a>
+
+              <!-- 🔥 رابط الأرباح الجديد -->
+            <a href="earnings.html">
+                <span class="emoji-icon">💰</span>
+                <span data-i18n="earnings_title">My Earnings</span>
+            </a>
+            
             
             <!-- ⬇️⬇️⬇️ رابط لوحة التحكم (يظهر للأدمن فقط) ⬇️⬇️⬇️ -->
             <a href="owner-dashboard.html" id="dashboardLink" style="display: none;">
@@ -956,20 +972,20 @@
             <!-- القصص -->
             <div class="stories">
                 <div class="story-header" data-i18n="story">Stories</div>
-                <div class="story-list">
-                    <!-- قصة المستخدم -->
-                    <div class="story-item" onclick="openStoryModal()" style="background: #1877f2;">
+                              <div class="story-list">
+                    <!-- قصة المستخدم - لون Slate -->
+                    <div class="story-item" onclick="openStoryModal()" style="background: #64748b;">
                         <div style="position: absolute; top: 10px; left: 10px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer;">+</div>
                         <div style="position: absolute; bottom: 10px; left: 0; right: 0; z-index: 3; text-align: center; color: white; font-weight: 600;" data-i18n="create_story">Create Story</div>
                     </div>
                     
-                    <!-- قصص الأصدقاء -->
+                    <!-- قصص الأصدقاء - ألوان Sky و Navy -->
                     <div class="story-item" onclick="openStory('user1')">
-                        <img src="https://ui-avatars.com/api/?name=Friend+1&background=42b72a&color=fff" alt="Story">
+                        <img src="https://ui-avatars.com/api/?name=Friend+1&background=0ea5e9&color=fff" alt="Story">
                         <span class="story-name">Friend 1</span>
                     </div>
                     <div class="story-item" onclick="openStory('user2')">
-                        <img src="https://ui-avatars.com/api/?name=Friend+2&background=f7b928&color=fff" alt="Story">
+                        <img src="https://ui-avatars.com/api/?name=Friend+2&background=1e3a8a&color=fff" alt="Story">
                         <span class="story-name">Friend 2</span>
                     </div>
                 </div>
@@ -1113,884 +1129,815 @@
          SCRIPTS
     ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/main.js"></script>
-    <script src="js/friend-badge.js"></script>
-    <!-- تم تعطيل birthdays.js مؤقتاً لحل مشكلة الجلسة -->
-    <!-- <script src="js/birthdays.js"></script> -->
-
+    <script src="js/translations.js"></script> 
+    
     <!-- =========================================================
-         TRANSLATIONS + ALL SCRIPTS + FORCE LOAD PROFILE
+         ALL SCRIPTS IN ONE PLACE
     ========================================================= -->
     <script>
         // =========================================================
-// HANDLE OAUTH CALLBACK (التعامل مع إعادة التوجيه من Google)
+// CHECK SESSION - REDIRECT TO AUTH IF NOT LOGGED IN
 // =========================================================
 
-async function handleAuthCallback() {
-    const urlParams = new URLSearchParams(window.location.hash.substring(1));
-    const accessToken = urlParams.get('access_token');
-    const refreshToken = urlParams.get('refresh_token');
-    
-    if (accessToken && refreshToken) {
-        try {
-            // تعيين الجلسة
-            await supabaseClient.auth.setSession({
-                access_token: accessToken,
-                refresh_token: refreshToken
-            });
-            
-            console.log('✅ OAuth session set successfully!');
-            
-            // تنظيف الرابط
-            window.history.replaceState({}, document.title, '/index.html');
-            
-        } catch (error) {
-            console.error('Error setting session:', error);
+async function checkSessionAndRedirect() {
+    try {
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        
+        if (!session) {
+            // لا توجد جلسة → التوجيه إلى صفحة تسجيل الدخول
+            console.log('🔴 No session found, redirecting to auth.html');
+            window.location.href = 'auth.html';
+            return;
         }
+        
+        console.log('✅ Session found for user:', session.user.email);
+        
+        // تحميل بيانات المستخدم
+        await loadUserProfile();
+        
+    } catch (error) {
+        console.error('❌ Error checking session:', error);
+        window.location.href = 'auth.html';
     }
 }
-
-// تشغيل عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', function() {
-    handleAuthCallback();
-});
-    // =========================================================
-    // TRANSLATIONS
-    // =========================================================
-    
-    const translations = {
-        ar: {
-            "search_placeholder": "ابحث في SocialWiki",
-            "home": "الرئيسية",
-            "friends": "الأصدقاء",
-            "marketplace": "السوق",
-            "events": "الأحداث",
-            "groups": "المجموعات",
-            "notifications": "الإشعارات",
-            "gifts": "الهدايا",
-            "tasks": "المهام",
-            "reels": "ريلز",
-            "gaming": "ألعاب",
-            "memories": "ذكريات",
-            "ad_center": "مركز الإعلانات",
-            "ad_manager": "إدارة الإعلانات",
-            "feeds": "موجز الأخبار",
-            "games": "ألعاب",
-            "ad_activity": "نشاط الإعلانات",
-            "dashboard": "لوحة التحكم",
-            "profile": "الملف الشخصي",
-            "logout": "تسجيل الخروج",
-            "create_post": "ما الذي يدور في ذهنك؟",
-            "photo_video": "صورة / فيديو",
-            "feeling_activity": "شعور / نشاط",
-            "live_video": "بث مباشر",
-            "story": "القصص",
-            "create_story": "إنشاء قصة",
-            "post": "نشر",
-            "referral": "الإحالات"
-        },
-        fr: {
-            "search_placeholder": "Rechercher sur SocialWiki",
-            "home": "Accueil",
-            "friends": "Amis",
-            "marketplace": "Marketplace",
-            "events": "Événements",
-            "groups": "Groupes",
-            "notifications": "Notifications",
-            "gifts": "Cadeaux",
-            "tasks": "Tâches",
-            "reels": "Reels",
-            "gaming": "Jeux",
-            "memories": "Souvenirs",
-            "ad_center": "Centre publicitaire",
-            "ad_manager": "Gestion des publicités",
-            "feeds": "Flux",
-            "games": "Jeux",
-            "ad_activity": "Activité publicitaire",
-            "dashboard": "Tableau de bord",
-            "profile": "Profil",
-            "logout": "Déconnexion",
-            "create_post": "Quoi de neuf ?",
-            "photo_video": "Photo / Vidéo",
-            "feeling_activity": "Sentiment / Activité",
-            "live_video": "Vidéo en direct",
-            "story": "Stories",
-            "create_story": "Créer une story",
-            "post": "Publier",
-            "referral": "Parrainage"
-        },
-        en: {
-            "search_placeholder": "Search SocialWiki",
-            "home": "Home",
-            "friends": "Friends",
-            "marketplace": "Marketplace",
-            "events": "Events",
-            "groups": "Groups",
-            "notifications": "Notifications",
-            "gifts": "Gifts",
-            "tasks": "Tasks",
-            "reels": "Reels",
-            "gaming": "Gaming",
-            "memories": "Memories",
-            "ad_center": "Ad Center",
-            "ad_manager": "Ad Manager",
-            "feeds": "Feeds",
-            "games": "Games",
-            "ad_activity": "Ad Activity",
-            "dashboard": "Dashboard",
-            "profile": "Profile",
-            "logout": "Log Out",
-            "create_post": "What's on your mind?",
-            "photo_video": "Photo / Video",
-            "feeling_activity": "Feeling / Activity",
-            "live_video": "Live Video",
-            "story": "Stories",
-            "create_story": "Create Story",
-            "post": "Post",
-            "referral": "Referral"
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
+        
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("✅ Supabase client created");
         }
-    };
 
-    // =========================================================
-    // LANGUAGE FUNCTIONS
-    // =========================================================
+        // =========================================================
+        // HANDLE OAUTH CALLBACK
+        // =========================================================
 
-    function getCurrentLanguage() {
-        return localStorage.getItem("socialwiki_lang") || "en";
-    }
-
-    function setLanguage(lang) {
-        localStorage.setItem("socialwiki_lang", lang);
-        
-        if (lang === "ar") {
-            document.documentElement.dir = "rtl";
-        } else {
-            document.documentElement.dir = "ltr";
-        }
-        
-        applyTranslations();
-    }
-
-    function applyTranslations() {
-        const lang = getCurrentLanguage();
-        const t = translations[lang] || translations.en;
-        
-        document.querySelectorAll("[data-i18n]").forEach(element => {
-            const key = element.getAttribute("data-i18n");
-            if (t[key]) {
-                element.textContent = t[key];
-            }
-        });
-        
-        document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
-            const key = element.getAttribute("data-i18n-placeholder");
-            if (t[key]) {
-                element.placeholder = t[key];
-            }
-        });
-    }
-
-    function toggleLanguageMenu() {
-        const menu = document.getElementById("languageMenu");
-        if (menu) {
-            menu.classList.toggle("show");
-        }
-    }
-
-    function changeLanguage(lang) {
-        setLanguage(lang);
-        toggleLanguageMenu();
-    }
-
-    // تعريض الدوال للنطاق العام
-    window.setLanguage = setLanguage;
-    window.changeLanguage = changeLanguage;
-    window.toggleLanguageMenu = toggleLanguageMenu;
-    window.applyTranslations = applyTranslations;
-    window.getCurrentLanguage = getCurrentLanguage;
-
-    // =========================================================
-    // SETUP SUPABASE CLIENT
-    // =========================================================
-    
-    if (!window.supabaseClient) {
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        console.log("✅ Supabase client created in post script");
-    }
-
-    // =========================================================
-    // LOGOUT
-    // =========================================================
-    
-    async function logout() {
-        await window.supabaseClient.auth.signOut();
-        window.location.href = "auth.html";
-    }
-
-    // =========================================================
-    // UPDATE NOTIFICATION BADGE
-    // =========================================================
-    
-    async function updateNotificationBadge() {
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
+        async function handleAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.hash.substring(1));
+            const accessToken = urlParams.get('access_token');
+            const refreshToken = urlParams.get('refresh_token');
             
-            if (!user) return;
-            
-            const { count, error } = await window.supabaseClient
-                .from('notifications')
-                .select('id', { count: 'exact', head: true })
-                .eq('receiver_id', user.id)
-                .eq('is_read', false);
-            
-            if (error) {
-                console.error('Error counting notifications:', error);
-                return;
-            }
-            
-            const badge = document.getElementById('navNotificationBadge');
-            if (badge) {
-                if (count && count > 0) {
-                    badge.textContent = count > 99 ? '99+' : count;
-                    badge.style.display = 'flex';
-                } else {
-                    badge.style.display = 'none';
+            if (accessToken && refreshToken) {
+                try {
+                    await window.supabaseClient.auth.setSession({
+                        access_token: accessToken,
+                        refresh_token: refreshToken
+                    });
+                    console.log('✅ OAuth session set successfully!');
+                    window.history.replaceState({}, document.title, '/index.html');
+                } catch (error) {
+                    console.error('Error setting session:', error);
                 }
             }
-            
-        } catch (error) {
-            console.error('Error:', error);
         }
-    }
 
-    // =========================================================
-    // CHECK ROLE (التحقق من الدور)
-    // =========================================================
-    
-    async function checkRole() {
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) return;
-            
-            const { data: profile, error } = await window.supabaseClient
-                .from('profiles')
-                .select('role')
-                .eq('id', user.id)
-                .single();
-            
-            if (error) {
-                console.error('Error loading profile:', error);
-                return;
-            }
-            
-            const role = profile?.role || 'user';
-            
-            // ⬅️ فقط Owner و Super Admin و Admin يشاهدون لوحة التحكم
-            if (role === 'owner' || role === 'super_admin' || role === 'admin') {
-                document.getElementById('dashboardLink').style.display = 'block';
-            } else {
-                // إخفاء لوحة التحكم عن الجميع
-                document.getElementById('dashboardLink').style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
+        // =========================================================
+       
 
-    // =========================================================
-    // LOAD USER PROFILE (جلب ملف المستخدم)
-    // =========================================================
-    
-    async function loadUserProfile() {
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) return;
-            
-            const { data: profile, error } = await window.supabaseClient
-                .from('profiles')
-                .select('username, full_name, avatar_url, role')
-                .eq('id', user.id)
-                .single();
-            
-            if (error) {
-                console.error('Error loading profile:', error);
-                return;
-            }
-            
-            // ⬅️ استخدم full_name فقط - لا تستخدم username أبداً للاسم الظاهر
-            const displayName = profile?.full_name || profile?.username || 'User';
-            const username = profile?.username || 'User';
-            const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
-            
-            // تحديث الـ Navbar
-            const navProfileName = document.getElementById('navProfileName');
-            if (navProfileName) {
-                navProfileName.textContent = displayName;
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        
+        window.logout = async function() {
+            await window.supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        };
+
+        // =========================================================
+        // UPDATE NOTIFICATION BADGE
+        // =========================================================
+        
+        async function updateNotificationBadge() {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
                 
-                // إذا كان Owner، اجعل الاسم ذهبي
-                if (profile?.role === 'owner') {
-                    navProfileName.style.color = '#FFD700';
-                    navProfileName.style.fontWeight = 'bold';
-                }
-            }
-            
-            const navProfileImg = document.getElementById('navProfileImg');
-            if (navProfileImg) navProfileImg.src = avatarUrl;
-            
-            // تحديث القائمة اليسرى
-            const sidebarName = document.getElementById('sidebarName');
-            if (sidebarName) sidebarName.textContent = displayName;
-            
-            const sidebarImg = document.getElementById('sidebarImg');
-            if (sidebarImg) sidebarImg.src = avatarUrl;
-            
-            // تحديث القائمة اليمنى
-            const rightProfileName = document.getElementById('rightProfileName');
-            if (rightProfileName) rightProfileName.textContent = displayName;
-            
-            const rightProfileUsername = document.getElementById('rightProfileUsername');
-            if (rightProfileUsername) rightProfileUsername.textContent = '@' + username;
-            
-            const rightProfileImg = document.getElementById('rightProfileImg');
-            if (rightProfileImg) rightProfileImg.src = avatarUrl;
-            
-            // تحديث صورة المنشور
-            const postProfileImg = document.getElementById('postProfileImg');
-            if (postProfileImg) postProfileImg.src = avatarUrl;
-            
-            // تحديث المودال
-            const modalProfileImg = document.getElementById('modalProfileImg');
-            if (modalProfileImg) modalProfileImg.src = avatarUrl;
-            
-            const modalProfileName = document.getElementById('modalProfileName');
-            if (modalProfileName) modalProfileName.textContent = displayName;
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    // =========================================================
-    // EDIT PROFILE (تعديل الملف الشخصي)
-    // =========================================================
-    
-    async function editProfile() {
-        const name = prompt("Enter your new display name:");
-        if (name) {
-            await updateProfile({ full_name: name });
-        }
-        
-        const username = prompt("Enter your new username:");
-        if (username) {
-            await updateProfile({ username: username });
-        }
-        
-        const bio = prompt("Enter your new bio:");
-        if (bio) {
-            await updateProfile({ bio: bio });
-        }
-    }
-    
-    async function updateProfile(updates) {
-        try {
-            // منع تغيير الاسم إلى admin أو owner
-            if (updates.username) {
-                const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
-                if (forbiddenNames.includes(updates.username.toLowerCase())) {
-                    alert('This username is not allowed!');
+                if (!user) return;
+                
+                const { count, error } = await window.supabaseClient
+                    .from('notifications')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('receiver_id', user.id)
+                    .eq('is_read', false);
+                
+                if (error) {
+                    console.error('Error counting notifications:', error);
                     return;
                 }
-            }
-            
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) {
-                alert("Please login first!");
-                window.location.href = "auth.html";
-                return;
-            }
-            
-            const { error } = await window.supabaseClient
-                .from("profiles")
-                .update(updates)
-                .eq("id", user.id);
-            
-            if (error) {
-                console.error("Error updating profile:", error);
-                alert("Error updating profile: " + error.message);
-                return;
-            }
-            
-            alert("Profile updated successfully!");
-            window.location.reload();
-            
-        } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred: " + error.message);
-        }
-    }
-
-    // =========================================================
-    // SEARCH USERS
-    // =========================================================
-    
-    async function searchUsers(query) {
-        if (!query || query.length < 2) {
-            document.getElementById('searchResults').style.display = 'none';
-            return;
-        }
-        
-        const { data: users, error } = await window.supabaseClient
-            .from('profiles')
-            .select('id, username, full_name, avatar_url')
-            .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
-            .limit(10);
-        
-        if (error) {
-            console.error('Search error:', error);
-            return;
-        }
-        
-        const resultsDiv = document.getElementById('searchResults');
-        resultsDiv.innerHTML = '';
-        resultsDiv.style.display = 'block';
-        
-        if (!users || users.length === 0) {
-            resultsDiv.innerHTML = '<div class="search-no-results">No results found</div>';
-            return;
-        }
-        
-        users.forEach(user => {
-            const item = document.createElement('div');
-            item.className = 'search-result-item';
-            item.onclick = () => window.location.href = `profile.html?id=${user.id}`;
-            
-            const avatar = user.avatar_url 
-                ? `<img src="${user.avatar_url}" alt="Profile">`
-                : `<img src="https://ui-avatars.com/api/?name=${user.username || 'User'}&background=1877f2&color=fff" alt="Profile">`;
-            
-            item.innerHTML = `
-                ${avatar}
-                <div class="search-result-info">
-                    <div class="search-result-name">${user.full_name || user.username}</div>
-                    <div class="search-result-username">@${user.username}</div>
-                </div>
-            `;
-            
-            resultsDiv.appendChild(item);
-        });
-    }
-
-    // =========================================================
-    // CREATE POST MODAL
-    // =========================================================
-
-    function openCreatePostModal() {
-        document.getElementById('createPostModal').classList.add('show');
-        document.getElementById('postContent').focus();
-    }
-
-    function closeCreatePostModal() {
-        document.getElementById('createPostModal').classList.remove('show');
-    }
-
-    async function publishPost() {
-        const content = document.getElementById('postContent').value.trim();
-        
-        if (!content) {
-            alert('Please write something first!');
-            return;
-        }
-        
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) {
-                alert('Please login first!');
-                window.location.href = 'auth.html';
-                return;
-            }
-            
-            const { error } = await window.supabaseClient
-                .from('posts')
-                .insert({
-                    user_id: user.id,
-                    content: content,
-                    created_at: new Date()
-                });
-            
-            if (error) {
-                console.error('Error creating post:', error);
-                alert('Error creating post: ' + error.message);
-                return;
-            }
-            
-            closeCreatePostModal();
-            window.location.reload();
-            
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred: ' + error.message);
-        }
-    }
-
-    // =========================================================
-    // FEELING MODAL
-    // =========================================================
-
-    function openFeelingModal() {
-        document.getElementById('feelingModal').classList.add('show');
-    }
-
-    function closeFeelingModal() {
-        document.getElementById('feelingModal').classList.remove('show');
-    }
-
-    function selectFeeling(emoji) {
-        const postContent = document.getElementById('postContent');
-        if (postContent) {
-            postContent.value += ` ${emoji} `;
-            closeFeelingModal();
-            document.getElementById('createPostModal').classList.add('show');
-        }
-    }
-
-    // =========================================================
-    // UPLOAD POST IMAGE / VIDEO
-    // =========================================================
-
-    function uploadPostImage() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = async function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                try {
-                    const { data: { user } } = await window.supabaseClient.auth.getUser();
-                    
-                    if (!user) {
-                        alert('Please login first!');
-                        return;
+                
+                const badge = document.getElementById('navNotificationBadge');
+                if (badge) {
+                    if (count && count > 0) {
+                        badge.textContent = count > 99 ? '99+' : count;
+                        badge.style.display = 'flex';
+                    } else {
+                        badge.style.display = 'none';
                     }
-                    
-                    const fileName = `posts/${user.id}/${Date.now()}_${file.name}`;
-                    const { error: uploadError } = await window.supabaseClient.storage
-                        .from('post-images')
-                        .upload(fileName, file);
-                    
-                    if (uploadError) {
-                        console.error('Upload error:', uploadError);
-                        alert('Error uploading image: ' + uploadError.message);
-                        return;
-                    }
-                    
-                    const { data: urlData } = window.supabaseClient.storage
-                        .from('post-images')
-                        .getPublicUrl(fileName);
-                    
-                    const imageUrl = urlData.publicUrl;
-                    
-                    const postContent = document.getElementById('postContent');
-                    postContent.value += `\n[Image: ${imageUrl}]`;
-                    
-                    alert('Image uploaded successfully!');
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Error uploading image: ' + error.message);
                 }
+                
+            } catch (error) {
+                console.error('Error:', error);
             }
-        };
-        input.click();
-    }
+        }
 
-    function uploadPostVideo() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'video/*';
-        input.onchange = async function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                try {
-                    const { data: { user } } = await window.supabaseClient.auth.getUser();
-                    
-                    if (!user) {
-                        alert('Please login first!');
-                        return;
-                    }
-                    
-                    const fileName = `posts/${user.id}/${Date.now()}_${file.name}`;
-                    const { error: uploadError } = await window.supabaseClient.storage
-                        .from('post-videos')
-                        .upload(fileName, file);
-                    
-                    if (uploadError) {
-                        console.error('Upload error:', uploadError);
-                        alert('Error uploading video: ' + uploadError.message);
-                        return;
-                    }
-                    
-                    const { data: urlData } = window.supabaseClient.storage
-                        .from('post-videos')
-                        .getPublicUrl(fileName);
-                    
-                    const videoUrl = urlData.publicUrl;
-                    
-                    const postContent = document.getElementById('postContent');
-                    postContent.value += `\n[Video: ${videoUrl}]`;
-                    
-                    alert('Video uploaded successfully!');
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Error uploading video: ' + error.message);
+        // =========================================================
+        // CHECK ROLE
+        // =========================================================
+        
+        async function checkRole() {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await window.supabaseClient
+                    .from('profiles')
+                    .select('role')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
                 }
+                
+                const role = profile?.role || 'user';
+                
+                const dashboardLink = document.getElementById('dashboardLink');
+                if (dashboardLink) {
+                    if (role === 'owner' || role === 'super_admin' || role === 'admin') {
+                        dashboardLink.style.display = 'flex';
+                    } else {
+                        dashboardLink.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        };
-        input.click();
-    }
-
-    function tagFriends() {
-        alert('Friend tagging feature coming soon!');
-    }
-
-    function addFeeling() {
-        document.getElementById('feelingModal').classList.add('show');
-    }
-
-    // =========================================================
-    // STORY MODAL
-    // =========================================================
-
-    function openStoryModal() {
-        document.getElementById('storyModal').classList.add('show');
-    }
-
-    function closeStoryModal() {
-        document.getElementById('storyModal').classList.remove('show');
-    }
-
-    async function publishStory() {
-        const fileInput = document.getElementById('storyFile');
-        const file = fileInput.files[0];
-        
-        if (!file) {
-            alert('Please select an image or video!');
-            return;
         }
+
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
         
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) {
-                alert('Please login first!');
-                window.location.href = 'auth.html';
-                return;
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await window.supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url, role')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const displayName = profile?.full_name || profile?.username || 'User';
+                const username = profile?.username || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) {
+                    navProfileName.textContent = displayName;
+                    if (profile?.role === 'owner') {
+                        navProfileName.style.color = '#FFD700';
+                        navProfileName.style.fontWeight = 'bold';
+                    }
+                }
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+                const sidebarName = document.getElementById('sidebarName');
+                if (sidebarName) sidebarName.textContent = displayName;
+                
+                const sidebarImg = document.getElementById('sidebarImg');
+                if (sidebarImg) sidebarImg.src = avatarUrl;
+                
+                const rightProfileName = document.getElementById('rightProfileName');
+                if (rightProfileName) rightProfileName.textContent = displayName;
+                
+                const rightProfileUsername = document.getElementById('rightProfileUsername');
+                if (rightProfileUsername) rightProfileUsername.textContent = '@' + username;
+                
+                const rightProfileImg = document.getElementById('rightProfileImg');
+                if (rightProfileImg) rightProfileImg.src = avatarUrl;
+                
+                const postProfileImg = document.getElementById('postProfileImg');
+                if (postProfileImg) postProfileImg.src = avatarUrl;
+                
+                const modalProfileImg = document.getElementById('modalProfileImg');
+                if (modalProfileImg) modalProfileImg.src = avatarUrl;
+                
+                const modalProfileName = document.getElementById('modalProfileName');
+                if (modalProfileName) modalProfileName.textContent = displayName;
+                
+                console.log('✅ Profile loaded:', displayName);
+                
+            } catch (error) {
+                console.error('Error:', error);
             }
-            
-            const mediaType = file.type.startsWith('video') ? 'video' : 'image';
-            
-            const fileName = `stories/${user.id}/${Date.now()}_${file.name}`;
-            const { error: uploadError } = await window.supabaseClient.storage
-                .from('stories')
-                .upload(fileName, file);
-            
-            if (uploadError) {
-                console.error('Upload error:', uploadError);
-                alert('Error uploading story: ' + uploadError.message);
-                return;
-            }
-            
-            const { data: newStory, error } = await window.supabaseClient
-                .from('stories')
-                .insert({
-                    user_id: user.id,
-                    media_url: fileName,
-                    media_type: mediaType,
-                    caption: ''
-                })
-                .select()
-                .single();
-            
-            if (error) {
-                console.error('Error creating story:', error);
-                alert('Error creating story: ' + error.message);
-                return;
-            }
-            
-            alert('Story uploaded successfully!');
-            closeStoryModal();
-            loadStories();
-            
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred: ' + error.message);
         }
-    }
 
-    function openStory(userId) {
-        alert('Opening story: ' + userId);
-    }
+        async function forceLoadUserProfile() {
+            try {
+                console.log('🔄 Force loading user profile...');
+                await loadUserProfile();
+            } catch (error) {
+                console.error('❌ Error in forceLoadUserProfile:', error);
+            }
+        }
 
-    function openLiveVideo() {
-        alert('Live video feature coming soon!');
-    }
-
-    // =========================================================
-    // LOAD STORIES
-    // =========================================================
-
-    async function loadStories() {
-        try {
-            const { data: stories, error } = await window.supabaseClient
-                .from('stories')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(20);
-            
-            if (error) {
-                console.error('Error loading stories:', error);
+        // =========================================================
+        // SEARCH USERS
+        // =========================================================
+        
+        window.searchUsers = async function(query) {
+            if (!query || query.length < 2) {
+                document.getElementById('searchResults').style.display = 'none';
                 return;
             }
             
-            if (!stories || stories.length === 0) return;
-            
-            const userIds = stories.map(story => story.user_id);
-            
-            const { data: profiles } = await window.supabaseClient
+            const { data: users, error } = await window.supabaseClient
                 .from('profiles')
                 .select('id, username, full_name, avatar_url')
-                .in('id', userIds);
-            
-            const profilesMap = {};
-            if (profiles) {
-                profiles.forEach(profile => {
-                    profilesMap[profile.id] = profile;
-                });
-            }
-            
-            const storyList = document.querySelector('.story-list');
-            
-            const existingStories = storyList.querySelectorAll('.story-item:not(:first-child)');
-            existingStories.forEach(story => story.remove());
-            
-            stories.forEach(story => {
-                const profile = profilesMap[story.user_id] || {};
-                const username = profile.username || profile.full_name || 'User';
-                const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                
-                const storyItem = document.createElement('div');
-                storyItem.className = 'story-item';
-                storyItem.onclick = () => openStory(story.id);
-                
-                const { data: urlData } = window.supabaseClient.storage
-                    .from('stories')
-                    .getPublicUrl(story.media_url);
-                
-                const mediaUrl = urlData.publicUrl;
-                
-                if (story.media_type === 'video') {
-                    storyItem.innerHTML = `
-                        <video src="${mediaUrl}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
-                        <span class="story-name">${escapeHtml(username)}</span>
-                    `;
-                } else {
-                    storyItem.innerHTML = `
-                        <img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
-                        <span class="story-name">${escapeHtml(username)}</span>
-                    `;
-                }
-                
-                storyList.appendChild(storyItem);
-            });
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    // =========================================================
-    // CREATE NOTIFICATION
-    // =========================================================
-
-    async function createNotification(receiverId, senderId, type, message) {
-        try {
-            if (receiverId === senderId) return;
-            
-            const { error } = await window.supabaseClient
-                .from('notifications')
-                .insert({
-                    receiver_id: receiverId,
-                    sender_id: senderId,
-                    type: type,
-                    message: message,
-                    is_read: false,
-                    created_at: new Date()
-                });
+                .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
+                .limit(10);
             
             if (error) {
-                console.error('Error creating notification:', error);
-            }
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    // =========================================================
-    // LIKE POST
-    // =========================================================
-
-    async function likePost(postId, btn) {
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) {
-                alert('Please login first!');
+                console.error('Search error:', error);
                 return;
             }
             
-            const { data: post } = await window.supabaseClient
-                .from('posts')
-                .select('user_id')
-                .eq('id', postId)
-                .single();
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.style.display = 'block';
             
-            if (!post) return;
+            if (!users || users.length === 0) {
+                resultsDiv.innerHTML = '<div class="search-no-results">No results found</div>';
+                return;
+            }
             
-            const postOwnerId = post.user_id;
-            
-            const { data: existingLike } = await window.supabaseClient
-                .from('likes')
-                .select('*')
-                .eq('post_id', postId)
-                .eq('user_id', user.id)
-                .maybeSingle();
-            
-            if (existingLike) {
-                await window.supabaseClient
-                    .from('likes')
-                    .delete()
-                    .eq('post_id', postId)
-                    .eq('user_id', user.id);
+            users.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.onclick = () => window.location.href = `profile.html?id=${user.id}`;
                 
-                btn.innerHTML = '👍 Like';
-                btn.style.color = '#65676b';
-            } else {
-                await window.supabaseClient
-                    .from('likes')
+                const avatar = user.avatar_url 
+                    ? `<img src="${user.avatar_url}" alt="Profile">`
+                    : `<img src="https://ui-avatars.com/api/?name=${user.username || 'User'}&background=1877f2&color=fff" alt="Profile">`;
+                
+                item.innerHTML = `
+                    ${avatar}
+                    <div class="search-result-info">
+                        <div class="search-result-name">${user.full_name || user.username}</div>
+                        <div class="search-result-username">@${user.username}</div>
+                    </div>
+                `;
+                
+                resultsDiv.appendChild(item);
+            });
+        };
+
+        // =========================================================
+        // CREATE POST MODAL
+        // =========================================================
+
+        window.openCreatePostModal = function() {
+            document.getElementById('createPostModal').classList.add('show');
+            document.getElementById('postContent').focus();
+        };
+
+        window.closeCreatePostModal = function() {
+            document.getElementById('createPostModal').classList.remove('show');
+        };
+
+               window.publishPost = async function() {
+            const content = document.getElementById('postContent').value.trim();
+            
+            // 🔥 التحقق: يجب أن يكون هناك نص أو صورة
+            if (!content && !window.uploadedImageUrl) {
+                alert('Please write something or upload an image first!');
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // 🔥 تجهيز بيانات المنشور
+                const postData = {
+                    user_id: user.id,
+                    content: content || '',
+                    created_at: new Date()
+                };
+                
+                // 🔥 إضافة رابط الصورة إذا كانت موجودة
+                if (window.uploadedImageUrl) {
+                    postData.image_url = window.uploadedImageUrl;
+                }
+                
+                const { error } = await window.supabaseClient
+                    .from('posts')
+                    .insert(postData);
+                
+                if (error) {
+                    console.error('Error creating post:', error);
+                    alert('Error creating post: ' + error.message);
+                    return;
+                }
+                
+                // 🔥 إعادة تعيين المتغير بعد النشر
+                window.uploadedImageUrl = null;
+                
+                closeCreatePostModal();
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            }
+        };
+
+        // =========================================================
+        // FEELING MODAL
+        // =========================================================
+
+        window.openFeelingModal = function() {
+            document.getElementById('feelingModal').classList.add('show');
+        };
+
+        window.closeFeelingModal = function() {
+            document.getElementById('feelingModal').classList.remove('show');
+        };
+
+        window.selectFeeling = function(emoji) {
+            const postContent = document.getElementById('postContent');
+            if (postContent) {
+                postContent.value += ` ${emoji} `;
+                closeFeelingModal();
+                document.getElementById('createPostModal').classList.add('show');
+            }
+        };
+
+        // =========================================================
+               // =========================================================
+        // UPLOAD POST IMAGE / VIDEO
+        // =========================================================
+
+        // 🔥 متغير عالمي لتخزين رابط الصورة مؤقتاً
+        window.uploadedImageUrl = null;
+
+        window.uploadPostImage = function(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const { data: { user } } = await window.supabaseClient.auth.getUser();
+                        
+                        if (!user) {
+                            alert('Please login first!');
+                            return;
+                        }
+                        
+                        const fileExt = file.name.split('.').pop();
+                        const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+                        
+                        const { error: uploadError } = await window.supabaseClient.storage
+                            .from('post-images')
+                            .upload(fileName, file);
+                        
+                        if (uploadError) {
+                            console.error('Upload error:', uploadError);
+                            alert('Error uploading image: ' + uploadError.message);
+                            return;
+                        }
+                        
+                        const { data: urlData } = window.supabaseClient.storage
+                            .from('post-images')
+                            .getPublicUrl(fileName);
+                        
+                        // 🔥 تخزين الرابط في المتغير العالمي بدلاً من إضافته إلى textarea
+                        window.uploadedImageUrl = urlData.publicUrl;
+                        
+                        // عرض معاينة بسيطة للمستخدم
+                        const postContent = document.getElementById('postContent');
+                        if (postContent) {
+                            postContent.placeholder = "✅ Image ready to post! Write something or just click Post.";
+                        }
+                        
+                        alert('✅ Image uploaded successfully! It will be attached to your post.');
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error uploading image: ' + error.message);
+                    }
+                }
+            };
+            input.click();
+        };
+
+        window.uploadPostVideo = function(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            input.onchange = async function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const { data: { user } } = await window.supabaseClient.auth.getUser();
+                        
+                        if (!user) {
+                            alert('Please login first!');
+                            return;
+                        }
+                        
+                        const fileExt = file.name.split('.').pop();
+                        const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+                        
+                        const { error: uploadError } = await window.supabaseClient.storage
+                            .from('post-videos')
+                            .upload(fileName, file);
+                        
+                        if (uploadError) {
+                            console.error('Upload error:', uploadError);
+                            alert('Error uploading video: ' + uploadError.message);
+                            return;
+                        }
+                        
+                        const { data: urlData } = window.supabaseClient.storage
+                            .from('post-videos')
+                            .getPublicUrl(fileName);
+                        
+                        const videoUrl = urlData.publicUrl;
+                        
+                        // 🔥 نفس المبدأ: يمكنك تخزين رابط الفيديو في متغير آخر إذا أردت
+                        // لكنني سأتركه كما هو حالياً لتجنب تعقيد الأمور
+                        const postContent = document.getElementById('postContent');
+                        postContent.value += `\n[Video: ${videoUrl}]`;
+                        
+                        alert('✅ Video uploaded successfully!');
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error uploading video: ' + error.message);
+                    }
+                }
+            };
+            input.click();
+        };
+
+        window.tagFriends = function(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            alert('Friend tagging feature coming soon!');
+        };
+
+        window.addFeeling = function(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            document.getElementById('feelingModal').classList.add('show');
+        };
+        // =========================================================
+        // STORY MODAL
+        // =========================================================
+
+        window.openStoryModal = function() {
+            document.getElementById('storyModal').classList.add('show');
+        };
+
+        window.closeStoryModal = function() {
+            document.getElementById('storyModal').classList.remove('show');
+        };
+
+        window.publishStory = async function() {
+            const fileInput = document.getElementById('storyFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select an image or video!');
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                const fileName = `stories/${user.id}/${Date.now()}_${file.name}`;
+                
+                const { error: uploadError } = await window.supabaseClient.storage
+                    .from('stories')
+                    .upload(fileName, file);
+                
+                if (uploadError) {
+                    console.error('Upload error:', uploadError);
+                    alert('Error uploading story: ' + uploadError.message);
+                    return;
+                }
+                
+                               const { error } = await window.supabaseClient
+                    .from('stories')
                     .insert({
-                        post_id: postId,
-                        user_id: user.id
+                        user_id: user.id,
+                        media_url: fileName,
+                        media_type: mediaType
+                    });
+                if (error) {
+                    console.error('Error creating story:', error);
+                    alert('Error creating story: ' + error.message);
+                    return;
+                }
+                
+                alert('Story uploaded successfully!');
+                closeStoryModal();
+                loadStories();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            }
+        };
+
+        window.openStory = function(userId) {
+            alert('Opening story: ' + userId);
+        };
+
+        window.openLiveVideo = function() {
+            alert('Live video feature coming soon!');
+        };
+
+        // =========================================================
+        // ESCAPE HTML
+        // =========================================================
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // =========================================================
+        // LOAD STORIES
+        // =========================================================
+
+        async function loadStories() {
+            try {
+                const { data: stories, error } = await window.supabaseClient
+                    .from('stories')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+                
+                if (error) {
+                    console.error('Error loading stories:', error);
+                    return;
+                }
+                
+                if (!stories || stories.length === 0) return;
+                
+                const userIds = stories.map(story => story.user_id);
+                
+                const { data: profiles } = await window.supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', userIds);
+                
+                const profilesMap = {};
+                if (profiles) {
+                    profiles.forEach(profile => {
+                        profilesMap[profile.id] = profile;
+                    });
+                }
+                
+                const storyList = document.querySelector('.story-list');
+                
+                const existingStories = storyList.querySelectorAll('.story-item:not(:first-child)');
+                existingStories.forEach(story => story.remove());
+                
+                stories.forEach(story => {
+                    const profile = profilesMap[story.user_id] || {};
+                    const username = profile.full_name || profile.username || 'User';
+                    const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                    
+                    const storyItem = document.createElement('div');
+                    storyItem.className = 'story-item';
+                    storyItem.onclick = () => openStory(story.id);
+                    
+                    const { data: urlData } = window.supabaseClient.storage
+                        .from('stories')
+                        .getPublicUrl(story.media_url);
+                    
+                    const mediaUrl = urlData.publicUrl;
+                    
+                    if (story.media_type === 'video') {
+                        storyItem.innerHTML = `
+                            <video src="${mediaUrl}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
+                            <span class="story-name">${escapeHtml(username)}</span>
+                        `;
+                    } else {
+                        storyItem.innerHTML = `
+                            <img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                            <span class="story-name">${escapeHtml(username)}</span>
+                        `;
+                    }
+                    
+                    storyList.appendChild(storyItem);
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // =========================================================
+        // CREATE NOTIFICATION
+        // =========================================================
+
+        async function createNotification(receiverId, senderId, type, message) {
+            try {
+                if (receiverId === senderId) return;
+                
+                const { error } = await window.supabaseClient
+                    .from('notifications')
+                    .insert({
+                        receiver_id: receiverId,
+                        sender_id: senderId,
+                        type: type,
+                        message: message,
+                        is_read: false,
+                        created_at: new Date()
                     });
                 
-                btn.innerHTML = '👍 Liked';
-                btn.style.color = '#1877f2';
+                if (error) {
+                    console.error('Error creating notification:', error);
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // =========================================================
+        // LIKE POST
+        // =========================================================
+
+        window.likePost = async function(postId, btn) {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    return;
+                }
+                
+                const { data: post } = await window.supabaseClient
+                    .from('posts')
+                    .select('user_id')
+                    .eq('id', postId)
+                    .single();
+                
+                if (!post) return;
+                
+                const postOwnerId = post.user_id;
+                
+                const { data: existingLike } = await window.supabaseClient
+                    .from('likes')
+                    .select('*')
+                    .eq('post_id', postId)
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+                
+                if (existingLike) {
+                    await window.supabaseClient
+                        .from('likes')
+                        .delete()
+                        .eq('post_id', postId)
+                        .eq('user_id', user.id);
+                    
+                    btn.innerHTML = '👍 Like';
+                    btn.style.color = '#65676b';
+                } else {
+                    await window.supabaseClient
+                        .from('likes')
+                        .insert({
+                            post_id: postId,
+                            user_id: user.id
+                        });
+                    
+                    btn.innerHTML = '👍 Liked';
+                    btn.style.color = '#1877f2';
+                    
+                    const { data: senderProfile } = await window.supabaseClient
+                        .from('profiles')
+                        .select('username, full_name')
+                        .eq('id', user.id)
+                        .single();
+                    
+                    const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
+                    
+                    await createNotification(
+                        postOwnerId,
+                        user.id,
+                        'like',
+                        `${senderName} liked your post`
+                    );
+                }
+                
+                const { count } = await window.supabaseClient
+                    .from('likes')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('post_id', postId);
+                
+                btn.textContent = `👍 ${count || 0}`;
+                
+            } catch (error) {
+                console.error('Like error:', error);
+            }
+        };
+
+        // =========================================================
+        // COMMENT POST
+        // =========================================================
+
+        window.commentPost = function(postId) {
+            const comment = prompt('Write a comment:');
+            
+            if (comment) {
+                addComment(postId, comment);
+            }
+        };
+
+        async function addComment(postId, content) {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    return;
+                }
+                
+                const { data: post } = await window.supabaseClient
+                    .from('posts')
+                    .select('user_id')
+                    .eq('id', postId)
+                    .single();
+                
+                if (!post) return;
+                
+                const postOwnerId = post.user_id;
+                
+                const { data: newComment, error } = await window.supabaseClient
+                    .from('comments')
+                    .insert({
+                        post_id: postId,
+                        user_id: user.id,
+                        content: content,
+                        created_at: new Date()
+                    })
+                    .select()
+                    .single();
+                
+                if (error) {
+                    console.error('Error adding comment:', error);
+                    alert('Error adding comment: ' + error.message);
+                    return;
+                }
                 
                 const { data: senderProfile } = await window.supabaseClient
                     .from('profiles')
@@ -1998,422 +1945,279 @@ document.addEventListener('DOMContentLoaded', function() {
                     .eq('id', user.id)
                     .single();
                 
-                const senderName = senderProfile?.username || senderProfile?.full_name || 'Someone';
+                const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
                 
                 await createNotification(
                     postOwnerId,
                     user.id,
-                    'like',
-                    `${senderName} liked your post`
+                    'comment',
+                    `${senderName} commented on your post: "${content.substring(0, 50)}"`
                 );
+                
+                loadComments(postId);
+                
+            } catch (error) {
+                console.error('Error:', error);
             }
-            
-            const { count } = await window.supabaseClient
-                .from('likes')
-                .select('id', { count: 'exact', head: true })
-                .eq('post_id', postId);
-            
-            btn.textContent = `👍 ${count || 0}`;
-            
-        } catch (error) {
-            console.error('Like error:', error);
         }
-    }
 
-    // =========================================================
-    // COMMENT POST
-    // =========================================================
+        // =========================================================
+        // LOAD COMMENTS
+        // =========================================================
 
-    function commentPost(postId) {
-        const comment = prompt('Write a comment:');
-        
-        if (comment) {
-            addComment(postId, comment);
-        }
-    }
-
-    async function addComment(postId, content) {
-        try {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) {
-                alert('Please login first!');
-                return;
-            }
-            
-            const { data: post } = await window.supabaseClient
-                .from('posts')
-                .select('user_id')
-                .eq('id', postId)
-                .single();
-            
-            if (!post) return;
-            
-            const postOwnerId = post.user_id;
-            
-            const { data: newComment, error } = await window.supabaseClient
-                .from('comments')
-                .insert({
-                    post_id: postId,
-                    user_id: user.id,
-                    content: content,
-                    created_at: new Date()
-                })
-                .select()
-                .single();
-            
-            if (error) {
-                console.error('Error adding comment:', error);
-                alert('Error adding comment: ' + error.message);
-                return;
-            }
-            
-            const { data: senderProfile } = await window.supabaseClient
-                .from('profiles')
-                .select('username, full_name')
-                .eq('id', user.id)
-                .single();
-            
-            const senderName = senderProfile?.username || senderProfile?.full_name || 'Someone';
-            
-            await createNotification(
-                postOwnerId,
-                user.id,
-                'comment',
-                `${senderName} commented on your post: "${content.substring(0, 50)}"`
-            );
-            
-            loadComments(postId);
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    // =========================================================
-    // LOAD COMMENTS
-    // =========================================================
-
-    async function loadComments(postId) {
-        try {
-            const { data: comments, error } = await window.supabaseClient
-                .from('comments')
-                .select('*')
-                .eq('post_id', postId)
-                .order('created_at', { ascending: true });
-            
-            if (error) {
-                console.error('Error loading comments:', error);
-                return;
-            }
-            
-            const commentsContainer = document.getElementById(`comments_${postId}`);
-            if (!commentsContainer) return;
-            
-            commentsContainer.innerHTML = '';
-            
-            if (!comments || comments.length === 0) {
-                commentsContainer.innerHTML = '<p style="color: #65676b; font-size: 13px; margin: 5px 0;">No comments yet</p>';
-                return;
-            }
-            
-            const userIds = comments.map(comment => comment.user_id);
-            
-            const { data: profiles } = await window.supabaseClient
-                .from('profiles')
-                .select('id, username, full_name, avatar_url')
-                .in('id', userIds);
-            
-            const profilesMap = {};
-            if (profiles) {
-                profiles.forEach(profile => {
-                    profilesMap[profile.id] = profile;
+        async function loadComments(postId) {
+            try {
+                const { data: comments, error } = await window.supabaseClient
+                    .from('comments')
+                    .select('*')
+                    .eq('post_id', postId)
+                    .order('created_at', { ascending: true });
+                
+                if (error) {
+                    console.error('Error loading comments:', error);
+                    return;
+                }
+                
+                const commentsContainer = document.getElementById(`comments_${postId}`);
+                if (!commentsContainer) return;
+                
+                commentsContainer.innerHTML = '';
+                
+                if (!comments || comments.length === 0) {
+                    commentsContainer.innerHTML = '<p style="color: #65676b; font-size: 13px; margin: 5px 0;">No comments yet</p>';
+                    return;
+                }
+                
+                const userIds = comments.map(comment => comment.user_id);
+                
+                const { data: profiles } = await window.supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', userIds);
+                
+                const profilesMap = {};
+                if (profiles) {
+                    profiles.forEach(profile => {
+                        profilesMap[profile.id] = profile;
+                    });
+                }
+                
+                comments.forEach(comment => {
+                    const profile = profilesMap[comment.user_id] || {};
+                    const username = profile.full_name || profile.username || 'User';
+                    const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                    
+                    const commentDiv = document.createElement('div');
+                    commentDiv.style.display = 'flex';
+                    commentDiv.style.alignItems = 'center';
+                    commentDiv.style.gap = '8px';
+                    commentDiv.style.marginBottom = '8px';
+                    
+                    commentDiv.innerHTML = `
+                        <img src="${avatarUrl}" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+                        <div style="background: #f0f2f5; border-radius: 12px; padding: 8px 12px; flex: 1;">
+                            <strong style="font-size: 13px;">${escapeHtml(username)}</strong>
+                            <p style="margin: 0; font-size: 13px;">${escapeHtml(comment.content)}</p>
+                        </div>
+                    `;
+                    
+                    commentsContainer.appendChild(commentDiv);
                 });
-            }
-            
-            comments.forEach(comment => {
-                const profile = profilesMap[comment.user_id] || {};
-                const username = profile.username || profile.full_name || 'User';
-                const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                 
-                const commentDiv = document.createElement('div');
-                commentDiv.style.display = 'flex';
-                commentDiv.style.alignItems = 'center';
-                commentDiv.style.gap = '8px';
-                commentDiv.style.marginBottom = '8px';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        window.sharePost = function(postId) {
+            const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
+            navigator.clipboard.writeText(url);
+            alert('Post link copied!');
+        };
+
+        // =========================================================
+               // =========================================================
+        // LOAD POSTS
+        // =========================================================
+
+        async function loadPosts() {
+            const feedContainer = document.getElementById('feedContainer');
+            
+            if (!feedContainer) return;
+            
+            try {
+                const { data: posts, error } = await window.supabaseClient
+                    .from('posts')
+                    .select('*')
+                    .order('created_at', { ascending: false });
                 
-                commentDiv.innerHTML = `
-                    <img src="${avatarUrl}" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%;">
-                    <div style="background: #f0f2f5; border-radius: 12px; padding: 8px 12px; flex: 1;">
-                        <strong style="font-size: 13px;">${escapeHtml(username)}</strong>
-                        <p style="margin: 0; font-size: 13px;">${escapeHtml(comment.content)}</p>
-                    </div>
-                `;
+                if (error) {
+                    console.error('Error loading posts:', error);
+                    return;
+                }
                 
-                commentsContainer.appendChild(commentDiv);
-            });
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
+                if (!posts || posts.length === 0) {
+                    feedContainer.innerHTML = '<div class="feed-post" style="text-align: center; padding: 40px;">No posts yet</div>';
+                    return;
+                }
+                
+                const userIds = posts.map(post => post.user_id);
+                
+                const { data: profiles } = await window.supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', userIds);
+                
+                const profilesMap = {};
+                if (profiles) {
+                    profiles.forEach(profile => {
+                        profilesMap[profile.id] = profile;
+                    });
+                }
+                
+                feedContainer.innerHTML = '';
+                
+                let postCount = 0;
+                
+                for (const post of posts) {
+                    const profile = profilesMap[post.user_id] || {};
+                    const username = profile.full_name || profile.username || 'User';
+                    const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                    const timeAgo = formatTimeAgo(post.created_at);
+                    
+                    // =========================================================
+                    // 🔥 بناء محتوى المنشور (نص + صورة)
+                    // =========================================================
+                    let contentHTML = '';
 
-    function sharePost(postId) {
-        const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
-        navigator.clipboard.writeText(url);
-        alert('Post link copied!');
-    }
+                    // 1️⃣ عرض النص (مع إزالة أي روابط [Image: ...] قديمة)
+                    if (post.content) {
+                        let content = post.content;
+                        
+                        // إزالة أي [Image: ...] قديمة من النص (لأننا سنعرض الصورة من العمود الجديد)
+                        content = content.replace(/\[Image:\s*[^\]]+\]/g, '');
+                        
+                        // تحويل [Video: الرابط] إلى فيديو (ما زلنا ندعم هذه الطريقة)
+                        content = content.replace(/\[Video:\s*([^\]]+)\]/g, function(match, url) {
+                            const cleanUrl = url.trim();
+                            return `<video src="${cleanUrl}" controls class="feed-image" style="width: 100%; max-height: 500px; border-radius: 8px; margin-bottom: 10px;"></video>`;
+                        });
+                        
+                        // إضافة النص إذا لم يكن فارغاً بعد إزالة الروابط
+                        if (content.trim()) {
+                            contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
+                        }
+                    }
 
-    // =========================================================
-    // LOAD POSTS
-    // =========================================================
+                    // 2️⃣ عرض الصورة من العمود الجديد image_url
+                    if (post.image_url) {
+                        contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;" onerror="console.error('Failed to load image:', this.src)">`;
+                    }
+                    
+                    // =========================================================
+                    // 🔥 إنشاء بطاقة المنشور
+                    // =========================================================
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'feed-post';
+                    postDiv.innerHTML = `
+                        <div class="feed-header">
+                            <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
+                                <img src="${avatarUrl}" alt="Profile" class="feed-avatar" style="cursor: pointer;">
+                            </a>
+                            <div>
+                                <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
+                                    <div class="feed-name">${escapeHtml(username)}</div>
+                                </a>
+                                <div class="feed-time">${timeAgo}</div>
+                            </div>
+                        </div>
+                        ${contentHTML}
+                        <div class="feed-actions">
+                            <button class="feed-action" onclick="likePost('${post.id}', this)">
+                                👍 Like
+                            </button>
+                            <button class="feed-action" onclick="commentPost('${post.id}')">
+                                💬 Comment
+                            </button>
+                            <button class="feed-action" onclick="sharePost('${post.id}')">
+                                ↗️ Share
+                            </button>
+                        </div>
+                        <div class="feed-comments" id="comments_${post.id}"></div>
+                        <input type="text" placeholder="Write a comment..." onkeypress="if(event.key === 'Enter') commentPost('${post.id}')" style="width: 100%; padding: 8px; border: none; background: #f0f2f5; border-radius: 20px; margin-top: 10px; outline: none;">
+                    `;
+                    
+                    feedContainer.appendChild(postDiv);
+                    setTimeout(() => loadComments(post.id), 100);
+                    
+                    postCount++;
+                    
+                   
+                
+         
 
-    async function loadPosts() {
-    const feedContainer = document.getElementById('feedContainer');
-    
-    if (!feedContainer) return;
-    
-    try {
-        const { data: posts, error } = await window.supabaseClient
-            .from('posts')
-            .select('*')
-            .order('created_at', { ascending: false });
-        
-        if (error) {
-            console.error('Error loading posts:', error);
-            return;
+        // =========================================================
+        // FORMAT TIME
+        // =========================================================
+
+        function formatTimeAgo(timestamp) {
+            if (!timestamp) return 'Just now';
+            
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} min ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} hr ago`;
+            
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days} days ago`;
+            
+            return date.toLocaleDateString();
         }
-        
-        if (!posts || posts.length === 0) {
-            feedContainer.innerHTML = '<div class="feed-post" style="text-align: center; padding: 40px;">No posts yet</div>';
-            return;
-        }
-        
-        const userIds = posts.map(post => post.user_id);
-        
-        const { data: profiles } = await window.supabaseClient
-            .from('profiles')
-            .select('id, username, full_name, avatar_url')
-            .in('id', userIds);
-        
-        const profilesMap = {};
-        if (profiles) {
-            profiles.forEach(profile => {
-                profilesMap[profile.id] = profile;
-            });
-        }
-        
-        feedContainer.innerHTML = '';
-        
-        let postCount = 0;
-        let adCount = 0;
-        
-        posts.forEach((post, index) => {
-            // عرض المنشور
-            const profile = profilesMap[post.user_id] || {};
-            const username = profile.username || profile.full_name || 'User';
-            const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-            const timeAgo = formatTimeAgo(post.created_at);
+
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("🔴 DOMContentLoaded fired - index.html");
             
-            let contentHTML = '';
-            if (post.content) {
-                contentHTML += `<div class="feed-content">${escapeHtml(post.content)}</div>`;
-            }
+            handleAuthCallback();
             
-            if (post.image_url) {
-                contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">`;
-            }
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
             
-            if (post.video_url) {
-                contentHTML += `<video src="${post.video_url}" controls class="feed-image"></video>`;
-            }
-            
-            const postDiv = document.createElement('div');
-            postDiv.className = 'feed-post';
-            postDiv.innerHTML = `
-                <div class="feed-header">
-                    <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
-                        <img src="${avatarUrl}" alt="Profile" class="feed-avatar" style="cursor: pointer;">
-                    </a>
-                    <div>
-                        <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
-                            <div class="feed-name">${escapeHtml(username)}</div>
-                        </a>
-                        <div class="feed-time">${timeAgo}</div>
-                    </div>
-                </div>
-                ${contentHTML}
-                <div class="feed-actions">
-                    <button class="feed-action" onclick="likePost('${post.id}', this)">
-                        👍 Like
-                    </button>
-                    <button class="feed-action" onclick="commentPost('${post.id}')">
-                        💬 Comment
-                    </button>
-                    <button class="feed-action" onclick="sharePost('${post.id}')">
-                        ↗️ Share
-                    </button>
-                </div>
-                <div class="feed-comments" id="comments_${post.id}"></div>
-                <input type="text" placeholder="Write a comment..." onkeypress="if(event.key === 'Enter') commentPost('${post.id}')" style="width: 100%; padding: 8px; border: none; background: #f0f2f5; border-radius: 20px; margin-top: 10px; outline: none;">
-            `;
-            
-            feedContainer.appendChild(postDiv);
-            setTimeout(() => loadComments(post.id), 100);
-            
-            postCount++;
-            
-            // ✅ بعد كل 5 منشورات، أضف Native Banner
-            if (postCount % 5 === 0) {
-                adCount++;
-                const adDiv = document.createElement('div');
-                adDiv.className = 'feed-post';
-                adDiv.style.background = '#f8f9fa';
-                adDiv.style.padding = '20px';
-                adDiv.style.textAlign = 'center';
-                adDiv.style.borderRadius = '12px';
-                adDiv.style.marginBottom = '20px';
-                adDiv.innerHTML = `
-                    <h3 style="margin-bottom: 10px; color: #65676b;">Sponsored</h3>
-                    <script async="async" data-cfasync="false" src="https://pl31254010.profitableratecpmnetwork.com/57d453ef832901f97e96807b98319cd6/invoke.js"><\/script>
-                    <div id="container-57d453ef832901f97e96807b98319cd6"></div>
-                `;
-                feedContainer.appendChild(adDiv);
-            }
+            setTimeout(updateNotificationBadge, 500);
+            setTimeout(checkRole, 500);
+            setTimeout(loadUserProfile, 500);
+            setTimeout(loadStories, 500);
+            setTimeout(loadPosts, 500);
+            setTimeout(forceLoadUserProfile, 1500);
         });
-        
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-    function formatTimeAgo(timestamp) {
-        if (!timestamp) return 'Just now';
-        
-        const date = new Date(timestamp);
-        const now = new Date();
-        const diff = now - date;
-        
-        const minutes = Math.floor(diff / 60000);
-        if (minutes < 1) return 'Just now';
-        if (minutes < 60) return `${minutes} min ago`;
-        
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours} hr ago`;
-        
-        const days = Math.floor(hours / 24);
-        if (days < 7) return `${days} days ago`;
-        
-        return date.toLocaleDateString();
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    // =========================================================
-    // FORCE LOAD USER PROFILE (إجبار تحميل الملف الشخصي)
-    // =========================================================
-
-    async function forceLoadUserProfile() {
-        try {
-            console.log('🔄 Force loading user profile...');
-            
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            
-            if (!user) {
-                console.log('⚠️ No user logged in');
-                return;
-            }
-            
-            console.log('✅ User found:', user.email);
-            
-            const { data: profile, error } = await window.supabaseClient
-                .from('profiles')
-                .select('username, full_name, avatar_url, role')
-                .eq('id', user.id)
-                .single();
-            
-            if (error) {
-                console.error('❌ Error loading profile:', error);
-                return;
-            }
-            
-            const displayName = profile?.full_name || profile?.username || 'User';
-            const username = profile?.username || 'User';
-            const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
-            
-            console.log('✅ Profile loaded:', displayName);
-            
-            // تحديث جميع عناصر الصفحة
-            const elements = {
-                'navProfileName': displayName,
-                'sidebarName': displayName,
-                'rightProfileName': displayName,
-                'modalProfileName': displayName
-            };
-            
-            Object.keys(elements).forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = elements[id];
-            });
-            
-            // تحديث الصور
-            const imgElements = ['navProfileImg', 'sidebarImg', 'rightProfileImg', 'postProfileImg', 'modalProfileImg'];
-            imgElements.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.src = avatarUrl;
-            });
-            
-            // تحديث الاسم المستعار
-            const usernameEl = document.getElementById('rightProfileUsername');
-            if (usernameEl) usernameEl.textContent = '@' + username;
-            
-            // إظهار لوحة التحكم إذا كان Owner
-            const dashboardLink = document.getElementById('dashboardLink');
-            if (dashboardLink && profile?.role === 'owner') {
-                dashboardLink.style.display = 'flex';
-                console.log('✅ Dashboard link shown');
-            }
-            
-        } catch (error) {
-            console.error('❌ Error loading user profile:', error);
-        }
-    }
-
-    // =========================================================
-    // INITIALIZE
-    // =========================================================
-
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("🔴 DOMContentLoaded fired");
-        
-        // تطبيق اللغة المحفوظة
-        const lang = getCurrentLanguage();
-        setLanguage(lang);
-        applyTranslations();
-        
-        // تحميل البيانات
-        setTimeout(updateNotificationBadge, 500);
-        setTimeout(checkRole, 500);
-        setTimeout(loadUserProfile, 500);
-        setTimeout(loadStories, 500);
-        setTimeout(loadPosts, 500);
-        
-        // ✅ تحميل الملف الشخصي بالقوة بعد 1 ثانية
-        setTimeout(forceLoadUserProfile, 1000);
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔴 DOMContentLoaded fired");
     
-    // معالجة OAuth callback
-    document.addEventListener('DOMContentLoaded', function() {
-        handleAuthCallback();
-    });
+    // 🔥 التحقق من الجلسة أولاً
+    checkSessionAndRedirect();
+    
+    const lang = getCurrentLanguage();
+    setLanguage(lang);
+    applyTranslations();
+    
+    // تحميل البيانات بعد التأكد من الجلسة
+    setTimeout(loadStories, 800);
+    setTimeout(loadPosts, 800);
+});
 
-    <!-- كود Popunder -->
-    <script src="https://pl31254009.profitableratecpmnetwork.com/f9/86/7f/f9867fb6ceaa47060db964a53492a011.js">
+    
+         
+
     </script>
-
 </body>
 </html>

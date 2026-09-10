@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Earnings - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* BACK & HOME */
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+        
+        /* CONTAINER */
+        .earnings-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* HEADER */
+        .earnings-header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #28a745, #4facfe);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 25px;
+        }
+        .earnings-header h1 { margin: 0 0 10px; font-size: 32px; }
+        .earnings-header p { margin: 0; font-size: 16px; opacity: 0.9; }
+        
+        /* BALANCE CARD */
+        .balance-card {
+            background: linear-gradient(135deg, #ffd700, #f7b928);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(247, 185, 40, 0.4);
+            margin-bottom: 25px;
+        }
+        .balance-label { font-size: 16px; color: #333; margin-bottom: 10px; }
+        .balance-value { font-size: 48px; font-weight: 800; color: #1a1a1a; }
+        .balance-sub { font-size: 14px; color: #333; margin-top: 5px; }
+        
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .stat-icon { font-size: 30px; margin-bottom: 8px; }
+        .stat-value { font-size: 22px; font-weight: 700; color: #1877f2; }
+        .stat-value.green { color: #28a745; }
+        .stat-value.purple { color: #6f42c1; }
+        .stat-value.orange { color: #f0ad4e; }
+        .stat-label { font-size: 13px; color: #65676b; margin-top: 4px; }
+        
+        /* WITHDRAW BUTTON */
+        .withdraw-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .withdraw-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .withdraw-btn:hover { background: #218838; }
+        .withdraw-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .min-withdraw-info {
+            margin-top: 10px;
+            color: #65676b;
+            font-size: 14px;
+        }
+        
+        /* CHART */
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+        .chart-card h3 { margin: 0 0 15px; font-size: 18px; }
+        .chart-container { position: relative; height: 300px; }
+        
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e4e6eb;
+        }
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #65676b;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+        }
+        .tab.active {
+            color: #1877f2;
+            border-bottom-color: #1877f2;
+        }
+        
+        /* TABLE */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        .earnings-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+        .earnings-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid #e4e6eb;
+            color: #65676b;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .earnings-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e4e6eb;
+            font-size: 14px;
+        }
+        .earnings-table tr:hover { background: #f9f9f9; }
+        
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge.views { background: #e5f0ff; color: #1877f2; }
+        .badge.referral { background: #e7f7e7; color: #28a745; }
+        .badge.bonus { background: #fff4e5; color: #f0ad4e; }
+        .badge.pending { background: #fff4e5; color: #f0ad4e; }
+        .badge.approved { background: #e7f7e7; color: #28a745; }
+        .badge.rejected { background: #ffebee; color: #f44336; }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #65676b;
+        }
+        .empty-state-icon { font-size: 50px; margin-bottom: 15px; }
+        
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal.show { display: flex; }
+        .modal-box {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+        }
+        .modal-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-cancel { background: #e4e6eb; }
+        .btn-submit { background: #28a745; color: white; }
+        
+        @media (max-width: 700px) {
+            .earnings-header h1 { font-size: 24px; }
+            .balance-value { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACK & HOME -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn" data-i18n="back">← Back</a>
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- EARNINGS CONTAINER -->
+    <div class="earnings-container">
+
+        <!-- HEADER -->
+        <div class="earnings-header">
+            <h1 data-i18n="earnings_title">💰 My Earnings</h1>
+            <p data-i18n="earnings_subtitle">Track your earnings and request withdrawal</p>
+        </div>
+
+        <!-- BALANCE CARD -->
+        <div class="balance-card">
+            <div class="balance-label" data-i18n="my_balance">My Current Balance</div>
+            <div class="balance-value" id="balanceValue">$0.00</div>
+            <div class="balance-sub" id="balancePoints">0 <span data-i18n="points">points</span></div>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💵</div>
+                <div class="stat-value green" id="totalEarned">$0.00</div>
+                <div class="stat-label" data-i18n="total_earned">Total Earned</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💳</div>
+                <div class="stat-value purple" id="totalWithdrawn">$0.00</div>
+                <div class="stat-label" data-i18n="total_withdrawn">Total Withdrawn</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value orange" id="availableToWithdraw">$0.00</div>
+                <div class="stat-label" data-i18n="available_to_withdraw">Available to Withdraw</div>
+            </div>
+        </div>
+
+        <!-- WITHDRAW BUTTON -->
+        <div class="withdraw-section">
+            <button class="withdraw-btn" id="withdrawBtn" onclick="openWithdrawModal()" disabled data-i18n="request_withdrawal">💳 Request Withdrawal</button>
+            <div class="min-withdraw-info">
+                <span data-i18n="min_withdrawal">Minimum Withdrawal</span>: $5.00
+            </div>
+        </div>
+
+        <!-- EARNINGS CHART -->
+        <div class="chart-card">
+            <h3 data-i18n="earning_chart">Earnings Evolution</h3>
+            <div class="chart-container">
+                <canvas id="earningsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('earnings')" data-i18n="earnings_history">Earnings History</button>
+            <button class="tab" onclick="switchTab('transactions')" data-i18n="transactions_history">Transactions History</button>
+        </div>
+
+        <!-- EARNINGS TABLE -->
+        <div class="table-container" id="earningsTab">
+            <table class="earnings-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="date">Date</th>
+                        <th data-i18n="source_views">Source</th>
+                        <th data-i18n="points">Points</th>
+                        <th>USD</th>
+                    </tr>
+                </thead>
+                <tbody id="earningsTableBody">
+                    <tr><td colspan="4" class="empty-state"><div class="empty-state-icon">📭</div><p data-i18n="no_earnings">No earnings yet</p></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TRANSACTIONS TABLE -->
+        <div class="table-container" id="transactionsTab" style="display:none;">
+            <table class="earnings-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="date">Date</th>
+                        <th data-i18n="withdraw_amount">Amount</th>
+                        <th data-i18n="withdraw_method">Method</th>
+                        <th data-i18n="status_pending">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTableBody">
+                    <tr><td colspan="4" class="empty-state"><div class="empty-state-icon">📭</div><p data-i18n="no_transactions">No transactions yet</p></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- WITHDRAW MODAL -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-box">
+            <div class="modal-title" data-i18n="request_withdrawal">💳 Request Withdrawal</div>
+            
+            <div class="form-group">
+                <label data-i18n="withdraw_amount">Withdrawal Amount</label>
+                <input type="number" id="withdrawAmount" min="5" step="0.01" data-i18n-placeholder="enter_amount" placeholder="Enter amount">
+            </div>
+            
+            <div class="form-group">
+                <label data-i18n="withdraw_method">Withdrawal Method</label>
+                <select id="withdrawMethod">
+                    <option value="paypal">PayPal</option>
+                    <option value="bank">Bank Transfer</option>
+                    <option value="card">Credit Card</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label data-i18n="withdraw_details">Payment Details</label>
+                <input type="text" id="withdrawDetails" data-i18n-placeholder="enter_details" placeholder="Enter payment details">
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeWithdrawModal()" data-i18n="cancel">Cancel</button>
+                <button class="btn-submit" onclick="submitWithdrawal()" data-i18n="submit_withdrawal">✅ Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // سعر النقطة (1 نقطة = $0.01)
+        const POINT_VALUE = 0.01;
+        const MIN_WITHDRAW = 5.00;
+
+        let currentBalance = 0;
+        let earningsChartInstance = null;
+
+        // Logout
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // Load user profile
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Load balance
+        async function loadBalance() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { data: balance, error } = await supabaseClient
+                    .from('user_balances')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+
+                if (error || !balance) {
+                    // إنشاء رصيد جديد
+                    await supabaseClient.from('user_balances').insert({
+                        user_id: user.id,
+                        total_points: 0,
+                        total_dollars: 0,
+                        available_points: 0,
+                        withdrawn_dollars: 0
+                    });
+                    updateBalanceUI(0, 0, 0, 0);
+                    return;
+                }
+
+                updateBalanceUI(
+                    balance.total_points || 0,
+                    balance.total_dollars || 0,
+                    balance.available_points || 0,
+                    balance.withdrawn_dollars || 0
+                );
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Update balance UI
+        function updateBalanceUI(points, dollars, availablePoints, withdrawnDollars) {
+            const availableDollars = availablePoints * POINT_VALUE;
+            currentBalance = availableDollars;
+
+            document.getElementById('balanceValue').textContent = '$' + (points * POINT_VALUE).toFixed(2);
+            document.getElementById('balancePoints').innerHTML = points + ' <span data-i18n="points">points</span>';
+            document.getElementById('totalEarned').textContent = '$' + dollars.toFixed(2);
+            document.getElementById('totalWithdrawn').textContent = '$' + withdrawnDollars.toFixed(2);
+            document.getElementById('availableToWithdraw').textContent = '$' + availableDollars.toFixed(2);
+
+            // تفعيل/تعطيل زر السحب
+            const withdrawBtn = document.getElementById('withdrawBtn');
+            if (availableDollars >= MIN_WITHDRAW) {
+                withdrawBtn.disabled = false;
+            } else {
+                withdrawBtn.disabled = true;
+            }
+
+            applyTranslations();
+        }
+
+        // Load earnings history
+        async function loadEarnings() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { data: earnings, error } = await supabaseClient
+                    .from('user_earnings')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+
+                if (error || !earnings || earnings.length === 0) {
+                    document.getElementById('earningsTableBody').innerHTML = 
+                        '<tr><td colspan="4" class="empty-state"><div class="empty-state-icon">📭</div><p data-i18n="no_earnings">No earnings yet</p></td></tr>';
+                    applyTranslations();
+                    return;
+                }
+
+                const tbody = document.getElementById('earningsTableBody');
+                tbody.innerHTML = '';
+
+                earnings.forEach(e => {
+                    const date = new Date(e.created_at).toLocaleDateString();
+                    const sourceClass = e.source === 'views' ? 'views' : e.source === 'referral' ? 'referral' : 'bonus';
+                    const sourceText = e.source === 'views' ? 'Views' : e.source === 'referral' ? 'Referral' : 'Bonus';
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td><span class="badge ${sourceClass}">${sourceText}</span></td>
+                        <td>+${e.points || 0}</td>
+                        <td>+$${(e.dollars || 0).toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // رسم المخطط البياني
+                drawEarningsChart(earnings);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Draw earnings chart
+        function drawEarningsChart(earnings) {
+            // تجميع الأرباح حسب آخر 7 أيام
+            const last7Days = [];
+            const earningsData = [];
+
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                last7Days.push(date.toLocaleDateString('en', { month: 'short', day: 'numeric' }));
+
+                const dayEarnings = earnings
+                    .filter(e => e.created_at && e.created_at.startsWith(dateStr))
+                    .reduce((sum, e) => sum + (e.dollars || 0), 0);
+
+                earningsData.push(dayEarnings.toFixed(2));
+            }
+
+            if (earningsChartInstance) earningsChartInstance.destroy();
+
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            earningsChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: last7Days,
+                    datasets: [{
+                        label: 'Earnings ($)',
+                        data: earningsData,
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // Load transactions
+        async function loadTransactions() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { data: transactions, error } = await supabaseClient
+                    .from('transactions')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false });
+
+                if (error || !transactions || transactions.length === 0) {
+                    document.getElementById('transactionsTableBody').innerHTML = 
+                        '<tr><td colspan="4" class="empty-state"><div class="empty-state-icon">📭</div><p data-i18n="no_transactions">No transactions yet</p></td></tr>';
+                    applyTranslations();
+                    return;
+                }
+
+                const tbody = document.getElementById('transactionsTableBody');
+                tbody.innerHTML = '';
+
+                transactions.forEach(t => {
+                    const date = new Date(t.created_at).toLocaleDateString();
+                    const statusClass = t.status || 'pending';
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td>$${(t.amount || 0).toFixed(2)}</td>
+                        <td>${t.method || 'N/A'}</td>
+                        <td><span class="badge ${statusClass}">${t.status}</span></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Open withdraw modal
+        function openWithdrawModal() {
+            document.getElementById('withdrawModal').classList.add('show');
+            document.getElementById('withdrawAmount').max = currentBalance.toFixed(2);
+        }
+        function closeWithdrawModal() {
+            document.getElementById('withdrawModal').classList.remove('show');
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawDetails').value = '';
+        }
+
+        // Submit withdrawal
+        async function submitWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const method = document.getElementById('withdrawMethod').value;
+            const details = document.getElementById('withdrawDetails').value.trim();
+
+            if (!amount || amount < MIN_WITHDRAW) {
+                alert('Minimum withdrawal is $' + MIN_WITHDRAW.toFixed(2));
+                return;
+            }
+
+            if (amount > currentBalance) {
+                alert('Insufficient balance!');
+                return;
+            }
+
+            if (!details) {
+                alert('Please enter payment details');
+                return;
+            }
+
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { error } = await supabaseClient
+                    .from('transactions')
+                    .insert({
+                        user_id: user.id,
+                        amount: amount,
+                        method: method,
+                        details: details,
+                        status: 'pending'
+                    });
+
+                if (error) {
+                    console.error('Error:', error);
+                    alert('Error submitting request: ' + error.message);
+                    return;
+                }
+
+                // خصم من الرصيد
+                await supabaseClient
+                    .from('user_balances')
+                    .update({
+                        available_points: 0, // سيتم تحديثها من الأدمن
+                        updated_at: new Date()
+                    })
+                    .eq('user_id', user.id);
+
+                alert('✅ Withdrawal request submitted!');
+                closeWithdrawModal();
+                loadTransactions();
+                loadBalance();
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (tab === 'earnings') {
+                document.getElementById('earningsTab').style.display = 'block';
+                document.getElementById('transactionsTab').style.display = 'none';
+            } else {
+                document.getElementById('earningsTab').style.display = 'none';
+                document.getElementById('transactionsTab').style.display = 'block';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+
+            loadUserProfile();
+            loadBalance();
+            loadEarnings();
+            loadTransactions();
+        });
+    </script>
+</body>
+</html>

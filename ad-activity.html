@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Activity - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* BACK & HOME BUTTONS */
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+        
+        /* CONTAINER */
+        .ad-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* HEADER */
+        .ad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .ad-header h1 { margin: 0; font-size: 28px; }
+        .ad-header p { margin: 5px 0 0; color: #65676b; font-size: 14px; }
+        
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .stat-icon { font-size: 30px; margin-bottom: 8px; }
+        .stat-value { font-size: 24px; font-weight: 700; color: #1877f2; }
+        .stat-value.green { color: #28a745; }
+        .stat-value.orange { color: #f0ad4e; }
+        .stat-value.purple { color: #6f42c1; }
+        .stat-label { font-size: 13px; color: #65676b; margin-top: 4px; }
+        
+        /* CHARTS */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .chart-card h3 {
+            margin: 0 0 15px;
+            font-size: 16px;
+            color: #050505;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        /* RECENT ACTIVITY TABLE */
+        .recent-activity {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        .recent-activity h3 {
+            margin: 0 0 15px;
+            font-size: 18px;
+        }
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        .activity-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid #e4e6eb;
+            color: #65676b;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .activity-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e4e6eb;
+            font-size: 14px;
+        }
+        .activity-table tr:hover { background: #f9f9f9; }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-badge.active { background: #e7f7e7; color: #28a745; }
+        .status-badge.paused { background: #fff4e5; color: #f0ad4e; }
+        .status-badge.pending { background: #e5f0ff; color: #1877f2; }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+        }
+        .empty-state-icon { font-size: 60px; margin-bottom: 15px; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .ad-header h1 { font-size: 22px; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn" data-i18n="back">← Back</a>
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- AD ACTIVITY CONTAINER -->
+    <div class="ad-container">
+
+        <!-- HEADER -->
+        <div class="ad-header">
+            <div>
+                <h1 data-i18n="ad_activity_title">📈 Ad Activity</h1>
+                <p data-i18n="ad_activity_subtitle">Track your ads performance</p>
+            </div>
+            <select class="filter-select" id="timeFilter" onchange="loadActivity()">
+                <option value="today" data-i18n="today">Today</option>
+                <option value="week" data-i18n="this_week">This Week</option>
+                <option value="month" data-i18n="this_month">This Month</option>
+                <option value="all" data-i18n="all_time" selected>All Time</option>
+            </select>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👁️</div>
+                <div class="stat-value" id="totalViews">0</div>
+                <div class="stat-label" data-i18n="views">Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🖱️</div>
+                <div class="stat-value orange" id="totalClicks">0</div>
+                <div class="stat-label" data-i18n="clicks">Clicks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value purple" id="avgCTR">0%</div>
+                <div class="stat-label" data-i18n="ctr">CTR</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value green" id="estimatedEarnings">$0.00</div>
+                <div class="stat-label" data-i18n="estimated_earnings">Estimated Earnings</div>
+            </div>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3 data-i18n="chart_views">Views Chart</h3>
+                <div class="chart-container">
+                    <canvas id="viewsChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3 data-i18n="chart_clicks">Clicks Chart</h3>
+                <div class="chart-container">
+                    <canvas id="clicksChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="recent-activity">
+            <h3 data-i18n="recent_activity">Recent Activity</h3>
+            <table class="activity-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="ad_title">Ad Title</th>
+                        <th data-i18n="ad_status_pending">Status</th>
+                        <th data-i18n="views">Views</th>
+                        <th data-i18n="clicks">Clicks</th>
+                        <th data-i18n="ctr">CTR</th>
+                    </tr>
+                </thead>
+                <tbody id="activityTableBody">
+                    <!-- سيتم تعبئتها بـ JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Chart instances
+        let viewsChartInstance = null;
+        let clicksChartInstance = null;
+
+        // Logout
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // Load user profile
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Get date range based on filter
+        function getDateRange(filter) {
+            const now = new Date();
+            let startDate = null;
+            
+            if (filter === 'today') {
+                startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            } else if (filter === 'week') {
+                startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            } else if (filter === 'month') {
+                startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            }
+            
+            return startDate;
+        }
+
+        // Load activity data
+        async function loadActivity() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const filter = document.getElementById('timeFilter').value;
+                const startDate = getDateRange(filter);
+
+                let query = supabaseClient
+                    .from('ads')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false });
+
+                if (startDate) {
+                    query = query.gte('created_at', startDate.toISOString());
+                }
+
+                const { data: ads, error } = await query;
+
+                if (error) {
+                    console.log('No ads found');
+                    displayEmptyState();
+                    return;
+                }
+
+                if (!ads || ads.length === 0) {
+                    displayEmptyState();
+                    return;
+                }
+
+                updateStats(ads);
+                updateCharts(ads);
+                updateTable(ads);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Update stats
+        function updateStats(ads) {
+            const totalViews = ads.reduce((sum, a) => sum + (parseInt(a.views_count) || 0), 0);
+            const totalClicks = ads.reduce((sum, a) => sum + (parseInt(a.clicks_count) || 0), 0);
+            const ctr = totalViews > 0 ? (totalClicks / totalViews * 100).toFixed(2) : 0;
+            
+            // حساب الأرباح المتوقعة (CPM = $0.50، 60% للمستخدم)
+            const estimatedEarnings = (totalViews / 1000) * 0.50 * 0.60;
+
+            document.getElementById('totalViews').textContent = totalViews.toLocaleString();
+            document.getElementById('totalClicks').textContent = totalClicks.toLocaleString();
+            document.getElementById('avgCTR').textContent = ctr + '%';
+            document.getElementById('estimatedEarnings').textContent = '$' + estimatedEarnings.toFixed(2);
+        }
+
+        // Update charts
+        function updateCharts(ads) {
+            // تجميع البيانات حسب التاريخ (آخر 7 أيام)
+            const last7Days = [];
+            const viewsData = [];
+            const clicksData = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                last7Days.push(date.toLocaleDateString('en', { month: 'short', day: 'numeric' }));
+                
+                // حساب المشاهدات والنقرات لهذا اليوم (محاكاة - يمكن ربطها بجدول events لاحقاً)
+                const dayViews = ads.reduce((sum, a) => sum + (parseInt(a.views_count) || 0), 0) / 7;
+                const dayClicks = ads.reduce((sum, a) => sum + (parseInt(a.clicks_count) || 0), 0) / 7;
+                
+                viewsData.push(Math.round(dayViews));
+                clicksData.push(Math.round(dayClicks));
+            }
+
+            // Destroy old charts
+            if (viewsChartInstance) viewsChartInstance.destroy();
+            if (clicksChartInstance) clicksChartInstance.destroy();
+
+            // Views Chart
+            const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+            viewsChartInstance = new Chart(viewsCtx, {
+                type: 'line',
+                data: {
+                    labels: last7Days,
+                    datasets: [{
+                        label: 'Views',
+                        data: viewsData,
+                        borderColor: '#1877f2',
+                        backgroundColor: 'rgba(24, 119, 242, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Clicks Chart
+            const clicksCtx = document.getElementById('clicksChart').getContext('2d');
+            clicksChartInstance = new Chart(clicksCtx, {
+                type: 'bar',
+                data: {
+                    labels: last7Days,
+                    datasets: [{
+                        label: 'Clicks',
+                        data: clicksData,
+                        backgroundColor: '#f0ad4e',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        // Update table
+        function updateTable(ads) {
+            const tbody = document.getElementById('activityTableBody');
+            tbody.innerHTML = '';
+
+            ads.forEach(ad => {
+                const views = parseInt(ad.views_count) || 0;
+                const clicks = parseInt(ad.clicks_count) || 0;
+                const ctr = views > 0 ? (clicks / views * 100).toFixed(2) : 0;
+                const statusClass = ad.status === 'active' ? 'active' : ad.status === 'paused' ? 'paused' : 'pending';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${escapeHtml(ad.title)}</strong></td>
+                    <td><span class="status-badge ${statusClass}">${ad.status || 'pending'}</span></td>
+                    <td>${views.toLocaleString()}</td>
+                    <td>${clicks.toLocaleString()}</td>
+                    <td>${ctr}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Display empty state
+        function displayEmptyState() {
+            document.getElementById('totalViews').textContent = '0';
+            document.getElementById('totalClicks').textContent = '0';
+            document.getElementById('avgCTR').textContent = '0%';
+            document.getElementById('estimatedEarnings').textContent = '$0.00';
+            
+            document.getElementById('activityTableBody').innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align:center; padding:40px; color:#65676b;">
+                        <div style="font-size:40px;">📭</div>
+                        <p data-i18n="no_activity">No activity yet</p>
+                    </td>
+                </tr>
+            `;
+            
+            // Destroy old charts
+            if (viewsChartInstance) viewsChartInstance.destroy();
+            if (clicksChartInstance) clicksChartInstance.destroy();
+            
+            applyTranslations();
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+
+            loadUserProfile();
+            loadActivity();
+        });
+    </script>
+</body>
+</html>

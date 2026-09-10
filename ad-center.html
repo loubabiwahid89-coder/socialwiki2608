@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Center - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* CONTAINER */
+        .ad-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .ad-header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1877f2, #4facfe);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .ad-header h1 { margin: 0 0 10px; font-size: 32px; }
+        .ad-header p { margin: 0; font-size: 16px; opacity: 0.9; }
+        
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-icon { font-size: 36px; margin-bottom: 10px; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #1877f2; }
+        .stat-label { font-size: 14px; color: #65676b; margin-top: 5px; }
+        
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-decoration: none;
+            color: #050505;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+            border-left: 4px solid #1877f2;
+        }
+        .action-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(24,119,242,0.2);
+        }
+        .action-icon { font-size: 30px; }
+        .action-title { font-weight: 600; font-size: 16px; }
+        .action-desc { font-size: 13px; color: #65676b; margin-top: 3px; }
+        
+        /* RECENT ADS */
+        .recent-ads {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .recent-ads h3 { margin: 0 0 15px; font-size: 18px; }
+        .ad-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #e4e6eb;
+        }
+        .ad-item:last-child { border-bottom: none; }
+        .ad-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .ad-status.active { background: #e7f7e7; color: #28a745; }
+        .ad-status.paused { background: #fff4e5; color: #f0ad4e; }
+        .ad-status.pending { background: #e5f0ff; color: #1877f2; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #65676b;
+        }
+        .empty-state-icon { font-size: 60px; margin-bottom: 15px; }
+        
+        @media (max-width: 700px) {
+            .ad-header h1 { font-size: 24px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+         <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">
+            🏠 Home
+        </a>
+    </div>
+
+        <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+       
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- 🔥 زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- AD CENTER CONTAINER -->
+    <div class="ad-container">
+
+        <!-- HEADER -->
+        <div class="ad-header">
+            <h1 data-i18n="ad_center_title">📢 Ad Center</h1>
+            <p data-i18n="ad_center_subtitle">Manage your ad campaigns in one place</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value" id="totalAds">0</div>
+                <div class="stat-label" data-i18n="total_ads">Total Ads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="activeAds">0</div>
+                <div class="stat-label" data-i18n="active_ads">Active Ads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value" id="totalSpent">$0</div>
+                <div class="stat-label" data-i18n="total_spent">Total Spent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👁️</div>
+                <div class="stat-value" id="totalImpressions">0</div>
+                <div class="stat-label" data-i18n="total_impressions">Impressions</div>
+            </div>
+        </div>
+
+               <!-- QUICK ACTIONS -->
+        <div class="quick-actions">
+            <a href="ad-manager.html" class="action-card">
+                <div class="action-icon">📊</div>
+                <div>
+                    <div class="action-title" data-i18n="view_manager">📊 Ad Manager</div>
+                    <div class="action-desc">Create and manage your ads</div>
+                </div>
+            </a>
+            <a href="ad-activity.html" class="action-card">
+                <div class="action-icon">📈</div>
+                <div>
+                    <div class="action-title" data-i18n="view_activity">📈 Ad Activity</div>
+                    <div class="action-desc">View your ads performance</div>
+                </div>
+            </a>
+            <a href="ad-manager.html" class="action-card" style="border-left-color: #28a745;">
+                <div class="action-icon">➕</div>
+                <div>
+                    <div class="action-title" data-i18n="create_new_ad">+ Create New Ad</div>
+                    <div class="action-desc">Start a new campaign</div>
+                </div>
+            </a>
+            
+            <!-- 🔥 بطاقة الأرباح - أضفها هنا -->
+            <a href="earnings.html" class="action-card" style="border-left-color: #ffd700;">
+                <div class="action-icon">💰</div>
+                <div>
+                    <div class="action-title" data-i18n="earnings_title">💰 My Earnings</div>
+                    <div class="action-desc">Track your earnings</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- RECENT ADS -->
+        <div class="recent-ads">
+            <h3 data-i18n="recent_ads">Recent Ads</h3>
+            <div id="recentAdsContainer">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p data-i18n="no_ads">No ads yet</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Logout
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // Load user profile
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Load stats (placeholder — will work when ads table exists)
+        async function loadStats() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: ads, error } = await supabaseClient
+                    .from('ads')
+                    .select('*')
+                    .eq('user_id', user.id);
+                
+                if (error) {
+                    console.log('Ads table not found yet, using defaults');
+                    return;
+                }
+                
+                const total = ads?.length || 0;
+                const active = ads?.filter(a => a.status === 'active').length || 0;
+                const spent = ads?.reduce((sum, a) => sum + (parseFloat(a.spent) || 0), 0) || 0;
+                const impressions = ads?.reduce((sum, a) => sum + (parseInt(a.impressions) || 0), 0) || 0;
+                
+                document.getElementById('totalAds').textContent = total;
+                document.getElementById('activeAds').textContent = active;
+                document.getElementById('totalSpent').textContent = `$${spent.toFixed(2)}`;
+                document.getElementById('totalImpressions').textContent = impressions;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            
+            loadUserProfile();
+            loadStats();
+        });
+    </script>
+</body>
+</html>

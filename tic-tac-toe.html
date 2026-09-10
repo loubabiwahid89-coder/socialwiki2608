@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* BACK & HOME */
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+        
+        /* GAME CONTAINER */
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .game-header {
+            margin-bottom: 20px;
+        }
+        .game-header h1 {
+            font-size: 36px;
+            margin: 0 0 10px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .game-header p {
+            color: #65676b;
+            margin: 0;
+        }
+        
+        /* MODE SELECTOR */
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .mode-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e4e6eb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .mode-btn.active {
+            background: #1877f2;
+            color: white;
+            border-color: #1877f2;
+        }
+        .mode-btn:hover:not(.active) {
+            background: #f0f2f5;
+        }
+        
+        /* STATUS */
+        .game-status {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* BOARD */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cell {
+            aspect-ratio: 1;
+            background: #f0f2f5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .cell:hover:not(.taken) {
+            background: #e4e6eb;
+            transform: scale(1.02);
+        }
+        .cell.taken {
+            cursor: not-allowed;
+        }
+        .cell.X {
+            color: #1877f2;
+        }
+        .cell.O {
+            color: #ec4899;
+        }
+        .cell.winner {
+            background: #d4edda;
+            animation: pulse 0.5s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        
+        /* CONTROLS */
+        .game-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .control-btn {
+            padding: 12px 24px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .control-btn:hover {
+            background: #166fe5;
+        }
+        .control-btn.secondary {
+            background: #e4e6eb;
+            color: #050505;
+        }
+        .control-btn.secondary:hover {
+            background: #d4d6da;
+        }
+        
+        /* SCORE */
+        .score-board {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .score-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            min-width: 100px;
+        }
+        .score-label {
+            font-size: 13px;
+            color: #65676b;
+            margin-bottom: 5px;
+        }
+        .score-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1877f2;
+        }
+        .score-value.O {
+            color: #ec4899;
+        }
+        .score-value.draw {
+            color: #65676b;
+        }
+        
+        @media (max-width: 500px) {
+            .cell { font-size: 45px; }
+            .game-header h1 { font-size: 28px; }
+            .score-item { padding: 10px 15px; min-width: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACK & HOME -->
+    <div class="nav-buttons">
+        <a href="gaming.html" class="back-btn" data-i18n="back">← Back</a>
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- GAME CONTAINER -->
+    <div class="game-container">
+        
+        <!-- HEADER -->
+        <div class="game-header">
+            <h1 data-i18n="tic_tac_toe">Tic Tac Toe</h1>
+            <p>❌ ⭕</p>
+        </div>
+
+        <!-- MODE SELECTOR -->
+        <div class="mode-selector">
+            <button class="mode-btn active" id="vsComputerBtn" onclick="setMode('computer')" data-i18n="game_vs_computer">vs Computer</button>
+            <button class="mode-btn" id="vsFriendBtn" onclick="setMode('friend')" data-i18n="game_vs_friend">vs Friend</button>
+        </div>
+
+        <!-- SCORE BOARD -->
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">❌ X</div>
+                <div class="score-value" id="scoreX">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">🤝 <span data-i18n="draw">Draw</span></div>
+                <div class="score-value draw" id="scoreDraw">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">⭕ O</div>
+                <div class="score-value O" id="scoreO">0</div>
+            </div>
+        </div>
+
+        <!-- STATUS -->
+        <div class="game-status" id="gameStatus" data-i18n="your_turn">Your turn (X)</div>
+
+        <!-- BOARD -->
+        <div class="board" id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="game-controls">
+            <button class="control-btn" onclick="resetGame()" data-i18n="play_again">🔄 Play Again</button>
+            <button class="control-btn secondary" onclick="resetScore()">🗑️ Reset Score</button>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // =========================================================
+        // GAME STATE
+        // =========================================================
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+        let mode = 'computer'; // 'computer' or 'friend'
+        let scoreX = 0;
+        let scoreO = 0;
+        let scoreDraw = 0;
+
+        // Winning combinations
+        const winningCombos = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
+        ];
+
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // =========================================================
+        // MODE
+        // =========================================================
+        function setMode(newMode) {
+            mode = newMode;
+            document.getElementById('vsComputerBtn').classList.toggle('active', newMode === 'computer');
+            document.getElementById('vsFriendBtn').classList.toggle('active', newMode === 'friend');
+            resetGame();
+        }
+
+        // =========================================================
+        // CELL CLICK
+        // =========================================================
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.addEventListener('click', () => handleCellClick(cell));
+        });
+
+        function handleCellClick(cell) {
+            const index = parseInt(cell.dataset.index);
+            
+            if (!gameActive || board[index] !== '') return;
+            if (mode === 'computer' && currentPlayer === 'O') return;
+
+            makeMove(index, currentPlayer);
+
+            if (mode === 'computer' && gameActive && currentPlayer === 'O') {
+                setTimeout(computerMove, 500);
+            }
+        }
+
+        // =========================================================
+        // MAKE MOVE
+        // =========================================================
+        function makeMove(index, player) {
+            board[index] = player;
+            const cell = document.querySelector(`.cell[data-index="${index}"]`);
+            cell.textContent = player === 'X' ? '❌' : '⭕';
+            cell.classList.add('taken', player);
+
+            const result = checkWinner();
+            if (result) {
+                handleGameEnd(result);
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                updateStatus();
+            }
+        }
+
+        // =========================================================
+        // COMPUTER MOVE (Simple AI)
+        // =========================================================
+        function computerMove() {
+            if (!gameActive) return;
+
+            // 1. Try to win
+            let move = findBestMove('O');
+            if (move === -1) {
+                // 2. Block player
+                move = findBestMove('X');
+            }
+            if (move === -1) {
+                // 3. Take center
+                if (board[4] === '') move = 4;
+            }
+            if (move === -1) {
+                // 4. Take random corner
+                const corners = [0, 2, 6, 8].filter(i => board[i] === '');
+                if (corners.length > 0) {
+                    move = corners[Math.floor(Math.random() * corners.length)];
+                }
+            }
+            if (move === -1) {
+                // 5. Take any empty cell
+                const empty = board.map((v, i) => v === '' ? i : -1).filter(i => i !== -1);
+                if (empty.length > 0) {
+                    move = empty[Math.floor(Math.random() * empty.length)];
+                }
+            }
+
+            if (move !== -1) {
+                makeMove(move, 'O');
+            }
+        }
+
+        function findBestMove(player) {
+            for (let combo of winningCombos) {
+                const [a, b, c] = combo;
+                const values = [board[a], board[b], board[c]];
+                const playerCount = values.filter(v => v === player).length;
+                const emptyCount = values.filter(v => v === '').length;
+                
+                if (playerCount === 2 && emptyCount === 1) {
+                    return combo[values.indexOf('')];
+                }
+            }
+            return -1;
+        }
+
+        // =========================================================
+        // CHECK WINNER
+        // =========================================================
+        function checkWinner() {
+            for (let combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    // Highlight winner cells
+                    combo.forEach(i => {
+                        document.querySelector(`.cell[data-index="${i}"]`).classList.add('winner');
+                    });
+                    return board[a];
+                }
+            }
+            if (board.every(cell => cell !== '')) {
+                return 'draw';
+            }
+            return null;
+        }
+
+        // =========================================================
+        // HANDLE GAME END
+        // =========================================================
+        function handleGameEnd(result) {
+            gameActive = false;
+            const statusEl = document.getElementById('gameStatus');
+
+            if (result === 'X') {
+                scoreX++;
+                document.getElementById('scoreX').textContent = scoreX;
+                statusEl.textContent = '🎉 ' + (getCurrentLanguage() === 'ar' ? 'فاز اللاعب X!' : 'Player X wins!');
+                statusEl.style.color = '#1877f2';
+            } else if (result === 'O') {
+                scoreO++;
+                document.getElementById('scoreO').textContent = scoreO;
+                statusEl.textContent = '🎉 ' + (getCurrentLanguage() === 'ar' ? 'فاز اللاعب O!' : 'Player O wins!');
+                statusEl.style.color = '#ec4899';
+            } else if (result === 'draw') {
+                scoreDraw++;
+                document.getElementById('scoreDraw').textContent = scoreDraw;
+                statusEl.textContent = '🤝 ' + (getCurrentLanguage() === 'ar' ? 'تعادل!' : 'Draw!');
+                statusEl.style.color = '#65676b';
+            }
+        }
+
+        // =========================================================
+        // UPDATE STATUS
+        // =========================================================
+        function updateStatus() {
+            const statusEl = document.getElementById('gameStatus');
+            statusEl.style.color = '#050505';
+            
+            if (currentPlayer === 'X') {
+                statusEl.textContent = (getCurrentLanguage() === 'ar' ? 'دور اللاعب X' : 'Player X turn');
+            } else {
+                if (mode === 'computer') {
+                    statusEl.textContent = (getCurrentLanguage() === 'ar' ? 'دور الكمبيوتر...' : 'Computer thinking...');
+                } else {
+                    statusEl.textContent = (getCurrentLanguage() === 'ar' ? 'دور اللاعب O' : 'Player O turn');
+                }
+            }
+        }
+
+        // =========================================================
+        // RESET GAME
+        // =========================================================
+        function resetGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('taken', 'X', 'O', 'winner');
+            });
+
+            const statusEl = document.getElementById('gameStatus');
+            statusEl.style.color = '#050505';
+            updateStatus();
+        }
+
+        // =========================================================
+        // RESET SCORE
+        // =========================================================
+        function resetScore() {
+            if (!confirm('Reset all scores?')) return;
+            scoreX = 0;
+            scoreO = 0;
+            scoreDraw = 0;
+            document.getElementById('scoreX').textContent = 0;
+            document.getElementById('scoreO').textContent = 0;
+            document.getElementById('scoreDraw').textContent = 0;
+        }
+
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            loadUserProfile();
+            updateStatus();
+        });
+    </script>
+</body>
+</html>
