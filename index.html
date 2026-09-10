@@ -1033,7 +1033,7 @@
                 <a href="events.html">📅 Event 2</a>
             </div>
 
-                      <!-- HilltopAds -->
+                           <!-- HilltopAds -->
             <div class="ad-box">
                 <h3 data-i18n="sponsored">Sponsored</h3>
                 <script>
@@ -1049,9 +1049,11 @@
                 })({})
                 </script>
             </div>
+               </div>
+    </div>
+    
     <!-- =========================================================
          CREATE POST MODAL
-    ========================================================= -->
     <div id="createPostModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -1139,17 +1141,15 @@
                 © 2025 SocialWiki. All rights reserved.
             </div>
         </div>
-    </footer>
+       </footer>
 
-    
+    <!-- =========================================================
          SCRIPTS
     ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js"></script> 
     
-    <!-- =========================================================
-         ALL SCRIPTS IN ONE PLACE
-    ========================================================= -->
+   
     <script>
         // =========================================================
 // CHECK SESSION - REDIRECT TO AUTH IF NOT LOGGED IN
@@ -1732,7 +1732,7 @@ async function checkSessionAndRedirect() {
         // LOAD STORIES
         // =========================================================
 
-        async function loadStories() {
+               async function loadStories() {
             try {
                 const { data: stories, error } = await window.supabaseClient
                     .from('stories')
@@ -1766,7 +1766,11 @@ async function checkSessionAndRedirect() {
                 const existingStories = storyList.querySelectorAll('.story-item:not(:first-child)');
                 existingStories.forEach(story => story.remove());
                 
-                stories.forEach(story => {
+                // ✅ الحصول على المستخدم الحالي مرة واحدة (خارج الحلقة)
+                const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
+                
+                // ✅ استخدام for...of بدلاً من forEach
+                for (const story of stories) {
                     const profile = profilesMap[story.user_id] || {};
                     const username = profile.full_name || profile.username || 'User';
                     const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
@@ -1781,31 +1785,34 @@ async function checkSessionAndRedirect() {
                     
                     const mediaUrl = urlData.publicUrl;
                     
+                    // ✅ التحقق: هل القصة تخص المستخدم الحالي؟
+                    const isOwnStory = currentUser && currentUser.id === story.user_id;
+                    
                     if (story.media_type === 'video') {
                         storyItem.innerHTML = `
                             <video src="${mediaUrl}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
                             <span class="story-name">${escapeHtml(username)}</span>
+                            ${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')" title="Delete">🗑️</button>` : ''}
                         `;
                     } else {
                         storyItem.innerHTML = `
                             <img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
                             <span class="story-name">${escapeHtml(username)}</span>
+                            ${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')" title="Delete">🗑️</button>` : ''}
                         `;
                     }
-                    
                     storyList.appendChild(storyItem);
-                });
+                }
                 
             } catch (error) {
                 console.error('Error:', error);
             }
         }
-
         // =========================================================
         // CREATE NOTIFICATION
         // =========================================================
 
-        async function createNotification(receiverId, senderId, type, message) {
+                async function createNotification(receiverId, senderId, type, message, postId = null) {
             try {
                 if (receiverId === senderId) return;
                 
@@ -1816,6 +1823,7 @@ async function checkSessionAndRedirect() {
                         sender_id: senderId,
                         type: type,
                         message: message,
+                        post_id: postId,  // ✅ إضافة post_id
                         is_read: false,
                         created_at: new Date()
                     });
@@ -1887,13 +1895,14 @@ async function checkSessionAndRedirect() {
                     
                     const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
                     
-                    await createNotification(
+                                                         await createNotification(
                         postOwnerId,
                         user.id,
                         'like',
-                        `${senderName} liked your post`
+                        `${senderName} liked your post`,
+                        postId
                     );
-                }
+                }   // 👈 إغلاق else
                 
                 const { count } = await window.supabaseClient
                     .from('likes')
@@ -1906,7 +1915,6 @@ async function checkSessionAndRedirect() {
                 console.error('Like error:', error);
             }
         };
-
         // =========================================================
         // COMMENT POST
         // =========================================================
@@ -1963,13 +1971,13 @@ async function checkSessionAndRedirect() {
                 
                 const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
                 
-                await createNotification(
+                            await createNotification(
                     postOwnerId,
                     user.id,
                     'comment',
-                    `${senderName} commented on your post: "${content.substring(0, 50)}"`
+                    `${senderName} commented on your post: "${content.substring(0, 50)}"`,
+                    postId  // ✅ إضافة postId
                 );
-                
                 loadComments(postId);
                 
             } catch (error) {

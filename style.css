@@ -1104,3 +1104,27 @@ a {
 .language-menu button .lang-flag {
     margin-right: 8px;
 }
+
+        /* Delete Story Button */
+        .delete-story-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 10;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .delete-story-btn:hover {
+            background: #f44336;
+            transform: scale(1.1);
+        }
