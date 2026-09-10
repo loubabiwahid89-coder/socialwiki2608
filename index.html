@@ -1062,10 +1062,9 @@
                 </script>
             </div>
                </div>
-    </div>
-    
-    <!-- =========================================================
+    </div>    <!-- =========================================================
          CREATE POST MODAL
+    ========================================================= -->
     <div id="createPostModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -1878,10 +1877,55 @@ async function checkSessionAndRedirect() {
                     storyList.appendChild(storyItem);
                 }
                 
-            } catch (error) {
+                       } catch (error) {
                 console.error('Error:', error);
             }
         }
+
+        // =========================================================
+        // DELETE STORY
+        // =========================================================
+        window.deleteStory = async function(storyId, mediaUrl) {
+            if (!confirm('هل أنت متأكد من حذف هذه القصة؟')) {
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) {
+                    alert('Please login first!');
+                    return;
+                }
+                
+                // 1️⃣ حذف القصة من قاعدة البيانات
+                const { error: deleteError } = await window.supabaseClient
+                    .from('stories')
+                    .delete()
+                    .eq('id', storyId)
+                    .eq('user_id', user.id);
+                
+                if (deleteError) {
+                    console.error('Error deleting story:', deleteError);
+                    alert('Error: ' + deleteError.message);
+                    return;
+                }
+                
+                // 2️⃣ حذف الملف من Storage
+                if (mediaUrl) {
+                    await window.supabaseClient.storage
+                        .from('stories')
+                        .remove([mediaUrl]);
+                }
+                
+                alert('✅ Story deleted!');
+                loadStories();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error: ' + error.message);
+            }
+        };
+
         // =========================================================
         // CREATE NOTIFICATION
         // =========================================================
@@ -2255,10 +2299,9 @@ async function checkSessionAndRedirect() {
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
-                    // ✅ تسجيل المشاهدة (إذا لم تُسجل من قبل)
+                                       // ✅ تسجيل المشاهدة (إذا لم تُسجل من قبل)
                     if (!viewedPosts.includes(post.id)) {
-                                        // بعد add_earnings
-                showPointsNotification(1);
+                        trackPostView(post.id);
                         viewedPosts.push(post.id);
                     }
                     
@@ -2319,7 +2362,13 @@ async function checkSessionAndRedirect() {
                     return;
                 }
                 
-                console.log('✅ View tracked & earnings added for post:', postId);
+                               console.log('✅ View tracked & earnings added for post:', postId);
+                
+                // ✅ إظهار إشعار النقاط
+                showPointsNotification(1);
+                
+                // ✅ تحديث شارة النقاط
+                updatePointsBadge();
                 
             } catch (error) {
                 console.error('Error tracking view:', error);
@@ -2362,8 +2411,8 @@ async function checkSessionAndRedirect() {
             setLanguage(lang);
             applyTranslations();
             
-            setTimeout(updateNotificationBadge, 500);
-                        
+                       setTimeout(updateNotificationBadge, 500);
+            setTimeout(updatePointsBadge, 500);
             setTimeout(checkRole, 500);
             setTimeout(loadUserProfile, 500);
             setTimeout(loadStories, 500);
