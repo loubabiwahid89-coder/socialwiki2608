@@ -395,12 +395,18 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         
-        .ad-box img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
+    .ad-box > div,
+.ad-box > ins,
+.ad-box > iframe {
+    width: 100% ;
+    max-width: 300px ;
+    height: auto ;
+    max-height: 250px ;
+    overflow: hidden ;
+    display: block ;
+    margin: 0 auto ;
+    border-radius: 8px;
+}
         .ad-box p {
             font-size: 13px;
             color: #65676b;
@@ -822,11 +828,17 @@
             <li><a href="events.html" title="Events">📅</a></li>
             <li><a href="notifications.html" title="Notifications">🔔</a></li>
         </ul>
-        <div class="nav-right">
+               <div class="nav-right">
             <!-- زر الإشعارات -->
             <a href="notifications.html" class="notification-btn" title="Notifications" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none;">
                 🔔
                 <span class="notification-badge" id="navNotificationBadge" style="display: none;">0</span>
+            </a>
+            
+            <!-- 💰 عرض النقاط -->
+            <a href="earnings.html" class="notification-btn" title="My Earnings" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none;">
+                💰
+                <span class="notification-badge" id="navPointsBadge" style="display: none; background: #ffd700; color: #333;">0</span>
             </a>
             
             <!-- الملف الشخصي -->
@@ -1187,6 +1199,28 @@ async function checkSessionAndRedirect() {
             console.log("✅ Supabase client created");
         }
 
+                function showPointsNotification(points) {
+            // إشعار منبثق
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: linear-gradient(135deg, #ffd700, #f7b928);
+                color: #333;
+                padding: 15px 25px;
+                border-radius: 12px;
+                font-weight: 700;
+                z-index: 99999;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s;
+            `;
+            toast.textContent = `+${points} نقاط! 💰`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 3000);
+        }
+
         // =========================================================
         // HANDLE OAUTH CALLBACK
         // =========================================================
@@ -1253,6 +1287,36 @@ async function checkSessionAndRedirect() {
                     }
                 }
                 
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+                // =========================================================
+        // UPDATE POINTS BADGE
+        // =========================================================
+        async function updatePointsBadge() {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: balance } = await window.supabaseClient
+                    .from('user_balances')
+                    .select('available_points')
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+                
+                const points = balance?.available_points || 0;
+                const badge = document.getElementById('navPointsBadge');
+                
+                if (badge) {
+                    if (points > 0) {
+                        badge.textContent = points > 999 ? '999+' : points;
+                        badge.style.display = 'flex';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -1426,9 +1490,19 @@ async function checkSessionAndRedirect() {
         // CREATE POST MODAL
         // =========================================================
 
-        window.openCreatePostModal = function() {
-            document.getElementById('createPostModal').classList.add('show');
-            document.getElementById('postContent').focus();
+                window.openCreatePostModal = function() {
+            const modal = document.getElementById('createPostModal');
+            const content = document.getElementById('postContent');
+            
+            if (modal) {
+                modal.classList.add('show');
+            } else {
+                console.error('❌ createPostModal not found');
+            }
+            
+            if (content) {
+                content.focus();
+            }
         };
 
         window.closeCreatePostModal = function() {
@@ -2183,7 +2257,8 @@ async function checkSessionAndRedirect() {
                     
                     // ✅ تسجيل المشاهدة (إذا لم تُسجل من قبل)
                     if (!viewedPosts.includes(post.id)) {
-                        trackPostView(post.id);
+                                        // بعد add_earnings
+                showPointsNotification(1);
                         viewedPosts.push(post.id);
                     }
                     
@@ -2288,6 +2363,7 @@ async function checkSessionAndRedirect() {
             applyTranslations();
             
             setTimeout(updateNotificationBadge, 500);
+                        
             setTimeout(checkRole, 500);
             setTimeout(loadUserProfile, 500);
             setTimeout(loadStories, 500);
