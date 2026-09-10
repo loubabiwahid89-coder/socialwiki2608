@@ -2040,7 +2040,7 @@ async function checkSessionAndRedirect() {
         // LOAD POSTS
         // =========================================================
 
-        async function loadPosts() {
+                async function loadPosts() {
             const feedContainer = document.getElementById('feedContainer');
             
             if (!feedContainer) return;
@@ -2085,38 +2085,24 @@ async function checkSessionAndRedirect() {
                     const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                     const timeAgo = formatTimeAgo(post.created_at);
                     
-                    // =========================================================
-                    // 🔥 بناء محتوى المنشور (نص + صورة)
-                    // =========================================================
                     let contentHTML = '';
 
-                    // 1️⃣ عرض النص (مع إزالة أي روابط [Image: ...] قديمة)
                     if (post.content) {
                         let content = post.content;
-                        
-                        // إزالة أي [Image: ...] قديمة من النص (لأننا سنعرض الصورة من العمود الجديد)
                         content = content.replace(/\[Image:\s*[^\]]+\]/g, '');
-                        
-                        // تحويل [Video: الرابط] إلى فيديو (ما زلنا ندعم هذه الطريقة)
                         content = content.replace(/\[Video:\s*([^\]]+)\]/g, function(match, url) {
                             const cleanUrl = url.trim();
                             return `<video src="${cleanUrl}" controls class="feed-image" style="width: 100%; max-height: 500px; border-radius: 8px; margin-bottom: 10px;"></video>`;
                         });
-                        
-                        // إضافة النص إذا لم يكن فارغاً بعد إزالة الروابط
                         if (content.trim()) {
                             contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
                         }
                     }
 
-                    // 2️⃣ عرض الصورة من العمود الجديد image_url
                     if (post.image_url) {
                         contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;" onerror="console.error('Failed to load image:', this.src)">`;
                     }
                     
-                    // =========================================================
-                    // 🔥 إنشاء بطاقة المنشور
-                    // =========================================================
                     const postDiv = document.createElement('div');
                     postDiv.className = 'feed-post';
                     postDiv.innerHTML = `
@@ -2151,6 +2137,11 @@ async function checkSessionAndRedirect() {
                     setTimeout(() => loadComments(post.id), 100);
                     
                     postCount++;
+                }   // 👈 إغلاق حلقة for
+            } catch (error) {   // 👈 catch الخاص بـ try
+                console.error('Error:', error);
+            }
+        }   // 👈 إغلاق دالة loadPosts
                     
                    
                 
