@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* BACK & HOME */
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .back-btn {
+            color: #65676b;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .home-btn {
+            color: white;
+            background: #1877f2;
+        }
+        
+        /* CONTENT */
+        .legal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .legal-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1877f2, #4facfe);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .legal-header h1 { margin: 0 0 10px; font-size: 32px; }
+        .legal-header p { margin: 0; font-size: 14px; opacity: 0.9; }
+        
+        .legal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            line-height: 1.8;
+        }
+        .legal-content h2 {
+            color: #1877f2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        .legal-content h2:first-child { margin-top: 0; }
+        .legal-content p {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 15px;
+        }
+        .legal-content ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+        .legal-content li {
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 15px;
+        }
+        .legal-content a {
+            color: #1877f2;
+            text-decoration: none;
+        }
+        .legal-content a:hover { text-decoration: underline; }
+        
+        @media (max-width: 700px) {
+            .legal-header h1 { font-size: 24px; }
+            .legal-content { padding: 25px 20px; }
+            .legal-content h2 { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACK & HOME -->
+    <div class="nav-buttons">
+        <a href="javascript:history.back()" class="back-btn" data-i18n="back">← Back</a>
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="legal-container">
+        <div class="legal-header">
+            <h1 data-i18n="terms_title">📜 Terms of Service</h1>
+            <p data-i18n="terms_subtitle">Last updated: January 2025</p>
+        </div>
+
+        <div class="legal-content">
+            <h2>1. Acceptance of Terms</h2>
+            <p>By accessing or using SocialWiki ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Platform.</p>
+
+            <h2>2. User Accounts</h2>
+            <p>To use certain features, you must create an account. You agree to:</p>
+            <ul>
+                <li>Provide accurate and complete information</li>
+                <li>Maintain the security of your account</li>
+                <li>Be responsible for all activity under your account</li>
+                <li>Not create accounts for malicious purposes</li>
+                <li>Not impersonate others</li>
+            </ul>
+
+            <h2>3. Content and Conduct</h2>
+            <p>You are responsible for all content you post. You agree NOT to post:</p>
+            <ul>
+                <li>Illegal content</li>
+                <li>Hate speech or harassment</li>
+                <li>Spam or misleading content</li>
+                <li>Content that infringes copyrights</li>
+                <li>Adult or explicit content</li>
+                <li>Violence or threats</li>
+            </ul>
+
+            <h2>4. Intellectual Property</h2>
+            <p>You retain ownership of content you post. By posting, you grant SocialWiki a non-exclusive, worldwide, royalty-free license to use, display, and distribute your content on the Platform.</p>
+
+            <h2>5. Earnings and Rewards</h2>
+            <p>SocialWiki offers a rewards program. You agree that:</p>
+            <ul>
+                <li>Earnings are based on legitimate activity only</li>
+                <li>Artificial inflation of views/engagement is prohibited</li>
+                <li>Fraudulent activity will result in account termination</li>
+                <li>Earnings may be adjusted or canceled if fraud is detected</li>
+                <li>Minimum withdrawal: $5.00 (or equivalent)</li>
+            </ul>
+
+            <h2>6. Advertisements</h2>
+            <p>The Platform displays advertisements. You agree NOT to:</p>
+            <ul>
+                <li>Click on ads artificially</li>
+                <li>Use bots or automated systems</li>
+                <li>Encourage others to click ads</li>
+                <li>Manipulate ad impressions</li>
+            </ul>
+
+            <h2>7. Termination</h2>
+            <p>We reserve the right to suspend or terminate accounts that violate these terms, without prior notice.</p>
+
+            <h2>8. Disclaimer</h2>
+            <p>The Platform is provided "as is". We are not responsible for user-generated content, service interruptions, or data loss.</p>
+
+            <h2>9. Changes to Terms</h2>
+            <p>We may update these terms at any time. Continued use of the Platform means acceptance of new terms.</p>
+
+            <h2>10. Contact</h2>
+            <p>For questions, contact us at: <a href="mailto:support@socialwiki.com">support@socialwiki.com</a></p>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            loadUserProfile();
+        });
+    </script>
+</body>
+</html>
