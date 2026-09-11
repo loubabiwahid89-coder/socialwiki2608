@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons {
+            display: flex; align-items: center; gap: 8px;
+            list-style: none; margin: 0; padding: 0;
+        }
+        .nav-icons a {
+            color: white; font-size: 20px; text-decoration: none;
+            padding: 8px; border-radius: 50%;
+        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex; align-items: center; gap: 8px;
+            color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px;
+            color: white; cursor: pointer; font-size: 14px;
+        }
+        
+        /* CONTAINER */
+        .tasks-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .tasks-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .tasks-header h1 { margin: 0 0 10px; font-size: 32px; }
+        .tasks-header p { margin: 0; opacity: 0.9; }
+        
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1877f2;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #65676b;
+            margin-top: 5px;
+        }
+        
+        /* TASK CATEGORIES */
+        .task-section {
+            margin-bottom: 30px;
+        }
+        .task-section h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #050505;
+        }
+        
+        /* TASK CARDS */
+        .task-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .task-icon {
+            font-size: 40px;
+            min-width: 60px;
+            text-align: center;
+        }
+        .task-info {
+            flex: 1;
+        }
+        .task-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .task-description {
+            font-size: 13px;
+            color: #65676b;
+            margin-bottom: 8px;
+        }
+        .task-progress-bar {
+            background: #e4e6eb;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        .task-progress-fill {
+            background: linear-gradient(135deg, #1877f2, #4facfe);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        .task-progress-text {
+            font-size: 12px;
+            color: #65676b;
+        }
+        .task-reward {
+            font-weight: 700;
+            color: #f7b928;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .task-button {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .task-button:hover:not(:disabled) {
+            background: #166fe5;
+        }
+        .task-button:disabled {
+            background: #e4e6eb;
+            color: #65676b;
+            cursor: not-allowed;
+        }
+        .task-button.claim {
+            background: #28a745;
+        }
+        .task-button.claim:hover {
+            background: #218838;
+        }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #65676b;
+        }
+        .empty-state-icon { font-size: 60px; margin-bottom: 15px; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .task-card { flex-direction: column; text-align: center; }
+            .task-icon { min-width: auto; }
+            .task-button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- CONTAINER -->
+    <div class="tasks-container">
+        
+        <div class="tasks-header">
+            <h1>🎯 Tasks</h1>
+            <p>Complete tasks to earn points and rewards</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalTasks">0</div>
+                <div class="stat-label">Total Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="completedTasks">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="earnedPoints">0</div>
+                <div class="stat-label">Points Earned</div>
+            </div>
+        </div>
+
+        <!-- DAILY TASKS -->
+        <div class="task-section">
+            <h2>📅 Daily Tasks</h2>
+            <div id="dailyTasks"></div>
+        </div>
+
+        <!-- WEEKLY TASKS -->
+        <div class="task-section">
+            <h2>📆 Weekly Tasks</h2>
+            <div id="weeklyTasks"></div>
+        </div>
+
+        <!-- MONTHLY TASKS -->
+        <div class="task-section">
+            <h2>🗓️ Monthly Tasks</h2>
+            <div id="monthlyTasks"></div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script>
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // =========================================================
+        // LOAD TASKS
+        // =========================================================
+        async function loadTasks() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+
+                // احصل على جميع المهام
+                const { data: tasks, error: tasksError } = await supabaseClient
+                    .from('tasks')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('points_reward', { ascending: false });
+
+                if (tasksError) {
+                    console.error('Error loading tasks:', tasksError);
+                    return;
+                }
+
+                // احصل على مهام المستخدم
+                const { data: userTasks } = await supabaseClient
+                    .from('user_tasks')
+                    .select('*')
+                    .eq('user_id', user.id);
+
+                const userTasksMap = {};
+                if (userTasks) {
+                    userTasks.forEach(ut => {
+                        userTasksMap[ut.task_id] = ut;
+                    });
+                }
+
+                // احسب الإحصائيات
+                const totalTasks = tasks?.length || 0;
+                const completedTasks = userTasks?.filter(ut => ut.completed).length || 0;
+                const earnedPoints = userTasks?.reduce((sum, ut) => sum + (ut.points_earned || 0), 0) || 0;
+
+                document.getElementById('totalTasks').textContent = totalTasks;
+                document.getElementById('completedTasks').textContent = completedTasks;
+                document.getElementById('earnedPoints').textContent = earnedPoints;
+
+                // اعرض المهام حسب النوع
+                const dailyTasks = tasks?.filter(t => t.type === 'daily') || [];
+                const weeklyTasks = tasks?.filter(t => t.type === 'weekly') || [];
+                const monthlyTasks = tasks?.filter(t => t.type === 'monthly') || [];
+
+                displayTasks('dailyTasks', dailyTasks, userTasksMap);
+                displayTasks('weeklyTasks', weeklyTasks, userTasksMap);
+                displayTasks('monthlyTasks', monthlyTasks, userTasksMap);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // =========================================================
+        // DISPLAY TASKS
+        // =========================================================
+        function displayTasks(containerId, tasks, userTasksMap) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (!tasks || tasks.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No tasks available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            tasks.forEach(task => {
+                const userTask = userTasksMap[task.id] || { progress: 0, completed: false, claimed: false };
+                const progressPercent = Math.min((userTask.progress / task.target_count) * 100, 100);
+                
+                const taskCard = document.createElement('div');
+                taskCard.className = 'task-card';
+                
+                let actionButton = '';
+                if (userTask.claimed) {
+                    actionButton = `<button class="task-button" disabled>✅ Claimed</button>`;
+                } else if (userTask.completed) {
+                    actionButton = `<button class="task-button claim" onclick="claimReward('${task.id}', ${task.points_reward})">🎁 Claim ${task.points_reward} pts</button>`;
+                } else {
+                    actionButton = `<button class="task-button" disabled>${userTask.progress} / ${task.target_count}</button>`;
+                }
+
+                const icon = getTaskIcon(task.action_type);
+
+                taskCard.innerHTML = `
+                    <div class="task-icon">${icon}</div>
+                    <div class="task-info">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-description">${task.description || ''}</div>
+                        <div class="task-progress-bar">
+                            <div class="task-progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <div class="task-progress-text">${userTask.progress} / ${task.target_count} completed</div>
+                        <div class="task-reward">🪙 ${task.points_reward} points</div>
+                    </div>
+                    ${actionButton}
+                `;
+
+                container.appendChild(taskCard);
+            });
+        }
+
+        function getTaskIcon(actionType) {
+            const icons = {
+                'post': '📝',
+                'comment': '💬',
+                'like': '👍',
+                'follow': '👥',
+                'login': '🔑',
+                'view': '👁️',
+                'share': '↗️'
+            };
+            return icons[actionType] || '🎯';
+        }
+
+        // =========================================================
+        // CLAIM REWARD
+        // =========================================================
+        window.claimReward = async function(taskId, points) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { data, error } = await supabaseClient.rpc('claim_task_reward', {
+                    p_user_id: user.id,
+                    p_task_id: taskId
+                });
+
+                if (error) {
+                    console.error('Error claiming reward:', error);
+                    alert('Error: ' + error.message);
+                    return;
+                }
+
+                alert(`🎉 You earned ${points} points!`);
+                loadTasks();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error: ' + error.message);
+            }
+        };
+
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            loadUserProfile();
+            loadTasks();
+        });
+    </script>
+</body>
+</html>

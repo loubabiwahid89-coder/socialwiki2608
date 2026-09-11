@@ -2513,6 +2513,33 @@ async function checkSessionAndRedirect() {
                 console.error('❌ Error applying referral:', error);
             }
         }
+
+        // ✅ مهمة يومية
+async function claimDailyBonus() {
+    const lastClaim = localStorage.getItem('lastDailyClaim');
+    const today = new Date().toDateString();
+    
+    if (lastClaim === today) {
+        alert('لقد حصلت على مكافأتك اليومية اليوم!');
+        return;
+    }
+    
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    
+    if (!user) return;
+    
+    // أضف 10 نقاط
+    await supabaseClient.rpc('add_earnings', {
+        p_user_id: user.id,
+        p_post_id: null,
+        p_source: 'daily_bonus',
+        p_points: 10,
+        p_dollars: 0.10
+    });
+    
+    localStorage.setItem('lastDailyClaim', today);
+    alert('🎉 حصلت على 10 نقاط!');
+}
     </script>
 </body>
 </html>

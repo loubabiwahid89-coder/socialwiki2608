@@ -722,15 +722,16 @@ if (referralCode) {
         }
 
         // ✅ 5. أضف الإحالة
+               // ✅ 5. أضف الإحالة
+               // ✅ 5. أضف الإحالة
         const { error: insertError } = await supabaseClient
             .from('referrals')
             .insert({
                 referrer_id: referrer.id,
-                referred_id: referredId,
+                referred_id: newUserId,
                 referral_code: referralCode,
-                points_awarded: 50
+                points_awarded: 10   // ✅ 10
             });
-
         if (insertError) {
             console.error('❌ Error inserting referral:', insertError);
             return;
