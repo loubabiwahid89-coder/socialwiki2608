@@ -203,6 +203,8 @@ const translations = {
                 "privacy_subtitle": "آخر تحديث: يناير 2025",
                 "about_title": "ℹ️ من نحن",
                 "contact_title": "📧 اتصل بنا",
+                "tasks": "المهام",
+"stars": "النجوم",
     },
     fr: {
         "search_placeholder": "Rechercher sur SocialWiki",
@@ -404,6 +406,8 @@ const translations = {
                 "privacy_subtitle": "Dernière mise à jour: Janvier 2025",
                 "about_title": "ℹ️ À propos",
                 "contact_title": "📧 Contactez-nous",
+                "tasks": "Tâches",
+"stars": "Étoiles",
     },
     en: {
         "search_placeholder": "Search SocialWiki",
@@ -605,6 +609,8 @@ const translations = {
                 "privacy_subtitle": "Last updated: January 2025",
                 "about_title": "ℹ️ About Us",
                 "contact_title": "📧 Contact Us",
+                "tasks": "Tasks",
+"stars": "Stars",
     },
     es: {
         "search_placeholder": "Buscar en SocialWiki",
@@ -806,6 +812,8 @@ const translations = {
                 "privacy_subtitle": "Última actualización: Enero 2025",
                 "about_title": "ℹ️ Sobre nosotros",
                 "contact_title": "📧 Contáctanos",
+                "tasks": "Tareas",
+"stars": "Estrellas",
     },
     de: {
         "search_placeholder": "SocialWiki durchsuchen",
@@ -1007,6 +1015,8 @@ const translations = {
                 "privacy_subtitle": "Letzte Aktualisierung: Januar 2025",
                 "about_title": "ℹ️ Über uns",
                 "contact_title": "📧 Kontaktieren Sie uns",
+                "tasks": "Aufgaben",
+"stars": "Sterne",
     },
     it: {
         "search_placeholder": "Cerca su SocialWiki",
@@ -1208,6 +1218,8 @@ const translations = {
                 "privacy_subtitle": "Ultimo aggiornamento: Gennaio 2025",
                 "about_title": "ℹ️ Chi siamo",
                 "contact_title": "📧 Contattaci",
+                "tasks": "Attività",
+"stars": "Stelle",
     },
     ja: {
         "search_placeholder": "SocialWikiを検索",
@@ -1409,6 +1421,8 @@ const translations = {
                 "privacy_subtitle": "最終更新日：2025年1月",
                 "about_title": "ℹ️ 私たちについて",
                 "contact_title": "📧 お問い合わせ",
+                "tasks": "タスク",
+"stars": "スター",
     },
     zh: {
         "search_placeholder": "搜索 SocialWiki",
@@ -1610,6 +1624,8 @@ const translations = {
                 "privacy_subtitle": "最后更新：2025年1月",
                 "about_title": "ℹ️ 关于我们",
                 "contact_title": "📧 联系我们",
+                "tasks": "任务",
+"stars": "星星",
     },
     ko: {
         "search_placeholder": "SocialWiki 검색",
@@ -1810,7 +1826,9 @@ const translations = {
                 "privacy_title": "🔒 개인정보 보호정책",
                 "privacy_subtitle": "최종 업데이트: 2025년 1월",
                 "about_title": "ℹ️ 회사 소개",
-                "contact_title": "📧 문의하기"
+                "contact_title": "📧 문의하기",
+                "tasks": "작업",
+"stars": "별",
     },
     ru: {
         "search_placeholder": "Поиск в SocialWiki",
@@ -2012,6 +2030,8 @@ const translations = {
                 "privacy_subtitle": "Последнее обновление: Январь 2025",
                 "about_title": "ℹ️ О нас",
                 "contact_title": "📧 Свяжитесь с нами",
+                "tasks": "Задания",
+"stars": "Звёзды",
     },
     tr: {
         "search_placeholder": "SocialWiki'de ara",
@@ -2213,6 +2233,8 @@ const translations = {
                 "privacy_subtitle": "Son güncelleme: Ocak 2025",
                 "about_title": "ℹ️ Hakkımızda",
                 "contact_title": "📧 Bize Ulaşın",
+                "tasks": "Görevler",
+"stars": "Yıldızlar",
     },
     hi: {
         "search_placeholder": "SocialWiki खोजें",
@@ -2414,6 +2436,8 @@ const translations = {
                 "privacy_subtitle": "अंतिम अपडेट: जनवरी 2025",
                 "about_title": "ℹ️ हमारे बारे में",
                 "contact_title": "📧 संपर्क करें",
+                "tasks": "कार्य",
+"stars": "सितारे",
     }
 };
 
