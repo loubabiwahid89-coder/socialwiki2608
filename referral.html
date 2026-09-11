@@ -610,8 +610,8 @@ document.getElementById('referralLink').textContent =
                 }
                 
                 const totalReferrals = referrals?.length || 0;
-                const totalPoints = totalReferrals * 500; // 500 نقطة لكل مدعو
-                const totalDollars = (totalPoints / 1000).toFixed(2);
+                const totalPoints = totalReferrals * 50;   // ✅ 50 بدلاً من 500
+                const totalDollars = (totalPoints / 100).toFixed(2);
                 
                 document.getElementById('totalReferrals').textContent = totalReferrals;
                 document.getElementById('referralPoints').textContent = totalPoints;
