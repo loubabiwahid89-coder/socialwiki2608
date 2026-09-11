@@ -653,7 +653,7 @@ document.getElementById('referralLink').textContent =
                     row.innerHTML = `
                         <td>${name}</td>
                         <td>${date}</td>
-                        <td>+${points} نقطة</td>
+                        <td>+${ref.points_awarded || 50} نقطة</td>
                     `;
                     tableBody.appendChild(row);
                 });
