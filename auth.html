@@ -661,23 +661,25 @@ if (referralCode) {
         // LOGIN WITH GOOGLE
         // =========================================================
 
-        async function loginWithGoogle() {
-            try {
-                const redirectUrl = window.location.origin + '/index.html';
-
-                const { error } = await supabaseClient.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: { redirectTo: redirectUrl }
-                });
-
-                if (error) {
-                    alert('خطأ: ' + error.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('خطأ: ' + error.message);
-            }
+       async function loginWithGoogle() {
+    try {
+        // ✅ احفظ كود الإحالة في localStorage
+        const referralCode = document.getElementById('referralCodeInput').value.trim();
+        if (referralCode) {
+            localStorage.setItem('pendingReferralCode', referralCode);
+            console.log('🔗 Saved referral code:', referralCode);
         }
+        
+        const redirectUrl = window.location.origin + '/index.html';
+
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: redirectUrl }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
         // =========================================================
         // PROCESS REFERRAL

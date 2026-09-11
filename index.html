@@ -2402,41 +2402,117 @@ async function checkSessionAndRedirect() {
         // INITIALIZE
         // =========================================================
 
-        document.addEventListener('DOMContentLoaded', function() {
+                      document.addEventListener('DOMContentLoaded', function() {
             console.log("🔴 DOMContentLoaded fired - index.html");
             
+            // ✅ 1. معالجة OAuth
             handleAuthCallback();
             
+            // ✅ 2. التحقق من الجلسة
+            checkSessionAndRedirect();
+            
+            // ✅ 3. تطبيق اللغة
             const lang = getCurrentLanguage();
             setLanguage(lang);
             applyTranslations();
             
-                       setTimeout(updateNotificationBadge, 500);
+            // ✅ 4. تحميل البيانات
+            setTimeout(updateNotificationBadge, 500);
             setTimeout(updatePointsBadge, 500);
             setTimeout(checkRole, 500);
             setTimeout(loadUserProfile, 500);
             setTimeout(loadStories, 500);
             setTimeout(loadPosts, 500);
             setTimeout(forceLoadUserProfile, 1500);
+            
+            // ✅ 5. معالجة الإحالة المعلّقة (لـ OAuth)
+            setTimeout(applyPendingReferral, 2000);
         });
-        document.addEventListener('DOMContentLoaded', function() {
-    console.log("🔴 DOMContentLoaded fired");
-    
-    // 🔥 التحقق من الجلسة أولاً
-    checkSessionAndRedirect();
-    
-    const lang = getCurrentLanguage();
-    setLanguage(lang);
-    applyTranslations();
-    
-    // تحميل البيانات بعد التأكد من الجلسة
-    setTimeout(loadStories, 800);
-    setTimeout(loadPosts, 800);
-});
-
     
          
-
+        // =========================================================
+        // APPLY PENDING REFERRAL (لـ OAuth)
+        // =========================================================
+        async function applyPendingReferral() {
+            try {
+                const referralCode = localStorage.getItem('pendingReferralCode');
+                
+                if (!referralCode) {
+                    console.log('ℹ️ No pending referral');
+                    return;
+                }
+                
+                console.log('🔗 Processing pending referral:', referralCode);
+                
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    console.log('❌ No user');
+                    return;
+                }
+                
+                // ✅ تحقق من عدم وجود إحالة مسبقة
+                const { data: existingReferral } = await supabaseClient
+                    .from('referrals')
+                    .select('id')
+                    .eq('referred_id', user.id)
+                    .maybeSingle();
+                
+                if (existingReferral) {
+                    console.log('ℹ️ User already has a referral');
+                    localStorage.removeItem('pendingReferralCode');
+                    return;
+                }
+                
+                // ✅ ابحث عن الداعي
+                const { data: referrer, error: refError } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username')
+                    .eq('referral_code', referralCode)
+                    .maybeSingle();
+                
+                if (refError || !referrer) {
+                    console.log('⚠️ Referral code not found');
+                    localStorage.removeItem('pendingReferralCode');
+                    return;
+                }
+                
+                // ✅ لا يمكن للمستخدم دعوة نفسه
+                if (referrer.id === user.id) {
+                    console.log('⚠️ Cannot refer yourself');
+                    localStorage.removeItem('pendingReferralCode');
+                    return;
+                }
+                
+                // ✅ أضف الإحالة
+                const { error: insertError } = await supabaseClient
+                    .from('referrals')
+                    .insert({
+                        referrer_id: referrer.id,
+                        referred_id: user.id,
+                        referral_code: referralCode,
+                        points_awarded: 50
+                    });
+                
+                if (insertError) {
+                    console.error('❌ Error inserting referral:', insertError);
+                    return;
+                }
+                
+                console.log('✅ Referral applied successfully!');
+                
+                // ✅ احذف الكود المعلّق
+                localStorage.removeItem('pendingReferralCode');
+                
+                // ✅ أظهر إشعار
+                if (typeof showPointsNotification === 'function') {
+                    showPointsNotification(25);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error applying referral:', error);
+            }
+        }
     </script>
 </body>
 </html>
