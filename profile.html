@@ -101,7 +101,7 @@
         /* الغلاف */
         .profile-cover {
             width: 100%;
-            height: 300px;
+            height: 220px;
             background: linear-gradient(135deg, #1877f2, #8b5cf6);
             border-radius: 12px 12px 0 0;
             position: relative;
@@ -138,18 +138,19 @@
         
         /* الصورة الشخصية */
         .profile-avatar-wrapper {
-            position: absolute;
-            bottom: -80px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            margin-top: -100px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
             z-index: 10;
         }
         
         .profile-avatar {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            border: 6px solid white;
+            border: 5px solid white;
             background: white;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -188,38 +189,43 @@
         .profile-info {
             background: white;
             border-radius: 0 0 12px 12px;
-            padding: 100px 20px 20px;
+            padding: 30px 20px 25px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: -80px;
+            margin-top: -60px;
+            position: relative;
+            z-index: 5;
         }
         
         .profile-name {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            line-height: 1.2;
         }
         
         .profile-username {
             color: #65676b;
             font-size: 16px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         
         .profile-bio {
             color: #65676b;
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            padding: 0 20px;
         }
         
         .profile-stats {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            padding: 15px 0;
+            gap: 50px;
+            padding: 20px 0;
             border-top: 1px solid #e4e6eb;
             border-bottom: 1px solid #e4e6eb;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
         .stat-item {
@@ -236,29 +242,47 @@
             color: #65676b;
         }
         
+        /* أزرار الملف الشخصي */
         .profile-actions {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            padding: 0 10px;
         }
         
-        .profile-actions button {
-            padding: 10px 20px;
-            border-radius: 8px;
+        .profile-actions button,
+        .profile-actions a {
+            padding: 12px 28px;
+            border-radius: 10px;
             border: none;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #050505;
+        }
+        
+        .profile-actions button:hover,
+        .profile-actions a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .edit-btn {
             background: #1877f2;
-            color: white;
+            color: white !important;
         }
         
         .message-btn {
             background: #e4e6eb;
+            color: #050505;
         }
         
         .profile-tabs {
@@ -365,18 +389,6 @@
 <body>
 
     <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
-
-    <!-- =========================================================
          NAVBAR
     ========================================================= -->
     <nav class="navbar">
@@ -390,7 +402,7 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-               <div class="nav-right">
+        <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
@@ -418,28 +430,35 @@
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
+    
+    <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- =========================================================
-         PROFILE CONTAINER - FACEBOOK STYLE
+         PROFILE CONTAINER
     ========================================================= -->
     <div class="profile-container">
         
-        <!-- الغلاف (قابل للتحريك والتكبير) -->
+        <!-- الغلاف -->
         <div class="profile-cover" id="coverContainer">
             <img src="https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff" class="cover-img" id="coverImg" alt="Cover" draggable="false">
             <button class="cover-overlay" onclick="changeCover()">📷 Change Cover</button>
         </div>
         
-        <!-- الصورة الشخصية (قابلة للتحريك والتكبير) -->
-        <div class="profile-avatar-wrapper">
-            <div class="profile-avatar" id="avatarContainer">
-                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" class="avatar-img" id="avatarImg" alt="Avatar" draggable="false">
-                <button class="avatar-overlay" onclick="changeAvatar()">📷 Change</button>
-            </div>
-        </div>
-        
         <!-- معلومات الملف -->
         <div class="profile-info">
+
+            <!-- الصورة الشخصية -->
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar" id="avatarContainer">
+                    <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" class="avatar-img" id="avatarImg" alt="Avatar" draggable="false">
+                    <button class="avatar-overlay" onclick="changeAvatar()">📷 Change</button>
+                </div>
+            </div>
+
+            <!-- الاسم والمعلومات -->
             <div class="profile-name" id="profileName">User</div>
             <div class="profile-username" id="profileUsername">@user</div>
             <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
@@ -447,31 +466,51 @@
             <div class="profile-stats">
                 <div class="stat-item">
                     <div class="stat-number" id="friendsCount">0</div>
-                    <div class="stat-label">Friends</div>
+                    <div class="stat-label" data-i18n="friends">Friends</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="postsCount">0</div>
-                    <div class="stat-label">Posts</div>
+                    <div class="stat-label" data-i18n="post">Posts</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="followersCount">0</div>
-                    <div class="stat-label">Followers</div>
+                    <div class="stat-label" data-i18n="followers">Followers</div>
                 </div>
             </div>
             
-                        <div class="profile-actions">
-                <button class="edit-btn" onclick="editProfile()" data-i18n="profile">Edit Profile</button>
-                <button class="message-btn" onclick="sendMessage()">Message</button>
-                <a href="earnings.html" style="display: inline-flex; align-items: center; gap: 5px; padding: 10px 20px; background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;" data-i18n="earnings_title">💰 My Earnings</a>
+            <!-- أزرار الملف الشخصي -->
+            <div class="profile-actions">
+                
+                <!-- 🆕 أزرار الصداقة (تظهر فقط في صفحات الآخرين) -->
+                <button id="addFriendBtn" onclick="sendFriendRequest()" style="background: #1877f2; color: white; display: none;">
+                    ➕ Add Friend
+                </button>
+                
+                <button id="requestSentBtn" style="background: #e4e6eb; color: #65676b; display: none;" disabled>
+                    ⏳ Request Sent
+                </button>
+                
+                <button id="friendActionsBtn" style="background: #e4e6eb; color: #050505; display: none;">
+                    👥 Friends
+                </button>
+                
+                <!-- الأزرار الأساسية -->
+                <button class="edit-btn" onclick="editProfile()" data-i18n="edit_profile">Edit Profile</button>
+                <button class="message-btn" onclick="sendMessage()" data-i18n="message">Message</button>
+                
+                <a href="earnings.html" data-i18n="earnings_title" 
+                   style="display: inline-flex; align-items: center; gap: 5px; padding: 12px 28px; background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;">
+                    💰 My Earnings
+                </a>
             </div>
         </div>
         
         <!-- التبويبات -->
-              <div class="profile-tabs">
+        <div class="profile-tabs">
             <div class="profile-tab active" onclick="showTab('posts', this)" data-i18n="post">Posts</div>
-            <div class="profile-tab" onclick="showTab('about', this)">About</div>
+            <div class="profile-tab" onclick="showTab('about', this)" data-i18n="about">About</div>
             <div class="profile-tab" onclick="showTab('friends', this)" data-i18n="friends">Friends</div>
-            <div class="profile-tab" onclick="showTab('photos', this)">Photos</div>
+            <div class="profile-tab" onclick="showTab('photos', this)" data-i18n="photos">Photos</div>
         </div>
         
         <!-- المحتوى -->
@@ -484,22 +523,30 @@
             </div>
         </div>
     </div>
-
-    <!-- =========================================================
+        <!-- =========================================================
          SCRIPTS
     ========================================================= -->
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js"></script>
+    
     <script>
-        // Supabase setup
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         // =========================================================
+        // STATE
+        // =========================================================
+        let profileUserId = null;
+        let currentUserId = null;
+        
+        // =========================================================
         // LOGOUT
         // =========================================================
-        
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
@@ -508,19 +555,19 @@
         // =========================================================
         // GET USER ID FROM URL
         // =========================================================
-        
         function getUserIdFromUrl() {
             const params = new URLSearchParams(window.location.search);
             return params.get('id');
         }
         
         // =========================================================
-        // DRAG & ZOOM (تحريك وتكبير الصور)
+        // DRAG & ZOOM
         // =========================================================
-        
         function enableDragZoom(containerId, imgId) {
             const container = document.getElementById(containerId);
             const img = document.getElementById(imgId);
+            
+            if (!container || !img) return;
             
             let isDragging = false;
             let startX, startY;
@@ -529,7 +576,6 @@
             let startScale = 1;
             let startDistance = 0;
             
-            // تكبير بعجلة الماوس
             container.addEventListener('wheel', function(e) {
                 e.preventDefault();
                 const delta = e.deltaY > 0 ? -0.1 : 0.1;
@@ -537,7 +583,6 @@
                 img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
             });
             
-            // تحريك بالنقر والسحب
             container.addEventListener('mousedown', function(e) {
                 isDragging = true;
                 startX = e.clientX - translateX;
@@ -557,7 +602,6 @@
                 container.style.cursor = 'move';
             });
             
-            // تكبير باللمس (للجوال)
             container.addEventListener('touchstart', function(e) {
                 if (e.touches.length === 1) {
                     isDragging = true;
@@ -593,18 +637,19 @@
         // =========================================================
         // LOAD PROFILE
         // =========================================================
-        
         async function loadProfile() {
             const userId = getUserIdFromUrl();
             
             if (!userId) {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (user) {
+                    profileUserId = user.id;
                     loadUserProfile(user.id);
                 } else {
                     window.location.href = 'auth.html';
                 }
             } else {
+                profileUserId = userId;
                 loadUserProfile(userId);
             }
         }
@@ -612,7 +657,6 @@
         // =========================================================
         // LOAD USER PROFILE DATA
         // =========================================================
-        
         async function loadUserProfile(userId) {
             try {
                 const { data: profile, error } = await supabaseClient
@@ -631,27 +675,33 @@
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                 const coverUrl = profile?.cover_url || 'https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff';
                 
-                // تحديث الواجهة
                 document.getElementById('profileName').textContent = fullName;
                 document.getElementById('profileUsername').textContent = '@' + username;
                 document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
                 document.getElementById('avatarImg').src = avatarUrl;
                 document.getElementById('coverImg').src = coverUrl;
                 
-                // تحديث الـ Navbar
                 const navProfileName = document.getElementById('navProfileName');
                 if (navProfileName) navProfileName.textContent = fullName;
                 
                 const navProfileImg = document.getElementById('navProfileImg');
                 if (navProfileImg) navProfileImg.src = avatarUrl;
                 
-                // جلب عدد المنشورات
+                // عدد المنشورات
                 const { count: postsCount } = await supabaseClient
                     .from('posts')
                     .select('id', { count: 'exact', head: true })
                     .eq('user_id', userId);
                 
                 document.getElementById('postsCount').textContent = postsCount || 0;
+                
+                // 🆕 عدد الأصدقاء
+                const { count: friendsCount } = await supabaseClient
+                    .from('friends')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('user_id', userId);
+                
+                document.getElementById('friendsCount').textContent = friendsCount || 0;
                 
                 // جلب المنشورات
                 loadUserPosts(userId);
@@ -668,7 +718,6 @@
         // =========================================================
         // LOAD USER POSTS
         // =========================================================
-        
         async function loadUserPosts(userId) {
             try {
                 const { data: posts, error } = await supabaseClient
@@ -683,6 +732,8 @@
                 }
                 
                 const postsContainer = document.getElementById('userPosts');
+                if (!postsContainer) return;
+                
                 postsContainer.innerHTML = '';
                 
                 if (!posts || posts.length === 0) {
@@ -696,9 +747,20 @@
                     
                     const timeAgo = formatTimeAgo(post.created_at);
                     
+                    let contentHTML = '';
+                    if (post.content) {
+                        contentHTML += `<p>${escapeHtml(post.content)}</p>`;
+                    }
+                    if (post.image_url) {
+                        contentHTML += `<img src="${post.image_url}" style="width:100%;border-radius:8px;margin-top:10px;">`;
+                    }
+                    if (post.video_url) {
+                        contentHTML += `<video src="${post.video_url}" controls playsinline style="width:100%;border-radius:8px;margin-top:10px;"></video>`;
+                    }
+                    
                     postDiv.innerHTML = `
-                        <p>${escapeHtml(post.content)}</p>
-                        <div class="profile-post-footer">
+                        ${contentHTML}
+                        <div class="profile-post-footer" style="margin-top:10px;">
                             <span>${timeAgo}</span>
                             <div class="profile-post-actions">
                                 <span class="profile-post-action">👍 Like</span>
@@ -716,9 +778,8 @@
         }
         
         // =========================================================
-        // CHANGE AVATAR (تغيير الصورة الشخصية)
+        // CHANGE AVATAR
         // =========================================================
-        
         function changeAvatar() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -729,13 +790,8 @@
                 
                 try {
                     const { data: { user } } = await supabaseClient.auth.getUser();
+                    if (!user) { alert('Please login first!'); return; }
                     
-                    if (!user) {
-                        alert('Please login first!');
-                        return;
-                    }
-                    
-                    // رفع الصورة إلى Supabase Storage
                     const fileName = `avatars/${user.id}/${Date.now()}_${file.name}`;
                     const { error: uploadError } = await supabaseClient.storage
                         .from('avatars')
@@ -747,24 +803,21 @@
                         return;
                     }
                     
-                    // الحصول على الرابط
                     const { data: urlData } = supabaseClient.storage
                         .from('avatars')
                         .getPublicUrl(fileName);
                     
                     const avatarUrl = urlData.publicUrl;
                     
-                    // تحديث قاعدة البيانات
                     await supabaseClient
                         .from('profiles')
                         .update({ avatar_url: avatarUrl })
                         .eq('id', user.id);
                     
-                    // تحديث الواجهة
                     document.getElementById('avatarImg').src = avatarUrl;
                     document.getElementById('navProfileImg').src = avatarUrl;
                     
-                    alert('Profile picture updated!');
+                    alert('✅ Profile picture updated!');
                     
                 } catch (error) {
                     console.error('Error:', error);
@@ -775,9 +828,8 @@
         }
         
         // =========================================================
-        // CHANGE COVER (تغيير صورة الغلاف)
+        // CHANGE COVER
         // =========================================================
-        
         function changeCover() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -788,13 +840,8 @@
                 
                 try {
                     const { data: { user } } = await supabaseClient.auth.getUser();
+                    if (!user) { alert('Please login first!'); return; }
                     
-                    if (!user) {
-                        alert('Please login first!');
-                        return;
-                    }
-                    
-                    // رفع الصورة إلى Supabase Storage
                     const fileName = `covers/${user.id}/${Date.now()}_${file.name}`;
                     const { error: uploadError } = await supabaseClient.storage
                         .from('covers')
@@ -806,23 +853,20 @@
                         return;
                     }
                     
-                    // الحصول على الرابط
                     const { data: urlData } = supabaseClient.storage
                         .from('covers')
                         .getPublicUrl(fileName);
                     
                     const coverUrl = urlData.publicUrl;
                     
-                    // تحديث قاعدة البيانات
                     await supabaseClient
                         .from('profiles')
                         .update({ cover_url: coverUrl })
                         .eq('id', user.id);
                     
-                    // تحديث الواجهة
                     document.getElementById('coverImg').src = coverUrl;
                     
-                    alert('Cover image updated!');
+                    alert('✅ Cover image updated!');
                     
                 } catch (error) {
                     console.error('Error:', error);
@@ -833,29 +877,21 @@
         }
         
         // =========================================================
-        // EDIT PROFILE (تعديل الملف)
+        // EDIT PROFILE
         // =========================================================
-        
         async function editProfile() {
             const name = prompt("Enter your new display name:");
-            if (name) {
-                await updateProfile({ full_name: name });
-            }
+            if (name) await updateProfile({ full_name: name });
             
             const username = prompt("Enter your new username:");
-            if (username) {
-                await updateProfile({ username: username });
-            }
+            if (username) await updateProfile({ username: username });
             
             const bio = prompt("Enter your new bio:");
-            if (bio) {
-                await updateProfile({ bio: bio });
-            }
+            if (bio) await updateProfile({ bio: bio });
         }
         
         async function updateProfile(updates) {
             try {
-                // منع تغيير الاسم إلى admin أو owner
                 if (updates.username) {
                     const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
                     if (forbiddenNames.includes(updates.username.toLowerCase())) {
@@ -865,7 +901,6 @@
                 }
                 
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) {
                     alert("Please login first!");
                     window.location.href = "auth.html";
@@ -883,7 +918,7 @@
                     return;
                 }
                 
-                alert("Profile updated successfully!");
+                alert("✅ Profile updated successfully!");
                 window.location.reload();
                 
             } catch (error) {
@@ -895,7 +930,6 @@
         // =========================================================
         // SEND MESSAGE
         // =========================================================
-        
         function sendMessage() {
             alert("Message feature coming soon!");
         }
@@ -903,33 +937,81 @@
         // =========================================================
         // TAB SWITCHING
         // =========================================================
-        
         function showTab(tab, element) {
-            document.querySelectorAll('.profile-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
             
             const content = document.getElementById('profileTabContent');
             
             if (tab === 'posts') {
                 content.innerHTML = '<div class="profile-posts"><h3>Posts</h3><div id="userPosts"></div></div>';
-                const userId = getUserIdFromUrl();
+                const userId = profileUserId || getUserIdFromUrl();
                 if (userId) loadUserPosts(userId);
             } else if (tab === 'about') {
                 content.innerHTML = '<div class="profile-posts"><h3>About</h3><p>Profile information will appear here.</p></div>';
             } else if (tab === 'friends') {
-                content.innerHTML = '<div class="profile-posts"><h3>Friends</h3><p>Friends list will appear here.</p></div>';
+                content.innerHTML = '<div class="profile-posts"><h3>Friends</h3><div id="friendsList">Loading...</div></div>';
+                loadFriendsList();
             } else if (tab === 'photos') {
                 content.innerHTML = '<div class="profile-posts"><h3>Photos</h3><p>Photos will appear here.</p></div>';
             }
         }
         
         // =========================================================
+        // 🆕 LOAD FRIENDS LIST
+        // =========================================================
+        async function loadFriendsList() {
+            try {
+                const userId = profileUserId || getUserIdFromUrl();
+                if (!userId) return;
+                
+                const { data: friends } = await supabaseClient
+                    .from('friends')
+                    .select('friend_id')
+                    .eq('user_id', userId);
+                
+                const container = document.getElementById('friendsList');
+                if (!container) return;
+                
+                if (!friends || friends.length === 0) {
+                    container.innerHTML = '<p style="color: #65676b;">No friends yet</p>';
+                    return;
+                }
+                
+                const friendIds = friends.map(f => f.friend_id);
+                
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', friendIds);
+                
+                container.innerHTML = '';
+                
+                (profiles || []).forEach(profile => {
+                    const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${profile.username}&background=1877f2&color=fff`;
+                    
+                    const div = document.createElement('div');
+                    div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid #f0f2f5;';
+                    div.innerHTML = `
+                        <a href="profile.html?id=${profile.id}" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#050505;flex:1;">
+                            <img src="${avatarUrl}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
+                            <div>
+                                <div style="font-weight:600;">${escapeHtml(profile.full_name || profile.username)}</div>
+                                <div style="font-size:13px;color:#65676b;">@${escapeHtml(profile.username)}</div>
+                            </div>
+                        </a>
+                    `;
+                    container.appendChild(div);
+                });
+                
+            } catch (error) {
+                console.error('Error loading friends:', error);
+            }
+        }
+        
+        // =========================================================
         // FORMAT TIME
         // =========================================================
-        
         function formatTimeAgo(timestamp) {
             if (!timestamp) return 'Just now';
             
@@ -953,27 +1035,260 @@
         // =========================================================
         // ESCAPE HTML
         // =========================================================
-        
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
+                // =========================================================
+        // 🆕 FRIEND SYSTEM
+        // =========================================================
+        
+        // تحقق من حالة الصداقة
+        async function checkFriendshipStatus() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                currentUserId = user.id;
+                
+                // احصل على elements
+                const addBtn = document.getElementById('addFriendBtn');
+                const sentBtn = document.getElementById('requestSentBtn');
+                const actionsBtn = document.getElementById('friendActionsBtn');
+                
+                if (!addBtn || !sentBtn || !actionsBtn) return;
+                
+                // إذا كنت في صفحتك → أخفِ كل الأزرار
+                if (profileUserId === currentUserId) {
+                    addBtn.style.display = 'none';
+                    sentBtn.style.display = 'none';
+                    actionsBtn.style.display = 'none';
+                    return;
+                }
+                
+                // 1. هل هم أصدقاء بالفعل؟
+                const { data: friend } = await supabaseClient
+                    .from('friends')
+                    .select('id')
+                    .eq('user_id', currentUserId)
+                    .eq('friend_id', profileUserId)
+                    .maybeSingle();
+                
+                if (friend) {
+                    addBtn.style.display = 'none';
+                    sentBtn.style.display = 'none';
+                    actionsBtn.style.display = 'inline-flex';
+                    return;
+                }
+                
+                // 2. هل هناك طلب معلّق؟
+                const { data: request } = await supabaseClient
+                    .from('friend_requests')
+                    .select('id, sender_id')
+                    .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
+                    .eq('status', 'pending')
+                    .maybeSingle();
+                
+                if (request) {
+                    if (request.sender_id === currentUserId) {
+                        // أنا أرسلت الطلب
+                        addBtn.style.display = 'none';
+                        sentBtn.style.display = 'inline-flex';
+                        actionsBtn.style.display = 'none';
+                    } else {
+                        // هو أرسل لي طلب → Accept / Reject
+                        addBtn.style.display = 'none';
+                        sentBtn.style.display = 'none';
+                        actionsBtn.style.display = 'none';
+                        showFriendRequestActions(request.id);
+                    }
+                    return;
+                }
+                
+                // 3. لا شيء → "Add Friend"
+                addBtn.style.display = 'inline-flex';
+                sentBtn.style.display = 'none';
+                actionsBtn.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error checking friendship:', error);
+            }
+        }
+        
+        // إرسال طلب صداقة
+        async function sendFriendRequest() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    alert('Please login first');
+                    return;
+                }
+                
+                if (!profileUserId || profileUserId === user.id) return;
+                
+                const { error } = await supabaseClient
+                    .from('friend_requests')
+                    .insert({
+                        sender_id: user.id,
+                        receiver_id: profileUserId,
+                        status: 'pending'
+                    });
+                
+                if (error) {
+                    if (error.code === '23505') {
+                        alert('You already sent a request');
+                    } else {
+                        alert('Error: ' + error.message);
+                    }
+                    return;
+                }
+                
+                // إرسال إشعار
+                const { data: senderProfile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name')
+                    .eq('id', user.id)
+                    .single();
+                
+                const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
+                
+                await supabaseClient
+                    .from('notifications')
+                    .insert({
+                        receiver_id: profileUserId,
+                        sender_id: user.id,
+                        type: 'friend_request',
+                        message: `👥 ${senderName} sent you a friend request`,
+                        is_read: false
+                    });
+                
+                alert('✅ Friend request sent!');
+                
+                document.getElementById('addFriendBtn').style.display = 'none';
+                document.getElementById('requestSentBtn').style.display = 'inline-flex';
+                
+            } catch (error) {
+                console.error('Error sending request:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // عرض أزرار Accept/Reject
+        function showFriendRequestActions(requestId) {
+            const actionsDiv = document.querySelector('.profile-actions');
+            if (!actionsDiv) return;
+            
+            // احذف أي أزرار قديمة
+            document.getElementById('acceptBtn')?.remove();
+            document.getElementById('rejectBtn')?.remove();
+            
+            const acceptBtn = document.createElement('button');
+            acceptBtn.id = 'acceptBtn';
+            acceptBtn.textContent = '✅ Accept';
+            acceptBtn.style.background = '#28a745';
+            acceptBtn.style.color = 'white';
+            acceptBtn.onclick = () => acceptFriendRequest(requestId);
+            
+            const rejectBtn = document.createElement('button');
+            rejectBtn.id = 'rejectBtn';
+            rejectBtn.textContent = '❌ Reject';
+            rejectBtn.style.background = '#dc3545';
+            rejectBtn.style.color = 'white';
+            rejectBtn.onclick = () => rejectFriendRequest(requestId);
+            
+            actionsDiv.insertBefore(acceptBtn, actionsDiv.firstChild);
+            actionsDiv.insertBefore(rejectBtn, acceptBtn.nextSibling);
+        }
+        
+        // قبول طلب
+        async function acceptFriendRequest(requestId) {
+            try {
+                const { error } = await supabaseClient.rpc('accept_friend_request', {
+                    p_request_id: requestId
+                });
+                
+                if (error) {
+                    alert('Error: ' + error.message);
+                    return;
+                }
+                
+                alert('✅ Friend request accepted!');
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('Error accepting request:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // رفض طلب
+        async function rejectFriendRequest(requestId) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                const { error } = await supabaseClient
+                    .from('friend_requests')
+                    .update({ status: 'rejected', updated_at: new Date() })
+                    .eq('id', requestId)
+                    .eq('receiver_id', user.id);
+                
+                if (error) {
+                    alert('Error: ' + error.message);
+                    return;
+                }
+                
+                alert('❌ Friend request rejected');
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('Error rejecting:', error);
+            }
+        }
         
         // =========================================================
-        // START
+        // 🆕 INITIALIZE
         // =========================================================
-        
-               document.addEventListener('DOMContentLoaded', function() {
-            // 🔥 تطبيق اللغة
-            const lang = getCurrentLanguage();
-            setLanguage(lang);
-            applyTranslations();
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔴 profile.html loaded');
+            
+            // تطبيق اللغة
+            if (typeof getCurrentLanguage === 'function') {
+                const lang = getCurrentLanguage();
+                setLanguage(lang);
+                applyTranslations();
+            }
+            
+            // تحديد profileUserId
+            profileUserId = getUserIdFromUrl();
+            
+            if (!profileUserId) {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                profileUserId = user?.id;
+            }
             
             // تحميل الملف
-            loadProfile();
+            await loadProfile();
+            
+            // 🆕 تحقق من حالة الصداقة بعد تحميل الصفحة
+            setTimeout(checkFriendshipStatus, 500);
         });
+        
+        // =========================================================
+        // MAKE FUNCTIONS GLOBAL
+        // =========================================================
+        window.sendFriendRequest = sendFriendRequest;
+        window.acceptFriendRequest = acceptFriendRequest;
+        window.rejectFriendRequest = rejectFriendRequest;
+        window.checkFriendshipStatus = checkFriendshipStatus;
+        window.editProfile = editProfile;
+        window.sendMessage = sendMessage;
+        window.changeAvatar = changeAvatar;
+        window.changeCover = changeCover;
+        window.showTab = showTab;
+        window.logout = logout;
     </script>
+    
 </body>
 </html>

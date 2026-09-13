@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki - Home</title>
-    <link rel="stylesheet" href="socialwiki.css">
+    <title>home- SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=20260912">
     <style>
-        /* =========================================================
-           FACEBOOK STYLE - MAIN LAYOUT (V1)
-        ========================================================= */
-        
-        * {
-            box-sizing: border-box;
-        }
-        
+        * { box-sizing: border-box; }
         body {
             background: #f0f2f5;
             font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -21,798 +14,267 @@
             color: #050505;
         }
         
-        /* =========================================================
-           NAVBAR - BLUE (مثل فيسبوك)
-        ========================================================= */
-        
         .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 26px;
-            font-weight: 800;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-        
-        .search-container {
-            position: relative;
-        }
-        
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 26px; font-weight: 800; text-decoration: none; margin-right: 10px; }
+        .search-container { position: relative; }
         .search-container input {
-            background: rgba(255,255,255,0.2);
-            width: 240px;
-            height: 40px;
-            border-radius: 50px;
-            border: none;
-            padding: 0 15px;
-            outline: none;
-            font-size: 14px;
-            color: white;
+            background: rgba(255,255,255,0.2); width: 240px; height: 40px;
+            border-radius: 50px; border: none; padding: 0 15px;
+            outline: none; font-size: 14px; color: white;
         }
-        
-        .search-container input::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
-        
+        .search-container input::placeholder { color: rgba(255,255,255,0.7); }
         .search-results {
-            position: absolute;
-            top: 45px;
-            left: 0;
-            width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 9999;
-            display: none;
+            position: absolute; top: 45px; left: 0; width: 300px;
+            max-height: 400px; overflow-y: auto; background: white;
+            border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999; display: none;
         }
-        
         .search-result-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f2f5;
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f0f2f5;
         }
+        .search-result-item:hover { background: #f0f2f5; }
+        .search-result-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .search-result-name { font-weight: 600; font-size: 14px; }
+        .search-result-username { font-size: 12px; color: #65676b; }
+        .search-no-results { padding: 15px; text-align: center; color: #65676b; }
         
-        .search-result-item:hover {
-            background: #f0f2f5;
-        }
-        
-        .search-result-item img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .search-result-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .search-result-username {
-            font-size: 12px;
-            color: #65676b;
-        }
-        
-        .search-no-results {
-            padding: 15px;
-            text-align: center;
-            color: #65676b;
-        }
-        
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
         .nav-icons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 20px;
-            text-decoration: none;
-            color: white;
-            transition: 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%; font-size: 20px;
+            text-decoration: none; color: white; transition: 0.2s;
         }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-icons a.active { background: rgba(255,255,255,0.3); }
         
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-icons a.active {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
+        .nav-right { display: flex; align-items: center; gap: 8px; }
         .nav-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 10px;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            transition: 0.2s;
+            display: flex; align-items: center; gap: 8px;
+            padding: 5px 10px; border-radius: 50px; cursor: pointer;
+            text-decoration: none; color: white; transition: 0.2s;
         }
-        
-        .nav-profile:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .nav-profile span {
-            font-size: 14px;
-            font-weight: 600;
-        }
+        .nav-profile:hover { background: rgba(255,255,255,0.1); }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+        .nav-profile span { font-size: 14px; font-weight: 600; }
         
         .logout-button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            color: white;
-            font-weight: 600;
-            transition: 0.2s;
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 16px; border-radius: 20px; cursor: pointer;
+            font-size: 14px; color: white; font-weight: 600; transition: 0.2s;
         }
+        .logout-button:hover { background: rgba(255,255,255,0.3); }
         
-        .logout-button:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .language-selector {
-            position: relative;
-        }
-        
+        .language-selector { position: relative; }
         .language-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-            font-size: 18px;
-            color: white;
-            transition: 0.2s;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.2); display: flex;
+            align-items: center; justify-content: center; cursor: pointer;
+            border: none; font-size: 18px; color: white; transition: 0.2s;
         }
-        
-        .language-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
+        .language-btn:hover { background: rgba(255,255,255,0.3); }
         .language-menu {
-            display: none;
-            position: absolute;
-            top: 45px;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 9999;
-            min-width: 150px;
+            display: none; position: absolute; top: 45px; right: 0;
+            background: white; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px;
+            max-height: 400px; overflow-y: auto;
         }
-        
-        .language-menu.show {
-            display: block;
-        }
-        
+        .language-menu.show { display: block; }
         .language-menu button {
-            width: 100%;
-            padding: 12px 15px;
-            border: none;
-            background: white;
-            cursor: pointer;
-            text-align: left;
-            font-size: 14px;
-            transition: 0.2s;
+            width: 100%; padding: 12px 15px; border: none;
+            background: white; cursor: pointer; text-align: left;
+            font-size: 14px; transition: 0.2s;
         }
-        
-        .language-menu button:hover {
-            background: #f0f2f5;
-        }
-        
-        /* =========================================================
-           MAIN 3 COLUMN LAYOUT
-        ========================================================= */
+        .language-menu button:hover { background: #f0f2f5; }
         
         .main-container {
             display: grid;
             grid-template-columns: 20% minmax(0, 1fr) 20%;
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+            gap: 20px; max-width: 1400px; margin: 0 auto; padding: 20px;
         }
-        
-        .left-sidebar {
-            grid-column: 1;
-            padding: 10px;
-        }
-        
-        .content {
-            grid-column: 2;
-        }
-        
-        .right-sidebar {
-            grid-column: 3;
-            padding: 10px;
-        }
-        
-        /* =========================================================
-           LEFT SIDEBAR
-        ========================================================= */
+        .left-sidebar { grid-column: 1; padding: 10px; }
+        .content { grid-column: 2; }
+        .right-sidebar { grid-column: 3; padding: 10px; }
         
         .left-sidebar a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #050505;
-            font-size: 15px;
-            font-weight: 500;
-            transition: 0.2s;
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px 10px; border-radius: 8px; text-decoration: none;
+            color: #050505; font-size: 15px; font-weight: 500; transition: 0.2s;
         }
-        
-        .left-sidebar a:hover {
-            background: #e4e6eb;
-        }
-        
+        .left-sidebar a:hover { background: #e4e6eb; }
         .left-sidebar .emoji-icon {
-            font-size: 28px;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 28px; width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
         }
         
-        /* =========================================================
-           RIGHT SIDEBAR
-        ========================================================= */
-        
-        .right-profile-box {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        .right-profile-box, .right-box, .ad-box {
+            background: white; border-radius: 12px; padding: 15px;
+            margin-bottom: 15px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        
-        .right-profile-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: #050505;
-        }
-        
-        .right-profile-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        
-        .right-profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .right-profile-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .right-profile-username {
-            color: #65676b;
-            font-size: 12px;
-        }
-        
-        .right-box {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .right-box h3 {
-            margin: 0 0 10px;
-            font-size: 15px;
-            font-weight: 700;
-            color: #050505;
-        }
-        
+        .right-profile-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #050505; }
+        .right-profile-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
+        .right-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .right-profile-name { font-weight: 600; font-size: 14px; }
+        .right-profile-username { color: #65676b; font-size: 12px; }
+        .right-box h3 { margin: 0 0 10px; font-size: 15px; font-weight: 700; }
         .right-box a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #050505;
-            font-size: 14px;
-            transition: 0.2s;
+            display: flex; align-items: center; gap: 8px; padding: 8px;
+            border-radius: 8px; text-decoration: none; color: #050505;
+            font-size: 14px; transition: 0.2s;
         }
+        .right-box a:hover { background: #f0f2f5; }
         
-        .right-box a:hover {
-            background: #f0f2f5;
+        .ad-box > div, .ad-box > ins, .ad-box > iframe {
+            width: 100%; max-width: 300px; height: auto;
+            max-height: 250px; overflow: hidden; display: block;
+            margin: 0 auto; border-radius: 8px;
         }
-        
-        .ad-box {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-    .ad-box > div,
-.ad-box > ins,
-.ad-box > iframe {
-    width: 100% ;
-    max-width: 300px ;
-    height: auto ;
-    max-height: 250px ;
-    overflow: hidden ;
-    display: block ;
-    margin: 0 auto ;
-    border-radius: 8px;
-}
-        .ad-box p {
-            font-size: 13px;
-            color: #65676b;
-            margin: 0 0 5px;
-        }
-        
-        /* =========================================================
-           CREATE POST
-        ========================================================= */
         
         .create-post {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            background: white; padding: 15px; border-radius: 12px;
+            margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        
-        .post-top {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .post-top img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        
+        .post-top { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .post-top img { width: 40px; height: 40px; border-radius: 50%; }
         .post-top input {
-            flex: 1;
-            height: 40px;
-            border: none;
-            border-radius: 20px;
-            padding: 0 15px;
-            background: #f0f2f5;
-            outline: none;
-            font-size: 14px;
-            cursor: pointer;
+            flex: 1; height: 40px; border: none; border-radius: 20px;
+            padding: 0 15px; background: #f0f2f5; outline: none;
+            font-size: 14px; cursor: pointer;
         }
-        
         .posting {
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid #e4e6eb;
-            padding-top: 10px;
+            display: flex; justify-content: space-around;
+            border-top: 1px solid #e4e6eb; padding-top: 10px;
         }
-        
         .posting button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #65676b;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            background: none; border: none; cursor: pointer;
+            padding: 8px 15px; border-radius: 8px; font-size: 14px;
+            color: #65676b; display: flex; align-items: center; gap: 5px;
         }
-        
-        .posting button:hover {
-            background: #f0f2f5;
-        }
-        
-        /* =========================================================
-           STORIES
-        ========================================================= */
+        .posting button:hover { background: #f0f2f5; }
         
         .stories {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            background: white; border-radius: 12px; padding: 15px;
+            margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        
-        .story-header {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .story-list {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-        }
-        
+        .story-header { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+        .story-list { display: flex; gap: 10px; overflow-x: auto; }
         .story-item {
-            min-width: 100px;
-            height: 150px;
-            border-radius: 10px;
-            background: #f0f2f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 10px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
+            min-width: 100px; height: 150px; border-radius: 10px;
+            background: #f0f2f5; display: flex; flex-direction: column;
+            align-items: center; justify-content: flex-end; padding: 10px;
+            cursor: pointer; position: relative; overflow: hidden; flex-shrink: 0;
         }
-        
         .story-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            position: absolute; top: 0; left: 0;
         }
-        
         .story-name {
-            position: relative;
-            z-index: 2;
-            color: white;
-            font-size: 12px;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            position: relative; z-index: 2; color: white;
+            font-size: 12px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
-        
-        /* =========================================================
-           FEED POSTS
-        ========================================================= */
+        .delete-story-btn {
+            position: absolute; top: 8px; right: 8px;
+            z-index: 10; width: 32px; height: 32px;
+            border-radius: 50%; background: rgba(0,0,0,0.6);
+            color: white; border: none; cursor: pointer;
+            font-size: 16px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .delete-story-btn:hover { background: #f44336; }
         
         .feed-post {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            background: white; border-radius: 12px; padding: 15px;
+            margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        
-        .feed-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .feed-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        
-        .feed-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .feed-time {
-            color: #65676b;
-            font-size: 12px;
-        }
-        
-        .feed-content {
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-        
-        .feed-image {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
+        .feed-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .feed-avatar { width: 40px; height: 40px; border-radius: 50%; }
+        .feed-name { font-weight: 600; font-size: 14px; }
+        .feed-time { color: #65676b; font-size: 12px; }
+        .feed-content { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
+        .feed-image { width: 100%; border-radius: 8px; margin-bottom: 10px; }
         .feed-actions {
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid #e4e6eb;
-            padding-top: 10px;
+            display: flex; justify-content: space-around;
+            border-top: 1px solid #e4e6eb; padding-top: 10px;
         }
-        
         .feed-action {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #65676b;
-            padding: 5px 10px;
-            border-radius: 8px;
-            transition: 0.2s;
+            display: flex; align-items: center; gap: 5px; cursor: pointer;
+            font-size: 13px; color: #65676b; padding: 5px 10px;
+            border-radius: 8px; transition: 0.2s;
         }
+        .feed-action:hover { background: #f0f2f5; }
         
-        .feed-action:hover {
-            background: #f0f2f5;
-        }
-        
-        /* =========================================================
-           NOTIFICATION BADGE
-        ========================================================= */
-        
-        .notification-btn {
-            position: relative;
-        }
-        
+        .notification-btn { position: relative; }
         .notification-badge {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            min-width: 18px;
-            height: 18px;
-            padding: 0 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fa3e3e;
-            color: white;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 700;
-            border: 2px solid white;
+            position: absolute; top: -2px; right: -2px;
+            min-width: 18px; height: 18px; padding: 0 4px;
+            display: flex; align-items: center; justify-content: center;
+            background: #fa3e3e; color: white; border-radius: 999px;
+            font-size: 11px; font-weight: 700; border: 2px solid white;
         }
-        
-        /* =========================================================
-           MODALS
-        ========================================================= */
         
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); z-index: 9999;
+            align-items: center; justify-content: center;
         }
-        
-        .modal-overlay.show {
-            display: flex;
-        }
-        
+        .modal-overlay.show { display: flex; }
         .modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            width: 500px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
+            background: white; border-radius: 12px; padding: 20px;
+            width: 500px; max-width: 90%; max-height: 90vh; overflow-y: auto;
         }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-        }
-        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .modal-header h3 { margin: 0; }
         .modal-close {
-            background: #f0f2f5;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
+            background: #f0f2f5; border: none; width: 36px; height: 36px;
+            border-radius: 50%; cursor: pointer; font-size: 18px;
         }
-        
-        .modal-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .modal-profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        
-        .modal-profile span {
-            font-weight: 600;
-        }
-        
+        .modal-profile { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .modal-profile img { width: 40px; height: 40px; border-radius: 50%; }
+        .modal-profile span { font-weight: 600; }
         .modal-textarea {
-            width: 100%;
-            height: 150px;
-            border: none;
-            outline: none;
-            font-size: 18px;
-            resize: none;
-            margin-bottom: 15px;
+            width: 100%; height: 150px; border: none; outline: none;
+            font-size: 18px; resize: none; margin-bottom: 15px;
         }
-        
         .modal-tools {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+            border: 1px solid #ddd; border-radius: 8px; padding: 10px;
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 15px;
         }
-        
-        .modal-tools > span {
-            font-size: 14px;
-            color: #65676b;
-        }
-        
-        .modal-tools-buttons {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .modal-tools-buttons button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-        }
-        
+        .modal-tools > span { font-size: 14px; color: #65676b; }
+        .modal-tools-buttons { display: flex; gap: 5px; }
+        .modal-tools-buttons button { background: none; border: none; cursor: pointer; font-size: 20px; }
         .modal-submit {
-            width: 100%;
-            background: #1877f2;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
+            width: 100%; background: #1877f2; color: white; border: none;
+            padding: 12px; border-radius: 8px; cursor: pointer;
+            font-size: 16px; font-weight: 600;
         }
+        .modal-submit:hover { background: #166fe5; }
         
-        .modal-submit:hover {
-            background: #166fe5;
-        }
-        
-        /* =========================================================
-           FEELING MODAL
-        ========================================================= */
-        
-        .feeling-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        
+        .feeling-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .feeling-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 40px;
-            padding: 10px;
-            border-radius: 8px;
+            background: none; border: none; cursor: pointer;
+            font-size: 40px; padding: 10px; border-radius: 8px;
         }
-        
-        .feeling-btn:hover {
-            background: #f0f2f5;
-        }
-        
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
+        .feeling-btn:hover { background: #f0f2f5; }
         
         @media (max-width: 900px) {
-            .main-container {
-                grid-template-columns: 20% minmax(0, 1fr) 20%;
-                padding: 10px;
-            }
-            
-            .search-container input {
-                width: 200px;
-            }
+            .search-container input { width: 200px; }
         }
-        
         @media (max-width: 700px) {
-            .main-container {
-                display: flex;
-                flex-direction: column;
-                padding: 10px;
-            }
-            
-            .left-sidebar,
-            .right-sidebar {
-                width: 100%;
-                order: 1;
-            }
-            
-            .content {
-                width: 100%;
-                order: 2;
-            }
+            .main-container { grid-template-columns: 18% minmax(0, 1fr) 18%; gap: 10px; padding: 10px; }
+            .left-sidebar a, .right-box a { font-size: 13px; padding: 6px 8px; gap: 8px; }
+            .left-sidebar .emoji-icon { font-size: 22px; width: 28px; height: 28px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- =========================================================
-         NAVBAR - BLUE
-    ========================================================= -->
+        <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -828,219 +290,132 @@
             <li><a href="events.html" title="Events">📅</a></li>
             <li><a href="notifications.html" title="Notifications">🔔</a></li>
         </ul>
-               <div class="nav-right">
-            <!-- زر الإشعارات -->
-            <a href="notifications.html" class="notification-btn" title="Notifications" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none;">
+        <div class="nav-right">
+            <!-- 🔔 Notifications Badge -->
+            <a href="notifications.html" id="navNotificationBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
                 🔔
                 <span class="notification-badge" id="navNotificationBadge" style="display: none;">0</span>
             </a>
             
-            <!-- 💰 عرض النقاط -->
-            <a href="earnings.html" class="notification-btn" title="My Earnings" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none;">
+            <!-- 💰 Points Badge -->
+            <a href="earnings.html" id="navPointsBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
                 💰
                 <span class="notification-badge" id="navPointsBadge" style="display: none; background: #ffd700; color: #333;">0</span>
             </a>
             
-            <!-- الملف الشخصي -->
+            <!-- Profile -->
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
             
-            <!-- زر اللغة -->
+            <!-- Language -->
             <div class="language-selector">
                 <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
-                            <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
-                <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
-                <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
-                <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
-                <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
-                <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
-                <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
-                <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
-                <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
-                <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
-                <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
-                <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
-                <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
-            </div>
+                <div class="language-menu" id="languageMenu">
+                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                </div>
             </div>
             
-            <!-- زر الخروج -->
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
 
-    <!-- =========================================================
-         MAIN 3 COLUMN LAYOUT
-    ========================================================= -->
+    <!-- MAIN 3 COLUMN LAYOUT -->
     <div class="main-container">
 
-        <!-- القائمة اليسرى -->
+        <!-- LEFT SIDEBAR -->
         <div class="left-sidebar">
             <a href="profile.html">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="sidebarImg" alt="Profile" style="width: 28px; height: 28px; border-radius: 50%;">
                 <span id="sidebarName">User</span>
             </a>
-            <a href="friends.html">
-                <span class="emoji-icon">👥</span>
-                <span data-i18n="friends">Friends</span>
-            </a>
-            <a href="market-plus.html">
-                <span class="emoji-icon">🛍️</span>
-                <span data-i18n="marketplace">Marketplace</span>
-            </a>
-            <a href="events.html">
-                <span class="emoji-icon">📅</span>
-                <span data-i18n="events">Events</span>
-            </a>
-            <a href="groups.html">
-                <span class="emoji-icon">👥</span>
-                <span data-i18n="groups">Groups</span>
-            </a>
-            <a href="notifications.html">
-                <span class="emoji-icon">🔔</span>
-                <span data-i18n="notifications">Notifications</span>
-            </a>
-            <a href="gifts.html">
-                <span class="emoji-icon">🎁</span>
-                <span data-i18n="gifts">Gifts</span>
-            </a>
-                     <a href="referral.html">
-                <span class="emoji-icon">👥</span>
-                <span data-i18n="referral">الإحالات</span>
-            </a>
-            
-            <!-- 🔥 رابط المهام -->
-            <a href="tasks.html">
-                <span class="emoji-icon">🎯</span>
-                <span data-i18n="tasks">Tasks</span>
-            </a>
-            
-            <!-- 🔥 رابط النجوم -->
-            <a href="stars.html">
-                <span class="emoji-icon">⭐</span>
-                <span data-i18n="stars">Stars</span>
-            </a>
-
-              <!-- 🔥 رابط الأرباح الجديد -->
-            <a href="earnings.html">
-                <span class="emoji-icon">💰</span>
-                <span data-i18n="earnings_title">My Earnings</span>
-            </a>
-            
-            
-            <!-- ⬇️⬇️⬇️ رابط لوحة التحكم (يظهر للأدمن فقط) ⬇️⬇️⬇️ -->
+            <a href="friends.html"><span class="emoji-icon">👥</span><span data-i18n="friends">Friends</span></a>
+            <a href="market-plus.html"><span class="emoji-icon">🛍️</span><span data-i18n="marketplace">Marketplace</span></a>
+            <a href="events.html"><span class="emoji-icon">📅</span><span data-i18n="events">Events</span></a>
+            <a href="groups.html"><span class="emoji-icon">👥</span><span data-i18n="groups">Groups</span></a>
+            <a href="notifications.html"><span class="emoji-icon">🔔</span><span data-i18n="notifications">Notifications</span></a>
+            <a href="gifts.html"><span class="emoji-icon">🎁</span><span data-i18n="gifts">Gifts</span></a>
+            <a href="referral.html"><span class="emoji-icon">👥</span><span data-i18n="referral">Referral</span></a>
+            <a href="stars.html"><span class="emoji-icon">⭐</span><span data-i18n="stars">Stars</span></a>
+            <a href="earnings.html"><span class="emoji-icon">💰</span><span data-i18n="earnings_title">My Earnings</span></a>
             <a href="owner-dashboard.html" id="dashboardLink" style="display: none;">
-                <span class="emoji-icon">👑</span>
-                <span data-i18n="dashboard">Dashboard</span>
+                <span class="emoji-icon">👑</span><span data-i18n="dashboard">Dashboard</span>
             </a>
-            <!-- ⬆️⬆️⬆️ انتهى هنا ⬆️⬆️⬆️ -->
-            
-            <a href="reels.html">
-                <span class="emoji-icon">🎬</span>
-                <span data-i18n="reels">Reels</span>
-            </a>
-            <a href="gaming.html">
-                <span class="emoji-icon">🎮</span>
-                <span data-i18n="gaming">Gaming</span>
-            </a>
-            <a href="memories.html">
-                <span class="emoji-icon">💭</span>
-                <span data-i18n="memories">Memories</span>
-            </a>
-            <a href="ad-center.html">
-                <span class="emoji-icon">📢</span>
-                <span data-i18n="ad_center">Ad Center</span>
-            </a>
-            <a href="ad-manager.html">
-                <span class="emoji-icon">📊</span>
-                <span data-i18n="ad_manager">Ad Manager</span>
-            </a>
-            <a href="feeds.html">
-                <span class="emoji-icon">📰</span>
-                <span data-i18n="feeds">Feeds</span>
-            </a>
-            <a href="games.html">
-                <span class="emoji-icon">🕹️</span>
-                <span data-i18n="games">Games</span>
-            </a>
-            <a href="ad-activity.html">
-                <span class="emoji-icon">📈</span>
-                <span data-i18n="ad_activity">Ad Activity</span>
-            </a>
-                        <a href="terms.html">
-                <span class="emoji-icon">📜</span>
-                <span data-i18n="terms_title">Terms of Service</span>
-            </a>
-            <a href="privacy.html">
-                <span class="emoji-icon">🔒</span>
-                <span data-i18n="privacy_title">Privacy Policy</span>
-            </a>
+            <a href="reels.html"><span class="emoji-icon">🎬</span><span data-i18n="reels">Reels</span></a>
+            <a href="gaming.html"><span class="emoji-icon">🎮</span><span data-i18n="gaming">Gaming</span></a>
+            <a href="memories.html"><span class="emoji-icon">💭</span><span data-i18n="memories">Memories</span></a>
+            <a href="ad-center.html"><span class="emoji-icon">📢</span><span data-i18n="ad_center">Ad Center</span></a>
+            <a href="ad-manager.html"><span class="emoji-icon">📊</span><span data-i18n="ad_manager">Ad Manager</span></a>
+            <a href="feeds.html"><span class="emoji-icon">📰</span><span data-i18n="feeds">Feeds</span></a>
+            <a href="games.html"><span class="emoji-icon">🕹️</span><span data-i18n="games">Games</span></a>
+            <a href="ad-activity.html"><span class="emoji-icon">📈</span><span data-i18n="ad_activity">Ad Activity</span></a>
+            <a href="terms.html"><span class="emoji-icon">📜</span><span data-i18n="terms_title">Terms of Service</span></a>
+            <a href="privacy.html"><span class="emoji-icon">🔒</span><span data-i18n="privacy_title">Privacy Policy</span></a>
         </div>
 
-        <!-- المحتوى الرئيسي -->
+        <!-- CONTENT -->
         <div class="content">
-            <!-- 🎁 المكافأة اليومية -->
-            <div style="background: linear-gradient(135deg, #ffd700, #f7b928); border-radius: 12px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <div style="font-weight: 700; color: #333;">🎁 Daily Bonus</div>
-                    <div style="font-size: 13px; color: #333;">Claim 10 points every day!</div>
-                </div>
-                <button onclick="claimDailyBonus()" style="background: #333; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Claim</button>
+
+            <!-- Banner -->
+            <div style="background: #6E9FC1; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; color: white;">
+                <div data-i18n="earn_points_title" style="font-weight: 700; color: white; font-size: 22px; margin-bottom: 8px;">🎁 Earn Points from Every Activity!</div>
+                <div data-i18n="earn_points_subtitle" style="font-size: 16px; color: white; opacity: 0.95; font-weight: 500;">Invite friends with your referral code — get 50 points per friend!</div>
             </div>
 
-            
-            <div class="create-post">
-            <!-- إنشاء منشور -->
+            <!-- Create Post -->
             <div class="create-post">
                 <div class="post-top">
                     <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="postProfileImg" alt="Profile">
                     <input type="text" data-i18n-placeholder="create_post" placeholder="What's on your mind?" onclick="openCreatePostModal()" readonly>
                 </div>
                 <div class="posting">
-                    <button onclick="openCreatePostModal()">
-                        <span style="color: #45bd62;">📷</span> <span data-i18n="photo_video">Photo</span>
-                    </button>
-                    <button onclick="openFeelingModal()">
-                        <span style="color: #f7b928;">😊</span> <span data-i18n="feeling_activity">Feeling</span>
-                    </button>
-                    <button onclick="openLiveVideo()">
-                        <span style="color: #f02849;">🔴</span> <span data-i18n="live_video">Live</span>
-                    </button>
+                    <button onclick="openCreatePostModal()"><span style="color: #45bd62;">📷</span> <span data-i18n="photo_video">Photo</span></button>
+                    <button onclick="openFeelingModal()"><span style="color: #f7b928;">😊</span> <span data-i18n="feeling_activity">Feeling</span></button>
+                    <button onclick="openLiveVideo()"><span style="color: #f02849;">🔴</span> <span data-i18n="live_video">Live</span></button>
                 </div>
             </div>
 
-            <!-- القصص -->
-            <div class="stories">
-                <div class="story-header" data-i18n="story">Stories</div>
-                              <div class="story-list">
-                    <!-- قصة المستخدم - لون Slate -->
-                    <div class="story-item" onclick="openStoryModal()" style="background: #64748b;">
-                        <div style="position: absolute; top: 10px; left: 10px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer;">+</div>
-                        <div style="position: absolute; bottom: 10px; left: 0; right: 0; z-index: 3; text-align: center; color: white; font-weight: 600;" data-i18n="create_story">Create Story</div>
-                    </div>
-                    
-                    <!-- قصص الأصدقاء - ألوان Sky و Navy -->
-                    <div class="story-item" onclick="openStory('user1')">
-                        <img src="https://ui-avatars.com/api/?name=Friend+1&background=0ea5e9&color=fff" alt="Story">
-                        <span class="story-name">Friend 1</span>
-                    </div>
-                    <div class="story-item" onclick="openStory('user2')">
-                        <img src="https://ui-avatars.com/api/?name=Friend+2&background=1e3a8a&color=fff" alt="Story">
-                        <span class="story-name">Friend 2</span>
-                    </div>
-                </div>
+            <!-- Stories -->
+         <div class="stories">
+    <div class="story-header" data-i18n="story">Stories</div>
+    
+    <!-- 🆕 WRAPPER مع أسهم -->
+    <div style="position: relative;">
+        
+        <!-- سهم يسار -->
+        <button onclick="scrollStoriesLeft()" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; border-radius: 50%; background: white; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;">‹</button>
+        
+        <!-- القصص -->
+        <div class="story-list" id="storyList" style="scroll-behavior: smooth;">
+            <div class="story-item" onclick="openStoryModal()" style="background: #64748b;">
+                <div style="position: absolute; top: 10px; left: 10px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer;">+</div>
+                <div style="position: absolute; bottom: 10px; left: 0; right: 0; z-index: 3; text-align: center; color: white; font-weight: 600;" data-i18n="create_story">Create Story</div>
             </div>
+        </div>
+        
+        <!-- سهم يمين -->
+        <button onclick="scrollStoriesRight()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; border-radius: 50%; background: white; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;">›</button>
+    
+    </div>
+</div>
 
-            <!-- المشاركات -->
-            <div id="feedContainer">
-                <!-- ستظهر المشاركات هنا -->
-            </div>
-
+            <!-- Feed -->
+            <div id="feedContainer"></div>
         </div>
 
-        <!-- القائمة اليمنى -->
+        <!-- RIGHT SIDEBAR -->
         <div class="right-sidebar">
             <div class="right-profile-box">
                 <a href="profile.html" class="right-profile-link">
@@ -1067,41 +442,36 @@
                 <a href="events.html">📅 Event 2</a>
             </div>
 
-                           <!-- HilltopAds -->
             <div class="ad-box">
                 <h3 data-i18n="sponsored">Sponsored</h3>
                 <script>
                 (function(cfcg){
-                var d = document,
-                    s = d.createElement('script'),
-                    l = d.currentScript || d.scripts[d.scripts.length - 1];
+                var d = document, s = d.createElement('script'), l = d.currentScript || d.scripts[d.scripts.length - 1];
                 s.settings = cfcg || {};
                 s.src = "\/\/fond-appointment.com\/b.X\/V\/sldKGTlA0\/YjW\/cp\/PeZmm9EuNZGUClpkePrTDc\/0\/MmDiQd3eMmDDErtaNozrQSwlNHDYcGwMNhQK";
-                s.async = true;
-                s.referrerPolicy = 'no-referrer-when-downgrade';
+                s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
                 l.parentNode.insertBefore(s, l);
                 })({})
                 </script>
-                       </div>
+            </div>
         </div>
     </div>
-    
-    <!-- =========================================================
-         CREATE POST MODAL
-    ========================================================= -->
+
+    <!-- CREATE POST MODAL -->
     <div id="createPostModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 data-i18n="create_post">Create Post</h3>
                 <button class="modal-close" onclick="closeCreatePostModal()">✕</button>
             </div>
-            
             <div class="modal-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="modalProfileImg" alt="Profile">
                 <span id="modalProfileName">User</span>
             </div>
-            
             <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?"></textarea>
+            
+            <div id="videoPreviewArea"></div>
+            <div id="imagePreviewArea"></div>
             
             <div class="modal-tools">
                 <span data-i18n="photo_video">Add to your post</span>
@@ -1112,21 +482,17 @@
                     <button onclick="addFeeling()" title="Feeling">😊</button>
                 </div>
             </div>
-            
             <button class="modal-submit" onclick="publishPost()" data-i18n="post">Post</button>
         </div>
     </div>
 
-    <!-- =========================================================
-         FEELING MODAL
-    ========================================================= -->
+    <!-- FEELING MODAL -->
     <div id="feelingModal" class="modal-overlay">
         <div class="modal-content" style="width: 400px;">
             <div class="modal-header">
                 <h3 data-i18n="feeling_activity">How are you feeling?</h3>
                 <button class="modal-close" onclick="closeFeelingModal()">✕</button>
             </div>
-            
             <div class="feeling-grid">
                 <button class="feeling-btn" onclick="selectFeeling('😊')">😊</button>
                 <button class="feeling-btn" onclick="selectFeeling('😢')">😢</button>
@@ -1144,22 +510,19 @@
         </div>
     </div>
 
-    <!-- =========================================================
-         STORY MODAL
-    ========================================================= -->
+    <!-- STORY MODAL -->
     <div id="storyModal" class="modal-overlay">
         <div class="modal-content" style="width: 400px;">
             <div class="modal-header">
                 <h3 data-i18n="create_story">Create Story</h3>
                 <button class="modal-close" onclick="closeStoryModal()">✕</button>
             </div>
-            
             <input type="file" id="storyFile" accept="image/*,video/*" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px;">
-            
-            <button class="modal-submit" onclick="publishStory()" data-i18n="create_story">Share to Story</button>
-            <button class="modal-close" style="width: 100%; padding: 12px; background: #e4e6eb; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="closeStoryModal()">Cancel</button>
+            <button class="modal-submit" onclick="publishStory()" data-i18n="share_to_story">Share to Story</button>
+            <button class="modal-close" style="width: 100%; padding: 12px; background: #e4e6eb; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="closeStoryModal()" data-i18n="cancel">Cancel</button>
         </div>
     </div>
+
     <!-- Footer -->
     <footer style="background: white; padding: 30px 20px; text-align: center; margin-top: 30px; border-top: 1px solid #e4e6eb;">
         <div style="max-width: 1200px; margin: 0 auto;">
@@ -1173,48 +536,19 @@
                 <a href="contact.html" data-i18n="contact_title" style="color: #65676b; text-decoration: none; font-size: 14px;">Contact</a>
             </div>
             <div style="color: #65676b; font-size: 12px;">
-                © 2025 SocialWiki. All rights reserved.
+                © 2026.08 SocialWiki. All rights reserved.
             </div>
         </div>
-       </footer>
-
-    <!-- =========================================================
+    </footer>
+        <!-- =========================================================
          SCRIPTS
     ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/translations.js"></script> 
-    
-   
+    <script src="js/translations.js?v=20260912"></script>
     <script>
-        // =========================================================
-// CHECK SESSION - REDIRECT TO AUTH IF NOT LOGGED IN
-// =========================================================
-
-async function checkSessionAndRedirect() {
-    try {
-        const { data: { session } } = await window.supabaseClient.auth.getSession();
-        
-        if (!session) {
-            // لا توجد جلسة → التوجيه إلى صفحة تسجيل الدخول
-            console.log('🔴 No session found, redirecting to auth.html');
-            window.location.href = 'auth.html';
-            return;
-        }
-        
-        console.log('✅ Session found for user:', session.user.email);
-        
-        // تحميل بيانات المستخدم
-        await loadUserProfile();
-        
-    } catch (error) {
-        console.error('❌ Error checking session:', error);
-        window.location.href = 'auth.html';
-    }
-}
         // =========================================================
         // SUPABASE SETUP
         // =========================================================
-        
         if (!window.supabaseClient) {
             const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
             const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
@@ -1222,116 +556,110 @@ async function checkSessionAndRedirect() {
             console.log("✅ Supabase client created");
         }
 
-                function showPointsNotification(points) {
-            // إشعار منبثق
+        async function checkSessionAndRedirect() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                await loadUserProfile();
+            } catch (error) {
+                console.error('❌ Error:', error);
+                window.location.href = 'auth.html';
+            }
+        }
+
+        function showPointsNotification(points) {
             const toast = document.createElement('div');
             toast.style.cssText = `
-                position: fixed;
-                top: 80px;
-                right: 20px;
+                position: fixed; top: 80px; right: 20px;
                 background: linear-gradient(135deg, #ffd700, #f7b928);
-                color: #333;
-                padding: 15px 25px;
-                border-radius: 12px;
-                font-weight: 700;
-                z-index: 99999;
+                color: #333; padding: 15px 25px; border-radius: 12px;
+                font-weight: 700; z-index: 99999;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                animation: slideIn 0.3s;
             `;
             toast.textContent = `+${points} نقاط! 💰`;
             document.body.appendChild(toast);
-            
             setTimeout(() => toast.remove(), 3000);
         }
-
-        // =========================================================
-        // HANDLE OAUTH CALLBACK
-        // =========================================================
 
         async function handleAuthCallback() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
             const accessToken = urlParams.get('access_token');
             const refreshToken = urlParams.get('refresh_token');
-            
             if (accessToken && refreshToken) {
                 try {
                     await window.supabaseClient.auth.setSession({
                         access_token: accessToken,
                         refresh_token: refreshToken
                     });
-                    console.log('✅ OAuth session set successfully!');
                     window.history.replaceState({}, document.title, '/index.html');
                 } catch (error) {
-                    console.error('Error setting session:', error);
+                    console.error('Error:', error);
                 }
             }
         }
 
-        // =========================================================
-       
-
-        // =========================================================
-        // LOGOUT
-        // =========================================================
-        
         window.logout = async function() {
             await window.supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         };
 
         // =========================================================
-        // UPDATE NOTIFICATION BADGE
+        // 🔔 UPDATE NOTIFICATION BADGE (FIXED)
         // =========================================================
+       async function updateNotificationBadge() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
         
-        async function updateNotificationBadge() {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                const { count, error } = await window.supabaseClient
-                    .from('notifications')
-                    .select('id', { count: 'exact', head: true })
-                    .eq('receiver_id', user.id)
-                    .eq('is_read', false);
-                
-                if (error) {
-                    console.error('Error counting notifications:', error);
-                    return;
-                }
-                
-                const badge = document.getElementById('navNotificationBadge');
-                if (badge) {
-                    if (count && count > 0) {
-                        badge.textContent = count > 99 ? '99+' : count;
-                        badge.style.display = 'flex';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+        // ✅ استعلام مباشر — بدون count
+        const { data: notifications } = await window.supabaseClient
+            .from('notifications')
+            .select('id, is_read')
+            .eq('receiver_id', user.id);
+        
+        if (!notifications) {
+            console.log('⚠️ No notifications data');
+            return;
         }
-
-                // =========================================================
-        // UPDATE POINTS BADGE
+        
+        const unreadCount = notifications.filter(n => !n.is_read).length;
+        console.log('🔔 Total:', notifications.length, '| Unread:', unreadCount);
+        
+        const badge = document.getElementById('navNotificationBadge');
+        if (!badge) {
+            console.log('⚠️ Badge element missing');
+            return;
+        }
+        
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+            badge.style.display = 'flex';
+            console.log('✅ Badge shown:', unreadCount);
+        } else {
+            badge.style.display = 'none';
+            console.log('ℹ️ No unread');
+        }
+    } catch (error) {
+        console.error('❌ Badge error:', error);
+    }
+}
+        // =========================================================
+        // 💰 UPDATE POINTS BADGE
         // =========================================================
         async function updatePointsBadge() {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) return;
-                
                 const { data: balance } = await window.supabaseClient
                     .from('user_balances')
                     .select('available_points')
                     .eq('user_id', user.id)
                     .maybeSingle();
-                
                 const points = balance?.available_points || 0;
                 const badge = document.getElementById('navPointsBadge');
-                
                 if (badge) {
                     if (points > 0) {
                         badge.textContent = points > 999 ? '999+' : points;
@@ -1340,34 +668,19 @@ async function checkSessionAndRedirect() {
                         badge.style.display = 'none';
                     }
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
 
-        // =========================================================
-        // CHECK ROLE
-        // =========================================================
-        
         async function checkRole() {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
-                
                 if (!user) return;
-                
-                const { data: profile, error } = await window.supabaseClient
+                const { data: profile } = await window.supabaseClient
                     .from('profiles')
                     .select('role')
                     .eq('id', user.id)
                     .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
-                
                 const role = profile?.role || 'user';
-                
                 const dashboardLink = document.getElementById('dashboardLink');
                 if (dashboardLink) {
                     if (role === 'owner' || role === 'super_admin' || role === 'admin') {
@@ -1376,11 +689,36 @@ async function checkSessionAndRedirect() {
                         dashboardLink.style.display = 'none';
                     }
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
-
+        // =========================================================
+        // FORMAT TIME
+        // =========================================================
+        function formatTime(timestamp) {
+            if (!timestamp) return 'Just now';
+            
+            let ts = String(timestamp);
+            if (!ts.includes('Z') && !ts.includes('+')) {
+                ts = ts + 'Z';
+            }
+            
+            const date = new Date(ts);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} min ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} hr ago`;
+            
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days} days ago`;
+            
+            return date.toLocaleDateString();
+        }
+        
         // =========================================================
         // LOAD USER PROFILE
         // =========================================================
@@ -1388,20 +726,12 @@ async function checkSessionAndRedirect() {
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
-                
                 if (!user) return;
-                
-                const { data: profile, error } = await window.supabaseClient
+                const { data: profile } = await window.supabaseClient
                     .from('profiles')
                     .select('username, full_name, avatar_url, role')
                     .eq('id', user.id)
                     .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
-                
                 const displayName = profile?.full_name || profile?.username || 'User';
                 const username = profile?.username || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
@@ -1414,97 +744,52 @@ async function checkSessionAndRedirect() {
                         navProfileName.style.fontWeight = 'bold';
                     }
                 }
-                
                 const navProfileImg = document.getElementById('navProfileImg');
                 if (navProfileImg) navProfileImg.src = avatarUrl;
-                
                 const sidebarName = document.getElementById('sidebarName');
                 if (sidebarName) sidebarName.textContent = displayName;
-                
                 const sidebarImg = document.getElementById('sidebarImg');
                 if (sidebarImg) sidebarImg.src = avatarUrl;
-                
                 const rightProfileName = document.getElementById('rightProfileName');
                 if (rightProfileName) rightProfileName.textContent = displayName;
-                
                 const rightProfileUsername = document.getElementById('rightProfileUsername');
                 if (rightProfileUsername) rightProfileUsername.textContent = '@' + username;
-                
                 const rightProfileImg = document.getElementById('rightProfileImg');
                 if (rightProfileImg) rightProfileImg.src = avatarUrl;
-                
                 const postProfileImg = document.getElementById('postProfileImg');
                 if (postProfileImg) postProfileImg.src = avatarUrl;
-                
                 const modalProfileImg = document.getElementById('modalProfileImg');
                 if (modalProfileImg) modalProfileImg.src = avatarUrl;
-                
                 const modalProfileName = document.getElementById('modalProfileName');
                 if (modalProfileName) modalProfileName.textContent = displayName;
-                
-                console.log('✅ Profile loaded:', displayName);
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
 
-        async function forceLoadUserProfile() {
-            try {
-                console.log('🔄 Force loading user profile...');
-                await loadUserProfile();
-            } catch (error) {
-                console.error('❌ Error in forceLoadUserProfile:', error);
-            }
-        }
-
-        // =========================================================
-        // SEARCH USERS
-        // =========================================================
-        
         window.searchUsers = async function(query) {
             if (!query || query.length < 2) {
                 document.getElementById('searchResults').style.display = 'none';
                 return;
             }
-            
-            const { data: users, error } = await window.supabaseClient
+            const { data: users } = await window.supabaseClient
                 .from('profiles')
                 .select('id, username, full_name, avatar_url')
                 .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
                 .limit(10);
-            
-            if (error) {
-                console.error('Search error:', error);
-                return;
-            }
-            
             const resultsDiv = document.getElementById('searchResults');
             resultsDiv.innerHTML = '';
             resultsDiv.style.display = 'block';
-            
             if (!users || users.length === 0) {
                 resultsDiv.innerHTML = '<div class="search-no-results">No results found</div>';
                 return;
             }
-            
             users.forEach(user => {
                 const item = document.createElement('div');
                 item.className = 'search-result-item';
                 item.onclick = () => window.location.href = `profile.html?id=${user.id}`;
-                
                 const avatar = user.avatar_url 
                     ? `<img src="${user.avatar_url}" alt="Profile">`
                     : `<img src="https://ui-avatars.com/api/?name=${user.username || 'User'}&background=1877f2&color=fff" alt="Profile">`;
-                
-                item.innerHTML = `
-                    ${avatar}
-                    <div class="search-result-info">
-                        <div class="search-result-name">${user.full_name || user.username}</div>
-                        <div class="search-result-username">@${user.username}</div>
-                    </div>
-                `;
-                
+                item.innerHTML = `${avatar}<div><div class="search-result-name">${user.full_name || user.username}</div><div class="search-result-username">@${user.username}</div></div>`;
                 resultsDiv.appendChild(item);
             });
         };
@@ -1512,113 +797,90 @@ async function checkSessionAndRedirect() {
         // =========================================================
         // CREATE POST MODAL
         // =========================================================
-
-                window.openCreatePostModal = function() {
-            const modal = document.getElementById('createPostModal');
-            const content = document.getElementById('postContent');
-            
-            if (modal) {
-                modal.classList.add('show');
-            } else {
-                console.error('❌ createPostModal not found');
-            }
-            
-            if (content) {
-                content.focus();
-            }
+        window.openCreatePostModal = function() {
+            document.getElementById('createPostModal').classList.add('show');
+            document.getElementById('postContent').focus();
         };
-
         window.closeCreatePostModal = function() {
             document.getElementById('createPostModal').classList.remove('show');
         };
 
-               window.publishPost = async function() {
+        // =========================================================
+        // PUBLISH POST
+        // =========================================================
+        window.publishPost = async function() {
             const content = document.getElementById('postContent').value.trim();
+            const videoUrl = window.uploadedVideoUrl;
+            const imageUrl = window.uploadedImageUrl;
             
-            // 🔥 التحقق: يجب أن يكون هناك نص أو صورة
-            if (!content && !window.uploadedImageUrl) {
-                alert('Please write something or upload an image first!');
+            console.log('📝 Publishing post:');
+            console.log('  content:', content);
+            console.log('  imageUrl:', imageUrl);
+            console.log('  videoUrl:', videoUrl);
+            
+            if (!content && !imageUrl && !videoUrl) {
+                alert('Please write something or upload an image/video first!');
                 return;
             }
             
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
-                
                 if (!user) {
                     alert('Please login first!');
-                    window.location.href = 'auth.html';
                     return;
                 }
                 
-                // 🔥 تجهيز بيانات المنشور
                 const postData = {
                     user_id: user.id,
                     content: content || '',
                     created_at: new Date()
                 };
                 
-                // 🔥 إضافة رابط الصورة إذا كانت موجودة
-                if (window.uploadedImageUrl) {
-                    postData.image_url = window.uploadedImageUrl;
-                }
+                if (imageUrl) postData.image_url = imageUrl;
+                if (videoUrl) postData.video_url = videoUrl;
                 
-                const { error } = await window.supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('posts')
-                    .insert(postData);
+                    .insert(postData)
+                    .select();
                 
                 if (error) {
-                    console.error('Error creating post:', error);
-                    alert('Error creating post: ' + error.message);
+                    console.error('❌ Insert error:', error);
+                    alert('Error: ' + error.message);
                     return;
                 }
                 
-                // 🔥 إعادة تعيين المتغير بعد النشر
+                console.log('✅ Post created:', data);
+                
                 window.uploadedImageUrl = null;
+                window.uploadedVideoUrl = null;
+                const videoPreview = document.getElementById('videoPreviewArea');
+                if (videoPreview) videoPreview.innerHTML = '';
+                const imagePreview = document.getElementById('imagePreviewArea');
+                if (imagePreview) imagePreview.innerHTML = '';
                 
                 closeCreatePostModal();
                 window.location.reload();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred: ' + error.message);
+            } catch (error) { 
+                console.error('❌ Error:', error); 
             }
         };
 
         // =========================================================
         // FEELING MODAL
         // =========================================================
-
-        window.openFeelingModal = function() {
-            document.getElementById('feelingModal').classList.add('show');
-        };
-
-        window.closeFeelingModal = function() {
-            document.getElementById('feelingModal').classList.remove('show');
-        };
-
+        window.openFeelingModal = function() { document.getElementById('feelingModal').classList.add('show'); };
+        window.closeFeelingModal = function() { document.getElementById('feelingModal').classList.remove('show'); };
         window.selectFeeling = function(emoji) {
-            const postContent = document.getElementById('postContent');
-            if (postContent) {
-                postContent.value += ` ${emoji} `;
-                closeFeelingModal();
-                document.getElementById('createPostModal').classList.add('show');
-            }
+            const pc = document.getElementById('postContent');
+            if (pc) { pc.value += ` ${emoji} `; closeFeelingModal(); document.getElementById('createPostModal').classList.add('show'); }
         };
 
         // =========================================================
-               // =========================================================
-        // UPLOAD POST IMAGE / VIDEO
+        // UPLOAD POST IMAGE
         // =========================================================
-
-        // 🔥 متغير عالمي لتخزين رابط الصورة مؤقتاً
         window.uploadedImageUrl = null;
-
-        window.uploadPostImage = function(event) {
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            
+        window.uploadPostImage = function() {
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*';
@@ -1627,197 +889,206 @@ async function checkSessionAndRedirect() {
                 if (file) {
                     try {
                         const { data: { user } } = await window.supabaseClient.auth.getUser();
-                        
-                        if (!user) {
-                            alert('Please login first!');
-                            return;
-                        }
-                        
-                        const fileExt = file.name.split('.').pop();
-                        const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
-                        
-                        const { error: uploadError } = await window.supabaseClient.storage
-                            .from('post-images')
-                            .upload(fileName, file);
-                        
-                        if (uploadError) {
-                            console.error('Upload error:', uploadError);
-                            alert('Error uploading image: ' + uploadError.message);
-                            return;
-                        }
-                        
-                        const { data: urlData } = window.supabaseClient.storage
-                            .from('post-images')
-                            .getPublicUrl(fileName);
-                        
-                        // 🔥 تخزين الرابط في المتغير العالمي بدلاً من إضافته إلى textarea
+                        if (!user) { alert('Please login first!'); return; }
+                        const fileName = `posts/${user.id}/${Date.now()}.${file.name.split('.').pop()}`;
+                        const { error: upErr } = await window.supabaseClient.storage.from('post-images').upload(fileName, file);
+                        if (upErr) { alert('Error: ' + upErr.message); return; }
+                        const { data: urlData } = window.supabaseClient.storage.from('post-images').getPublicUrl(fileName);
                         window.uploadedImageUrl = urlData.publicUrl;
                         
-                        // عرض معاينة بسيطة للمستخدم
-                        const postContent = document.getElementById('postContent');
-                        if (postContent) {
-                            postContent.placeholder = "✅ Image ready to post! Write something or just click Post.";
+                        const previewArea = document.getElementById('imagePreviewArea');
+                        if (previewArea) {
+                            previewArea.innerHTML = `<div style="position:relative;margin:10px 0;">
+                                <img src="${urlData.publicUrl}" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;">
+                                <button onclick="removeImagePreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;">✕</button>
+                            </div>`;
                         }
-                        
-                        alert('✅ Image uploaded successfully! It will be attached to your post.');
-                        
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert('Error uploading image: ' + error.message);
-                    }
+                        alert('✅ Image ready! Click Post.');
+                    } catch (error) { console.error('Error:', error); }
                 }
             };
             input.click();
         };
 
-        window.uploadPostVideo = function(event) {
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
+        window.removeImagePreview = function() {
+            const previewArea = document.getElementById('imagePreviewArea');
+            if (previewArea) previewArea.innerHTML = '';
+            window.uploadedImageUrl = null;
+        };
+
+        // =========================================================
+        // UPLOAD POST VIDEO
+        // =========================================================
+        window.uploadedVideoUrl = null;
+
+        window.uploadPostVideo = async function() {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            if (!user) { alert('Please login first!'); return; }
             
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'video/*';
             input.onchange = async function(e) {
                 const file = e.target.files[0];
-                if (file) {
-                    try {
-                        const { data: { user } } = await window.supabaseClient.auth.getUser();
-                        
-                        if (!user) {
-                            alert('Please login first!');
-                            return;
-                        }
-                        
-                        const fileExt = file.name.split('.').pop();
-                        const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
-                        
-                        const { error: uploadError } = await window.supabaseClient.storage
-                            .from('post-videos')
-                            .upload(fileName, file);
-                        
-                        if (uploadError) {
-                            console.error('Upload error:', uploadError);
-                            alert('Error uploading video: ' + uploadError.message);
-                            return;
-                        }
-                        
-                        const { data: urlData } = window.supabaseClient.storage
-                            .from('post-videos')
-                            .getPublicUrl(fileName);
-                        
-                        const videoUrl = urlData.publicUrl;
-                        
-                        // 🔥 نفس المبدأ: يمكنك تخزين رابط الفيديو في متغير آخر إذا أردت
-                        // لكنني سأتركه كما هو حالياً لتجنب تعقيد الأمور
-                        const postContent = document.getElementById('postContent');
-                        postContent.value += `\n[Video: ${videoUrl}]`;
-                        
-                        alert('✅ Video uploaded successfully!');
-                        
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert('Error uploading video: ' + error.message);
+                if (!file) return;
+                
+                console.log('📹 File selected:', file.name, file.size, file.type);
+                
+                const maxSize = 50 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    alert('❌ الفيديو كبير جداً. الحد الأقصى 50MB.');
+                    return;
+                }
+                
+                const loadingMsg = document.createElement('div');
+                loadingMsg.id = 'videoUploadingMsg';
+                loadingMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;';
+                loadingMsg.textContent = '⏳ جاري رفع الفيديو...';
+                document.body.appendChild(loadingMsg);
+                
+                try {
+                    const fileExt = file.name.split('.').pop().toLowerCase();
+                    const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+                    
+                    const { data: uploadData, error: upErr } = await window.supabaseClient.storage
+                        .from('post-videos')
+                        .upload(fileName, file, {
+                            cacheControl: '3600',
+                            upsert: false,
+                            contentType: file.type
+                        });
+                    
+                    if (upErr) { 
+                        console.error('❌ Upload error:', upErr);
+                        alert('❌ خطأ في الرفع: ' + upErr.message); 
+                        loadingMsg.remove();
+                        return; 
                     }
+                    
+                    const { data: urlData } = window.supabaseClient.storage
+                        .from('post-videos')
+                        .getPublicUrl(uploadData.path);
+                    
+                    const videoUrl = urlData.publicUrl;
+                    window.uploadedVideoUrl = videoUrl;
+                    
+                    const previewArea = document.getElementById('videoPreviewArea');
+                    if (previewArea) {
+                        previewArea.innerHTML = `
+                            <div id="videoPreviewWrapper" style="position:relative;margin:10px 0;">
+                                <video src="${videoUrl}" controls style="width:100%;max-height:300px;border-radius:8px;background:#000;"></video>
+                                <button onclick="removeVideoPreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;">✕</button>
+                            </div>
+                        `;
+                    }
+                    
+                    loadingMsg.textContent = '✅ تم رفع الفيديو!';
+                    loadingMsg.style.background = '#28a745';
+                    setTimeout(() => loadingMsg.remove(), 2000);
+                    
+                } catch (error) { 
+                    console.error('❌ Error:', error); 
+                    alert('❌ خطأ: ' + error.message);
+                    loadingMsg.remove();
                 }
             };
             input.click();
         };
 
-        window.tagFriends = function(event) {
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            alert('Friend tagging feature coming soon!');
+        window.removeVideoPreview = function() {
+            const wrapper = document.getElementById('videoPreviewWrapper');
+            if (wrapper) wrapper.remove();
+            window.uploadedVideoUrl = null;
         };
 
-        window.addFeeling = function(event) {
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            document.getElementById('feelingModal').classList.add('show');
-        };
+        window.tagFriends = function() { alert('Coming soon!'); };
+        window.addFeeling = function() { document.getElementById('feelingModal').classList.add('show'); };
+
         // =========================================================
         // STORY MODAL
         // =========================================================
-
-        window.openStoryModal = function() {
-            document.getElementById('storyModal').classList.add('show');
-        };
-
-        window.closeStoryModal = function() {
-            document.getElementById('storyModal').classList.remove('show');
-        };
+        window.openStoryModal = function() { document.getElementById('storyModal').classList.add('show'); };
+        window.closeStoryModal = function() { document.getElementById('storyModal').classList.remove('show'); };
 
         window.publishStory = async function() {
-            const fileInput = document.getElementById('storyFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                alert('Please select an image or video!');
-                return;
-            }
-            
+            const file = document.getElementById('storyFile').files[0];
+            if (!file) { alert('Please select a file!'); return; }
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
-                
-                if (!user) {
-                    alert('Please login first!');
-                    window.location.href = 'auth.html';
-                    return;
-                }
-                
+                if (!user) { alert('Please login first!'); return; }
                 const mediaType = file.type.startsWith('video') ? 'video' : 'image';
                 const fileName = `stories/${user.id}/${Date.now()}_${file.name}`;
-                
-                const { error: uploadError } = await window.supabaseClient.storage
-                    .from('stories')
-                    .upload(fileName, file);
-                
-                if (uploadError) {
-                    console.error('Upload error:', uploadError);
-                    alert('Error uploading story: ' + uploadError.message);
-                    return;
-                }
-                
-                               const { error } = await window.supabaseClient
-                    .from('stories')
-                    .insert({
-                        user_id: user.id,
-                        media_url: fileName,
-                        media_type: mediaType
-                    });
-                if (error) {
-                    console.error('Error creating story:', error);
-                    alert('Error creating story: ' + error.message);
-                    return;
-                }
-                
-                alert('Story uploaded successfully!');
+                const { error: upErr } = await window.supabaseClient.storage.from('stories').upload(fileName, file);
+                if (upErr) { alert('Upload error: ' + upErr.message); return; }
+                const { error } = await window.supabaseClient.from('stories').insert({
+                    user_id: user.id,
+                    media_url: fileName,
+                    media_type: mediaType
+                });
+                if (error) { alert('DB error: ' + error.message); return; }
+                alert('✅ Story uploaded!');
                 closeStoryModal();
                 loadStories();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred: ' + error.message);
+            } catch (error) { 
+                console.error('Error:', error); 
+                alert('Error: ' + error.message);
             }
         };
 
-        window.openStory = function(userId) {
-            alert('Opening story: ' + userId);
+        // =========================================================
+        // OPEN STORY VIEWER
+        // =========================================================
+        window.openStory = async function(storyId) {
+            try {
+                const { data: story } = await window.supabaseClient
+                    .from('stories')
+                    .select('*')
+                    .eq('id', storyId)
+                    .single();
+                
+                if (!story) { alert('Story not found'); return; }
+                
+                const { data: urlData } = window.supabaseClient.storage
+                    .from('stories')
+                    .getPublicUrl(story.media_url);
+                
+                const mediaUrl = urlData.publicUrl;
+                
+                const storyViewer = document.createElement('div');
+                storyViewer.id = 'storyViewer';
+                storyViewer.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99999;display:flex;align-items:center;justify-content:center;';
+                
+                const content = story.media_type === 'video'
+                    ? `<video src="${mediaUrl}" controls autoplay playsinline style="max-width:90%;max-height:90%;border-radius:12px;"></video>`
+                    : `<img src="${mediaUrl}" style="max-width:90%;max-height:90%;border-radius:12px;">`;
+                
+                storyViewer.innerHTML = `
+                    <button onclick="closeStoryViewer()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);color:white;border:none;width:50px;height:50px;border-radius:50%;font-size:24px;cursor:pointer;z-index:10;">✕</button>
+                    ${content}
+                `;
+                
+                document.body.appendChild(storyViewer);
+                
+                storyViewer.onclick = function(e) {
+                    if (e.target === storyViewer) closeStoryViewer();
+                };
+                
+            } catch (error) { 
+                console.error('Error:', error); 
+                alert('Error opening story: ' + error.message);
+            }
         };
 
-        window.openLiveVideo = function() {
-            alert('Live video feature coming soon!');
+        window.closeStoryViewer = function() {
+            const viewer = document.getElementById('storyViewer');
+            if (viewer) viewer.remove();
         };
+
+        window.openLiveVideo = function() { alert('Coming soon!'); };
 
         // =========================================================
         // ESCAPE HTML
         // =========================================================
-
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
@@ -1828,176 +1099,79 @@ async function checkSessionAndRedirect() {
         // =========================================================
         // LOAD STORIES
         // =========================================================
-
-               async function loadStories() {
+        async function loadStories() {
             try {
-                const { data: stories, error } = await window.supabaseClient
+                const { data: stories } = await window.supabaseClient
                     .from('stories')
                     .select('*')
                     .order('created_at', { ascending: false })
                     .limit(20);
-                
-                if (error) {
-                    console.error('Error loading stories:', error);
-                    return;
-                }
-                
                 if (!stories || stories.length === 0) return;
-                
-                const userIds = stories.map(story => story.user_id);
-                
+                const userIds = stories.map(s => s.user_id);
                 const { data: profiles } = await window.supabaseClient
                     .from('profiles')
                     .select('id, username, full_name, avatar_url')
                     .in('id', userIds);
-                
                 const profilesMap = {};
-                if (profiles) {
-                    profiles.forEach(profile => {
-                        profilesMap[profile.id] = profile;
-                    });
-                }
+                if (profiles) profiles.forEach(p => profilesMap[p.id] = p);
                 
                 const storyList = document.querySelector('.story-list');
+                storyList.querySelectorAll('.story-item:not(:first-child)').forEach(el => el.remove());
                 
-                const existingStories = storyList.querySelectorAll('.story-item:not(:first-child)');
-                existingStories.forEach(story => story.remove());
-                
-                // ✅ الحصول على المستخدم الحالي مرة واحدة (خارج الحلقة)
                 const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
                 
-                // ✅ استخدام for...of بدلاً من forEach
                 for (const story of stories) {
                     const profile = profilesMap[story.user_id] || {};
                     const username = profile.full_name || profile.username || 'User';
-                    const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                    
                     const storyItem = document.createElement('div');
                     storyItem.className = 'story-item';
                     storyItem.onclick = () => openStory(story.id);
-                    
-                    const { data: urlData } = window.supabaseClient.storage
-                        .from('stories')
-                        .getPublicUrl(story.media_url);
-                    
+                    const { data: urlData } = window.supabaseClient.storage.from('stories').getPublicUrl(story.media_url);
                     const mediaUrl = urlData.publicUrl;
-                    
-                    // ✅ التحقق: هل القصة تخص المستخدم الحالي؟
                     const isOwnStory = currentUser && currentUser.id === story.user_id;
                     
                     if (story.media_type === 'video') {
-                        storyItem.innerHTML = `
-                            <video src="${mediaUrl}" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
-                            <span class="story-name">${escapeHtml(username)}</span>
-                            ${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')" title="Delete">🗑️</button>` : ''}
-                        `;
+                        storyItem.innerHTML = `<video src="${mediaUrl}" muted playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video><span class="story-name">${escapeHtml(username)}</span>${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')">🗑️</button>` : ''}`;
                     } else {
-                        storyItem.innerHTML = `
-                            <img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
-                            <span class="story-name">${escapeHtml(username)}</span>
-                            ${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')" title="Delete">🗑️</button>` : ''}
-                        `;
+                        storyItem.innerHTML = `<img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"><span class="story-name">${escapeHtml(username)}</span>${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')">🗑️</button>` : ''}`;
                     }
                     storyList.appendChild(storyItem);
                 }
-                
-                       } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
 
-        // =========================================================
-        // DELETE STORY
-        // =========================================================
         window.deleteStory = async function(storyId, mediaUrl) {
-            if (!confirm('هل أنت متأكد من حذف هذه القصة؟')) {
-                return;
-            }
-            
+            if (!confirm('Delete this story?')) return;
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) {
-                    alert('Please login first!');
-                    return;
-                }
-                
-                // 1️⃣ حذف القصة من قاعدة البيانات
-                const { error: deleteError } = await window.supabaseClient
-                    .from('stories')
-                    .delete()
-                    .eq('id', storyId)
-                    .eq('user_id', user.id);
-                
-                if (deleteError) {
-                    console.error('Error deleting story:', deleteError);
-                    alert('Error: ' + deleteError.message);
-                    return;
-                }
-                
-                // 2️⃣ حذف الملف من Storage
-                if (mediaUrl) {
-                    await window.supabaseClient.storage
-                        .from('stories')
-                        .remove([mediaUrl]);
-                }
-                
-                alert('✅ Story deleted!');
+                if (!user) return;
+                await window.supabaseClient.from('stories').delete().eq('id', storyId).eq('user_id', user.id);
+                if (mediaUrl) await window.supabaseClient.storage.from('stories').remove([mediaUrl]);
+                alert('✅ Deleted!');
                 loadStories();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error: ' + error.message);
-            }
+            } catch (error) { console.error('Error:', error); }
         };
 
         // =========================================================
-        // CREATE NOTIFICATION
+        // ⚡ LIKE POST (with notification)
         // =========================================================
-
-                async function createNotification(receiverId, senderId, type, message, postId = null) {
-            try {
-                if (receiverId === senderId) return;
-                
-                const { error } = await window.supabaseClient
-                    .from('notifications')
-                    .insert({
-                        receiver_id: receiverId,
-                        sender_id: senderId,
-                        type: type,
-                        message: message,
-                        post_id: postId,  // ✅ إضافة post_id
-                        is_read: false,
-                        created_at: new Date()
-                    });
-                
-                if (error) {
-                    console.error('Error creating notification:', error);
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        // =========================================================
-        // LIKE POST
-        // =========================================================
-
         window.likePost = async function(postId, btn) {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
+    console.log('=== LIKE POST ===');
+    console.log('postId:', postId);
+    
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) { alert('Please login first!'); return; }
+        
+        console.log('user:', user.id);
                 
-                if (!user) {
-                    alert('Please login first!');
-                    return;
-                }
-                
-                const { data: post } = await window.supabaseClient
+                const { data: post, error: postError } = await window.supabaseClient
                     .from('posts')
                     .select('user_id')
                     .eq('id', postId)
                     .single();
                 
+                if (postError) { console.error('❌ Error fetching post:', postError); return; }
                 if (!post) return;
                 
                 const postOwnerId = post.user_id;
@@ -2016,35 +1190,40 @@ async function checkSessionAndRedirect() {
                         .eq('post_id', postId)
                         .eq('user_id', user.id);
                     
-                    btn.innerHTML = '👍 Like';
+                    btn.textContent = `👍 Like`;
                     btn.style.color = '#65676b';
                 } else {
-                    await window.supabaseClient
+                    const { error: likeError } = await window.supabaseClient
                         .from('likes')
-                        .insert({
-                            post_id: postId,
-                            user_id: user.id
-                        });
+                        .insert({ post_id: postId, user_id: user.id });
                     
-                    btn.innerHTML = '👍 Liked';
+                    if (likeError) { console.error('❌ Like insert error:', likeError); return; }
+                    
+                    btn.textContent = `👍 Liked`;
                     btn.style.color = '#1877f2';
                     
-                    const { data: senderProfile } = await window.supabaseClient
-                        .from('profiles')
-                        .select('username, full_name')
-                        .eq('id', user.id)
-                        .single();
-                    
-                    const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
-                    
-                                                         await createNotification(
-                        postOwnerId,
-                        user.id,
-                        'like',
-                        `${senderName} liked your post`,
-                        postId
-                    );
-                }   // 👈 إغلاق else
+                    // 🔔 إشعار للمالك
+                    if (postOwnerId !== user.id) {
+                        const { data: senderProfile } = await window.supabaseClient
+                            .from('profiles')
+                            .select('username, full_name')
+                            .eq('id', user.id)
+                            .single();
+                        
+                        const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
+                        
+                        await window.supabaseClient
+                            .from('notifications')
+                            .insert({
+                                receiver_id: postOwnerId,
+                                sender_id: user.id,
+                                type: 'like',
+                                message: `${senderName} liked your post`,
+                                post_id: postId,
+                                is_read: false
+                            });
+                    }
+                }
                 
                 const { count } = await window.supabaseClient
                     .from('likes')
@@ -2053,30 +1232,23 @@ async function checkSessionAndRedirect() {
                 
                 btn.textContent = `👍 ${count || 0}`;
                 
-            } catch (error) {
-                console.error('Like error:', error);
+            } catch (error) { 
+                console.error('❌ Like error:', error); 
             }
         };
-        // =========================================================
-        // COMMENT POST
-        // =========================================================
 
+        // =========================================================
+        // ⚡ COMMENT POST (with notification)
+        // =========================================================
         window.commentPost = function(postId) {
             const comment = prompt('Write a comment:');
-            
-            if (comment) {
-                addComment(postId, comment);
-            }
+            if (comment) addComment(postId, comment);
         };
 
         async function addComment(postId, content) {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
-                
-                if (!user) {
-                    alert('Please login first!');
-                    return;
-                }
+                if (!user) { alert('Please login first!'); return; }
                 
                 const { data: post } = await window.supabaseClient
                     .from('posts')
@@ -2086,171 +1258,102 @@ async function checkSessionAndRedirect() {
                 
                 if (!post) return;
                 
-                const postOwnerId = post.user_id;
-                
-                const { data: newComment, error } = await window.supabaseClient
+                const { error: commentError } = await window.supabaseClient
                     .from('comments')
                     .insert({
                         post_id: postId,
                         user_id: user.id,
-                        content: content,
-                        created_at: new Date()
-                    })
-                    .select()
-                    .single();
+                        content: content
+                    });
                 
-                if (error) {
-                    console.error('Error adding comment:', error);
-                    alert('Error adding comment: ' + error.message);
+                if (commentError) {
+                    console.error('❌ Comment error:', commentError);
                     return;
                 }
                 
-                const { data: senderProfile } = await window.supabaseClient
-                    .from('profiles')
-                    .select('username, full_name')
-                    .eq('id', user.id)
-                    .single();
+                // 🔔 إشعار لصاحب المنشور
+                if (post.user_id !== user.id) {
+                    const { data: senderProfile } = await window.supabaseClient
+                        .from('profiles')
+                        .select('username, full_name')
+                        .eq('id', user.id)
+                        .single();
+                    
+                    const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
+                    
+                    await window.supabaseClient
+                        .from('notifications')
+                        .insert({
+                            receiver_id: post.user_id,
+                            sender_id: user.id,
+                            type: 'comment',
+                            message: `${senderName} commented: "${content.substring(0, 50)}"`,
+                            post_id: postId,
+                            is_read: false
+                        });
+                }
                 
-                const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
-                
-                            await createNotification(
-                    postOwnerId,
-                    user.id,
-                    'comment',
-                    `${senderName} commented on your post: "${content.substring(0, 50)}"`,
-                    postId  // ✅ إضافة postId
-                );
                 loadComments(postId);
                 
-            } catch (error) {
-                console.error('Error:', error);
+            } catch (error) { 
+                console.error('❌ Error:', error); 
             }
         }
 
-        // =========================================================
-        // LOAD COMMENTS
-        // =========================================================
-
         async function loadComments(postId) {
             try {
-                const { data: comments, error } = await window.supabaseClient
-                    .from('comments')
-                    .select('*')
-                    .eq('post_id', postId)
-                    .order('created_at', { ascending: true });
-                
-                if (error) {
-                    console.error('Error loading comments:', error);
-                    return;
-                }
-                
-                const commentsContainer = document.getElementById(`comments_${postId}`);
-                if (!commentsContainer) return;
-                
-                commentsContainer.innerHTML = '';
-                
+                const { data: comments } = await window.supabaseClient.from('comments').select('*').eq('post_id', postId).order('created_at', { ascending: true });
+                const container = document.getElementById(`comments_${postId}`);
+                if (!container) return;
+                container.innerHTML = '';
                 if (!comments || comments.length === 0) {
-                    commentsContainer.innerHTML = '<p style="color: #65676b; font-size: 13px; margin: 5px 0;">No comments yet</p>';
+                    container.innerHTML = '<p style="color: #65676b; font-size: 13px; margin: 5px 0;">No comments yet</p>';
                     return;
                 }
-                
-                const userIds = comments.map(comment => comment.user_id);
-                
-                const { data: profiles } = await window.supabaseClient
-                    .from('profiles')
-                    .select('id, username, full_name, avatar_url')
-                    .in('id', userIds);
-                
+                const userIds = comments.map(c => c.user_id);
+                const { data: profiles } = await window.supabaseClient.from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
                 const profilesMap = {};
-                if (profiles) {
-                    profiles.forEach(profile => {
-                        profilesMap[profile.id] = profile;
-                    });
-                }
+                if (profiles) profiles.forEach(p => profilesMap[p.id] = p);
                 
                 comments.forEach(comment => {
                     const profile = profilesMap[comment.user_id] || {};
                     const username = profile.full_name || profile.username || 'User';
                     const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                    
                     const commentDiv = document.createElement('div');
-                    commentDiv.style.display = 'flex';
-                    commentDiv.style.alignItems = 'center';
-                    commentDiv.style.gap = '8px';
-                    commentDiv.style.marginBottom = '8px';
-                    
-                    commentDiv.innerHTML = `
-                        <img src="${avatarUrl}" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%;">
-                        <div style="background: #f0f2f5; border-radius: 12px; padding: 8px 12px; flex: 1;">
-                            <strong style="font-size: 13px;">${escapeHtml(username)}</strong>
-                            <p style="margin: 0; font-size: 13px;">${escapeHtml(comment.content)}</p>
-                        </div>
-                    `;
-                    
-                    commentsContainer.appendChild(commentDiv);
+                    commentDiv.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+                    commentDiv.innerHTML = `<img src="${avatarUrl}" style="width:30px;height:30px;border-radius:50%;"><div style="background:#f0f2f5;border-radius:12px;padding:8px 12px;flex:1;"><strong style="font-size:13px;">${escapeHtml(username)}</strong><p style="margin:0;font-size:13px;">${escapeHtml(comment.content)}</p></div>`;
+                    container.appendChild(commentDiv);
                 });
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
 
         window.sharePost = function(postId) {
             const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
             navigator.clipboard.writeText(url);
-            alert('Post link copied!');
+            alert('Link copied!');
         };
 
         // =========================================================
-               // =========================================================
         // LOAD POSTS
         // =========================================================
-
-                         // =========================================================
-        // LOAD POSTS
-        // =========================================================
-
         async function loadPosts() {
             const feedContainer = document.getElementById('feedContainer');
-            
             if (!feedContainer) return;
-            
-            // ✅ تحميل المنشورات المُشاهدة من localStorage
             const viewedPosts = JSON.parse(localStorage.getItem('viewedPosts') || '[]');
             
             try {
-                const { data: posts, error } = await window.supabaseClient
-                    .from('posts')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Error loading posts:', error);
-                    return;
-                }
-                
+                const { data: posts, error } = await window.supabaseClient.from('posts').select('*').order('created_at', { ascending: false });
+                if (error) { console.error('Error:', error); return; }
                 if (!posts || posts.length === 0) {
-                    feedContainer.innerHTML = '<div class="feed-post" style="text-align: center; padding: 40px;">No posts yet</div>';
+                    feedContainer.innerHTML = '<div class="feed-post" style="text-align:center;padding:40px;">No posts yet</div>';
                     return;
                 }
-                
-                const userIds = posts.map(post => post.user_id);
-                
-                const { data: profiles } = await window.supabaseClient
-                    .from('profiles')
-                    .select('id, username, full_name, avatar_url')
-                    .in('id', userIds);
-                
+                const userIds = posts.map(p => p.user_id);
+                const { data: profiles } = await window.supabaseClient.from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
                 const profilesMap = {};
-                if (profiles) {
-                    profiles.forEach(profile => {
-                        profilesMap[profile.id] = profile;
-                    });
-                }
+                if (profiles) profiles.forEach(p => profilesMap[p.id] = p);
                 
                 feedContainer.innerHTML = '';
-                
-                let postCount = 0;
                 
                 for (const post of posts) {
                     const profile = profilesMap[post.user_id] || {};
@@ -2258,47 +1361,30 @@ async function checkSessionAndRedirect() {
                     const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                     const timeAgo = formatTimeAgo(post.created_at);
                     
-                    // =========================================================
-                    // 🔥 بناء محتوى المنشور (نص + صورة)
-                    // =========================================================
                     let contentHTML = '';
-
-                    // 1️⃣ عرض النص (مع إزالة أي روابط [Image: ...] قديمة)
                     if (post.content) {
-                        let content = post.content;
-                        
-                        // إزالة أي [Image: ...] قديمة من النص
-                        content = content.replace(/\[Image:\s*[^\]]+\]/g, '');
-                        
-                        // تحويل [Video: الرابط] إلى فيديو
-                        content = content.replace(/\[Video:\s*([^\]]+)\]/g, function(match, url) {
-                            const cleanUrl = url.trim();
-                            return `<video src="${cleanUrl}" controls class="feed-image" style="width: 100%; max-height: 500px; border-radius: 8px; margin-bottom: 10px;"></video>`;
-                        });
-                        
-                        // إضافة النص إذا لم يكن فارغاً بعد إزالة الروابط
-                        if (content.trim()) {
-                            contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
-                        }
-                    }
-
-                    // 2️⃣ عرض الصورة من العمود الجديد image_url
-                    if (post.image_url) {
-                        contentHTML += `<img src="${post.image_url}" alt="Post Image" class="feed-image" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;" onerror="console.error('Failed to load image:', this.src)">`;
+                        let content = post.content.replace(/\[Image:\s*[^\]]+\]/g, '');
+                        content = content.replace(/\[Video:\s*([^\]]+)\]/g, '');
+                        if (content.trim()) contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
                     }
                     
-                    // =========================================================
-                    // 🔥 إنشاء بطاقة المنشور
-                    // =========================================================
+                    if (post.image_url) {
+                        contentHTML += `<img src="${post.image_url}" class="feed-image" style="width:100%;max-height:500px;object-fit:cover;border-radius:8px;margin-bottom:10px;">`;
+                    }
+                    
+                    if (post.video_url) {
+                        contentHTML += `<video src="${post.video_url}" controls playsinline preload="metadata" class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;"></video>`;
+                    }
+                    
                     const postDiv = document.createElement('div');
                     postDiv.className = 'feed-post';
                     postDiv.innerHTML = `
                         <div class="feed-header">
-                            <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
-                                <img src="${avatarUrl}" alt="Profile" class="feed-avatar" style="cursor: pointer;">
+                            <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
+                                <img src="${avatarUrl}" class="feed-avatar" style="cursor:pointer;">
                             </a>
                             <div>
-                                <a href="profile.html?id=${post.user_id}" style="text-decoration: none; color: #050505;">
+                                <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
                                     <div class="feed-name">${escapeHtml(username)}</div>
                                 </a>
                                 <div class="feed-time">${timeAgo}</div>
@@ -2306,106 +1392,57 @@ async function checkSessionAndRedirect() {
                         </div>
                         ${contentHTML}
                         <div class="feed-actions">
-                            <button class="feed-action" onclick="likePost('${post.id}', this)">
-                                👍 Like
-                            </button>
-                            <button class="feed-action" onclick="commentPost('${post.id}')">
-                                💬 Comment
-                            </button>
-                            <button class="feed-action" onclick="sharePost('${post.id}')">
-                                ↗️ Share
-                            </button>
+                            <button class="feed-action" onclick="likePost('${post.id}', this)">👍 Like</button>
+                            <button class="feed-action" onclick="commentPost('${post.id}')">💬 Comment</button>
+                            <button class="feed-action" onclick="sharePost('${post.id}')">↗️ Share</button>
                         </div>
                         <div class="feed-comments" id="comments_${post.id}"></div>
-                        <input type="text" placeholder="Write a comment..." onkeypress="if(event.key === 'Enter') commentPost('${post.id}')" style="width: 100%; padding: 8px; border: none; background: #f0f2f5; border-radius: 20px; margin-top: 10px; outline: none;">
+                        <input type="text" placeholder="Write a comment..." onkeypress="if(event.key === 'Enter') commentPost('${post.id}')" style="width:100%;padding:8px;border:none;background:#f0f2f5;border-radius:20px;margin-top:10px;outline:none;">
                     `;
-                    
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
-                                       // ✅ تسجيل المشاهدة (إذا لم تُسجل من قبل)
                     if (!viewedPosts.includes(post.id)) {
                         trackPostView(post.id);
                         viewedPosts.push(post.id);
                     }
-                    
-                    postCount++;
                 }
-                
-                // ✅ حفظ المنشورات المُشاهدة في localStorage
                 localStorage.setItem('viewedPosts', JSON.stringify(viewedPosts));
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
 
-        // =========================================================
-        // TRACK POST VIEW (تسجيل المشاهدة)
-        // ===        // =========================================================
-        // TRACK POST VIEW (تسجيل المشاهدة + الأرباح)
-        // =========================================================
         async function trackPostView(postId) {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) return;
+                const { data: post } = await window.supabaseClient.from('posts').select('user_id').eq('id', postId).single();
+                if (!post || post.user_id === user.id) return;
                 
-                const { data: post } = await window.supabaseClient
-                    .from('posts')
-                    .select('user_id')
-                    .eq('id', postId)
-                    .single();
-                
-                if (!post) return;
-                if (post.user_id === user.id) return;
-                
-                // 1️⃣ سجل المشاهدة
-                const { error: viewError } = await window.supabaseClient
-                    .from('post_views')
-                    .insert({
-                        post_id: postId,
-                        viewer_id: user.id
-                    });
-                
-                if (viewError) {
-                    console.error('Error inserting view:', viewError);
-                    return;
-                }
-                
-                // 2️⃣ أضف النقاط
-                const { error: earnError } = await window.supabaseClient.rpc('add_earnings', {
+                await window.supabaseClient.from('post_views').insert({ post_id: postId, viewer_id: user.id });
+                await window.supabaseClient.rpc('add_earnings', {
                     p_user_id: post.user_id,
                     p_post_id: postId,
                     p_source: 'views',
                     p_points: 1,
                     p_dollars: 0.0001
                 });
-                
-                if (earnError) {
-                    console.error('Error adding earnings:', earnError);
-                    return;
-                }
-                
-                               console.log('✅ View tracked & earnings added for post:', postId);
-                
-                // ✅ إظهار إشعار النقاط
                 showPointsNotification(1);
-                
-                // ✅ تحديث شارة النقاط
                 updatePointsBadge();
-                
-            } catch (error) {
-                console.error('Error tracking view:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
-        // =========================================================
-        // FORMAT TIME
-        // =========================================================
 
+        // =========================================================
+        // FORMAT TIME AGO (with timezone fix)
+        // =========================================================
         function formatTimeAgo(timestamp) {
             if (!timestamp) return 'Just now';
             
-            const date = new Date(timestamp);
+            let ts = String(timestamp);
+            if (!ts.includes('Z') && !ts.includes('+')) {
+                ts = ts + 'Z';
+            }
+            
+            const date = new Date(ts);
             const now = new Date();
             const diff = now - date;
             
@@ -2422,148 +1459,84 @@ async function checkSessionAndRedirect() {
             return date.toLocaleDateString();
         }
 
+        async function applyPendingReferral() {
+            try {
+                const referralCode = localStorage.getItem('pendingReferralCode');
+                if (!referralCode) return;
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: existing } = await window.supabaseClient.from('referrals').select('id').eq('referred_id', user.id).maybeSingle();
+                if (existing) { localStorage.removeItem('pendingReferralCode'); return; }
+                const { data: referrer } = await window.supabaseClient.from('profiles').select('id').eq('referral_code', referralCode).maybeSingle();
+                if (!referrer || referrer.id === user.id) { localStorage.removeItem('pendingReferralCode'); return; }
+                
+                await window.supabaseClient.from('referrals').insert({
+                    referrer_id: referrer.id,
+                    referred_id: user.id,
+                    referral_code: referralCode,
+                    points_awarded: 50
+                });
+                
+                await window.supabaseClient.rpc('add_earnings', {
+                    p_user_id: referrer.id,
+                    p_post_id: null,
+                    p_source: 'referral',
+                    p_points: 50,
+                    p_dollars: 0.50
+                });
+                
+                await window.supabaseClient.rpc('add_earnings', {
+                    p_user_id: user.id,
+                    p_post_id: null,
+                    p_source: 'welcome',
+                    p_points: 25,
+                    p_dollars: 0.25
+                });
+                
+                localStorage.removeItem('pendingReferralCode');
+                showPointsNotification(25);
+            } catch (error) { console.error('Error:', error); }
+        }
+
         // =========================================================
         // INITIALIZE
         // =========================================================
-
-                      document.addEventListener('DOMContentLoaded', function() {
-            console.log("🔴 DOMContentLoaded fired - index.html");
-            
-            // ✅ 1. معالجة OAuth
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("🔴 index.html loaded");
             handleAuthCallback();
-            
-            // ✅ 2. التحقق من الجلسة
             checkSessionAndRedirect();
             
-            // ✅ 3. تطبيق اللغة
-            const lang = getCurrentLanguage();
-            setLanguage(lang);
-            applyTranslations();
-            
-            // ✅ 4. تحميل البيانات
+            // 🔔 Badge updates
             setTimeout(updateNotificationBadge, 500);
             setTimeout(updatePointsBadge, 500);
+            
+            // ⏰ Periodic refresh every 30 seconds
+            setInterval(updateNotificationBadge, 30000);
+            setInterval(updatePointsBadge, 30000);
+            
+            // Load data
             setTimeout(checkRole, 500);
             setTimeout(loadUserProfile, 500);
             setTimeout(loadStories, 500);
             setTimeout(loadPosts, 500);
-            setTimeout(forceLoadUserProfile, 1500);
-            
-            // ✅ 5. معالجة الإحالة المعلّقة (لـ OAuth)
             setTimeout(applyPendingReferral, 2000);
         });
-    
-         
+                // =========================================================
+        // 🆕 SCROLL STORIES
         // =========================================================
-        // APPLY PENDING REFERRAL (لـ OAuth)
-        // =========================================================
-        async function applyPendingReferral() {
-            try {
-                const referralCode = localStorage.getItem('pendingReferralCode');
-                
-                if (!referralCode) {
-                    console.log('ℹ️ No pending referral');
-                    return;
-                }
-                
-                console.log('🔗 Processing pending referral:', referralCode);
-                
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) {
-                    console.log('❌ No user');
-                    return;
-                }
-                
-                // ✅ تحقق من عدم وجود إحالة مسبقة
-                const { data: existingReferral } = await supabaseClient
-                    .from('referrals')
-                    .select('id')
-                    .eq('referred_id', user.id)
-                    .maybeSingle();
-                
-                if (existingReferral) {
-                    console.log('ℹ️ User already has a referral');
-                    localStorage.removeItem('pendingReferralCode');
-                    return;
-                }
-                
-                // ✅ ابحث عن الداعي
-                const { data: referrer, error: refError } = await supabaseClient
-                    .from('profiles')
-                    .select('id, username')
-                    .eq('referral_code', referralCode)
-                    .maybeSingle();
-                
-                if (refError || !referrer) {
-                    console.log('⚠️ Referral code not found');
-                    localStorage.removeItem('pendingReferralCode');
-                    return;
-                }
-                
-                // ✅ لا يمكن للمستخدم دعوة نفسه
-                if (referrer.id === user.id) {
-                    console.log('⚠️ Cannot refer yourself');
-                    localStorage.removeItem('pendingReferralCode');
-                    return;
-                }
-                
-                // ✅ أضف الإحالة
-                const { error: insertError } = await supabaseClient
-                    .from('referrals')
-                    .insert({
-                        referrer_id: referrer.id,
-                        referred_id: user.id,
-                        referral_code: referralCode,
-                        points_awarded: 50
-                    });
-                
-                if (insertError) {
-                    console.error('❌ Error inserting referral:', insertError);
-                    return;
-                }
-                
-                console.log('✅ Referral applied successfully!');
-                
-                // ✅ احذف الكود المعلّق
-                localStorage.removeItem('pendingReferralCode');
-                
-                // ✅ أظهر إشعار
-                if (typeof showPointsNotification === 'function') {
-                    showPointsNotification(25);
-                }
-                
-            } catch (error) {
-                console.error('❌ Error applying referral:', error);
+        window.scrollStoriesLeft = function() {
+            const list = document.getElementById('storyList');
+            if (list) {
+                list.scrollBy({ left: -300, behavior: 'smooth' });
             }
-        }
+        };
 
-        // ✅ مهمة يومية
-async function claimDailyBonus() {
-    const lastClaim = localStorage.getItem('lastDailyClaim');
-    const today = new Date().toDateString();
-    
-    if (lastClaim === today) {
-        alert('لقد حصلت على مكافأتك اليومية اليوم!');
-        return;
-    }
-    
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    
-    if (!user) return;
-    
-    // أضف 10 نقاط
-    await supabaseClient.rpc('add_earnings', {
-        p_user_id: user.id,
-        p_post_id: null,
-        p_source: 'daily_bonus',
-        p_points: 10,
-        p_dollars: 0.10
-    });
-    
-    localStorage.setItem('lastDailyClaim', today);
-    alert('🎉 حصلت على 10 نقاط!');
-}
+        window.scrollStoriesRight = function() {
+            const list = document.getElementById('storyList');
+            if (list) {
+                list.scrollBy({ left: 300, behavior: 'smooth' });
+            }
+        };
     </script>
 </body>
 </html>

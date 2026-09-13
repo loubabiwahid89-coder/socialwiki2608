@@ -52,10 +52,7 @@
 </head>
 <body>
 
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn" data-i18n="back">← Back</a>
-        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
-    </div>
+   
 
     <nav class="navbar">
         <div class="nav-left">
@@ -92,7 +89,13 @@
             </div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
+        
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <div class="legal-container">
         <div class="legal-header">
@@ -221,5 +224,7 @@
             loadUserProfile();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

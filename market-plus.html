@@ -394,17 +394,7 @@
 </head>
 <body>
 
-    <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
+    
 
     <!-- =========================================================
          NAVBAR
@@ -447,7 +437,13 @@
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
+      
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- =========================================================
          MARKETPLACE CONTAINER
@@ -865,5 +861,7 @@
             document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

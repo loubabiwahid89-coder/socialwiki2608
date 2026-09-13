@@ -6,327 +6,97 @@
     <title>Owner Dashboard - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
     <style>
-        /* =========================================================
-           NAVBAR (بسيط)
-        ========================================================= */
-        
         .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
         }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
         
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
-        
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-icons a {
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 50%;
-        }
-        
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-        
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        
-        .logout-button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        /* =========================================================
-           DASHBOARD PAGE
-        ========================================================= */
-        
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .dashboard-header h2 {
-            font-size: 24px;
-        }
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .dashboard-header h2 { font-size: 24px; }
         
         .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 15px; margin-bottom: 20px;
         }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .stat-card .stat-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-        
-        .stat-card .stat-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: #1877f2;
-        }
-        
-        .stat-card .stat-label {
-            font-size: 13px;
-            color: #65676b;
-            margin-top: 5px;
-        }
-        
-        /* =========================================================
-           DASHBOARD TABS
-        ========================================================= */
+        .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat-card .stat-icon { font-size: 30px; margin-bottom: 10px; }
+        .stat-card .stat-number { font-size: 32px; font-weight: bold; color: #1877f2; }
+        .stat-card .stat-label { font-size: 13px; color: #65676b; margin-top: 5px; }
         
         .dashboard-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e4e6eb;
+            display: flex; gap: 10px; margin-bottom: 20px;
+            border-bottom: 2px solid #e4e6eb; overflow-x: auto;
         }
-        
         .dashboard-tab {
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: #65676b;
-            border-bottom: 3px solid transparent;
+            padding: 12px 20px; cursor: pointer; font-size: 14px;
+            font-weight: 600; color: #65676b;
+            border-bottom: 3px solid transparent; white-space: nowrap;
         }
+        .dashboard-tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+        .dashboard-tab:hover { background: #f0f2f5; }
         
-        .dashboard-tab.active {
-            color: #1877f2;
-            border-bottom-color: #1877f2;
-        }
-        
-        .dashboard-tab:hover {
-            background: #f0f2f5;
-        }
-        
-        /* =========================================================
-           TABLES
-        ========================================================= */
-        
-        .data-table {
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .data-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
+        .data-table { width: 100%; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .data-table table { width: 100%; border-collapse: collapse; }
         .data-table th {
-            background: #f0f2f5;
-            padding: 15px;
-            text-align: left;
-            font-size: 14px;
-            font-weight: 600;
-            color: #050505;
+            background: #f0f2f5; padding: 15px; text-align: left;
+            font-size: 14px; font-weight: 600; color: #050505;
             border-bottom: 1px solid #e4e6eb;
         }
-        
-        .data-table td {
-            padding: 15px;
-            font-size: 14px;
-            border-bottom: 1px solid #f0f2f5;
-        }
-        
-        .data-table tr:hover {
-            background: #f8f9fa;
-        }
+        .data-table td { padding: 15px; font-size: 14px; border-bottom: 1px solid #f0f2f5; }
+        .data-table tr:hover { background: #f8f9fa; }
         
         .action-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 6px 12px; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 13px; font-weight: 600;
+            margin: 2px;
         }
-        
-        .ban-btn {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .resolve-btn {
-            background: #1877f2;
-            color: white;
-        }
-        
-        .dismiss-btn {
-            background: #e4e6eb;
-        }
-        
-        .approve-btn {
-            background: #28a745;
-            color: white;
-        }
-        
-        .reject-btn {
-            background: #dc3545;
-            color: white;
-        }
+        .ban-btn, .delete-btn { background: #dc3545; color: white; }
+        .resolve-btn { background: #1877f2; color: white; }
+        .dismiss-btn { background: #e4e6eb; color: #050505; }
+        .approve-btn { background: #28a745; color: white; }
+        .reject-btn { background: #dc3545; color: white; }
         
         .role-select {
-            padding: 6px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
+            padding: 6px; border: 1px solid #ddd;
+            border-radius: 8px; font-size: 13px; cursor: pointer;
         }
         
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+        .status-badge { padding: 4px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+        .status-pending { background: #fff3cd; color: #f7b928; }
+        .status-approved, .status-resolved { background: #d4edda; color: #28a745; }
+        .status-rejected, .status-dismissed { background: #f8d7da; color: #dc3545; }
         
-        .status-pending {
-            background: #fff3cd;
-            color: #f7b928;
-        }
+        .loading-state { text-align: center; padding: 60px 20px; color: #65676b; }
+        .loading-state .spinner { font-size: 50px; margin-bottom: 15px; animation: spin 2s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        .status-approved {
-            background: #d4edda;
-            color: #28a745;
-        }
-        
-        .status-rejected {
-            background: #f8d7da;
-            color: #dc3545;
-        }
-        
-        /* =========================================================
-           BACK & HOME BUTTONS
-        ========================================================= */
-        
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
         .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none; font-weight: 600;
+            padding: 8px 16px; border-radius: 20px; font-size: 14px;
         }
+        .home-btn { color: white; background: #1877f2; }
         
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .home-btn {
-            color: white;
-            background: #1877f2;
+        @media (max-width: 700px) {
+            .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
-
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -346,75 +116,91 @@
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
     </nav>
+    
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
-    <!-- =========================================================
-         DASHBOARD CONTAINER
-    ========================================================= -->
+    <!-- DASHBOARD CONTAINER -->
     <div class="dashboard-container">
         <div class="dashboard-header">
             <h2>👑 Owner Dashboard</h2>
         </div>
 
-        <!-- الإحصائيات -->
+        <!-- STATS -->
         <div class="dashboard-stats">
             <div class="stat-card">
                 <div class="stat-icon">👥</div>
-                <div class="stat-number" id="totalUsers">0</div>
+                <div class="stat-number" id="totalUsers">—</div>
                 <div class="stat-label">Total Users</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">📝</div>
-                <div class="stat-number" id="totalPosts">0</div>
+                <div class="stat-number" id="totalPosts">—</div>
                 <div class="stat-label">Total Posts</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">💬</div>
-                <div class="stat-number" id="totalComments">0</div>
+                <div class="stat-number" id="totalComments">—</div>
                 <div class="stat-label">Total Comments</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🚨</div>
-                <div class="stat-number" id="totalReports">0</div>
+                <div class="stat-number" id="totalReports">—</div>
                 <div class="stat-label">Total Reports</div>
             </div>
         </div>
 
-        <!-- التبويبات -->
+        <!-- TABS -->
         <div class="dashboard-tabs">
-            <div class="dashboard-tab active" onclick="showTab('users', this)">Users</div>
-            <div class="dashboard-tab" onclick="showTab('reports', this)">Reports</div>
-            <div class="dashboard-tab" onclick="showTab('withdrawals', this)">Withdrawals</div>
-            <div class="dashboard-tab" onclick="showTab('ads', this)">Ads</div>
-            <div class="dashboard-tab" onclick="showTab('tasks', this)">Tasks</div>
+            <div class="dashboard-tab active" onclick="showTab('users', this)">👥 Users</div>
+            <div class="dashboard-tab" onclick="showTab('reports', this)">🚨 Reports</div>
+            <div class="dashboard-tab" onclick="showTab('withdrawals', this)">💰 Withdrawals</div>
+            <div class="dashboard-tab" onclick="showTab('ads', this)">📢 Ads</div>
+            <div class="dashboard-tab" onclick="showTab('tasks', this)">🎯 Tasks</div>
         </div>
 
-        <!-- المحتوى -->
+        <!-- CONTENT -->
         <div id="dashboardContent">
-            <!-- سيتم عرض المحتوى هنا -->
+            <div class="loading-state">
+                <div class="spinner">⏳</div>
+                <p>Loading...</p>
+            </div>
         </div>
     </div>
-
-    <!-- =========================================================
+        <!-- =========================================================
          SCRIPTS
     ========================================================= -->
+    
+    <!-- 1. Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 2. Supabase Client Setup -->
     <script>
-        // Supabase setup
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("✅ Supabase client created in owner-dashboard.html");
+        }
+        const supabaseClient = window.supabaseClient;
+    </script>
+    
+    <!-- 3. Translations -->
+    <script src="js/translations.js"></script>
+    
+    <!-- 4. Main Script -->
+    <script>
         // =========================================================
-        // CHECK OWNER ACCESS (التحقق من صلاحية المالك)
+        // CHECK OWNER ACCESS
         // =========================================================
-        
         async function checkOwnerAccess() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 
                 if (!user) {
                     window.location.href = "auth.html";
-                    return;
+                    return false;
                 }
                 
                 const { data: profile, error } = await supabaseClient
@@ -426,53 +212,48 @@
                 if (error) {
                     console.error('Error loading profile:', error);
                     window.location.href = "index.html";
-                    return;
+                    return false;
                 }
                 
                 const role = profile?.role || 'user';
                 
-                // ⬅️ فقط Owner و Super Admin و Admin
                 if (role !== 'owner' && role !== 'super_admin' && role !== 'admin') {
                     alert('Access denied! You are not authorized to view this page.');
                     window.location.href = "index.html";
-                    return;
+                    return false;
                 }
+                
+                console.log('✅ Owner access granted');
+                return true;
                 
             } catch (error) {
                 console.error('Error:', error);
                 window.location.href = "index.html";
+                return false;
             }
         }
         
         // =========================================================
         // LOGOUT
         // =========================================================
-        
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
         
         // =========================================================
-        // LOAD USER PROFILE (عرض اسمك)
+        // LOAD USER PROFILE (for navbar)
         // =========================================================
-        
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) return;
                 
-                const { data: profile, error } = await supabaseClient
+                const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('username, full_name, avatar_url, role')
                     .eq('id', user.id)
                     .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
                 
                 const displayName = profile?.full_name || profile?.username || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
@@ -480,8 +261,6 @@
                 const navProfileName = document.getElementById('navProfileName');
                 if (navProfileName) {
                     navProfileName.textContent = displayName;
-                    
-                    // إذا كان Owner، اجعل الاسم ذهبي
                     if (profile?.role === 'owner') {
                         navProfileName.style.color = '#FFD700';
                         navProfileName.style.fontWeight = 'bold';
@@ -499,52 +278,57 @@
         // =========================================================
         // LOAD STATS
         // =========================================================
-        
         async function loadStats() {
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                // جلب إجمالي المستخدمين
+                // Total Users
                 const { count: totalUsers } = await supabaseClient
                     .from('profiles')
                     .select('id', { count: 'exact', head: true });
                 
                 document.getElementById('totalUsers').textContent = totalUsers || 0;
                 
-                // جلب إجمالي المنشورات
+                // Total Posts
                 const { count: totalPosts } = await supabaseClient
                     .from('posts')
                     .select('id', { count: 'exact', head: true });
                 
                 document.getElementById('totalPosts').textContent = totalPosts || 0;
                 
-                // جلب إجمالي التعليقات
+                // Total Comments
                 const { count: totalComments } = await supabaseClient
                     .from('comments')
                     .select('id', { count: 'exact', head: true });
                 
                 document.getElementById('totalComments').textContent = totalComments || 0;
                 
-                // جلب إجمالي البلاغات
-                const { count: totalReports } = await supabaseClient
-                    .from('reports')
-                    .select('id', { count: 'exact', head: true });
-                
-                document.getElementById('totalReports').textContent = totalReports || 0;
+                // Total Reports
+                try {
+                    const { count: totalReports } = await supabaseClient
+                        .from('reports')
+                        .select('id', { count: 'exact', head: true });
+                    document.getElementById('totalReports').textContent = totalReports || 0;
+                } catch (e) {
+                    document.getElementById('totalReports').textContent = '0';
+                }
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading stats:', error);
             }
         }
         
         // =========================================================
         // LOAD USERS
         // =========================================================
-        
         async function loadUsers() {
             try {
+                const container = document.getElementById('dashboardContent');
+                container.innerHTML = `
+                    <div class="loading-state">
+                        <div class="spinner">⏳</div>
+                        <p>Loading users...</p>
+                    </div>
+                `;
+                
                 const { data: profiles, error } = await supabaseClient
                     .from('profiles')
                     .select('*')
@@ -552,28 +336,30 @@
                 
                 if (error) {
                     console.error('Error loading users:', error);
+                    container.innerHTML = `<div class="data-table" style="padding:20px;text-align:center;">Error: ${error.message}</div>`;
                     return;
                 }
                 
-                const container = document.getElementById('dashboardContent');
                 container.innerHTML = `
                     <div class="data-table">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>User</th>
+                                    <th>Avatar</th>
                                     <th>Username</th>
+                                    <th>Full Name</th>
                                     <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${profiles.map(user => `
+                                ${(profiles || []).map(user => `
                                     <tr>
                                         <td>
-                                            <img src="${user.avatar_url || 'https://ui-avatars.com/api/?name=' + (user.username || 'User') + '&background=1877f2&color=fff'}" style="width: 32px; height: 32px; border-radius: 50%;">
+                                            <img src="${user.avatar_url || `https://ui-avatars.com/api/?name=${user.username || 'User'}&background=1877f2&color=fff`}" style="width: 40px; height: 40px; border-radius: 50%;">
                                         </td>
                                         <td>${escapeHtml(user.username || 'User')}</td>
+                                        <td>${escapeHtml(user.full_name || '—')}</td>
                                         <td>
                                             <select class="role-select" onchange="updateRole('${user.id}', this.value)">
                                                 <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
@@ -583,8 +369,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <button class="action-btn ban-btn" onclick="banUser('${user.id}')">Ban</button>
-                                            <button class="action-btn delete-btn" onclick="deleteUser('${user.id}')">Delete</button>
+                                            <button class="action-btn ban-btn" onclick="banUser('${user.id}')">🚫 Ban</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -601,8 +386,12 @@
         // =========================================================
         // UPDATE ROLE
         // =========================================================
-        
         async function updateRole(userId, newRole) {
+            if (!confirm(`Change role to "${newRole}"?`)) {
+                loadUsers();
+                return;
+            }
+            
             try {
                 const { error } = await supabaseClient
                     .from('profiles')
@@ -615,7 +404,7 @@
                     return;
                 }
                 
-                alert('Role updated successfully!');
+                alert('✅ Role updated successfully!');
                 loadUsers();
                 
             } catch (error) {
@@ -627,20 +416,31 @@
         // =========================================================
         // BAN USER
         // =========================================================
-        
         async function banUser(userId) {
-            if (!confirm('Are you sure you want to ban this user?')) return;
+            const reason = prompt('Reason for banning this user:');
+            if (reason === null) return;
             
             try {
-                await supabaseClient
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                const { error } = await supabaseClient
                     .from('banned_users')
                     .insert({
                         user_id: userId,
-                        banned_by: (await supabaseClient.auth.getUser()).data.user.id,
-                        reason: 'Banned by admin'
+                        banned_by: user.id,
+                        reason: reason || 'Violation of rules'
                     });
                 
-                alert('User banned!');
+                if (error) {
+                    if (error.code === '23505') {
+                        alert('⚠️ User is already banned');
+                    } else {
+                        alert('Error: ' + error.message);
+                    }
+                    return;
+                }
+                
+                alert('✅ User banned!');
                 loadUsers();
                 
             } catch (error) {
@@ -650,33 +450,27 @@
         }
         
         // =========================================================
-        // DELETE USER
+        // ESCAPE HTML
         // =========================================================
-        
-        async function deleteUser(userId) {
-            if (!confirm('Are you sure you want to delete this user?')) return;
-            
-            try {
-                await supabaseClient
-                    .from('profiles')
-                    .delete()
-                    .eq('id', userId);
-                
-                alert('User deleted!');
-                loadUsers();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error: ' + error.message);
-            }
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-        
-        // =========================================================
+                // =========================================================
         // LOAD REPORTS
         // =========================================================
-        
         async function loadReports() {
             try {
+                const container = document.getElementById('dashboardContent');
+                container.innerHTML = `
+                    <div class="loading-state">
+                        <div class="spinner">⏳</div>
+                        <p>Loading reports...</p>
+                    </div>
+                `;
+                
                 const { data: reports, error } = await supabaseClient
                     .from('reports')
                     .select('*')
@@ -684,10 +478,27 @@
                 
                 if (error) {
                     console.error('Error loading reports:', error);
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:40px;text-align:center;">
+                            <div style="font-size:50px;margin-bottom:15px;">📭</div>
+                            <h3 style="margin:0 0 8px 0;">No Reports Table</h3>
+                            <p style="color:#65676b;margin:0;">Table "reports" not found in Supabase.</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                const container = document.getElementById('dashboardContent');
+                if (!reports || reports.length === 0) {
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:60px 20px;text-align:center;">
+                            <div style="font-size:60px;margin-bottom:15px;opacity:0.5;">✅</div>
+                            <h3 style="margin:0 0 8px 0;">No Reports</h3>
+                            <p style="color:#65676b;margin:0;">All clear! No reports to review.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 container.innerHTML = `
                     <div class="data-table">
                         <table>
@@ -702,18 +513,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                ${(reports || []).map(report => `
+                                ${reports.map(report => `
                                     <tr>
                                         <td>${escapeHtml(report.reporter_id || 'Unknown')}</td>
                                         <td>${escapeHtml(report.reported_user_id || 'Unknown')}</td>
-                                        <td>${escapeHtml(report.report_type || '')}</td>
-                                        <td>${escapeHtml(report.reason || '')}</td>
+                                        <td>${escapeHtml(report.report_type || '—')}</td>
+                                        <td>${escapeHtml(report.reason || '—')}</td>
                                         <td>
-                                            <span class="status-badge status-${report.status}">${report.status}</span>
+                                            <span class="status-badge status-${report.status || 'pending'}">
+                                                ${report.status || 'pending'}
+                                            </span>
                                         </td>
                                         <td>
-                                            <button class="action-btn resolve-btn" onclick="resolveReport('${report.id}')">Resolve</button>
-                                            <button class="action-btn dismiss-btn" onclick="dismissReport('${report.id}')">Dismiss</button>
+                                            <button class="action-btn resolve-btn" onclick="resolveReport('${report.id}')">✅ Resolve</button>
+                                            <button class="action-btn dismiss-btn" onclick="dismissReport('${report.id}')">✖ Dismiss</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -728,62 +541,89 @@
         }
         
         // =========================================================
-        // RESOLVE REPORT
+        // RESOLVE / DISMISS REPORT
         // =========================================================
-        
         async function resolveReport(reportId) {
             try {
-                await supabaseClient
+                const { error } = await supabaseClient
                     .from('reports')
                     .update({ status: 'resolved' })
                     .eq('id', reportId);
                 
-                alert('Report resolved!');
-                loadReports();
+                if (error) { alert('Error: ' + error.message); return; }
                 
+                alert('✅ Report resolved!');
+                loadReports();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error: ' + error.message);
             }
         }
         
-        // =========================================================
-        // DISMISS REPORT
-        // =========================================================
-        
         async function dismissReport(reportId) {
             try {
-                await supabaseClient
+                const { error } = await supabaseClient
                     .from('reports')
                     .update({ status: 'dismissed' })
                     .eq('id', reportId);
                 
-                alert('Report dismissed!');
-                loadReports();
+                if (error) { alert('Error: ' + error.message); return; }
                 
+                alert('✅ Report dismissed!');
+                loadReports();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error: ' + error.message);
             }
         }
         
         // =========================================================
         // LOAD WITHDRAWALS
         // =========================================================
-        
         async function loadWithdrawals() {
             try {
+                const container = document.getElementById('dashboardContent');
+                container.innerHTML = `
+                    <div class="loading-state">
+                        <div class="spinner">⏳</div>
+                        <p>Loading withdrawals...</p>
+                    </div>
+                `;
+                
                 const { data: withdrawals, error } = await supabaseClient
-                    .from('withdrawal_requests')
+                    .from('transactions')
                     .select('*')
                     .order('created_at', { ascending: false });
                 
                 if (error) {
                     console.error('Error loading withdrawals:', error);
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:40px;text-align:center;">
+                            <p style="color:#65676b;margin:0;">Error: ${error.message}</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                const container = document.getElementById('dashboardContent');
+                if (!withdrawals || withdrawals.length === 0) {
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:60px 20px;text-align:center;">
+                            <div style="font-size:60px;margin-bottom:15px;opacity:0.5;">📭</div>
+                            <h3 style="margin:0 0 8px 0;">No Withdrawals</h3>
+                            <p style="color:#65676b;margin:0;">No withdrawal requests yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // اجلب بيانات المستخدمين
+                const userIds = [...new Set(withdrawals.map(w => w.user_id))];
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', userIds);
+                
+                const profilesMap = {};
+                (profiles || []).forEach(p => profilesMap[p.id] = p);
+                
                 container.innerHTML = `
                     <div class="data-table">
                         <table>
@@ -792,25 +632,33 @@
                                     <th>User</th>
                                     <th>Amount</th>
                                     <th>Method</th>
+                                    <th>Details</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${(withdrawals || []).map(withdrawal => `
-                                    <tr>
-                                        <td>${escapeHtml(withdrawal.user_id || 'Unknown')}</td>
-                                        <td>$${withdrawal.amount}</td>
-                                        <td>${escapeHtml(withdrawal.payment_method)}</td>
-                                        <td>
-                                            <span class="status-badge status-${withdrawal.status}">${withdrawal.status}</span>
-                                        </td>
-                                        <td>
-                                            <button class="action-btn approve-btn" onclick="approveWithdrawal('${withdrawal.id}')">Approve</button>
-                                            <button class="action-btn reject-btn" onclick="rejectWithdrawal('${withdrawal.id}')">Reject</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
+                                ${withdrawals.map(w => {
+                                    const profile = profilesMap[w.user_id] || {};
+                                    const username = profile.full_name || profile.username || 'Unknown';
+                                    return `
+                                        <tr>
+                                            <td>${escapeHtml(username)}</td>
+                                            <td><strong>$${parseFloat(w.amount || 0).toFixed(2)}</strong></td>
+                                            <td>${escapeHtml(w.method || '—')}</td>
+                                            <td>${escapeHtml((w.details || '—').substring(0, 30))}</td>
+                                            <td>
+                                                <span class="status-badge status-${w.status || 'pending'}">
+                                                    ${w.status || 'pending'}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button class="action-btn approve-btn" onclick="approveWithdrawal('${w.id}')">✅ Approve</button>
+                                                <button class="action-btn reject-btn" onclick="rejectWithdrawal('${w.id}')">❌ Reject</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
                             </tbody>
                         </table>
                     </div>
@@ -821,52 +669,51 @@
             }
         }
         
-        // =========================================================
-        // APPROVE WITHDRAWAL
-        // =========================================================
-        
         async function approveWithdrawal(withdrawalId) {
             try {
-                await supabaseClient
-                    .from('withdrawal_requests')
+                const { error } = await supabaseClient
+                    .from('transactions')
                     .update({ status: 'approved' })
                     .eq('id', withdrawalId);
                 
-                alert('Withdrawal approved!');
-                loadWithdrawals();
+                if (error) { alert('Error: ' + error.message); return; }
                 
+                alert('✅ Withdrawal approved!');
+                loadWithdrawals();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error: ' + error.message);
             }
         }
         
-        // =========================================================
-        // REJECT WITHDRAWAL
-        // =========================================================
-        
         async function rejectWithdrawal(withdrawalId) {
             try {
-                await supabaseClient
-                    .from('withdrawal_requests')
+                const { error } = await supabaseClient
+                    .from('transactions')
                     .update({ status: 'rejected' })
                     .eq('id', withdrawalId);
                 
-                alert('Withdrawal rejected!');
-                loadWithdrawals();
+                if (error) { alert('Error: ' + error.message); return; }
                 
+                alert('✅ Withdrawal rejected!');
+                loadWithdrawals();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error: ' + error.message);
             }
         }
         
         // =========================================================
         // LOAD ADS
         // =========================================================
-        
         async function loadAds() {
             try {
+                const container = document.getElementById('dashboardContent');
+                container.innerHTML = `
+                    <div class="loading-state">
+                        <div class="spinner">⏳</div>
+                        <p>Loading ads...</p>
+                    </div>
+                `;
+                
                 const { data: ads, error } = await supabaseClient
                     .from('ads')
                     .select('*')
@@ -874,29 +721,54 @@
                 
                 if (error) {
                     console.error('Error loading ads:', error);
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:40px;text-align:center;">
+                            <div style="font-size:50px;margin-bottom:15px;">📭</div>
+                            <h3 style="margin:0 0 8px 0;">Ads Table</h3>
+                            <p style="color:#65676b;margin:0;">Table "ads" not found.</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                const container = document.getElementById('dashboardContent');
+                if (!ads || ads.length === 0) {
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:60px 20px;text-align:center;">
+                            <div style="font-size:60px;margin-bottom:15px;opacity:0.5;">📢</div>
+                            <h3 style="margin:0 0 8px 0;">No Ads</h3>
+                            <p style="color:#65676b;margin:0;">No ads created yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 container.innerHTML = `
                     <div class="data-table">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Budget</th>
                                     <th>Clicks</th>
                                     <th>Views</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${(ads || []).map(ad => `
+                                ${ads.map(ad => `
                                     <tr>
-                                        <td>${escapeHtml(ad.title || '')}</td>
+                                        <td>${escapeHtml(ad.title || '—')}</td>
+                                        <td>
+                                            <span class="status-badge status-${ad.status || 'pending'}">
+                                                ${ad.status || 'pending'}
+                                            </span>
+                                        </td>
+                                        <td>$${parseFloat(ad.budget || 0).toFixed(2)}</td>
                                         <td>${ad.clicks_count || 0}</td>
                                         <td>${ad.views_count || 0}</td>
                                         <td>
-                                            <button class="action-btn delete-btn" onclick="deleteAd('${ad.id}')">Delete</button>
+                                            <button class="action-btn delete-btn" onclick="deleteAd('${ad.id}')">🗑️ Delete</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -910,34 +782,37 @@
             }
         }
         
-        // =========================================================
-        // DELETE AD
-        // =========================================================
-        
         async function deleteAd(adId) {
-            if (!confirm('Are you sure you want to delete this ad?')) return;
+            if (!confirm('Delete this ad?')) return;
             
             try {
-                await supabaseClient
+                const { error } = await supabaseClient
                     .from('ads')
                     .delete()
                     .eq('id', adId);
                 
-                alert('Ad deleted!');
-                loadAds();
+                if (error) { alert('Error: ' + error.message); return; }
                 
+                alert('✅ Ad deleted!');
+                loadAds();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error: ' + error.message);
             }
         }
         
         // =========================================================
         // LOAD TASKS
         // =========================================================
-        
         async function loadTasks() {
             try {
+                const container = document.getElementById('dashboardContent');
+                container.innerHTML = `
+                    <div class="loading-state">
+                        <div class="spinner">⏳</div>
+                        <p>Loading tasks...</p>
+                    </div>
+                `;
+                
                 const { data: tasks, error } = await supabaseClient
                     .from('tasks')
                     .select('*')
@@ -945,29 +820,48 @@
                 
                 if (error) {
                     console.error('Error loading tasks:', error);
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:40px;text-align:center;">
+                            <div style="font-size:50px;margin-bottom:15px;">📭</div>
+                            <h3 style="margin:0 0 8px 0;">Tasks Table</h3>
+                            <p style="color:#65676b;margin:0;">Table "tasks" not found.</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                const container = document.getElementById('dashboardContent');
+                if (!tasks || tasks.length === 0) {
+                    container.innerHTML = `
+                        <div class="data-table" style="padding:60px 20px;text-align:center;">
+                            <div style="font-size:60px;margin-bottom:15px;opacity:0.5;">🎯</div>
+                            <h3 style="margin:0 0 8px 0;">No Tasks</h3>
+                            <p style="color:#65676b;margin:0;">No tasks created yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 container.innerHTML = `
                     <div class="data-table">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Task</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
                                     <th>Difficulty</th>
                                     <th>Points</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${(tasks || []).map(task => `
+                                ${tasks.map(task => `
                                     <tr>
-                                        <td>${escapeHtml(task.title)}</td>
+                                        <td>${escapeHtml(task.title || '—')}</td>
+                                        <td>${escapeHtml(task.type || '—')}</td>
                                         <td>${escapeHtml(task.difficulty || 'easy')}</td>
-                                        <td>${task.points_reward}</td>
+                                        <td><strong>${task.points_reward || 0}</strong></td>
                                         <td>
-                                            <button class="action-btn delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
+                                            <button class="action-btn delete-btn" onclick="deleteTask('${task.id}')">🗑️ Delete</button>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -981,73 +875,75 @@
             }
         }
         
-        // =========================================================
-        // DELETE TASK
-        // =========================================================
-        
         async function deleteTask(taskId) {
-            if (!confirm('Are you sure you want to delete this task?')) return;
+            if (!confirm('Delete this task?')) return;
             
             try {
-                await supabaseClient
+                const { error } = await supabaseClient
                     .from('tasks')
                     .delete()
                     .eq('id', taskId);
                 
-                alert('Task deleted!');
-                loadTasks();
+                if (error) { alert('Error: ' + error.message); return; }
                 
+                alert('✅ Task deleted!');
+                loadTasks();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error: ' + error.message);
             }
         }
         
         // =========================================================
         // TAB SWITCHING
         // =========================================================
-        
         function showTab(tab, element) {
-            document.querySelectorAll('.dashboard-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            document.querySelectorAll('.dashboard-tab').forEach(t => t.classList.remove('active'));
+            if (element) element.classList.add('active');
             
-            element.classList.add('active');
+            if (tab === 'users') loadUsers();
+            else if (tab === 'reports') loadReports();
+            else if (tab === 'withdrawals') loadWithdrawals();
+            else if (tab === 'ads') loadAds();
+            else if (tab === 'tasks') loadTasks();
+        }
+        
+        // =========================================================
+        // 🆕 SECURE INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔴 owner-dashboard.html loaded');
             
-            if (tab === 'users') {
-                loadUsers();
-            } else if (tab === 'reports') {
-                loadReports();
-            } else if (tab === 'withdrawals') {
-                loadWithdrawals();
-            } else if (tab === 'ads') {
-                loadAds();
-            } else if (tab === 'tasks') {
-                loadTasks();
+            // Language
+            if (typeof getCurrentLanguage === 'function') {
+                const lang = getCurrentLanguage();
+                setLanguage(lang);
+                applyTranslations();
             }
-        }
-        
-        // =========================================================
-        // ESCAPE HTML
-        // =========================================================
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // =========================================================
-        // START
-        // =========================================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            checkOwnerAccess(); // ⬅️ تحقق من الصلاحية أولاً
+            
+            // 🚨 Check access FIRST
+            const hasAccess = await checkOwnerAccess();
+            if (!hasAccess) return;
+            
+            // Load data
             loadUserProfile();
             loadStats();
             loadUsers();
         });
+        
+        // =========================================================
+        // MAKE FUNCTIONS GLOBAL
+        // =========================================================
+        window.logout = logout;
+        window.showTab = showTab;
+        window.updateRole = updateRole;
+        window.banUser = banUser;
+        window.resolveReport = resolveReport;
+        window.dismissReport = dismissReport;
+        window.approveWithdrawal = approveWithdrawal;
+        window.rejectWithdrawal = rejectWithdrawal;
+        window.deleteAd = deleteAd;
+        window.deleteTask = deleteTask;
     </script>
+
 </body>
 </html>

@@ -235,17 +235,7 @@
 </head>
 <body>
 
-    <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
+  
 
     <!-- =========================================================
          NAVBAR
@@ -268,7 +258,14 @@
             </a>
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
+
+       
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- =========================================================
          ADS CONTAINER
@@ -543,5 +540,7 @@
             loadAds();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=20260912">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        
+        /* NAV BUTTONS */
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .home-btn { color: white; background: #1877f2; }
+        
+        /* CONTACT CONTAINER */
+        .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        /* HEADER */
+        .contact-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1877f2, #8b5cf6);
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(24, 119, 242, 0.3);
+        }
+        .contact-header h1 {
+            margin: 0 0 10px;
+            font-size: 36px;
+            font-weight: 800;
+        }
+        .contact-header p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        /* INFO CARDS */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .info-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1877f2, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .info-content h3 {
+            margin: 0 0 5px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #050505;
+        }
+        .info-content a {
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-all;
+        }
+        .info-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* CONTACT FORM */
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        .form-card h2 {
+            margin: 0 0 25px;
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #050505;
+        }
+        .form-group label .required {
+            color: #f44336;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #e4e6eb;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            background: #f8f9fa;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #1877f2;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1877f2, #166fe5);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 14px rgba(24, 119, 242, 0.35);
+        }
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.45);
+        }
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        /* MESSAGE */
+        .form-message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .form-message.success {
+            background: #e7f7e7;
+            color: #28a745;
+            display: block;
+        }
+        .form-message.error {
+            background: #ffebee;
+            color: #f44336;
+            display: block;
+        }
+        
+        /* NOTE */
+        .contact-note {
+            background: #fff4e5;
+            border-left: 4px solid #f0ad4e;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #856404;
+            line-height: 1.6;
+        }
+        .contact-note strong {
+            color: #333;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px solid #e4e6eb;
+        }
+        footer a {
+            color: #65676b;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+        footer a:hover {
+            color: #1877f2;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .contact-header h1 { font-size: 26px; }
+            .contact-header p { font-size: 14px; }
+            .form-card { padding: 20px; }
+            .form-card h2 { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+    
+    <!-- BACK & HOME -->
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn">🏠 Home</a>
+    </div>
+
+    <!-- CONTACT CONTAINER -->
+    <div class="contact-container">
+        
+        <!-- HEADER -->
+        <div class="contact-header">
+            <h1>📧 Contact Us</h1>
+            <p>نحن هنا للإجابة على استفساراتك ومساعدتك</p>
+        </div>
+
+        <!-- INFO CARDS -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-icon">📧</div>
+                <div class="info-content">
+                    <h3>البريد الإلكتروني</h3>
+                    <a href="mailto:narinchdowik@gmail.com">narinchdowik@gmail.com</a>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">⏰</div>
+                <div class="info-content">
+                    <h3>وقت الاستجابة</h3>
+                    <span style="color: #65676b; font-size: 14px;">خلال 24-48 ساعة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="form-card">
+            <h2>✍️ أرسل لنا رسالة</h2>
+            
+            <div id="formMessage" class="form-message"></div>
+            
+            <form id="contactForm" onsubmit="submitContactForm(event)">
+                <div class="form-group">
+                    <label for="senderName">الاسم <span class="required">*</span></label>
+                    <input type="text" id="senderName" placeholder="اسمك الكامل" required maxlength="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="senderEmail">البريد الإلكتروني <span class="required">*</span></label>
+                    <input type="email" id="senderEmail" placeholder="example@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">الموضوع <span class="required">*</span></label>
+                    <input type="text" id="subject" placeholder="موضوع الرسالة" required maxlength="200">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">الرسالة <span class="required">*</span></label>
+                    <textarea id="message" placeholder="اكتب رسالتك هنا..." required maxlength="2000"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    📤 إرسال الرسالة
+                </button>
+            </form>
+        </div>
+
+        <!-- NOTE -->
+        <div class="contact-note">
+            <strong>⚠️ ملاحظة مهمة:</strong><br>
+            جميع الرسائل تُحفظ في قاعدة البيانات وسيتم الرد عليك عبر البريد الإلكتروني فقط. 
+            <br>لا نستخدم WhatsApp أو أي وسيلة تواصل أخرى.
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="margin-bottom: 15px;">
+            <a href="index.html" style="color: #1877f2; text-decoration: none; font-weight: 700; font-size: 20px;">📘 SocialWiki</a>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+        </div>
+        <div style="color: #65676b; font-size: 12px;">
+            © 2026 SocialWiki. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase setup
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                const username = profile?.full_name || profile?.username || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = username;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // SUBMIT CONTACT FORM
+        // =========================================================
+        async function submitContactForm(event) {
+            event.preventDefault();
+            
+            const nameEl = document.getElementById('senderName');
+            const emailEl = document.getElementById('senderEmail');
+            const subjectEl = document.getElementById('subject');
+            const messageEl = document.getElementById('message');
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            
+            const senderName = nameEl.value.trim();
+            const senderEmail = emailEl.value.trim();
+            const subject = subjectEl.value.trim();
+            const message = messageEl.value.trim();
+            
+            // Validation
+            if (!senderName || !senderEmail || !subject || !message) {
+                showFormMessage('❌ الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(senderEmail)) {
+                showFormMessage('❌ البريد الإلكتروني غير صالح', 'error');
+                return;
+            }
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ جاري الإرسال...';
+            
+            try {
+                // Insert to Supabase
+                const { data, error } = await supabaseClient
+                    .from('contact_messages')
+                    .insert({
+                        sender_name: senderName,
+                        sender_email: senderEmail,
+                        subject: subject,
+                        message: message,
+                        is_read: false
+                    })
+                    .select();
+                
+                if (error) {
+                    console.error('Error:', error);
+                    showFormMessage('❌ خطأ: ' + error.message, 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '📤 إرسال الرسالة';
+                    return;
+                }
+                
+                console.log('✅ Message sent:', data);
+                
+                // Success
+                showFormMessage('✅ تم إرسال رسالتك بنجاح! سنرد عليك خلال 24-48 ساعة.', 'success');
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+                // Re-enable after 5 seconds
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '📤 إرسال الرسالة';
+                }, 5000);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showFormMessage('❌ حدث خطأ: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📤 إرسال الرسالة';
+            }
+        }
+        
+        // =========================================================
+        // SHOW FORM MESSAGE
+        // =========================================================
+        function showFormMessage(text, type) {
+            const el = document.getElementById('formMessage');
+            if (!el) return;
+            
+            el.textContent = text;
+            el.className = 'form-message ' + type;
+            
+            // Hide after 8 seconds
+            setTimeout(() => {
+                el.className = 'form-message';
+                el.textContent = '';
+            }, 8000);
+        }
+        
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+        });
+    </script>
+</body>
+</html>

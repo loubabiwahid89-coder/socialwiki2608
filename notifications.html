@@ -6,10 +6,6 @@
     <title>Notifications - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
     <style>
-        /* =========================================================
-           NAVBAR (بسيط)
-        ========================================================= */
-        
         .navbar {
             display: flex;
             align-items: center;
@@ -22,18 +18,8 @@
             z-index: 1000;
         }
         
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
         
         .nav-icons {
             display: flex;
@@ -52,19 +38,22 @@
             border-radius: 50%;
         }
         
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-icons a.active { background: rgba(255,255,255,0.3); }
         
-        .nav-icons a.active {
-            background: rgba(255,255,255,0.3);
-        }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
         
-        .nav-right {
+        .nav-profile {
             display: flex;
             align-items: center;
             gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
         }
+        
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
         
         .logout-button {
             background: rgba(255,255,255,0.2);
@@ -93,9 +82,7 @@
             margin-bottom: 20px;
         }
         
-        .notifications-header h2 {
-            font-size: 24px;
-        }
+        .notifications-header h2 { font-size: 24px; }
         
         .mark-all-read {
             background: #e4e6eb;
@@ -104,7 +91,10 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
         }
+        
+        .mark-all-read:hover { background: #d8dadf; }
         
         .notification-item {
             display: flex;
@@ -115,17 +105,17 @@
             border-radius: 12px;
             margin-bottom: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            cursor: pointer;
             transition: 0.2s;
-        }
-        
-        .notification-item:hover {
-            transform: translateX(5px);
+            position: relative;
         }
         
         .notification-item.unread {
             background: #e7f3ff;
             border-left: 3px solid #1877f2;
+        }
+        
+        .notification-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .notification-icon {
@@ -137,16 +127,19 @@
             justify-content: center;
             font-size: 24px;
             flex-shrink: 0;
+            background: #f0f2f5;
         }
         
         .notification-text {
             flex: 1;
+            min-width: 0;
         }
         
         .notification-title {
             font-weight: 600;
             font-size: 14px;
             margin-bottom: 3px;
+            word-break: break-word;
         }
         
         .notification-time {
@@ -159,11 +152,73 @@
             height: 8px;
             border-radius: 50%;
             background: #1877f2;
+            flex-shrink: 0;
+        }
+        
+        /* 🆕 أزرار Accept/Reject */
+        .notification-actions {
+            display: flex;
+            gap: 8px;
             margin-left: auto;
+            flex-shrink: 0;
+        }
+        
+        .notif-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        
+        .notif-btn.accept {
+            background: #28a745;
+            color: white;
+        }
+        
+        .notif-btn.accept:hover {
+            background: #218838;
+        }
+        
+        .notif-btn.reject {
+            background: #e4e6eb;
+            color: #050505;
+        }
+        
+        .notif-btn.reject:hover {
+            background: #d8dadf;
+        }
+        
+        /* 🆕 زر حذف */
+        .notif-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #65676b;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        
+        .notification-item:hover .notif-delete {
+            opacity: 1;
+        }
+        
+        .notif-delete:hover {
+            background: #ffebee;
+            color: #f44336;
         }
         
         /* =========================================================
-           BACK & HOME BUTTONS
+           BACK & HOME
         ========================================================= */
         
         .nav-buttons {
@@ -185,35 +240,25 @@
             font-size: 14px;
         }
         
-        .back-btn {
+        .home-btn { color: white; background: #1877f2; }
+        
+        /* Empty State */
+        .empty-notifications {
+            text-align: center;
+            padding: 60px 20px;
             color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         
-        .home-btn {
-            color: white;
-            background: #1877f2;
+        .empty-notifications-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
 
-    <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
-
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -233,10 +278,13 @@
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
     </nav>
+    
+    <!-- BACK & HOME -->
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
-    <!-- =========================================================
-         NOTIFICATIONS CONTAINER
-    ========================================================= -->
+    <!-- NOTIFICATIONS CONTAINER -->
     <div class="notifications-container">
         <div class="notifications-header">
             <h2>🔔 Notifications</h2>
@@ -244,24 +292,39 @@
         </div>
 
         <div id="notificationsList">
-            <!-- الإشعارات ستظهر هنا -->
+            <div class="empty-notifications">
+                <div class="empty-notifications-icon">⏳</div>
+                <p>Loading notifications...</p>
+            </div>
         </div>
     </div>
 
     <!-- =========================================================
          SCRIPTS
     ========================================================= -->
+    
+    <!-- 1. Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 2. Supabase Client Setup -->
     <script>
-        // Supabase setup
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("✅ Supabase client created in notifications.html");
+        }
+        const supabaseClient = window.supabaseClient;
+    </script>
+    
+    <!-- 3. Translations -->
+    <script src="js/translations.js"></script>
+    
+    <!-- 4. Main Script -->
+    <script>
         // =========================================================
         // LOGOUT
         // =========================================================
-        
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
@@ -270,73 +333,249 @@
         // =========================================================
         // LOAD NOTIFICATIONS
         // =========================================================
-        
         async function loadNotifications() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            
-            if (!user) {
-                window.location.href = 'auth.html';
-                return;
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // جلب الإشعارات
+                const { data: notifications, error } = await supabaseClient
+                    .from('notifications')
+                    .select('*')
+                    .eq('receiver_id', user.id)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading notifications:', error);
+                    return;
+                }
+                
+                // 🆕 جلب طلبات الصداقة المعلقة
+                const { data: friendRequests } = await supabaseClient
+                    .from('friend_requests')
+                    .select('id, sender_id, created_at')
+                    .eq('receiver_id', user.id)
+                    .eq('status', 'pending');
+                
+                // 🆕 اجمع sender_ids من الطلبات
+                const senderIds = (friendRequests || []).map(r => r.sender_id);
+                
+                // 🆕 جلب profiles للطلبات
+                let profilesMap = {};
+                if (senderIds.length > 0) {
+                    const { data: profiles } = await supabaseClient
+                        .from('profiles')
+                        .select('id, username, full_name, avatar_url')
+                        .in('id', senderIds);
+                    
+                    (profiles || []).forEach(p => {
+                        profilesMap[p.id] = p;
+                    });
+                }
+                
+                displayNotifications(notifications || [], friendRequests || [], profilesMap);
+                
+            } catch (error) {
+                console.error('Error:', error);
             }
-            
-            // جلب الإشعارات
-            const { data: notifications, error } = await supabaseClient
-                .from('notifications')
-                .select('*')
-                .eq('receiver_id', user.id)
-                .order('created_at', { ascending: false });
-            
-            if (error) {
-                console.error('Error loading notifications:', error);
-                return;
-            }
-            
-            displayNotifications(notifications || []);
         }
         
         // =========================================================
         // DISPLAY NOTIFICATIONS
         // =========================================================
-        
-        function displayNotifications(notifications) {
+        function displayNotifications(notifications, friendRequests, profilesMap) {
             const list = document.getElementById('notificationsList');
             list.innerHTML = '';
             
-            if (!notifications || notifications.length === 0) {
-                list.innerHTML = '<div class="notification-item" style="justify-content: center;">No notifications yet</div>';
+            // 🆕 إذا لا يوجد أي شيء
+            if ((!notifications || notifications.length === 0) && 
+                (!friendRequests || friendRequests.length === 0)) {
+                list.innerHTML = `
+                    <div class="empty-notifications">
+                        <div class="empty-notifications-icon">🔔</div>
+                        <h3 style="margin:0 0 8px 0;">No notifications yet</h3>
+                        <p style="margin:0;">When someone interacts with you, you'll see it here.</p>
+                    </div>
+                `;
                 return;
             }
             
-            notifications.forEach(notification => {
-                let icon = '🔔';
-                if (notification.type === 'like') icon = '👍';
-                if (notification.type === 'comment') icon = '💬';
-                if (notification.type === 'friend') icon = '👥';
-                if (notification.type === 'birthday') icon = '🎂';
-                if (notification.type === 'gift') icon = '🎁';
-                if (notification.type === 'ad') icon = '📢';
+            // 🆕 عرض طلبات الصداقة أولاً (الأهم)
+            if (friendRequests && friendRequests.length > 0) {
+                friendRequests.forEach(request => {
+                    const profile = profilesMap[request.sender_id] || {};
+                    const name = profile.full_name || profile.username || 'User';
+                    const avatar = profile.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'notification-item unread';
+                    item.style.borderLeft = '3px solid #28a745';
+                    
+                    item.innerHTML = `
+                        <img src="${avatar}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.src='https://ui-avatars.com/api/?name=User&background=1877f2&color=fff'">
+                        <div class="notification-text">
+                            <div class="notification-title">
+                                <strong>${escapeHtml(name)}</strong> sent you a friend request
+                            </div>
+                            <div class="notification-time">${formatTimeAgo(request.created_at)}</div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="notif-btn accept" onclick="acceptFriendRequest('${request.id}', this)">
+                                ✅ Accept
+                            </button>
+                            <button class="notif-btn reject" onclick="rejectFriendRequest('${request.id}', this)">
+                                ❌ Reject
+                            </button>
+                        </div>
+                    `;
+                    
+                    list.appendChild(item);
+                });
+            }
+            
+            // عرض الإشعارات العادية
+            if (notifications && notifications.length > 0) {
+                notifications.forEach(notification => {
+                    // تخطَّ إشعارات friend_request القديمة (لأننا نعرضها من جدول friend_requests)
+                    if (notification.type === 'friend_request' || notification.type === 'friend_accept') {
+                        return;
+                    }
+                    
+                    let icon = '🔔';
+                    if (notification.type === 'like') icon = '👍';
+                    if (notification.type === 'comment') icon = '💬';
+                    if (notification.type === 'friend') icon = '👥';
+                    if (notification.type === 'birthday') icon = '🎂';
+                    if (notification.type === 'gift') icon = '🎁';
+                    if (notification.type === 'ad') icon = '📢';
+                    
+                    const item = document.createElement('div');
+                    item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                    
+                    item.innerHTML = `
+                        <button class="notif-delete" onclick="event.stopPropagation(); deleteNotification('${notification.id}')" title="Delete">🗑️</button>
+                        <div class="notification-icon">${icon}</div>
+                        <div class="notification-text" onclick="markAsRead('${notification.id}')" style="cursor:pointer;">
+                            <div class="notification-title">${escapeHtml(notification.message)}</div>
+                            <div class="notification-time">${formatTimeAgo(notification.created_at)}</div>
+                        </div>
+                        ${!notification.is_read ? '<div class="notification-dot"></div>' : ''}
+                    `;
+                    
+                    list.appendChild(item);
+                });
+            }
+        }
+        
+        // =========================================================
+        // 🆕 ACCEPT FRIEND REQUEST
+        // =========================================================
+        async function acceptFriendRequest(requestId, button) {
+            if (button) {
+                button.disabled = true;
+                button.textContent = '⏳';
+            }
+            
+            try {
+                const { error } = await supabaseClient.rpc('accept_friend_request', {
+                    p_request_id: requestId
+                });
                 
-                const item = document.createElement('div');
-                item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
-                item.onclick = () => markAsRead(notification.id);
+                if (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error: ' + error.message);
+                    if (button) {
+                        button.disabled = false;
+                        button.textContent = '✅ Accept';
+                    }
+                    return;
+                }
                 
-                item.innerHTML = `
-                    <div class="notification-icon">${icon}</div>
-                    <div class="notification-text">
-                        <div class="notification-title">${notification.message}</div>
-                        <div class="notification-time">${formatTime(notification.created_at)}</div>
-                    </div>
-                    ${!notification.is_read ? '<div class="notification-dot"></div>' : ''}
-                `;
+                alert('✅ Friend request accepted!');
+                loadNotifications();
                 
-                list.appendChild(item);
-            });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error: ' + error.message);
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '✅ Accept';
+                }
+            }
+        }
+        
+        // =========================================================
+        // 🆕 REJECT FRIEND REQUEST
+        // =========================================================
+        async function rejectFriendRequest(requestId, button) {
+            if (button) {
+                button.disabled = true;
+                button.textContent = '⏳';
+            }
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                const { error } = await supabaseClient
+                    .from('friend_requests')
+                    .update({ status: 'rejected', updated_at: new Date() })
+                    .eq('id', requestId)
+                    .eq('receiver_id', user.id);
+                
+                if (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error: ' + error.message);
+                    if (button) {
+                        button.disabled = false;
+                        button.textContent = '❌ Reject';
+                    }
+                    return;
+                }
+                
+                alert('❌ Friend request rejected');
+                loadNotifications();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '❌ Reject';
+                }
+            }
+        }
+        
+        // =========================================================
+        // 🆕 DELETE NOTIFICATION
+        // =========================================================
+        async function deleteNotification(notificationId) {
+            if (!confirm('Delete this notification?')) return;
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('notifications')
+                    .delete()
+                    .eq('id', notificationId);
+                
+                if (error) {
+                    console.error('Error:', error);
+                    alert('Error: ' + error.message);
+                    return;
+                }
+                
+                loadNotifications();
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
         
         // =========================================================
         // MARK AS READ
         // =========================================================
-        
         async function markAsRead(notificationId) {
             await supabaseClient
                 .from('notifications')
@@ -349,25 +588,35 @@
         // =========================================================
         // MARK ALL READ
         // =========================================================
-        
         async function markAllRead() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            
-            await supabaseClient
-                .from('notifications')
-                .update({ is_read: true })
-                .eq('receiver_id', user.id)
-                .eq('is_read', false);
-            
-            loadNotifications();
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                await supabaseClient
+                    .from('notifications')
+                    .update({ is_read: true })
+                    .eq('receiver_id', user.id)
+                    .eq('is_read', false);
+                
+                loadNotifications();
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
         
         // =========================================================
         // FORMAT TIME
         // =========================================================
-        
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
+        function formatTimeAgo(timestamp) {
+    if (!timestamp) return 'Just now';
+    
+    let ts = String(timestamp);
+    if (!ts.includes('Z') && !ts.includes('+')) {
+        ts = ts + 'Z';
+    }
+    
+    const date = new Date(ts);
             const now = new Date();
             const diff = now - date;
             
@@ -385,25 +634,28 @@
         }
         
         // =========================================================
-        // LOAD USER PROFILE (للنافبار)
+        // ESCAPE HTML
         // =========================================================
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
         
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) return;
                 
-                const { data: profile, error } = await supabaseClient
+                const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('username, full_name, avatar_url')
                     .eq('id', user.id)
                     .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
                 
                 const username = profile?.username || profile?.full_name || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
@@ -422,11 +674,40 @@
         // =========================================================
         // START
         // =========================================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            loadNotifications();
-            loadUserProfile();
-        });
+     document.addEventListener('DOMContentLoaded', async function() {
+    // 1. حمّل الإشعارات
+    await loadNotifications();
+    await loadUserProfile();
+    
+    // 2. بعد 3 ثوانٍ → علّم الكل كمقروء
+    setTimeout(async () => {
+        try {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return;
+            
+            const { error } = await supabaseClient
+                .from('notifications')
+                .update({ is_read: true })
+                .eq('receiver_id', user.id)
+                .eq('is_read', false);
+            
+            if (error) {
+                console.error('❌ Error marking read:', error);
+            } else {
+                console.log('✅ All notifications marked as read');
+            }
+        } catch (err) {
+            console.error('❌ Error:', err);
+        }
+    }, 3000);
+});
+        // Global functions
+        window.acceptFriendRequest = acceptFriendRequest;
+        window.rejectFriendRequest = rejectFriendRequest;
+        window.deleteNotification = deleteNotification;
+        window.markAsRead = markAsRead;
+        window.markAllRead = markAllRead;
+        window.logout = logout;
     </script>
 </body>
 </html>

@@ -7987,7 +7987,7 @@ posts.forEach(post => {
                     margin-bottom:12px;
                 "
             >
-                ${new Date(post.created_at).toLocaleString()}
+               new Date(post.created_at.includes('Z') ? post.created_at : post.created_at + 'Z').toLocaleString()
             </div>
 
 

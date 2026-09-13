@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -120,6 +120,16 @@
             box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4);
         }
         
+        /* ✅ إصلاح RTL للأرقام */
+        [dir="rtl"] .points-display .number-ltr,
+        [dir="rtl"] .number,
+        [dir="rtl"] .code-display,
+        [dir="rtl"] .stat-card .number {
+            direction: ltr;
+            unicode-bidi: embed;
+            display: inline-block;
+        }
+        
         .referral-code-box {
             background: white;
             border-radius: 12px;
@@ -189,30 +199,14 @@
             transition: 0.2s;
         }
         
-        .share-btn.whatsapp {
-            background: #25D366;
-        }
-        .share-btn.whatsapp:hover {
-            background: #1da851;
-        }
-        .share-btn.facebook {
-            background: #1877f2;
-        }
-        .share-btn.facebook:hover {
-            background: #166fe5;
-        }
-        .share-btn.twitter {
-            background: #000000;
-        }
-        .share-btn.twitter:hover {
-            background: #1a1a1a;
-        }
-        .share-btn.copy {
-            background: #65676b;
-        }
-        .share-btn.copy:hover {
-            background: #4a4a4e;
-        }
+        .share-btn.whatsapp { background: #25D366; }
+        .share-btn.whatsapp:hover { background: #1da851; }
+        .share-btn.facebook { background: #1877f2; }
+        .share-btn.facebook:hover { background: #166fe5; }
+        .share-btn.twitter { background: #000000; }
+        .share-btn.twitter:hover { background: #1a1a1a; }
+        .share-btn.copy { background: #65676b; }
+        .share-btn.copy:hover { background: #4a4a4e; }
         
         /* =========================================================
            STATS
@@ -243,6 +237,9 @@
             font-size: 28px;
             font-weight: bold;
             color: #1877f2;
+            direction: ltr;
+            unicode-bidi: embed;
+            display: inline-block;
         }
         
         .stat-card .number.gold {
@@ -271,7 +268,7 @@
         }
         
         .referral-list th {
-            text-align: left;
+            text-align: right;
             padding: 10px;
             border-bottom: 2px solid #e4e6eb;
             color: #65676b;
@@ -286,6 +283,14 @@
         
         .referral-list tr:hover {
             background: #f0f2f5;
+        }
+        
+        /* ✅ خلايا الجدول - إصلاح RTL */
+        .referral-list td.date-cell,
+        .referral-list td.reward-cell {
+            direction: ltr;
+            unicode-bidi: embed;
+            text-align: right;
         }
         
         .empty-state {
@@ -350,18 +355,6 @@
 <body>
 
     <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
-
-    <!-- =========================================================
          NAVBAR
     ========================================================= -->
     <nav class="navbar">
@@ -375,34 +368,39 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-               <div class="nav-right">
+        <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
             
-            <!-- 🔥 زر اللغة - ضعه هنا -->
+            <!-- 🔥 زر اللغة -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
-               <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
-    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
-    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
-    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
-    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
-    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
-    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
-    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
-    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
-    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
-    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
-    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
-    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
-</div>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                </div>
             </div>
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
+
+    <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- =========================================================
          REFERRAL CONTAINER
@@ -410,25 +408,24 @@
     <div class="referral-container">
 
         <!-- HEADER -->
-                <!-- HEADER -->
         <div class="referral-header">
             <h2 data-i18n="referral">👥 الإحالات</h2>
             <div class="points-display" id="pointsDisplay">
-                🪙 0 <span data-i18n="points">نقاط</span>
+                🪙 <span class="number-ltr" id="pointsValue" dir="ltr">0</span> <span data-i18n="points">نقاط</span>
             </div>
         </div>
 
         <!-- كود الإحالة -->
         <div class="referral-code-box">
             <h3 data-i18n="your_referral_code">🔑 كود الإحالة الخاص بك</h3>
-            <div class="code-display" id="referralCode" data-i18n="loading">جاري التحميل...</div>
+            <div class="code-display" id="referralCode" dir="ltr" data-i18n="loading">جاري التحميل...</div>
             <button class="btn-primary" onclick="copyReferralCode()" data-i18n="copy_code">📋 نسخ الكود</button>
             
             <h3 style="margin-top: 20px;" data-i18n="your_referral_link">🔗 رابط الإحالة</h3>
-            <div class="code-display" id="referralLink" style="font-size: 16px; letter-spacing: 0; word-break: break-all;" data-i18n="loading">
+            <div class="code-display" id="referralLink" dir="ltr" style="font-size: 16px; letter-spacing: 0; word-break: break-all;" data-i18n="loading">
                 جاري التحميل...
             </div>
-            <button class="btn-primary" onclick="copyReferralLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
+            <button class="btn-primary" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 نسخ الرابط</button>
         </div>
 
         <!-- أزرار المشاركة -->
@@ -436,22 +433,22 @@
             <button class="share-btn whatsapp" onclick="shareOnWhatsApp()" data-i18n="share_whatsapp">💬 واتساب</button>
             <button class="share-btn facebook" onclick="shareOnFacebook()" data-i18n="share_facebook">📘 فيسبوك</button>
             <button class="share-btn twitter" onclick="shareOnTwitter()" data-i18n="share_twitter">🐦 تويتر</button>
-            <button class="share-btn copy" onclick="copyReferralLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
+            <button class="share-btn copy" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 نسخ الرابط</button>
         </div>
 
         <!-- إحصائيات -->
         <div class="stats-grid">
             <div class="stat-card">
                 <h4 data-i18n="total_referrals">👥 المدعوين</h4>
-                <div class="number" id="totalReferrals">0</div>
+                <div class="number" id="totalReferrals" dir="ltr">0</div>
             </div>
             <div class="stat-card">
                 <h4 data-i18n="referral_points">🪙 نقاط الإحالات</h4>
-                <div class="number gold" id="referralPoints">0</div>
+                <div class="number gold" id="referralPoints" dir="ltr">0</div>
             </div>
             <div class="stat-card">
                 <h4 data-i18n="referral_dollars">💰 ما يعادلها بالدولار</h4>
-                <div class="number green" id="referralDollars">$0.00</div>
+                <div class="number green" id="referralDollars" dir="ltr">$0.00</div>
             </div>
         </div>
 
@@ -473,11 +470,18 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
     <!-- =========================================================
          SCRIPTS
     ========================================================= -->
+    <!-- ✅ أولاً: Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- ✅ ثانياً: translations.js -->
+    <script src="js/translations.js"></script>
+    
+    <!-- ✅ ثالثاً: كود الصفحة -->
     <script>
         // =========================================================
         // SUPABASE SETUP
@@ -536,7 +540,6 @@
         // =========================================================
         
         function generateReferralCode(userId) {
-            // خذ أول 6 أحرف من userId وأضف 4 أحرف عشوائية
             const shortId = userId.substring(0, 6);
             const random = Math.random().toString(36).substring(2, 6).toUpperCase();
             return `REF${shortId}${random}`;
@@ -551,22 +554,18 @@
             
             if (!user) return null;
             
-            // جلب الملف الشخصي
             const { data: profile } = await supabaseClient
                 .from('profiles')
                 .select('referral_code')
                 .eq('id', user.id)
                 .single();
             
-            // إذا كان لديه كود إحالة، أعده
             if (profile?.referral_code) {
                 return profile.referral_code;
             }
             
-            // إذا لم يكن لديه، أنشئ كوداً جديداً
             const newCode = generateReferralCode(user.id);
             
-            // حفظ الكود في قاعدة البيانات
             await supabaseClient
                 .from('profiles')
                 .update({ referral_code: newCode })
@@ -593,10 +592,10 @@
                 if (!referralCode) return;
                 
                 document.getElementById('referralCode').textContent = referralCode;
-                // ✅ استخدم رابط الموقع الحقيقي
-const BASE_URL = 'https://socialwiki2608.loubabiwahid89.workers.dev';
-document.getElementById('referralLink').textContent = 
-    `${BASE_URL}/auth.html?ref=${referralCode}`;
+                
+                const BASE_URL = 'https://socialwiki2608.loubabiwahid89.workers.dev';
+                document.getElementById('referralLink').textContent = 
+                    `${BASE_URL}/auth.html?ref=${referralCode}`;
                 
                 // 2. جلب عدد المدعوين
                 const { data: referrals, error: refError } = await supabaseClient
@@ -610,7 +609,7 @@ document.getElementById('referralLink').textContent =
                 }
                 
                 const totalReferrals = referrals?.length || 0;
-                const totalPoints = totalReferrals * 50;   // ✅ 50 بدلاً من 500
+                const totalPoints = totalReferrals * 50;
                 const totalDollars = (totalPoints / 100).toFixed(2);
                 
                 document.getElementById('totalReferrals').textContent = totalReferrals;
@@ -624,9 +623,12 @@ document.getElementById('referralLink').textContent =
                 if (!referrals || referrals.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="3" class="empty-state">لم تدعُ أي شخص بعد. ابدأ الآن! 🚀</td>
+                            <td colspan="3" class="empty-state" data-i18n="no_referrals">
+                                ${typeof t === 'function' ? t('no_referrals') : 'لم تدعُ أي شخص بعد. ابدأ الآن! 🚀'}
+                            </td>
                         </tr>
                     `;
+                    if (typeof applyTranslations === 'function') applyTranslations();
                     return;
                 }
                 
@@ -646,14 +648,14 @@ document.getElementById('referralLink').textContent =
                 
                 referrals.forEach(ref => {
                     const name = profilesMap[ref.new_user_id] || 'مستخدم';
-                    const date = new Date(ref.created_at).toLocaleDateString('ar-EG');
-                    const points = ref.points_earned || 500;
+                    const date = new Date(ref.created_at);
+                    const formattedDate = `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`;
                     
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${name}</td>
-                        <td>${date}</td>
-                        <td>+${ref.points_awarded || 50} نقطة</td>
+                        <td class="date-cell" dir="ltr">${formattedDate}</td>
+                        <td class="reward-cell" dir="ltr">+${ref.points_awarded || 50} ${typeof t === 'function' ? t('points') : 'نقاط'}</td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -670,18 +672,18 @@ document.getElementById('referralLink').textContent =
         function copyReferralCode() {
             const code = document.getElementById('referralCode').textContent;
             navigator.clipboard.writeText(code).then(() => {
-                alert('✅ تم نسخ كود الإحالة!');
+                alert(typeof t === 'function' ? t('copied_code') : '✅ تم نسخ كود الإحالة!');
             }).catch(() => {
-                alert('❌ حدث خطأ، حاول مرة أخرى.');
+                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ، حاول مرة أخرى.');
             });
         }
         
         function copyReferralLink() {
             const link = document.getElementById('referralLink').textContent;
             navigator.clipboard.writeText(link).then(() => {
-                alert('✅ تم نسخ رابط الإحالة!');
+                alert(typeof t === 'function' ? t('copied_link') : '✅ تم نسخ رابط الإحالة!');
             }).catch(() => {
-                alert('❌ حدث خطأ، حاول مرة أخرى.');
+                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ، حاول مرة أخرى.');
             });
         }
         
@@ -718,18 +720,24 @@ document.getElementById('referralLink').textContent =
                 .single();
             
             const points = profile?.total_points || 0;
-            document.getElementById('pointsDisplay').textContent = `🪙 ${points} نقاط`;
+            const pointsEl = document.getElementById('pointsValue');
+            if (pointsEl) {
+                pointsEl.textContent = points;
+                pointsEl.setAttribute('dir', 'ltr');
+            }
         }
         
         // =========================================================
         // START
         // =========================================================
         
-               document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // 🔥 تطبيق اللغة أولاً
-            const lang = getCurrentLanguage();
-            setLanguage(lang);
-            applyTranslations();
+            if (typeof getCurrentLanguage === 'function') {
+                const lang = getCurrentLanguage();
+                setLanguage(lang);
+                applyTranslations();
+            }
             
             // ثم تحميل البيانات
             loadUserProfile();
@@ -737,6 +745,6 @@ document.getElementById('referralLink').textContent =
             loadReferralData();
         });
     </script>
-<script src="js/translations.js"></script>
+
 </body>
 </html>

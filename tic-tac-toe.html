@@ -262,11 +262,7 @@
 </head>
 <body>
 
-    <!-- BACK & HOME -->
-    <div class="nav-buttons">
-        <a href="gaming.html" class="back-btn" data-i18n="back">← Back</a>
-        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
-    </div>
+   
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -307,9 +303,24 @@
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
+        
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- GAME CONTAINER -->
+     <div style="background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; color: white;">
+    <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">💰 اربح 5 نقاط مجاناً</div>
+    <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;">شاهد إعلاناً قصيراً واحصل على 5 نقاط</div>
+    <a href="https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default" 
+       target="_blank"
+       style="display: inline-block; background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;">
+        🎬 شاهد الإعلان
+    </a>
+</div>
     <div class="game-container">
         
         <!-- HEADER -->
@@ -622,5 +633,21 @@
             updateStatus();
         });
     </script>
+        <!-- ... باقي محتوى اللعبة ... -->
+
+    <!-- Modal الإعلان -->
+    <div id="adModal" class="modal-overlay">
+        <div class="modal-content" style="text-align:center;">
+            <h3>🎬 شاهد إعلان للمتابعة</h3>
+            <div id="adContainer"></div>
+            <button onclick="closeAdAndContinue()" id="continueBtn" disabled>Continue (5s)</button>
+        </div>
+    </div>
+
+    <script>
+        // ... كود اللعبة ...
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

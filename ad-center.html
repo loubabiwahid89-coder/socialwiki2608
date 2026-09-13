@@ -158,12 +158,6 @@
 <body>
 
     <!-- NAVBAR -->
-         <!-- BACK & HOME BUTTONS -->
-    <div class="nav-buttons">
-        
-        <a href="index.html" class="home-btn" data-i18n="home_btn">
-            🏠 Home
-        </a>
     </div>
 
         <!-- BACK & HOME BUTTONS -->
@@ -211,7 +205,13 @@
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
+         
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- AD CENTER CONTAINER -->
     <div class="ad-container">
@@ -368,5 +368,7 @@
             loadStats();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

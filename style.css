@@ -1128,3 +1128,76 @@ a {
             background: #f44336;
             transform: scale(1.1);
         }
+
+        /* زر الشراء */
+.buy-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px 18px;
+    background: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.buy-btn:hover {
+    background: #166fe5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.buy-btn:active {
+    transform: translateY(0);
+}
+
+/* حجم خط أكبر للبانر */
+.pack-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #28a745;
+    margin-bottom: 5px;
+}
+
+/* لمنع عكس الأرقام في RTL */
+[dir="rtl"] .number,
+[dir="rtl"] .price,
+[dir="rtl"] .date,
+[dir="rtl"] .points {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+}
+/* منع عكس الأرقام في RTL */
+[dir="rtl"] .number-ltr,
+[dir="rtl"] .points-value,
+[dir="rtl"] .price-value,
+[dir="rtl"] .date-value,
+[dir="rtl"] .money-value {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+}
+
+/* إصلاح RTL للأرقام والدولار */
+[dir="rtl"] .number {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+}
+
+/* خلايا الجدول (الأرقام والتواريخ) */
+[dir="rtl"] .number-cell,
+[dir="rtl"] .date-cell,
+[dir="rtl"] .reward-cell {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+}

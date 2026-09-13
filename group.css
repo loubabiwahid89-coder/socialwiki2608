@@ -1,1324 +1,841 @@
 /* =========================================================
-   SOCIALWIKI
-   GROUPS PAGE
-   FACEBOOK-STYLE DESIGN
-   COVER + AVATAR
-   ========================================================= */
-
+   SOCIALWIKI - GROUPS PAGE (MATCHES groups.js)
+   Version: 2.0 - Full + Fixes
+========================================================= */
 
 /* =========================================================
-   GLOBAL
-   ========================================================= */
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f0f2f5;
-    color: #1c1e21;
-    min-height: 100vh;
-}
-
-
-/* =========================================================
-   PAGE
-   ========================================================= */
+   MAIN PAGE
+========================================================= */
 
 .groups-page {
-    min-height: 100vh;
-    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
+/* =========================================================
+   NAVIGATION - HOME BUTTON
+========================================================= */
+
+.groups-navigation {
+    padding: 10px 0 20px;
+}
+
+.groups-home-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: white;
+    color: #1877f2;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+
+.groups-home-button:hover {
+    background: #1877f2;
+    color: white;
+    transform: translateY(-2px);
+}
 
 /* =========================================================
    HEADER
-   ========================================================= */
+========================================================= */
 
 .groups-header {
-    width: 100%;
-    min-height: 72px;
-    background: #ffffff;
-    border-bottom: 1px solid #dddfe2;
-
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
-    padding: 12px 28px;
-
-    box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.08);
-
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
 }
-
-
-/* =========================================================
-   HEADER LEFT
-   ========================================================= */
-
-.groups-header-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
-
-.groups-back-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    min-height: 42px;
-    padding: 9px 15px;
-
-    background: #e4e6eb;
-    color: #050505;
-
-    text-decoration: none;
-    border-radius: 8px;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    transition:
-        background 0.2s ease,
-        transform 0.1s ease;
-}
-
-.groups-back-button:hover {
-    background: #d8dadf;
-}
-
-.groups-back-button:active {
-    transform: scale(0.97);
-}
-
-
-/* =========================================================
-   HEADING
-   ========================================================= */
 
 .groups-heading h1 {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 36px;
+    font-weight: 800;
     color: #050505;
-    margin-bottom: 3px;
+    margin: 0 0 5px 0;
 }
 
 .groups-heading p {
-    font-size: 14px;
+    font-size: 15px;
     color: #65676b;
+    margin: 0;
 }
 
-
-/* =========================================================
-   CREATE GROUP BUTTON
-   ========================================================= */
-
-#createGroupButton {
-    border: none;
-
-    background: #1877f2;
-    color: #ffffff;
-
-    min-height: 42px;
-    padding: 10px 18px;
-
-    border-radius: 8px;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    cursor: pointer;
-
+.create-group-button {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    transition:
-        background 0.2s ease,
-        transform 0.1s ease,
-        box-shadow 0.2s ease;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #1877f2, #166fe5);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(24, 119, 242, 0.35);
 }
 
-#createGroupButton:hover {
-    background: #166fe5;
-
-    box-shadow:
-        0 2px 6px rgba(24, 119, 242, 0.25);
-}
-
-#createGroupButton:active {
-    transform: scale(0.97);
+.create-group-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(24, 119, 242, 0.45);
 }
 
 .create-plus {
-    font-size: 19px;
+    font-size: 20px;
+    font-weight: 900;
     line-height: 1;
 }
 
-
 /* =========================================================
    SEARCH
-   ========================================================= */
+========================================================= */
 
 .groups-search-section {
-    width: 100%;
-    max-width: 1100px;
-
-    margin: 0 auto;
-
-    padding: 22px 20px 5px;
+    margin-bottom: 25px;
 }
 
 .groups-search-box {
     position: relative;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    padding: 0 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
+}
+
+.groups-search-box:focus-within {
+    box-shadow: 0 4px 16px rgba(24, 119, 242, 0.2);
 }
 
 .search-icon {
-    position: absolute;
-
-    left: 15px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    font-size: 16px;
-
-    pointer-events: none;
-
-    z-index: 2;
+    font-size: 18px;
+    margin-right: 10px;
+    opacity: 0.6;
 }
 
-#groupSearchInput {
-    width: 100%;
-    height: 46px;
-
-    border: 1px solid #ccd0d5;
-    border-radius: 8px;
-
-    background: #ffffff;
-
-    padding:
-        0 16px 0 44px;
-
+.groups-search-box input {
+    flex: 1;
+    height: 50px;
+    border: none;
     outline: none;
-
     font-size: 15px;
+    background: transparent;
     color: #050505;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
 }
-
-#groupSearchInput:hover {
-    border-color: #b7b9bd;
-}
-
-#groupSearchInput:focus {
-    border-color: #1877f2;
-
-    box-shadow:
-        0 0 0 2px rgba(24, 119, 242, 0.15);
-}
-
-#groupSearchInput::placeholder {
-    color: #65676b;
-}
-
 
 /* =========================================================
-   MAIN CONTAINER
-   ========================================================= */
-
-.groups-container {
-    width: 100%;
-    max-width: 1100px;
-
-    margin: 0 auto;
-
-    padding:
-        18px 20px 60px;
-}
-
-
-/* =========================================================
-   GROUPS GRID
-   ========================================================= */
+   ⚡ GROUPS GRID - FORCE 3 COLUMNS
+========================================================= */
 
 .groups-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 18px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px !important;
+    align-items: start;
 }
 
+.groups-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #65676b;
+    font-size: 16px;
+}
 
 /* =========================================================
    GROUP CARD
-   ========================================================= */
+========================================================= */
 
 .group-card {
-    background: #ffffff;
-
-    border: 1px solid #dddfe2;
-    border-radius: 12px;
-
+    background: white;
+    border-radius: 14px;
     overflow: hidden;
-
-    box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.06);
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .group-card:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 5px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-
-/* =========================================================
-   GROUP COVER
-   ========================================================= */
-
+/* الغلاف */
 .group-cover {
     width: 100%;
-    height: 150px;
-
+    height: 120px;
+    background: linear-gradient(135deg, #1877f2, #8b5cf6);
     position: relative;
-
-    overflow: visible;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e7f3ff,
-            #dbe7f7
-        );
-
-    border-bottom: 1px solid #dddfe2;
+    overflow: hidden;
 }
 
-
-/* =========================================================
-   COVER IMAGE
-   ========================================================= */
-
-.group-cover > img {
+.group-cover img {
     width: 100%;
     height: 100%;
-
-    display: block;
-
     object-fit: cover;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e7f3ff,
-            #dbe7f7
-        );
 }
 
+.group-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1877f2, #8b5cf6);
+}
 
-/* =========================================================
-   GROUP AVATAR
-   ========================================================= */
-
+/* الصورة الرمزية */
 .group-avatar {
-    position: absolute;
-
-    left: 18px;
-    bottom: -35px;
-
-    width: 72px;
-    height: 72px;
-
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-
-    background: #ffffff;
-
-    padding: 3px;
-
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.20);
-
+    border: 4px solid white;
+    background: white;
     overflow: hidden;
-
-    z-index: 5;
+    position: absolute;
+    bottom: -35px;
+    left: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 2;
 }
 
 .group-avatar img {
     width: 100%;
     height: 100%;
-
-    display: block;
-
     object-fit: cover;
-
-    border-radius: 50%;
 }
 
+.group-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e4e6eb;
+    font-size: 28px;
+}
 
-/* =========================================================
-   GROUP CONTENT
-   ========================================================= */
-
+/* محتوى البطاقة */
 .group-content {
-    padding: 48px 17px 17px;
-}
-
-.group-content h3 {
-    font-size: 18px;
-    font-weight: 700;
-
-    color: #050505;
-
-    margin-bottom: 7px;
-}
-
-.group-description {
-    color: #65676b;
-
-    font-size: 14px;
-    line-height: 1.5;
-
-    min-height: 42px;
-
-    margin-bottom: 13px;
-}
-
-
-/* =========================================================
-   GROUP META
-   ========================================================= */
-
-.group-meta {
-    display: flex;
-
-    align-items: center;
-
-    flex-wrap: wrap;
-
-    gap: 8px;
-
-    color: #65676b;
-
-    font-size: 13px;
-
-    margin-bottom: 15px;
-}
-
-.group-meta span {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 3px;
-}
-
-
-/* =========================================================
-   JOIN BUTTON
-   ========================================================= */
-
-.join-group-button {
-    width: 100%;
-    height: 40px;
-
-    border: none;
-    border-radius: 7px;
-
-    background: #e7f3ff;
-
-    color: #1877f2;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.1s ease;
-}
-
-.join-group-button:hover {
-    background: #d8ebff;
-}
-
-.join-group-button:active {
-    transform: scale(0.98);
-}
-
-.join-group-button.joined {
-    background: #e4e6eb;
-
-    color: #65676b;
-
-    cursor: default;
-}
-
-
-/* =========================================================
-   EMPTY STATE
-   ========================================================= */
-
-.groups-empty {
-    grid-column: 1 / -1;
-
-    background: #ffffff;
-
-    border: 1px solid #dddfe2;
-
-    border-radius: 12px;
-
-    padding: 65px 20px;
-
-    text-align: center;
-}
-
-.groups-empty-icon {
-    font-size: 42px;
-    margin-bottom: 14px;
-}
-
-.groups-empty h2 {
-    color: #050505;
-
-    font-size: 20px;
-
-    margin-bottom: 8px;
-}
-
-.groups-empty p {
-    color: #65676b;
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   LOADING
-   ========================================================= */
-
-.groups-loading {
-    grid-column: 1 / -1;
-
-    text-align: center;
-
-    padding: 50px;
-
-    color: #65676b;
-
-    background: #ffffff;
-
-    border-radius: 12px;
-
-    border: 1px solid #dddfe2;
-}
-
-
-/* =========================================================
-   CREATE GROUP MODAL
-   ========================================================= */
-
-.group-modal {
-    position: fixed;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 99999;
-}
-
-
-/* =========================================================
-   MODAL OVERLAY
-   ========================================================= */
-
-.group-modal-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background:
-        rgba(0, 0, 0, 0.55);
-
-    z-index: 1;
-}
-
-
-/* =========================================================
-   MODAL CONTENT
-   ========================================================= */
-
-.group-modal-content {
-    position: relative;
-
-    z-index: 2;
-
-    width: 100%;
-    max-width: 520px;
-
-    max-height:
-        calc(100vh - 40px);
-
-    overflow-y: auto;
-
-    background: #ffffff;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.30);
-
-    animation:
-        groupModalOpen 0.18s ease;
-}
-
-@keyframes groupModalOpen {
-
-    from {
-        opacity: 0;
-
-        transform:
-            scale(0.96)
-            translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            scale(1)
-            translateY(0);
-    }
-}
-
-
-/* =========================================================
-   MODAL HEADER
-   ========================================================= */
-
-.group-modal-header {
-    position: relative;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    padding:
-        20px 60px 18px 22px;
-
-    border-bottom:
-        1px solid #e4e6eb;
-}
-
-.group-modal-title-area {
-    width: 100%;
-}
-
-.group-modal-title-area h2 {
-    color: #050505;
-
-    font-size: 22px;
-    font-weight: 700;
-
-    margin-bottom: 5px;
-}
-
-.group-modal-title-area p {
-    color: #65676b;
-
-    font-size: 14px;
-
-    line-height: 1.4;
-}
-
-
-/* =========================================================
-   CLOSE BUTTON
-   ========================================================= */
-
-.close-group-modal {
-    position: absolute;
-
-    top: 13px;
-    right: 13px;
-
-    width: 38px;
-    height: 38px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: #e4e6eb;
-
-    color: #050505;
-
-    font-size: 24px;
-    line-height: 38px;
-
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    transition:
-        background 0.2s ease,
-        transform 0.1s ease;
-}
-
-.close-group-modal:hover {
-    background: #d8dadf;
-}
-
-.close-group-modal:active {
-    transform: scale(0.94);
-}
-
-
-/* =========================================================
-   FORM
-   ========================================================= */
-
-.create-group-form {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 15px;
-
-    padding:
-        21px 22px 22px;
-}
-
-
-/* =========================================================
-   FORM FIELD
-   ========================================================= */
-
-.group-form-field {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 7px;
-}
-
-.group-form-field label {
-    font-size: 14px;
-
-    font-weight: 700;
-
-    color: #050505;
-}
-
-
-/* =========================================================
-   INPUT / TEXTAREA / SELECT
-   ========================================================= */
-
-.group-form-field input,
-.group-form-field textarea,
-.group-form-field select {
-
-    width: 100%;
-
-    border:
-        1px solid #ccd0d5;
-
-    border-radius: 8px;
-
-    background: #f5f6f7;
-
-    color: #050505;
-
-    font-size: 15px;
-
-    outline: none;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.group-form-field input,
-.group-form-field select {
-
-    height: 46px;
-
-    padding:
-        0 13px;
-}
-
-.group-form-field textarea {
-
-    min-height: 110px;
-
-    padding:
-        12px 13px;
-
-    resize: vertical;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    line-height: 1.45;
-}
-
-
-/* =========================================================
-   INPUT HOVER
-   ========================================================= */
-
-.group-form-field input:hover,
-.group-form-field textarea:hover,
-.group-form-field select:hover {
-
-    border-color: #b7b9bd;
-}
-
-
-/* =========================================================
-   INPUT FOCUS
-   ========================================================= */
-
-.group-form-field input:focus,
-.group-form-field textarea:focus,
-.group-form-field select:focus {
-
-    background: #ffffff;
-
-    border-color: #1877f2;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(24, 119, 242, 0.15);
-}
-
-
-/* =========================================================
-   PLACEHOLDER
-   ========================================================= */
-
-.group-form-field input::placeholder,
-.group-form-field textarea::placeholder {
-
-    color: #8a8d91;
-}
-
-
-/* =========================================================
-   SELECT
-   ========================================================= */
-
-.group-form-field select {
-    cursor: pointer;
-}
-
-.group-form-field select option {
-    background: #ffffff;
-    color: #050505;
-}
-
-
-/* =========================================================
-   HINTS
-   ========================================================= */
-
-.character-hint,
-.privacy-hint {
-
-    color: #65676b;
-
-    font-size: 12px;
-
-    line-height: 1.4;
-}
-
-
-/* =========================================================
-   MESSAGE
-   ========================================================= */
-
-.group-form-message {
-
-    padding:
-        10px 12px;
-
-    border-radius: 7px;
-
-    font-size: 13px;
-
-    line-height: 1.4;
-}
-
-.group-form-message.error {
-
-    background: #ffebe9;
-
-    color: #b42318;
-
-    border:
-        1px solid #f3c5c0;
-}
-
-.group-form-message.success {
-
-    background: #eaf7ee;
-
-    color: #18794e;
-
-    border:
-        1px solid #b9e2c5;
-}
-
-
-/* =========================================================
-   FORM ACTIONS
-   ========================================================= */
-
-.group-form-actions {
-
-    display: flex;
-
-    gap: 10px;
-
-    padding-top: 6px;
-
-    border-top:
-        1px solid #e4e6eb;
-}
-
-.group-form-actions button {
-
+    padding: 45px 20px 20px;
     flex: 1;
-
-    height: 44px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.1s ease,
-        opacity 0.2s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-
-/* =========================================================
-   CANCEL
-   ========================================================= */
-
-.group-cancel-button {
-
-    background: #e4e6eb;
-
-    color: #050505;
-}
-
-.group-cancel-button:hover {
-    background: #d8dadf;
-}
-
-
-/* =========================================================
-   CREATE
-   ========================================================= */
-
-.group-save-button {
-
-    background: #1877f2;
-
-    color: #ffffff;
-}
-
-.group-save-button:hover {
-    background: #166fe5;
-}
-
-.group-form-actions button:active {
-    transform: scale(0.98);
-}
-
-
-/* =========================================================
-   DISABLED
-   ========================================================= */
-
-.group-save-button:disabled {
-
-    opacity: 0.6;
-
-    cursor: not-allowed;
-}
-
-
-/* =========================================================
-   MODAL SCROLLBAR
-   ========================================================= */
-
-.group-modal-content::-webkit-scrollbar {
-    width: 7px;
-}
-
-.group-modal-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.group-modal-content::-webkit-scrollbar-thumb {
-
-    background: #bcc0c4;
-
-    border-radius: 10px;
-}
-
-
-/* =========================================================
-   ACCESSIBILITY
-   ========================================================= */
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-a:focus-visible {
-
-    outline:
-        3px solid
-        rgba(24, 119, 242, 0.25);
-
-    outline-offset: 2px;
-}
-
-
-/* =========================================================
-   HIDDEN
-   ========================================================= */
-
-[hidden] {
-    display: none !important;
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    .groups-grid {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-    .groups-container {
-
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .groups-search-section {
-
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 650px) {
-
-    .groups-header {
-
-        min-height: 64px;
-
-        padding:
-            10px 12px;
-
-        gap: 10px;
-    }
-
-    .groups-header-left {
-        gap: 9px;
-    }
-
-    .groups-heading h1 {
-        font-size: 20px;
-    }
-
-    .groups-heading p {
-        display: none;
-    }
-
-    .groups-back-button {
-
-        min-height: 40px;
-
-        padding:
-            8px 11px;
-
-        font-size: 13px;
-    }
-
-    #createGroupButton {
-
-        min-height: 40px;
-
-        padding:
-            8px 12px;
-
-        font-size: 13px;
-    }
-
-    .groups-search-section {
-
-        padding:
-            16px 12px 5px;
-    }
-
-    .groups-container {
-
-        padding:
-            15px 12px 40px;
-    }
-
-    .groups-grid {
-
-        grid-template-columns: 1fr;
-
-        gap: 13px;
-    }
-
-    .group-cover {
-        height: 130px;
-    }
-
-    .group-avatar {
-
-        width: 68px;
-        height: 68px;
-
-        left: 16px;
-
-        bottom: -34px;
-    }
-
-    .group-content {
-
-        padding:
-            46px 15px 15px;
-    }
-
-    .group-modal {
-        padding: 12px;
-    }
-
-    .group-modal-content {
-
-        max-height:
-            calc(100vh - 24px);
-
-        border-radius: 10px;
-    }
-
-    .group-modal-header {
-
-        padding:
-            18px 55px 16px 18px;
-    }
-
-    .group-modal-title-area h2 {
-        font-size: 20px;
-    }
-
-    .create-group-form {
-        padding: 18px;
-    }
-
-    .group-form-actions {
-        padding-top: 14px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 420px) {
-
-    .groups-heading h1 {
-        font-size: 18px;
-    }
-
-    #createGroupButton {
-
-        padding:
-            8px 10px;
-
-        font-size: 12px;
-    }
-
-    .create-plus {
-        font-size: 17px;
-    }
-
-    .group-form-actions {
-        flex-direction: column-reverse;
-    }
-
-    .group-form-actions button {
-        width: 100%;
-    }
-/* =========================================================
-   GROUP TITLE ROW
-========================================================= */
-
+/* ⚡ العنوان + زر Edit */
 .group-title-row {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: flex-start;
     gap: 10px;
     margin-bottom: 8px;
 }
 
 .group-title-row h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #050505;
     margin: 0;
-    min-width: 0;
+    line-height: 1.3;
+    flex: 1;
+    word-break: break-word;
 }
 
-
-/* =========================================================
-   EDIT GROUP BUTTON
-========================================================= */
-
 .edit-group-button {
+    background: #f0f2f5;
     border: none;
-    background: #e4e6eb;
-    color: #050505;
-    padding: 7px 11px;
+    padding: 5px 10px;
     border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: #050505;
+    transition: 0.2s;
     white-space: nowrap;
-    transition: 0.2s ease;
+    flex-shrink: 0;
 }
 
 .edit-group-button:hover {
+    background: #e4e6eb;
+}
+
+/* الوصف */
+.group-description {
+    font-size: 13px;
+    color: #65676b;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 76px;
+}
+
+/* ⚡ Meta info (members + public) */
+.group-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+    font-size: 13px;
+    color: #65676b;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f2f5;
+    flex-wrap: wrap;
+}
+
+.group-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+/* Action Buttons */
+.group-action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+/* زر الانضمام الرئيسي */
+.join-group-button {
+    width: 100%;
+    padding: 11px;
+    background: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: auto;
+}
+
+.join-group-button:hover {
+    background: #166fe5;
+    transform: scale(1.02);
+}
+
+.join-group-button.joined {
+    background: #e4e6eb;
+    color: #050505;
+    cursor: default;
+}
+
+.join-group-button.joined:hover {
+    transform: none;
+}
+
+/* أزرار فرعية */
+.view-members-button,
+.open-group-button,
+.invite-people-button {
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s;
+    border: none;
+}
+
+.view-members-button {
+    background: #fff;
+    color: #050505;
+    border: 1px solid #ddd;
+}
+
+.view-members-button:hover {
+    background: #f0f2f5;
+}
+
+.open-group-button,
+.invite-people-button {
+    background: #111;
+    color: #fff;
+}
+
+.open-group-button:hover,
+.invite-people-button:hover {
+    background: #333;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.groups-empty {
+    grid-column: 1 / -1;
+    background: white;
+    border-radius: 14px;
+    padding: 60px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.groups-empty-icon {
+    font-size: 70px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.groups-empty h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #050505;
+    margin: 0 0 8px 0;
+}
+
+.groups-empty p {
+    font-size: 14px;
+    color: #65676b;
+    margin: 0;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.group-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.group-modal[hidden] {
+    display: none;
+}
+
+.group-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+}
+
+.group-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.group-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.group-modal-title-area h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #050505;
+    margin: 0 0 4px 0;
+}
+
+.group-modal-title-area p {
+    font-size: 13px;
+    color: #65676b;
+    margin: 0;
+}
+
+.close-group-modal {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f0f2f5;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #65676b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.close-group-modal:hover {
+    background: #e4e6eb;
+    color: #050505;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.create-group-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.group-form-field,
+.group-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.group-form-field label,
+.group-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #050505;
+}
+
+.group-form-field input,
+.group-form-field textarea,
+.group-form-field select,
+.group-form-group input,
+.group-form-group textarea,
+.group-form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #e4e6eb;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background: #f8f9fa;
+    transition: all 0.2s ease;
+    resize: vertical;
+}
+
+.group-form-field input:focus,
+.group-form-field textarea:focus,
+.group-form-group input:focus,
+.group-form-group textarea:focus {
+    border-color: #1877f2;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+}
+
+.character-hint,
+.privacy-hint {
+    font-size: 12px;
+    color: #65676b;
+    margin-top: 2px;
+}
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.group-image-upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.group-upload-preview {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-upload-preview.cover-preview {
+    height: 120px;
+}
+
+.group-upload-preview.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.group-upload-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.group-upload-button {
+    padding: 10px 16px;
+    background: #f0f2f5;
+    color: #050505;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+}
+
+.group-upload-button:hover {
+    background: #e4e6eb;
+}
+
+/* =========================================================
+   FORM MESSAGE
+========================================================= */
+
+.group-form-message {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.group-form-message.error {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.group-form-message.success {
+    background: #e7f7e7;
+    color: #2e7d32;
+}
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.group-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.group-cancel-button,
+.cancel-group-button {
+    flex: 1;
+    padding: 12px;
+    background: #e4e6eb;
+    color: #050505;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.group-cancel-button:hover,
+.cancel-group-button:hover {
     background: #d8dadf;
 }
 
-.edit-group-button:active {
-    transform: scale(0.97);
-}
-
-
-/* =========================================================
-   EDIT MODAL INPUTS
-========================================================= */
-
-#editGroupModal input,
-#editGroupModal textarea,
-#editGroupModal select {
-    width: 100%;
-    border: 1px solid #ccd0d5;
-    border-radius: 8px;
-    padding: 11px 12px;
+.group-save-button,
+.save-group-button {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #1877f2, #166fe5);
+    color: white;
+    border: none;
+    border-radius: 10px;
     font-size: 14px;
-    outline: none;
-    background: #ffffff;
-    color: #050505;
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(24, 119, 242, 0.3);
 }
 
-#editGroupModal input:focus,
-#editGroupModal textarea:focus,
-#editGroupModal select:focus {
-    border-color: #1877f2;
-    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.12);
+.group-save-button:hover,
+.save-group-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(24, 119, 242, 0.45);
 }
-
 
 /* =========================================================
-   EDIT MODAL TEXTAREA
+   🆕 GROUP PAGE MODAL (Posts)
 ========================================================= */
 
-#editGroupModal textarea {
+#groupPageModal .group-modal-content {
+    max-width: 700px;
+    width: 94%;
+}
+
+#groupPageModal h2 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#groupPostsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#groupPostContentInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    min-height: 80px;
     resize: vertical;
-    min-height: 100px;
+    box-sizing: border-box;
+    font-family: inherit;
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
+#groupPostContentInput:focus {
+    border-color: #1877f2;
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+}
 
 /* =========================================================
-   EDIT MODAL RESPONSIVE
+   🆕 GROUP MEMBERS / INVITE MODALS
 ========================================================= */
 
-@media (max-width: 600px) {
-
-    .group-title-row {
-        align-items: flex-start;
-    }
-
-    .edit-group-button {
-        font-size: 12px;
-        padding: 6px 9px;
-    }
-
+#groupMembersModal .group-modal-content,
+#groupInviteModal .group-modal-content {
+    max-width: 600px;
+    width: 92%;
 }
 
+#groupMembersList,
+#groupInviteResults {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+#groupInviteSearchInput {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#groupInviteSearchInput:focus {
+    border-color: #1877f2;
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+}
+
+/* =========================================================
+   🆕 RTL SUPPORT (العربية)
+========================================================= */
+
+[dir="rtl"] .group-title-row {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .group-meta {
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .group-avatar {
+    left: auto;
+    right: 20px;
+}
+
+[dir="rtl"] .search-icon {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+[dir="rtl"] .group-cover-placeholder {
+    background: linear-gradient(135deg, #1877f2, #8b5cf6);
+}
+
+/* =========================================================
+   ⚡ RESPONSIVE
+========================================================= */
+
+/* شاشات متوسطة → عمودان */
+@media (max-width: 900px) {
+    .groups-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* جوال → عمود واحد */
+@media (max-width: 700px) {
+    .groups-page {
+        padding: 15px;
+    }
+    
+    .groups-heading h1 {
+        font-size: 26px;
+    }
+    
+    .groups-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .create-group-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .group-modal-content {
+        padding: 20px;
+    }
+    
+    #groupPageModal .group-modal-content,
+    #groupMembersModal .group-modal-content,
+    #groupInviteModal .group-modal-content {
+        max-width: 95%;
+        padding: 16px;
+    }
+}
+
+/* شاشات صغيرة جداً */
+@media (max-width: 400px) {
+    .group-title-row h3 {
+        font-size: 15px;
+    }
+    
+    .group-meta {
+        font-size: 12px;
+        gap: 10px;
+    }
+    
+    .group-action-buttons {
+        flex-direction: column;
+    }
+    
+    .view-members-button,
+    .open-group-button,
+    .invite-people-button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* =========================================================
+   ✅ END OF FILE
+========================================================= */

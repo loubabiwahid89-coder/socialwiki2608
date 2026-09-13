@@ -249,17 +249,7 @@
 </head>
 <body>
 
-    <!-- =========================================================
-         BACK & HOME BUTTONS
-    ========================================================= -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn">
-            ← Back
-        </a>
-        <a href="index.html" class="home-btn">
-            🏠 Home
-        </a>
-    </div>
+   
 
     <!-- =========================================================
          NAVBAR
@@ -282,7 +272,13 @@
             </a>
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
+       
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- =========================================================
          FRIENDS CONTAINER
@@ -363,40 +359,58 @@
         // LOAD FRIENDS
         // =========================================================
         
-        async function loadFriends() {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                // جلب الأصدقاء
-                const { data: friends, error } = await supabaseClient
-                    .from('friendships')
-                    .select('*, friend:profiles!friendships_friend_id_fkey(id, username, full_name, avatar_url)')
-                    .eq('user_id', user.id)
-                    .eq('status', 'accepted');
-                
-                if (error) {
-                    console.error('Error loading friends:', error);
-                    
-                    // إذا فشل، جلب بدون علاقة
-                    const { data: fallbackFriends } = await supabaseClient
-                        .from('friendships')
-                        .select('*')
-                        .eq('user_id', user.id)
-                        .eq('status', 'accepted');
-                    
-                    displayFriends(fallbackFriends || []);
-                    return;
-                }
-                
-                displayFriends(friends || []);
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+       async function loadFriends() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        
+        if (!user) return;
+        
+        const { data: friends, error } = await supabaseClient
+            .from('friends')
+            .select('*')
+            .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
+        
+        if (error) {
+            console.error('Error loading friends:', error);
+            displayFriends([]);
+            return;
         }
         
+        if (!friends || friends.length === 0) {
+            displayFriends([]);
+            return;
+        }
+        
+        const friendIds = friends.map(f => 
+            f.user_id === user.id ? f.friend_id : f.user_id
+        );
+        
+        const { data: profiles } = await supabaseClient
+            .from('profiles')
+            .select('id, username, full_name, avatar_url')
+            .in('id', friendIds);
+        
+        const profilesMap = {};
+        if (profiles) {
+            profiles.forEach(p => {
+                profilesMap[p.id] = p;
+            });
+        }
+        
+        const enrichedFriends = friends.map(f => {
+            const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
+            return {
+                ...f,
+                friend: profilesMap[friendId] || {}
+            };
+        });
+        
+        displayFriends(enrichedFriends);
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
         // =========================================================
         // DISPLAY FRIENDS
         // =========================================================
@@ -565,24 +579,23 @@
         // REMOVE FRIEND
         // =========================================================
         
-        async function removeFriend(friendshipId) {
-            if (!confirm('Are you sure you want to remove this friend?')) return;
-            
-            try {
-                await supabaseClient
-                    .from('friendships')
-                    .delete()
-                    .eq('id', friendshipId);
-                
-                alert('Friend removed!');
-                loadFriends();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error removing friend: ' + error.message);
-            }
-        }
+       async function removeFriend(friendshipId) {
+    if (!confirm('Are you sure you want to remove this friend?')) return;
+    
+    try {
+        await supabaseClient
+            .from('friends')
+            .delete()
+            .eq('id', friendshipId);
         
+        alert('Friend removed!');
+        loadFriends();
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error removing friend: ' + error.message);
+    }
+}
         // =========================================================
         // VIEW PROFILE
         // =========================================================
@@ -632,5 +645,7 @@
             loadUserProfile();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

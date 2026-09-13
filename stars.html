@@ -186,66 +186,105 @@
             </a>
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
+       
     </nav>
-
-    <!-- CONTAINER -->
-    <div class="stars-container">
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
         
-        <div class="stars-header">
-            <h1 data-i18n="stars">⭐ Stars</h1>
-            <p>Support your favorite creators</p>
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+   <!-- CONTAINER -->
+    <div style="background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; color: white;">
+    <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">💰 اربح 5 نقاط مجاناً</div>
+    <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;">شاهد إعلاناً قصيراً واحصل على 5 نقاط</div>
+    <a href="https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default" 
+       target="_blank"
+       style="display: inline-block; background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;">
+        🎬 شاهد الإعلان
+    </a>
+</div>
+<div class="stars-container">
+
+    <div class="stars-header">
+        <h1 data-i18n="stars">⭐ Stars</h1>
+        <p data-i18n="buy_stars_desc" style="color: #1877f2; font-weight: 600; font-size: 18px;">
+            Support your favorite creators
+        </p>
+    </div>
+
+    <!-- BALANCE -->
+    <div class="balance-card">
+        <div class="balance-label" data-i18n="star_balance">Your Star Balance</div>
+        <div class="balance-value">
+            <span id="starBalance">0</span>
+            <span>⭐</span>
+        </div>
+    </div>
+
+    <!-- BUY PACKS -->
+    <h2 style="margin-bottom: 20px;" data-i18n="buy_stars">Buy Stars</h2>
+    
+    <div class="packs-grid">
+        
+        <!-- 100 Stars -->
+        <div class="pack-card">
+            <div class="pack-stars">⭐</div>
+            <div class="pack-amount">100</div>
+            <div class="pack-price">$1.00</div>
+            <button class="buy-btn" onclick="buyStars(100, 1)" data-i18n="buy_now">
+                🛒 Buy Now
+            </button>
         </div>
 
-        <!-- BALANCE -->
-        <div class="balance-card">
-            <div class="balance-label">Your Star Balance</div>
-            <div class="balance-value">
-                <span id="starBalance">0</span>
-                <span>⭐</span>
-            </div>
+        <!-- 550 Stars -->
+        <div class="pack-card">
+            <div class="pack-bonus" data-i18n="bonus_10">+10% Bonus</div>
+            <div class="pack-stars">⭐⭐</div>
+            <div class="pack-amount">550</div>
+            <div class="pack-price">$5.00</div>
+            <button class="buy-btn" onclick="buyStars(550, 5)" data-i18n="buy_now">
+                🛒 Buy Now
+            </button>
         </div>
 
-        <!-- BUY PACKS -->
-        <h2 style="margin-bottom: 20px;">Buy Stars</h2>
-        <div class="packs-grid">
-            <div class="pack-card" onclick="buyStars(100, 1)">
-                <div class="pack-stars">⭐</div>
-                <div class="pack-amount">100</div>
-                <div class="pack-price">$1.00</div>
-            </div>
-            <div class="pack-card" onclick="buyStars(500, 5)">
-                <div class="pack-bonus">+10% Bonus</div>
-                <div class="pack-stars">⭐⭐</div>
-                <div class="pack-amount">550</div>
-                <div class="pack-price">$5.00</div>
-            </div>
-            <div class="pack-card" onclick="buyStars(1000, 10)">
-                <div class="pack-bonus">+20% Bonus</div>
-                <div class="pack-stars">⭐⭐⭐</div>
-                <div class="pack-amount">1200</div>
-                <div class="pack-price">$10.00</div>
-            </div>
-            <div class="pack-card" onclick="buyStars(5000, 50)">
-                <div class="pack-bonus">+30% Bonus</div>
-                <div class="pack-stars">⭐⭐⭐⭐</div>
-                <div class="pack-amount">6500</div>
-                <div class="pack-price">$50.00</div>
-            </div>
+        <!-- 1200 Stars -->
+        <div class="pack-card">
+            <div class="pack-bonus" data-i18n="bonus_20">+20% Bonus</div>
+            <div class="pack-stars">⭐⭐⭐</div>
+            <div class="pack-amount">1200</div>
+            <div class="pack-price">$10.00</div>
+            <button class="buy-btn" onclick="buyStars(1200, 10)" data-i18n="buy_now">
+                🛒 Buy Now
+            </button>
         </div>
 
-        <!-- INFO -->
-        <div class="info-box">
-            <h3>ℹ️ How Stars Work</h3>
-            <p>
-                ⭐ Buy stars with real money.<br>
-                ⭐ Send stars to your favorite creators.<br>
-                ⭐ Creators receive 70% of the star value.<br>
-                ⭐ SocialWiki keeps 30% as platform fee.<br>
-                ⭐ Stars can be used to support posts, videos, and stories.
-            </p>
+        <!-- 6500 Stars -->
+        <div class="pack-card">
+    <div class="pack-bonus" data-i18n="bonus_30">+30% Bonus</div>
+    <div class="pack-stars" style="font-size: 28px;">⭐⭐⭐⭐</div>
+    <div class="pack-amount">6500</div>
+            <div class="pack-price">$50.00</div>
+            <button class="buy-btn" onclick="buyStars(6500, 50)" data-i18n="buy_now">
+                🛒 Buy Now
+            </button>
         </div>
 
     </div>
+
+    <!-- INFO -->
+    <div class="info-box">
+        <h3 data-i18n="how_stars_work">ℹ️ How Stars Work</h3>
+        <p>
+            ⭐ <span data-i18n="stars_info_1">Buy stars with real money.</span><br>
+            ⭐ <span data-i18n="stars_info_2">Send stars to your favorite creators.</span><br>
+            ⭐ <span data-i18n="stars_info_3">Creators receive 70% of the star value.</span><br>
+            ⭐ <span data-i18n="stars_info_4">SocialWiki keeps 30% as platform fee.</span><br>
+            ⭐ <span data-i18n="stars_info_5">Stars can be used to support posts, videos, and stories.</span>
+        </p>
+    </div>
+
+</div>
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -344,5 +383,7 @@
             loadStarBalance();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>

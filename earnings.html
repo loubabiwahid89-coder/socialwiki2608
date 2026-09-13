@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Earnings - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
     <style>
         * { box-sizing: border-box; }
         body {
@@ -14,8 +14,6 @@
             margin: 0;
             color: #050505;
         }
-        
-        /* NAVBAR */
         .navbar {
             display: flex;
             align-items: center;
@@ -29,271 +27,69 @@
         }
         .nav-left { display: flex; align-items: center; gap: 10px; }
         .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
-        .nav-icons {
-            display: flex; align-items: center; gap: 8px;
-            list-style: none; margin: 0; padding: 0;
-        }
-        .nav-icons a {
-            color: white; font-size: 20px; text-decoration: none;
-            padding: 8px; border-radius: 50%;
-        }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
         .nav-icons a:hover { background: rgba(255,255,255,0.2); }
         .nav-right { display: flex; align-items: center; gap: 8px; }
-        .nav-profile {
-            display: flex; align-items: center; gap: 8px;
-            color: white; text-decoration: none;
-            padding: 5px 10px; border-radius: 50px;
-        }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
-        .logout-button {
-            background: rgba(255,255,255,0.2); border: none;
-            padding: 8px 16px; border-radius: 20px;
-            color: white; cursor: pointer; font-size: 14px;
-        }
-        
-        /* BACK & HOME */
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
-        
-        /* CONTAINER */
-        .earnings-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* HEADER */
-        .earnings-header {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #28a745, #4facfe);
-            border-radius: 16px;
-            color: white;
-            margin-bottom: 25px;
-        }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
+        .back-btn { color: #65676b; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .home-btn { color: white; background: #1877f2; }
+        .earnings-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .earnings-header { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 16px; color: white; margin-bottom: 25px; }
         .earnings-header h1 { margin: 0 0 10px; font-size: 32px; }
         .earnings-header p { margin: 0; font-size: 16px; opacity: 0.9; }
-        
-        /* BALANCE CARD */
-        .balance-card {
-            background: linear-gradient(135deg, #ffd700, #f7b928);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(247, 185, 40, 0.4);
-            margin-bottom: 25px;
-        }
+        .balance-card { background: linear-gradient(135deg, #ffd700, #f7b928); border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 8px 25px rgba(247, 185, 40, 0.4); margin-bottom: 25px; }
         .balance-label { font-size: 16px; color: #333; margin-bottom: 10px; }
         .balance-value { font-size: 48px; font-weight: 800; color: #1a1a1a; }
         .balance-sub { font-size: 14px; color: #333; margin-top: 5px; }
-        
-        /* STATS GRID */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
         .stat-icon { font-size: 30px; margin-bottom: 8px; }
         .stat-value { font-size: 22px; font-weight: 700; color: #1877f2; }
         .stat-value.green { color: #28a745; }
         .stat-value.purple { color: #6f42c1; }
         .stat-value.orange { color: #f0ad4e; }
         .stat-label { font-size: 13px; color: #65676b; margin-top: 4px; }
-        
-        /* WITHDRAW BUTTON */
-        .withdraw-section {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .withdraw-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
+        .withdraw-section { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px; text-align: center; }
+        .withdraw-btn { background: #28a745; color: white; border: none; padding: 15px 40px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: 0.2s; }
         .withdraw-btn:hover { background: #218838; }
-        .withdraw-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        .min-withdraw-info {
-            margin-top: 10px;
-            color: #65676b;
-            font-size: 14px;
-        }
-        
-        /* CHART */
-        .chart-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-        }
+        .withdraw-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .min-withdraw-info { margin-top: 10px; color: #65676b; font-size: 14px; }
+        .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px; }
         .chart-card h3 { margin: 0 0 15px; font-size: 18px; }
         .chart-container { position: relative; height: 300px; }
-        
-        /* TABS */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e4e6eb;
-        }
-        .tab {
-            padding: 12px 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            color: #65676b;
-            border-bottom: 3px solid transparent;
-            transition: 0.2s;
-        }
-        .tab.active {
-            color: #1877f2;
-            border-bottom-color: #1877f2;
-        }
-        
-        /* TABLE */
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow-x: auto;
-        }
-        .earnings-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 500px;
-        }
-        .earnings-table th {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 2px solid #e4e6eb;
-            color: #65676b;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .earnings-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e4e6eb;
-            font-size: 14px;
-        }
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #e4e6eb; }
+        .tab { padding: 12px 20px; background: none; border: none; cursor: pointer; font-size: 15px; font-weight: 600; color: #65676b; border-bottom: 3px solid transparent; transition: 0.2s; }
+        .tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+        .table-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow-x: auto; }
+        .earnings-table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        .earnings-table th { text-align: left; padding: 12px; border-bottom: 2px solid #e4e6eb; color: #65676b; font-size: 13px; font-weight: 600; }
+        .earnings-table td { padding: 12px; border-bottom: 1px solid #e4e6eb; font-size: 14px; }
         .earnings-table tr:hover { background: #f9f9f9; }
-        
-        .badge {
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+        .badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .badge.views { background: #e5f0ff; color: #1877f2; }
         .badge.referral { background: #e7f7e7; color: #28a745; }
         .badge.bonus { background: #fff4e5; color: #f0ad4e; }
         .badge.pending { background: #fff4e5; color: #f0ad4e; }
         .badge.approved { background: #e7f7e7; color: #28a745; }
         .badge.rejected { background: #ffebee; color: #f44336; }
-        
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #65676b;
-        }
+        .empty-state { text-align: center; padding: 40px; color: #65676b; }
         .empty-state-icon { font-size: 50px; margin-bottom: 15px; }
-        
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal.show { display: flex; }
-        .modal-box {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-            border-radius: 14px;
-            padding: 25px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-        }
+        .modal-box { width: 100%; max-width: 500px; background: white; border-radius: 14px; padding: 25px; box-shadow: 0 10px 35px rgba(0,0,0,0.25); }
         .modal-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .modal-actions button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-actions button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
         .btn-cancel { background: #e4e6eb; }
         .btn-submit { background: #28a745; color: white; }
-        
         @media (max-width: 700px) {
             .earnings-header h1 { font-size: 24px; }
             .balance-value { font-size: 36px; }
@@ -302,13 +98,6 @@
 </head>
 <body>
 
-    <!-- BACK & HOME -->
-    <div class="nav-buttons">
-        <a href="javascript:history.back()" class="back-btn" data-i18n="back">← Back</a>
-        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
-    </div>
-
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -326,7 +115,6 @@
                 <span id="navProfileName">User</span>
             </a>
             
-            <!-- زر اللغة -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
                 <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
@@ -348,24 +136,34 @@
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
+    
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
-    <!-- EARNINGS CONTAINER -->
     <div class="earnings-container">
 
-        <!-- HEADER -->
         <div class="earnings-header">
             <h1 data-i18n="earnings_title">💰 My Earnings</h1>
             <p data-i18n="earnings_subtitle">Track your earnings and request withdrawal</p>
         </div>
 
-        <!-- BALANCE CARD -->
+        <!-- 🎬 Smartlink Ad - Earn 5 Points -->
+        <div style="background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; color: white;">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">💰 اربح 5 نقاط مجاناً</div>
+            <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;">شاهد إعلاناً قصيراً واحصل على 5 نقاط</div>
+            <button onclick="watchAdAndEarn()" 
+               style="background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; border: none; font-weight: 700; font-size: 16px; cursor: pointer;">
+                🎬 شاهد الإعلان
+            </button>
+        </div>
+
         <div class="balance-card">
             <div class="balance-label" data-i18n="my_balance">My Current Balance</div>
             <div class="balance-value" id="balanceValue">$0.00</div>
             <div class="balance-sub" id="balancePoints">0 <span data-i18n="points">points</span></div>
         </div>
 
-        <!-- STATS GRID -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">💵</div>
@@ -384,15 +182,18 @@
             </div>
         </div>
 
-        <!-- WITHDRAW BUTTON -->
         <div class="withdraw-section">
-            <button class="withdraw-btn" id="withdrawBtn" onclick="openWithdrawModal()" disabled data-i18n="request_withdrawal">💳 Request Withdrawal</button>
-            <div class="min-withdraw-info">
-                <span data-i18n="min_withdrawal">Minimum Withdrawal</span>: $5.00
+            <button class="withdraw-btn" id="withdrawBtn" disabled style="background: #ccc; cursor: not-allowed;">
+                💳 Withdrawals Coming Soon
+            </button>
+            <div class="min-withdraw-info" style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                <div style="color: #f0ad4e; font-weight: 600;">⏳ We're Still Growing!</div>
+                <div style="font-size: 13px; color: #65676b; margin-top: 5px;">
+                    Withdrawals will be available soon... Keep earning points!
+                </div>
             </div>
         </div>
 
-        <!-- EARNINGS CHART -->
         <div class="chart-card">
             <h3 data-i18n="earning_chart">Earnings Evolution</h3>
             <div class="chart-container">
@@ -400,13 +201,11 @@
             </div>
         </div>
 
-        <!-- TABS -->
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('earnings')" data-i18n="earnings_history">Earnings History</button>
-            <button class="tab" onclick="switchTab('transactions')" data-i18n="transactions_history">Transactions History</button>
+            <button class="tab active" onclick="switchTab('earnings', this)" data-i18n="earnings_history">Earnings History</button>
+            <button class="tab" onclick="switchTab('transactions', this)" data-i18n="transactions_history">Transactions History</button>
         </div>
 
-        <!-- EARNINGS TABLE -->
         <div class="table-container" id="earningsTab">
             <table class="earnings-table">
                 <thead>
@@ -423,7 +222,6 @@
             </table>
         </div>
 
-        <!-- TRANSACTIONS TABLE -->
         <div class="table-container" id="transactionsTab" style="display:none;">
             <table class="earnings-table">
                 <thead>
@@ -442,14 +240,13 @@
 
     </div>
 
-    <!-- WITHDRAW MODAL -->
     <div id="withdrawModal" class="modal">
         <div class="modal-box">
             <div class="modal-title" data-i18n="request_withdrawal">💳 Request Withdrawal</div>
             
             <div class="form-group">
                 <label data-i18n="withdraw_amount">Withdrawal Amount</label>
-                <input type="number" id="withdrawAmount" min="5" step="0.01" data-i18n-placeholder="enter_amount" placeholder="Enter amount">
+                <input type="number" id="withdrawAmount" min="100" step="0.01" data-i18n-placeholder="enter_amount" placeholder="Enter amount">
             </div>
             
             <div class="form-group">
@@ -472,29 +269,49 @@
             </div>
         </div>
     </div>
-
-    <!-- SCRIPTS -->
+        <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    
+    <!-- 1. Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/translations.js"></script>
+    
+    <!-- 2. Chart.js (للرسم البياني) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- 3. Supabase Client Setup -->
     <script>
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        // سعر النقطة (1 نقطة = $0.01)
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("✅ Supabase client created in earnings.html");
+        }
+        const supabaseClient = window.supabaseClient;
+    </script>
+    
+    <!-- 4. Translations -->
+    <script src="js/translations.js"></script>
+    
+    <!-- 5. Main Script -->
+    <script>
         const POINT_VALUE = 0.01;
-        const MIN_WITHDRAW = 20.00;  // ✅ 20 دولار
-
+        const MIN_WITHDRAW = 100;
+        
         let currentBalance = 0;
         let earningsChartInstance = null;
-
-        // Logout
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
-
-        // Load user profile
+        
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -506,14 +323,18 @@
                     .single();
                 const username = profile?.username || profile?.full_name || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                document.getElementById('navProfileName').textContent = username;
-                document.getElementById('navProfileImg').src = avatarUrl;
+                const nameEl = document.getElementById('navProfileName');
+                const imgEl = document.getElementById('navProfileImg');
+                if (nameEl) nameEl.textContent = username;
+                if (imgEl) imgEl.src = avatarUrl;
             } catch (error) {
                 console.error('Error:', error);
             }
         }
-
-        // Load balance
+        
+        // =========================================================
+        // LOAD BALANCE
+        // =========================================================
         async function loadBalance() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -526,7 +347,6 @@
                     .maybeSingle();
 
                 if (error || !balance) {
-                    // إنشاء رصيد جديد
                     await supabaseClient.from('user_balances').insert({
                         user_id: user.id,
                         total_points: 0,
@@ -549,30 +369,37 @@
                 console.error('Error:', error);
             }
         }
-
-        // Update balance UI
+        
+        // =========================================================
+        // UPDATE BALANCE UI
+        // =========================================================
         function updateBalanceUI(points, dollars, availablePoints, withdrawnDollars) {
             const availableDollars = availablePoints * POINT_VALUE;
             currentBalance = availableDollars;
 
-            document.getElementById('balanceValue').textContent = '$' + (points * POINT_VALUE).toFixed(2);
-            document.getElementById('balancePoints').innerHTML = points + ' <span data-i18n="points">points</span>';
-            document.getElementById('totalEarned').textContent = '$' + dollars.toFixed(2);
-            document.getElementById('totalWithdrawn').textContent = '$' + withdrawnDollars.toFixed(2);
-            document.getElementById('availableToWithdraw').textContent = '$' + availableDollars.toFixed(2);
+            const balanceValue = document.getElementById('balanceValue');
+            const balancePoints = document.getElementById('balancePoints');
+            const totalEarned = document.getElementById('totalEarned');
+            const totalWithdrawn = document.getElementById('totalWithdrawn');
+            const availableToWithdraw = document.getElementById('availableToWithdraw');
 
-            // تفعيل/تعطيل زر السحب
+            if (balanceValue) balanceValue.textContent = '$' + (points * POINT_VALUE).toFixed(2);
+            if (balancePoints) balancePoints.innerHTML = points + ' <span data-i18n="points">points</span>';
+            if (totalEarned) totalEarned.textContent = '$' + dollars.toFixed(2);
+            if (totalWithdrawn) totalWithdrawn.textContent = '$' + withdrawnDollars.toFixed(2);
+            if (availableToWithdraw) availableToWithdraw.textContent = '$' + availableDollars.toFixed(2);
+
             const withdrawBtn = document.getElementById('withdrawBtn');
-            if (availableDollars >= MIN_WITHDRAW) {
-                withdrawBtn.disabled = false;
-            } else {
-                withdrawBtn.disabled = true;
+            if (withdrawBtn) {
+                withdrawBtn.disabled = availableDollars < MIN_WITHDRAW;
             }
 
-            applyTranslations();
+            if (typeof applyTranslations === 'function') applyTranslations();
         }
-
-        // Load earnings history
+        
+        // =========================================================
+        // LOAD EARNINGS HISTORY
+        // =========================================================
         async function loadEarnings() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -585,14 +412,16 @@
                     .order('created_at', { ascending: false })
                     .limit(50);
 
+                const tbody = document.getElementById('earningsTableBody');
+                if (!tbody) return;
+
                 if (error || !earnings || earnings.length === 0) {
-                    document.getElementById('earningsTableBody').innerHTML = 
+                    tbody.innerHTML = 
                         '<tr><td colspan="4" class="empty-state"><div class="empty-state-icon">📭</div><p data-i18n="no_earnings">No earnings yet</p></td></tr>';
-                    applyTranslations();
+                    if (typeof applyTranslations === 'function') applyTranslations();
                     return;
                 }
 
-                const tbody = document.getElementById('earningsTableBody');
                 tbody.innerHTML = '';
 
                 earnings.forEach(e => {
@@ -605,22 +434,24 @@
                         <td>${date}</td>
                         <td><span class="badge ${sourceClass}">${sourceText}</span></td>
                         <td>+${e.points_earned || 0}</td>
-<td>+$${(e.dollars_earned || 0).toFixed(2)}</td>
+                        <td>+$${(e.dollars_earned || 0).toFixed(4)}</td>
                     `;
                     tbody.appendChild(row);
                 });
 
-                // رسم المخطط البياني
                 drawEarningsChart(earnings);
 
             } catch (error) {
                 console.error('Error:', error);
             }
         }
-
-        // Draw earnings chart
+        
+        // =========================================================
+        // DRAW EARNINGS CHART
+        // =========================================================
         function drawEarningsChart(earnings) {
-            // تجميع الأرباح حسب آخر 7 أيام
+            if (typeof Chart === 'undefined') return;
+            
             const last7Days = [];
             const earningsData = [];
 
@@ -632,14 +463,17 @@
 
                 const dayEarnings = earnings
                     .filter(e => e.created_at && e.created_at.startsWith(dateStr))
-                    .reduce((sum, e) => sum + (e.dollars || 0), 0);
+                    .reduce((sum, e) => sum + (parseFloat(e.dollars_earned) || 0), 0);
 
-                earningsData.push(dayEarnings.toFixed(2));
+                earningsData.push(dayEarnings.toFixed(4));
             }
 
             if (earningsChartInstance) earningsChartInstance.destroy();
 
-            const ctx = document.getElementById('earningsChart').getContext('2d');
+            const canvas = document.getElementById('earningsChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
             earningsChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -662,8 +496,10 @@
                 }
             });
         }
-
-        // Load transactions
+        
+        // =========================================================
+        // LOAD TRANSACTIONS
+        // =========================================================
         async function loadTransactions() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -675,14 +511,16 @@
                     .eq('user_id', user.id)
                     .order('created_at', { ascending: false });
 
+                const tbody = document.getElementById('transactionsTableBody');
+                if (!tbody) return;
+
                 if (error || !transactions || transactions.length === 0) {
-                    document.getElementById('transactionsTableBody').innerHTML = 
+                    tbody.innerHTML = 
                         '<tr><td colspan="4" class="empty-state"><div class="empty-state-icon">📭</div><p data-i18n="no_transactions">No transactions yet</p></td></tr>';
-                    applyTranslations();
+                    if (typeof applyTranslations === 'function') applyTranslations();
                     return;
                 }
 
-                const tbody = document.getElementById('transactionsTableBody');
                 tbody.innerHTML = '';
 
                 transactions.forEach(t => {
@@ -703,19 +541,28 @@
                 console.error('Error:', error);
             }
         }
-
-        // Open withdraw modal
+                // =========================================================
+        // WITHDRAW MODAL
+        // =========================================================
         function openWithdrawModal() {
-            document.getElementById('withdrawModal').classList.add('show');
-            document.getElementById('withdrawAmount').max = currentBalance.toFixed(2);
+            const modal = document.getElementById('withdrawModal');
+            const amount = document.getElementById('withdrawAmount');
+            if (modal) modal.classList.add('show');
+            if (amount) amount.max = currentBalance.toFixed(2);
         }
+        
         function closeWithdrawModal() {
-            document.getElementById('withdrawModal').classList.remove('show');
-            document.getElementById('withdrawAmount').value = '';
-            document.getElementById('withdrawDetails').value = '';
+            const modal = document.getElementById('withdrawModal');
+            const amount = document.getElementById('withdrawAmount');
+            const details = document.getElementById('withdrawDetails');
+            if (modal) modal.classList.remove('show');
+            if (amount) amount.value = '';
+            if (details) details.value = '';
         }
-
-        // Submit withdrawal
+        
+        // =========================================================
+        // SUBMIT WITHDRAWAL
+        // =========================================================
         async function submitWithdrawal() {
             const amount = parseFloat(document.getElementById('withdrawAmount').value);
             const method = document.getElementById('withdrawMethod').value;
@@ -756,15 +603,6 @@
                     return;
                 }
 
-                // خصم من الرصيد
-                await supabaseClient
-                    .from('user_balances')
-                    .update({
-                        available_points: 0, // سيتم تحديثها من الأدمن
-                        updated_at: new Date()
-                    })
-                    .eq('user_id', user.id);
-
                 alert('✅ Withdrawal request submitted!');
                 closeWithdrawModal();
                 loadTransactions();
@@ -774,11 +612,13 @@
                 console.error('Error:', error);
             }
         }
-
-        // Switch tabs
-        function switchTab(tab) {
+        
+        // =========================================================
+        // SWITCH TAB
+        // =========================================================
+        function switchTab(tab, btn) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
+            if (btn) btn.classList.add('active');
 
             if (tab === 'earnings') {
                 document.getElementById('earningsTab').style.display = 'block';
@@ -788,12 +628,72 @@
                 document.getElementById('transactionsTab').style.display = 'block';
             }
         }
+        
+        // =========================================================
+        // WATCH AD & EARN 5 POINTS
+        // =========================================================
+        async function watchAdAndEarn() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    alert('❌ سجّل دخولك أولاً');
+                    return;
+                }
 
-        // Initialize
+                const lastView = localStorage.getItem('lastAdView_' + user.id);
+                const now = Date.now();
+                const hourMs = 60 * 60 * 1000;
+
+                if (lastView && (now - parseInt(lastView)) < hourMs) {
+                    const minutesLeft = Math.ceil((hourMs - (now - parseInt(lastView))) / 60000);
+                    alert('⏳ يمكنك المشاهدة مرة أخرى بعد ' + minutesLeft + ' دقيقة');
+                    return;
+                }
+
+                window.open('https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default', '_blank');
+                localStorage.setItem('lastAdView_' + user.id, now.toString());
+                alert('⏳ شاهد الإعلان لمدة 10 ثوانٍ على الأقل...');
+
+                setTimeout(async () => {
+                    const { error } = await supabaseClient.rpc('add_earnings', {
+                        p_user_id: user.id,
+                        p_post_id: null,
+                        p_source: 'ad_view',
+                        p_points: 5,
+                        p_dollars: 0.005
+                    });
+
+                    if (error) {
+                        console.error('Error:', error);
+                        alert('❌ خطأ: ' + error.message);
+                        return;
+                    }
+
+                    alert('🎉 ربحت 5 نقاط!');
+
+                    await loadBalance();
+                    await loadEarnings();
+                    setTimeout(() => window.location.reload(), 1500);
+
+                }, 10000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ حدث خطأ: ' + error.message);
+            }
+        }
+        
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
         document.addEventListener('DOMContentLoaded', function() {
-            const lang = getCurrentLanguage();
-            setLanguage(lang);
-            applyTranslations();
+            console.log('🔴 earnings.html loaded');
+
+            if (typeof getCurrentLanguage === 'function') {
+                const lang = getCurrentLanguage();
+                setLanguage(lang);
+                applyTranslations();
+            }
 
             loadUserProfile();
             loadBalance();
@@ -801,5 +701,6 @@
             loadTransactions();
         });
     </script>
+
 </body>
 </html>

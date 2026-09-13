@@ -245,11 +245,7 @@
 </head>
 <body>
 
-    <!-- BACK & HOME -->
-    <div class="nav-buttons">
-        <a href="gaming.html" class="back-btn" data-i18n="back">← Back</a>
-        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
-    </div>
+    
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -290,7 +286,13 @@
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
+        
     </nav>
+     <!-- BACK & HOME BUTTONS -->
+    <div class="nav-buttons">
+        
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
 
     <!-- GAME CONTAINER -->
     <div class="game-container">
@@ -659,5 +661,7 @@
             draw();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/translations.js"></script>
 </body>
 </html>
