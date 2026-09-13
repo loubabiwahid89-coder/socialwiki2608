@@ -121,7 +121,7 @@
         }
         
         /* ✅ إصلاح RTL للأرقام */
-        [dir="rtl"] .points-display .number-ltr,
+        [dir="rtl"] .points-display #pointsValue,
         [dir="rtl"] .number,
         [dir="rtl"] .code-display,
         [dir="rtl"] .stat-card .number {
@@ -411,7 +411,7 @@
         <div class="referral-header">
             <h2 data-i18n="referral">👥 الإحالات</h2>
             <div class="points-display" id="pointsDisplay">
-                🪙 <span class="number-ltr" id="pointsValue" dir="ltr">0</span> <span data-i18n="points">نقاط</span>
+                🪙 <span id="pointsValue" dir="ltr">0</span> <span data-i18n="points">نقاط</span>
             </div>
         </div>
 
@@ -475,13 +475,9 @@
     <!-- =========================================================
          SCRIPTS
     ========================================================= -->
-    <!-- ✅ أولاً: Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- ✅ ثانياً: translations.js -->
     <script src="js/translations.js"></script>
     
-    <!-- ✅ ثالثاً: كود الصفحة -->
     <script>
         // =========================================================
         // SUPABASE SETUP
@@ -489,7 +485,19 @@
         
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: false
+    },
+    global: {
+        headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+    }
+});
         
         // =========================================================
         // LOGOUT
@@ -578,92 +586,99 @@
         // LOAD REFERRAL DATA
         // =========================================================
         
-        async function loadReferralData() {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) {
-                    window.location.href = 'auth.html';
-                    return;
-                }
-                
-                // 1. جلب كود الإحالة
-                const referralCode = await getOrCreateReferralCode();
-                if (!referralCode) return;
-                
-                document.getElementById('referralCode').textContent = referralCode;
-                
-                const BASE_URL = 'https://socialwiki2608.loubabiwahid89.workers.dev';
-                document.getElementById('referralLink').textContent = 
-                    `${BASE_URL}/auth.html?ref=${referralCode}`;
-                
-                // 2. جلب عدد المدعوين
-                const { data: referrals, error: refError } = await supabaseClient
-                    .from('referrals')
-                    .select('*')
-                    .eq('referrer_id', user.id);
-                
-                if (refError) {
-                    console.error('Error loading referrals:', refError);
-                    return;
-                }
-                
-                const totalReferrals = referrals?.length || 0;
-                const totalPoints = totalReferrals * 50;
-                const totalDollars = (totalPoints / 100).toFixed(2);
-                
-                document.getElementById('totalReferrals').textContent = totalReferrals;
-                document.getElementById('referralPoints').textContent = totalPoints;
-                document.getElementById('referralDollars').textContent = `$${totalDollars}`;
-                
-                // 3. عرض قائمة المدعوين
-                const tableBody = document.getElementById('referralTableBody');
-                tableBody.innerHTML = '';
-                
-                if (!referrals || referrals.length === 0) {
-                    tableBody.innerHTML = `
-                        <tr>
-                            <td colspan="3" class="empty-state" data-i18n="no_referrals">
-                                ${typeof t === 'function' ? t('no_referrals') : 'لم تدعُ أي شخص بعد. ابدأ الآن! 🚀'}
-                            </td>
-                        </tr>
-                    `;
-                    if (typeof applyTranslations === 'function') applyTranslations();
-                    return;
-                }
-                
-                // جلب أسماء المدعوين
-                const userIds = referrals.map(r => r.new_user_id);
-                const { data: profiles } = await supabaseClient
-                    .from('profiles')
-                    .select('id, username, full_name')
-                    .in('id', userIds);
-                
-                const profilesMap = {};
-                if (profiles) {
-                    profiles.forEach(p => {
-                        profilesMap[p.id] = p.full_name || p.username || 'مستخدم';
-                    });
-                }
-                
-                referrals.forEach(ref => {
-                    const name = profilesMap[ref.new_user_id] || 'مستخدم';
-                    const date = new Date(ref.created_at);
-                    const formattedDate = `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`;
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${name}</td>
-                        <td class="date-cell" dir="ltr">${formattedDate}</td>
-                        <td class="reward-cell" dir="ltr">+${ref.points_awarded || 50} ${typeof t === 'function' ? t('points') : 'نقاط'}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+      async function loadReferralData() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        
+        if (!user) {
+            window.location.href = 'auth.html';
+            return;
         }
+        
+        // 1. جلب كود الإحالة
+        const referralCode = await getOrCreateReferralCode();
+        if (!referralCode) return;
+        
+        document.getElementById('referralCode').textContent = referralCode;
+        
+        const BASE_URL =  'https://socialwiki-wiki2608.loubabiwahid89.workers.dev';
+        document.getElementById('referralLink').textContent = 
+            `${BASE_URL}/auth.html?ref=${referralCode}`;
+        
+        // 2. جلب عدد المدعوين
+        const { data: referrals, error: refError } = await supabaseClient
+            .from('referrals')
+            .select('*')
+            .eq('referrer_id', user.id);
+        
+        if (refError) {
+            console.error('Error loading referrals:', refError);
+            return;
+        }
+        
+        const totalReferrals = referrals?.length || 0;
+        const totalPoints = totalReferrals * 50;
+        const totalDollars = (totalPoints / 100).toFixed(2);
+        
+        document.getElementById('totalReferrals').textContent = totalReferrals;
+        document.getElementById('referralPoints').textContent = totalPoints;
+        document.getElementById('referralDollars').textContent = `$${totalDollars}`;
+        
+        // 3. عرض قائمة المدعوين
+        const tableBody = document.getElementById('referralTableBody');
+        tableBody.innerHTML = '';
+        
+        if (!referrals || referrals.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="3" class="empty-state" data-i18n="no_referrals">
+                        ${typeof t === 'function' ? t('no_referrals') : 'لم تدعُ أي شخص بعد. ابدأ الآن! 🚀'}
+                    </td>
+                </tr>
+            `;
+            if (typeof applyTranslations === 'function') applyTranslations();
+            return;
+        }
+        
+        // 4. جلب أسماء المدعوين
+        const userIds = referrals.map(r => r.referred_id);
+        const { data: profiles } = await supabaseClient
+            .from('profiles')
+            .select('id, username, full_name')
+            .in('id', userIds);
+        
+        const profilesMap = {};
+        if (profiles) {
+            profiles.forEach(p => {
+                profilesMap[p.id] = p.full_name || p.username || (typeof t === 'function' ? t('default_user_name') : 'مستخدم');
+            });
+        }
+        
+        // 5. بناء الصفوف
+        referrals.forEach(ref => {
+            // اسم المدعو
+            const name = profilesMap[ref.referred_id] || (typeof t === 'function' ? t('default_user_name') : 'مستخدم');
+            
+            // ✅ تنسيق التاريخ DD/MM/YYYY
+            const dateObj = new Date(ref.created_at);
+            const formattedDate = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()}`;
+            
+            // ✅ النقاط المترجمة
+            const pointsText = (typeof t === 'function') ? t('points') : 'نقاط';
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td class="date-cell" dir="ltr">${formattedDate}</td>
+                <td class="reward-cell" dir="ltr">+${ref.points_awarded || 50} ${pointsText}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
         
         // =========================================================
         // SHARE FUNCTIONS
@@ -732,14 +747,12 @@
         // =========================================================
         
         document.addEventListener('DOMContentLoaded', function() {
-            // 🔥 تطبيق اللغة أولاً
             if (typeof getCurrentLanguage === 'function') {
                 const lang = getCurrentLanguage();
                 setLanguage(lang);
                 applyTranslations();
             }
             
-            // ثم تحميل البيانات
             loadUserProfile();
             loadPoints();
             loadReferralData();
