@@ -3540,7 +3540,7 @@ const translations = {
         "typing": "입력 중...",
         "last_seen": "마지막 접속",
         "seen": "읽음",
-        "delivered": "전달됨",ç
+        "delivered": "전달됨",
         "change_cover": "커버 변경",
 "change": "변경",
 "add_friend": "친구 추가",
@@ -4688,7 +4688,7 @@ const translations = {
         "typing": "टाइप कर रहे हैं...",
         "last_seen": "अंतिम बार देखा गया",
         "seen": "देखा गया",
-        "delivered": "पहुंचा दिया"
+        "delivered": "पहुंचा दिया",
         "change_cover": "कवर बदलें",
 "change": "बदलें",
 "add_friend": "मित्र जोड़ें",
