@@ -388,7 +388,7 @@ const translations = {
 "group2": "مجموعة 2",
 "group3": "مجموعة 3",
 "event1": "حدث 1",
-"event2": "حدث 2",ç
+"event2": "حدث 2",
 "change_cover": "تغيير الغلاف",
 "change": "تغيير",
 "add_friend": "إضافة صديق",
