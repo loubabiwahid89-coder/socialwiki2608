@@ -299,7 +299,7 @@ body {
 }
 
 /* =========================================================
-   RIGHT SIDEBAR - مطابق لتصميم Left Sidebar
+   RIGHT SIDEBAR
 ========================================================= */
 
 .right-profile-box {
@@ -1074,105 +1074,149 @@ body {
 }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — 3 columns always visible
 ========================================================= */
+
+@media (max-width: 1200px) {
+    .main-container {
+        grid-template-columns: 200px minmax(0, 1fr) 260px;
+        gap: 12px;
+        padding: 12px;
+    }
+}
 
 @media (max-width: 900px) {
     .main-container {
-        grid-template-columns: 20% minmax(0, 1fr) 20%;
-        padding: 10px;
+        grid-template-columns: 140px minmax(0, 1fr) 200px;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .left-sidebar a {
+        font-size: 13px;
+        padding: 6px 8px;
+        gap: 8px;
+    }
+
+    .left-sidebar .emoji-icon {
+        font-size: 22px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .right-box a {
+        font-size: 13px;
+        padding: 6px 8px;
+        gap: 8px;
+    }
+
+    .right-box .emoji-icon {
+        font-size: 22px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .right-box h3 {
+        font-size: 12px;
     }
 
     .search-container input {
-        width: 200px;
+        width: 180px;
     }
 }
 
 @media (max-width: 700px) {
     .main-container {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) 180px !important;
-        gap: 8px !important;
-        padding: 8px !important;
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr) 140px;
+        gap: 6px;
+        padding: 6px;
     }
-    
-    /* إخفاء Left Sidebar على الجوال */
+
+    /* Left Sidebar يبقى مرئياً */
     .left-sidebar {
-        display: none !important;
+        grid-column: 1;
+        padding: 4px;
     }
-    
-    /* Content على اليسار */
+
+    .left-sidebar a {
+        font-size: 11px;
+        padding: 5px 4px;
+        gap: 6px;
+    }
+
+    .left-sidebar .emoji-icon {
+        font-size: 18px;
+        width: 22px;
+        height: 22px;
+    }
+
     .content {
-        grid-column: 1 !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        grid-column: 2;
+        width: 100%;
     }
-    
-    /* Right Sidebar على اليمين */
+
+    /* Right Sidebar يبقى مرئياً */
     .right-sidebar {
-        display: block !important;
-        grid-column: 2 !important;
-        width: 180px !important;
-        padding: 0 !important;
-        position: static !important;
-        max-height: none !important;
-        overflow: visible !important;
+        grid-column: 3;
+        width: 140px;
+        padding: 4px;
+        position: static;
+        max-height: none;
+        overflow: visible;
     }
-    
-    /* تصغير الصناديق */
+
     .right-box,
     .right-profile-box,
     .ad-box {
-        padding: 8px !important;
-        margin-bottom: 8px !important;
+        padding: 6px;
+        margin-bottom: 6px;
     }
-    
+
     .right-box h3 {
-        font-size: 12px !important;
-        margin-bottom: 6px !important;
+        font-size: 10px;
+        margin-bottom: 4px;
+        padding: 0 4px;
     }
-    
+
     .right-box a {
-        font-size: 12px !important;
-        padding: 6px !important;
-        gap: 6px !important;
+        font-size: 10px;
+        padding: 4px;
+        gap: 4px;
     }
-    
+
     .right-box .emoji-icon {
-        font-size: 16px !important;
-        width: 22px !important;
-        height: 22px !important;
+        font-size: 14px;
+        width: 18px;
+        height: 18px;
     }
-    
+
     .right-profile-name {
-        font-size: 13px !important;
+        font-size: 11px;
     }
-    
+
     .right-profile-username {
-        font-size: 11px !important;
+        font-size: 9px;
     }
-    
-    .nav-icons { 
-        max-width: 100%; 
+
+    .nav-icons a {
+        width: 40px;
+        font-size: 18px;
     }
-    
-    .nav-icons a { 
-        width: 50px !important;
+
+    .search-container input {
+        width: 100px;
     }
-    
-    .search-container input { 
-        width: 120px !important;
+
+    .stats-grid {
+        grid-template-columns: 1fr;
     }
-    
-    .stats-grid { 
-        grid-template-columns: 1fr; 
+
+    .share-buttons {
+        flex-direction: column;
     }
-    
-    .share-buttons { 
-        flex-direction: column; 
-    }
-    
-    .share-btn { 
-        width: 100%; 
+
+    .share-btn {
+        width: 100%;
     }
 }
