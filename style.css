@@ -335,13 +335,15 @@ a {
 }
 
 /* =========================================================
-   RIGHT SIDEBAR
+ /* =========================================================
+   RIGHT SIDEBAR - مطابق لتصميم Left Sidebar
 ========================================================= */
 
+/* Profile Box */
 .right-profile-box {
     background: white;
     border-radius: 12px;
-    padding: 15px;
+    padding: 10px;
     margin-bottom: 15px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
@@ -349,16 +351,26 @@ a {
 .right-profile-link {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
     text-decoration: none;
     color: #050505;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.right-profile-link:hover {
+    background: #e4e6eb;
 }
 
 .right-profile-avatar {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .right-profile-avatar img {
@@ -369,51 +381,79 @@ a {
 
 .right-profile-name {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 1.2;
 }
 
 .right-profile-username {
     color: #65676b;
     font-size: 12px;
+    line-height: 1.2;
 }
 
+/* Groups & Events Boxes */
 .right-box {
     background: white;
     border-radius: 12px;
-    padding: 15px;
+    padding: 10px;
     margin-bottom: 15px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .right-box h3 {
-    margin: 0 0 10px;
-    font-size: 15px;
+    margin: 0 0 6px;
+    padding: 0 10px;
+    font-size: 14px;
     font-weight: 700;
-    color: #050505;
+    color: #65676b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .right-box a {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px;
+    gap: 12px;
+    padding: 8px 10px;
     border-radius: 8px;
     text-decoration: none;
     color: #050505;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
     transition: 0.2s;
 }
 
 .right-box a:hover {
-    background: #f0f2f5;
+    background: #e4e6eb;
 }
 
+.right-box .emoji-icon {
+    font-size: 28px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Ad Box */
 .ad-box {
     background: white;
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.ad-box h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #65676b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .ad-box img {
@@ -428,6 +468,18 @@ a {
     margin: 0 0 5px;
 }
 
+.ad-box > div,
+.ad-box > ins,
+.ad-box > iframe {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 250px;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+}
 /* =========================================================
    CREATE POST
 ========================================================= */
