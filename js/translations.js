@@ -138,6 +138,30 @@ const translations = {
         "or": "أو",
         "login_success": "✅ تم تسجيل الدخول بنجاح!",
 
+        // ==================== NEW AUTH KEYS (AUTH PAGE) ====================
+        "founder_title": "🎁 أنت من المؤسسين الأوائل",
+        "founder_line1": "ستحصل على:",
+        "founder_line2": "• 525 نقطة ($5.25)",
+        "founder_line3": "• شارة Founder ذهبية",
+        "signup_email_btn": "إنشاء حساب بالبريد",
+        "signin_email_btn": "تسجيل الدخول بالبريد",
+        "signup_btn": "إنشاء حساب",
+        "login_btn": "تسجيل الدخول",
+        "signup_title": "📘 إنشاء حساب",
+        "login_title": "📘 تسجيل الدخول",
+        "toggle_text": "ليس لديك حساب؟",
+        "toggle_action": "إنشاء حساب",
+        "toggle_text_login": "لديك حساب؟",
+        "toggle_action_login": "تسجيل الدخول",
+        "signup_success": "✅ تم التسجيل بنجاح! سيتم توجيهك إلى الصفحة الرئيسية.",
+        "forgot_success": "✅ تم إرسال رابط إعادة تعيين كلمة المرور",
+        "error_fill": "❌ الرجاء ملء البريد الإلكتروني وكلمة المرور",
+        "error_password": "❌ كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+        "error_email": "❌ الرجاء إدخال البريد الإلكتروني",
+        "welcome_bonus": "🎉 تم تفعيل كود الإحالة!",
+        "google_btn": "تسجيل الدخول بواسطة Google",
+        "language_label": "العربية",
+
         // ==================== MARKETPLACE ====================
         "add_product": "+ إضافة منتج",
         "product_name": "اسم المنتج",
@@ -384,26 +408,18 @@ const translations = {
         "last_seen": "آخر ظهور",
         "seen": "تمت المشاهدة",
         "delivered": "تم التوصيل",
-        "group1": "مجموعة 1",
-"group2": "مجموعة 2",
-"group3": "مجموعة 3",
-"event1": "حدث 1",
-"event2": "حدث 2",
-"change_cover": "تغيير الغلاف",
-"change": "تغيير",
-"add_friend": "إضافة صديق",
-"request_sent": "تم إرسال الطلب",
-"welcome_profile": "مرحباً في ملفي!",
-"accept": "قبول",
-"reject": "رفض",
-"no_friends": "لا يوجد أصدقاء بعد",
-"posts_title": "المنشورات",
-"like": "إعجاب",
-"comment": "تعليق",
-"share": "مشاركة",
+        "change_cover": "تغيير الغلاف",
+        "change": "تغيير",
+        "add_friend": "إضافة صديق",
+        "request_sent": "تم إرسال الطلب",
+        "welcome_profile": "مرحباً في ملفي!",
+        "accept": "قبول",
+        "reject": "رفض",
+        "no_friends": "لا يوجد أصدقاء بعد",
+        "posts_title": "المنشورات"
     },
-        fr: {
-        // ==================== NAVIGATION ====================
+
+    fr: {
         "search_placeholder": "Rechercher sur SocialWiki",
         "home": "Accueil",
         "friends": "Amis",
@@ -438,7 +454,6 @@ const translations = {
         "messages": "Messages",
         "chat": "Chat",
 
-        // ==================== POSTS ====================
         "create_post": "Quoi de neuf ?",
         "photo_video": "Photo / Vidéo",
         "feeling_activity": "Sentiment / Activité",
@@ -469,7 +484,6 @@ const translations = {
         "no_results": "Aucun résultat",
         "search_results": "Résultats de recherche",
 
-        // ==================== STORIES ====================
         "story": "Stories",
         "create_story": "Créer une story",
         "share_to_story": "Partager en story",
@@ -478,7 +492,6 @@ const translations = {
         "story_views": "Vues de la story",
         "story_expired": "Story expirée",
 
-        // ==================== ACTIONS ====================
         "cancel": "Annuler",
         "confirm": "Confirmer",
         "save": "Enregistrer",
@@ -497,7 +510,6 @@ const translations = {
         "warning": "Attention",
         "loading": "Chargement...",
 
-        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 Votre code de parrainage",
         "your_referral_link": "🔗 Lien de parrainage",
         "copy_code": "📋 Copier le code",
@@ -519,7 +531,6 @@ const translations = {
         "error_copy": "❌ Erreur, réessayez.",
         "default_user_name": "Utilisateur",
 
-        // ==================== AUTH ====================
         "sign_up": "S'inscrire",
         "sign_in": "Se connecter",
         "create_account": "Créer un compte",
@@ -537,7 +548,29 @@ const translations = {
         "or": "ou",
         "login_success": "✅ Connexion réussie!",
 
-        // ==================== MARKETPLACE ====================
+        "founder_title": "🎁 Vous êtes l'un des premiers fondateurs",
+        "founder_line1": "Vous recevrez :",
+        "founder_line2": "• 525 points (5,25 $)",
+        "founder_line3": "• Badge Founder doré",
+        "signup_email_btn": "Créer un compte par email",
+        "signin_email_btn": "Se connecter par email",
+        "signup_btn": "Créer un compte",
+        "login_btn": "Se connecter",
+        "signup_title": "📘 Créer un compte",
+        "login_title": "📘 Connexion",
+        "toggle_text": "Pas de compte ?",
+        "toggle_action": "Créer un compte",
+        "toggle_text_login": "Vous avez un compte ?",
+        "toggle_action_login": "Se connecter",
+        "signup_success": "✅ Inscription réussie !",
+        "forgot_success": "✅ Lien envoyé par e-mail",
+        "error_fill": "❌ Remplissez tous les champs",
+        "error_password": "❌ Mot de passe : 6 caractères minimum",
+        "error_email": "❌ Entrez votre e-mail",
+        "welcome_bonus": "🎉 Code de parrainage activé !",
+        "google_btn": "Se connecter avec Google",
+        "language_label": "Français",
+
         "add_product": "+ Ajouter un produit",
         "product_name": "Nom du produit",
         "product_description": "Description",
@@ -555,7 +588,6 @@ const translations = {
         "contact_seller": "Contacter le vendeur",
         "no_products": "Aucun produit pour le moment",
 
-        // ==================== AD CENTER ====================
         "ad_center_title": "📢 Centre publicitaire",
         "ad_center_subtitle": "Gérez vos campagnes publicitaires en un seul endroit",
         "total_ads": "Total des annonces",
@@ -615,7 +647,6 @@ const translations = {
         "no_activity": "Aucune activité pour le moment",
         "estimated_earnings": "Revenus estimés",
 
-        // ==================== EARNINGS ====================
         "earnings": "Revenus",
         "earnings_title": "💰 Mes revenus",
         "earnings_subtitle": "Suivez vos revenus et demandez un retrait",
@@ -660,7 +691,6 @@ const translations = {
         "amount": "Montant",
         "processing": "Traitement",
 
-        // ==================== GAMES ====================
         "games_title": "🎮 Jeux",
         "games_subtitle": "Jouez et défiez vos amis",
         "tic_tac_toe": "Morpion",
@@ -693,20 +723,17 @@ const translations = {
         "lose": "Perdre",
         "draw": "Match nul",
 
-        // ==================== DAILY BONUS ====================
         "daily_bonus": "Bonus quotidien",
         "claim": "Réclamer",
         "claimed": "Réclamé",
         "come_back_tomorrow": "Revenez demain",
         "claim_bonus_desc": "Réclamez 10 points chaque jour!",
 
-        // ==================== SPIN WHEEL ====================
         "spin_wheel": "Roue de la fortune",
         "spin_now": "Tourner",
         "spin_again": "Revenez demain",
         "you_won_prize": "🎉 Vous avez gagné!",
 
-        // ==================== TERMS / PRIVACY ====================
         "terms_title": "📜 Conditions d'utilisation",
         "terms_subtitle": "Dernière mise à jour: Janvier 2025",
         "privacy_title": "🔒 Politique de confidentialité",
@@ -719,7 +746,6 @@ const translations = {
         "footer_privacy": "Politique de confidentialité",
         "footer_rights": "© 2025 SocialWiki. Tous droits réservés.",
 
-        // ==================== STARS ====================
         "buy_stars": "Acheter des étoiles",
         "buy_stars_desc": "Soutenez vos créateurs préférés",
         "star_balance": "Votre solde d'étoiles",
@@ -733,7 +759,6 @@ const translations = {
         "bonus_20": "+20% de bonus",
         "bonus_30": "+30% de bonus",
 
-        // ==================== GROUPS ====================
         "discover_groups": "Découvrez et rejoignez des communautés",
         "create_group": "Créer un groupe",
         "create_group_desc": "Créez votre propre communauté SocialWiki",
@@ -757,7 +782,6 @@ const translations = {
         "group2": "Groupe 2",
         "group3": "Groupe 3",
 
-        // ==================== EVENTS ====================
         "event1": "Événement 1",
         "event2": "Événement 2",
         "create_event": "Créer un événement",
@@ -766,7 +790,6 @@ const translations = {
         "not_going": "Ne participe pas",
         "location": "Lieu",
 
-        // ==================== PROFILE ====================
         "edit_profile": "Modifier le profil",
         "message": "Message",
         "followers": "Abonnés",
@@ -776,7 +799,6 @@ const translations = {
         "zero_points": "0 points",
         "points_label": "points",
 
-        // ==================== MESSAGES ====================
         "online": "En ligne",
         "offline": "Hors ligne",
         "typing": "En train d'écrire...",
@@ -784,20 +806,17 @@ const translations = {
         "seen": "Vu",
         "delivered": "Livré",
         "change_cover": "Changer la couverture",
-"change": "Changer",
-"add_friend": "Ajouter un ami",
-"request_sent": "Demande envoyée",
-"welcome_profile": "Bienvenue sur mon profil !",
-"accept": "Accepter",
-"reject": "Refuser",
-"no_friends": "Aucun ami pour le moment",
-"posts_title": "Publications",
-"like": "J'aime",
-"comment": "Commenter",
-"share": "Partager",
+        "change": "Changer",
+        "add_friend": "Ajouter un ami",
+        "request_sent": "Demande envoyée",
+        "welcome_profile": "Bienvenue sur mon profil !",
+        "accept": "Accepter",
+        "reject": "Refuser",
+        "no_friends": "Aucun ami pour le moment",
+        "posts_title": "Publications"
     },
-        en: {
-        // ==================== NAVIGATION ====================
+
+    en: {
         "search_placeholder": "Search SocialWiki",
         "home": "Home",
         "friends": "Friends",
@@ -832,7 +851,6 @@ const translations = {
         "messages": "Messages",
         "chat": "Chat",
 
-        // ==================== POSTS ====================
         "create_post": "What's on your mind?",
         "photo_video": "Photo / Video",
         "feeling_activity": "Feeling / Activity",
@@ -863,7 +881,6 @@ const translations = {
         "no_results": "No Results",
         "search_results": "Search Results",
 
-        // ==================== STORIES ====================
         "story": "Stories",
         "create_story": "Create Story",
         "share_to_story": "Share to Story",
@@ -872,7 +889,6 @@ const translations = {
         "story_views": "Story Views",
         "story_expired": "Story Expired",
 
-        // ==================== ACTIONS ====================
         "cancel": "Cancel",
         "confirm": "Confirm",
         "save": "Save",
@@ -891,7 +907,6 @@ const translations = {
         "warning": "Warning",
         "loading": "Loading...",
 
-        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 Your Referral Code",
         "your_referral_link": "🔗 Referral Link",
         "copy_code": "📋 Copy Code",
@@ -913,7 +928,6 @@ const translations = {
         "error_copy": "❌ Error, try again.",
         "default_user_name": "User",
 
-        // ==================== AUTH ====================
         "sign_up": "Sign Up",
         "sign_in": "Sign In",
         "create_account": "Create Account",
@@ -931,7 +945,29 @@ const translations = {
         "or": "or",
         "login_success": "✅ Login successful!",
 
-        // ==================== MARKETPLACE ====================
+        "founder_title": "🎁 You are one of the first Founders",
+        "founder_line1": "You will get:",
+        "founder_line2": "• 525 points ($5.25)",
+        "founder_line3": "• Gold Founder badge",
+        "signup_email_btn": "Sign Up with Email",
+        "signin_email_btn": "Sign In with Email",
+        "signup_btn": "Create Account",
+        "login_btn": "Login",
+        "signup_title": "📘 Create Account",
+        "login_title": "📘 Login",
+        "toggle_text": "Don't have an account?",
+        "toggle_action": "Sign Up",
+        "toggle_text_login": "Have an account?",
+        "toggle_action_login": "Sign In",
+        "signup_success": "✅ Sign up successful!",
+        "forgot_success": "✅ Reset link sent to your email",
+        "error_fill": "❌ Please fill in all fields",
+        "error_password": "❌ Password must be at least 6 characters",
+        "error_email": "❌ Please enter your email",
+        "welcome_bonus": "🎉 Referral code activated!",
+        "google_btn": "Sign in with Google",
+        "language_label": "English",
+
         "add_product": "+ Add Product",
         "product_name": "Product Name",
         "product_description": "Description",
@@ -949,7 +985,6 @@ const translations = {
         "contact_seller": "Contact Seller",
         "no_products": "No products yet",
 
-        // ==================== AD CENTER ====================
         "ad_center_title": "📢 Ad Center",
         "ad_center_subtitle": "Manage your ad campaigns in one place",
         "total_ads": "Total Ads",
@@ -1009,7 +1044,6 @@ const translations = {
         "no_activity": "No activity yet",
         "estimated_earnings": "Estimated Earnings",
 
-        // ==================== EARNINGS ====================
         "earnings": "Earnings",
         "earnings_title": "💰 My Earnings",
         "earnings_subtitle": "Track your earnings and request withdrawal",
@@ -1054,7 +1088,6 @@ const translations = {
         "amount": "Amount",
         "processing": "Processing",
 
-        // ==================== GAMES ====================
         "games_title": "🎮 Games",
         "games_subtitle": "Play and challenge your friends",
         "tic_tac_toe": "Tic Tac Toe",
@@ -1087,20 +1120,17 @@ const translations = {
         "lose": "Lose",
         "draw": "Draw",
 
-        // ==================== DAILY BONUS ====================
         "daily_bonus": "Daily Bonus",
         "claim": "Claim",
         "claimed": "Claimed",
         "come_back_tomorrow": "Come back tomorrow",
         "claim_bonus_desc": "Claim 10 points every day!",
 
-        // ==================== SPIN WHEEL ====================
         "spin_wheel": "Spin Wheel",
         "spin_now": "Spin Now",
         "spin_again": "Come back tomorrow",
         "you_won_prize": "🎉 You Won!",
 
-        // ==================== TERMS / PRIVACY ====================
         "terms_title": "📜 Terms of Service",
         "terms_subtitle": "Last updated: January 2025",
         "privacy_title": "🔒 Privacy Policy",
@@ -1113,7 +1143,6 @@ const translations = {
         "footer_privacy": "Privacy Policy",
         "footer_rights": "© 2025 SocialWiki. All rights reserved.",
 
-        // ==================== STARS ====================
         "buy_stars": "Buy Stars",
         "buy_stars_desc": "Support your favorite creators",
         "star_balance": "Your Star Balance",
@@ -1127,7 +1156,6 @@ const translations = {
         "bonus_20": "+20% Bonus",
         "bonus_30": "+30% Bonus",
 
-        // ==================== GROUPS ====================
         "discover_groups": "Discover and join communities",
         "create_group": "Create Group",
         "create_group_desc": "Create your own SocialWiki community",
@@ -1151,7 +1179,6 @@ const translations = {
         "group2": "Group 2",
         "group3": "Group 3",
 
-        // ==================== EVENTS ====================
         "event1": "Event 1",
         "event2": "Event 2",
         "create_event": "Create Event",
@@ -1160,7 +1187,6 @@ const translations = {
         "not_going": "Not Going",
         "location": "Location",
 
-        // ==================== PROFILE ====================
         "edit_profile": "Edit Profile",
         "message": "Message",
         "followers": "Followers",
@@ -1170,7 +1196,6 @@ const translations = {
         "zero_points": "0 points",
         "points_label": "points",
 
-        // ==================== MESSAGES ====================
         "online": "Online",
         "offline": "Offline",
         "typing": "Typing...",
@@ -1178,17 +1203,14 @@ const translations = {
         "seen": "Seen",
         "delivered": "Delivered",
         "change_cover": "Change Cover",
-"change": "Change",
-"add_friend": "Add Friend",
-"request_sent": "Request Sent",
-"welcome_profile": "Welcome to my profile!",
-"accept": "Accept",
-"reject": "Reject",
-"no_friends": "No friends yet",
-"posts_title": "Posts",
-"like": "Like",
-"comment": "Comment",
-"share": "Share",
+        "change": "Change",
+        "add_friend": "Add Friend",
+        "request_sent": "Request Sent",
+        "welcome_profile": "Welcome to my profile!",
+        "accept": "Accept",
+        "reject": "Reject",
+        "no_friends": "No friends yet",
+        "posts_title": "Posts"
     },
         es: {
         // ==================== NAVIGATION ====================
@@ -1324,6 +1346,30 @@ const translations = {
         "username": "Nombre de usuario",
         "or": "o",
         "login_success": "✅ ¡Inicio de sesión exitoso!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 Eres uno de los primeros Fundadores",
+        "founder_line1": "Recibirás:",
+        "founder_line2": "• 525 puntos ($5.25)",
+        "founder_line3": "• Insignia Founder dorada",
+        "signup_email_btn": "Registrarse con Email",
+        "signin_email_btn": "Iniciar sesión con Email",
+        "signup_btn": "Crear Cuenta",
+        "login_btn": "Iniciar Sesión",
+        "signup_title": "📘 Crear Cuenta",
+        "login_title": "📘 Iniciar Sesión",
+        "toggle_text": "¿No tienes cuenta?",
+        "toggle_action": "Registrarse",
+        "toggle_text_login": "¿Tienes cuenta?",
+        "toggle_action_login": "Iniciar Sesión",
+        "signup_success": "✅ ¡Registro exitoso!",
+        "forgot_success": "✅ Enlace enviado a tu correo",
+        "error_fill": "❌ Complete todos los campos",
+        "error_password": "❌ Contraseña: mínimo 6 caracteres",
+        "error_email": "❌ Ingrese su correo",
+        "welcome_bonus": "🎉 ¡Código de referido activado!",
+        "google_btn": "Iniciar sesión con Google",
+        "language_label": "Español",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ Añadir producto",
@@ -1572,19 +1618,17 @@ const translations = {
         "seen": "Visto",
         "delivered": "Entregado",
         "change_cover": "Cambiar portada",
-"change": "Cambiar",
-"add_friend": "Añadir amigo",
-"request_sent": "Solicitud enviada",
-"welcome_profile": "¡Bienvenido a mi perfil!",
-"accept": "Aceptar",
-"reject": "Rechazar",
-"no_friends": "Aún no hay amigos",
-"posts_title": "Publicaciones",
-"like": "Me gusta",
-"comment": "Comentar",
-"share": "Compartir",
+        "change": "Cambiar",
+        "add_friend": "Añadir amigo",
+        "request_sent": "Solicitud enviada",
+        "welcome_profile": "¡Bienvenido a mi perfil!",
+        "accept": "Aceptar",
+        "reject": "Rechazar",
+        "no_friends": "Aún no hay amigos",
+        "posts_title": "Publicaciones"
     },
-        de: {
+
+    de: {
         // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki durchsuchen",
         "home": "Startseite",
@@ -1718,6 +1762,30 @@ const translations = {
         "username": "Benutzername",
         "or": "oder",
         "login_success": "✅ Anmeldung erfolgreich!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 Du bist einer der ersten Gründer",
+        "founder_line1": "Du erhältst:",
+        "founder_line2": "• 525 Punkte (5,25 $)",
+        "founder_line3": "• Goldene Founder-Plakette",
+        "signup_email_btn": "Mit E-Mail registrieren",
+        "signin_email_btn": "Mit E-Mail anmelden",
+        "signup_btn": "Konto erstellen",
+        "login_btn": "Anmelden",
+        "signup_title": "📘 Konto erstellen",
+        "login_title": "📘 Anmelden",
+        "toggle_text": "Kein Konto?",
+        "toggle_action": "Registrieren",
+        "toggle_text_login": "Hast du ein Konto?",
+        "toggle_action_login": "Anmelden",
+        "signup_success": "✅ Registrierung erfolgreich!",
+        "forgot_success": "✅ Link per E-Mail gesendet",
+        "error_fill": "❌ Bitte alle Felder ausfüllen",
+        "error_password": "❌ Passwort: mindestens 6 Zeichen",
+        "error_email": "❌ Bitte E-Mail eingeben",
+        "welcome_bonus": "🎉 Empfehlungscode aktiviert!",
+        "google_btn": "Mit Google anmelden",
+        "language_label": "Deutsch",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ Produkt hinzufügen",
@@ -1966,19 +2034,17 @@ const translations = {
         "seen": "Gesehen",
         "delivered": "Zugestellt",
         "change_cover": "Titel ändern",
-"change": "Ändern",
-"add_friend": "Freund hinzufügen",
-"request_sent": "Anfrage gesendet",
-"welcome_profile": "Willkommen in meinem Profil!",
-"accept": "Akzeptieren",
-"reject": "Ablehnen",
-"no_friends": "Noch keine Freunde",
-"posts_title": "Beiträge",
-"like": "Gefällt mir",
-"comment": "Kommentieren",
-"share": "Teilen",
+        "change": "Ändern",
+        "add_friend": "Freund hinzufügen",
+        "request_sent": "Anfrage gesendet",
+        "welcome_profile": "Willkommen in meinem Profil!",
+        "accept": "Akzeptieren",
+        "reject": "Ablehnen",
+        "no_friends": "Noch keine Freunde",
+        "posts_title": "Beiträge"
     },
-        it: {
+
+    it: {
         // ==================== NAVIGATION ====================
         "search_placeholder": "Cerca su SocialWiki",
         "home": "Home",
@@ -2112,6 +2178,30 @@ const translations = {
         "username": "Nome utente",
         "or": "o",
         "login_success": "✅ Accesso riuscito!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 Sei uno dei primi Fondatori",
+        "founder_line1": "Riceverai:",
+        "founder_line2": "• 525 punti ($5,25)",
+        "founder_line3": "• Badge Founder dorato",
+        "signup_email_btn": "Registrati con Email",
+        "signin_email_btn": "Accedi con Email",
+        "signup_btn": "Crea Account",
+        "login_btn": "Accedi",
+        "signup_title": "📘 Crea Account",
+        "login_title": "📘 Accedi",
+        "toggle_text": "Non hai un account?",
+        "toggle_action": "Registrati",
+        "toggle_text_login": "Hai un account?",
+        "toggle_action_login": "Accedi",
+        "signup_success": "✅ Registrazione riuscita!",
+        "forgot_success": "✅ Link inviato via email",
+        "error_fill": "❌ Compila tutti i campi",
+        "error_password": "❌ Password: minimo 6 caratteri",
+        "error_email": "❌ Inserisci la tua email",
+        "welcome_bonus": "🎉 Codice referral attivato!",
+        "google_btn": "Accedi con Google",
+        "language_label": "Italiano",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ Aggiungi prodotto",
@@ -2360,17 +2450,14 @@ const translations = {
         "seen": "Visto",
         "delivered": "Consegnato",
         "change_cover": "Cambia copertina",
-"change": "Cambia",
-"add_friend": "Aggiungi amico",
-"request_sent": "Richiesta inviata",
-"welcome_profile": "Benvenuto nel mio profilo!",
-"accept": "Accetta",
-"reject": "Rifiuta",
-"no_friends": "Nessun amico ancora",
-"posts_title": "Post",
-"like": "Mi piace",
-"comment": "Commenta",
-"share": "Condividi",
+        "change": "Cambia",
+        "add_friend": "Aggiungi amico",
+        "request_sent": "Richiesta inviata",
+        "welcome_profile": "Benvenuto nel mio profilo!",
+        "accept": "Accetta",
+        "reject": "Rifiuta",
+        "no_friends": "Nessun amico ancora",
+        "posts_title": "Post"
     },
         ja: {
         // ==================== NAVIGATION ====================
@@ -2506,6 +2593,30 @@ const translations = {
         "username": "ユーザー名",
         "or": "または",
         "login_success": "✅ ログインに成功しました！",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 あなたは最初の創設者の一人です",
+        "founder_line1": "獲得内容：",
+        "founder_line2": "• 525ポイント（$5.25）",
+        "founder_line3": "• ゴールドFounderバッジ",
+        "signup_email_btn": "メールで登録",
+        "signin_email_btn": "メールでログイン",
+        "signup_btn": "アカウント作成",
+        "login_btn": "ログイン",
+        "signup_title": "📘 アカウント作成",
+        "login_title": "📘 ログイン",
+        "toggle_text": "アカウントをお持ちでないですか？",
+        "toggle_action": "登録",
+        "toggle_text_login": "アカウントをお持ちですか？",
+        "toggle_action_login": "ログイン",
+        "signup_success": "✅ 登録に成功しました！",
+        "forgot_success": "✅ メールを送信しました",
+        "error_fill": "❌ すべての項目を入力してください",
+        "error_password": "❌ パスワードは6文字以上",
+        "error_email": "❌ メールアドレスを入力してください",
+        "welcome_bonus": "🎉 紹介コードが有効になりました！",
+        "google_btn": "Googleでログイン",
+        "language_label": "日本語",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ 商品を追加",
@@ -2754,19 +2865,17 @@ const translations = {
         "seen": "既読",
         "delivered": "配信済み",
         "change_cover": "カバーを変更",
-"change": "変更",
-"add_friend": "友達を追加",
-"request_sent": "リクエスト送信済み",
-"welcome_profile": "私のプロフィールへようこそ！",
-"accept": "承認",
-"reject": "拒否",
-"no_friends": "まだ友達がいません",
-"posts_title": "投稿",
-"like": "いいね",
-"comment": "コメント",
-"share": "シェア",
+        "change": "変更",
+        "add_friend": "友達を追加",
+        "request_sent": "リクエスト送信済み",
+        "welcome_profile": "私のプロフィールへようこそ！",
+        "accept": "承認",
+        "reject": "拒否",
+        "no_friends": "まだ友達がいません",
+        "posts_title": "投稿"
     },
-        zh: {
+
+    zh: {
         // ==================== NAVIGATION ====================
         "search_placeholder": "搜索 SocialWiki",
         "home": "首页",
@@ -2900,6 +3009,30 @@ const translations = {
         "username": "用户名",
         "or": "或",
         "login_success": "✅ 登录成功！",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 您是首批创始人之一",
+        "founder_line1": "您将获得：",
+        "founder_line2": "• 525 积分（$5.25）",
+        "founder_line3": "• 金色 Founder 徽章",
+        "signup_email_btn": "使用邮箱注册",
+        "signin_email_btn": "使用邮箱登录",
+        "signup_btn": "创建账户",
+        "login_btn": "登录",
+        "signup_title": "📘 创建账户",
+        "login_title": "📘 登录",
+        "toggle_text": "还没有账户？",
+        "toggle_action": "注册",
+        "toggle_text_login": "已有账户？",
+        "toggle_action_login": "登录",
+        "signup_success": "✅ 注册成功！",
+        "forgot_success": "✅ 邮件已发送",
+        "error_fill": "❌ 请填写所有字段",
+        "error_password": "❌ 密码至少 6 个字符",
+        "error_email": "❌ 请输入邮箱",
+        "welcome_bonus": "🎉 推荐码已激活！",
+        "google_btn": "使用 Google 登录",
+        "language_label": "中文",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ 添加产品",
@@ -3148,19 +3281,17 @@ const translations = {
         "seen": "已读",
         "delivered": "已送达",
         "change_cover": "更换封面",
-"change": "更改",
-"add_friend": "添加好友",
-"request_sent": "请求已发送",
-"welcome_profile": "欢迎来到我的个人资料！",
-"accept": "接受",
-"reject": "拒绝",
-"no_friends": "还没有朋友",
-"posts_title": "帖子",
-"like": "赞",
-"comment": "评论",
-"share": "分享",
+        "change": "更改",
+        "add_friend": "添加好友",
+        "request_sent": "请求已发送",
+        "welcome_profile": "欢迎来到我的个人资料！",
+        "accept": "接受",
+        "reject": "拒绝",
+        "no_friends": "还没有朋友",
+        "posts_title": "帖子"
     },
-        ko: {
+
+    ko: {
         // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki 검색",
         "home": "홈",
@@ -3294,6 +3425,30 @@ const translations = {
         "username": "사용자 이름",
         "or": "또는",
         "login_success": "✅ 로그인 성공!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 당신은 최초의 창립자 중 한 명입니다",
+        "founder_line1": "받게 될 혜택:",
+        "founder_line2": "• 525 포인트 ($5.25)",
+        "founder_line3": "• 골드 Founder 배지",
+        "signup_email_btn": "이메일로 가입",
+        "signin_email_btn": "이메일로 로그인",
+        "signup_btn": "계정 만들기",
+        "login_btn": "로그인",
+        "signup_title": "📘 계정 만들기",
+        "login_title": "📘 로그인",
+        "toggle_text": "계정이 없으신가요?",
+        "toggle_action": "가입",
+        "toggle_text_login": "계정이 있으신가요?",
+        "toggle_action_login": "로그인",
+        "signup_success": "✅ 가입 성공!",
+        "forgot_success": "✅ 이메일 전송됨",
+        "error_fill": "❌ 모든 필드를 채워주세요",
+        "error_password": "❌ 비밀번호는 6자 이상",
+        "error_email": "❌ 이메일을 입력하세요",
+        "welcome_bonus": "🎉 추천 코드 활성화!",
+        "google_btn": "Google로 로그인",
+        "language_label": "한국어",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ 상품 추가",
@@ -3542,17 +3697,14 @@ const translations = {
         "seen": "읽음",
         "delivered": "전달됨",
         "change_cover": "커버 변경",
-"change": "변경",
-"add_friend": "친구 추가",
-"request_sent": "요청 보냄",
-"welcome_profile": "내 프로필에 오신 것을 환영합니다!",
-"accept": "수락",
-"reject": "거부",
-"no_friends": "아직 친구가 없습니다",
-"posts_title": "게시물",
-"like": "좋아요",
-"comment": "댓글",
-"share": "공유",
+        "change": "변경",
+        "add_friend": "친구 추가",
+        "request_sent": "요청 보냄",
+        "welcome_profile": "내 프로필에 오신 것을 환영합니다!",
+        "accept": "수락",
+        "reject": "거부",
+        "no_friends": "아직 친구가 없습니다",
+        "posts_title": "게시물"
     },
         ru: {
         // ==================== NAVIGATION ====================
@@ -3688,6 +3840,30 @@ const translations = {
         "username": "Имя пользователя",
         "or": "или",
         "login_success": "✅ Вход выполнен успешно!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 Вы один из первых основателей",
+        "founder_line1": "Вы получите:",
+        "founder_line2": "• 525 баллов ($5.25)",
+        "founder_line3": "• Золотой значок Founder",
+        "signup_email_btn": "Регистрация по Email",
+        "signin_email_btn": "Вход по Email",
+        "signup_btn": "Создать аккаунт",
+        "login_btn": "Войти",
+        "signup_title": "📘 Создать аккаунт",
+        "login_title": "📘 Вход",
+        "toggle_text": "Нет аккаунта?",
+        "toggle_action": "Регистрация",
+        "toggle_text_login": "Уже есть аккаунт?",
+        "toggle_action_login": "Войти",
+        "signup_success": "✅ Регистрация успешна!",
+        "forgot_success": "✅ Ссылка отправлена",
+        "error_fill": "❌ Заполните все поля",
+        "error_password": "❌ Пароль: минимум 6 символов",
+        "error_email": "❌ Введите email",
+        "welcome_bonus": "🎉 Реферальный код активирован!",
+        "google_btn": "Войти через Google",
+        "language_label": "Русский",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ Добавить товар",
@@ -3936,19 +4112,17 @@ const translations = {
         "seen": "Просмотрено",
         "delivered": "Доставлено",
         "change_cover": "Изменить обложку",
-"change": "Изменить",
-"add_friend": "Добавить друга",
-"request_sent": "Запрос отправлен",
-"welcome_profile": "Добро пожаловать в мой профиль!",
-"accept": "Принять",
-"reject": "Отклонить",
-"no_friends": "Пока нет друзей",
-"posts_title": "Посты",
-"like": "Нравится",
-"comment": "Комментировать",
-"share": "Поделиться",
+        "change": "Изменить",
+        "add_friend": "Добавить друга",
+        "request_sent": "Запрос отправлен",
+        "welcome_profile": "Добро пожаловать в мой профиль!",
+        "accept": "Принять",
+        "reject": "Отклонить",
+        "no_friends": "Пока нет друзей",
+        "posts_title": "Посты"
     },
-        tr: {
+
+    tr: {
         // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki'de ara",
         "home": "Ana Sayfa",
@@ -4082,6 +4256,30 @@ const translations = {
         "username": "Kullanıcı adı",
         "or": "veya",
         "login_success": "✅ Giriş başarılı!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 İlk Kuruculardan birisiniz",
+        "founder_line1": "Alacağınız:",
+        "founder_line2": "• 525 puan ($5.25)",
+        "founder_line3": "• Altın Founder rozeti",
+        "signup_email_btn": "Email ile Kayıt Ol",
+        "signin_email_btn": "Email ile Giriş",
+        "signup_btn": "Hesap Oluştur",
+        "login_btn": "Giriş Yap",
+        "signup_title": "📘 Hesap Oluştur",
+        "login_title": "📘 Giriş Yap",
+        "toggle_text": "Hesabınız yok mu?",
+        "toggle_action": "Kayıt Ol",
+        "toggle_text_login": "Hesabınız var mı?",
+        "toggle_action_login": "Giriş Yap",
+        "signup_success": "✅ Kayıt başarılı!",
+        "forgot_success": "✅ Bağlantı e-posta ile gönderildi",
+        "error_fill": "❌ Tüm alanları doldurun",
+        "error_password": "❌ Şifre: en az 6 karakter",
+        "error_email": "❌ E-posta girin",
+        "welcome_bonus": "🎉 Referans kodu aktif!",
+        "google_btn": "Google ile Giriş Yap",
+        "language_label": "Türkçe",
 
         // ==================== MARKETPLACE ====================
         "add_product": "+ Ürün Ekle",
@@ -4330,19 +4528,17 @@ const translations = {
         "seen": "Görüldü",
         "delivered": "İletildi",
         "change_cover": "Kapağı Değiştir",
-"change": "Değiştir",
-"add_friend": "Arkadaş Ekle",
-"request_sent": "İstek Gönderildi",
-"welcome_profile": "Profilime hoş geldiniz!",
-"accept": "Kabul Et",
-"reject": "Reddet",
-"no_friends": "Henüz arkadaş yok",
-"posts_title": "Gönderiler",
-"like": "Beğen",
-"comment": "Yorum",
-"share": "Paylaş",
+        "change": "Değiştir",
+        "add_friend": "Arkadaş Ekle",
+        "request_sent": "İstek Gönderildi",
+        "welcome_profile": "Profilime hoş geldiniz!",
+        "accept": "Kabul Et",
+        "reject": "Reddet",
+        "no_friends": "Henüz arkadaş yok",
+        "posts_title": "Gönderiler"
     },
-       hi: {
+
+    hi: {
         // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki खोजें",
         "home": "होम",
@@ -4377,6 +4573,8 @@ const translations = {
         "saved": "सहेजे गए",
         "messages": "संदेश",
         "chat": "चैट",
+
+        // ==================== POSTS ====================
         "create_post": "आप क्या सोच रहे हैं?",
         "photo_video": "फ़ोटो / वीडियो",
         "feeling_activity": "भावना / गतिविधि",
@@ -4406,6 +4604,8 @@ const translations = {
         "view_all": "सभी देखें",
         "no_results": "कोई परिणाम नहीं",
         "search_results": "खोज परिणाम",
+
+        // ==================== STORIES ====================
         "story": "स्टोरीज़",
         "create_story": "स्टोरी बनाएं",
         "share_to_story": "स्टोरी में शेयर करें",
@@ -4413,6 +4613,8 @@ const translations = {
         "add_to_story": "स्टोरी में जोड़ें",
         "story_views": "स्टोरी व्यूज़",
         "story_expired": "स्टोरी समाप्त",
+
+        // ==================== ACTIONS ====================
         "cancel": "रद्द करें",
         "confirm": "पुष्टि करें",
         "save": "सहेजें",
@@ -4430,6 +4632,8 @@ const translations = {
         "success_message": "सफल",
         "warning": "चेतावनी",
         "loading": "लोड हो रहा है...",
+
+        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 आपका रेफ़रल कोड",
         "your_referral_link": "🔗 रेफ़रल लिंक",
         "copy_code": "📋 कोड कॉपी करें",
@@ -4450,6 +4654,8 @@ const translations = {
         "copied_link": "✅ लिंक कॉपी हो गया!",
         "error_copy": "❌ त्रुटि, पुनः प्रयास करें।",
         "default_user_name": "उपयोगकर्ता",
+
+        // ==================== AUTH ====================
         "sign_up": "साइन अप",
         "sign_in": "साइन इन",
         "create_account": "खाता बनाएं",
@@ -4466,6 +4672,32 @@ const translations = {
         "username": "उपयोगकर्ता नाम",
         "or": "या",
         "login_success": "✅ लॉगिन सफल!",
+
+        // ==================== NEW AUTH KEYS ====================
+        "founder_title": "🎁 आप पहले संस्थापकों में से एक हैं",
+        "founder_line1": "आपको मिलेगा:",
+        "founder_line2": "• 525 अंक ($5.25)",
+        "founder_line3": "• गोल्ड Founder बैज",
+        "signup_email_btn": "ईमेल से साइन अप करें",
+        "signin_email_btn": "ईमेल से साइन इन करें",
+        "signup_btn": "खाता बनाएं",
+        "login_btn": "साइन इन",
+        "signup_title": "📘 खाता बनाएं",
+        "login_title": "📘 साइन इन",
+        "toggle_text": "खाता नहीं है?",
+        "toggle_action": "साइन अप",
+        "toggle_text_login": "खाता है?",
+        "toggle_action_login": "साइन इन",
+        "signup_success": "✅ साइन अप सफल!",
+        "forgot_success": "✅ लिंक ईमेल पर भेजा गया",
+        "error_fill": "❌ सभी फ़ील्ड भरें",
+        "error_password": "❌ पासवर्ड: कम से कम 6 अक्षर",
+        "error_email": "❌ ईमेल दर्ज करें",
+        "welcome_bonus": "🎉 रेफ़रल कोड सक्रिय!",
+        "google_btn": "Google से साइन इन करें",
+        "language_label": "हिन्दी",
+
+        // ==================== MARKETPLACE ====================
         "add_product": "+ उत्पाद जोड़ें",
         "product_name": "उत्पाद का नाम",
         "product_description": "विवरण",
@@ -4482,6 +4714,8 @@ const translations = {
         "buy_now": "🛒 अभी खरीदें",
         "contact_seller": "विक्रेता से संपर्क करें",
         "no_products": "अभी तक कोई उत्पाद नहीं",
+
+        // ==================== AD CENTER ====================
         "ad_center_title": "📢 विज्ञापन केंद्र",
         "ad_center_subtitle": "अपने विज्ञापन अभियानों को एक जगह प्रबंधित करें",
         "total_ads": "कुल विज्ञापन",
@@ -4540,6 +4774,8 @@ const translations = {
         "recent_activity": "हाल की गतिविधि",
         "no_activity": "अभी कोई गतिविधि नहीं",
         "estimated_earnings": "अनुमानित कमाई",
+
+        // ==================== EARNINGS ====================
         "earnings": "कमाई",
         "earnings_title": "💰 मेरी कमाई",
         "earnings_subtitle": "अपनी कमाई ट्रैक करें और निकासी का अनुरोध करें",
@@ -4583,6 +4819,8 @@ const translations = {
         "payment_details": "भुगतान विवरण",
         "amount": "राशि",
         "processing": "प्रसंस्करण",
+
+        // ==================== GAMES ====================
         "games_title": "🎮 गेम्स",
         "games_subtitle": "खेलें और दोस्तों को चुनौती दें",
         "tic_tac_toe": "टिक टैक टो",
@@ -4614,15 +4852,21 @@ const translations = {
         "win": "जीत",
         "lose": "हार",
         "draw": "बराबरी",
+
+        // ==================== DAILY BONUS ====================
         "daily_bonus": "दैनिक बोनस",
         "claim": "प्राप्त करें",
         "claimed": "प्राप्त",
         "come_back_tomorrow": "कल वापस आएं",
         "claim_bonus_desc": "हर दिन 10 अंक प्राप्त करें!",
+
+        // ==================== SPIN WHEEL ====================
         "spin_wheel": "भाग्य चक्र",
         "spin_now": "घुमाएं",
         "spin_again": "कल वापस आएं",
         "you_won_prize": "🎉 आप जीते!",
+
+        // ==================== TERMS / PRIVACY ====================
         "terms_title": "📜 सेवा की शर्तें",
         "terms_subtitle": "अंतिम अपडेट: जनवरी 2025",
         "privacy_title": "🔒 गोपनीयता नीति",
@@ -4634,6 +4878,8 @@ const translations = {
         "footer_terms": "सेवा की शर्तें",
         "footer_privacy": "गोपनीयता नीति",
         "footer_rights": "© 2025 SocialWiki. सर्वाधिकार सुरक्षित।",
+
+        // ==================== STARS ====================
         "buy_stars": "सितारे खरीदें",
         "buy_stars_desc": "अपने पसंदीदा रचनाकारों का समर्थन करें",
         "star_balance": "आपका सितारा बैलेंस",
@@ -4646,6 +4892,8 @@ const translations = {
         "bonus_10": "+10% बोनस",
         "bonus_20": "+20% बोनस",
         "bonus_30": "+30% बोनस",
+
+        // ==================== GROUPS ====================
         "discover_groups": "समुदायों को खोजें और जुड़ें",
         "create_group": "समूह बनाएं",
         "create_group_desc": "अपना SocialWiki समुदाय बनाएं",
@@ -4668,6 +4916,8 @@ const translations = {
         "group1": "समूह 1",
         "group2": "समूह 2",
         "group3": "समूह 3",
+
+        // ==================== EVENTS ====================
         "event1": "इवेंट 1",
         "event2": "इवेंट 2",
         "create_event": "इवेंट बनाएं",
@@ -4675,6 +4925,8 @@ const translations = {
         "going": "जा रहा हूँ",
         "not_going": "नहीं जा रहा",
         "location": "स्थान",
+
+        // ==================== PROFILE ====================
         "edit_profile": "प्रोफ़ाइल संपादित करें",
         "message": "संदेश",
         "followers": "अनुयायी",
@@ -4683,6 +4935,8 @@ const translations = {
         "user": "उपयोगकर्ता",
         "zero_points": "0 अंक",
         "points_label": "अंक",
+
+        // ==================== MESSAGES ====================
         "online": "ऑनलाइन",
         "offline": "ऑफ़लाइन",
         "typing": "टाइप कर रहे हैं...",
@@ -4690,17 +4944,14 @@ const translations = {
         "seen": "देखा गया",
         "delivered": "पहुंचा दिया",
         "change_cover": "कवर बदलें",
-"change": "बदलें",
-"add_friend": "मित्र जोड़ें",
-"request_sent": "अनुरोध भेजा गया",
-"welcome_profile": "मेरी प्रोफ़ाइल में आपका स्वागत है!",
-"accept": "स्वीकार करें",
-"reject": "अस्वीकार करें",
-"no_friends": "अभी कोई मित्र नहीं",
-"posts_title": "पोस्ट",
-"like": "पसंद",
-"comment": "टिप्पणी",
-"share": "शेयर",
+        "change": "बदलें",
+        "add_friend": "मित्र जोड़ें",
+        "request_sent": "अनुरोध भेजा गया",
+        "welcome_profile": "मेरी प्रोफ़ाइल में आपका स्वागत है!",
+        "accept": "स्वीकार करें",
+        "reject": "अस्वीकार करें",
+        "no_friends": "अभी कोई मित्र नहीं",
+        "posts_title": "पोस्ट"
     }
 };
 

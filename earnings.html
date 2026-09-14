@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Earnings - SocialWiki</title>
-    <link rel="stylesheet" href="socialwiki.css">
+    <title data-i18n="earnings_title">My Earnings - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
     
     <style>
         * { box-sizing: border-box; }
@@ -98,6 +98,7 @@
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -115,6 +116,7 @@
                 <span id="navProfileName">User</span>
             </a>
             
+            <!-- LANGUAGE SELECTOR -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
                 <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
@@ -141,6 +143,7 @@
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
+    <!-- EARNINGS CONTAINER -->
     <div class="earnings-container">
 
         <div class="earnings-header">
@@ -148,22 +151,25 @@
             <p data-i18n="earnings_subtitle">Track your earnings and request withdrawal</p>
         </div>
 
-        <!-- 🎬 Smartlink Ad - Earn 5 Points -->
+        <!-- WATCH AD BANNER -->
         <div style="background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; color: white;">
-            <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">💰 اربح 5 نقاط مجاناً</div>
-            <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;">شاهد إعلاناً قصيراً واحصل على 5 نقاط</div>
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;" data-i18n="watch_ad_earn">💰 Watch Ad & Earn 5 Points</div>
+            <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;" data-i18n="watch_ad_desc">Watch a short ad and get 5 points free</div>
             <button onclick="watchAdAndEarn()" 
-               style="background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; border: none; font-weight: 700; font-size: 16px; cursor: pointer;">
-                🎬 شاهد الإعلان
+               style="background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; border: none; font-weight: 700; font-size: 16px; cursor: pointer;"
+               data-i18n="watch_ad_btn">
+                🎬 Watch Ad
             </button>
         </div>
 
+        <!-- BALANCE CARD -->
         <div class="balance-card">
             <div class="balance-label" data-i18n="my_balance">My Current Balance</div>
             <div class="balance-value" id="balanceValue">$0.00</div>
             <div class="balance-sub" id="balancePoints">0 <span data-i18n="points">points</span></div>
         </div>
 
+        <!-- STATS GRID -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">💵</div>
@@ -182,18 +188,20 @@
             </div>
         </div>
 
+        <!-- WITHDRAW SECTION -->
         <div class="withdraw-section">
-            <button class="withdraw-btn" id="withdrawBtn" disabled style="background: #ccc; cursor: not-allowed;">
+            <button class="withdraw-btn" id="withdrawBtn" disabled style="background: #ccc; cursor: not-allowed;" data-i18n="withdrawals_coming_soon">
                 💳 Withdrawals Coming Soon
             </button>
             <div class="min-withdraw-info" style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-top: 10px;">
-                <div style="color: #f0ad4e; font-weight: 600;">⏳ We're Still Growing!</div>
-                <div style="font-size: 13px; color: #65676b; margin-top: 5px;">
+                <div style="color: #f0ad4e; font-weight: 600;" data-i18n="still_growing">⏳ We're Still Growing!</div>
+                <div style="font-size: 13px; color: #65676b; margin-top: 5px;" data-i18n="withdrawals_soon_desc">
                     Withdrawals will be available soon... Keep earning points!
                 </div>
             </div>
         </div>
 
+        <!-- CHART -->
         <div class="chart-card">
             <h3 data-i18n="earning_chart">Earnings Evolution</h3>
             <div class="chart-container">
@@ -201,6 +209,7 @@
             </div>
         </div>
 
+        <!-- TABS -->
         <div class="tabs">
             <button class="tab active" onclick="switchTab('earnings', this)" data-i18n="earnings_history">Earnings History</button>
             <button class="tab" onclick="switchTab('transactions', this)" data-i18n="transactions_history">Transactions History</button>
@@ -240,6 +249,7 @@
 
     </div>
 
+    <!-- WITHDRAW MODAL -->
     <div id="withdrawModal" class="modal">
         <div class="modal-box">
             <div class="modal-title" data-i18n="request_withdrawal">💳 Request Withdrawal</div>
@@ -269,17 +279,14 @@
             </div>
         </div>
     </div>
-        <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
+
+    <!-- ========================================================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================================================= -->
     
-    <!-- 1. Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 2. Chart.js (للرسم البياني) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
-    <!-- 3. Supabase Client Setup -->
     <script>
         if (!window.supabaseClient) {
             const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
@@ -290,10 +297,8 @@
         const supabaseClient = window.supabaseClient;
     </script>
     
-    <!-- 4. Translations -->
-    <script src="js/translations.js"></script>
+    <script src="js/translations.js?v=999999"></script>
     
-    <!-- 5. Main Script -->
     <script>
         const POINT_VALUE = 0.01;
         const MIN_WITHDRAW = 100;
@@ -541,7 +546,8 @@
                 console.error('Error:', error);
             }
         }
-                // =========================================================
+        
+        // =========================================================
         // WITHDRAW MODAL
         // =========================================================
         function openWithdrawModal() {
@@ -636,7 +642,7 @@
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) {
-                    alert('❌ سجّل دخولك أولاً');
+                    alert('❌ Please login first');
                     return;
                 }
 
@@ -646,13 +652,13 @@
 
                 if (lastView && (now - parseInt(lastView)) < hourMs) {
                     const minutesLeft = Math.ceil((hourMs - (now - parseInt(lastView))) / 60000);
-                    alert('⏳ يمكنك المشاهدة مرة أخرى بعد ' + minutesLeft + ' دقيقة');
+                    alert('⏳ You can watch again in ' + minutesLeft + ' minutes');
                     return;
                 }
 
                 window.open('https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default', '_blank');
                 localStorage.setItem('lastAdView_' + user.id, now.toString());
-                alert('⏳ شاهد الإعلان لمدة 10 ثوانٍ على الأقل...');
+                alert('⏳ Please watch the ad for at least 10 seconds...');
 
                 setTimeout(async () => {
                     const { error } = await supabaseClient.rpc('add_earnings', {
@@ -665,11 +671,11 @@
 
                     if (error) {
                         console.error('Error:', error);
-                        alert('❌ خطأ: ' + error.message);
+                        alert('❌ Error: ' + error.message);
                         return;
                     }
 
-                    alert('🎉 ربحت 5 نقاط!');
+                    alert('🎉 You earned 5 points!');
 
                     await loadBalance();
                     await loadEarnings();
@@ -679,7 +685,7 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                alert('❌ حدث خطأ: ' + error.message);
+                alert('❌ Error: ' + error.message);
             }
         }
         
@@ -701,117 +707,48 @@
             loadTransactions();
         });
     </script>
-<!-- 📢 Smartlink Pop-under -->
-<script>
-(function() {
-    'use strict';
-    
-    // منع التكرار
-    if (window.__smartlinkPopunder) return;
-    window.__smartlinkPopunder = true;
-    
-    var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-    
-    // فتح الرابط في نافذة/تبويب جديد (Pop-under)
-    function openSmartlink() {
-        try {
-            var popup = window.open(
-                SMARTLINK_URL,
-                '_blank',
-                'width=1024,height=768,scrollbars=yes,resizable=yes'
-            );
-            
-            if (popup) {
-                // إرسال النافذة للخلف (Pop-under)
-                popup.blur();
-                window.focus();
-            } else {
-                console.warn('⚠️ Popup blocked by browser');
+
+    <!-- ========================================================= -->
+    <!-- SMARTLINK POP-UNDER -->
+    <!-- ========================================================= -->
+    <script>
+    (function() {
+        'use strict';
+        if (window.__smartlinkPopunder) return;
+        window.__smartlinkPopunder = true;
+        
+        var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
+        
+        function openSmartlink() {
+            try {
+                var popup = window.open(
+                    SMARTLINK_URL,
+                    '_blank',
+                    'width=1024,height=768,scrollbars=yes,resizable=yes'
+                );
+                if (popup) {
+                    popup.blur();
+                    window.focus();
+                }
+            } catch (e) {
+                console.error('Smartlink error:', e);
             }
-        } catch (e) {
-            console.error('❌ Smartlink error:', e);
         }
-    }
-    
-    // تشغيل عند أول نقرة من المستخدم (أكثر أماناً لتجاوز حاجب النوافذ)
-    var triggered = false;
-    function triggerOnce() {
-        if (triggered) return;
-        triggered = true;
-        openSmartlink();
-        document.removeEventListener('click', triggerOnce);
-        document.removeEventListener('touchstart', triggerOnce);
-    }
-    
-    document.addEventListener('click', triggerOnce);
-    document.addEventListener('touchstart', triggerOnce);
-    
-    console.log('✅ Smartlink pop-under armed');
-})();
-</script>
-🔧 كيف تضيفه في كل الصفحات بسرعة؟
-الطريقة الأسرع: ابحث عن </body> في كل ملف
-في VS Code:
-
-اضغط Ctrl + Shift + F (بحث في كل الملفات)
-
-ابحث عن: </body>
-
-استبدل الكل بـ:
-
-html
-<script>
-(function() {
-    'use strict';
-    if (window.__smartlinkPopunder) return;
-    window.__smartlinkPopunder = true;
-    var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-    function openSmartlink() {
-        try {
-            var popup = window.open(SMARTLINK_URL, '_blank', 'width=1024,height=768,scrollbars=yes,resizable=yes');
-            if (popup) { popup.blur(); window.focus(); }
-        } catch (e) { console.error('Smartlink error:', e); }
-    }
-    var triggered = false;
-    function triggerOnce() {
-        if (triggered) return;
-        triggered = true;
-        openSmartlink();
-        document.removeEventListener('click', triggerOnce);
-        document.removeEventListener('touchstart', triggerOnce);
-    }
-    document.addEventListener('click', triggerOnce);
-    document.addEventListener('touchstart', triggerOnce);
-})();
-</script>
-</body>
-⚠️ احذر: لا تستبدل </body> في ملفات JavaScript أو CSS. فقط في ملفات .html.
-
-🎯 لماذا استخدمت "عند أول نقرة" بدل "عند التحميل"؟
-الطريقة	الميزة	العيب
-window.open عند التحميل	يعمل فوراً	المتصفحات الحديثة تحجبه 99%
-window.open عند أول نقرة	يعمل دائماً	يفتح عند أول تفاعل من المستخدم
-هذا هو الأسلوب المعياري لـ Pop-under، ويعمل على Chrome، Firefox، Safari، Edge.
-
-📄 إذا أردت تعديل index.html الآن
-أرسل لي groups.html (أو أي صفحة أخرى) وسأضيف الكود فيها نيابةً عنك، أو أخبرني فقط:
-
-"أضفه في index.html و groups.html"
-
-وسأعطيك النسخة المعدلة كاملة.
-
-⚠️ ملاحظات مهمة
-لا تضع الكود مرتين في نفس الصفحة (استخدمنا window.__smartlinkPopunder لمنع التكرار).
-
-قد يمنع AdBlock الرابط — هذا طبيعي.
-
-لا تعمل النافذة في وضع Incognito أحياناً بسبب سياسات المتصفح.
-
-اختبر دائماً على متصفح حقيقي، ليس داخل VS Code Live Preview.
-
-هل تريد أن أعدّل index.html و groups.html مباشرة الآن؟ أرسل لي محتوى groups.html.
-
-
+        
+        var triggered = false;
+        function triggerOnce() {
+            if (triggered) return;
+            triggered = true;
+            openSmartlink();
+            document.removeEventListener('click', triggerOnce);
+            document.removeEventListener('touchstart', triggerOnce);
+        }
+        
+        document.addEventListener('click', triggerOnce);
+        document.addEventListener('touchstart', triggerOnce);
+        console.log('✅ Smartlink pop-under armed');
+    })();
+    </script>
 
 </body>
 </html>
