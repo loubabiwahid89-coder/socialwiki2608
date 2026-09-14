@@ -1,4 +1,3 @@
-https://socialwiki-wiki2608.loubabiwahid89.workers.dev/js/messages.js
 /* =========================================================
    SOCIALWIKI - MESSAGES PAGE (REAL Supabase)
    ========================================================= */
@@ -13,9 +12,9 @@ if (!window.supabaseClient) {
 const sb = window.supabaseClient;
 
 // ========== STATE ==========
-let conversations = [];       // قائمة المحادثات
-let currentChatId = null;     // userId الحالي
-let currentUserId = null;     // أنا
+let conversations = [];
+let currentChatId = null;
+let currentUserId = null;
 let currentTab = "inbox";
 let realtimeChannel = null;
 
@@ -38,7 +37,7 @@ const btnBlock          = document.getElementById("btnBlock");
 const btnDelete         = document.getElementById("btnDelete");
 const newMessageBtn     = document.getElementById("newMessageBtn");
 
-// ========== HELPER ==========
+// ========== HELPERS ==========
 function tr(key) {
     return (typeof window.t === "function") ? window.t(key) : key;
 }
@@ -67,9 +66,7 @@ function fmtDateLabel(ts) {
     return d.toLocaleDateString();
 }
 
-// =========================================================
-// جلب الأصدقاء (friends table)
-// =========================================================
+// ========== LOAD FRIENDS ==========
 async function loadFriends() {
     const { data: friends, error } = await sb
         .from("friends")
@@ -77,7 +74,7 @@ async function loadFriends() {
         .eq("user_id", currentUserId);
 
     if (error) {
-        console.error("❌ loadFriends:", error);
+        console.error("loadFriends error:", error);
         return [];
     }
     if (!friends || friends.length === 0) return [];
@@ -91,9 +88,7 @@ async function loadFriends() {
     return profiles || [];
 }
 
-// =========================================================
-// جلب كل الرسائل بيني وبين شخص
-// =========================================================
+// ========== LOAD MESSAGES WITH USER ==========
 async function loadMessagesWith(otherUserId) {
     const { data, error } = await sb
         .from("messages")
@@ -102,15 +97,13 @@ async function loadMessagesWith(otherUserId) {
         .order("created_at", { ascending: true });
 
     if (error) {
-        console.error("❌ loadMessagesWith:", error);
+        console.error("loadMessagesWith error:", error);
         return [];
     }
     return data || [];
 }
 
-// =========================================================
-// بناء قائمة المحادثات من الرسائل + الأصدقاء
-// =========================================================
+// ========== BUILD CONVERSATIONS ==========
 async function buildConversations() {
     const friends = await loadFriends();
     const list = [];
@@ -121,7 +114,7 @@ async function buildConversations() {
         const unread = msgs.filter(m => m.receiver_id === currentUserId && !m.is_read).length;
 
         list.push({
-            id: f.id,             // user_id للطرف الآخر
+            id: f.id,
             userId: f.id,
             name: f.full_name || f.username || "User",
             avatar: f.avatar_url ||
@@ -138,7 +131,6 @@ async function buildConversations() {
         });
     }
 
-    // رتّب: الأحاديث الأخيرة أولاً
     list.sort((a, b) => {
         const ta = a.messages[a.messages.length - 1]?.created_at || 0;
         const tb = b.messages[b.messages.length - 1]?.created_at || 0;
@@ -148,9 +140,7 @@ async function buildConversations() {
     conversations = list;
 }
 
-// =========================================================
-// عرض قائمة المحادثات
-// =========================================================
+// ========== RENDER CONVERSATIONS ==========
 function renderConversations() {
     if (!conversationsList) return;
 
@@ -194,9 +184,7 @@ function renderConversations() {
     });
 }
 
-// =========================================================
-// فتح محادثة
-// =========================================================
+// ========== OPEN CHAT ==========
 async function openChat(userId) {
     currentChatId = userId;
     const conv = conversations.find(c => c.id === userId);
@@ -209,14 +197,12 @@ async function openChat(userId) {
     chatUserStatus.textContent = tr("offline");
     chatUserStatus.className = "chat-user-status";
 
-    // علّم الرسائل كمقروءة
     await sb.from("messages")
         .update({ is_read: true })
         .eq("sender_id", userId)
         .eq("receiver_id", currentUserId)
         .eq("is_read", false);
 
-    // أعد تحميل الرسائل
     const msgs = await loadMessagesWith(userId);
     conv.messages = msgs.map(m => ({
         from: m.sender_id === currentUserId ? "me" : "them",
@@ -230,9 +216,7 @@ async function openChat(userId) {
     renderConversations();
 }
 
-// =========================================================
-// عرض الرسائل
-// =========================================================
+// ========== RENDER MESSAGES ==========
 function renderMessages() {
     if (!currentChatId) return;
     const conv = conversations.find(c => c.id === currentChatId);
@@ -263,9 +247,7 @@ function renderMessages() {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// =========================================================
-// إرسال رسالة
-// =========================================================
+// ========== SEND MESSAGE ==========
 async function sendMessage() {
     const text = (messageInput.value || "").trim();
     if (!text || !currentChatId) return;
@@ -284,14 +266,13 @@ async function sendMessage() {
     });
 
     if (error) {
-        console.error("❌ send error:", error);
+        console.error("send error:", error);
         alert("Error: " + error.message);
         return;
     }
 
     messageInput.value = "";
 
-    // حدّث الرؤية
     const conv = conversations.find(c => c.id === currentChatId);
     if (conv) {
         const now = new Date();
@@ -307,9 +288,7 @@ async function sendMessage() {
     renderConversations();
 }
 
-// =========================================================
-// Realtime — استقبال رسائل جديدة
-// =========================================================
+// ========== REALTIME ==========
 function setupRealtime() {
     if (realtimeChannel) sb.removeChannel(realtimeChannel);
 
@@ -329,7 +308,6 @@ function setupRealtime() {
 
                 let conv = conversations.find(c => c.id === senderId);
                 if (!conv) {
-                    // أضف المحادثة إن لم تكن موجودة
                     const { data: p } = await sb.from("profiles")
                         .select("id, username, full_name, avatar_url")
                         .eq("id", senderId)
@@ -365,9 +343,7 @@ function setupRealtime() {
         .subscribe();
 }
 
-// =========================================================
-// فتح محادثة من ?to=USER_ID
-// =========================================================
+// ========== OPEN CHAT FROM URL ==========
 async function openChatFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const targetId = params.get("to");
@@ -395,9 +371,7 @@ async function openChatFromUrl() {
     openChat(conv.id);
 }
 
-// =========================================================
-// الأحداث
-// =========================================================
+// ========== EVENTS ==========
 document.querySelectorAll(".msg-tab").forEach(tab => {
     tab.onclick = () => {
         document.querySelectorAll(".msg-tab").forEach(t => t.classList.remove("active"));
@@ -440,22 +414,21 @@ if (btnAttach) {
         const input = document.createElement("input");
         input.type = "file";
         input.onchange = () => {
-            if (input.files.length > 0) alert("📎 " + input.files[0].name);
+            if (input.files.length > 0) alert("Attached: " + input.files[0].name);
         };
         input.click();
     };
 }
 
-// New Message
 if (newMessageBtn) {
     newMessageBtn.onclick = async () => {
         const friends = await loadFriends();
         if (friends.length === 0) {
-            alert("لا يوجد أصدقاء بعد");
+            alert("No friends yet");
             return;
         }
         const options = friends.map((f, i) => `${i + 1}. ${f.full_name || f.username}`).join("\n");
-        const pick = prompt("اختر صديقاً:\n" + options);
+        const pick = prompt("Pick a friend:\n" + options);
         const idx = parseInt(pick) - 1;
         if (isNaN(idx) || !friends[idx]) return;
 
@@ -475,9 +448,7 @@ if (newMessageBtn) {
     };
 }
 
-// =========================================================
-// INITIALIZE
-// =========================================================
+// ========== INITIALIZE ==========
 document.addEventListener("DOMContentLoaded", async () => {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) {
