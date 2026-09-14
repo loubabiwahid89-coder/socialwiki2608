@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki - تسجيل الدخول</title>
+    <title>SocialWiki </title>
 
     <style>
         body {
@@ -14,94 +14,64 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px 0;
         }
 
         .auth-container {
-            width: 350px;
+            width: 380px;
+            max-width: 95%;
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         .auth-container h1 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #1877f2;
+            font-size: 24px;
         }
 
-        .auth-container input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .auth-container input:focus {
-            border-color: #1877f2;
-            outline: none;
-        }
-
-        .auth-container button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border: none;
-            border-radius: 8px;
-            background: #1877f2;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .auth-container button:hover {
-            opacity: 0.9;
-        }
-
-        .auth-container button.secondary {
-            background: #e4e6eb;
-            color: #050505;
-        }
-
-        .auth-container button.secondary:hover {
-            background: #d8dadf;
-        }
-
-        .auth-container button.danger {
-            background: transparent;
-            color: #1877f2;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .auth-container button.danger:hover {
-            text-decoration: underline;
-            background: transparent;
-        }
-
-        #authMessage {
+        /* ============================================================
+           FOUNDER PROGRAM BANNER
+        ============================================================ */
+        .founder-banner {
+            background: linear-gradient(135deg, #f7b928, #ffd700);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4);
             text-align: center;
-            margin-top: 15px;
+            border: 2px solid #d4a017;
+        }
+
+        .founder-banner .founder-title {
+            font-size: 16px;
+            font-weight: 800;
             color: #333;
-            font-size: 14px;
+            margin-bottom: 8px;
         }
 
-        #authMessage.success {
-            color: #42b72a;
+        .founder-banner .founder-text {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+            margin: 0;
         }
 
-        #authMessage.error {
-            color: #dc3545;
+        .founder-banner .founder-text strong {
+            color: #b8860b;
+            font-weight: 800;
         }
 
+        /* ============================================================
+           GOOGLE BUTTON
+        ============================================================ */
         .google-btn {
             width: 100%;
             padding: 12px;
-            margin-top: 10px;
+            margin-bottom: 12px;
             border: 2px solid #ddd;
             border-radius: 8px;
             background: white;
@@ -126,6 +96,46 @@
             height: 20px;
         }
 
+        /* ============================================================
+           EMAIL BUTTONS (Sign Up / Sign In)
+        ============================================================ */
+        .email-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .email-btn.signup-green {
+            background: #42b72a;
+            color: white;
+        }
+
+        .email-btn.signup-green:hover {
+            background: #36a420;
+        }
+
+        .email-btn.signin-blue {
+            background: #1877f2;
+            color: white;
+        }
+
+        .email-btn.signin-blue:hover {
+            background: #166fe5;
+        }
+
+        /* ============================================================
+           DIVIDER
+        ============================================================ */
         .divider {
             display: flex;
             align-items: center;
@@ -145,6 +155,24 @@
             padding: 0 10px;
         }
 
+        /* ============================================================
+           FORM INPUTS
+        ============================================================ */
+        .auth-container input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .auth-container input:focus {
+            border-color: #1877f2;
+            outline: none;
+        }
+
         .form-group {
             margin-bottom: 5px;
         }
@@ -156,6 +184,59 @@
             margin-bottom: 5px;
         }
 
+        /* ============================================================
+           SUBMIT BUTTONS
+        ============================================================ */
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #1877f2;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .submit-btn.green {
+            background: #42b72a;
+        }
+
+        .submit-btn.green:hover {
+            background: #36a420;
+        }
+
+        .submit-btn.secondary {
+            background: #e4e6eb;
+            color: #050505;
+        }
+
+        .submit-btn.secondary:hover {
+            background: #d8dadf;
+        }
+
+        .submit-btn.danger {
+            background: transparent;
+            color: #1877f2;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .submit-btn.danger:hover {
+            text-decoration: underline;
+            background: transparent;
+        }
+
+        /* ============================================================
+           TOGGLE LINK
+        ============================================================ */
         .toggle-link {
             text-align: center;
             margin-top: 15px;
@@ -167,17 +248,38 @@
             color: #1877f2;
             cursor: pointer;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            margin-left: 5px;
         }
 
         .toggle-link a:hover {
             text-decoration: underline;
         }
 
-        .hidden {
-            display: none !important;
+        /* ============================================================
+           MESSAGE
+        ============================================================ */
+        #authMessage {
+            text-align: center;
+            margin-top: 15px;
+            color: #333;
+            font-size: 14px;
+            min-height: 20px;
         }
 
+        #authMessage.success {
+            color: #42b72a;
+            font-weight: 600;
+        }
+
+        #authMessage.error {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           LANGUAGE SELECTOR
+        ============================================================ */
         .language-selector {
             position: relative;
             display: inline-block;
@@ -187,7 +289,7 @@
 
         .language-btn {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 15px;
             border: 2px solid #1877f2;
             border-radius: 8px;
             background: white;
@@ -203,25 +305,18 @@
 
         .language-btn:hover {
             background: #e7f3ff;
-            border-color: #166fe5;
-            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.2);
-        }
-
-        .language-btn .lang-icon {
-            font-size: 20px;
         }
 
         .language-btn .arrow {
             margin-left: auto;
             font-size: 12px;
             color: #999;
-            transition: transform 0.2s;
         }
 
         .language-menu {
             display: none;
             position: absolute;
-            top: 52px;
+            top: 48px;
             left: 0;
             right: 0;
             background: white;
@@ -234,12 +329,6 @@
 
         .language-menu.show {
             display: block;
-            animation: slideDown 0.2s ease;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .language-menu button {
@@ -252,9 +341,6 @@
             font-size: 14px;
             transition: all 0.2s;
             border-bottom: 1px solid #f0f2f5;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .language-menu button:hover {
@@ -267,8 +353,8 @@
             border-bottom: none;
         }
 
-        .language-menu button .lang-flag {
-            font-size: 18px;
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -277,55 +363,75 @@
 
     <div class="auth-container">
 
+        <!-- LANGUAGE SELECTOR -->
         <div class="language-selector">
             <button class="language-btn" onclick="toggleLanguageMenu()">
-                <span class="lang-icon">🌐</span>
+                <span>🌐</span>
                 <span id="currentLanguageLabel">العربية</span>
                 <span class="arrow">▼</span>
             </button>
             <div class="language-menu" id="languageMenu">
-                <button onclick="changeLanguage('ar')">
-                    <span class="lang-flag">🇸🇦</span> العربية
-                </button>
-                <button onclick="changeLanguage('fr')">
-                    <span class="lang-flag">🇫🇷</span> Français
-                </button>
-                <button onclick="changeLanguage('en')">
-                    <span class="lang-flag">🇬🇧</span> English
-                </button>
+                <button onclick="changeLanguage('ar')">🇸🇦 العربية</button>
+                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeLanguage('en')">🇬🇧 English</button>
             </div>
         </div>
 
+        <!-- TITLE -->
         <h1 id="pageTitle">📘 SocialWiki</h1>
 
+        <!-- 🎁 FOUNDER PROGRAM BANNER -->
+        <div class="founder-banner">
+            <div class="founder-title">🎁 أنت من المؤسسين الأوائل</div>
+            <p class="founder-text">
+                ستحصل على:<br>
+                • <strong>525 نقطة</strong> (5.25$)<br>
+                • <strong>شارة Founder ذهبية</strong>
+            </p>
+        </div>
+
+        <!-- GOOGLE BUTTON -->
         <button class="google-btn" onclick="loginWithGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-            <span id="googleBtnText">تسجيل الدخول بواسطة Google</span>
+            <span id="googleBtnText">Sign in with Google</span>
         </button>
 
+        <!-- 🟢 SIGN UP WITH EMAIL -->
+        <button class="email-btn signup-green" onclick="showSignupForm()">
+            ✨ <span id="signupEmailBtnText">Sign Up with Email</span>
+        </button>
+
+        <!-- ⚪ SIGN IN WITH EMAIL -->
+        <button class="email-btn signin-blue" onclick="showLoginForm()">
+            🔑 <span id="signinEmailBtnText">Sign In with Email</span>
+        </button>
+
+        <!-- DIVIDER -->
         <div class="divider">
             <span id="orText">أو</span>
         </div>
 
+        <!-- FORM (Sign Up or Sign In) -->
         <div id="emailForm">
             <input type="email" id="email" placeholder="البريد الإلكتروني" dir="ltr">
             <input type="password" id="password" placeholder="كلمة المرور" dir="ltr">
 
             <div class="form-group" id="referralField">
-                <input type="text" id="referralCodeInput" placeholder="🔑 كود الإحالة (اختياري)" dir="ltr"
-                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin: 5px 0; box-sizing: border-box;">
+                <input type="text" id="referralCodeInput" placeholder="🔑 كود الإحالة (اختياري)" dir="ltr">
                 <small id="referralHint">
                     إذا كان لديك كود إحالة، أدخله لتحصل على مكافأة ترحيبية! 🎉
                 </small>
             </div>
 
-            <button id="signupButton" onclick="signup()">إنشاء حساب</button>
-            <button id="loginButton" class="secondary" onclick="login()">تسجيل الدخول</button>
-            <button id="forgotPasswordButton" class="danger" type="button" onclick="forgotPassword()">نسيت كلمة المرور؟</button>
+            <button id="signupButton" class="submit-btn green" onclick="signup()">إنشاء حساب</button>
+            <button id="loginButton" class="submit-btn secondary" onclick="login()">تسجيل الدخول</button>
+            <button id="forgotPasswordButton" class="submit-btn danger" type="button" onclick="forgotPassword()">نسيت كلمة المرور؟</button>
         </div>
 
+        <!-- MESSAGE -->
         <p id="authMessage"></p>
 
+        <!-- TOGGLE LINK -->
         <div class="toggle-link" id="toggleLink">
             <span id="toggleText">ليس لديك حساب؟</span>
             <a id="toggleAction" onclick="toggleMode()">إنشاء حساب جديد</a>
@@ -342,6 +448,8 @@
             ar: {
                 title: '📘 SocialWiki',
                 google_btn: 'تسجيل الدخول بواسطة Google',
+                signup_email_btn: 'إنشاء حساب بالبريد',
+                signin_email_btn: 'تسجيل الدخول بالبريد',
                 or: 'أو',
                 email_placeholder: 'البريد الإلكتروني',
                 password_placeholder: 'كلمة المرور',
@@ -368,6 +476,8 @@
             fr: {
                 title: '📘 SocialWiki',
                 google_btn: 'Se connecter avec Google',
+                signup_email_btn: 'Créer un compte par email',
+                signin_email_btn: 'Se connecter par email',
                 or: 'ou',
                 email_placeholder: 'Adresse e-mail',
                 password_placeholder: 'Mot de passe',
@@ -394,6 +504,8 @@
             en: {
                 title: '📘 SocialWiki',
                 google_btn: 'Sign in with Google',
+                signup_email_btn: 'Sign Up with Email',
+                signin_email_btn: 'Sign In with Email',
                 or: 'or',
                 email_placeholder: 'Email',
                 password_placeholder: 'Password',
@@ -403,9 +515,9 @@
                 login_btn: 'Login',
                 forgot_btn: 'Forgot Password?',
                 toggle_text: "Don't have an account?",
-                toggle_action: 'Create new account',
+                toggle_action: 'Sign Up',
                 toggle_text_login: 'Have an account?',
-                toggle_action_login: 'Login',
+                toggle_action_login: 'Sign In',
                 signup_title: '📘 Create Account',
                 login_title: '📘 Login',
                 language_label: 'English',
@@ -431,6 +543,8 @@
 
             document.getElementById('pageTitle').textContent = t.title;
             document.getElementById('googleBtnText').textContent = t.google_btn;
+            document.getElementById('signupEmailBtnText').textContent = t.signup_email_btn;
+            document.getElementById('signinEmailBtnText').textContent = t.signin_email_btn;
             document.getElementById('orText').textContent = t.or;
             document.getElementById('email').placeholder = t.email_placeholder;
             document.getElementById('password').placeholder = t.password_placeholder;
@@ -446,12 +560,14 @@
                 document.getElementById('toggleAction').textContent = t.toggle_action;
                 document.querySelector('.auth-container h1').textContent = t.signup_title;
                 document.getElementById('signupButton').style.display = 'block';
+                document.getElementById('loginButton').style.display = 'none';
                 document.getElementById('referralField').style.display = 'block';
             } else {
                 document.getElementById('toggleText').textContent = t.toggle_text_login;
                 document.getElementById('toggleAction').textContent = t.toggle_action_login;
                 document.querySelector('.auth-container h1').textContent = t.login_title;
                 document.getElementById('signupButton').style.display = 'none';
+                document.getElementById('loginButton').style.display = 'block';
                 document.getElementById('referralField').style.display = 'none';
             }
 
@@ -476,16 +592,22 @@
         }
 
         // =========================================================
-        // SUPABASE SETUP
+        // TOGGLE FORM: Sign Up <-> Sign In
         // =========================================================
 
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        function showSignupForm() {
+            isSignupMode = true;
+            applyTranslations(currentLanguage);
+            document.getElementById('authMessage').textContent = '';
+            document.getElementById('authMessage').className = '';
+        }
 
-        // =========================================================
-        // TOGGLE MODE
-        // =========================================================
+        function showLoginForm() {
+            isSignupMode = false;
+            applyTranslations(currentLanguage);
+            document.getElementById('authMessage').textContent = '';
+            document.getElementById('authMessage').className = '';
+        }
 
         function toggleMode() {
             isSignupMode = !isSignupMode;
@@ -493,6 +615,14 @@
             document.getElementById('authMessage').textContent = '';
             document.getElementById('authMessage').className = '';
         }
+
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
+
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // =========================================================
         // READ REFERRAL CODE FROM URL
@@ -546,26 +676,14 @@
                     return;
                 }
 
-                // ✅ 1. إنشاء رصيد للمستخدم الجديد
-                await initializeUserBalance(data.user.id);
-
-                // ✅ 2. معالجة كود الإحالة
-               // ✅ انتظر 1 ثانية حتى تُنشأ الجلسة
-if (referralCode) {
-    console.log('⏳ Waiting for session...');
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // ✅ تحقق من الجلسة
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    console.log('Session:', session);
-    
-    if (session) {
-        console.log('🔗 Processing referral...');
-        await processReferral(referralCode, data.user.id);
-    } else {
-        console.log('❌ No session - cannot process referral');
-    }
-}
+                // معالجة كود الإحالة
+                if (referralCode) {
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        await processReferral(referralCode, data.user.id);
+                    }
+                }
 
                 message.textContent = translations[currentLanguage].signup_success;
                 message.className = 'success';
@@ -661,112 +779,58 @@ if (referralCode) {
         // LOGIN WITH GOOGLE
         // =========================================================
 
-       async function loginWithGoogle() {
-    try {
-        // ✅ احفظ كود الإحالة في localStorage
-        const referralCode = document.getElementById('referralCodeInput').value.trim();
-        if (referralCode) {
-            localStorage.setItem('pendingReferralCode', referralCode);
-            console.log('🔗 Saved referral code:', referralCode);
-        }
-        
-        const redirectUrl = window.location.origin + '/index.html';
+        async function loginWithGoogle() {
+            try {
+                const referralCode = document.getElementById('referralCodeInput').value.trim();
+                if (referralCode) {
+                    localStorage.setItem('pendingReferralCode', referralCode);
+                }
 
-        const { error } = await supabaseClient.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: redirectUrl }
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+                const redirectUrl = window.location.origin + '/index.html';
+
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: { redirectTo: redirectUrl }
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
 
         // =========================================================
         // PROCESS REFERRAL
         // =========================================================
 
         async function processReferral(referralCode, newUserId) {
-    try {
-        console.log('🔗 Processing referral:', referralCode);
-        
-        // ✅ 1. احصل على auth.uid()
-        const { data: { user: authUser } } = await supabaseClient.auth.getUser();
-        
-        if (!authUser) {
-            console.log('❌ No auth user');
-            return;
-        }
-        
-        console.log('Auth user:', authUser.id);
-        console.log('New user:', newUserId);
-        
-        // ✅ 2. استخدم auth.uid() (المستخدم الحالي)
-        const referredId = authUser.id;
-        
-        // ✅ 3. ابحث عن الداعي
-        const { data: referrer, error: refError } = await supabaseClient
-            .from('profiles')
-            .select('id, username')
-            .eq('referral_code', referralCode)
-            .maybeSingle();
-
-        if (refError || !referrer) {
-            console.log('⚠️ Referral code not found:', referralCode);
-            return;
-        }
-
-        // ✅ 4. لا يمكن للمستخدم دعوة نفسه
-        if (referrer.id === referredId) {
-            console.log('⚠️ Cannot refer yourself');
-            return;
-        }
-
-        // ✅ 5. أضف الإحالة
-               // ✅ 5. أضف الإحالة
-               // ✅ 5. أضف الإحالة
-        const { error: insertError } = await supabaseClient
-            .from('referrals')
-            .insert({
-                referrer_id: referrer.id,
-                referred_id: newUserId,
-                referral_code: referralCode,
-                points_awarded: 10   // ✅ 10
-            });
-        if (insertError) {
-            console.error('❌ Error inserting referral:', insertError);
-            return;
-        }
-
-        console.log('✅ Referral processed successfully!');
-
-    } catch (error) {
-        console.error('❌ Error processing referral:', error);
-    }
-}
-
-        // =========================================================
-        // INITIALIZE USER BALANCE
-        // =========================================================
-
-        async function initializeUserBalance(userId) {
             try {
-                const { error } = await supabaseClient
-                    .from('user_balances')
+                const { data: { user: authUser } } = await supabaseClient.auth.getUser();
+                if (!authUser) return;
+
+                const referredId = authUser.id;
+
+                const { data: referrer, error: refError } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username')
+                    .eq('referral_code', referralCode)
+                    .maybeSingle();
+
+                if (refError || !referrer) return;
+                if (referrer.id === referredId) return;
+
+                const { error: insertError } = await supabaseClient
+                    .from('referrals')
                     .insert({
-                        user_id: userId,
-                        total_points: 0,
-                        total_dollars: 0,
-                        available_points: 0,
-                        withdrawn_dollars: 0
+                        referrer_id: referrer.id,
+                        referred_id: newUserId,
+                        referral_code: referralCode,
+                        points_awarded: 50
                     });
 
-                if (error && error.code !== '23505') {
-                    console.error('Error creating balance:', error);
-                } else {
-                    console.log('✅ User balance initialized');
+                if (insertError) {
+                    console.error('❌ Error inserting referral:', insertError);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error processing referral:', error);
             }
         }
 
@@ -788,6 +852,8 @@ if (referralCode) {
                     message.textContent = translations[currentLanguage].welcome_bonus;
                     message.className = 'success';
                 }
+                // افتح نموذج التسجيل تلقائياً عند وجود كود
+                showSignupForm();
             }
 
             document.addEventListener('click', function(event) {
@@ -799,7 +865,5 @@ if (referralCode) {
             });
         });
     </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/translations.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>الإحالات - SocialWiki</title>
-    <link rel="stylesheet" href="socialwiki.css">
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
     <style>
         /* =========================================================
            NAVBAR
@@ -476,7 +476,7 @@
          SCRIPTS
     ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/translations.js"></script>
+    <script src="js/translations.js?v=999999"></script>
     
     <script>
         // =========================================================
@@ -586,7 +586,7 @@
         // LOAD REFERRAL DATA
         // =========================================================
         
-      async function loadReferralData() {
+        async function loadReferralData() {
     try {
         const { data: { user } } = await supabaseClient.auth.getUser();
         
@@ -601,7 +601,7 @@
         
         document.getElementById('referralCode').textContent = referralCode;
         
-        const BASE_URL =  'https://socialwiki-wiki2608.loubabiwahid89.workers.dev';
+        const BASE_URL = 'https://socialwiki-wiki2608.loubabiwahid89.workers.dev';
         document.getElementById('referralLink').textContent = 
             `${BASE_URL}/auth.html?ref=${referralCode}`;
         
@@ -656,14 +656,11 @@
         
         // 5. بناء الصفوف
         referrals.forEach(ref => {
-            // اسم المدعو
             const name = profilesMap[ref.referred_id] || (typeof t === 'function' ? t('default_user_name') : 'مستخدم');
             
-            // ✅ تنسيق التاريخ DD/MM/YYYY
             const dateObj = new Date(ref.created_at);
             const formattedDate = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()}`;
             
-            // ✅ النقاط المترجمة
             const pointsText = (typeof t === 'function') ? t('points') : 'نقاط';
             
             const row = document.createElement('tr');
