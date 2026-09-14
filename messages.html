@@ -1,538 +1,211 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages - SocialWiki</title>
-    <link rel="stylesheet" href="socialwiki.css">
-    <style>
-        /* =========================================================
-           NAVBAR (بسيط)
-        ========================================================= */
-        
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
-        
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-icons a {
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 50%;
-        }
-        
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-        
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        
-        .logout-button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        /* =========================================================
-           MESSAGES PAGE
-        ========================================================= */
-        
-        .messages-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .messages-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .messages-header h2 {
-            font-size: 24px;
-        }
-        
-        .chat-box {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            height: 400px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            border: 1px solid #e4e6eb;
-        }
-        
-        .message {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .message.sent {
-            flex-direction: row-reverse;
-        }
-        
-        .message-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        
-        .message-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .message-content {
-            background: #f0f2f5;
-            border-radius: 12px;
-            padding: 10px 15px;
-            max-width: 70%;
-        }
-        
-        .message.sent .message-content {
-            background: #1877f2;
-            color: white;
-        }
-        
-        .message-time {
-            font-size: 11px;
-            color: #65676b;
-            margin-top: 5px;
-        }
-        
-        .message.sent .message-time {
-            color: rgba(255,255,255,0.8);
-        }
-        
-        .message-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            position: sticky;
-            bottom: 20px;
-            background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .message-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        .message-input button {
-            padding: 12px 20px;
-            background: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #65676b;
-        }
-        
-        .empty-state .empty-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-        
-        /* =========================================================
-           BACK & HOME BUTTONS
-        ========================================================= */
-        
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
-    </style>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="stylesheet" href="messages.css?v=999999">
 </head>
 <body>
 
-   
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
+    <!-- ========================================================= -->
+    <!-- NAVBAR (نفس هيدر index.html) -->
+    <!-- ========================================================= -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
+            <div class="search-container">
+                <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search SocialWiki..." autocomplete="off">
+            </div>
         </div>
         <ul class="nav-icons">
-            <li><a href="index.html">🏠</a></li>
-            <li><a href="friends.html">👥</a></li>
-            <li><a href="market-plus.html">🛍️</a></li>
-            <li><a href="events.html">📅</a></li>
-            <li><a href="notifications.html">🔔</a></li>
+            <li><a href="index.html" title="Home">🏠</a></li>
+            <li><a href="friends.html" title="Friends">👥</a></li>
+            <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+            <li><a href="events.html" title="Events">📅</a></li>
+            <li><a href="notifications.html" title="Notifications">🔔</a></li>
         </ul>
         <div class="nav-right">
+            <a href="notifications.html" id="navNotificationBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
+                🔔
+                <span class="notification-badge" id="navNotificationBadge" style="display: none;">0</span>
+            </a>
+            <a href="earnings.html" id="navPointsBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
+                💰
+                <span class="notification-badge" id="navPointsBadge" style="display: none; background: #ffd700; color: #333;">0</span>
+            </a>
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+                <div class="language-menu" id="languageMenu">
+                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                </div>
+            </div>
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-       
     </nav>
-     <!-- BACK & HOME BUTTONS -->
-    <div class="nav-buttons">
-        
-        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
-    </div>
 
-    <!-- =========================================================
-         MESSAGES CONTAINER
-    ========================================================= -->
-    <div class="messages-container">
-        <div class="messages-header">
-            <h2>💬 Messages</h2>
+    <!-- ========================================================= -->
+    <!-- MESSAGES PAGE (3 columns: sidebar + conversations + chat) -->
+    <!-- ========================================================= -->
+    <div class="main-container messages-layout">
+
+        <!-- LEFT SIDEBAR (نفس index.html) -->
+        <div class="left-sidebar">
+            <a href="profile.html">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="sidebarImg" alt="Profile" style="width: 28px; height: 28px; border-radius: 50%;">
+                <span id="sidebarName">User</span>
+            </a>
+            <a href="friends.html"><span class="emoji-icon">👥</span><span data-i18n="friends">Friends</span></a>
+            <a href="market-plus.html"><span class="emoji-icon">🛍️</span><span data-i18n="marketplace">Marketplace</span></a>
+            <a href="events.html"><span class="emoji-icon">📅</span><span data-i18n="events">Events</span></a>
+            <a href="groups.html"><span class="emoji-icon">👥</span><span data-i18n="groups">Groups</span></a>
+            <a href="notifications.html"><span class="emoji-icon">🔔</span><span data-i18n="notifications">Notifications</span></a>
+            <a href="gifts.html"><span class="emoji-icon">🎁</span><span data-i18n="gifts">Gifts</span></a>
+            <a href="referral.html"><span class="emoji-icon">👥</span><span data-i18n="referral">Referral</span></a>
+            <a href="stars.html"><span class="emoji-icon">⭐</span><span data-i18n="stars">Stars</span></a>
+            <a href="earnings.html"><span class="emoji-icon">💰</span><span data-i18n="earnings_title">My Earnings</span></a>
+            <a href="reels.html"><span class="emoji-icon">🎬</span><span data-i18n="reels">Reels</span></a>
+            <a href="gaming.html"><span class="emoji-icon">🎮</span><span data-i18n="gaming">Gaming</span></a>
+            <a href="memories.html"><span class="emoji-icon">💭</span><span data-i18n="memories">Memories</span></a>
         </div>
-        
-        <div class="chat-box" id="chatBox">
-            <div class="empty-state">
-                <div class="empty-icon">💬</div>
-                <p>No messages yet</p>
-                <p>Start the conversation!</p>
+
+        <!-- ========== CONVERSATIONS LIST ========== -->
+        <div class="messages-sidebar">
+            <div class="messages-sidebar-header">
+                <h2 data-i18n="messages">Messages</h2>
+                <button class="new-msg-btn" id="newMessageBtn" data-i18n="new_message">New Message</button>
+            </div>
+
+            <div class="messages-tabs">
+                <button class="msg-tab active" data-tab="inbox" data-i18n="inbox">Inbox</button>
+                <button class="msg-tab" data-tab="sent" data-i18n="sent_box">Sent</button>
+                <button class="msg-tab" data-tab="archived" data-i18n="archived_messages">Archived</button>
+            </div>
+
+            <div class="messages-search">
+                <input type="text" id="searchConversations"
+                       data-i18n-placeholder="search_messages"
+                       placeholder="Search conversations...">
+            </div>
+
+            <ul class="conversations-list" id="conversationsList"></ul>
+        </div>
+
+        <!-- ========== CHAT AREA ========== -->
+        <div class="chat-area">
+
+            <div class="chat-empty" id="chatEmpty">
+                <div class="chat-empty-icon">💬</div>
+                <p data-i18n="select_conversation">Select a conversation to start chatting</p>
+            </div>
+
+            <div class="chat-active" id="chatActive" style="display:none;">
+                <div class="chat-header">
+                    <div class="chat-user">
+                        <img id="chatAvatar" src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" class="chat-avatar" alt="">
+                        <div>
+                            <h3 id="chatUserName">—</h3>
+                            <span id="chatUserStatus" class="chat-user-status" data-i18n="offline">Offline</span>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="chat-icon-btn" id="btnArchive" title="Archive">📥</button>
+                        <button class="chat-icon-btn" id="btnMute" title="Mute">🔕</button>
+                        <button class="chat-icon-btn" id="btnBlock" title="Block">🚫</button>
+                        <button class="chat-icon-btn" id="btnDelete" title="Delete">🗑️</button>
+                    </div>
+                </div>
+
+                <div class="chat-body" id="chatBody"></div>
+
+                <div class="chat-footer">
+                    <button class="chat-icon-btn" id="btnEmoji">😊</button>
+                    <input type="text" id="messageInput"
+                           data-i18n-placeholder="write_message"
+                           placeholder="Write a message...">
+                    <button class="chat-icon-btn" id="btnAttach">📎</button>
+                    <button class="send-btn" id="btnSend" data-i18n="send_btn">Send</button>
+                </div>
             </div>
         </div>
-        
-        <div class="message-input">
-            <input type="text" id="messageInput" placeholder="Type a message..." onkeypress="if(event.key === 'Enter') sendMessage()">
-            <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <!-- EMOJI PICKER -->
+    <div id="emojiPicker" class="emoji-picker" style="display:none;">
+        <div class="emoji-header" data-i18n="emoji_picker">Pick an emoji</div>
+        <div class="emoji-grid">
+            <span>😀</span><span>😁</span><span>😂</span><span>🤣</span>
+            <span>😊</span><span>😍</span><span>😘</span><span>😎</span>
+            <span>🤔</span><span>😴</span><span>😢</span><span>😡</span>
+            <span>👍</span><span>👎</span><span>👏</span><span>🙏</span>
+            <span>❤️</span><span>💔</span><span>🔥</span><span>✨</span>
+            <span>🎉</span><span>🎁</span><span>⭐</span><span>💯</span>
         </div>
     </div>
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
+    <!-- ========================================================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=999999"></script>
     <script>
-        // Supabase setup
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
         // =========================================================
-        // GET USER ID FROM URL
+        // SUPABASE SETUP
         // =========================================================
-        
-        function getUserIdFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('user');
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         }
-        
-        // =========================================================
-        // LOGOUT
-        // =========================================================
-        
-        function logout() {
-            supabaseClient.auth.signOut();
+
+        window.logout = async function() {
+            await window.supabaseClient.auth.signOut();
             window.location.href = "auth.html";
-        }
-        
+        };
+
         // =========================================================
-        // LOAD USER PROFILE
+        // LOAD USER PROFILE (mini)
         // =========================================================
-        
         async function loadUserProfile() {
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                const { data: profile, error } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name, avatar_url')
-                    .eq('id', user.id)
-                    .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
-                
-                const username = profile?.username || profile?.full_name || 'User';
-                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                
-                const navProfileName = document.getElementById('navProfileName');
-                if (navProfileName) navProfileName.textContent = username;
-                
-                const navProfileImg = document.getElementById('navProfileImg');
-                if (navProfileImg) navProfileImg.src = avatarUrl;
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) { window.location.href = 'auth.html'; return; }
+                const { data: profile } = await window.supabaseClient
+                    .from('profiles').select('username, full_name, avatar_url')
+                    .eq('id', user.id).single();
+                const displayName = profile?.full_name || profile?.username || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${displayName}&background=1877f2&color=fff`;
+                ['navProfileName','sidebarName'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = displayName;
+                });
+                ['navProfileImg','sidebarImg'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.src = avatarUrl;
+                });
+            } catch (error) { console.error('Error:', error); }
         }
-        
-        // =========================================================
-        // LOAD MESSAGES
-        // =========================================================
-        
-        async function loadMessages() {
-            const otherUserId = getUserIdFromUrl();
-            
-            if (!otherUserId) {
-                document.getElementById('chatBox').innerHTML = '<div class="empty-state"><div class="empty-icon">💬</div><p>Select a user to chat with</p></div>';
-                return;
-            }
-            
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                // جلب الرسائل بين المستخدمين
-                const { data: messages, error } = await supabaseClient
-                    .from('messages')
-                    .select('*')
-                    .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
-                    .or(`sender_id.eq.${otherUserId},receiver_id.eq.${otherUserId}`)
-                    .order('created_at', { ascending: true });
-                
-                if (error) {
-                    console.error('Error loading messages:', error);
-                    return;
-                }
-                
-                displayMessages(messages || []);
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-        
-        // =========================================================
-        // DISPLAY MESSAGES
-        // =========================================================
-        
-        async function displayMessages(messages) {
-            const chatBox = document.getElementById('chatBox');
-            chatBox.innerHTML = '';
-            
-            if (!messages || messages.length === 0) {
-                chatBox.innerHTML = '<div class="empty-state"><div class="empty-icon">💬</div><p>No messages yet</p><p>Start the conversation!</p></div>';
-                return;
-            }
-            
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            
-            if (!user) return;
-            
-            // جلب معلومات المستخدم الآخر
-            const otherUserId = getUserIdFromUrl();
-            
-            const { data: profile } = await supabaseClient
-                .from('profiles')
-                .select('username, full_name, avatar_url')
-                .eq('id', otherUserId)
-                .single();
-            
-            const otherAvatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${profile?.username || 'User'}&background=1877f2&color=fff`;
-            
-            messages.forEach(message => {
-                const isSent = message.sender_id === user.id;
-                
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${isSent ? 'sent' : ''}`;
-                
-                const avatarUrl = isSent 
-                    ? 'https://ui-avatars.com/api/?name=User&background=1877f2&color=fff' 
-                    : otherAvatar;
-                
-                messageDiv.innerHTML = `
-                    <div class="message-avatar">
-                        <img src="${avatarUrl}" alt="Profile">
-                    </div>
-                    <div class="message-content">
-                        <p>${escapeHtml(message.message || message.content || '')}</p>
-                        <div class="message-time">${formatTime(message.created_at)}</div>
-                    </div>
-                `;
-                
-                chatBox.appendChild(messageDiv);
-            });
-            
-            // التمرير للأسفل
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-        
-        // =========================================================
-        // SEND MESSAGE
-        // =========================================================
-        
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const content = input.value.trim();
-            const otherUserId = getUserIdFromUrl();
-            
-            if (!content || !otherUserId) return;
-            
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                const { error } = await supabaseClient
-                    .from('messages')
-                    .insert({
-                        sender_id: user.id,
-                        receiver_id: otherUserId,
-                        message: content,
-                        created_at: new Date()
-                    });
-                
-                if (error) {
-                    console.error('Error sending message:', error);
-                    alert('Error sending message: ' + error.message);
-                    return;
-                }
-                
-                input.value = '';
-                loadMessages();
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-        
-        // =========================================================
-        // FORMAT TIME
-        // =========================================================
-        
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = now - date;
-            
-            const minutes = Math.floor(diff / 60000);
-            if (minutes < 1) return 'Just now';
-            if (minutes < 60) return `${minutes} min ago`;
-            
-            const hours = Math.floor(minutes / 60);
-            if (hours < 24) return `${hours} hr ago`;
-            
-            return date.toLocaleDateString();
-        }
-        
-        // =========================================================
-        // ESCAPE HTML
-        // =========================================================
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // =========================================================
-        // START
-        // =========================================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', () => {
             loadUserProfile();
-            loadMessages();
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/translations.js"></script>
+    <script src="messages.js?v=999999"></script>
 </body>
 </html>
