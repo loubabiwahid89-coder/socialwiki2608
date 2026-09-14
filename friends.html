@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends - SocialWiki</title>
-    <link rel="stylesheet" href="socialwiki.css">
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
     <style>
         /* =========================================================
            NAVBAR (بسيط)
@@ -249,8 +249,6 @@
 </head>
 <body>
 
-   
-
     <!-- =========================================================
          NAVBAR
     ========================================================= -->
@@ -274,9 +272,9 @@
         </div>
        
     </nav>
-     <!-- BACK & HOME BUTTONS -->
+
+    <!-- BACK & HOME BUTTONS -->
     <div class="nav-buttons">
-        
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
@@ -359,58 +357,59 @@
         // LOAD FRIENDS
         // =========================================================
         
-       async function loadFriends() {
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        
-        if (!user) return;
-        
-        const { data: friends, error } = await supabaseClient
-            .from('friends')
-            .select('*')
-            .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
-        
-        if (error) {
-            console.error('Error loading friends:', error);
-            displayFriends([]);
-            return;
+        async function loadFriends() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: friends, error } = await supabaseClient
+                    .from('friends')
+                    .select('*')
+                    .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
+                
+                if (error) {
+                    console.error('Error loading friends:', error);
+                    displayFriends([]);
+                    return;
+                }
+                
+                if (!friends || friends.length === 0) {
+                    displayFriends([]);
+                    return;
+                }
+                
+                const friendIds = friends.map(f => 
+                    f.user_id === user.id ? f.friend_id : f.user_id
+                );
+                
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', friendIds);
+                
+                const profilesMap = {};
+                if (profiles) {
+                    profiles.forEach(p => {
+                        profilesMap[p.id] = p;
+                    });
+                }
+                
+                const enrichedFriends = friends.map(f => {
+                    const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
+                    return {
+                        ...f,
+                        friend: profilesMap[friendId] || {}
+                    };
+                });
+                
+                displayFriends(enrichedFriends);
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
         
-        if (!friends || friends.length === 0) {
-            displayFriends([]);
-            return;
-        }
-        
-        const friendIds = friends.map(f => 
-            f.user_id === user.id ? f.friend_id : f.user_id
-        );
-        
-        const { data: profiles } = await supabaseClient
-            .from('profiles')
-            .select('id, username, full_name, avatar_url')
-            .in('id', friendIds);
-        
-        const profilesMap = {};
-        if (profiles) {
-            profiles.forEach(p => {
-                profilesMap[p.id] = p;
-            });
-        }
-        
-        const enrichedFriends = friends.map(f => {
-            const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
-            return {
-                ...f,
-                friend: profilesMap[friendId] || {}
-            };
-        });
-        
-        displayFriends(enrichedFriends);
-        
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
         // =========================================================
         // DISPLAY FRIENDS
         // =========================================================
@@ -460,7 +459,6 @@
                 
                 if (!user) return;
                 
-                // جلب طلبات الصداقة
                 const { data: requests, error } = await supabaseClient
                     .from('friend_requests')
                     .select('*')
@@ -492,7 +490,6 @@
                 return;
             }
             
-            // جلب معلومات المرسلين
             const senderIds = requests.map(req => req.sender_id);
             
             const { data: profiles } = await supabaseClient
@@ -539,7 +536,6 @@
         
         async function acceptRequest(requestId) {
             try {
-                // تحديث حالة الطلب
                 await supabaseClient
                     .from('friend_requests')
                     .update({ status: 'accepted' })
@@ -560,7 +556,6 @@
         
         async function declineRequest(requestId) {
             try {
-                // تحديث حالة الطلب
                 await supabaseClient
                     .from('friend_requests')
                     .update({ status: 'declined' })
@@ -579,23 +574,24 @@
         // REMOVE FRIEND
         // =========================================================
         
-       async function removeFriend(friendshipId) {
-    if (!confirm('Are you sure you want to remove this friend?')) return;
-    
-    try {
-        await supabaseClient
-            .from('friends')
-            .delete()
-            .eq('id', friendshipId);
+        async function removeFriend(friendshipId) {
+            if (!confirm('Are you sure you want to remove this friend?')) return;
+            
+            try {
+                await supabaseClient
+                    .from('friends')
+                    .delete()
+                    .eq('id', friendshipId);
+                
+                alert('Friend removed!');
+                loadFriends();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error removing friend: ' + error.message);
+            }
+        }
         
-        alert('Friend removed!');
-        loadFriends();
-        
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error removing friend: ' + error.message);
-    }
-}
         // =========================================================
         // VIEW PROFILE
         // =========================================================
@@ -620,7 +616,6 @@
             } else if (tab === 'requests') {
                 loadFriendRequests();
             } else if (tab === 'suggestions') {
-                // يمكنك إضافة كود الاقتراحات هنا
                 document.getElementById('friendsList').innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No suggestions yet</p>';
             }
         }
@@ -645,119 +640,55 @@
             loadUserProfile();
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/translations.js"></script>
-<!-- 📢 Smartlink Pop-under -->
-<script>
-(function() {
-    'use strict';
-    
-    // منع التكرار
-    if (window.__smartlinkPopunder) return;
-    window.__smartlinkPopunder = true;
-    
-    var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-    
-    // فتح الرابط في نافذة/تبويب جديد (Pop-under)
-    function openSmartlink() {
-        try {
-            var popup = window.open(
-                SMARTLINK_URL,
-                '_blank',
-                'width=1024,height=768,scrollbars=yes,resizable=yes'
-            );
-            
-            if (popup) {
-                // إرسال النافذة للخلف (Pop-under)
-                popup.blur();
-                window.focus();
-            } else {
-                console.warn('⚠️ Popup blocked by browser');
+
+    <script src="js/translations.js?v=999999"></script>
+
+    <!-- ========================================================= -->
+    <!-- SMARTLINK POP-UNDER -->
+    <!-- ========================================================= -->
+    <script>
+    (function() {
+        'use strict';
+        
+        if (window.__smartlinkPopunder) return;
+        window.__smartlinkPopunder = true;
+        
+        var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
+        
+        function openSmartlink() {
+            try {
+                var popup = window.open(
+                    SMARTLINK_URL,
+                    '_blank',
+                    'width=1024,height=768,scrollbars=yes,resizable=yes'
+                );
+                
+                if (popup) {
+                    popup.blur();
+                    window.focus();
+                } else {
+                    console.warn('⚠️ Popup blocked by browser');
+                }
+            } catch (e) {
+                console.error('❌ Smartlink error:', e);
             }
-        } catch (e) {
-            console.error('❌ Smartlink error:', e);
         }
-    }
-    
-    // تشغيل عند أول نقرة من المستخدم (أكثر أماناً لتجاوز حاجب النوافذ)
-    var triggered = false;
-    function triggerOnce() {
-        if (triggered) return;
-        triggered = true;
-        openSmartlink();
-        document.removeEventListener('click', triggerOnce);
-        document.removeEventListener('touchstart', triggerOnce);
-    }
-    
-    document.addEventListener('click', triggerOnce);
-    document.addEventListener('touchstart', triggerOnce);
-    
-    console.log('✅ Smartlink pop-under armed');
-})();
-</script>
-🔧 كيف تضيفه في كل الصفحات بسرعة؟
-الطريقة الأسرع: ابحث عن </body> في كل ملف
-في VS Code:
-
-اضغط Ctrl + Shift + F (بحث في كل الملفات)
-
-ابحث عن: </body>
-
-استبدل الكل بـ:
-
-html
-<script>
-(function() {
-    'use strict';
-    if (window.__smartlinkPopunder) return;
-    window.__smartlinkPopunder = true;
-    var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-    function openSmartlink() {
-        try {
-            var popup = window.open(SMARTLINK_URL, '_blank', 'width=1024,height=768,scrollbars=yes,resizable=yes');
-            if (popup) { popup.blur(); window.focus(); }
-        } catch (e) { console.error('Smartlink error:', e); }
-    }
-    var triggered = false;
-    function triggerOnce() {
-        if (triggered) return;
-        triggered = true;
-        openSmartlink();
-        document.removeEventListener('click', triggerOnce);
-        document.removeEventListener('touchstart', triggerOnce);
-    }
-    document.addEventListener('click', triggerOnce);
-    document.addEventListener('touchstart', triggerOnce);
-})();
-</script>
-</body>
-⚠️ احذر: لا تستبدل </body> في ملفات JavaScript أو CSS. فقط في ملفات .html.
-
-🎯 لماذا استخدمت "عند أول نقرة" بدل "عند التحميل"؟
-الطريقة	الميزة	العيب
-window.open عند التحميل	يعمل فوراً	المتصفحات الحديثة تحجبه 99%
-window.open عند أول نقرة	يعمل دائماً	يفتح عند أول تفاعل من المستخدم
-هذا هو الأسلوب المعياري لـ Pop-under، ويعمل على Chrome، Firefox، Safari، Edge.
-
-📄 إذا أردت تعديل index.html الآن
-أرسل لي groups.html (أو أي صفحة أخرى) وسأضيف الكود فيها نيابةً عنك، أو أخبرني فقط:
-
-"أضفه في index.html و groups.html"
-
-وسأعطيك النسخة المعدلة كاملة.
-
-⚠️ ملاحظات مهمة
-لا تضع الكود مرتين في نفس الصفحة (استخدمنا window.__smartlinkPopunder لمنع التكرار).
-
-قد يمنع AdBlock الرابط — هذا طبيعي.
-
-لا تعمل النافذة في وضع Incognito أحياناً بسبب سياسات المتصفح.
-
-اختبر دائماً على متصفح حقيقي، ليس داخل VS Code Live Preview.
-
-هل تريد أن أعدّل index.html و groups.html مباشرة الآن؟ أرسل لي محتوى groups.html.
-
-
+        
+        var triggered = false;
+        function triggerOnce() {
+            if (triggered) return;
+            triggered = true;
+            openSmartlink();
+            document.removeEventListener('click', triggerOnce);
+            document.removeEventListener('touchstart', triggerOnce);
+        }
+        
+        document.addEventListener('click', triggerOnce);
+        document.addEventListener('touchstart', triggerOnce);
+        
+        console.log('✅ Smartlink pop-under armed');
+    })();
+    </script>
 
 </body>
 </html>
