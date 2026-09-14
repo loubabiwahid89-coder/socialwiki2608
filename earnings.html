@@ -188,17 +188,117 @@
             </div>
         </div>
 
-        <!-- WITHDRAW SECTION -->
-        <div class="withdraw-section">
-            <button class="withdraw-btn" id="withdrawBtn" disabled style="background: #ccc; cursor: not-allowed;" data-i18n="withdrawals_coming_soon">
-                💳 Withdrawals Coming Soon
-            </button>
-            <div class="min-withdraw-info" style="background: #fff4e5; padding: 10px; border-radius: 8px; margin-top: 10px;">
-                <div style="color: #f0ad4e; font-weight: 600;" data-i18n="still_growing">⏳ We're Still Growing!</div>
-                <div style="font-size: 13px; color: #65676b; margin-top: 5px;" data-i18n="withdrawals_soon_desc">
-                    Withdrawals will be available soon... Keep earning points!
+        <!-- =========================================================
+             YOUR PROGRAMS (Facebook Style)
+        ========================================================= -->
+        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px;">
+            <h3 style="margin: 0 0 15px; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                <span data-i18n="your_programs">Your Programs</span>
+                <span style="font-size: 14px; color: #65676b;">ⓘ</span>
+            </h3>
+            
+            <!-- Stars Program -->
+            <a href="stars.html" style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f9f9f9; border-radius: 10px; text-decoration: none; color: inherit; margin-bottom: 10px; transition: 0.2s;" onmouseover="this.style.background='#f0f2f5'" onmouseout="this.style.background='#f9f9f9'">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="font-size: 32px;">⭐</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 15px; color: #050505;" data-i18n="stars_program_title">Stars</div>
+                        <div style="font-size: 13px; color: #65676b; margin-top: 2px;" data-i18n="stars_program_desc">
+                            Let your fans support you by sending Stars
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: 700; font-size: 16px; color: #28a745;">$0.00</span>
+                    <span style="font-size: 20px; color: #65676b;">›</span>
+                </div>
+            </a>
+            
+            <!-- Ad Revenue Program -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f9f9f9; border-radius: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="font-size: 32px;">📺</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 15px; color: #050505;" data-i18n="ad_revenue_title">Watch Ads</div>
+                        <div style="font-size: 13px; color: #65676b; margin-top: 2px;" data-i18n="ad_revenue_desc">
+                            Watch short ads to earn points
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: 700; font-size: 16px; color: #28a745;">$0.00</span>
+                    <button onclick="watchAdAndEarn()" style="background: #1877f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">
+                        <span data-i18n="watch_now">Watch Now</span>
+                    </button>
                 </div>
             </div>
+        </div>
+
+        <!-- =========================================================
+             NOT YET ELIGIBLE (Facebook Style)
+        ========================================================= -->
+        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px;">
+            <h3 style="margin: 0 0 8px; font-size: 18px; color: #050505;">
+                <span data-i18n="not_yet_eligible">Not yet eligible</span>
+            </h3>
+            <p style="margin: 0 0 15px; font-size: 14px; color: #65676b;" data-i18n="not_yet_eligible_desc">
+                As you grow your audience, you'll unlock more ways to make money.
+            </p>
+            
+            <!-- Withdrawals (Locked) -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f9f9f9; border-radius: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="font-size: 32px;">💵</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 15px; color: #050505;" data-i18n="withdrawals_title">Withdrawals</div>
+                        <div style="font-size: 13px; color: #65676b; margin-top: 2px;" data-i18n="withdrawals_locked_desc">
+                            Earn $100 to unlock withdrawals
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px; color: #65676b;">🔒</span>
+                </div>
+            </div>
+
+            <!-- Invite CTA -->
+            <div style="background: #e7f3ff; padding: 15px; border-radius: 10px; margin-top: 12px; text-align: center;">
+                <div style="font-size: 13px; color: #333; margin-bottom: 10px; line-height: 1.5;" data-i18n="withdrawals_soon_desc">
+                    💌 Invite your friends to unlock withdrawals! Every friend who joins via your link gives you 50 extra points.
+                </div>
+                <a href="referral.html" 
+                   style="display: inline-block; background: #1877f2; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px;"
+                   data-i18n="invite_friends_unlock">
+                    🎁 Invite Friends to Unlock
+                </a>
+            </div>
+        </div>
+
+        <!-- =========================================================
+             MONETIZATION STATUS (Facebook Style)
+        ========================================================= -->
+        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px;">
+            <h3 style="margin: 0 0 15px; font-size: 18px; color: #050505;">
+                <span data-i18n="monetization_status">Monetization status</span>
+            </h3>
+            
+            <div style="display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: #e7f7e7; border-radius: 10px; margin-bottom: 12px;">
+                <div style="font-size: 24px;">✅</div>
+                <div>
+                    <div style="font-weight: 700; font-size: 15px; color: #050505;" data-i18n="profile_earning">
+                        Your profile is earning points
+                    </div>
+                    <div style="font-size: 13px; color: #65676b; margin-top: 3px;" data-i18n="profile_earning_desc">
+                        Great job! Your profile's content is earning you points.
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="alert('Keep posting and inviting friends to grow your earnings!')" 
+                    style="width: 100%; padding: 12px; background: #e4e6eb; color: #050505; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;"
+                    data-i18n="learn_more">
+                Learn more
+            </button>
         </div>
 
         <!-- CHART -->

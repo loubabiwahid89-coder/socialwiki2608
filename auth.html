@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki </title>
+    <title>SocialWiki - Auth</title>
 
     <style>
+        * { box-sizing: border-box; }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -33,9 +35,7 @@
             font-size: 24px;
         }
 
-        /* ============================================================
-           FOUNDER PROGRAM BANNER
-        ============================================================ */
+        /* FOUNDER BANNER */
         .founder-banner {
             background: linear-gradient(135deg, #f7b928, #ffd700);
             border-radius: 10px;
@@ -65,9 +65,7 @@
             font-weight: 800;
         }
 
-        /* ============================================================
-           GOOGLE BUTTON
-        ============================================================ */
+        /* GOOGLE BUTTON */
         .google-btn {
             width: 100%;
             padding: 12px;
@@ -96,9 +94,7 @@
             height: 20px;
         }
 
-        /* ============================================================
-           EMAIL BUTTONS (Sign Up / Sign In)
-        ============================================================ */
+        /* EMAIL BUTTONS */
         .email-btn {
             width: 100%;
             padding: 12px;
@@ -133,9 +129,6 @@
             background: #166fe5;
         }
 
-        /* ============================================================
-           DIVIDER
-        ============================================================ */
         .divider {
             display: flex;
             align-items: center;
@@ -155,12 +148,9 @@
             padding: 0 10px;
         }
 
-        /* ============================================================
-           FORM INPUTS
-        ============================================================ */
+        /* FORM INPUTS */
         .auth-container input {
             width: 100%;
-            box-sizing: border-box;
             padding: 12px;
             margin-bottom: 12px;
             border: 1px solid #ddd;
@@ -184,9 +174,7 @@
             margin-bottom: 5px;
         }
 
-        /* ============================================================
-           SUBMIT BUTTONS
-        ============================================================ */
+        /* SUBMIT BUTTON */
         .submit-btn {
             width: 100%;
             padding: 12px;
@@ -234,9 +222,7 @@
             background: transparent;
         }
 
-        /* ============================================================
-           TOGGLE LINK
-        ============================================================ */
+        /* TOGGLE LINK */
         .toggle-link {
             text-align: center;
             margin-top: 15px;
@@ -256,9 +242,7 @@
             text-decoration: underline;
         }
 
-        /* ============================================================
-           MESSAGE
-        ============================================================ */
+        /* MESSAGE */
         #authMessage {
             text-align: center;
             margin-top: 15px;
@@ -277,9 +261,7 @@
             font-weight: 600;
         }
 
-        /* ============================================================
-           LANGUAGE SELECTOR
-        ============================================================ */
+        /* LANGUAGE SELECTOR */
         .language-selector {
             position: relative;
             display: inline-block;
@@ -323,7 +305,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 9999;
-            overflow: hidden;
+            overflow-y: auto;
+            max-height: 350px;
             border: 1px solid #e4e6eb;
         }
 
@@ -352,10 +335,6 @@
         .language-menu button:last-child {
             border-bottom: none;
         }
-
-        .hidden {
-            display: none !important;
-        }
     </style>
 </head>
 
@@ -365,212 +344,148 @@
 
         <!-- LANGUAGE SELECTOR -->
         <div class="language-selector">
-            <button class="language-btn" onclick="toggleLanguageMenu()">
+            <button class="language-btn" onclick="toggleAuthLanguageMenu()">
                 <span>🌐</span>
-                <span id="currentLanguageLabel">العربية</span>
+                <span id="currentAuthLangLabel">العربية</span>
                 <span class="arrow">▼</span>
             </button>
-            <div class="language-menu" id="languageMenu">
-                <button onclick="changeLanguage('ar')">🇸🇦 العربية</button>
-                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
-                <button onclick="changeLanguage('en')">🇬🇧 English</button>
+            <div class="language-menu" id="authLanguageMenu">
+                <button onclick="changeAuthLanguage('ar')">🇲🇦 العربية</button>
+                <button onclick="changeAuthLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeAuthLanguage('en')">🇬🇧 English</button>
+                <button onclick="changeAuthLanguage('es')">🇪🇸 Español</button>
+                <button onclick="changeAuthLanguage('de')">🇩🇪 Deutsch</button>
+                <button onclick="changeAuthLanguage('it')">🇮🇹 Italiano</button>
+                <button onclick="changeAuthLanguage('ja')">🇯🇵 日本語</button>
+                <button onclick="changeAuthLanguage('zh')">🇨🇳 中文</button>
+                <button onclick="changeAuthLanguage('ko')">🇰🇷 한국어</button>
+                <button onclick="changeAuthLanguage('ru')">🇷🇺 Русский</button>
+                <button onclick="changeAuthLanguage('tr')">🇹🇷 Türkçe</button>
+                <button onclick="changeAuthLanguage('hi')">🇮🇳 हिन्दी</button>
             </div>
         </div>
 
         <!-- TITLE -->
-        <h1 id="pageTitle">📘 SocialWiki</h1>
+        <h1 id="authPageTitle" data-i18n="signup_title">📘 إنشاء حساب</h1>
 
-        <!-- 🎁 FOUNDER PROGRAM BANNER -->
+        <!-- FOUNDER BANNER -->
         <div class="founder-banner">
-            <div class="founder-title">🎁 أنت من المؤسسين الأوائل</div>
+            <div class="founder-title" data-i18n="founder_title">🎁 أنت من المؤسسين الأوائل</div>
             <p class="founder-text">
-                ستحصل على:<br>
-                • <strong>525 نقطة</strong> (5.25$)<br>
-                • <strong>شارة Founder ذهبية</strong>
+                <span data-i18n="founder_line1">ستحصل على:</span><br>
+                <strong data-i18n="founder_line2">• 525 نقطة ($5.25)</strong><br>
+                <strong data-i18n="founder_line3">• شارة Founder ذهبية</strong>
             </p>
         </div>
 
         <!-- GOOGLE BUTTON -->
         <button class="google-btn" onclick="loginWithGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-            <span id="googleBtnText">Sign in with Google</span>
+            <span id="authGoogleText" data-i18n="google_btn">تسجيل الدخول بواسطة Google</span>
         </button>
 
-        <!-- 🟢 SIGN UP WITH EMAIL -->
+        <!-- SIGN UP WITH EMAIL -->
         <button class="email-btn signup-green" onclick="showSignupForm()">
-            ✨ <span id="signupEmailBtnText">Sign Up with Email</span>
+            ✨ <span data-i18n="signup_email_btn">إنشاء حساب بالبريد</span>
         </button>
 
-        <!-- ⚪ SIGN IN WITH EMAIL -->
+        <!-- SIGN IN WITH EMAIL -->
         <button class="email-btn signin-blue" onclick="showLoginForm()">
-            🔑 <span id="signinEmailBtnText">Sign In with Email</span>
+            🔑 <span data-i18n="signin_email_btn">تسجيل الدخول بالبريد</span>
         </button>
 
         <!-- DIVIDER -->
         <div class="divider">
-            <span id="orText">أو</span>
+            <span data-i18n="or">أو</span>
         </div>
 
-        <!-- FORM (Sign Up or Sign In) -->
+        <!-- FORM -->
         <div id="emailForm">
-            <input type="email" id="email" placeholder="البريد الإلكتروني" dir="ltr">
-            <input type="password" id="password" placeholder="كلمة المرور" dir="ltr">
+            <input type="email" id="authEmail" data-i18n-placeholder="email" placeholder="البريد الإلكتروني" dir="ltr">
+            <input type="password" id="authPassword" data-i18n-placeholder="password" placeholder="كلمة المرور" dir="ltr">
 
-            <div class="form-group" id="referralField">
-                <input type="text" id="referralCodeInput" placeholder="🔑 كود الإحالة (اختياري)" dir="ltr">
-                <small id="referralHint">
-                    إذا كان لديك كود إحالة، أدخله لتحصل على مكافأة ترحيبية! 🎉
-                </small>
+            <div class="form-group" id="authReferralField">
+                <input type="text" id="authReferralCodeInput" data-i18n-placeholder="referral_code_optional" placeholder="🔑 كود الإحالة (اختياري)" dir="ltr">
+                <small data-i18n="referral_code_hint">إذا كان لديك كود إحالة، أدخله لتحصل على مكافأة ترحيبية! 🎉</small>
             </div>
 
-            <button id="signupButton" class="submit-btn green" onclick="signup()">إنشاء حساب</button>
-            <button id="loginButton" class="submit-btn secondary" onclick="login()">تسجيل الدخول</button>
-            <button id="forgotPasswordButton" class="submit-btn danger" type="button" onclick="forgotPassword()">نسيت كلمة المرور؟</button>
+            <button id="authSignupButton" class="submit-btn green" onclick="signup()" data-i18n="signup_btn">إنشاء حساب</button>
+            <button id="authLoginButton" class="submit-btn secondary" onclick="login()" data-i18n="login_btn" style="display:none;">تسجيل الدخول</button>
+            <button id="authForgotPasswordButton" class="submit-btn danger" type="button" onclick="forgotPassword()" data-i18n="forgot_password">هل نسيت كلمة المرور؟</button>
         </div>
 
         <!-- MESSAGE -->
         <p id="authMessage"></p>
 
         <!-- TOGGLE LINK -->
-        <div class="toggle-link" id="toggleLink">
-            <span id="toggleText">ليس لديك حساب؟</span>
-            <a id="toggleAction" onclick="toggleMode()">إنشاء حساب جديد</a>
+        <div class="toggle-link">
+            <span id="authToggleText" data-i18n="toggle_text">ليس لديك حساب؟</span>
+            <a id="authToggleAction" onclick="toggleAuthMode()" data-i18n="toggle_action">إنشاء حساب</a>
         </div>
 
     </div>
 
+    <!-- SUPABASE + TRANSLATIONS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=999999"></script>
+
     <script>
         // =========================================================
-        // TRANSLATIONS
+        // SUPABASE SETUP
         // =========================================================
-        const translations = {
-            ar: {
-                title: '📘 SocialWiki',
-                google_btn: 'تسجيل الدخول بواسطة Google',
-                signup_email_btn: 'إنشاء حساب بالبريد',
-                signin_email_btn: 'تسجيل الدخول بالبريد',
-                or: 'أو',
-                email_placeholder: 'البريد الإلكتروني',
-                password_placeholder: 'كلمة المرور',
-                referral_placeholder: '🔑 كود الإحالة (اختياري)',
-                referral_hint: 'إذا كان لديك كود إحالة، أدخله لتحصل على مكافأة ترحيبية! 🎉',
-                signup_btn: 'إنشاء حساب',
-                login_btn: 'تسجيل الدخول',
-                forgot_btn: 'نسيت كلمة المرور؟',
-                toggle_text: 'ليس لديك حساب؟',
-                toggle_action: 'إنشاء حساب جديد',
-                toggle_text_login: 'لديك حساب؟',
-                toggle_action_login: 'تسجيل الدخول',
-                signup_title: '📘 إنشاء حساب',
-                login_title: '📘 تسجيل الدخول',
-                language_label: 'العربية',
-                signup_success: '✅ تم التسجيل بنجاح! سيتم توجيهك إلى الصفحة الرئيسية.',
-                login_success: '✅ تم تسجيل الدخول بنجاح!',
-                forgot_success: '✅ تم إرسال رابط إعادة تعيين كلمة المرور',
-                error_fill: '❌ الرجاء ملء البريد الإلكتروني وكلمة المرور',
-                error_password: '❌ كلمة المرور يجب أن تكون 6 أحرف على الأقل',
-                error_email: '❌ الرجاء إدخال البريد الإلكتروني',
-                welcome_bonus: '🎉 تم تفعيل كود الإحالة!'
-            },
-            fr: {
-                title: '📘 SocialWiki',
-                google_btn: 'Se connecter avec Google',
-                signup_email_btn: 'Créer un compte par email',
-                signin_email_btn: 'Se connecter par email',
-                or: 'ou',
-                email_placeholder: 'Adresse e-mail',
-                password_placeholder: 'Mot de passe',
-                referral_placeholder: '🔑 Code de parrainage (optionnel)',
-                referral_hint: 'Entrez votre code de parrainage pour un bonus ! 🎉',
-                signup_btn: 'Créer un compte',
-                login_btn: 'Se connecter',
-                forgot_btn: 'Mot de passe oublié ?',
-                toggle_text: 'Pas de compte ?',
-                toggle_action: 'Créer un compte',
-                toggle_text_login: 'Vous avez un compte ?',
-                toggle_action_login: 'Se connecter',
-                signup_title: '📘 Créer un compte',
-                login_title: '📘 Connexion',
-                language_label: 'Français',
-                signup_success: '✅ Inscription réussie !',
-                login_success: '✅ Connexion réussie !',
-                forgot_success: '✅ Lien envoyé par e-mail',
-                error_fill: '❌ Remplissez tous les champs',
-                error_password: '❌ Mot de passe : 6 caractères minimum',
-                error_email: '❌ Entrez votre e-mail',
-                welcome_bonus: '🎉 Code de parrainage activé !'
-            },
-            en: {
-                title: '📘 SocialWiki',
-                google_btn: 'Sign in with Google',
-                signup_email_btn: 'Sign Up with Email',
-                signin_email_btn: 'Sign In with Email',
-                or: 'or',
-                email_placeholder: 'Email',
-                password_placeholder: 'Password',
-                referral_placeholder: '🔑 Referral Code (optional)',
-                referral_hint: 'Enter your referral code for a welcome bonus! 🎉',
-                signup_btn: 'Create Account',
-                login_btn: 'Login',
-                forgot_btn: 'Forgot Password?',
-                toggle_text: "Don't have an account?",
-                toggle_action: 'Sign Up',
-                toggle_text_login: 'Have an account?',
-                toggle_action_login: 'Sign In',
-                signup_title: '📘 Create Account',
-                login_title: '📘 Login',
-                language_label: 'English',
-                signup_success: '✅ Sign up successful!',
-                login_success: '✅ Login successful!',
-                forgot_success: '✅ Reset link sent to your email',
-                error_fill: '❌ Please fill in all fields',
-                error_password: '❌ Password must be at least 6 characters',
-                error_email: '❌ Please enter your email',
-                welcome_bonus: '🎉 Referral code activated!'
-            }
-        };
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let currentLanguage = localStorage.getItem('socialwiki_lang') || 'ar';
+        // =========================================================
+        // STATE
+        // =========================================================
         let isSignupMode = true;
 
         // =========================================================
-        // LANGUAGE FUNCTIONS
+        // LANGUAGE HANDLING (uses translations.js)
         // =========================================================
+        function getAuthLanguage() {
+            return localStorage.getItem('socialwiki_lang') || 'ar';
+        }
 
-        function applyTranslations(lang) {
-            const t = translations[lang] || translations.ar;
+        function toggleAuthLanguageMenu() {
+            const menu = document.getElementById('authLanguageMenu');
+            menu.classList.toggle('show');
+        }
 
-            document.getElementById('pageTitle').textContent = t.title;
-            document.getElementById('googleBtnText').textContent = t.google_btn;
-            document.getElementById('signupEmailBtnText').textContent = t.signup_email_btn;
-            document.getElementById('signinEmailBtnText').textContent = t.signin_email_btn;
-            document.getElementById('orText').textContent = t.or;
-            document.getElementById('email').placeholder = t.email_placeholder;
-            document.getElementById('password').placeholder = t.password_placeholder;
-            document.getElementById('referralCodeInput').placeholder = t.referral_placeholder;
-            document.getElementById('referralHint').textContent = t.referral_hint;
-            document.getElementById('signupButton').textContent = t.signup_btn;
-            document.getElementById('loginButton').textContent = t.login_btn;
-            document.getElementById('forgotPasswordButton').textContent = t.forgot_btn;
-            document.getElementById('currentLanguageLabel').textContent = t.language_label;
+        function changeAuthLanguage(lang) {
+            localStorage.setItem('socialwiki_lang', lang);
+            document.getElementById('authLanguageMenu').classList.remove('show');
+            applyAuthTranslations();
+        }
 
-            if (isSignupMode) {
-                document.getElementById('toggleText').textContent = t.toggle_text;
-                document.getElementById('toggleAction').textContent = t.toggle_action;
-                document.querySelector('.auth-container h1').textContent = t.signup_title;
-                document.getElementById('signupButton').style.display = 'block';
-                document.getElementById('loginButton').style.display = 'none';
-                document.getElementById('referralField').style.display = 'block';
-            } else {
-                document.getElementById('toggleText').textContent = t.toggle_text_login;
-                document.getElementById('toggleAction').textContent = t.toggle_action_login;
-                document.querySelector('.auth-container h1').textContent = t.login_title;
-                document.getElementById('signupButton').style.display = 'none';
-                document.getElementById('loginButton').style.display = 'block';
-                document.getElementById('referralField').style.display = 'none';
-            }
+        function applyAuthTranslations() {
+            const lang = getAuthLanguage();
+            const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : {};
 
+            // Apply data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            // Apply data-i18n-placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) el.placeholder = t[key];
+            });
+
+            // Update language label
+            const langNames = {
+                ar: 'العربية', fr: 'Français', en: 'English',
+                es: 'Español', de: 'Deutsch', it: 'Italiano',
+                ja: '日本語', zh: '中文', ko: '한국어',
+                ru: 'Русский', tr: 'Türkçe', hi: 'हिन्दी'
+            };
+            document.getElementById('currentAuthLangLabel').textContent = langNames[lang] || 'العربية';
+
+            // Direction
             if (lang === 'ar') {
                 document.documentElement.dir = 'rtl';
                 document.documentElement.lang = 'ar';
@@ -578,79 +493,90 @@
                 document.documentElement.dir = 'ltr';
                 document.documentElement.lang = lang;
             }
+
+            // Update toggle text based on mode
+            updateToggleText();
+
+            // Update title
+            const titleEl = document.getElementById('authPageTitle');
+            if (titleEl) {
+                titleEl.textContent = isSignupMode ? (t.signup_title || '📘 Create Account') : (t.login_title || '📘 Login');
+            }
         }
 
-        function toggleLanguageMenu() {
-            document.getElementById('languageMenu').classList.toggle('show');
-        }
+        function updateToggleText() {
+            const t = translations[getAuthLanguage()] || translations.en || {};
+            const textEl = document.getElementById('authToggleText');
+            const actionEl = document.getElementById('authToggleAction');
 
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            localStorage.setItem('socialwiki_lang', lang);
-            applyTranslations(lang);
-            document.getElementById('languageMenu').classList.remove('show');
+            if (isSignupMode) {
+                textEl.textContent = t.toggle_text_login || 'Have an account?';
+                actionEl.textContent = t.toggle_action_login || 'Sign In';
+            } else {
+                textEl.textContent = t.toggle_text || "Don't have an account?";
+                actionEl.textContent = t.toggle_action || 'Sign Up';
+            }
         }
 
         // =========================================================
-        // TOGGLE FORM: Sign Up <-> Sign In
+        // FORM MODE SWITCHING
         // =========================================================
-
         function showSignupForm() {
             isSignupMode = true;
-            applyTranslations(currentLanguage);
+            document.getElementById('authSignupButton').style.display = 'block';
+            document.getElementById('authLoginButton').style.display = 'none';
+            document.getElementById('authReferralField').style.display = 'block';
+            document.getElementById('authForgotPasswordButton').style.display = 'block';
             document.getElementById('authMessage').textContent = '';
             document.getElementById('authMessage').className = '';
+            applyAuthTranslations();
         }
 
         function showLoginForm() {
             isSignupMode = false;
-            applyTranslations(currentLanguage);
+            document.getElementById('authSignupButton').style.display = 'none';
+            document.getElementById('authLoginButton').style.display = 'block';
+            document.getElementById('authReferralField').style.display = 'none';
+            document.getElementById('authForgotPasswordButton').style.display = 'block';
             document.getElementById('authMessage').textContent = '';
             document.getElementById('authMessage').className = '';
+            applyAuthTranslations();
         }
 
-        function toggleMode() {
-            isSignupMode = !isSignupMode;
-            applyTranslations(currentLanguage);
-            document.getElementById('authMessage').textContent = '';
-            document.getElementById('authMessage').className = '';
+        function toggleAuthMode() {
+            if (isSignupMode) {
+                showLoginForm();
+            } else {
+                showSignupForm();
+            }
         }
-
-        // =========================================================
-        // SUPABASE SETUP
-        // =========================================================
-
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // =========================================================
         // READ REFERRAL CODE FROM URL
         // =========================================================
-
         function getReferralCodeFromURL() {
             const params = new URLSearchParams(window.location.search);
             return params.get('ref');
         }
 
         // =========================================================
-        // SIGNUP
+        // SIGNUP (original function preserved)
         // =========================================================
-
         async function signup() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const referralCode = document.getElementById('referralCodeInput').value.trim();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            const referralCode = document.getElementById('authReferralCodeInput').value.trim();
             const message = document.getElementById('authMessage');
+            const t = translations[getAuthLanguage()] || translations.en || {};
 
             if (!email || !password) {
-                message.textContent = translations[currentLanguage].error_fill;
+                message.textContent = t.error_fill || '❌ Please fill in all fields';
                 message.className = 'error';
                 return;
             }
 
             if (password.length < 6) {
-                message.textContent = translations[currentLanguage].error_password;
+                message.textContent = t.error_password || '❌ Password must be at least 6 characters';
                 message.className = 'error';
                 return;
             }
@@ -671,12 +597,12 @@
                 }
 
                 if (!data.user) {
-                    message.textContent = '❌ حدث خطأ في التسجيل';
+                    message.textContent = '❌ Signup error';
                     message.className = 'error';
                     return;
                 }
 
-                // معالجة كود الإحالة
+                // Process referral if exists
                 if (referralCode) {
                     await new Promise(resolve => setTimeout(resolve, 1500));
                     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -685,7 +611,7 @@
                     }
                 }
 
-                message.textContent = translations[currentLanguage].signup_success;
+                message.textContent = t.signup_success || '✅ Sign up successful!';
                 message.className = 'success';
 
                 setTimeout(() => {
@@ -694,22 +620,22 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                message.textContent = '❌ حدث خطأ: ' + error.message;
+                message.textContent = '❌ Error: ' + error.message;
                 message.className = 'error';
             }
         }
 
         // =========================================================
-        // LOGIN
+        // LOGIN (original function preserved)
         // =========================================================
-
         async function login() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
             const message = document.getElementById('authMessage');
+            const t = translations[getAuthLanguage()] || translations.en || {};
 
             if (!email || !password) {
-                message.textContent = translations[currentLanguage].error_fill;
+                message.textContent = t.error_fill || '❌ Please fill in all fields';
                 message.className = 'error';
                 return;
             }
@@ -726,7 +652,7 @@
                     return;
                 }
 
-                message.textContent = translations[currentLanguage].login_success;
+                message.textContent = t.login_success || '✅ Login successful!';
                 message.className = 'success';
 
                 setTimeout(() => {
@@ -735,21 +661,21 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                message.textContent = '❌ حدث خطأ: ' + error.message;
+                message.textContent = '❌ Error: ' + error.message;
                 message.className = 'error';
             }
         }
 
         // =========================================================
-        // FORGOT PASSWORD
+        // FORGOT PASSWORD (original)
         // =========================================================
-
         async function forgotPassword() {
-            const email = document.getElementById('email').value.trim();
+            const email = document.getElementById('authEmail').value.trim();
             const message = document.getElementById('authMessage');
+            const t = translations[getAuthLanguage()] || translations.en || {};
 
             if (!email) {
-                message.textContent = translations[currentLanguage].error_email;
+                message.textContent = t.error_email || '❌ Please enter your email';
                 message.className = 'error';
                 return;
             }
@@ -765,25 +691,25 @@
                     return;
                 }
 
-                message.textContent = translations[currentLanguage].forgot_success;
+                message.textContent = t.forgot_success || '✅ Reset link sent to your email';
                 message.className = 'success';
 
             } catch (error) {
                 console.error('Error:', error);
-                message.textContent = '❌ حدث خطأ: ' + error.message;
+                message.textContent = '❌ Error: ' + error.message;
                 message.className = 'error';
             }
         }
 
         // =========================================================
-        // LOGIN WITH GOOGLE
+        // GOOGLE LOGIN (original + referral save)
         // =========================================================
-
         async function loginWithGoogle() {
             try {
-                const referralCode = document.getElementById('referralCodeInput').value.trim();
+                const referralCode = document.getElementById('authReferralCodeInput').value.trim();
                 if (referralCode) {
                     localStorage.setItem('pendingReferralCode', referralCode);
+                    console.log('🔗 Saved referral code:', referralCode);
                 }
 
                 const redirectUrl = window.location.origin + '/index.html';
@@ -792,30 +718,34 @@
                     provider: 'google',
                     options: { redirectTo: redirectUrl }
                 });
+
+                if (error) {
+                    console.error('Google login error:', error);
+                }
             } catch (error) {
                 console.error('Error:', error);
             }
         }
 
         // =========================================================
-        // PROCESS REFERRAL
+        // PROCESS REFERRAL (original)
         // =========================================================
-
         async function processReferral(referralCode, newUserId) {
             try {
+                console.log('🔗 Processing referral:', referralCode);
+
                 const { data: { user: authUser } } = await supabaseClient.auth.getUser();
                 if (!authUser) return;
 
                 const referredId = authUser.id;
 
-                const { data: referrer, error: refError } = await supabaseClient
+                const { data: referrer } = await supabaseClient
                     .from('profiles')
                     .select('id, username')
                     .eq('referral_code', referralCode)
                     .maybeSingle();
 
-                if (refError || !referrer) return;
-                if (referrer.id === referredId) return;
+                if (!referrer || referrer.id === referredId) return;
 
                 const { error: insertError } = await supabaseClient
                     .from('referrals')
@@ -828,6 +758,8 @@
 
                 if (insertError) {
                     console.error('❌ Error inserting referral:', insertError);
+                } else {
+                    console.log('✅ Referral processed!');
                 }
             } catch (error) {
                 console.error('❌ Error processing referral:', error);
@@ -837,27 +769,31 @@
         // =========================================================
         // INIT
         // =========================================================
-
         document.addEventListener('DOMContentLoaded', function() {
-            const lang = localStorage.getItem('socialwiki_lang') || 'ar';
-            currentLanguage = lang;
-            applyTranslations(lang);
+            // Apply translations on load
+            applyAuthTranslations();
 
+            // Set default mode = Sign Up
+            isSignupMode = true;
+            showSignupForm();
+
+            // Fill referral code from URL
             const refCode = getReferralCodeFromURL();
             if (refCode) {
-                const input = document.getElementById('referralCodeInput');
+                const input = document.getElementById('authReferralCodeInput');
                 if (input) {
                     input.value = refCode;
                     const message = document.getElementById('authMessage');
-                    message.textContent = translations[currentLanguage].welcome_bonus;
+                    const t = translations[getAuthLanguage()] || translations.en || {};
+                    message.textContent = t.welcome_bonus || '🎉 Referral code activated!';
                     message.className = 'success';
                 }
-                // افتح نموذج التسجيل تلقائياً عند وجود كود
                 showSignupForm();
             }
 
+            // Close language menu on outside click
             document.addEventListener('click', function(event) {
-                const menu = document.getElementById('languageMenu');
+                const menu = document.getElementById('authLanguageMenu');
                 const btn = document.querySelector('.language-btn');
                 if (menu && btn && !btn.contains(event.target) && !menu.contains(event.target)) {
                     menu.classList.remove('show');
