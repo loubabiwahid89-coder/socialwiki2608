@@ -401,6 +401,7 @@
             <li><a href="market-plus.html">🛍️</a></li>
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
+            <li><a href="messages.html" title="Messages">💬</a></li>
         </ul>
         <div class="nav-right">
             <a href="profile.html" class="nav-profile">
@@ -930,9 +931,18 @@
         // =========================================================
         // SEND MESSAGE
         // =========================================================
-        function sendMessage() {
-            alert("Message feature coming soon!");
-        }
+       // =========================================================
+// SEND MESSAGE → Redirect to messages.html
+// =========================================================
+function sendMessage() {
+    // profileUserId هو صاحب الملف المفتوح حالياً
+    const targetUserId = profileUserId || getUserIdFromUrl();
+    if (targetUserId) {
+        window.location.href = `messages.html?to=${targetUserId}`;
+    } else {
+        window.location.href = `messages.html`;
+    }
+}
         
         // =========================================================
         // TAB SWITCHING

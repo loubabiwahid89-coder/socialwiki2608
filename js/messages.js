@@ -303,3 +303,59 @@ window.applyTranslations = function() {
 document.addEventListener("DOMContentLoaded", () => {
     renderConversations();
 });
+
+// =========================================================
+// فتح محادثة مباشرة إذا كان الرابط يحتوي ?to=USER_ID
+// =========================================================
+async function openChatFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const targetId = params.get('to');
+    if (!targetId) return;
+
+    try {
+        // جلب معلومات المستخدم من Supabase (إذا متوفر)
+        let name = 'User';
+        let avatar = `https://ui-avatars.com/api/?name=User&background=1877f2&color=fff`;
+
+        if (window.supabaseClient) {
+            const { data: profile } = await window.supabaseClient
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .eq('id', targetId)
+                .single();
+
+            if (profile) {
+                name = profile.full_name || profile.username || 'User';
+                avatar = profile.avatar_url ||
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+            }
+        }
+
+        // هل المحادثة موجودة؟
+        let conv = conversations.find(c => c.userId === targetId);
+
+        if (!conv) {
+            const newId = Math.max(...conversations.map(c => c.id), 0) + 1;
+            conv = {
+                id: newId,
+                userId: targetId,
+                name: name,
+                avatar: avatar,
+                online: false,
+                archived: false,
+                unread: 0,
+                messages: []
+            };
+            conversations.unshift(conv);
+        }
+
+        renderConversations();
+        openChat(conv.id);
+    } catch (error) {
+        console.error('Error opening chat from URL:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(openChatFromUrl, 500);
+});
