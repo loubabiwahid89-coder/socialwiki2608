@@ -1,89 +1,165 @@
 /* =========================================================
-   SOCIALWIKI - MESSAGES PAGE LOGIC
+   SOCIALWIKI - MESSAGES PAGE (REAL Supabase)
    ========================================================= */
 
-// بيانات تجريبية
-let conversations = [
-    {
-        id: 1,
-        name: "Ahmed Hassan",
-        avatar: "https://ui-avatars.com/api/?name=Ahmed&background=1877f2&color=fff",
-        online: true, archived: false, unread: 2,
-        messages: [
-            { from: "them", text: "مرحباً! كيف حالك؟", time: "10:20" },
-            { from: "me",   text: "بخير الحمد لله، وأنت؟", time: "10:22" },
-            { from: "them", text: "تمام! هل رأيت التحديث الجديد؟", time: "10:23" }
-        ]
-    },
-    {
-        id: 2,
-        name: "Sara Ali",
-        avatar: "https://ui-avatars.com/api/?name=Sara&background=e91e63&color=fff",
-        online: false, archived: false, unread: 0,
-        messages: [
-            { from: "them", text: "أرسلت لك الملف الآن", time: "09:10" },
-            { from: "me",   text: "شكراً جزيلاً!", time: "09:12" }
-        ]
-    },
-    {
-        id: 3,
-        name: "Youssef Mohamed",
-        avatar: "https://ui-avatars.com/api/?name=Youssef&background=4caf50&color=fff",
-        online: true, archived: false, unread: 5,
-        messages: [
-            { from: "them", text: "هل نلتقي غداً؟", time: "08:00" }
-        ]
-    },
-    {
-        id: 4,
-        name: "Layla Ibrahim",
-        avatar: "https://ui-avatars.com/api/?name=Layla&background=9c27b0&color=fff",
-        online: false, archived: true, unread: 0,
-        messages: [
-            { from: "me", text: "سنتكلم لاحقاً", time: "أمس" }
-        ]
-    }
-];
+// ========== SUPABASE ==========
+if (!window.supabaseClient) {
+    window.supabaseClient = window.supabase.createClient(
+        "https://hvslktufqrgdgrgxmvcm.supabase.co",
+        "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT"
+    );
+}
+const sb = window.supabaseClient;
 
-let currentChatId = null;
+// ========== STATE ==========
+let conversations = [];       // قائمة المحادثات
+let currentChatId = null;     // userId الحالي
+let currentUserId = null;     // أنا
 let currentTab = "inbox";
+let realtimeChannel = null;
 
-// ========== عناصر DOM ==========
+// ========== DOM ==========
 const conversationsList = document.getElementById("conversationsList");
-const chatEmpty        = document.getElementById("chatEmpty");
-const chatActive       = document.getElementById("chatActive");
-const chatBody         = document.getElementById("chatBody");
-const chatUserName     = document.getElementById("chatUserName");
-const chatUserStatus   = document.getElementById("chatUserStatus");
-const messageInput     = document.getElementById("messageInput");
-const btnSend          = document.getElementById("btnSend");
-const btnEmoji         = document.getElementById("btnEmoji");
-const btnAttach        = document.getElementById("btnAttach");
-const emojiPicker      = document.getElementById("emojiPicker");
-const searchInput      = document.getElementById("searchConversations");
-const btnArchive       = document.getElementById("btnArchive");
-const btnMute          = document.getElementById("btnMute");
-const btnBlock         = document.getElementById("btnBlock");
-const btnDelete        = document.getElementById("btnDelete");
-const newMessageBtn    = document.getElementById("newMessageBtn");
+const chatEmpty         = document.getElementById("chatEmpty");
+const chatActive        = document.getElementById("chatActive");
+const chatBody          = document.getElementById("chatBody");
+const chatUserName      = document.getElementById("chatUserName");
+const chatUserStatus    = document.getElementById("chatUserStatus");
+const messageInput      = document.getElementById("messageInput");
+const btnSend           = document.getElementById("btnSend");
+const btnEmoji          = document.getElementById("btnEmoji");
+const btnAttach         = document.getElementById("btnAttach");
+const emojiPicker       = document.getElementById("emojiPicker");
+const searchInput       = document.getElementById("searchConversations");
+const btnArchive        = document.getElementById("btnArchive");
+const btnMute           = document.getElementById("btnMute");
+const btnBlock          = document.getElementById("btnBlock");
+const btnDelete         = document.getElementById("btnDelete");
+const newMessageBtn     = document.getElementById("newMessageBtn");
 
-// ========== Helper: t() ==========
+// ========== HELPER ==========
 function tr(key) {
-    if (typeof window.t === "function") return window.t(key);
-    return key;
+    return (typeof window.t === "function") ? window.t(key) : key;
 }
 
-// ========== عرض قائمة المحادثات ==========
+function esc(text) {
+    if (!text) return "";
+    const d = document.createElement("div");
+    d.textContent = text;
+    return d.innerHTML;
+}
+
+function fmtTime(ts) {
+    const d = new Date(ts);
+    return d.getHours().toString().padStart(2, "0") + ":" +
+           d.getMinutes().toString().padStart(2, "0");
+}
+
+function fmtDateLabel(ts) {
+    const d = new Date(ts);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    if (d.toDateString() === today.toDateString()) return tr("today_date");
+    if (d.toDateString() === yesterday.toDateString()) return tr("yesterday");
+    return d.toLocaleDateString();
+}
+
+// =========================================================
+// جلب الأصدقاء (friends table)
+// =========================================================
+async function loadFriends() {
+    const { data: friends, error } = await sb
+        .from("friends")
+        .select("friend_id")
+        .eq("user_id", currentUserId);
+
+    if (error) {
+        console.error("❌ loadFriends:", error);
+        return [];
+    }
+    if (!friends || friends.length === 0) return [];
+
+    const friendIds = friends.map(f => f.friend_id);
+    const { data: profiles } = await sb
+        .from("profiles")
+        .select("id, username, full_name, avatar_url")
+        .in("id", friendIds);
+
+    return profiles || [];
+}
+
+// =========================================================
+// جلب كل الرسائل بيني وبين شخص
+// =========================================================
+async function loadMessagesWith(otherUserId) {
+    const { data, error } = await sb
+        .from("messages")
+        .select("*")
+        .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},receiver_id.eq.${currentUserId})`)
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error("❌ loadMessagesWith:", error);
+        return [];
+    }
+    return data || [];
+}
+
+// =========================================================
+// بناء قائمة المحادثات من الرسائل + الأصدقاء
+// =========================================================
+async function buildConversations() {
+    const friends = await loadFriends();
+    const list = [];
+
+    for (const f of friends) {
+        const msgs = await loadMessagesWith(f.id);
+        const last = msgs[msgs.length - 1];
+        const unread = msgs.filter(m => m.receiver_id === currentUserId && !m.is_read).length;
+
+        list.push({
+            id: f.id,             // user_id للطرف الآخر
+            userId: f.id,
+            name: f.full_name || f.username || "User",
+            avatar: f.avatar_url ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(f.username || 'U')}&background=1877f2&color=fff`,
+            online: false,
+            archived: false,
+            unread: unread,
+            messages: msgs.map(m => ({
+                from: m.sender_id === currentUserId ? "me" : "them",
+                text: m.message,
+                time: fmtTime(m.created_at),
+                created_at: m.created_at
+            }))
+        });
+    }
+
+    // رتّب: الأحاديث الأخيرة أولاً
+    list.sort((a, b) => {
+        const ta = a.messages[a.messages.length - 1]?.created_at || 0;
+        const tb = b.messages[b.messages.length - 1]?.created_at || 0;
+        return new Date(tb) - new Date(ta);
+    });
+
+    conversations = list;
+}
+
+// =========================================================
+// عرض قائمة المحادثات
+// =========================================================
 function renderConversations() {
     if (!conversationsList) return;
 
     const searchTerm = (searchInput?.value || "").toLowerCase();
     const list = conversations.filter(c => {
-        const matchesSearch = c.name.toLowerCase().includes(searchTerm);
-        if (currentTab === "inbox")    return !c.archived && matchesSearch;
-        if (currentTab === "sent")     return !c.archived && matchesSearch;
-        if (currentTab === "archived") return c.archived && matchesSearch;
-        return true;
+        const okSearch = c.name.toLowerCase().includes(searchTerm);
+        if (currentTab === "inbox")    return !c.archived && okSearch;
+        if (currentTab === "sent")     return !c.archived && okSearch;
+        if (currentTab === "archived") return c.archived && okSearch;
+        return okSearch;
     });
 
     conversationsList.innerHTML = "";
@@ -97,7 +173,7 @@ function renderConversations() {
     }
 
     list.forEach(conv => {
-        const lastMsg = conv.messages[conv.messages.length - 1];
+        const last = conv.messages[conv.messages.length - 1];
         const li = document.createElement("li");
         li.className = "conv-item" + (conv.id === currentChatId ? " active" : "");
         li.onclick = () => openChat(conv.id);
@@ -105,11 +181,11 @@ function renderConversations() {
         li.innerHTML = `
             <img src="${conv.avatar}" class="conv-avatar" alt="">
             <div class="conv-info">
-                <div class="conv-name">${conv.name}</div>
-                <div class="conv-last">${lastMsg ? lastMsg.text : tr("no_messages")}</div>
+                <div class="conv-name">${esc(conv.name)}</div>
+                <div class="conv-last">${last ? esc(last.text) : tr("no_messages")}</div>
             </div>
             <div class="conv-meta">
-                <div class="conv-time">${lastMsg ? lastMsg.time : ""}</div>
+                <div class="conv-time">${last ? last.time : ""}</div>
                 ${conv.unread > 0 ? `<div class="conv-unread">${conv.unread}</div>` : ""}
             </div>
         `;
@@ -117,41 +193,67 @@ function renderConversations() {
     });
 }
 
-// ========== فتح محادثة ==========
-function openChat(id) {
-    currentChatId = id;
-    const conv = conversations.find(c => c.id === id);
+// =========================================================
+// فتح محادثة
+// =========================================================
+async function openChat(userId) {
+    currentChatId = userId;
+    const conv = conversations.find(c => c.id === userId);
     if (!conv) return;
-
-    conv.unread = 0;
 
     chatEmpty.style.display  = "none";
     chatActive.style.display = "flex";
 
     chatUserName.textContent = conv.name;
+    chatUserStatus.textContent = tr("offline");
+    chatUserStatus.className = "chat-user-status";
 
-    const isOnline = conv.online;
-    chatUserStatus.textContent = isOnline ? tr("online") : tr("offline");
-    chatUserStatus.className = "chat-user-status " + (isOnline ? "online" : "offline");
+    // علّم الرسائل كمقروءة
+    await sb.from("messages")
+        .update({ is_read: true })
+        .eq("sender_id", userId)
+        .eq("receiver_id", currentUserId)
+        .eq("is_read", false);
+
+    // أعد تحميل الرسائل
+    const msgs = await loadMessagesWith(userId);
+    conv.messages = msgs.map(m => ({
+        from: m.sender_id === currentUserId ? "me" : "them",
+        text: m.message,
+        time: fmtTime(m.created_at),
+        created_at: m.created_at
+    }));
+    conv.unread = 0;
 
     renderMessages();
     renderConversations();
 }
 
-// ========== عرض الرسائل ==========
+// =========================================================
+// عرض الرسائل
+// =========================================================
 function renderMessages() {
     if (!currentChatId) return;
-
     const conv = conversations.find(c => c.id === currentChatId);
     if (!conv) return;
 
     chatBody.innerHTML = "";
+    let lastDate = "";
 
     conv.messages.forEach(msg => {
+        const dLabel = fmtDateLabel(msg.created_at);
+        if (dLabel !== lastDate) {
+            const sep = document.createElement("div");
+            sep.style.cssText = "text-align:center;color:#999;font-size:12px;margin:12px 0;";
+            sep.textContent = dLabel;
+            chatBody.appendChild(sep);
+            lastDate = dLabel;
+        }
+
         const div = document.createElement("div");
         div.className = "chat-msg " + (msg.from === "me" ? "me" : "them");
         div.innerHTML = `
-            ${msg.text}
+            ${esc(msg.text)}
             <span class="chat-msg-time">${msg.time}</span>
         `;
         chatBody.appendChild(div);
@@ -160,25 +262,141 @@ function renderMessages() {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// ========== إرسال رسالة ==========
-function sendMessage() {
+// =========================================================
+// إرسال رسالة
+// =========================================================
+async function sendMessage() {
     const text = (messageInput.value || "").trim();
     if (!text || !currentChatId) return;
 
-    const conv = conversations.find(c => c.id === currentChatId);
-    if (!conv) return;
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) {
+        alert("Please login first");
+        return;
+    }
 
-    const now = new Date();
-    const time = now.getHours().toString().padStart(2, "0") + ":" +
-                 now.getMinutes().toString().padStart(2, "0");
+    const { error } = await sb.from("messages").insert({
+        sender_id: user.id,
+        receiver_id: currentChatId,
+        message: text,
+        is_read: false
+    });
 
-    conv.messages.push({ from: "me", text, time });
+    if (error) {
+        console.error("❌ send error:", error);
+        alert("Error: " + error.message);
+        return;
+    }
+
     messageInput.value = "";
+
+    // حدّث الرؤية
+    const conv = conversations.find(c => c.id === currentChatId);
+    if (conv) {
+        const now = new Date();
+        conv.messages.push({
+            from: "me",
+            text: text,
+            time: fmtTime(now),
+            created_at: now.toISOString()
+        });
+    }
+
     renderMessages();
     renderConversations();
 }
 
-// ========== التبويبات ==========
+// =========================================================
+// Realtime — استقبال رسائل جديدة
+// =========================================================
+function setupRealtime() {
+    if (realtimeChannel) sb.removeChannel(realtimeChannel);
+
+    realtimeChannel = sb
+        .channel("messages-realtime")
+        .on(
+            "postgres_changes",
+            {
+                event: "INSERT",
+                schema: "public",
+                table: "messages",
+                filter: `receiver_id=eq.${currentUserId}`
+            },
+            async (payload) => {
+                const m = payload.new;
+                const senderId = m.sender_id;
+
+                let conv = conversations.find(c => c.id === senderId);
+                if (!conv) {
+                    // أضف المحادثة إن لم تكن موجودة
+                    const { data: p } = await sb.from("profiles")
+                        .select("id, username, full_name, avatar_url")
+                        .eq("id", senderId)
+                        .single();
+                    if (p) {
+                        conv = {
+                            id: p.id,
+                            userId: p.id,
+                            name: p.full_name || p.username,
+                            avatar: p.avatar_url || `https://ui-avatars.com/api/?name=${p.username}&background=1877f2&color=fff`,
+                            online: false, archived: false, unread: 0, messages: []
+                        };
+                        conversations.unshift(conv);
+                    }
+                }
+
+                if (conv) {
+                    conv.messages.push({
+                        from: "them",
+                        text: m.message,
+                        time: fmtTime(m.created_at),
+                        created_at: m.created_at
+                    });
+                    if (currentChatId !== senderId) conv.unread++;
+                    if (currentChatId === senderId) {
+                        renderMessages();
+                        await sb.from("messages").update({ is_read: true }).eq("id", m.id);
+                    }
+                }
+                renderConversations();
+            }
+        )
+        .subscribe();
+}
+
+// =========================================================
+// فتح محادثة من ?to=USER_ID
+// =========================================================
+async function openChatFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const targetId = params.get("to");
+    if (!targetId) return;
+
+    const { data: profile } = await sb.from("profiles")
+        .select("id, username, full_name, avatar_url")
+        .eq("id", targetId)
+        .single();
+
+    if (!profile) return;
+
+    let conv = conversations.find(c => c.id === targetId);
+    if (!conv) {
+        conv = {
+            id: profile.id,
+            userId: profile.id,
+            name: profile.full_name || profile.username,
+            avatar: profile.avatar_url || `https://ui-avatars.com/api/?name=${profile.username}&background=1877f2&color=fff`,
+            online: false, archived: false, unread: 0, messages: []
+        };
+        conversations.unshift(conv);
+        renderConversations();
+    }
+    openChat(conv.id);
+}
+
+// =========================================================
+// الأحداث
+// =========================================================
 document.querySelectorAll(".msg-tab").forEach(tab => {
     tab.onclick = () => {
         document.querySelectorAll(".msg-tab").forEach(t => t.classList.remove("active"));
@@ -188,10 +406,7 @@ document.querySelectorAll(".msg-tab").forEach(tab => {
     };
 });
 
-// ========== البحث ==========
 if (searchInput) searchInput.addEventListener("input", renderConversations);
-
-// ========== الإرسال ==========
 if (btnSend) btnSend.onclick = sendMessage;
 if (messageInput) {
     messageInput.addEventListener("keypress", e => {
@@ -199,7 +414,6 @@ if (messageInput) {
     });
 }
 
-// ========== الإيموجي ==========
 if (btnEmoji) {
     btnEmoji.onclick = (e) => {
         e.stopPropagation();
@@ -220,142 +434,59 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// ========== المرفقات ==========
 if (btnAttach) {
     btnAttach.onclick = () => {
         const input = document.createElement("input");
         input.type = "file";
         input.onchange = () => {
-            if (input.files.length > 0) {
-                alert("📎 " + input.files[0].name);
-            }
+            if (input.files.length > 0) alert("📎 " + input.files[0].name);
         };
         input.click();
     };
 }
 
-// ========== أزرار المحادثة ==========
-if (btnArchive) {
-    btnArchive.onclick = () => {
-        if (!currentChatId) return;
-        const conv = conversations.find(c => c.id === currentChatId);
-        if (conv) { conv.archived = !conv.archived; renderConversations(); }
-    };
-}
-
-if (btnMute) {
-    btnMute.onclick = () => {
-        btnMute.textContent = btnMute.textContent === "🔕" ? "🔔" : "🔕";
-    };
-}
-
-if (btnBlock) {
-    btnBlock.onclick = () => {
-        if (confirm(tr("are_you_sure"))) alert(tr("block"));
-    };
-}
-
-if (btnDelete) {
-    btnDelete.onclick = () => {
-        if (!currentChatId) return;
-        if (confirm(tr("are_you_sure"))) {
-            conversations = conversations.filter(c => c.id !== currentChatId);
-            currentChatId = null;
-            chatActive.style.display = "none";
-            chatEmpty.style.display = "flex";
-            renderConversations();
-        }
-    };
-}
-
-// ========== رسالة جديدة ==========
+// New Message
 if (newMessageBtn) {
-    newMessageBtn.onclick = () => {
-        const name = prompt(tr("new_message"));
-        if (name && name.trim()) {
-            const newId = Math.max(...conversations.map(c => c.id), 0) + 1;
-            conversations.unshift({
-                id: newId,
-                name: name.trim(),
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name.trim())}&background=1877f2&color=fff`,
-                online: false, archived: false, unread: 0, messages: []
-            });
-            renderConversations();
-            openChat(newId);
+    newMessageBtn.onclick = async () => {
+        const friends = await loadFriends();
+        if (friends.length === 0) {
+            alert("لا يوجد أصدقاء بعد");
+            return;
         }
-    };
-}
+        const options = friends.map((f, i) => `${i + 1}. ${f.full_name || f.username}`).join("\n");
+        const pick = prompt("اختر صديقاً:\n" + options);
+        const idx = parseInt(pick) - 1;
+        if (isNaN(idx) || !friends[idx]) return;
 
-// ========== إعادة الترجمة عند تغيير اللغة ==========
-const originalApplyTranslations = window.applyTranslations;
-window.applyTranslations = function() {
-    if (originalApplyTranslations) originalApplyTranslations();
-    if (currentChatId) {
-        const conv = conversations.find(c => c.id === currentChatId);
-        if (conv) {
-            chatUserStatus.textContent = conv.online ? tr("online") : tr("offline");
-        }
-    }
-    renderConversations();
-};
-
-// ========== التشغيل ==========
-document.addEventListener("DOMContentLoaded", () => {
-    renderConversations();
-});
-
-// =========================================================
-// فتح محادثة مباشرة إذا كان الرابط يحتوي ?to=USER_ID
-// =========================================================
-async function openChatFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const targetId = params.get('to');
-    if (!targetId) return;
-
-    try {
-        // جلب معلومات المستخدم من Supabase (إذا متوفر)
-        let name = 'User';
-        let avatar = `https://ui-avatars.com/api/?name=User&background=1877f2&color=fff`;
-
-        if (window.supabaseClient) {
-            const { data: profile } = await window.supabaseClient
-                .from('profiles')
-                .select('id, username, full_name, avatar_url')
-                .eq('id', targetId)
-                .single();
-
-            if (profile) {
-                name = profile.full_name || profile.username || 'User';
-                avatar = profile.avatar_url ||
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
-            }
-        }
-
-        // هل المحادثة موجودة؟
-        let conv = conversations.find(c => c.userId === targetId);
-
+        const f = friends[idx];
+        let conv = conversations.find(c => c.id === f.id);
         if (!conv) {
-            const newId = Math.max(...conversations.map(c => c.id), 0) + 1;
             conv = {
-                id: newId,
-                userId: targetId,
-                name: name,
-                avatar: avatar,
-                online: false,
-                archived: false,
-                unread: 0,
-                messages: []
+                id: f.id, userId: f.id,
+                name: f.full_name || f.username,
+                avatar: f.avatar_url || `https://ui-avatars.com/api/?name=${f.username}&background=1877f2&color=fff`,
+                online: false, archived: false, unread: 0, messages: []
             };
             conversations.unshift(conv);
+            renderConversations();
         }
-
-        renderConversations();
         openChat(conv.id);
-    } catch (error) {
-        console.error('Error opening chat from URL:', error);
-    }
+    };
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(openChatFromUrl, 500);
+// =========================================================
+// INITIALIZE
+// =========================================================
+document.addEventListener("DOMContentLoaded", async () => {
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) {
+        console.warn("No user logged in");
+        return;
+    }
+    currentUserId = user.id;
+
+    await buildConversations();
+    renderConversations();
+    setupRealtime();
+    await openChatFromUrl();
 });
