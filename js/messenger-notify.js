@@ -13,15 +13,41 @@
     const NOTIFY_SOUND = "data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA..."; 
     // ↑ ضع رابط صوت حقيقي أو base64
 
-    function playSound() {
-        try {
-            const audio = new Audio("/sounds/notification.mp3");
-            audio.volume = 0.6;
-            audio.play().catch(e => console.warn("sound blocked:", e));
-        } catch (e) {
-            console.warn("sound error:", e);
-        }
+   function playSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // نغمة ding (نغمتان قصيرتان)
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        // النغمة الأولى: 880Hz (A5)
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(880, audioCtx.currentTime);
+
+        // النغمة الثانية: 1174Hz (D6)
+        osc2.type = "sine";
+        osc2.frequency.setValueAtTime(1174, audioCtx.currentTime + 0.1);
+
+        // التحكم بالصوت (fade out)
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+        osc1.start(audioCtx.currentTime);
+        osc1.stop(audioCtx.currentTime + 0.15);
+        osc2.start(audioCtx.currentTime + 0.1);
+        osc2.stop(audioCtx.currentTime + 0.4);
+
+        console.log("🔊 Sound played (Web Audio API)");
+    } catch (e) {
+        console.warn("sound error:", e);
     }
+}
 
     async function requestBrowserPermission() {
         if (!("Notification" in window)) return false;
