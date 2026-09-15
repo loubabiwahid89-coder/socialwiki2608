@@ -92,6 +92,33 @@
     </script>
     <script src="js/messenger.js"></script>
           
+<script>
+    // تحديث اسم المستخدم في الهيدر
+    (async function() {
+        try {
+            const { data: { user } } = await window.supabaseClient.auth.getUser();
+            if (!user) return;
 
+            const { data: profile } = await window.supabaseClient
+                .from("profiles")
+                .select("username, full_name, avatar_url")
+                .eq("id", user.id)
+                .single();
+
+            if (!profile) return;
+
+            const name = profile.full_name || profile.username || "User";
+            const avatar = profile.avatar_url ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+            const nameEl = document.getElementById("navProfileName");
+            const imgEl = document.getElementById("navProfileImg");
+            if (nameEl) nameEl.textContent = name;
+            if (imgEl) imgEl.src = avatar;
+        } catch (e) {
+            console.warn("nav update error:", e);
+        }
+    })();
+</script>
 </body>
 </html>
