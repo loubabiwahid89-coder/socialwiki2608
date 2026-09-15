@@ -91,7 +91,7 @@ async function loadFriends() {
 // ========== LOAD MESSAGES WITH USER ==========
 async function loadMessagesWith(otherUserId) {
     const { data, error } = await sb
-        .from("messages")
+        .from("chat_messages")
         .select("*")
         .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},receiver_id.eq.${currentUserId})`)
         .order("created_at", { ascending: true });
