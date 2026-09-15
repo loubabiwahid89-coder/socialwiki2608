@@ -1,10 +1,10 @@
-
 // =========================================================
 // SOCIALWIKI MESSENGER
 // MESSENGER.JS
 // REAL-TIME VERSION
 // + UNREAD MESSAGES BADGES
 // + AUTO OPEN USER FROM ?user_id=UUID
+// + TYPING INDICATOR
 // =========================================================
 
 console.log("💬 messenger.js loaded");
@@ -140,8 +140,6 @@ const DEFAULT_AVATAR =
 
 // =========================================================
 // GET USER ID FROM URL
-// Contact Seller sends:
-// messenger.html?user_id=SELLER_UUID
 // =========================================================
 
 function getTargetUserIdFromUrl() {
@@ -378,7 +376,6 @@ async function loadMessengerFriends() {
 
 // =========================================================
 // LOAD TARGET USER FROM URL
-// Used by Contact Seller
 // =========================================================
 
 async function openTargetUserFromUrl() {
@@ -401,11 +398,6 @@ async function openTargetUserFromUrl() {
         targetUserId
     );
 
-
-    // ---------------------------------------------
-    // Prevent opening our own profile
-    // ---------------------------------------------
-
     if (
         currentUser &&
         targetUserId === currentUser.id
@@ -418,11 +410,6 @@ async function openTargetUserFromUrl() {
         return;
 
     }
-
-
-    // ---------------------------------------------
-    // First check loaded friends
-    // ---------------------------------------------
 
     const existingFriend =
         friends.find(
@@ -444,11 +431,6 @@ async function openTargetUserFromUrl() {
         return;
 
     }
-
-
-    // ---------------------------------------------
-    // If not a friend, load profile directly
-    // ---------------------------------------------
 
     console.log(
         "🔎 Target user is not in friends list. Loading profile..."
@@ -496,11 +478,6 @@ async function openTargetUserFromUrl() {
 
         }
 
-
-        // ---------------------------------------------
-        // Add temporary target to current list
-        // ---------------------------------------------
-
         const alreadyExists =
             friends.some(
                 friend =>
@@ -517,16 +494,10 @@ async function openTargetUserFromUrl() {
 
         }
 
-
         console.log(
             "✅ Target seller profile loaded:",
             profile
         );
-
-
-        // ---------------------------------------------
-        // Render and automatically select
-        // ---------------------------------------------
 
         renderFriends(
             getCurrentDisplayedFriends()
@@ -1492,7 +1463,7 @@ async function markMessagesAsRead() {
 
 
 // =========================================================
-// REALTIME MESSAGES
+// REALTIME MESSAGES + TYPING
 // =========================================================
 
 function setupRealtimeMessages() {
@@ -1667,6 +1638,75 @@ function setupRealtimeMessages() {
 
                 }
             )
+            .on(
+                "broadcast",
+                { event: "typing" },
+                payload => {
+
+                    console.log(
+                        "⌨️ Typing event received:",
+                        payload
+                    );
+
+                    if (
+                        !payload ||
+                        !payload.payload
+                    ) {
+                        return;
+                    }
+
+                    if (
+                        payload.payload.userId ===
+                        selectedFriend.id
+                    ) {
+
+                        if (chatUserStatus) {
+
+                            chatUserStatus.textContent =
+                                "typing...";
+
+                            chatUserStatus.style.color =
+                                "#1877f2";
+
+                            chatUserStatus.style.fontStyle =
+                                "italic";
+
+                            clearTimeout(
+                                window._typingResetTimer
+                            );
+
+                            window._typingResetTimer =
+                                setTimeout(
+                                    () => {
+
+                                        if (
+                                            chatUserStatus
+                                        ) {
+
+                                            chatUserStatus.textContent =
+                                                selectedFriend.username
+                                                    ? "@" +
+                                                      selectedFriend.username
+                                                    : "Friend";
+
+                                            chatUserStatus.style.color =
+                                                "";
+
+                                            chatUserStatus.style.fontStyle =
+                                                "";
+
+                                        }
+
+                                    },
+                                    2500
+                                );
+
+                        }
+
+                    }
+
+                }
+            )
             .subscribe(
                 status => {
 
@@ -1690,7 +1730,6 @@ function setupRealtimeMessages() {
             );
 
 }
-
 
 // =========================================================
 // SHOW WELCOME
@@ -1875,6 +1914,59 @@ if (messageInput) {
         }
     );
 
+    // =========================================================
+    // SEND TYPING EVENT
+    // =========================================================
+
+    let typingBroadcastTimeout = null;
+
+    messageInput.addEventListener("input", () => {
+
+        if (
+            !realtimeChannel ||
+            !currentUser ||
+            !selectedFriend
+        ) {
+            return;
+        }
+
+        if (!typingBroadcastTimeout) {
+
+            try {
+
+                realtimeChannel.send({
+                    type: "broadcast",
+                    event: "typing",
+                    payload: {
+                        userId: currentUser.id
+                    }
+                });
+
+                console.log(
+                    "⌨️ Typing event sent"
+                );
+
+            } catch (e) {
+
+                console.warn(
+                    "Typing send error:",
+                    e
+                );
+
+            }
+
+            typingBroadcastTimeout =
+                setTimeout(
+                    () => {
+                        typingBroadcastTimeout = null;
+                    },
+                    2000
+                );
+
+        }
+
+    });
+
 }
 
 
@@ -1982,3 +2074,345 @@ console.log(
     "✅ MESSENGER REALTIME + UNREAD SYSTEM READY"
 );
 
+// =========================================================
+// SHOW WELCOME
+// =========================================================
+
+function showWelcome() {
+
+    if (!messagesContainer) {
+        return;
+    }
+
+    messagesContainer.innerHTML = `
+
+        <div class="chat-welcome">
+
+            <div class="chat-welcome-icon">
+                💬
+            </div>
+
+            <h2>
+                Welcome to Messenger
+            </h2>
+
+            <p>
+                Select a friend to start a conversation.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+// =========================================================
+// FORMAT MESSAGE TIME
+// =========================================================
+
+function formatMessageTime(
+    dateString
+) {
+
+    if (!dateString) {
+        return "";
+    }
+
+    const date =
+        new Date(
+            dateString
+        );
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+    return date.toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+// =========================================================
+// ESCAPE HTML
+// =========================================================
+
+function escapeHtml(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(value)
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+// =========================================================
+// SEARCH EVENT
+// =========================================================
+
+if (messengerSearch) {
+
+    messengerSearch.addEventListener(
+        "input",
+        searchMessengerFriends
+    );
+
+}
+
+
+// =========================================================
+// MESSAGE FORM
+// =========================================================
+
+if (messageForm) {
+
+    messageForm.addEventListener(
+        "submit",
+        async function (
+            event
+        ) {
+
+            event.preventDefault();
+
+            await sendMessage();
+
+        }
+    );
+
+}
+
+
+// =========================================================
+// ENTER TO SEND
+// =========================================================
+
+if (messageInput) {
+
+    messageInput.addEventListener(
+        "keydown",
+        function (
+            event
+        ) {
+
+            if (
+                event.key ===
+                    "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                if (
+                    sendMessageButton &&
+                    !sendMessageButton.disabled
+                ) {
+
+                    messageForm.requestSubmit();
+
+                }
+
+            }
+
+        }
+    );
+
+    // =========================================================
+    // SEND TYPING EVENT
+    // =========================================================
+
+    let typingBroadcastTimeout = null;
+
+    messageInput.addEventListener("input", () => {
+
+        if (
+            !realtimeChannel ||
+            !currentUser ||
+            !selectedFriend
+        ) {
+            return;
+        }
+
+        if (!typingBroadcastTimeout) {
+
+            try {
+
+                realtimeChannel.send({
+                    type: "broadcast",
+                    event: "typing",
+                    payload: {
+                        userId: currentUser.id
+                    }
+                });
+
+                console.log(
+                    "⌨️ Typing event sent"
+                );
+
+            } catch (e) {
+
+                console.warn(
+                    "Typing send error:",
+                    e
+                );
+
+            }
+
+            typingBroadcastTimeout =
+                setTimeout(
+                    () => {
+                        typingBroadcastTimeout = null;
+                    },
+                    2000
+                );
+
+        }
+
+    });
+
+}
+
+
+// =========================================================
+// CLEANUP REALTIME
+// =========================================================
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        if (
+            realtimeChannel &&
+            messengerSupabase
+        ) {
+
+            messengerSupabase.removeChannel(
+                realtimeChannel
+            );
+
+        }
+
+    }
+);
+
+
+// =========================================================
+// INITIALIZE MESSENGER
+// =========================================================
+
+async function initializeMessenger() {
+
+    console.log(
+        "🚀 Initializing Messenger..."
+    );
+
+    if (!messengerSupabase) {
+
+        console.error(
+            "❌ Messenger Supabase is not available"
+        );
+
+        return;
+    }
+
+    currentUser =
+        await getCurrentUser();
+
+    if (!currentUser) {
+
+        console.warn(
+            "⚠️ No logged-in user"
+        );
+
+        if (messengerFriends) {
+
+            messengerFriends.innerHTML = `
+                <div class="messenger-empty">
+                    Please log in to use Messenger.
+                </div>
+            `;
+
+        }
+
+        return;
+    }
+
+    console.log(
+        "👤 Messenger user:",
+        currentUser.id
+    );
+
+    // ---------------------------------------------
+    // LOAD NORMAL FRIENDS
+    // ---------------------------------------------
+
+    await loadMessengerFriends();
+
+
+    // ---------------------------------------------
+    // AUTO OPEN CONTACT SELLER
+    // ---------------------------------------------
+
+    await openTargetUserFromUrl();
+
+
+    console.log(
+        "⚡ Messenger unread system ready"
+    );
+
+    console.log(
+        "⚡ Messenger initialized"
+    );
+
+}
+
+
+// =========================================================
+// START
+// =========================================================
+
+initializeMessenger();
+
+console.log(
+    "✅ MESSENGER REALTIME + UNREAD SYSTEM READY"
+);
