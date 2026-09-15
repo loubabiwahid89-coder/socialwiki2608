@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <link rel="stylesheet" href="messenger.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+            <li><a href="messenger.html" title="Messenger">💬</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- MESSENGER PAGE -->
+    <div class="messenger-page">
+
+        <aside class="messenger-sidebar">
+            <div class="messenger-title">
+                <a href="index.html" class="messenger-home-button">← Home</a>
+                <h1>Messenger</h1>
+            </div>
+
+            <div class="messenger-search">
+                <input type="text" id="messengerSearch" placeholder="Search friends..." autocomplete="off">
+            </div>
+
+            <div class="messenger-friends" id="messengerFriends">
+                <div class="messenger-empty">Loading friends...</div>
+            </div>
+        </aside>
+
+        <main class="messenger-chat">
+
+            <div class="chat-header">
+                <div class="chat-user">
+                    <img id="chatUserAvatar" src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" alt="User">
+                    <div>
+                        <h2 id="chatUserName">Select a conversation</h2>
+                        <span id="chatUserStatus">Choose a friend to start chatting</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="chat-welcome">
+                    <div class="chat-welcome-icon">💬</div>
+                    <h2>Welcome to Messenger</h2>
+                    <p>Select a friend from the list to start chatting.</p>
+                </div>
+            </div>
+
+            <form class="message-form" id="messageForm">
+                <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" disabled>
+                <button type="submit" id="sendMessageButton" disabled>Send</button>
+            </form>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.supabaseClient = window.supabase.createClient(
+            "https://hvslktufqrgdgrgxmvcm.supabase.co",
+            "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT"
+        );
+
+        function logout() {
+            window.supabaseClient.auth.signOut().then(() => {
+                window.location.href = "auth.html";
+            });
+        }
+    </script>
+    <script src="js/messenger.js"></script>
+</body>
+</html>

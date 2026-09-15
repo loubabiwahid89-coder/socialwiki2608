@@ -566,7 +566,7 @@ async function loadUnreadMessages() {
             error
         } =
             await messengerSupabase
-                .from("messages")
+                .from("chat_messages")
                 .select(`
                     id,
                     sender_id
@@ -1119,7 +1119,7 @@ async function loadMessages() {
             error
         } =
             await messengerSupabase
-                .from("messages")
+                .from("chat_messages")
                 .select(`
                     id,
                     sender_id,
@@ -1365,7 +1365,7 @@ async function sendMessage() {
             error
         } =
             await messengerSupabase
-                .from("messages")
+                .from("chat_messages")
                 .insert({
 
                     sender_id:
@@ -1453,7 +1453,7 @@ async function markMessagesAsRead() {
             error
         } =
             await messengerSupabase
-                .from("messages")
+                .from("chat_messages")
                 .update({
                     is_read: true
                 })
