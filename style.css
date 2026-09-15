@@ -1255,3 +1255,28 @@ body {
     .share-buttons { flex-direction: column; }
     .share-btn { width: 100%; }
 }
+
+.messenger-unread-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e53935;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 999px;
+    border: 2px solid #ffffff;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+a[href*="messenger"] {
+    position: relative;
+}

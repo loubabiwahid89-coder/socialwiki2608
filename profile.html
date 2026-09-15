@@ -938,15 +938,14 @@
         // =========================================================
         // SEND MESSAGE → Redirect to messages.html
         // =========================================================
-        function sendMessage() {
-            const targetUserId = profileUserId || getUserIdFromUrl();
-            if (targetUserId) {
-                window.location.href = `messages.html?to=${targetUserId}`;
-            } else {
-                window.location.href = `messages.html`;
-            }
-        }
-        
+       function sendMessage() {
+    const targetUserId = profileUserId || getUserIdFromUrl();
+    if (targetUserId) {
+        window.location.href = `messenger.html?user_id=${targetUserId}`;
+    } else {
+        window.location.href = `messenger.html`;
+    }
+}
         // =========================================================
         // TAB SWITCHING
         // =========================================================
@@ -1301,6 +1300,7 @@
         window.showTab = showTab;
         window.logout = logout;
     </script>
+      <script src="js/messenger-notify.js"></script>  
     
 </body>
 </html>
