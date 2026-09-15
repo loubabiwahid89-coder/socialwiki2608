@@ -362,6 +362,7 @@
                 <button onclick="changeAuthLanguage('ru')">🇷🇺 Русский</button>
                 <button onclick="changeAuthLanguage('tr')">🇹🇷 Türkçe</button>
                 <button onclick="changeAuthLanguage('hi')">🇮🇳 हिन्दी</button>
+                <button onclick="changeAuthLanguage('tl')">🇵🇭 Tagalog</button>
             </div>
         </div>
 
@@ -481,8 +482,10 @@
                 ar: 'العربية', fr: 'Français', en: 'English',
                 es: 'Español', de: 'Deutsch', it: 'Italiano',
                 ja: '日本語', zh: '中文', ko: '한국어',
-                ru: 'Русский', tr: 'Türkçe', hi: 'हिन्दी'
-            };
+                ru: 'Русский', tr: 'Türkçe', hi: 'हिन्दी',
+                 tl: 'Tagalog'  // ← أضف هذا
+};
+            
             document.getElementById('currentAuthLangLabel').textContent = langNames[lang] || 'العربية';
 
             // Direction
