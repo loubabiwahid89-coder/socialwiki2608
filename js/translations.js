@@ -476,7 +476,11 @@ const translations = {
         "unread": "غير مقروء",
         "all_messages": "كل الرسائل",
         "archived_messages": "المؤرشفة",
-        "online_users": "المستخدمون المتصلون"
+        "online_users": "المستخدمون المتصلون",
+        "watch_ad_btn": "🎬 شاهد الإعلان",
+        "watch_ad_btn": "🎬 شاهد الإعلان واربح 5 نقاط",
+        "earn_points_title": "🎁 اربح نقاطاً من كل نشاط!",
+"earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!",
     },
 
     fr: {
@@ -771,6 +775,7 @@ const translations = {
         "watch_ad_earn": "💰 Regardez une pub et gagnez 5 points",
         "watch_ad_desc": "Regardez une courte pub et gagnez 5 points gratuits",
         "watch_ad_btn": "🎬 Regarder la pub",
+        "watch_ad_btn": "🎬 شاهد الإعلان واربح 5 نقاط",
 
         "games_title": "🎮 Jeux",
         "games_subtitle": "Jouez et défiez vos amis",
@@ -932,6 +937,9 @@ const translations = {
         "all_messages": "Tous les messages",
         "archived_messages": "Archivés",
         "online_users": "Utilisateurs en ligne",
+        "watch_ad_btn": "🎬 Regardez la pub et gagnez 5 points",
+        "earn_points_title": "🎁 اربح نقاطاً من كل نشاط!",
+"earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!",
     },
     
     en: {
@@ -1407,6 +1415,9 @@ const translations = {
         "all_messages": "All messages",
         "archived_messages": "Archived",
         "online_users": "Online users",
+        "watch_ad_btn": "🎬 Watch Ad & Earn 5 Points",
+        "earn_points_title": "🎁 Earn Points from Every Activity!",
+"earn_points_subtitle": "Invite friends with your referral code — get 50 points per friend!",
     },
     
     es: {
@@ -1862,6 +1873,9 @@ const translations = {
         "all_messages": "Todos los mensajes",
         "archived_messages": "Archivados",
         "online_users": "Usuarios en línea",
+        "watch_ad_btn": "🎬 Ver anuncio y ganar 5 puntos",
+        "earn_points_title": "🎁 ¡Gana puntos con cada actividad!",
+"earn_points_subtitle": "¡Invita a tus amigos con tu código de referido — 50 puntos por amigo!",
     },
     
     de: {
@@ -2317,6 +2331,9 @@ const translations = {
         "all_messages": "Alle Nachrichten",
         "archived_messages": "Archiviert",
         "online_users": "Benutzer online",
+        "watch_ad_btn": "🎬 Anzeige ansehen und 5 Punkte verdienen",
+        "earn_points_title": "🎁 Verdiene Punkte bei jeder Aktivität!",
+"earn_points_subtitle": "Lade Freunde mit deinem Empfehlungscode ein — 50 Punkte pro Freund!",
     },
     
     it: {
@@ -2772,6 +2789,9 @@ const translations = {
         "all_messages": "Tutti i messaggi",
         "archived_messages": "Archiviati",
         "online_users": "Utenti online",
+        "watch_ad_btn": "🎬 Guarda l'annuncio e guadagna 5 punti",
+        "earn_points_title": "🎁 Guadagna punti con ogni attività!",
+"earn_points_subtitle": "Invita i tuoi amici con il tuo codice referral — 50 punti per amico!",
     },
     
     ja: {
@@ -3227,6 +3247,9 @@ const translations = {
         "all_messages": "すべてのメッセージ",
         "archived_messages": "アーカイブ済み",
         "online_users": "オンラインユーザー",
+        "watch_ad_btn": "🎬 広告を見て5ポイント獲得",
+        "earn_points_title": "🎁 あらゆる活動でポイントを獲得！",
+"earn_points_subtitle": "紹介コードで友達を招待 — 友達1人につき50ポイント！",
     },
     
     zh: {
@@ -3682,6 +3705,9 @@ const translations = {
         "all_messages": "所有消息",
         "archived_messages": "已归档",
         "online_users": "在线用户",
+        "watch_ad_btn": "🎬 观看广告赚取5积分",
+        "earn_points_title": "🎁 每项活动都能赚取积分！",
+"earn_points_subtitle": "使用推荐码邀请好友 — 每位好友50积分！",
     },
     
     ko: {
@@ -4137,6 +4163,9 @@ const translations = {
         "all_messages": "모든 메시지",
         "archived_messages": "보관됨",
         "online_users": "온라인 사용자",
+        "watch_ad_btn": "🎬 광고 보고 5포인트 받기",
+        "earn_points_title": "🎁 모든 활동에서 포인트를 획득하세요!",
+"earn_points_subtitle": "추천 코드로 친구를 초대하세요 — 친구당 50포인트!",
     },
     
     ru: {
@@ -4592,6 +4621,9 @@ const translations = {
         "all_messages": "Все сообщения",
         "archived_messages": "Архив",
         "online_users": "Пользователи онлайн",
+        "watch_ad_btn": "🎬 Смотреть рекламу и получить 5 баллов",
+        "earn_points_title": "🎁 Получайте баллы за каждое действие!",
+"earn_points_subtitle": "Пригласите друзей с вашим реферальным кодом — 50 баллов за друга!",
     },
     
     tr: {
@@ -5047,6 +5079,9 @@ const translations = {
         "all_messages": "Tüm mesajlar",
         "archived_messages": "Arşivlenmiş",
         "online_users": "Çevrimiçi kullanıcılar",
+        "watch_ad_btn": "🎬 Reklam izle ve 5 puan kazan",
+        "earn_points_title": "🎁 Her etkinlikten puan kazan!",
+"earn_points_subtitle": "Referans kodunla arkadaşlarını davet et — arkadaş başına 50 puan!",
     },
     
     hi: {
@@ -5502,9 +5537,11 @@ const translations = {
         "all_messages": "सभी संदेश",
         "archived_messages": "संग्रहीत",
         "online_users": "ऑनलाइन उपयोगकर्ता",
+        "watch_ad_btn": "🎬 विज्ञापन देखें और 5 अंक कमाएं",
+        "earn_points_title": "🎁 हर गतिविधि से अंक कमाएं!",
+"earn_points_subtitle": "अपने रेफ़रल कोड से दोस्तों को आमंत्रित करें — हर दोस्त पर 50 अंक!",
     },
-            "online_users": "Mga online na user",
-    },
+     
 
     fil: {
         // ==================== NAVIGATION ====================
@@ -5968,6 +6005,9 @@ const translations = {
         "all_messages": "Lahat ng mensahe",
         "archived_messages": "Naka-archive",
         "online_users": "Mga online na user",
+        "watch_ad_btn": "🎬 Manood ng Ad at Kumita ng 5 Puntos",
+        "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
+"earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!",
     },
 
     
@@ -6444,6 +6484,9 @@ const translations = {
         "all_messages": "Lahat ng mensahe",
         "archived_messages": "Naka-archive",
         "online_users": "Mga online na user",
+        "watch_ad_btn": "🎬 Manood ng Ad at Kumita ng 5 Puntos",
+        "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
+"earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!",
     },
 };
 
