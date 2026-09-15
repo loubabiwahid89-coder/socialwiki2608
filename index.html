@@ -42,7 +42,7 @@
             </a>
             <div class="language-selector">
                 <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
-                <div class="language-menu" id="languageMenu">
+                <div class="language-menu" id="languageMenu" style="max-height: 70vh; overflow-y: auto;"></div>
                     <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
                     <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
                     <button onclick="changeLanguage('en')">🇬🇧 English</button>
@@ -55,6 +55,7 @@
                     <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
                     <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
                     <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
                 </div>
             </div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
