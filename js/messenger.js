@@ -1545,7 +1545,7 @@ function setupRealtimeMessages() {
                 {
                     event: "INSERT",
                     schema: "public",
-                    table: "messages"
+                    table: "chat_messages"
                 },
                 async payload => {
 
