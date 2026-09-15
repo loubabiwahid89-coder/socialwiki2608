@@ -880,17 +880,23 @@
         // =========================================================
         // EDIT PROFILE
         // =========================================================
-        async function editProfile() {
-            const name = prompt("Enter your new display name:");
-            if (name) await updateProfile({ full_name: name });
-            
-            const username = prompt("Enter your new username:");
-            if (username) await updateProfile({ username: username });
-            
-            const bio = prompt("Enter your new bio:");
-            if (bio) await updateProfile({ bio: bio });
-        }
-        
+       async function editProfile() {
+    // 🔒 حماية: لا يمكنك تعديل إلا ملفك
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user || profileUserId !== user.id) {
+        alert("❌ You can only edit your own profile");
+        return;
+    }
+    
+    const name = prompt("Enter your new display name:"); async function checkFriendshipStatus
+    if (name) await updateProfile({ full_name: name });
+    
+    const username = prompt("Enter your new username:");
+    if (username) await updateProfile({ username: username });
+    
+    const bio = prompt("Enter your new bio:");
+    if (bio) await updateProfile({ bio: bio });
+}
         async function updateProfile(updates) {
             try {
                 if (updates.username) {
@@ -1055,249 +1061,256 @@ function sendMessage() {
         // 🆕 FRIEND SYSTEM
         // =========================================================
         
-        // تحقق من حالة الصداقة
-        async function checkFriendshipStatus() {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
-                
-                currentUserId = user.id;
-                
-                // احصل على elements
-                const addBtn = document.getElementById('addFriendBtn');
-                const sentBtn = document.getElementById('requestSentBtn');
-                const actionsBtn = document.getElementById('friendActionsBtn');
-                
-                if (!addBtn || !sentBtn || !actionsBtn) return;
-                
-                // إذا كنت في صفحتك → أخفِ كل الأزرار
-                if (profileUserId === currentUserId) {
-                    addBtn.style.display = 'none';
-                    sentBtn.style.display = 'none';
-                    actionsBtn.style.display = 'none';
-                    return;
-                }
-                
-                // 1. هل هم أصدقاء بالفعل؟
-                const { data: friend } = await supabaseClient
-                    .from('friends')
-                    .select('id')
-                    .eq('user_id', currentUserId)
-                    .eq('friend_id', profileUserId)
-                    .maybeSingle();
-                
-                if (friend) {
-                    addBtn.style.display = 'none';
-                    sentBtn.style.display = 'none';
-                    actionsBtn.style.display = 'inline-flex';
-                    return;
-                }
-                
-                // 2. هل هناك طلب معلّق؟
-                const { data: request } = await supabaseClient
-                    .from('friend_requests')
-                    .select('id, sender_id')
-                    .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
-                    .eq('status', 'pending')
-                    .maybeSingle();
-                
-                if (request) {
-                    if (request.sender_id === currentUserId) {
-                        // أنا أرسلت الطلب
-                        addBtn.style.display = 'none';
-                        sentBtn.style.display = 'inline-flex';
-                        actionsBtn.style.display = 'none';
-                    } else {
-                        // هو أرسل لي طلب → Accept / Reject
-                        addBtn.style.display = 'none';
-                        sentBtn.style.display = 'none';
-                        actionsBtn.style.display = 'none';
-                        showFriendRequestActions(request.id);
-                    }
-                    return;
-                }
-                
-                // 3. لا شيء → "Add Friend"
-                addBtn.style.display = 'inline-flex';
+       async function checkFriendshipStatus() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        currentUserId = user.id;
+        
+        const addBtn = document.getElementById('addFriendBtn');
+        const sentBtn = document.getElementById('requestSentBtn');
+        const actionsBtn = document.getElementById('friendActionsBtn');
+        const editBtn = document.querySelector('.edit-btn');
+        const messageBtn = document.querySelector('.message-btn');
+        
+        if (!addBtn || !sentBtn || !actionsBtn) return;
+        
+        // إذا كنت في صفحتك → أخفِ أزرار الصداقة وأظهر Edit
+        if (profileUserId === currentUserId) {
+            addBtn.style.display = 'none';
+            sentBtn.style.display = 'none';
+            actionsBtn.style.display = 'none';
+            if (editBtn) editBtn.style.display = 'inline-flex';
+            if (messageBtn) messageBtn.style.display = 'none';
+            return;
+        }
+        
+        // إذا كنت في صفحة شخص آخر → أخفِ Edit وأظهر Message
+        if (editBtn) editBtn.style.display = 'none';
+        if (messageBtn) messageBtn.style.display = 'inline-flex';
+        
+        // 1. هل هم أصدقاء بالفعل؟
+        const { data: friend } = await supabaseClient
+            .from('friends')
+            .select('id')
+            .eq('user_id', currentUserId)
+            .eq('friend_id', profileUserId)
+            .maybeSingle();
+        
+        if (friend) {
+            addBtn.style.display = 'none';
+            sentBtn.style.display = 'none';
+            actionsBtn.style.display = 'inline-flex';
+            return;
+        }
+        
+        // 2. هل هناك طلب معلّق؟
+        const { data: request } = await supabaseClient
+            .from('friend_requests')
+            .select('id, sender_id')
+            .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
+            .eq('status', 'pending')
+            .maybeSingle();
+        
+        if (request) {
+            if (request.sender_id === currentUserId) {
+                addBtn.style.display = 'none';
+                sentBtn.style.display = 'inline-flex';
+                actionsBtn.style.display = 'none';
+            } else {
+                addBtn.style.display = 'none';
                 sentBtn.style.display = 'none';
                 actionsBtn.style.display = 'none';
-                
-            } catch (error) {
-                console.error('Error checking friendship:', error);
+                showFriendRequestActions(request.id);
             }
+            return;
         }
         
-        // إرسال طلب صداقة
-        async function sendFriendRequest() {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) {
-                    alert('Please login first');
-                    return;
-                }
-                
-                if (!profileUserId || profileUserId === user.id) return;
-                
-                const { error } = await supabaseClient
-                    .from('friend_requests')
-                    .insert({
-                        sender_id: user.id,
-                        receiver_id: profileUserId,
-                        status: 'pending'
-                    });
-                
-                if (error) {
-                    if (error.code === '23505') {
-                        alert('You already sent a request');
-                    } else {
-                        alert('Error: ' + error.message);
-                    }
-                    return;
-                }
-                
-                // إرسال إشعار
-                const { data: senderProfile } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name')
-                    .eq('id', user.id)
-                    .single();
-                
-                const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
-                
-                await supabaseClient
-                    .from('notifications')
-                    .insert({
-                        receiver_id: profileUserId,
-                        sender_id: user.id,
-                        type: 'friend_request',
-                        message: `👥 ${senderName} sent you a friend request`,
-                        is_read: false
-                    });
-                
-                alert('✅ Friend request sent!');
-                
-                document.getElementById('addFriendBtn').style.display = 'none';
-                document.getElementById('requestSentBtn').style.display = 'inline-flex';
-                
-            } catch (error) {
-                console.error('Error sending request:', error);
+        // 3. لا شيء → "Add Friend"
+        addBtn.style.display = 'inline-flex';
+        sentBtn.style.display = 'none';
+        actionsBtn.style.display = 'none';
+        
+    } catch (error) {
+        console.error('Error checking friendship:', error);
+    }
+}
+
+// =========================================================
+// إرسال طلب صداقة
+// =========================================================
+async function sendFriendRequest() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Please login first');
+            return;
+        }
+        
+        if (!profileUserId || profileUserId === user.id) return;
+        
+        const { error } = await supabaseClient
+            .from('friend_requests')
+            .insert({
+                sender_id: user.id,
+                receiver_id: profileUserId,
+                status: 'pending'
+            });
+        
+        if (error) {
+            if (error.code === '23505') {
+                alert('You already sent a request');
+            } else {
                 alert('Error: ' + error.message);
             }
+            return;
         }
         
-        // عرض أزرار Accept/Reject
-        function showFriendRequestActions(requestId) {
-            const actionsDiv = document.querySelector('.profile-actions');
-            if (!actionsDiv) return;
-            
-            // احذف أي أزرار قديمة
-            document.getElementById('acceptBtn')?.remove();
-            document.getElementById('rejectBtn')?.remove();
-            
-            const acceptBtn = document.createElement('button');
-            acceptBtn.id = 'acceptBtn';
-            acceptBtn.textContent = '✅ Accept';
-            acceptBtn.style.background = '#28a745';
-            acceptBtn.style.color = 'white';
-            acceptBtn.onclick = () => acceptFriendRequest(requestId);
-            
-            const rejectBtn = document.createElement('button');
-            rejectBtn.id = 'rejectBtn';
-            rejectBtn.textContent = '❌ Reject';
-            rejectBtn.style.background = '#dc3545';
-            rejectBtn.style.color = 'white';
-            rejectBtn.onclick = () => rejectFriendRequest(requestId);
-            
-            actionsDiv.insertBefore(acceptBtn, actionsDiv.firstChild);
-            actionsDiv.insertBefore(rejectBtn, acceptBtn.nextSibling);
-        }
+        // إرسال إشعار
+        const { data: senderProfile } = await supabaseClient
+            .from('profiles')
+            .select('username, full_name')
+            .eq('id', user.id)
+            .single();
         
-        // قبول طلب
-        async function acceptFriendRequest(requestId) {
-            try {
-                const { error } = await supabaseClient.rpc('accept_friend_request', {
-                    p_request_id: requestId
-                });
-                
-                if (error) {
-                    alert('Error: ' + error.message);
-                    return;
-                }
-                
-                alert('✅ Friend request accepted!');
-                window.location.reload();
-                
-            } catch (error) {
-                console.error('Error accepting request:', error);
-                alert('Error: ' + error.message);
-            }
-        }
+        const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
         
-        // رفض طلب
-        async function rejectFriendRequest(requestId) {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                const { error } = await supabaseClient
-                    .from('friend_requests')
-                    .update({ status: 'rejected', updated_at: new Date() })
-                    .eq('id', requestId)
-                    .eq('receiver_id', user.id);
-                
-                if (error) {
-                    alert('Error: ' + error.message);
-                    return;
-                }
-                
-                alert('❌ Friend request rejected');
-                window.location.reload();
-                
-            } catch (error) {
-                console.error('Error rejecting:', error);
-            }
-        }
+        await supabaseClient
+            .from('notifications')
+            .insert({
+                receiver_id: profileUserId,
+                sender_id: user.id,
+                type: 'friend_request',
+                message: `👥 ${senderName} sent you a friend request`,
+                is_read: false
+            });
         
-        // =========================================================
-        // 🆕 INITIALIZE
-        // =========================================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🔴 profile.html loaded');
-            
-            // تطبيق اللغة
-            if (typeof getCurrentLanguage === 'function') {
-                const lang = getCurrentLanguage();
-                setLanguage(lang);
-                applyTranslations();
-            }
-            
-            // تحديد profileUserId
-            profileUserId = getUserIdFromUrl();
-            
-            if (!profileUserId) {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                profileUserId = user?.id;
-            }
-            
-            // تحميل الملف
-            await loadProfile();
-            
-            // 🆕 تحقق من حالة الصداقة بعد تحميل الصفحة
-            setTimeout(checkFriendshipStatus, 500);
+        alert('✅ Friend request sent!');
+        
+        document.getElementById('addFriendBtn').style.display = 'none';
+        document.getElementById('requestSentBtn').style.display = 'inline-flex';
+        
+    } catch (error) {
+        console.error('Error sending request:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+// =========================================================
+// عرض أزرار Accept / Reject
+// =========================================================
+function showFriendRequestActions(requestId) {
+    const actionsDiv = document.querySelector('.profile-actions');
+    if (!actionsDiv) return;
+    
+    document.getElementById('acceptBtn')?.remove();
+    document.getElementById('rejectBtn')?.remove();
+    
+    const acceptBtn = document.createElement('button');
+    acceptBtn.id = 'acceptBtn';
+    acceptBtn.textContent = '✅ Accept';
+    acceptBtn.style.background = '#28a745';
+    acceptBtn.style.color = 'white';
+    acceptBtn.onclick = () => acceptFriendRequest(requestId);
+    
+    const rejectBtn = document.createElement('button');
+    rejectBtn.id = 'rejectBtn';
+    rejectBtn.textContent = '❌ Reject';
+    rejectBtn.style.background = '#dc3545';
+    rejectBtn.style.color = 'white';
+    rejectBtn.onclick = () => rejectFriendRequest(requestId);
+    
+    actionsDiv.insertBefore(acceptBtn, actionsDiv.firstChild);
+    actionsDiv.insertBefore(rejectBtn, acceptBtn.nextSibling);
+}
+
+// =========================================================
+// قبول طلب
+// =========================================================
+async function acceptFriendRequest(requestId) {
+    try {
+        const { error } = await supabaseClient.rpc('accept_friend_request', {
+            p_request_id: requestId
         });
         
-        // =========================================================
-        // MAKE FUNCTIONS GLOBAL
-        // =========================================================
-        window.sendFriendRequest = sendFriendRequest;
-        window.acceptFriendRequest = acceptFriendRequest;
-        window.rejectFriendRequest = rejectFriendRequest;
-        window.checkFriendshipStatus = checkFriendshipStatus;
-        window.editProfile = editProfile;
-        window.sendMessage = sendMessage;
-        window.changeAvatar = changeAvatar;
-        window.changeCover = changeCover;
-        window.showTab = showTab;
-        window.logout = logout;
+        if (error) {
+            alert('Error: ' + error.message);
+            return;
+        }
+        
+        alert('✅ Friend request accepted!');
+        window.location.reload();
+        
+    } catch (error) {
+        console.error('Error accepting request:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+// =========================================================
+// رفض طلب
+// =========================================================
+async function rejectFriendRequest(requestId) {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        
+        const { error } = await supabaseClient
+            .from('friend_requests')
+            .update({ status: 'rejected', updated_at: new Date() })
+            .eq('id', requestId)
+            .eq('receiver_id', user.id);
+        
+        if (error) {
+            alert('Error: ' + error.message);
+            return;
+        }
+        
+        alert('❌ Friend request rejected');
+        window.location.reload();
+        
+    } catch (error) {
+        console.error('Error rejecting:', error);
+    }
+}
+
+// =========================================================
+// INITIALIZE
+// =========================================================
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🔴 profile.html loaded');
+    
+    if (typeof getCurrentLanguage === 'function') {
+        const lang = getCurrentLanguage();
+        setLanguage(lang);
+        applyTranslations();
+    }
+    
+    profileUserId = getUserIdFromUrl();
+    
+    if (!profileUserId) {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        profileUserId = user?.id;
+    }
+    
+    await loadProfile();
+    
+    setTimeout(checkFriendshipStatus, 500);
+});
+
+// =========================================================
+// MAKE FUNCTIONS GLOBAL
+// =========================================================
+window.sendFriendRequest = sendFriendRequest;
+window.acceptFriendRequest = acceptFriendRequest;
+window.rejectFriendRequest = rejectFriendRequest;
+window.checkFriendshipStatus = checkFriendshipStatus;
+window.editProfile = editProfile;
+window.sendMessage = sendMessage;
+window.changeAvatar = changeAvatar;
+window.changeCover = changeCover;
+window.showTab = showTab;
+window.logout = logout;
     </script>
     
 </body>
