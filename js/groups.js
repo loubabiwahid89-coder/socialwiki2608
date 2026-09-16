@@ -7824,11 +7824,63 @@ async function renderGroupPosts(posts, groupId) {
 
     container.innerHTML = "";
 
-    
 
-       container.innerHTML = "";
+    // =====================================================
+    // 🆕 GET GROUP OWNER + CURRENT USER ROLE (once)
+    // =====================================================
 
-posts.forEach(post => {
+    let currentGroupOwnerId = null;
+    let currentUserRole = null;
+
+    try {
+
+        const { data: groupInfo } =
+            await groupsSupabase
+                .from("groups")
+                .select("owner_id")
+                .eq("id", groupId)
+                .maybeSingle();
+
+        currentGroupOwnerId =
+            groupInfo?.owner_id || null;
+
+    } catch (err) {
+
+        console.warn(
+            "⚠️ Could not load group owner:",
+            err
+        );
+    }
+
+    if (
+        currentGroupUser &&
+        String(currentGroupOwnerId) !== String(currentGroupUser.id)
+    ) {
+
+        try {
+
+            const { data: membership } =
+                await groupsSupabase
+                    .from("group_members")
+                    .select("role")
+                    .eq("group_id", groupId)
+                    .eq("user_id", currentGroupUser.id)
+                    .maybeSingle();
+
+            currentUserRole =
+                membership?.role || null;
+
+        } catch (err) {
+
+            console.warn(
+                "⚠️ Could not load user role:",
+                err
+            );
+        }
+    }
+
+
+    posts.forEach(post => {
 
         const profile = post.profiles || {};
 
@@ -7987,7 +8039,7 @@ posts.forEach(post => {
                     margin-bottom:12px;
                 "
             >
-               new Date(post.created_at.includes('Z') ? post.created_at : post.created_at + 'Z').toLocaleString()
+               ${new Date(post.created_at?.includes('Z') ? post.created_at : (post.created_at || '') + 'Z').toLocaleString()}
             </div>
 
 
@@ -8094,6 +8146,20 @@ posts.forEach(post => {
                     String(comment.user_id) ===
                     String(currentGroupUser?.id);
 
+                // 👑 هل المستخدم الحالي مالك المجموعة؟
+                const isGroupOwner =
+                    String(currentGroupOwnerId) ===
+                    String(currentGroupUser?.id);
+
+                // 🛡️ هل المستخدم الحالي admin؟
+                const isGroupAdmin =
+                    currentUserRole === "admin";
+
+                const canDeleteComment =
+                    isCommentAuthor ||
+                    isGroupOwner ||
+                    isGroupAdmin;
+
                 return `
                     <div
                         style="
@@ -8193,7 +8259,7 @@ posts.forEach(post => {
                             </div>
 
                             ${
-                                isCommentAuthor
+                                canDeleteComment
                                     ? `
                                         <button
                                             type="button"
@@ -8213,7 +8279,6 @@ posts.forEach(post => {
                                     `
                                     : ""
                             }
-
                         </div>
 
                     </div>
@@ -10080,13 +10145,61 @@ async function deleteComment(
         }
 
 
+               // =====================================================
+        // CHECK PERMISSIONS
+        // - Comment owner can delete
+        // - Group owner can delete any comment
+        // - Group admin can delete any comment
+        // =====================================================
+
+        const isCommentOwner =
+            String(comment.user_id) ===
+            String(currentGroupUser.id);
+
+        let isGroupOwner = false;
+        let isGroupAdmin = false;
+
+        if (!isCommentOwner) {
+
+            // جيب المجموعة
+            const { data: group } =
+                await groupsSupabase
+                    .from("groups")
+                    .select("owner_id")
+                    .eq("id", groupId)
+                    .single();
+
+            if (group) {
+
+                isGroupOwner =
+                    String(group.owner_id) ===
+                    String(currentGroupUser.id);
+            }
+
+            // إذا مو المالك، تحقق إذا admin
+            if (!isGroupOwner) {
+
+                const { data: membership } =
+                    await groupsSupabase
+                        .from("group_members")
+                        .select("role")
+                        .eq("group_id", groupId)
+                        .eq("user_id", currentGroupUser.id)
+                        .maybeSingle();
+
+                isGroupAdmin =
+                    membership?.role === "admin";
+            }
+        }
+
         if (
-            String(comment.user_id) !==
-            String(currentGroupUser.id)
+            !isCommentOwner &&
+            !isGroupOwner &&
+            !isGroupAdmin
         ) {
 
             alert(
-                "You can only delete your own comments."
+                "You do not have permission to delete this comment."
             );
 
             return {
@@ -10094,7 +10207,6 @@ async function deleteComment(
                 message: "Not authorized."
             };
         }
-
 
         // =====================================================
         // DELETE COMMENT
