@@ -738,6 +738,136 @@ function renderNotifications(
                     senderName
                 );
 
+                // =================================================
+// GROUP INVITATION ACTIONS
+// =================================================
+
+if (
+    notification.type === "group_invite" ||
+    notification.type === "group_invitation"
+) {
+
+    if (notification.group_invitation_id) {
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "notification-actions";
+
+        // -----------------------------------------
+        // ACCEPT BUTTON
+        // -----------------------------------------
+
+        const acceptBtn =
+            document.createElement("button");
+
+        acceptBtn.className =
+            "notification-accept-btn";
+
+        acceptBtn.textContent =
+            "✅ Accept";
+
+        acceptBtn.addEventListener(
+            "click",
+            async function (event) {
+
+                event.stopPropagation();
+
+                acceptBtn.disabled = true;
+                acceptBtn.textContent = "Accepting...";
+
+                if (typeof acceptGroupInvitation !== "function") {
+                    alert("acceptGroupInvitation is not available. Make sure groups.js is loaded before notifications.js.");
+                    acceptBtn.disabled = false;
+                    acceptBtn.textContent = "✅ Accept";
+                    return;
+                }
+
+                const result =
+                    await acceptGroupInvitation(
+                        notification.group_invitation_id
+                    );
+
+                if (result && result.success) {
+
+                    alert("✅ " + result.message);
+
+                    // احذف الإشعار من الصفحة
+                    item.remove();
+
+                    // أعد تحميل الإشعارات
+                    await loadNotifications();
+
+                } else {
+
+                    alert("❌ " + (result?.message || "Could not accept invitation."));
+
+                    acceptBtn.disabled = false;
+                    acceptBtn.textContent = "✅ Accept";
+                }
+            }
+        );
+
+        // -----------------------------------------
+        // DECLINE BUTTON
+        // -----------------------------------------
+
+        const declineBtn =
+            document.createElement("button");
+
+        declineBtn.className =
+            "notification-decline-btn";
+
+        declineBtn.textContent =
+            "❌ Refuse";
+
+        declineBtn.addEventListener(
+            "click",
+            async function (event) {
+
+                event.stopPropagation();
+
+                declineBtn.disabled = true;
+                declineBtn.textContent = "Refusing...";
+
+                if (typeof declineGroupInvitation !== "function") {
+                    alert("declineGroupInvitation is not available. Make sure groups.js is loaded before notifications.js.");
+                    declineBtn.disabled = false;
+                    declineBtn.textContent = "❌ Refuse";
+                    return;
+                }
+
+                const result =
+                    await declineGroupInvitation(
+                        notification.group_invitation_id
+                    );
+
+                if (result && result.success) {
+
+                    alert("✅ " + result.message);
+
+                    item.remove();
+
+                    await loadNotifications();
+
+                } else {
+
+                    alert("❌ " + (result?.message || "Could not refuse invitation."));
+
+                    declineBtn.disabled = false;
+                    declineBtn.textContent = "❌ Refuse";
+                }
+            }
+        );
+
+        actions.appendChild(acceptBtn);
+        actions.appendChild(declineBtn);
+
+        content.appendChild(actions);
+    }
+}
+
 
             // =================================================
             // TIME

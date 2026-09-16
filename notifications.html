@@ -437,19 +437,37 @@
                     if (notification.type === 'gift') icon = '🎁';
                     if (notification.type === 'ad') icon = '📢';
                     if (notification.type === 'product_order') icon = '🛒'; // 🆕
+                    if (notification.type === 'group_invite') icon = '👥';
                     
                     const item = document.createElement('div');
                     item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
                     
-                    item.innerHTML = `
-                        <button class="notif-delete" onclick="event.stopPropagation(); deleteNotification('${notification.id}')" title="Delete">🗑️</button>
-                        <div class="notification-icon">${icon}</div>
-                        <div class="notification-text">
-                            <div class="notification-title">${escapeHtml(notification.message)}</div>
-                            <div class="notification-time">${formatTimeAgo(notification.created_at)}</div>
-                        </div>
-                        ${!notification.is_read ? '<div class="notification-dot"></div>' : ''}
-                    `;
+                   const isGroupInvite =
+    notification.type === 'group_invite' &&
+    notification.group_invitation_id;
+
+item.innerHTML = `
+    <button class="notif-delete" onclick="event.stopPropagation(); deleteNotification('${notification.id}')" title="Delete">🗑️</button>
+    <div class="notification-icon">${icon}</div>
+    <div class="notification-text">
+        <div class="notification-title">${escapeHtml(notification.message)}</div>
+        <div class="notification-time">${formatTimeAgo(notification.created_at)}</div>
+    </div>
+    ${
+        isGroupInvite
+            ? `
+                <div class="notification-actions">
+                    <button class="notif-btn accept" onclick="event.stopPropagation(); acceptGroupInvite('${notification.group_invitation_id}', this)">
+                        ✅ Accept
+                    </button>
+                    <button class="notif-btn reject" onclick="event.stopPropagation(); declineGroupInvite('${notification.group_invitation_id}', this)">
+                        ❌ Refuse
+                    </button>
+                </div>
+              `
+            : (!notification.is_read ? '<div class="notification-dot"></div>' : '')
+    }
+`;
                     
                     // 🆕 عند النقر على الإشعار
                     item.onclick = function(e) {
@@ -695,13 +713,146 @@
         });
         
         // Global functions
-        window.acceptFriendRequest = acceptFriendRequest;
+        // =========================================================
+// GROUP INVITATION HANDLERS
+// =========================================================
+
+async function acceptGroupInvite(invitationId, button) {
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = '⏳';
+    }
+
+    try {
+        // 1. جلب الدعوة
+        const { data: invitation, error: fetchError } =
+            await supabaseClient
+                .from('group_invitations')
+                .select('id, group_id, invited_user_id, status')
+                .eq('id', invitationId)
+                .maybeSingle();
+
+        if (fetchError || !invitation) {
+            alert('❌ Invitation not found');
+            if (button) {
+                button.disabled = false;
+                button.textContent = '✅ Accept';
+            }
+            return;
+        }
+
+        if (invitation.status !== 'pending') {
+            alert('❌ This invitation is already processed');
+            if (button) {
+                button.disabled = false;
+                button.textContent = '✅ Accept';
+            }
+            return;
+        }
+
+        // 2. جلب المستخدم الحالي
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('❌ Please log in');
+            return;
+        }
+
+        // 3. التحقق من العضوية
+        const { data: existingMember } =
+            await supabaseClient
+                .from('group_members')
+                .select('group_id')
+                .eq('group_id', invitation.group_id)
+                .eq('user_id', user.id)
+                .maybeSingle();
+
+        // 4. إضافة المستخدم للمجموعة
+        if (!existingMember) {
+            const { error: joinError } =
+                await supabaseClient
+                    .from('group_members')
+                    .insert({
+                        group_id: invitation.group_id,
+                        user_id: user.id,
+                        role: 'member'
+                    });
+
+            if (joinError && joinError.code !== '23505') {
+                alert('❌ Could not join group: ' + joinError.message);
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '✅ Accept';
+                }
+                return;
+            }
+        }
+
+        // 5. تحديث حالة الدعوة
+        await supabaseClient
+            .from('group_invitations')
+            .update({ status: 'accepted' })
+            .eq('id', invitationId);
+
+        // 6. حذف الإشعار
+        await supabaseClient
+            .from('notifications')
+            .delete()
+            .eq('group_invitation_id', invitationId);
+
+        alert('✅ You joined the group!');
+        loadNotifications();
+
+    } catch (error) {
+        console.error('❌ Accept invitation error:', error);
+        alert('❌ Error: ' + error.message);
+        if (button) {
+            button.disabled = false;
+            button.textContent = '✅ Accept';
+        }
+    }
+}
+
+
+async function declineGroupInvite(invitationId, button) {
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = '⏳';
+    }
+
+    try {
+        await supabaseClient
+            .from('group_invitations')
+            .update({ status: 'declined' })
+            .eq('id', invitationId);
+
+        await supabaseClient
+            .from('notifications')
+            .delete()
+            .eq('group_invitation_id', invitationId);
+
+        alert('❌ Invitation refused');
+        loadNotifications();
+
+    } catch (error) {
+        console.error('❌ Decline invitation error:', error);
+        if (button) {
+            button.disabled = false;
+            button.textContent = '❌ Refuse';
+        }
+    }
+}
+               window.acceptFriendRequest = acceptFriendRequest;
         window.rejectFriendRequest = rejectFriendRequest;
         window.deleteNotification = deleteNotification;
         window.markAsRead = markAsRead;
         window.markAllRead = markAllRead;
         window.handleNotificationClick = handleNotificationClick;
         window.logout = logout;
+        window.acceptGroupInvite = acceptGroupInvite;
+        window.declineGroupInvite = declineGroupInvite;
+
     </script>
     <script src="js/messenger-notify.js"></script>  
 </body>
