@@ -438,7 +438,9 @@ const translations = {
         "archived_messages": "المؤرشفة",
         "online_users": "المستخدمون المتصلون",
         "earn_points_title": "🎁 اربح نقاطاً من كل نشاط!",
-        "earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!"
+        "earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!",
+        "advertisement": "إعلان",
+"sponsored": "ممول",
     },
 
     // ==================== FRENCH ====================
@@ -875,7 +877,9 @@ const translations = {
         "archived_messages": "Archivés",
         "online_users": "Utilisateurs en ligne",
         "earn_points_title": "🎁 Gagnez des points à chaque activité !",
-        "earn_points_subtitle": "Invitez vos amis avec votre code de parrainage — 50 points par ami !"
+        "earn_points_subtitle": "Invitez vos amis avec votre code de parrainage — 50 points par ami !",
+        "advertisement": "Publicité",
+"sponsored": "Sponsorisé",
     },
 
     // ==================== ENGLISH ====================
@@ -1312,7 +1316,9 @@ const translations = {
         "archived_messages": "Archived",
         "online_users": "Online users",
         "earn_points_title": "🎁 Earn Points from Every Activity!",
-        "earn_points_subtitle": "Invite friends with your referral code — get 50 points per friend!"
+        "earn_points_subtitle": "Invite friends with your referral code — get 50 points per friend!",
+        "advertisement": "Publicité",
+"sponsored": "Sponsorisé",
     },
 
     // ==================== SPANISH ====================
@@ -1749,7 +1755,9 @@ const translations = {
         "archived_messages": "Archivados",
         "online_users": "Usuarios en línea",
         "earn_points_title": "🎁 ¡Gana puntos con cada actividad!",
-        "earn_points_subtitle": "¡Invita a tus amigos con tu código de referido — 50 puntos por amigo!"
+        "earn_points_subtitle": "¡Invita a tus amigos con tu código de referido — 50 puntos por amigo!",
+        "advertisement": "Publicidad",
+"sponsored": "Patrocinado",
     },
 
     // ==================== GERMAN ====================
@@ -2186,7 +2194,9 @@ const translations = {
         "archived_messages": "Archiviert",
         "online_users": "Benutzer online",
         "earn_points_title": "🎁 Verdiene Punkte bei jeder Aktivität!",
-        "earn_points_subtitle": "Lade Freunde mit deinem Empfehlungscode ein — 50 Punkte pro Freund!"
+        "earn_points_subtitle": "Lade Freunde mit deinem Empfehlungscode ein — 50 Punkte pro Freund!",
+        "advertisement": "Werbung",
+"sponsored": "Gesponsert",
     },
 
     // ==================== ITALIAN ====================
@@ -2623,7 +2633,9 @@ const translations = {
         "archived_messages": "Archiviati",
         "online_users": "Utenti online",
         "earn_points_title": "🎁 Guadagna punti con ogni attività!",
-        "earn_points_subtitle": "Invita i tuoi amici con il tuo codice referral — 50 punti per amico!"
+        "earn_points_subtitle": "Invita i tuoi amici con il tuo codice referral — 50 punti per amico!",
+        "advertisement": "Pubblicità",
+"sponsored": "Sponsorizzato",
     },
 
     // ==================== JAPANESE ====================
@@ -3060,7 +3072,9 @@ const translations = {
         "archived_messages": "アーカイブ済み",
         "online_users": "オンラインユーザー",
         "earn_points_title": "🎁 あらゆる活動でポイントを獲得！",
-        "earn_points_subtitle": "紹介コードで友達を招待 — 友達1人につき50ポイント！"
+        "earn_points_subtitle": "紹介コードで友達を招待 — 友達1人につき50ポイント！",
+        "advertisement": "広告",
+"sponsored": "スポンサー",
     },
 
     // ==================== CHINESE ====================
@@ -3497,7 +3511,9 @@ const translations = {
         "archived_messages": "已归档",
         "online_users": "在线用户",
         "earn_points_title": "🎁 每项活动都能赚取积分！",
-        "earn_points_subtitle": "使用推荐码邀请好友 — 每位好友50积分！"
+        "earn_points_subtitle": "使用推荐码邀请好友 — 每位好友50积分！",
+        "advertisement": "广告",
+"sponsored": "赞助",
     },
 
     // ==================== KOREAN ====================
@@ -3934,7 +3950,9 @@ const translations = {
         "archived_messages": "보관됨",
         "online_users": "온라인 사용자",
         "earn_points_title": "🎁 모든 활동에서 포인트를 획득하세요!",
-        "earn_points_subtitle": "추천 코드로 친구를 초대하세요 — 친구당 50포인트!"
+        "earn_points_subtitle": "추천 코드로 친구를 초대하세요 — 친구당 50포인트!",
+        "advertisement": "광고",
+"sponsored": "스폰서",
     },
 
     // ==================== RUSSIAN ====================
@@ -4371,7 +4389,9 @@ const translations = {
         "archived_messages": "Архив",
         "online_users": "Пользователи онлайн",
         "earn_points_title": "🎁 Получайте баллы за каждое действие!",
-        "earn_points_subtitle": "Пригласите друзей с вашим реферальным кодом — 50 баллов за друга!"
+        "earn_points_subtitle": "Пригласите друзей с вашим реферальным кодом — 50 баллов за друга!",
+        "advertisement": "Реклама",
+"sponsored": "Спонсор",
     },
 
     // ==================== TURKISH ====================
@@ -4808,7 +4828,9 @@ const translations = {
         "archived_messages": "Arşivlenmiş",
         "online_users": "Çevrimiçi kullanıcılar",
         "earn_points_title": "🎁 Her etkinlikten puan kazan!",
-        "earn_points_subtitle": "Referans kodunla arkadaşlarını davet et — arkadaş başına 50 puan!"
+        "earn_points_subtitle": "Referans kodunla arkadaşlarını davet et — arkadaş başına 50 puan!",
+        "advertisement": "Reklam",
+"sponsored": "Sponsorlu",
     },
 
     // ==================== HINDI ====================
@@ -5245,7 +5267,9 @@ const translations = {
         "archived_messages": "संग्रहीत",
         "online_users": "ऑनलाइन उपयोगकर्ता",
         "earn_points_title": "🎁 हर गतिविधि से अंक कमाएं!",
-        "earn_points_subtitle": "अपने रेफ़रल कोड से दोस्तों को आमंत्रित करें — हर दोस्त पर 50 अंक!"
+        "earn_points_subtitle": "अपने रेफ़रल कोड से दोस्तों को आमंत्रित करें — हर दोस्त पर 50 अंक!",
+        "advertisement": "विज्ञापन",
+"sponsored": "प्रायोजित",
     },
 
     // ==================== FILIPINO ====================
@@ -5683,6 +5707,8 @@ const translations = {
         "online_users": "Mga online na user",
         "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
         "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!"
+ "advertisement": "Advertisement",
+"sponsored": "Sponsored",
     },
 
     // ==================== TAGALOG ====================
@@ -6120,6 +6146,8 @@ const translations = {
         "online_users": "Mga online na user",
         "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
         "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!"
+    "advertisement": "Advertisement",
+"sponsored": "Sponsored",
     }
 
 };
