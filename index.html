@@ -40,25 +40,25 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <div class="language-selector">
-                <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
-                <div class="language-menu" id="languageMenu">
-                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
-                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
-                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
-                    <button onclick="changeLanguage('es')">🇪🇸 Español</button>
-                    <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
-                    <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
-                    <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
-                    <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
-                    <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
-                    <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
-                    <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
-                    <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
-                    <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
-                    <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
-                </div>
-            </div>
+           <div class="language-selector">
+    <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+    <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
+        <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+        <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+        <button onclick="changeLanguage('en')">🇬🇧 English</button>
+        <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+        <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+        <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+        <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+        <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+        <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+        <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+        <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+        <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+        <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+        <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+    </div>
+</div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
