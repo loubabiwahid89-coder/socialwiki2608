@@ -6,252 +6,46 @@
     <title>Friends - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <style>
-        /* =========================================================
-           NAVBAR (بسيط)
-        ========================================================= */
-        
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
-        
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-icons a {
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 50%;
-        }
-        
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-icons a.active {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-        
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        
-        .logout-button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        /* =========================================================
-           FRIENDS PAGE
-        ========================================================= */
-        
-        .friends-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .friends-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .friends-header h2 {
-            font-size: 24px;
-        }
-        
-        .friends-tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e4e6eb;
-        }
-        
-        .friends-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: #65676b;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .friends-tab.active {
-            color: #1877f2;
-            border-bottom-color: #1877f2;
-        }
-        
-        .friends-list {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .friend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px;
-            border-bottom: 1px solid #e4e6eb;
-        }
-        
-        .friend-item:last-child {
-            border-bottom: none;
-        }
-        
-        .friend-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        
-        .friend-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .friend-info {
-            flex: 1;
-        }
-        
-        .friend-name {
-            font-weight: 600;
-            font-size: 15px;
-        }
-        
-        .friend-username {
-            color: #65676b;
-            font-size: 13px;
-        }
-        
-        .friend-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .friend-action-btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .add-btn {
-            background: #1877f2;
-            color: white;
-        }
-        
-        .remove-btn {
-            background: #e4e6eb;
-        }
-        
-        .accept-btn {
-            background: #1877f2;
-            color: white;
-        }
-        
-        .decline-btn {
-            background: #e4e6eb;
-        }
-        
-        /* =========================================================
-           BACK & HOME BUTTONS
-        ========================================================= */
-        
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-icons a.active { background: rgba(255,255,255,0.3); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .friends-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .friends-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .friends-header h2 { font-size: 24px; }
+        .friends-tabs { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 2px solid #e4e6eb; }
+        .friends-tab { padding: 10px 20px; cursor: pointer; font-size: 14px; font-weight: 600; color: #65676b; border-bottom: 3px solid transparent; }
+        .friends-tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+        .friends-list { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .friend-item { display: flex; align-items: center; gap: 12px; padding: 15px; border-bottom: 1px solid #e4e6eb; }
+        .friend-item:last-child { border-bottom: none; }
+        .friend-avatar { width: 50px; height: 50px; border-radius: 50%; overflow: hidden; }
+        .friend-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .friend-info { flex: 1; }
+        .friend-name { font-weight: 600; font-size: 15px; }
+        .friend-username { color: #65676b; font-size: 13px; }
+        .friend-actions { display: flex; gap: 8px; }
+        .friend-action-btn { padding: 8px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .add-btn { background: #1877f2; color: white; }
+        .remove-btn { background: #e4e6eb; }
+        .accept-btn { background: #1877f2; color: white; }
+        .decline-btn { background: #e4e6eb; }
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
+        .back-btn { color: #65676b; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .home-btn { color: white; background: #1877f2; }
     </style>
 </head>
 <body>
 
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -268,9 +62,30 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            
+            <!-- 🌐 زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-       
     </nav>
 
     <!-- BACK & HOME BUTTONS -->
@@ -278,91 +93,59 @@
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
-    <!-- =========================================================
-         FRIENDS CONTAINER
-    ========================================================= -->
+    <!-- FRIENDS CONTAINER -->
     <div class="friends-container">
         <div class="friends-header">
             <h2>👥 Friends</h2>
         </div>
         
-        <!-- التبويبات -->
         <div class="friends-tabs">
             <div class="friends-tab active" onclick="showTab('friends', this)">All Friends</div>
             <div class="friends-tab" onclick="showTab('requests', this)">Friend Requests</div>
             <div class="friends-tab" onclick="showTab('suggestions', this)">Suggestions</div>
         </div>
         
-        <!-- القائمة -->
-        <div class="friends-list" id="friendsList">
-            <!-- ستظهر الأصدقاء هنا -->
-        </div>
+        <div class="friends-list" id="friendsList"></div>
     </div>
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=999999"></script>
     <script>
-        // Supabase setup
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // =========================================================
-        // LOGOUT
-        // =========================================================
-        
+
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
-        
-        // =========================================================
-        // LOAD USER PROFILE
-        // =========================================================
-        
+
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) return;
-                
-                const { data: profile, error } = await supabaseClient
+                const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('username, full_name, avatar_url')
                     .eq('id', user.id)
                     .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
-                
                 const username = profile?.username || profile?.full_name || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                
-                const navProfileName = document.getElementById('navProfileName');
-                if (navProfileName) navProfileName.textContent = username;
-                
-                const navProfileImg = document.getElementById('navProfileImg');
-                if (navProfileImg) navProfileImg.src = avatarUrl;
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+            } catch (error) { console.error('Error:', error); }
         }
-        
+
         // =========================================================
-        // LOAD FRIENDS
+        // LOAD FRIENDS — مع إزالة التكرار
         // =========================================================
-        
         async function loadFriends() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) return;
                 
+                // جلب كل الصفوف حيث أنا طرف فيها
                 const { data: friends, error } = await supabaseClient
                     .from('friends')
                     .select('*')
@@ -379,10 +162,20 @@
                     return;
                 }
                 
-                const friendIds = friends.map(f => 
-                    f.user_id === user.id ? f.friend_id : f.user_id
-                );
+                // ✅ إزالة التكرار: استخدم Set لحفظ friend_id
+                const uniqueFriendIds = new Set();
+                const uniqueFriendships = [];
                 
+                friends.forEach(f => {
+                    const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
+                    if (!uniqueFriendIds.has(friendId)) {
+                        uniqueFriendIds.add(friendId);
+                        uniqueFriendships.push(f);
+                    }
+                });
+                
+                // جلب بيانات الملفات الشخصية
+                const friendIds = [...uniqueFriendIds];
                 const { data: profiles } = await supabaseClient
                     .from('profiles')
                     .select('id, username, full_name, avatar_url')
@@ -390,30 +183,23 @@
                 
                 const profilesMap = {};
                 if (profiles) {
-                    profiles.forEach(p => {
-                        profilesMap[p.id] = p;
-                    });
+                    profiles.forEach(p => { profilesMap[p.id] = p; });
                 }
                 
-                const enrichedFriends = friends.map(f => {
+                // ✅ بناء قائمة نهائية بدون تكرار
+                const enrichedFriends = uniqueFriendships.map(f => {
                     const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
                     return {
-                        ...f,
+                        friendship_id: f.id,  // لاستخدامها في Remove
                         friend: profilesMap[friendId] || {}
                     };
                 });
                 
                 displayFriends(enrichedFriends);
                 
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
-        
-        // =========================================================
-        // DISPLAY FRIENDS
-        // =========================================================
-        
+
         function displayFriends(friends) {
             const container = document.getElementById('friendsList');
             container.innerHTML = '';
@@ -424,13 +210,12 @@
             }
             
             friends.forEach(friend => {
-                const profile = friend.friend || friend.profile || {};
+                const profile = friend.friend || {};
                 const username = profile.username || profile.full_name || 'User';
                 const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                 
                 const item = document.createElement('div');
                 item.className = 'friend-item';
-                
                 item.innerHTML = `
                     <div class="friend-avatar">
                         <img src="${avatarUrl}" alt="Profile">
@@ -440,82 +225,50 @@
                         <div class="friend-username">@${escapeHtml(profile.username || '')}</div>
                     </div>
                     <div class="friend-actions">
-                        <button class="friend-action-btn remove-btn" onclick="removeFriend('${friend.id}')">Remove</button>
+                        <button class="friend-action-btn remove-btn" onclick="removeFriend('${friend.friendship_id}')">Remove</button>
                         <button class="friend-action-btn" onclick="viewProfile('${profile.id}')">View</button>
                     </div>
                 `;
-                
                 container.appendChild(item);
             });
         }
-        
-        // =========================================================
-        // LOAD FRIEND REQUESTS
-        // =========================================================
-        
+
         async function loadFriendRequests() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) return;
-                
-                const { data: requests, error } = await supabaseClient
+                const { data: requests } = await supabaseClient
                     .from('friend_requests')
                     .select('*')
                     .eq('receiver_id', user.id)
                     .eq('status', 'pending');
-                
-                if (error) {
-                    console.error('Error loading requests:', error);
-                    return;
-                }
-                
                 displayRequests(requests || []);
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
-        
-        // =========================================================
-        // DISPLAY REQUESTS
-        // =========================================================
-        
+
         async function displayRequests(requests) {
             const container = document.getElementById('friendsList');
             container.innerHTML = '';
-            
             if (!requests || requests.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No friend requests</p>';
                 return;
             }
-            
             const senderIds = requests.map(req => req.sender_id);
-            
             const { data: profiles } = await supabaseClient
                 .from('profiles')
                 .select('id, username, full_name, avatar_url')
                 .in('id', senderIds);
-            
             const profilesMap = {};
-            if (profiles) {
-                profiles.forEach(profile => {
-                    profilesMap[profile.id] = profile;
-                });
-            }
+            if (profiles) profiles.forEach(profile => { profilesMap[profile.id] = profile; });
             
             requests.forEach(request => {
                 const profile = profilesMap[request.sender_id] || {};
                 const username = profile.username || profile.full_name || 'User';
                 const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                
                 const item = document.createElement('div');
                 item.className = 'friend-item';
-                
                 item.innerHTML = `
-                    <div class="friend-avatar">
-                        <img src="${avatarUrl}" alt="Profile">
-                    </div>
+                    <div class="friend-avatar"><img src="${avatarUrl}" alt="Profile"></div>
                     <div class="friend-info">
                         <div class="friend-name">${escapeHtml(username)}</div>
                         <div class="friend-username">@${escapeHtml(profile.username || '')}</div>
@@ -525,172 +278,60 @@
                         <button class="friend-action-btn decline-btn" onclick="declineRequest('${request.id}')">Decline</button>
                     </div>
                 `;
-                
                 container.appendChild(item);
             });
         }
-        
-        // =========================================================
-        // ACCEPT REQUEST
-        // =========================================================
-        
+
         async function acceptRequest(requestId) {
             try {
-                await supabaseClient
-                    .from('friend_requests')
-                    .update({ status: 'accepted' })
-                    .eq('id', requestId);
-                
+                await supabaseClient.from('friend_requests').update({ status: 'accepted' }).eq('id', requestId);
                 alert('Friend request accepted!');
                 loadFriendRequests();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error accepting request: ' + error.message);
-            }
+            } catch (error) { alert('Error: ' + error.message); }
         }
-        
-        // =========================================================
-        // DECLINE REQUEST
-        // =========================================================
-        
+
         async function declineRequest(requestId) {
             try {
-                await supabaseClient
-                    .from('friend_requests')
-                    .update({ status: 'declined' })
-                    .eq('id', requestId);
-                
+                await supabaseClient.from('friend_requests').update({ status: 'declined' }).eq('id', requestId);
                 alert('Friend request declined!');
                 loadFriendRequests();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error declining request: ' + error.message);
-            }
+            } catch (error) { alert('Error: ' + error.message); }
         }
-        
-        // =========================================================
-        // REMOVE FRIEND
-        // =========================================================
-        
+
         async function removeFriend(friendshipId) {
             if (!confirm('Are you sure you want to remove this friend?')) return;
-            
             try {
-                await supabaseClient
-                    .from('friends')
-                    .delete()
-                    .eq('id', friendshipId);
-                
+                await supabaseClient.from('friends').delete().eq('id', friendshipId);
                 alert('Friend removed!');
                 loadFriends();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error removing friend: ' + error.message);
-            }
+            } catch (error) { alert('Error: ' + error.message); }
         }
-        
-        // =========================================================
-        // VIEW PROFILE
-        // =========================================================
-        
+
         function viewProfile(userId) {
             window.location.href = `profile.html?id=${userId}`;
         }
-        
-        // =========================================================
-        // TAB SWITCHING
-        // =========================================================
-        
+
         function showTab(tab, element) {
-            document.querySelectorAll('.friends-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.friends-tab').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
-            
-            if (tab === 'friends') {
-                loadFriends();
-            } else if (tab === 'requests') {
-                loadFriendRequests();
-            } else if (tab === 'suggestions') {
-                document.getElementById('friendsList').innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No suggestions yet</p>';
-            }
+            if (tab === 'friends') loadFriends();
+            else if (tab === 'requests') loadFriendRequests();
+            else if (tab === 'suggestions') document.getElementById('friendsList').innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No suggestions yet</p>';
         }
-        
-        // =========================================================
-        // ESCAPE HTML
-        // =========================================================
-        
+
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        
-        // =========================================================
-        // START
-        // =========================================================
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             loadFriends();
             loadUserProfile();
         });
     </script>
 
-    <script src="js/translations.js?v=999999"></script>
-
-    <!-- ========================================================= -->
-    <!-- SMARTLINK POP-UNDER -->
-    <!-- ========================================================= -->
-    <script>
-    (function() {
-        'use strict';
-        
-        if (window.__smartlinkPopunder) return;
-        window.__smartlinkPopunder = true;
-        
-        var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-        
-        function openSmartlink() {
-            try {
-                var popup = window.open(
-                    SMARTLINK_URL,
-                    '_blank',
-                    'width=1024,height=768,scrollbars=yes,resizable=yes'
-                );
-                
-                if (popup) {
-                    popup.blur();
-                    window.focus();
-                } else {
-                    console.warn('⚠️ Popup blocked by browser');
-                }
-            } catch (e) {
-                console.error('❌ Smartlink error:', e);
-            }
-        }
-        
-        var triggered = false;
-        function triggerOnce() {
-            if (triggered) return;
-            triggered = true;
-            openSmartlink();
-            document.removeEventListener('click', triggerOnce);
-            document.removeEventListener('touchstart', triggerOnce);
-        }
-        
-        document.addEventListener('click', triggerOnce);
-        document.addEventListener('touchstart', triggerOnce);
-        
-        console.log('✅ Smartlink pop-under armed');
-    })();
-    </script>
     <script src="js/messenger-notify.js"></script>
-
-</body>
 </body>
 </html>
