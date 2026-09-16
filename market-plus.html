@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="socialwiki.css">
     <style>
         /* =========================================================
-           NAVBAR (بسيط)
+           NAVBAR
         ========================================================= */
         
         .navbar {
@@ -22,18 +22,8 @@
             z-index: 1000;
         }
         
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
         
         .nav-icons {
             display: flex;
@@ -52,19 +42,10 @@
             border-radius: 50%;
         }
         
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-icons a.active { background: rgba(255,255,255,0.3); }
         
-        .nav-icons a.active {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
         
         .nav-profile {
             display: flex;
@@ -76,11 +57,7 @@
             border-radius: 50px;
         }
         
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
         
         .logout-button {
             background: rgba(255,255,255,0.2);
@@ -109,9 +86,7 @@
             margin-bottom: 20px;
         }
         
-        .marketplace-header h2 {
-            font-size: 24px;
-        }
+        .marketplace-header h2 { font-size: 24px; }
         
         .sell-btn {
             background: #1877f2;
@@ -166,9 +141,7 @@
             object-fit: cover;
         }
         
-        .product-info {
-            padding: 15px;
-        }
+        .product-info { padding: 15px; }
         
         .product-title {
             font-weight: 600;
@@ -233,27 +206,27 @@
            MODAL
         ========================================================= */
         
-         .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.55);
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        padding: 20px;
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
         
-         .modal-box {
-        width: 100%;
-        max-width: 600px;
-        background: white;
-        border-radius: 14px;
-        padding: 25px;
-        box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-        max-height: 90vh;
-        overflow-y: auto;
-    }
+        .modal-box {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
         
         .modal-title {
             font-size: 24px;
@@ -261,9 +234,7 @@
             margin-bottom: 20px;
         }
         
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
         
         .form-group label {
             display: block;
@@ -287,9 +258,7 @@
             resize: vertical;
         }
         
-        .form-group select {
-            cursor: pointer;
-        }
+        .form-group select { cursor: pointer; }
         
         .form-group input[type="file"] {
             padding: 8px;
@@ -348,9 +317,7 @@
             font-weight: bold;
         }
         
-        .cancel-button {
-            background: #e4e6eb;
-        }
+        .cancel-button { background: #e4e6eb; }
         
         .submit-button {
             background: #1877f2;
@@ -380,21 +347,10 @@
             font-size: 14px;
         }
         
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
+        .home-btn { color: white; background: #1877f2; }
     </style>
 </head>
 <body>
-
-    
 
     <!-- =========================================================
          NAVBAR
@@ -410,55 +366,51 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-                <div class="nav-right">
+        <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
             
-            <!-- 🔥 زر اللغة -->
+            <!-- 🌐 زر اللغة -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
-               <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
-    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
-    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
-    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
-    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
-    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
-    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
-    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
-    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
-    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
-    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
-    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
-    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
-    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
-    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
-</div>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
+                </div>
             </div>
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-      
     </nav>
-     <!-- BACK & HOME BUTTONS -->
+    
     <div class="nav-buttons">
-        
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
     <!-- =========================================================
          MARKETPLACE CONTAINER
     ========================================================= -->
-       <div class="marketplace-container">
+    <div class="marketplace-container">
         <div class="marketplace-header">
-                        <h2><span>🛍️</span> <span data-i18n="marketplace">Marketplace</span></h2>
+            <h2><span>🛍️</span> <span data-i18n="marketplace">Marketplace</span></h2>
             <button class="sell-btn" onclick="openSellModal()" data-i18n="add_product">+ Add Product</button>
         </div>
 
-        <div class="market-grid" id="marketGrid">
-            <!-- المنتجات ستظهر هنا -->
-        </div>
+        <div class="market-grid" id="marketGrid"></div>
     </div>
 
     <!-- =========================================================
@@ -466,35 +418,30 @@
     ========================================================= -->
     <div id="sellModal" class="modal">
         <div class="modal-box">
-                       <div class="modal-title"><span>🛍️</span> <span data-i18n="add_product">Add Product</span></div>
+            <div class="modal-title"><span>🛍️</span> <span data-i18n="add_product">Add Product</span></div>
             
             <form id="sellForm" onsubmit="createProduct(event)">
-                <!-- اسم المنتج -->
                 <div class="form-group">
                     <label for="productName" data-i18n="product_name">Product Name</label>
                     <input type="text" id="productName" required data-i18n-placeholder="enter_product_name" placeholder="Enter product name">
                 </div>
                 
-                <!-- وصف المنتج -->
                 <div class="form-group">
                     <label for="productDescription" data-i18n="product_description">Description</label>
                     <textarea id="productDescription" data-i18n-placeholder="describe_product" placeholder="Describe your product..."></textarea>
                 </div>
                 
-                <!-- صورة / فيديو -->
                 <div class="form-group">
                     <label for="productMedia" data-i18n="upload_media">Upload Image or Video</label>
                     <input type="file" id="productMedia" accept="image/*,video/*" onchange="previewMedia(event)">
                     <div id="mediaPreview" style="margin-top: 10px;"></div>
                 </div>
                 
-                <!-- السعر -->
                 <div class="form-group">
                     <label for="productPrice" data-i18n="product_price">Price</label>
                     <input type="number" id="productPrice" required data-i18n-placeholder="enter_price" placeholder="Enter price">
                 </div>
                 
-                <!-- اختيار العملة -->
                 <div class="form-group">
                     <label data-i18n="product_currency">Currency</label>
                     <div class="currency-selector">
@@ -507,7 +454,6 @@
                     </div>
                 </div>
                 
-                <!-- الموقع -->
                 <div class="form-group">
                     <label for="productLocation" data-i18n="product_location">Location</label>
                     <input type="text" id="productLocation" required data-i18n-placeholder="enter_location" placeholder="Enter location">
@@ -521,15 +467,16 @@
         </div>
     </div>
 
-            <!-- =========================================================
+    <!-- =========================================================
          SCRIPTS
     ========================================================= -->
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js?v=999999"></script>
     
     <script>
-        // Supabase setup
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -537,7 +484,6 @@
         // =========================================================
         // CURRENCY
         // =========================================================
-        
         let selectedCurrency = 'MAD';
         let selectedRate = 1;
         
@@ -577,7 +523,6 @@
         // =========================================================
         // LOGOUT
         // =========================================================
-        
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
@@ -586,7 +531,6 @@
         // =========================================================
         // LOAD USER PROFILE
         // =========================================================
-        
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -621,7 +565,6 @@
         // =========================================================
         // PREVIEW MEDIA
         // =========================================================
-        
         function previewMedia(event) {
             const file = event.target.files[0];
             const preview = document.getElementById('mediaPreview');
@@ -638,7 +581,6 @@
         // =========================================================
         // LOAD PRODUCTS
         // =========================================================
-        
         async function loadProducts() {
             try {
                 const { data: products, error } = await supabaseClient
@@ -661,14 +603,12 @@
         // =========================================================
         // DISPLAY PRODUCTS
         // =========================================================
-        
-                       function displayProducts(products) {
+        function displayProducts(products) {
             const container = document.getElementById('marketGrid');
             container.innerHTML = '';
             
             if (!products || products.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px; grid-column: 1/-1;" data-i18n="no_products">No products yet</p>';
-                applyTranslations();
                 return;
             }
             
@@ -676,7 +616,6 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
-                // عرض الصورة أو الفيديو
                 let mediaHTML = '<div class="product-image">📦</div>';
                 
                 if (product.media_url) {
@@ -687,7 +626,6 @@
                     }
                 }
                 
-                // تحويل السعر للعملة المحددة
                 const price = parseFloat(product.price);
                 const currencySymbol = product.currency === 'EUR' ? '€' : product.currency === 'USD' ? '$' : 'MAD';
                 
@@ -707,17 +645,11 @@
                 
                 container.appendChild(card);
             });
-            
-            // 🔥 تطبيق الترجمة بعد إضافة المنتجات
-            applyTranslations();
         }
-            
-         
         
         // =========================================================
-        // OPEN SELL MODAL
+        // OPEN/CLOSE SELL MODAL
         // =========================================================
-        
         function openSellModal() {
             document.getElementById('sellModal').style.display = 'flex';
         }
@@ -739,7 +671,6 @@
         // =========================================================
         // CREATE PRODUCT
         // =========================================================
-        
         async function createProduct(event) {
             event.preventDefault();
             
@@ -766,7 +697,6 @@
                 let mediaUrl = null;
                 let mediaType = null;
                 
-                // رفع الصورة أو الفيديو إلى Supabase Storage
                 if (mediaFile) {
                     const fileName = `products/${user.id}/${Date.now()}_${mediaFile.name}`;
                     const filePath = mediaFile.type.startsWith('video') ? 'product-videos' : 'product-images';
@@ -789,7 +719,6 @@
                     mediaType = mediaFile.type.startsWith('video') ? 'video' : 'image';
                 }
                 
-                // إضافة المنتج إلى قاعدة البيانات
                 const { error } = await supabaseClient
                     .from('products')
                     .insert({
@@ -822,147 +751,139 @@
         // =========================================================
         // BUY PRODUCT
         // =========================================================
-        
-       // =========================================================
-// BUY PRODUCT — نموذج طلب شراء
-// =========================================================
-async function buyProduct(productId) {
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    if (!user) {
-        alert('Please login first!');
-        return;
-    }
-    
-    // جلب بيانات المنتج
-    const { data: product, error } = await supabaseClient
-        .from('products')
-        .select('*')
-        .eq('id', productId)
-        .single();
-    
-    if (error || !product) {
-        alert('Product not found');
-        return;
-    }
-    
-    // عرض modal لجمع معلومات الشراء
-    const modal = document.createElement('div');
-    modal.id = 'buyProductModal';
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
-    modal.innerHTML = `
-        <div style="background:white;border-radius:12px;padding:25px;max-width:450px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.3);">
-            <h3 style="margin:0 0 10px;color:#050505;">🛒 Buy Product</h3>
-            <p style="color:#65676b;font-size:13px;margin:0 0 15px;">
-                Product: <strong>${escapeHtml(product.name || product.title || 'Product')}</strong><br>
-                Price: <strong>${product.price} ${product.currency || 'MAD'}</strong>
-            </p>
+        async function buyProduct(productId) {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) {
+                alert('Please login first!');
+                return;
+            }
             
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Your Email:</label>
-            <input type="email" id="buyEmail" placeholder="your@email.com" value="${user.email || ''}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+            const { data: product, error } = await supabaseClient
+                .from('products')
+                .select('*')
+                .eq('id', productId)
+                .single();
             
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Payment Method:</label>
-            <select id="buyMethod" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
-                <option value="">-- Select --</option>
-                <option value="cash_on_delivery">Cash on Delivery</option>
-                <option value="paypal">PayPal</option>
-                <option value="bank_transfer">Bank Transfer</option>
-                <option value="other">Other</option>
-            </select>
+            if (error || !product) {
+                alert('Product not found');
+                return;
+            }
             
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Delivery Address:</label>
-            <textarea id="buyAddress" placeholder="Your full address..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;height:60px;font-size:14px;resize:vertical;"></textarea>
-            
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Notes (optional):</label>
-            <textarea id="buyNotes" placeholder="Any additional info..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:15px;height:50px;font-size:14px;resize:vertical;"></textarea>
-            
-            <div style="display:flex;gap:10px;">
-                <button onclick="closeBuyModal()" style="flex:1;padding:12px;border:none;border-radius:8px;background:#e4e6eb;cursor:pointer;font-weight:600;">Cancel</button>
-                <button onclick="submitBuyOrder('${productId}','${product.seller_id || product.user_id || ''}')" style="flex:1;padding:12px;border:none;border-radius:8px;background:#1877f2;color:white;cursor:pointer;font-weight:600;">Send Order</button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-function closeBuyModal() {
-    const m = document.getElementById('buyProductModal');
-    if (m) m.remove();
-}
-
-async function submitBuyOrder(productId, sellerId) {
-    const email = document.getElementById('buyEmail').value.trim();
-    const method = document.getElementById('buyMethod').value;
-    const address = document.getElementById('buyAddress').value.trim();
-    const notes = document.getElementById('buyNotes').value.trim();
-    
-    if (!email || !method || !address) {
-        alert('Please fill Email, Payment Method, and Address');
-        return;
-    }
-    
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        
-        const { data: product } = await supabaseClient
-            .from('products')
-            .select('name, title, price, currency')
-            .eq('id', productId)
-            .single();
-        
-        const productName = product?.name || product?.title || 'Product';
-        
-        const { error } = await supabaseClient
-            .from('product_orders')
-            .insert({
-                product_id: productId,
-                buyer_id: user?.id,
-                seller_id: sellerId || null,
-                buyer_email: email,
-                payment_method: method,
-                delivery_address: address,
-                notes: notes,
-                product_name: productName,
-                price: product?.price || 0,
-                currency: product?.currency || 'MAD',
-                status: 'pending'
-            });
-        
-        if (error) {
-            alert('Error: ' + error.message);
-            return;
+            const modal = document.createElement('div');
+            modal.id = 'buyProductModal';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+            modal.innerHTML = `
+                <div style="background:white;border-radius:12px;padding:25px;max-width:450px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+                    <h3 style="margin:0 0 10px;color:#050505;">🛒 Buy Product</h3>
+                    <p style="color:#65676b;font-size:13px;margin:0 0 15px;">
+                        Product: <strong>${escapeHtml(product.name || 'Product')}</strong><br>
+                        Price: <strong>${product.price} ${product.currency || 'MAD'}</strong>
+                    </p>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Your Email:</label>
+                    <input type="email" id="buyEmail" placeholder="your@email.com" value="${user.email || ''}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Payment Method:</label>
+                    <select id="buyMethod" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+                        <option value="">-- Select --</option>
+                        <option value="cash_on_delivery">Cash on Delivery</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Delivery Address:</label>
+                    <textarea id="buyAddress" placeholder="Your full address..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;height:60px;font-size:14px;resize:vertical;"></textarea>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Notes (optional):</label>
+                    <textarea id="buyNotes" placeholder="Any additional info..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:15px;height:50px;font-size:14px;resize:vertical;"></textarea>
+                    
+                    <div style="display:flex;gap:10px;">
+                        <button onclick="closeBuyModal()" style="flex:1;padding:12px;border:none;border-radius:8px;background:#e4e6eb;cursor:pointer;font-weight:600;">Cancel</button>
+                        <button onclick="submitBuyOrder('${productId}','${product.seller_id || ''}')" style="flex:1;padding:12px;border:none;border-radius:8px;background:#1877f2;color:white;cursor:pointer;font-weight:600;">Send Order</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
         }
         
-        // إشعار للبائع
-        if (sellerId) {
-            await supabaseClient.from('notifications').insert({
-                receiver_id: sellerId,
-                sender_id: user?.id,
-                type: 'product_order',
-                message: `🛒 New order for "${productName}" from ${email}`,
-                is_read: false
-            });
+        function closeBuyModal() {
+            const m = document.getElementById('buyProductModal');
+            if (m) m.remove();
         }
         
-        alert('✅ Order sent!\n\nWe will contact you at ' + email + ' to complete the purchase.');
-        closeBuyModal();
-    } catch (err) {
-        alert('Error: ' + err.message);
-    }
-}
+        async function submitBuyOrder(productId, sellerId) {
+            const email = document.getElementById('buyEmail').value.trim();
+            const method = document.getElementById('buyMethod').value;
+            const address = document.getElementById('buyAddress').value.trim();
+            const notes = document.getElementById('buyNotes').value.trim();
+            
+            if (!email || !method || !address) {
+                alert('Please fill Email, Payment Method, and Address');
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                // ✅ فقط name, price, currency (بدون title)
+                const { data: product } = await supabaseClient
+                    .from('products')
+                    .select('name, price, currency')
+                    .eq('id', productId)
+                    .single();
+                
+                const productName = product?.name || 'Product';
+                
+                const { error } = await supabaseClient
+                    .from('product_orders')
+                    .insert({
+                        product_id: productId,
+                        buyer_id: user?.id,
+                        seller_id: sellerId || null,
+                        buyer_email: email,
+                        payment_method: method,
+                        delivery_address: address,
+                        notes: notes,
+                        product_name: productName,
+                        price: product?.price || 0,
+                        currency: product?.currency || 'MAD',
+                        status: 'pending'
+                    });
+                
+                if (error) {
+                    alert('Error: ' + error.message);
+                    return;
+                }
+                
+                // إشعار للبائع
+                if (sellerId) {
+                    await supabaseClient.from('notifications').insert({
+                        receiver_id: sellerId,
+                        sender_id: user?.id,
+                        type: 'product_order',
+                        message: `🛒 New order for "${productName}" from ${email}`,
+                        is_read: false
+                    });
+                }
+                
+                alert('✅ Order sent!\n\nWe will contact you at ' + email + ' to complete the purchase.');
+                closeBuyModal();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
         
         // =========================================================
-        // CONTACT SELLER (تواصل مع البائع)
+        // CONTACT SELLER
         // =========================================================
-        
         function contactSeller(sellerId) {
-            // الانتقال إلى صفحة الرسائل مع البائع
             window.location.href = `messenger.html?user_id=${sellerId}`;
         }
         
         // =========================================================
         // ESCAPE HTML
         // =========================================================
-        
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
@@ -973,22 +894,18 @@ async function submitBuyOrder(productId, sellerId) {
         // =========================================================
         // START
         // =========================================================
-        
-               document.addEventListener('DOMContentLoaded', function() {
-            // 🔥 تطبيق اللغة أولاً
+        document.addEventListener('DOMContentLoaded', function() {
             const lang = getCurrentLanguage();
             setLanguage(lang);
             applyTranslations();
             
-            // ثم تحميل البيانات
             loadProducts();
             loadUserProfile();
             
-            // تحديث عرض السعر عند كتابة السعر
             document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
         });
     </script>
     
-    <script src="js/messenger-notify.js"></script>  
+    <script src="js/messenger-notify.js"></script>
 </body>
 </html>
