@@ -1,11 +1,11 @@
 // =========================================================
 // SOCIALWIKI - TRANSLATIONS (MULTI-LANGUAGE)
-// =========================================================
-// 12 Languages: ar, fr, en, es, de, it, ja, zh, ko, ru, tr, hi
+// 13 Languages: ar, fr, en, es, de, it, ja, zh, ko, ru, tr, hi, fil, tl
 // =========================================================
 const translations = {
+
+    // ==================== ARABIC ====================
     ar: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "ابحث في SocialWiki",
         "home": "الرئيسية",
         "friends": "الأصدقاء",
@@ -39,8 +39,6 @@ const translations = {
         "saved": "المحفوظات",
         "messages": "الرسائل",
         "chat": "محادثة",
-
-        // ==================== POSTS ====================
         "create_post": "ما الذي يدور في ذهنك؟",
         "photo_video": "صورة / فيديو",
         "feeling_activity": "شعور / نشاط",
@@ -70,8 +68,6 @@ const translations = {
         "view_all": "عرض الكل",
         "no_results": "لا توجد نتائج",
         "search_results": "نتائج البحث",
-
-        // ==================== STORIES ====================
         "story": "القصص",
         "create_story": "إنشاء قصة",
         "share_to_story": "شارك في القصة",
@@ -79,8 +75,6 @@ const translations = {
         "add_to_story": "أضف إلى قصتك",
         "story_views": "مشاهدات القصة",
         "story_expired": "انتهت القصة",
-
-        // ==================== ACTIONS ====================
         "cancel": "إلغاء",
         "confirm": "تأكيد",
         "save": "حفظ",
@@ -98,8 +92,6 @@ const translations = {
         "success_message": "تم بنجاح",
         "warning": "تحذير",
         "loading": "جاري التحميل...",
-
-        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 كود الإحالة الخاص بك",
         "your_referral_link": "🔗 رابط الإحالة",
         "copy_code": "📋 نسخ الكود",
@@ -120,8 +112,6 @@ const translations = {
         "copied_link": "✅ تم نسخ رابط الإحالة!",
         "error_copy": "❌ حدث خطأ، حاول مرة أخرى.",
         "default_user_name": "مستخدم",
-
-        // ==================== AUTH ====================
         "sign_up": "إنشاء حساب",
         "sign_in": "تسجيل الدخول",
         "create_account": "إنشاء حساب",
@@ -138,8 +128,6 @@ const translations = {
         "username": "اسم المستخدم",
         "or": "أو",
         "login_success": "✅ تم تسجيل الدخول بنجاح!",
-
-        // ==================== NEW AUTH KEYS ====================
         "founder_title": "🎁 أنت من المؤسسين الأوائل",
         "founder_line1": "ستحصل على:",
         "founder_line2": "• 525 نقطة ($5.25)",
@@ -162,8 +150,6 @@ const translations = {
         "welcome_bonus": "🎉 تم تفعيل كود الإحالة!",
         "google_btn": "تسجيل الدخول بواسطة Google",
         "language_label": "العربية",
-
-        // ==================== MARKETPLACE ====================
         "add_product": "+ إضافة منتج",
         "product_name": "اسم المنتج",
         "product_description": "الوصف",
@@ -180,8 +166,6 @@ const translations = {
         "buy_now": "🛒 شراء الآن",
         "contact_seller": "تواصل مع البائع",
         "no_products": "لا توجد منتجات بعد",
-
-        // ==================== AD CENTER ====================
         "ad_center_title": "📢 مركز الإعلانات",
         "ad_center_subtitle": "إدارة حملاتك الإعلانية من مكان واحد",
         "total_ads": "إجمالي الإعلانات",
@@ -240,8 +224,6 @@ const translations = {
         "recent_activity": "النشاط الأخير",
         "no_activity": "لا يوجد نشاط بعد",
         "estimated_earnings": "الأرباح المتوقعة",
-
-        // ==================== EARNINGS ====================
         "earnings": "الأرباح",
         "earnings_title": "💰 أرباحي",
         "earnings_subtitle": "تتبع أرباحك واطلب السحب",
@@ -285,8 +267,6 @@ const translations = {
         "payment_details": "تفاصيل الدفع",
         "amount": "المبلغ",
         "processing": "جاري المعالجة",
-
-        // ==================== EARNINGS PAGE (NEW KEYS) ====================
         "your_programs": "برامجك",
         "stars_program_title": "النجوم",
         "stars_program_desc": "دع معجبيك يدعمونك بإرسال النجوم",
@@ -305,9 +285,7 @@ const translations = {
         "learn_more": "اعرف المزيد",
         "watch_ad_earn": "💰 اربح 5 نقاط مجاناً",
         "watch_ad_desc": "شاهد إعلاناً قصيراً واحصل على 5 نقاط",
-        "watch_ad_btn": "🎬 شاهد الإعلان",
-
-        // ==================== GAMES ====================
+        "watch_ad_btn": "🎬 شاهد الإعلان واربح 5 نقاط",
         "games_title": "🎮 الألعاب",
         "games_subtitle": "العب وتحدَّ أصدقاءك",
         "tic_tac_toe": "لعبة XO",
@@ -339,21 +317,15 @@ const translations = {
         "win": "فوز",
         "lose": "خسارة",
         "draw": "تعادل",
-
-        // ==================== DAILY BONUS ====================
         "daily_bonus": "المكافأة اليومية",
         "claim": "احصل",
         "claimed": "تم الاستلام",
         "come_back_tomorrow": "عد غداً",
         "claim_bonus_desc": "احصل على 10 نقاط كل يوم!",
-
-        // ==================== SPIN WHEEL ====================
         "spin_wheel": "عجلة الحظ",
         "spin_now": "لف الآن",
         "spin_again": "عد غداً",
         "you_won_prize": "🎉 لقد ربحت!",
-
-        // ==================== TERMS / PRIVACY ====================
         "terms_title": "📜 شروط الاستخدام",
         "terms_subtitle": "آخر تحديث: يناير 2025",
         "privacy_title": "🔒 سياسة الخصوصية",
@@ -365,8 +337,6 @@ const translations = {
         "footer_terms": "شروط الخدمة",
         "footer_privacy": "سياسة الخصوصية",
         "footer_rights": "© 2025 SocialWiki. جميع الحقوق محفوظة.",
-
-        // ==================== STARS ====================
         "buy_stars": "شراء النجوم",
         "buy_stars_desc": "ادعم المبدعين المفضلين لديك",
         "star_balance": "رصيد نجومك",
@@ -379,8 +349,6 @@ const translations = {
         "bonus_10": "+10% مكافأة",
         "bonus_20": "+20% مكافأة",
         "bonus_30": "+30% مكافأة",
-
-        // ==================== GROUPS ====================
         "discover_groups": "اكتشف وانضم إلى المجتمعات",
         "create_group": "إنشاء مجموعة",
         "create_group_desc": "أنشئ مجتمعك الخاص على SocialWiki",
@@ -403,8 +371,6 @@ const translations = {
         "group1": "مجموعة 1",
         "group2": "مجموعة 2",
         "group3": "مجموعة 3",
-
-        // ==================== EVENTS ====================
         "event1": "حدث 1",
         "event2": "حدث 2",
         "create_event": "إنشاء حدث",
@@ -412,8 +378,6 @@ const translations = {
         "going": "ذاهب",
         "not_going": "لن أذهب",
         "location": "المكان",
-
-        // ==================== PROFILE ====================
         "edit_profile": "تعديل الملف",
         "message": "رسالة",
         "followers": "المتابعون",
@@ -422,8 +386,6 @@ const translations = {
         "user": "مستخدم",
         "zero_points": "0 نقاط",
         "points_label": "نقاط",
-
-        // ==================== MESSAGES ====================
         "online": "متصل",
         "offline": "غير متصل",
         "typing": "يكتب...",
@@ -439,8 +401,6 @@ const translations = {
         "reject": "رفض",
         "no_friends": "لا يوجد أصدقاء بعد",
         "posts_title": "المنشورات",
-
-        // ==================== MESSAGES PAGE (NEW) ====================
         "inbox": "الوارد",
         "sent_box": "المرسلة",
         "new_message": "رسالة جديدة",
@@ -477,14 +437,12 @@ const translations = {
         "all_messages": "كل الرسائل",
         "archived_messages": "المؤرشفة",
         "online_users": "المستخدمون المتصلون",
-        "watch_ad_btn": "🎬 شاهد الإعلان",
-        "watch_ad_btn": "🎬 شاهد الإعلان واربح 5 نقاط",
         "earn_points_title": "🎁 اربح نقاطاً من كل نشاط!",
-"earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!",
+        "earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!"
     },
 
+    // ==================== FRENCH ====================
     fr: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Rechercher sur SocialWiki",
         "home": "Accueil",
         "friends": "Amis",
@@ -518,7 +476,6 @@ const translations = {
         "saved": "Enregistrés",
         "messages": "Messages",
         "chat": "Chat",
-
         "create_post": "Quoi de neuf ?",
         "photo_video": "Photo / Vidéo",
         "feeling_activity": "Sentiment / Activité",
@@ -548,7 +505,6 @@ const translations = {
         "view_all": "Voir tout",
         "no_results": "Aucun résultat",
         "search_results": "Résultats de recherche",
-
         "story": "Stories",
         "create_story": "Créer une story",
         "share_to_story": "Partager en story",
@@ -556,7 +512,6 @@ const translations = {
         "add_to_story": "Ajouter à la story",
         "story_views": "Vues de la story",
         "story_expired": "Story expirée",
-
         "cancel": "Annuler",
         "confirm": "Confirmer",
         "save": "Enregistrer",
@@ -574,7 +529,6 @@ const translations = {
         "success_message": "Succès",
         "warning": "Attention",
         "loading": "Chargement...",
-
         "your_referral_code": "🔑 Votre code de parrainage",
         "your_referral_link": "🔗 Lien de parrainage",
         "copy_code": "📋 Copier le code",
@@ -595,7 +549,6 @@ const translations = {
         "copied_link": "✅ Lien copié!",
         "error_copy": "❌ Erreur, réessayez.",
         "default_user_name": "Utilisateur",
-
         "sign_up": "S'inscrire",
         "sign_in": "Se connecter",
         "create_account": "Créer un compte",
@@ -612,7 +565,6 @@ const translations = {
         "username": "Nom d'utilisateur",
         "or": "ou",
         "login_success": "✅ Connexion réussie!",
-
         "founder_title": "🎁 Vous êtes l'un des premiers fondateurs",
         "founder_line1": "Vous recevrez :",
         "founder_line2": "• 525 points (5,25 $)",
@@ -635,7 +587,6 @@ const translations = {
         "welcome_bonus": "🎉 Code de parrainage activé !",
         "google_btn": "Se connecter avec Google",
         "language_label": "Français",
-
         "add_product": "+ Ajouter un produit",
         "product_name": "Nom du produit",
         "product_description": "Description",
@@ -652,7 +603,6 @@ const translations = {
         "buy_now": "🛒 Acheter maintenant",
         "contact_seller": "Contacter le vendeur",
         "no_products": "Aucun produit pour le moment",
-
         "ad_center_title": "📢 Centre publicitaire",
         "ad_center_subtitle": "Gérez vos campagnes publicitaires en un seul endroit",
         "total_ads": "Total des annonces",
@@ -711,7 +661,6 @@ const translations = {
         "recent_activity": "Activité récente",
         "no_activity": "Aucune activité pour le moment",
         "estimated_earnings": "Revenus estimés",
-
         "earnings": "Revenus",
         "earnings_title": "💰 Mes revenus",
         "earnings_subtitle": "Suivez vos revenus et demandez un retrait",
@@ -755,7 +704,6 @@ const translations = {
         "payment_details": "Détails du paiement",
         "amount": "Montant",
         "processing": "Traitement",
-
         "your_programs": "Vos programmes",
         "stars_program_title": "Étoiles",
         "stars_program_desc": "Laissez vos fans vous soutenir en envoyant des Étoiles",
@@ -774,9 +722,7 @@ const translations = {
         "learn_more": "En savoir plus",
         "watch_ad_earn": "💰 Regardez une pub et gagnez 5 points",
         "watch_ad_desc": "Regardez une courte pub et gagnez 5 points gratuits",
-        "watch_ad_btn": "🎬 Regarder la pub",
-        "watch_ad_btn": "🎬 شاهد الإعلان واربح 5 نقاط",
-
+        "watch_ad_btn": "🎬 Regardez la pub et gagnez 5 points",
         "games_title": "🎮 Jeux",
         "games_subtitle": "Jouez et défiez vos amis",
         "tic_tac_toe": "Morpion",
@@ -808,18 +754,15 @@ const translations = {
         "win": "Gagner",
         "lose": "Perdre",
         "draw": "Match nul",
-
         "daily_bonus": "Bonus quotidien",
         "claim": "Réclamer",
         "claimed": "Réclamé",
         "come_back_tomorrow": "Revenez demain",
         "claim_bonus_desc": "Réclamez 10 points chaque jour!",
-
         "spin_wheel": "Roue de la fortune",
         "spin_now": "Tourner",
         "spin_again": "Revenez demain",
         "you_won_prize": "🎉 Vous avez gagné!",
-
         "terms_title": "📜 Conditions d'utilisation",
         "terms_subtitle": "Dernière mise à jour: Janvier 2025",
         "privacy_title": "🔒 Politique de confidentialité",
@@ -831,7 +774,6 @@ const translations = {
         "footer_terms": "Conditions d'utilisation",
         "footer_privacy": "Politique de confidentialité",
         "footer_rights": "© 2025 SocialWiki. Tous droits réservés.",
-
         "buy_stars": "Acheter des étoiles",
         "buy_stars_desc": "Soutenez vos créateurs préférés",
         "star_balance": "Votre solde d'étoiles",
@@ -844,7 +786,6 @@ const translations = {
         "bonus_10": "+10% de bonus",
         "bonus_20": "+20% de bonus",
         "bonus_30": "+30% de bonus",
-
         "discover_groups": "Découvrez et rejoignez des communautés",
         "create_group": "Créer un groupe",
         "create_group_desc": "Créez votre propre communauté SocialWiki",
@@ -867,7 +808,6 @@ const translations = {
         "group1": "Groupe 1",
         "group2": "Groupe 2",
         "group3": "Groupe 3",
-
         "event1": "Événement 1",
         "event2": "Événement 2",
         "create_event": "Créer un événement",
@@ -875,7 +815,6 @@ const translations = {
         "going": "Participe",
         "not_going": "Ne participe pas",
         "location": "Lieu",
-
         "edit_profile": "Modifier le profil",
         "message": "Message",
         "followers": "Abonnés",
@@ -884,7 +823,6 @@ const translations = {
         "user": "Utilisateur",
         "zero_points": "0 points",
         "points_label": "points",
-
         "online": "En ligne",
         "offline": "Hors ligne",
         "typing": "En train d'écrire...",
@@ -900,7 +838,6 @@ const translations = {
         "reject": "Refuser",
         "no_friends": "Aucun ami pour le moment",
         "posts_title": "Publications",
-
         "inbox": "Boîte de réception",
         "sent_box": "Envoyés",
         "new_message": "Nouveau message",
@@ -937,13 +874,12 @@ const translations = {
         "all_messages": "Tous les messages",
         "archived_messages": "Archivés",
         "online_users": "Utilisateurs en ligne",
-        "watch_ad_btn": "🎬 Regardez la pub et gagnez 5 points",
-        "earn_points_title": "🎁 اربح نقاطاً من كل نشاط!",
-"earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!",
+        "earn_points_title": "🎁 Gagnez des points à chaque activité !",
+        "earn_points_subtitle": "Invitez vos amis avec votre code de parrainage — 50 points par ami !"
     },
-    
+
+    // ==================== ENGLISH ====================
     en: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Search SocialWiki",
         "home": "Home",
         "friends": "Friends",
@@ -977,8 +913,6 @@ const translations = {
         "saved": "Saved",
         "messages": "Messages",
         "chat": "Chat",
-
-        // ==================== POSTS ====================
         "create_post": "What's on your mind?",
         "photo_video": "Photo / Video",
         "feeling_activity": "Feeling / Activity",
@@ -1008,8 +942,6 @@ const translations = {
         "view_all": "View All",
         "no_results": "No Results",
         "search_results": "Search Results",
-
-        // ==================== STORIES ====================
         "story": "Stories",
         "create_story": "Create Story",
         "share_to_story": "Share to Story",
@@ -1017,8 +949,6 @@ const translations = {
         "add_to_story": "Add to Story",
         "story_views": "Story Views",
         "story_expired": "Story Expired",
-
-        // ==================== ACTIONS ====================
         "cancel": "Cancel",
         "confirm": "Confirm",
         "save": "Save",
@@ -1036,8 +966,6 @@ const translations = {
         "success_message": "Success",
         "warning": "Warning",
         "loading": "Loading...",
-
-        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 Your Referral Code",
         "your_referral_link": "🔗 Referral Link",
         "copy_code": "📋 Copy Code",
@@ -1058,8 +986,6 @@ const translations = {
         "copied_link": "✅ Link copied!",
         "error_copy": "❌ Error, try again.",
         "default_user_name": "User",
-
-        // ==================== AUTH ====================
         "sign_up": "Sign Up",
         "sign_in": "Sign In",
         "create_account": "Create Account",
@@ -1076,8 +1002,6 @@ const translations = {
         "username": "Username",
         "or": "or",
         "login_success": "✅ Login successful!",
-
-        // ==================== NEW AUTH KEYS ====================
         "founder_title": "🎁 You are one of the first Founders",
         "founder_line1": "You will get:",
         "founder_line2": "• 525 points ($5.25)",
@@ -1100,8 +1024,6 @@ const translations = {
         "welcome_bonus": "🎉 Referral code activated!",
         "google_btn": "Sign in with Google",
         "language_label": "English",
-
-        // ==================== MARKETPLACE ====================
         "add_product": "+ Add Product",
         "product_name": "Product Name",
         "product_description": "Description",
@@ -1118,8 +1040,6 @@ const translations = {
         "buy_now": "🛒 Buy Now",
         "contact_seller": "Contact Seller",
         "no_products": "No products yet",
-
-        // ==================== AD CENTER ====================
         "ad_center_title": "📢 Ad Center",
         "ad_center_subtitle": "Manage your ad campaigns in one place",
         "total_ads": "Total Ads",
@@ -1178,8 +1098,6 @@ const translations = {
         "recent_activity": "Recent Activity",
         "no_activity": "No activity yet",
         "estimated_earnings": "Estimated Earnings",
-
-        // ==================== EARNINGS ====================
         "earnings": "Earnings",
         "earnings_title": "💰 My Earnings",
         "earnings_subtitle": "Track your earnings and request withdrawal",
@@ -1223,8 +1141,6 @@ const translations = {
         "payment_details": "Payment Details",
         "amount": "Amount",
         "processing": "Processing",
-
-        // ==================== EARNINGS PAGE (NEW KEYS) ====================
         "your_programs": "Your Programs",
         "stars_program_title": "Stars",
         "stars_program_desc": "Let your fans support you by sending Stars",
@@ -1243,9 +1159,7 @@ const translations = {
         "learn_more": "Learn more",
         "watch_ad_earn": "💰 Watch Ad & Earn 5 Points",
         "watch_ad_desc": "Watch a short ad and get 5 points free",
-        "watch_ad_btn": "🎬 Watch Ad",
-
-        // ==================== GAMES ====================
+        "watch_ad_btn": "🎬 Watch Ad & Earn 5 Points",
         "games_title": "🎮 Games",
         "games_subtitle": "Play and challenge your friends",
         "tic_tac_toe": "Tic Tac Toe",
@@ -1277,21 +1191,15 @@ const translations = {
         "win": "Win",
         "lose": "Lose",
         "draw": "Draw",
-
-        // ==================== DAILY BONUS ====================
         "daily_bonus": "Daily Bonus",
         "claim": "Claim",
         "claimed": "Claimed",
         "come_back_tomorrow": "Come back tomorrow",
         "claim_bonus_desc": "Claim 10 points every day!",
-
-        // ==================== SPIN WHEEL ====================
         "spin_wheel": "Spin Wheel",
         "spin_now": "Spin Now",
         "spin_again": "Come back tomorrow",
         "you_won_prize": "🎉 You Won!",
-
-        // ==================== TERMS / PRIVACY ====================
         "terms_title": "📜 Terms of Service",
         "terms_subtitle": "Last updated: January 2025",
         "privacy_title": "🔒 Privacy Policy",
@@ -1303,8 +1211,6 @@ const translations = {
         "footer_terms": "Terms of Service",
         "footer_privacy": "Privacy Policy",
         "footer_rights": "© 2025 SocialWiki. All rights reserved.",
-
-        // ==================== STARS ====================
         "buy_stars": "Buy Stars",
         "buy_stars_desc": "Support your favorite creators",
         "star_balance": "Your Star Balance",
@@ -1317,8 +1223,6 @@ const translations = {
         "bonus_10": "+10% Bonus",
         "bonus_20": "+20% Bonus",
         "bonus_30": "+30% Bonus",
-
-        // ==================== GROUPS ====================
         "discover_groups": "Discover and join communities",
         "create_group": "Create Group",
         "create_group_desc": "Create your own SocialWiki community",
@@ -1341,8 +1245,6 @@ const translations = {
         "group1": "Group 1",
         "group2": "Group 2",
         "group3": "Group 3",
-
-        // ==================== EVENTS ====================
         "event1": "Event 1",
         "event2": "Event 2",
         "create_event": "Create Event",
@@ -1350,8 +1252,6 @@ const translations = {
         "going": "Going",
         "not_going": "Not Going",
         "location": "Location",
-
-        // ==================== PROFILE ====================
         "edit_profile": "Edit Profile",
         "message": "Message",
         "followers": "Followers",
@@ -1360,8 +1260,6 @@ const translations = {
         "user": "User",
         "zero_points": "0 points",
         "points_label": "points",
-
-        // ==================== MESSAGES ====================
         "online": "Online",
         "offline": "Offline",
         "typing": "Typing...",
@@ -1377,8 +1275,6 @@ const translations = {
         "reject": "Reject",
         "no_friends": "No friends yet",
         "posts_title": "Posts",
-
-        // ==================== MESSAGES PAGE (NEW) ====================
         "inbox": "Inbox",
         "sent_box": "Sent",
         "new_message": "New Message",
@@ -1415,13 +1311,12 @@ const translations = {
         "all_messages": "All messages",
         "archived_messages": "Archived",
         "online_users": "Online users",
-        "watch_ad_btn": "🎬 Watch Ad & Earn 5 Points",
         "earn_points_title": "🎁 Earn Points from Every Activity!",
-"earn_points_subtitle": "Invite friends with your referral code — get 50 points per friend!",
+        "earn_points_subtitle": "Invite friends with your referral code — get 50 points per friend!"
     },
-    
+
+    // ==================== SPANISH ====================
     es: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Buscar en SocialWiki",
         "home": "Inicio",
         "friends": "Amigos",
@@ -1455,7 +1350,6 @@ const translations = {
         "saved": "Guardados",
         "messages": "Mensajes",
         "chat": "Chat",
-
         "create_post": "¿Qué estás pensando?",
         "photo_video": "Foto / Video",
         "feeling_activity": "Sentimiento / Actividad",
@@ -1485,7 +1379,6 @@ const translations = {
         "view_all": "Ver todo",
         "no_results": "Sin resultados",
         "search_results": "Resultados de búsqueda",
-
         "story": "Historias",
         "create_story": "Crear historia",
         "share_to_story": "Compartir en historia",
@@ -1493,7 +1386,6 @@ const translations = {
         "add_to_story": "Añadir a la historia",
         "story_views": "Vistas de la historia",
         "story_expired": "Historia expirada",
-
         "cancel": "Cancelar",
         "confirm": "Confirmar",
         "save": "Guardar",
@@ -1511,7 +1403,6 @@ const translations = {
         "success_message": "Éxito",
         "warning": "Advertencia",
         "loading": "Cargando...",
-
         "your_referral_code": "🔑 Tu código de referido",
         "your_referral_link": "🔗 Enlace de referido",
         "copy_code": "📋 Copiar código",
@@ -1532,7 +1423,6 @@ const translations = {
         "copied_link": "✅ ¡Enlace copiado!",
         "error_copy": "❌ Error, inténtalo de nuevo.",
         "default_user_name": "Usuario",
-
         "sign_up": "Registrarse",
         "sign_in": "Iniciar Sesión",
         "create_account": "Crear Cuenta",
@@ -1549,7 +1439,6 @@ const translations = {
         "username": "Nombre de usuario",
         "or": "o",
         "login_success": "✅ ¡Inicio de sesión exitoso!",
-
         "founder_title": "🎁 Eres uno de los primeros Fundadores",
         "founder_line1": "Recibirás:",
         "founder_line2": "• 525 puntos ($5.25)",
@@ -1572,7 +1461,6 @@ const translations = {
         "welcome_bonus": "🎉 ¡Código de referido activado!",
         "google_btn": "Iniciar sesión con Google",
         "language_label": "Español",
-
         "add_product": "+ Añadir producto",
         "product_name": "Nombre del producto",
         "product_description": "Descripción",
@@ -1589,7 +1477,6 @@ const translations = {
         "buy_now": "🛒 Comprar ahora",
         "contact_seller": "Contactar vendedor",
         "no_products": "Aún no hay productos",
-
         "ad_center_title": "📢 Centro de anuncios",
         "ad_center_subtitle": "Gestiona tus campañas publicitarias en un solo lugar",
         "total_ads": "Total de anuncios",
@@ -1648,7 +1535,6 @@ const translations = {
         "recent_activity": "Actividad reciente",
         "no_activity": "Sin actividad aún",
         "estimated_earnings": "Ganancias estimadas",
-
         "earnings": "Ganancias",
         "earnings_title": "💰 Mis ganancias",
         "earnings_subtitle": "Sigue tus ganancias y solicita retiros",
@@ -1692,7 +1578,6 @@ const translations = {
         "payment_details": "Detalles de pago",
         "amount": "Monto",
         "processing": "Procesando",
-
         "your_programs": "Tus programas",
         "stars_program_title": "Estrellas",
         "stars_program_desc": "Deja que tus fans te apoyen enviando Estrellas",
@@ -1711,8 +1596,7 @@ const translations = {
         "learn_more": "Más información",
         "watch_ad_earn": "💰 Mira un anuncio y gana 5 puntos",
         "watch_ad_desc": "Mira un anuncio corto y obtén 5 puntos gratis",
-        "watch_ad_btn": "🎬 Ver anuncio",
-
+        "watch_ad_btn": "🎬 Ver anuncio y ganar 5 puntos",
         "games_title": "🎮 Juegos",
         "games_subtitle": "Juega y desafía a tus amigos",
         "tic_tac_toe": "Tres en línea",
@@ -1744,18 +1628,15 @@ const translations = {
         "win": "Ganar",
         "lose": "Perder",
         "draw": "Empate",
-
         "daily_bonus": "Bono Diario",
         "claim": "Reclamar",
         "claimed": "Reclamado",
         "come_back_tomorrow": "Vuelve mañana",
         "claim_bonus_desc": "¡Reclama 10 puntos cada día!",
-
         "spin_wheel": "Ruleta",
         "spin_now": "Girar",
         "spin_again": "Vuelve mañana",
         "you_won_prize": "🎉 ¡Ganaste!",
-
         "terms_title": "📜 Términos de servicio",
         "terms_subtitle": "Última actualización: Enero 2025",
         "privacy_title": "🔒 Política de privacidad",
@@ -1767,7 +1648,6 @@ const translations = {
         "footer_terms": "Términos de servicio",
         "footer_privacy": "Política de privacidad",
         "footer_rights": "© 2025 SocialWiki. Todos los derechos reservados.",
-
         "buy_stars": "Comprar estrellas",
         "buy_stars_desc": "Apoya a tus creadores favoritos",
         "star_balance": "Tu saldo de estrellas",
@@ -1780,7 +1660,6 @@ const translations = {
         "bonus_10": "+10% de bonificación",
         "bonus_20": "+20% de bonificación",
         "bonus_30": "+30% de bonificación",
-
         "discover_groups": "Descubre y únete a comunidades",
         "create_group": "Crear grupo",
         "create_group_desc": "Crea tu propia comunidad SocialWiki",
@@ -1803,7 +1682,6 @@ const translations = {
         "group1": "Grupo 1",
         "group2": "Grupo 2",
         "group3": "Grupo 3",
-
         "event1": "Evento 1",
         "event2": "Evento 2",
         "create_event": "Crear Evento",
@@ -1811,7 +1689,6 @@ const translations = {
         "going": "Asistiré",
         "not_going": "No asistiré",
         "location": "Ubicación",
-
         "edit_profile": "Editar perfil",
         "message": "Mensaje",
         "followers": "Seguidores",
@@ -1820,7 +1697,6 @@ const translations = {
         "user": "Usuario",
         "zero_points": "0 puntos",
         "points_label": "puntos",
-
         "online": "En línea",
         "offline": "Desconectado",
         "typing": "Escribiendo...",
@@ -1836,7 +1712,6 @@ const translations = {
         "reject": "Rechazar",
         "no_friends": "Aún no hay amigos",
         "posts_title": "Publicaciones",
-
         "inbox": "Bandeja de entrada",
         "sent_box": "Enviados",
         "new_message": "Nuevo mensaje",
@@ -1873,13 +1748,12 @@ const translations = {
         "all_messages": "Todos los mensajes",
         "archived_messages": "Archivados",
         "online_users": "Usuarios en línea",
-        "watch_ad_btn": "🎬 Ver anuncio y ganar 5 puntos",
         "earn_points_title": "🎁 ¡Gana puntos con cada actividad!",
-"earn_points_subtitle": "¡Invita a tus amigos con tu código de referido — 50 puntos por amigo!",
+        "earn_points_subtitle": "¡Invita a tus amigos con tu código de referido — 50 puntos por amigo!"
     },
-    
+
+    // ==================== GERMAN ====================
     de: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki durchsuchen",
         "home": "Startseite",
         "friends": "Freunde",
@@ -1913,7 +1787,6 @@ const translations = {
         "saved": "Gespeichert",
         "messages": "Nachrichten",
         "chat": "Chat",
-
         "create_post": "Was denkst du gerade?",
         "photo_video": "Foto / Video",
         "feeling_activity": "Gefühl / Aktivität",
@@ -1943,7 +1816,6 @@ const translations = {
         "view_all": "Alle ansehen",
         "no_results": "Keine Ergebnisse",
         "search_results": "Suchergebnisse",
-
         "story": "Storys",
         "create_story": "Story erstellen",
         "share_to_story": "In Story teilen",
@@ -1951,7 +1823,6 @@ const translations = {
         "add_to_story": "Zur Story hinzufügen",
         "story_views": "Story-Aufrufe",
         "story_expired": "Story abgelaufen",
-
         "cancel": "Abbrechen",
         "confirm": "Bestätigen",
         "save": "Speichern",
@@ -1969,7 +1840,6 @@ const translations = {
         "success_message": "Erfolg",
         "warning": "Warnung",
         "loading": "Lädt...",
-
         "your_referral_code": "🔑 Dein Empfehlungscode",
         "your_referral_link": "🔗 Empfehlungslink",
         "copy_code": "📋 Code kopieren",
@@ -1990,7 +1860,6 @@ const translations = {
         "copied_link": "✅ Link kopiert!",
         "error_copy": "❌ Fehler, versuche es erneut.",
         "default_user_name": "Benutzer",
-
         "sign_up": "Registrieren",
         "sign_in": "Anmelden",
         "create_account": "Konto erstellen",
@@ -2007,7 +1876,6 @@ const translations = {
         "username": "Benutzername",
         "or": "oder",
         "login_success": "✅ Anmeldung erfolgreich!",
-
         "founder_title": "🎁 Du bist einer der ersten Gründer",
         "founder_line1": "Du erhältst:",
         "founder_line2": "• 525 Punkte (5,25 $)",
@@ -2030,7 +1898,6 @@ const translations = {
         "welcome_bonus": "🎉 Empfehlungscode aktiviert!",
         "google_btn": "Mit Google anmelden",
         "language_label": "Deutsch",
-
         "add_product": "+ Produkt hinzufügen",
         "product_name": "Produktname",
         "product_description": "Beschreibung",
@@ -2047,7 +1914,6 @@ const translations = {
         "buy_now": "🛒 Jetzt kaufen",
         "contact_seller": "Verkäufer kontaktieren",
         "no_products": "Noch keine Produkte",
-
         "ad_center_title": "📢 Anzeigencenter",
         "ad_center_subtitle": "Verwalte deine Werbekampagnen an einem Ort",
         "total_ads": "Gesamte Anzeigen",
@@ -2106,7 +1972,6 @@ const translations = {
         "recent_activity": "Letzte Aktivität",
         "no_activity": "Noch keine Aktivität",
         "estimated_earnings": "Geschätzte Einnahmen",
-
         "earnings": "Einnahmen",
         "earnings_title": "💰 Meine Einnahmen",
         "earnings_subtitle": "Verfolge deine Einnahmen und fordere Auszahlungen an",
@@ -2150,7 +2015,6 @@ const translations = {
         "payment_details": "Zahlungsdetails",
         "amount": "Betrag",
         "processing": "Verarbeitung",
-
         "your_programs": "Deine Programme",
         "stars_program_title": "Sterne",
         "stars_program_desc": "Lass deine Fans dich durch das Senden von Sternen unterstützen",
@@ -2169,8 +2033,7 @@ const translations = {
         "learn_more": "Mehr erfahren",
         "watch_ad_earn": "💰 Anzeige ansehen und 5 Punkte verdienen",
         "watch_ad_desc": "Sieh dir eine kurze Anzeige an und erhalte 5 kostenlose Punkte",
-        "watch_ad_btn": "🎬 Anzeige ansehen",
-
+        "watch_ad_btn": "🎬 Anzeige ansehen und 5 Punkte verdienen",
         "games_title": "🎮 Spiele",
         "games_subtitle": "Spiele und fordere deine Freunde heraus",
         "tic_tac_toe": "Tic Tac Toe",
@@ -2202,18 +2065,15 @@ const translations = {
         "win": "Gewinnen",
         "lose": "Verlieren",
         "draw": "Unentschieden",
-
         "daily_bonus": "Täglicher Bonus",
         "claim": "Abholen",
         "claimed": "Abgeholt",
         "come_back_tomorrow": "Komm morgen wieder",
         "claim_bonus_desc": "Hole täglich 10 Punkte!",
-
         "spin_wheel": "Glücksrad",
         "spin_now": "Drehen",
         "spin_again": "Komm morgen wieder",
         "you_won_prize": "🎉 Du hast gewonnen!",
-
         "terms_title": "📜 Nutzungsbedingungen",
         "terms_subtitle": "Letzte Aktualisierung: Januar 2025",
         "privacy_title": "🔒 Datenschutzrichtlinie",
@@ -2225,7 +2085,6 @@ const translations = {
         "footer_terms": "Nutzungsbedingungen",
         "footer_privacy": "Datenschutzrichtlinie",
         "footer_rights": "© 2025 SocialWiki. Alle Rechte vorbehalten.",
-
         "buy_stars": "Sterne kaufen",
         "buy_stars_desc": "Unterstütze deine Lieblingskreativen",
         "star_balance": "Dein Sternenguthaben",
@@ -2238,7 +2097,6 @@ const translations = {
         "bonus_10": "+10% Bonus",
         "bonus_20": "+20% Bonus",
         "bonus_30": "+30% Bonus",
-
         "discover_groups": "Entdecke und tritt Communities bei",
         "create_group": "Gruppe erstellen",
         "create_group_desc": "Erstelle deine eigene SocialWiki-Community",
@@ -2261,7 +2119,6 @@ const translations = {
         "group1": "Gruppe 1",
         "group2": "Gruppe 2",
         "group3": "Gruppe 3",
-
         "event1": "Veranstaltung 1",
         "event2": "Veranstaltung 2",
         "create_event": "Veranstaltung erstellen",
@@ -2269,7 +2126,6 @@ const translations = {
         "going": "Teilnehmen",
         "not_going": "Nicht teilnehmen",
         "location": "Ort",
-
         "edit_profile": "Profil bearbeiten",
         "message": "Nachricht",
         "followers": "Follower",
@@ -2278,7 +2134,6 @@ const translations = {
         "user": "Benutzer",
         "zero_points": "0 Punkte",
         "points_label": "Punkte",
-
         "online": "Online",
         "offline": "Offline",
         "typing": "Schreibt...",
@@ -2294,7 +2149,6 @@ const translations = {
         "reject": "Ablehnen",
         "no_friends": "Noch keine Freunde",
         "posts_title": "Beiträge",
-
         "inbox": "Posteingang",
         "sent_box": "Gesendet",
         "new_message": "Neue Nachricht",
@@ -2331,13 +2185,12 @@ const translations = {
         "all_messages": "Alle Nachrichten",
         "archived_messages": "Archiviert",
         "online_users": "Benutzer online",
-        "watch_ad_btn": "🎬 Anzeige ansehen und 5 Punkte verdienen",
         "earn_points_title": "🎁 Verdiene Punkte bei jeder Aktivität!",
-"earn_points_subtitle": "Lade Freunde mit deinem Empfehlungscode ein — 50 Punkte pro Freund!",
+        "earn_points_subtitle": "Lade Freunde mit deinem Empfehlungscode ein — 50 Punkte pro Freund!"
     },
-    
+
+    // ==================== ITALIAN ====================
     it: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Cerca su SocialWiki",
         "home": "Home",
         "friends": "Amici",
@@ -2371,7 +2224,6 @@ const translations = {
         "saved": "Salvati",
         "messages": "Messaggi",
         "chat": "Chat",
-
         "create_post": "A cosa stai pensando?",
         "photo_video": "Foto / Video",
         "feeling_activity": "Sentimento / Attività",
@@ -2401,7 +2253,6 @@ const translations = {
         "view_all": "Vedi tutto",
         "no_results": "Nessun risultato",
         "search_results": "Risultati di ricerca",
-
         "story": "Storie",
         "create_story": "Crea storia",
         "share_to_story": "Condividi nella storia",
@@ -2409,7 +2260,6 @@ const translations = {
         "add_to_story": "Aggiungi alla storia",
         "story_views": "Visualizzazioni storia",
         "story_expired": "Storia scaduta",
-
         "cancel": "Annulla",
         "confirm": "Conferma",
         "save": "Salva",
@@ -2427,7 +2277,6 @@ const translations = {
         "success_message": "Successo",
         "warning": "Avviso",
         "loading": "Caricamento...",
-
         "your_referral_code": "🔑 Il tuo codice referral",
         "your_referral_link": "🔗 Link referral",
         "copy_code": "📋 Copia codice",
@@ -2448,7 +2297,6 @@ const translations = {
         "copied_link": "✅ Link copiato!",
         "error_copy": "❌ Errore, riprova.",
         "default_user_name": "Utente",
-
         "sign_up": "Registrati",
         "sign_in": "Accedi",
         "create_account": "Crea Account",
@@ -2465,7 +2313,6 @@ const translations = {
         "username": "Nome utente",
         "or": "o",
         "login_success": "✅ Accesso riuscito!",
-
         "founder_title": "🎁 Sei uno dei primi Fondatori",
         "founder_line1": "Riceverai:",
         "founder_line2": "• 525 punti ($5,25)",
@@ -2488,7 +2335,6 @@ const translations = {
         "welcome_bonus": "🎉 Codice referral attivato!",
         "google_btn": "Accedi con Google",
         "language_label": "Italiano",
-
         "add_product": "+ Aggiungi prodotto",
         "product_name": "Nome del prodotto",
         "product_description": "Descrizione",
@@ -2505,7 +2351,6 @@ const translations = {
         "buy_now": "🛒 Compra ora",
         "contact_seller": "Contatta venditore",
         "no_products": "Nessun prodotto ancora",
-
         "ad_center_title": "📢 Centro annunci",
         "ad_center_subtitle": "Gestisci le tue campagne pubblicitarie in un unico posto",
         "total_ads": "Totale annunci",
@@ -2564,7 +2409,6 @@ const translations = {
         "recent_activity": "Attività recente",
         "no_activity": "Nessuna attività ancora",
         "estimated_earnings": "Guadagni stimati",
-
         "earnings": "Guadagni",
         "earnings_title": "💰 I miei guadagni",
         "earnings_subtitle": "Monitora i tuoi guadagni e richiedi prelievi",
@@ -2608,7 +2452,6 @@ const translations = {
         "payment_details": "Dettagli pagamento",
         "amount": "Importo",
         "processing": "Elaborazione",
-
         "your_programs": "I tuoi programmi",
         "stars_program_title": "Stelle",
         "stars_program_desc": "Lascia che i tuoi fan ti supportino inviando Stelle",
@@ -2627,8 +2470,7 @@ const translations = {
         "learn_more": "Scopri di più",
         "watch_ad_earn": "💰 Guarda un annuncio e guadagna 5 punti",
         "watch_ad_desc": "Guarda un breve annuncio e ottieni 5 punti gratis",
-        "watch_ad_btn": "🎬 Guarda annuncio",
-
+        "watch_ad_btn": "🎬 Guarda l'annuncio e guadagna 5 punti",
         "games_title": "🎮 Giochi",
         "games_subtitle": "Gioca e sfida i tuoi amici",
         "tic_tac_toe": "Tris",
@@ -2660,18 +2502,15 @@ const translations = {
         "win": "Vincere",
         "lose": "Perdere",
         "draw": "Pareggio",
-
         "daily_bonus": "Bonus Giornaliero",
         "claim": "Riscatta",
         "claimed": "Riscattato",
         "come_back_tomorrow": "Torna domani",
         "claim_bonus_desc": "Ottieni 10 punti ogni giorno!",
-
         "spin_wheel": "Ruota della fortuna",
         "spin_now": "Gira",
         "spin_again": "Torna domani",
         "you_won_prize": "🎉 Hai vinto!",
-
         "terms_title": "📜 Termini di servizio",
         "terms_subtitle": "Ultimo aggiornamento: Gennaio 2025",
         "privacy_title": "🔒 Informativa sulla privacy",
@@ -2683,7 +2522,6 @@ const translations = {
         "footer_terms": "Termini di servizio",
         "footer_privacy": "Informativa sulla privacy",
         "footer_rights": "© 2025 SocialWiki. Tutti i diritti riservati.",
-
         "buy_stars": "Acquista stelle",
         "buy_stars_desc": "Supporta i tuoi creatori preferiti",
         "star_balance": "Il tuo saldo stelle",
@@ -2696,7 +2534,6 @@ const translations = {
         "bonus_10": "+10% bonus",
         "bonus_20": "+20% bonus",
         "bonus_30": "+30% bonus",
-
         "discover_groups": "Scopri e unisciti alle community",
         "create_group": "Crea gruppo",
         "create_group_desc": "Crea la tua community SocialWiki",
@@ -2719,7 +2556,6 @@ const translations = {
         "group1": "Gruppo 1",
         "group2": "Gruppo 2",
         "group3": "Gruppo 3",
-
         "event1": "Evento 1",
         "event2": "Evento 2",
         "create_event": "Crea Evento",
@@ -2727,7 +2563,6 @@ const translations = {
         "going": "Partecipo",
         "not_going": "Non partecipo",
         "location": "Luogo",
-
         "edit_profile": "Modifica profilo",
         "message": "Messaggio",
         "followers": "Follower",
@@ -2736,7 +2571,6 @@ const translations = {
         "user": "Utente",
         "zero_points": "0 punti",
         "points_label": "punti",
-
         "online": "Online",
         "offline": "Offline",
         "typing": "Sta scrivendo...",
@@ -2752,7 +2586,6 @@ const translations = {
         "reject": "Rifiuta",
         "no_friends": "Nessun amico ancora",
         "posts_title": "Post",
-
         "inbox": "Posta in arrivo",
         "sent_box": "Inviati",
         "new_message": "Nuovo messaggio",
@@ -2789,13 +2622,12 @@ const translations = {
         "all_messages": "Tutti i messaggi",
         "archived_messages": "Archiviati",
         "online_users": "Utenti online",
-        "watch_ad_btn": "🎬 Guarda l'annuncio e guadagna 5 punti",
         "earn_points_title": "🎁 Guadagna punti con ogni attività!",
-"earn_points_subtitle": "Invita i tuoi amici con il tuo codice referral — 50 punti per amico!",
+        "earn_points_subtitle": "Invita i tuoi amici con il tuo codice referral — 50 punti per amico!"
     },
-    
+
+    // ==================== JAPANESE ====================
     ja: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWikiを検索",
         "home": "ホーム",
         "friends": "友達",
@@ -2829,7 +2661,6 @@ const translations = {
         "saved": "保存済み",
         "messages": "メッセージ",
         "chat": "チャット",
-
         "create_post": "今何を考えていますか？",
         "photo_video": "写真 / 動画",
         "feeling_activity": "気持ち / アクティビティ",
@@ -2859,7 +2690,6 @@ const translations = {
         "view_all": "すべて表示",
         "no_results": "結果なし",
         "search_results": "検索結果",
-
         "story": "ストーリー",
         "create_story": "ストーリーを作成",
         "share_to_story": "ストーリーにシェア",
@@ -2867,7 +2697,6 @@ const translations = {
         "add_to_story": "ストーリーに追加",
         "story_views": "ストーリー閲覧",
         "story_expired": "ストーリー終了",
-
         "cancel": "キャンセル",
         "confirm": "確認",
         "save": "保存",
@@ -2885,7 +2714,6 @@ const translations = {
         "success_message": "成功",
         "warning": "警告",
         "loading": "読み込み中...",
-
         "your_referral_code": "🔑 あなたの紹介コード",
         "your_referral_link": "🔗 紹介リンク",
         "copy_code": "📋 コードをコピー",
@@ -2906,7 +2734,6 @@ const translations = {
         "copied_link": "✅ リンクをコピーしました！",
         "error_copy": "❌ エラー、もう一度お試しください。",
         "default_user_name": "ユーザー",
-
         "sign_up": "登録",
         "sign_in": "ログイン",
         "create_account": "アカウント作成",
@@ -2923,7 +2750,6 @@ const translations = {
         "username": "ユーザー名",
         "or": "または",
         "login_success": "✅ ログインに成功しました！",
-
         "founder_title": "🎁 あなたは最初の創設者の一人です",
         "founder_line1": "獲得内容：",
         "founder_line2": "• 525ポイント（$5.25）",
@@ -2946,7 +2772,6 @@ const translations = {
         "welcome_bonus": "🎉 紹介コードが有効になりました！",
         "google_btn": "Googleでログイン",
         "language_label": "日本語",
-
         "add_product": "+ 商品を追加",
         "product_name": "商品名",
         "product_description": "説明",
@@ -2963,7 +2788,6 @@ const translations = {
         "buy_now": "🛒 今すぐ購入",
         "contact_seller": "販売者に連絡",
         "no_products": "まだ商品がありません",
-
         "ad_center_title": "📢 広告センター",
         "ad_center_subtitle": "広告キャンペーンを一か所で管理",
         "total_ads": "総広告数",
@@ -3022,7 +2846,6 @@ const translations = {
         "recent_activity": "最近のアクティビティ",
         "no_activity": "まだアクティビティがありません",
         "estimated_earnings": "推定収益",
-
         "earnings": "収益",
         "earnings_title": "💰 収益",
         "earnings_subtitle": "収益を追跡し、出金をリクエスト",
@@ -3066,7 +2889,6 @@ const translations = {
         "payment_details": "支払い詳細",
         "amount": "金額",
         "processing": "処理中",
-
         "your_programs": "あなたのプログラム",
         "stars_program_title": "スター",
         "stars_program_desc": "ファンがスターを送ってあなたを支援できます",
@@ -3085,8 +2907,7 @@ const translations = {
         "learn_more": "詳細を見る",
         "watch_ad_earn": "💰 広告を見て5ポイント獲得",
         "watch_ad_desc": "短い広告を見て5ポイントを無料で獲得",
-        "watch_ad_btn": "🎬 広告を見る",
-
+        "watch_ad_btn": "🎬 広告を見て5ポイント獲得",
         "games_title": "🎮 ゲーム",
         "games_subtitle": "遊んで友達に挑戦",
         "tic_tac_toe": "三目並べ",
@@ -3118,18 +2939,15 @@ const translations = {
         "win": "勝利",
         "lose": "敗北",
         "draw": "引き分け",
-
         "daily_bonus": "デイリーボーナス",
         "claim": "受け取る",
         "claimed": "受取済み",
         "come_back_tomorrow": "明日また来てね",
         "claim_bonus_desc": "毎日10ポイント獲得！",
-
         "spin_wheel": "ルーレット",
         "spin_now": "回す",
         "spin_again": "明日また来てね",
         "you_won_prize": "🎉 当たりました！",
-
         "terms_title": "📜 利用規約",
         "terms_subtitle": "最終更新日：2025年1月",
         "privacy_title": "🔒 プライバシーポリシー",
@@ -3141,7 +2959,6 @@ const translations = {
         "footer_terms": "利用規約",
         "footer_privacy": "プライバシーポリシー",
         "footer_rights": "© 2025 SocialWiki. 全著作権所有。",
-
         "buy_stars": "スターを購入",
         "buy_stars_desc": "お気に入りのクリエイターを応援",
         "star_balance": "スター残高",
@@ -3154,7 +2971,6 @@ const translations = {
         "bonus_10": "+10% ボーナス",
         "bonus_20": "+20% ボーナス",
         "bonus_30": "+30% ボーナス",
-
         "discover_groups": "コミュニティを発見して参加",
         "create_group": "グループを作成",
         "create_group_desc": "あなた自身のSocialWikiコミュニティを作成",
@@ -3177,7 +2993,6 @@ const translations = {
         "group1": "グループ 1",
         "group2": "グループ 2",
         "group3": "グループ 3",
-
         "event1": "イベント 1",
         "event2": "イベント 2",
         "create_event": "イベントを作成",
@@ -3185,7 +3000,6 @@ const translations = {
         "going": "参加",
         "not_going": "不参加",
         "location": "場所",
-
         "edit_profile": "プロフィールを編集",
         "message": "メッセージ",
         "followers": "フォロワー",
@@ -3194,7 +3008,6 @@ const translations = {
         "user": "ユーザー",
         "zero_points": "0 ポイント",
         "points_label": "ポイント",
-
         "online": "オンライン",
         "offline": "オフライン",
         "typing": "入力中...",
@@ -3210,7 +3023,6 @@ const translations = {
         "reject": "拒否",
         "no_friends": "まだ友達がいません",
         "posts_title": "投稿",
-
         "inbox": "受信トレイ",
         "sent_box": "送信済み",
         "new_message": "新規メッセージ",
@@ -3247,13 +3059,12 @@ const translations = {
         "all_messages": "すべてのメッセージ",
         "archived_messages": "アーカイブ済み",
         "online_users": "オンラインユーザー",
-        "watch_ad_btn": "🎬 広告を見て5ポイント獲得",
         "earn_points_title": "🎁 あらゆる活動でポイントを獲得！",
-"earn_points_subtitle": "紹介コードで友達を招待 — 友達1人につき50ポイント！",
+        "earn_points_subtitle": "紹介コードで友達を招待 — 友達1人につき50ポイント！"
     },
-    
+
+    // ==================== CHINESE ====================
     zh: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "搜索 SocialWiki",
         "home": "首页",
         "friends": "朋友",
@@ -3287,7 +3098,6 @@ const translations = {
         "saved": "已保存",
         "messages": "消息",
         "chat": "聊天",
-
         "create_post": "你在想什么？",
         "photo_video": "照片 / 视频",
         "feeling_activity": "心情 / 活动",
@@ -3317,7 +3127,6 @@ const translations = {
         "view_all": "查看全部",
         "no_results": "无结果",
         "search_results": "搜索结果",
-
         "story": "故事",
         "create_story": "创建故事",
         "share_to_story": "分享到故事",
@@ -3325,7 +3134,6 @@ const translations = {
         "add_to_story": "添加到故事",
         "story_views": "故事浏览量",
         "story_expired": "故事已过期",
-
         "cancel": "取消",
         "confirm": "确认",
         "save": "保存",
@@ -3343,7 +3151,6 @@ const translations = {
         "success_message": "成功",
         "warning": "警告",
         "loading": "加载中...",
-
         "your_referral_code": "🔑 您的推荐码",
         "your_referral_link": "🔗 推荐链接",
         "copy_code": "📋 复制代码",
@@ -3364,7 +3171,6 @@ const translations = {
         "copied_link": "✅ 链接已复制！",
         "error_copy": "❌ 错误，请重试。",
         "default_user_name": "用户",
-
         "sign_up": "注册",
         "sign_in": "登录",
         "create_account": "创建账户",
@@ -3381,7 +3187,6 @@ const translations = {
         "username": "用户名",
         "or": "或",
         "login_success": "✅ 登录成功！",
-
         "founder_title": "🎁 您是首批创始人之一",
         "founder_line1": "您将获得：",
         "founder_line2": "• 525 积分（$5.25）",
@@ -3404,7 +3209,6 @@ const translations = {
         "welcome_bonus": "🎉 推荐码已激活！",
         "google_btn": "使用 Google 登录",
         "language_label": "中文",
-
         "add_product": "+ 添加产品",
         "product_name": "产品名称",
         "product_description": "描述",
@@ -3421,7 +3225,6 @@ const translations = {
         "buy_now": "🛒 立即购买",
         "contact_seller": "联系卖家",
         "no_products": "暂无产品",
-
         "ad_center_title": "📢 广告中心",
         "ad_center_subtitle": "在一个地方管理您的广告活动",
         "total_ads": "广告总数",
@@ -3480,7 +3283,6 @@ const translations = {
         "recent_activity": "最近活动",
         "no_activity": "暂无活动",
         "estimated_earnings": "预计收入",
-
         "earnings": "收益",
         "earnings_title": "💰 我的收益",
         "earnings_subtitle": "追踪您的收益并申请提现",
@@ -3524,7 +3326,6 @@ const translations = {
         "payment_details": "支付详情",
         "amount": "金额",
         "processing": "处理中",
-
         "your_programs": "您的计划",
         "stars_program_title": "星星",
         "stars_program_desc": "让粉丝通过发送星星来支持您",
@@ -3543,8 +3344,7 @@ const translations = {
         "learn_more": "了解更多",
         "watch_ad_earn": "💰 观看广告赚取 5 积分",
         "watch_ad_desc": "观看短片广告免费获得 5 积分",
-        "watch_ad_btn": "🎬 观看广告",
-
+        "watch_ad_btn": "🎬 观看广告赚取5积分",
         "games_title": "🎮 游戏",
         "games_subtitle": "玩耍并挑战朋友",
         "tic_tac_toe": "井字棋",
@@ -3576,18 +3376,15 @@ const translations = {
         "win": "赢",
         "lose": "输",
         "draw": "平局",
-
         "daily_bonus": "每日奖励",
         "claim": "领取",
         "claimed": "已领取",
         "come_back_tomorrow": "明天再来",
         "claim_bonus_desc": "每天领取10积分！",
-
         "spin_wheel": "转盘",
         "spin_now": "转动",
         "spin_again": "明天再来",
         "you_won_prize": "🎉 你赢了！",
-
         "terms_title": "📜 服务条款",
         "terms_subtitle": "最后更新：2025年1月",
         "privacy_title": "🔒 隐私政策",
@@ -3599,7 +3396,6 @@ const translations = {
         "footer_terms": "服务条款",
         "footer_privacy": "隐私政策",
         "footer_rights": "© 2025 SocialWiki. 版权所有。",
-
         "buy_stars": "购买星星",
         "buy_stars_desc": "支持你最喜欢的创作者",
         "star_balance": "你的星星余额",
@@ -3612,7 +3408,6 @@ const translations = {
         "bonus_10": "+10% 奖励",
         "bonus_20": "+20% 奖励",
         "bonus_30": "+30% 奖励",
-
         "discover_groups": "发现并加入社区",
         "create_group": "创建群组",
         "create_group_desc": "创建你自己的SocialWiki社区",
@@ -3635,7 +3430,6 @@ const translations = {
         "group1": "群组 1",
         "group2": "群组 2",
         "group3": "群组 3",
-
         "event1": "活动 1",
         "event2": "活动 2",
         "create_event": "创建活动",
@@ -3643,7 +3437,6 @@ const translations = {
         "going": "参加",
         "not_going": "不参加",
         "location": "地点",
-
         "edit_profile": "编辑个人资料",
         "message": "消息",
         "followers": "关注者",
@@ -3652,7 +3445,6 @@ const translations = {
         "user": "用户",
         "zero_points": "0 积分",
         "points_label": "积分",
-
         "online": "在线",
         "offline": "离线",
         "typing": "正在输入...",
@@ -3668,7 +3460,6 @@ const translations = {
         "reject": "拒绝",
         "no_friends": "还没有朋友",
         "posts_title": "帖子",
-
         "inbox": "收件箱",
         "sent_box": "已发送",
         "new_message": "新消息",
@@ -3705,13 +3496,12 @@ const translations = {
         "all_messages": "所有消息",
         "archived_messages": "已归档",
         "online_users": "在线用户",
-        "watch_ad_btn": "🎬 观看广告赚取5积分",
         "earn_points_title": "🎁 每项活动都能赚取积分！",
-"earn_points_subtitle": "使用推荐码邀请好友 — 每位好友50积分！",
+        "earn_points_subtitle": "使用推荐码邀请好友 — 每位好友50积分！"
     },
-    
+
+    // ==================== KOREAN ====================
     ko: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki 검색",
         "home": "홈",
         "friends": "친구",
@@ -3745,7 +3535,6 @@ const translations = {
         "saved": "저장됨",
         "messages": "메시지",
         "chat": "채팅",
-
         "create_post": "무슨 생각을 하고 있나요?",
         "photo_video": "사진 / 동영상",
         "feeling_activity": "기분 / 활동",
@@ -3775,7 +3564,6 @@ const translations = {
         "view_all": "모두 보기",
         "no_results": "결과 없음",
         "search_results": "검색 결과",
-
         "story": "스토리",
         "create_story": "스토리 만들기",
         "share_to_story": "스토리에 공유",
@@ -3783,7 +3571,6 @@ const translations = {
         "add_to_story": "스토리에 추가",
         "story_views": "스토리 조회수",
         "story_expired": "스토리 만료됨",
-
         "cancel": "취소",
         "confirm": "확인",
         "save": "저장",
@@ -3801,7 +3588,6 @@ const translations = {
         "success_message": "성공",
         "warning": "경고",
         "loading": "로딩 중...",
-
         "your_referral_code": "🔑 추천 코드",
         "your_referral_link": "🔗 추천 링크",
         "copy_code": "📋 코드 복사",
@@ -3822,7 +3608,6 @@ const translations = {
         "copied_link": "✅ 링크 복사됨!",
         "error_copy": "❌ 오류, 다시 시도하세요.",
         "default_user_name": "사용자",
-
         "sign_up": "회원가입",
         "sign_in": "로그인",
         "create_account": "계정 만들기",
@@ -3839,7 +3624,6 @@ const translations = {
         "username": "사용자 이름",
         "or": "또는",
         "login_success": "✅ 로그인 성공!",
-
         "founder_title": "🎁 당신은 최초의 창립자 중 한 명입니다",
         "founder_line1": "받게 될 혜택:",
         "founder_line2": "• 525 포인트 ($5.25)",
@@ -3862,7 +3646,6 @@ const translations = {
         "welcome_bonus": "🎉 추천 코드 활성화!",
         "google_btn": "Google로 로그인",
         "language_label": "한국어",
-
         "add_product": "+ 상품 추가",
         "product_name": "상품명",
         "product_description": "설명",
@@ -3879,7 +3662,6 @@ const translations = {
         "buy_now": "🛒 지금 구매",
         "contact_seller": "판매자에게 연락",
         "no_products": "아직 상품이 없습니다",
-
         "ad_center_title": "📢 광고 센터",
         "ad_center_subtitle": "한 곳에서 광고 캠페인 관리",
         "total_ads": "총 광고",
@@ -3938,7 +3720,6 @@ const translations = {
         "recent_activity": "최근 활동",
         "no_activity": "아직 활동이 없습니다",
         "estimated_earnings": "예상 수익",
-
         "earnings": "수익",
         "earnings_title": "💰 내 수익",
         "earnings_subtitle": "수익을 추적하고 출금 요청",
@@ -3982,7 +3763,6 @@ const translations = {
         "payment_details": "결제 정보",
         "amount": "금액",
         "processing": "처리 중",
-
         "your_programs": "내 프로그램",
         "stars_program_title": "별",
         "stars_program_desc": "팬들이 별을 보내 당신을 지원하도록 하세요",
@@ -4001,8 +3781,7 @@ const translations = {
         "learn_more": "더 알아보기",
         "watch_ad_earn": "💰 광고 보고 5포인트 획득",
         "watch_ad_desc": "짧은 광고를 보고 5포인트를 무료로 받으세요",
-        "watch_ad_btn": "🎬 광고 보기",
-
+        "watch_ad_btn": "🎬 광고 보고 5포인트 받기",
         "games_title": "🎮 게임",
         "games_subtitle": "친구와 놀고 도전하세요",
         "tic_tac_toe": "틱택토",
@@ -4034,18 +3813,15 @@ const translations = {
         "win": "승리",
         "lose": "패배",
         "draw": "무승부",
-
         "daily_bonus": "일일 보너스",
         "claim": "받기",
         "claimed": "받음",
         "come_back_tomorrow": "내일 다시 오세요",
         "claim_bonus_desc": "매일 10포인트 받기!",
-
         "spin_wheel": "룰렛",
         "spin_now": "돌리기",
         "spin_again": "내일 다시 오세요",
         "you_won_prize": "🎉 당첨!",
-
         "terms_title": "📜 서비스 약관",
         "terms_subtitle": "최종 업데이트: 2025년 1월",
         "privacy_title": "🔒 개인정보 보호정책",
@@ -4057,7 +3833,6 @@ const translations = {
         "footer_terms": "서비스 약관",
         "footer_privacy": "개인정보 보호정책",
         "footer_rights": "© 2025 SocialWiki. 모든 권리 보유.",
-
         "buy_stars": "별 구매",
         "buy_stars_desc": "좋아하는 크리에이터를 지원하세요",
         "star_balance": "별 잔액",
@@ -4070,7 +3845,6 @@ const translations = {
         "bonus_10": "+10% 보너스",
         "bonus_20": "+20% 보너스",
         "bonus_30": "+30% 보너스",
-
         "discover_groups": "커뮤니티 발견 및 가입",
         "create_group": "그룹 만들기",
         "create_group_desc": "나만의 SocialWiki 커뮤니티 만들기",
@@ -4093,7 +3867,6 @@ const translations = {
         "group1": "그룹 1",
         "group2": "그룹 2",
         "group3": "그룹 3",
-
         "event1": "이벤트 1",
         "event2": "이벤트 2",
         "create_event": "이벤트 만들기",
@@ -4101,7 +3874,6 @@ const translations = {
         "going": "참석",
         "not_going": "불참",
         "location": "장소",
-
         "edit_profile": "프로필 편집",
         "message": "메시지",
         "followers": "팔로워",
@@ -4110,7 +3882,6 @@ const translations = {
         "user": "사용자",
         "zero_points": "0 포인트",
         "points_label": "포인트",
-
         "online": "온라인",
         "offline": "오프라인",
         "typing": "입력 중...",
@@ -4126,7 +3897,6 @@ const translations = {
         "reject": "거부",
         "no_friends": "아직 친구가 없습니다",
         "posts_title": "게시물",
-
         "inbox": "받은 편지함",
         "sent_box": "보낸 편지함",
         "new_message": "새 메시지",
@@ -4163,13 +3933,12 @@ const translations = {
         "all_messages": "모든 메시지",
         "archived_messages": "보관됨",
         "online_users": "온라인 사용자",
-        "watch_ad_btn": "🎬 광고 보고 5포인트 받기",
         "earn_points_title": "🎁 모든 활동에서 포인트를 획득하세요!",
-"earn_points_subtitle": "추천 코드로 친구를 초대하세요 — 친구당 50포인트!",
+        "earn_points_subtitle": "추천 코드로 친구를 초대하세요 — 친구당 50포인트!"
     },
-    
+
+    // ==================== RUSSIAN ====================
     ru: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Поиск в SocialWiki",
         "home": "Главная",
         "friends": "Друзья",
@@ -4203,7 +3972,6 @@ const translations = {
         "saved": "Сохранённые",
         "messages": "Сообщения",
         "chat": "Чат",
-
         "create_post": "О чём вы думаете?",
         "photo_video": "Фото / Видео",
         "feeling_activity": "Чувство / Активность",
@@ -4233,7 +4001,6 @@ const translations = {
         "view_all": "Смотреть все",
         "no_results": "Нет результатов",
         "search_results": "Результаты поиска",
-
         "story": "Истории",
         "create_story": "Создать историю",
         "share_to_story": "Поделиться в истории",
@@ -4241,7 +4008,6 @@ const translations = {
         "add_to_story": "Добавить в историю",
         "story_views": "Просмотры истории",
         "story_expired": "История истекла",
-
         "cancel": "Отмена",
         "confirm": "Подтвердить",
         "save": "Сохранить",
@@ -4259,7 +4025,6 @@ const translations = {
         "success_message": "Успех",
         "warning": "Предупреждение",
         "loading": "Загрузка...",
-
         "your_referral_code": "🔑 Ваш реферальный код",
         "your_referral_link": "🔗 Реферальная ссылка",
         "copy_code": "📋 Копировать код",
@@ -4280,7 +4045,6 @@ const translations = {
         "copied_link": "✅ Ссылка скопирована!",
         "error_copy": "❌ Ошибка, попробуйте снова.",
         "default_user_name": "Пользователь",
-
         "sign_up": "Регистрация",
         "sign_in": "Войти",
         "create_account": "Создать аккаунт",
@@ -4297,7 +4061,6 @@ const translations = {
         "username": "Имя пользователя",
         "or": "или",
         "login_success": "✅ Вход выполнен успешно!",
-
         "founder_title": "🎁 Вы один из первых основателей",
         "founder_line1": "Вы получите:",
         "founder_line2": "• 525 баллов ($5.25)",
@@ -4320,7 +4083,6 @@ const translations = {
         "welcome_bonus": "🎉 Реферальный код активирован!",
         "google_btn": "Войти через Google",
         "language_label": "Русский",
-
         "add_product": "+ Добавить товар",
         "product_name": "Название товара",
         "product_description": "Описание",
@@ -4337,7 +4099,6 @@ const translations = {
         "buy_now": "🛒 Купить сейчас",
         "contact_seller": "Связаться с продавцом",
         "no_products": "Пока нет товаров",
-
         "ad_center_title": "📢 Рекламный центр",
         "ad_center_subtitle": "Управляйте рекламными кампаниями в одном месте",
         "total_ads": "Всего объявлений",
@@ -4396,7 +4157,6 @@ const translations = {
         "recent_activity": "Последняя активность",
         "no_activity": "Активности пока нет",
         "estimated_earnings": "Расчётный доход",
-
         "earnings": "Доходы",
         "earnings_title": "💰 Мои доходы",
         "earnings_subtitle": "Отслеживайте доходы и запрашивайте вывод",
@@ -4440,7 +4200,6 @@ const translations = {
         "payment_details": "Платёжные данные",
         "amount": "Сумма",
         "processing": "Обработка",
-
         "your_programs": "Ваши программы",
         "stars_program_title": "Звёзды",
         "stars_program_desc": "Позвольте фанатам поддержать вас, отправляя Звёзды",
@@ -4459,8 +4218,7 @@ const translations = {
         "learn_more": "Узнать больше",
         "watch_ad_earn": "💰 Смотрите рекламу и получайте 5 баллов",
         "watch_ad_desc": "Посмотрите короткую рекламу и получите 5 баллов бесплатно",
-        "watch_ad_btn": "🎬 Смотреть рекламу",
-
+        "watch_ad_btn": "🎬 Смотреть рекламу и получить 5 баллов",
         "games_title": "🎮 Игры",
         "games_subtitle": "Играйте и бросайте вызов друзьям",
         "tic_tac_toe": "Крестики-нолики",
@@ -4492,18 +4250,15 @@ const translations = {
         "win": "Победа",
         "lose": "Проигрыш",
         "draw": "Ничья",
-
         "daily_bonus": "Ежедневный бонус",
         "claim": "Получить",
         "claimed": "Получено",
         "come_back_tomorrow": "Вернись завтра",
         "claim_bonus_desc": "Получайте 10 очков каждый день!",
-
         "spin_wheel": "Колесо фортуны",
         "spin_now": "Крутить",
         "spin_again": "Вернись завтра",
         "you_won_prize": "🎉 Вы выиграли!",
-
         "terms_title": "📜 Условия использования",
         "terms_subtitle": "Последнее обновление: Январь 2025",
         "privacy_title": "🔒 Политика конфиденциальности",
@@ -4515,7 +4270,6 @@ const translations = {
         "footer_terms": "Условия использования",
         "footer_privacy": "Политика конфиденциальности",
         "footer_rights": "© 2025 SocialWiki. Все права защищены.",
-
         "buy_stars": "Купить звёзды",
         "buy_stars_desc": "Поддержите любимых авторов",
         "star_balance": "Ваш баланс звёзд",
@@ -4528,7 +4282,6 @@ const translations = {
         "bonus_10": "+10% бонус",
         "bonus_20": "+20% бонус",
         "bonus_30": "+30% бонус",
-
         "discover_groups": "Находите и присоединяйтесь к сообществам",
         "create_group": "Создать группу",
         "create_group_desc": "Создайте своё сообщество SocialWiki",
@@ -4551,7 +4304,6 @@ const translations = {
         "group1": "Группа 1",
         "group2": "Группа 2",
         "group3": "Группа 3",
-
         "event1": "Событие 1",
         "event2": "Событие 2",
         "create_event": "Создать событие",
@@ -4559,7 +4311,6 @@ const translations = {
         "going": "Иду",
         "not_going": "Не иду",
         "location": "Место",
-
         "edit_profile": "Редактировать профиль",
         "message": "Сообщение",
         "followers": "Подписчики",
@@ -4568,7 +4319,6 @@ const translations = {
         "user": "Пользователь",
         "zero_points": "0 баллов",
         "points_label": "баллов",
-
         "online": "Онлайн",
         "offline": "Оффлайн",
         "typing": "Печатает...",
@@ -4584,7 +4334,6 @@ const translations = {
         "reject": "Отклонить",
         "no_friends": "Пока нет друзей",
         "posts_title": "Посты",
-
         "inbox": "Входящие",
         "sent_box": "Отправленные",
         "new_message": "Новое сообщение",
@@ -4621,13 +4370,12 @@ const translations = {
         "all_messages": "Все сообщения",
         "archived_messages": "Архив",
         "online_users": "Пользователи онлайн",
-        "watch_ad_btn": "🎬 Смотреть рекламу и получить 5 баллов",
         "earn_points_title": "🎁 Получайте баллы за каждое действие!",
-"earn_points_subtitle": "Пригласите друзей с вашим реферальным кодом — 50 баллов за друга!",
+        "earn_points_subtitle": "Пригласите друзей с вашим реферальным кодом — 50 баллов за друга!"
     },
-    
+
+    // ==================== TURKISH ====================
     tr: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki'de ara",
         "home": "Ana Sayfa",
         "friends": "Arkadaşlar",
@@ -4661,7 +4409,6 @@ const translations = {
         "saved": "Kaydedilenler",
         "messages": "Mesajlar",
         "chat": "Sohbet",
-
         "create_post": "Ne düşünüyorsun?",
         "photo_video": "Fotoğraf / Video",
         "feeling_activity": "Duygu / Etkinlik",
@@ -4691,7 +4438,6 @@ const translations = {
         "view_all": "Tümünü gör",
         "no_results": "Sonuç yok",
         "search_results": "Arama sonuçları",
-
         "story": "Hikayeler",
         "create_story": "Hikaye Oluştur",
         "share_to_story": "Hikayede Paylaş",
@@ -4699,7 +4445,6 @@ const translations = {
         "add_to_story": "Hikayeye ekle",
         "story_views": "Hikaye görüntülemeleri",
         "story_expired": "Hikaye süresi doldu",
-
         "cancel": "İptal",
         "confirm": "Onayla",
         "save": "Kaydet",
@@ -4717,7 +4462,6 @@ const translations = {
         "success_message": "Başarılı",
         "warning": "Uyarı",
         "loading": "Yükleniyor...",
-
         "your_referral_code": "🔑 Referans Kodunuz",
         "your_referral_link": "🔗 Referans Bağlantısı",
         "copy_code": "📋 Kodu Kopyala",
@@ -4738,7 +4482,6 @@ const translations = {
         "copied_link": "✅ Bağlantı kopyalandı!",
         "error_copy": "❌ Hata, tekrar deneyin.",
         "default_user_name": "Kullanıcı",
-
         "sign_up": "Kayıt Ol",
         "sign_in": "Giriş Yap",
         "create_account": "Hesap Oluştur",
@@ -4755,7 +4498,6 @@ const translations = {
         "username": "Kullanıcı adı",
         "or": "veya",
         "login_success": "✅ Giriş başarılı!",
-
         "founder_title": "🎁 İlk Kuruculardan birisiniz",
         "founder_line1": "Alacağınız:",
         "founder_line2": "• 525 puan ($5.25)",
@@ -4778,7 +4520,6 @@ const translations = {
         "welcome_bonus": "🎉 Referans kodu aktif!",
         "google_btn": "Google ile Giriş Yap",
         "language_label": "Türkçe",
-
         "add_product": "+ Ürün Ekle",
         "product_name": "Ürün Adı",
         "product_description": "Açıklama",
@@ -4795,7 +4536,6 @@ const translations = {
         "buy_now": "🛒 Şimdi Satın Al",
         "contact_seller": "Satıcıyla İletişime Geç",
         "no_products": "Henüz ürün yok",
-
         "ad_center_title": "📢 Reklam Merkezi",
         "ad_center_subtitle": "Reklam kampanyalarınızı tek yerden yönetin",
         "total_ads": "Toplam Reklamlar",
@@ -4854,7 +4594,6 @@ const translations = {
         "recent_activity": "Son Etkinlik",
         "no_activity": "Henüz etkinlik yok",
         "estimated_earnings": "Tahmini Kazanç",
-
         "earnings": "Kazançlar",
         "earnings_title": "💰 Kazançlarım",
         "earnings_subtitle": "Kazançlarınızı takip edin ve çekim talep edin",
@@ -4898,7 +4637,6 @@ const translations = {
         "payment_details": "Ödeme detayları",
         "amount": "Tutar",
         "processing": "İşleniyor",
-
         "your_programs": "Programlarınız",
         "stars_program_title": "Yıldızlar",
         "stars_program_desc": "Hayranlarınızın Yıldız göndererek sizi desteklemesine izin verin",
@@ -4917,8 +4655,7 @@ const translations = {
         "learn_more": "Daha fazla bilgi",
         "watch_ad_earn": "💰 Reklam izle ve 5 puan kazan",
         "watch_ad_desc": "Kısa bir reklam izle ve 5 ücretsiz puan kazan",
-        "watch_ad_btn": "🎬 Reklam İzle",
-
+        "watch_ad_btn": "🎬 Reklam izle ve 5 puan kazan",
         "games_title": "🎮 Oyunlar",
         "games_subtitle": "Oyna ve arkadaşlarına meydan oku",
         "tic_tac_toe": "XOX",
@@ -4950,18 +4687,15 @@ const translations = {
         "win": "Kazan",
         "lose": "Kaybet",
         "draw": "Berabere",
-
         "daily_bonus": "Günlük Bonus",
         "claim": "Al",
         "claimed": "Alındı",
         "come_back_tomorrow": "Yarın gel",
         "claim_bonus_desc": "Her gün 10 puan al!",
-
         "spin_wheel": "Çarkıfelek",
         "spin_now": "Çevir",
         "spin_again": "Yarın gel",
         "you_won_prize": "🎉 Kazandınız!",
-
         "terms_title": "📜 Hizmet Şartları",
         "terms_subtitle": "Son güncelleme: Ocak 2025",
         "privacy_title": "🔒 Gizlilik Politikası",
@@ -4973,7 +4707,6 @@ const translations = {
         "footer_terms": "Hizmet Şartları",
         "footer_privacy": "Gizlilik Politikası",
         "footer_rights": "© 2025 SocialWiki. Tüm hakları saklıdır.",
-
         "buy_stars": "Yıldız Satın Al",
         "buy_stars_desc": "Favori içerik üreticilerini destekle",
         "star_balance": "Yıldız bakiyen",
@@ -4986,7 +4719,6 @@ const translations = {
         "bonus_10": "+10% bonus",
         "bonus_20": "+20% bonus",
         "bonus_30": "+30% bonus",
-
         "discover_groups": "Toplulukları keşfet ve katıl",
         "create_group": "Grup Oluştur",
         "create_group_desc": "Kendi SocialWiki topluluğunu oluştur",
@@ -5009,7 +4741,6 @@ const translations = {
         "group1": "Grup 1",
         "group2": "Grup 2",
         "group3": "Grup 3",
-
         "event1": "Etkinlik 1",
         "event2": "Etkinlik 2",
         "create_event": "Etkinlik Oluştur",
@@ -5017,7 +4748,6 @@ const translations = {
         "going": "Katılıyorum",
         "not_going": "Katılmıyorum",
         "location": "Konum",
-
         "edit_profile": "Profili Düzenle",
         "message": "Mesaj",
         "followers": "Takipçiler",
@@ -5026,7 +4756,6 @@ const translations = {
         "user": "Kullanıcı",
         "zero_points": "0 puan",
         "points_label": "puan",
-
         "online": "Çevrimiçi",
         "offline": "Çevrimdışı",
         "typing": "Yazıyor...",
@@ -5042,7 +4771,6 @@ const translations = {
         "reject": "Reddet",
         "no_friends": "Henüz arkadaş yok",
         "posts_title": "Gönderiler",
-
         "inbox": "Gelen Kutusu",
         "sent_box": "Gönderilenler",
         "new_message": "Yeni Mesaj",
@@ -5079,13 +4807,12 @@ const translations = {
         "all_messages": "Tüm mesajlar",
         "archived_messages": "Arşivlenmiş",
         "online_users": "Çevrimiçi kullanıcılar",
-        "watch_ad_btn": "🎬 Reklam izle ve 5 puan kazan",
         "earn_points_title": "🎁 Her etkinlikten puan kazan!",
-"earn_points_subtitle": "Referans kodunla arkadaşlarını davet et — arkadaş başına 50 puan!",
+        "earn_points_subtitle": "Referans kodunla arkadaşlarını davet et — arkadaş başına 50 puan!"
     },
-    
+
+    // ==================== HINDI ====================
     hi: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "SocialWiki खोजें",
         "home": "होम",
         "friends": "दोस्त",
@@ -5119,7 +4846,6 @@ const translations = {
         "saved": "सहेजे गए",
         "messages": "संदेश",
         "chat": "चैट",
-
         "create_post": "आप क्या सोच रहे हैं?",
         "photo_video": "फ़ोटो / वीडियो",
         "feeling_activity": "भावना / गतिविधि",
@@ -5149,7 +4875,6 @@ const translations = {
         "view_all": "सभी देखें",
         "no_results": "कोई परिणाम नहीं",
         "search_results": "खोज परिणाम",
-
         "story": "स्टोरीज़",
         "create_story": "स्टोरी बनाएं",
         "share_to_story": "स्टोरी में शेयर करें",
@@ -5157,7 +4882,6 @@ const translations = {
         "add_to_story": "स्टोरी में जोड़ें",
         "story_views": "स्टोरी व्यूज़",
         "story_expired": "स्टोरी समाप्त",
-
         "cancel": "रद्द करें",
         "confirm": "पुष्टि करें",
         "save": "सहेजें",
@@ -5175,7 +4899,6 @@ const translations = {
         "success_message": "सफल",
         "warning": "चेतावनी",
         "loading": "लोड हो रहा है...",
-
         "your_referral_code": "🔑 आपका रेफ़रल कोड",
         "your_referral_link": "🔗 रेफ़रल लिंक",
         "copy_code": "📋 कोड कॉपी करें",
@@ -5196,7 +4919,6 @@ const translations = {
         "copied_link": "✅ लिंक कॉपी हो गया!",
         "error_copy": "❌ त्रुटि, पुनः प्रयास करें।",
         "default_user_name": "उपयोगकर्ता",
-
         "sign_up": "साइन अप",
         "sign_in": "साइन इन",
         "create_account": "खाता बनाएं",
@@ -5213,7 +4935,6 @@ const translations = {
         "username": "उपयोगकर्ता नाम",
         "or": "या",
         "login_success": "✅ लॉगिन सफल!",
-
         "founder_title": "🎁 आप पहले संस्थापकों में से एक हैं",
         "founder_line1": "आपको मिलेगा:",
         "founder_line2": "• 525 अंक ($5.25)",
@@ -5236,7 +4957,6 @@ const translations = {
         "welcome_bonus": "🎉 रेफ़रल कोड सक्रिय!",
         "google_btn": "Google से साइन इन करें",
         "language_label": "हिन्दी",
-
         "add_product": "+ उत्पाद जोड़ें",
         "product_name": "उत्पाद का नाम",
         "product_description": "विवरण",
@@ -5253,7 +4973,6 @@ const translations = {
         "buy_now": "🛒 अभी खरीदें",
         "contact_seller": "विक्रेता से संपर्क करें",
         "no_products": "अभी तक कोई उत्पाद नहीं",
-
         "ad_center_title": "📢 विज्ञापन केंद्र",
         "ad_center_subtitle": "अपने विज्ञापन अभियानों को एक जगह प्रबंधित करें",
         "total_ads": "कुल विज्ञापन",
@@ -5312,7 +5031,6 @@ const translations = {
         "recent_activity": "हाल की गतिविधि",
         "no_activity": "अभी कोई गतिविधि नहीं",
         "estimated_earnings": "अनुमानित कमाई",
-
         "earnings": "कमाई",
         "earnings_title": "💰 मेरी कमाई",
         "earnings_subtitle": "अपनी कमाई ट्रैक करें और निकासी का अनुरोध करें",
@@ -5356,7 +5074,6 @@ const translations = {
         "payment_details": "भुगतान विवरण",
         "amount": "राशि",
         "processing": "प्रसंस्करण",
-
         "your_programs": "आपके कार्यक्रम",
         "stars_program_title": "सितारे",
         "stars_program_desc": "अपने प्रशंसकों को सितारे भेजकर आपका समर्थन करने दें",
@@ -5375,8 +5092,7 @@ const translations = {
         "learn_more": "और जानें",
         "watch_ad_earn": "💰 विज्ञापन देखें और 5 अंक कमाएं",
         "watch_ad_desc": "एक छोटा विज्ञापन देखें और 5 अंक मुफ्त पाएं",
-        "watch_ad_btn": "🎬 विज्ञापन देखें",
-
+        "watch_ad_btn": "🎬 विज्ञापन देखें और 5 अंक कमाएं",
         "games_title": "🎮 गेम्स",
         "games_subtitle": "खेलें और दोस्तों को चुनौती दें",
         "tic_tac_toe": "टिक टैक टो",
@@ -5408,18 +5124,15 @@ const translations = {
         "win": "जीत",
         "lose": "हार",
         "draw": "बराबरी",
-
         "daily_bonus": "दैनिक बोनस",
         "claim": "प्राप्त करें",
         "claimed": "प्राप्त",
         "come_back_tomorrow": "कल वापस आएं",
         "claim_bonus_desc": "हर दिन 10 अंक प्राप्त करें!",
-
         "spin_wheel": "भाग्य चक्र",
         "spin_now": "घुमाएं",
         "spin_again": "कल वापस आएं",
         "you_won_prize": "🎉 आप जीते!",
-
         "terms_title": "📜 सेवा की शर्तें",
         "terms_subtitle": "अंतिम अपडेट: जनवरी 2025",
         "privacy_title": "🔒 गोपनीयता नीति",
@@ -5431,7 +5144,6 @@ const translations = {
         "footer_terms": "सेवा की शर्तें",
         "footer_privacy": "गोपनीयता नीति",
         "footer_rights": "© 2025 SocialWiki. सर्वाधिकार सुरक्षित।",
-
         "buy_stars": "सितारे खरीदें",
         "buy_stars_desc": "अपने पसंदीदा रचनाकारों का समर्थन करें",
         "star_balance": "आपका सितारा बैलेंस",
@@ -5444,7 +5156,6 @@ const translations = {
         "bonus_10": "+10% बोनस",
         "bonus_20": "+20% बोनस",
         "bonus_30": "+30% बोनस",
-
         "discover_groups": "समुदायों को खोजें और जुड़ें",
         "create_group": "समूह बनाएं",
         "create_group_desc": "अपना SocialWiki समुदाय बनाएं",
@@ -5467,7 +5178,6 @@ const translations = {
         "group1": "समूह 1",
         "group2": "समूह 2",
         "group3": "समूह 3",
-
         "event1": "इवेंट 1",
         "event2": "इवेंट 2",
         "create_event": "इवेंट बनाएं",
@@ -5475,7 +5185,6 @@ const translations = {
         "going": "जा रहा हूँ",
         "not_going": "नहीं जा रहा",
         "location": "स्थान",
-
         "edit_profile": "प्रोफ़ाइल संपादित करें",
         "message": "संदेश",
         "followers": "अनुयायी",
@@ -5484,7 +5193,6 @@ const translations = {
         "user": "उपयोगकर्ता",
         "zero_points": "0 अंक",
         "points_label": "अंक",
-
         "online": "ऑनलाइन",
         "offline": "ऑफ़लाइन",
         "typing": "टाइप कर रहे हैं...",
@@ -5500,7 +5208,6 @@ const translations = {
         "reject": "अस्वीकार करें",
         "no_friends": "अभी कोई मित्र नहीं",
         "posts_title": "पोस्ट",
-
         "inbox": "इनबॉक्स",
         "sent_box": "भेजे गए",
         "new_message": "नया संदेश",
@@ -5537,14 +5244,12 @@ const translations = {
         "all_messages": "सभी संदेश",
         "archived_messages": "संग्रहीत",
         "online_users": "ऑनलाइन उपयोगकर्ता",
-        "watch_ad_btn": "🎬 विज्ञापन देखें और 5 अंक कमाएं",
         "earn_points_title": "🎁 हर गतिविधि से अंक कमाएं!",
-"earn_points_subtitle": "अपने रेफ़रल कोड से दोस्तों को आमंत्रित करें — हर दोस्त पर 50 अंक!",
+        "earn_points_subtitle": "अपने रेफ़रल कोड से दोस्तों को आमंत्रित करें — हर दोस्त पर 50 अंक!"
     },
-     
 
+    // ==================== FILIPINO ====================
     fil: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Maghanap sa SocialWiki",
         "home": "Home",
         "friends": "Mga Kaibigan",
@@ -5578,8 +5283,6 @@ const translations = {
         "saved": "Nai-save",
         "messages": "Mga Mensahe",
         "chat": "Chat",
-
-        // ==================== POSTS ====================
         "create_post": "Ano ang nasa isip mo?",
         "photo_video": "Larawan / Video",
         "feeling_activity": "Pakiramdam / Aktibidad",
@@ -5609,8 +5312,6 @@ const translations = {
         "view_all": "Tingnan Lahat",
         "no_results": "Walang Resulta",
         "search_results": "Resulta ng Paghahanap",
-
-        // ==================== STORIES ====================
         "story": "Mga Kwento",
         "create_story": "Gumawa ng Kwento",
         "share_to_story": "Ibahagi sa Kwento",
@@ -5618,8 +5319,6 @@ const translations = {
         "add_to_story": "Idagdag sa Kwento",
         "story_views": "Mga View ng Kwento",
         "story_expired": "Nag-expire ang Kwento",
-
-        // ==================== ACTIONS ====================
         "cancel": "Kanselahin",
         "confirm": "Kumpirmahin",
         "save": "I-save",
@@ -5637,8 +5336,6 @@ const translations = {
         "success_message": "Tagumpay",
         "warning": "Babala",
         "loading": "Naglo-load...",
-
-        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 Iyong Referral Code",
         "your_referral_link": "🔗 Referral Link",
         "copy_code": "📋 Kopyahin ang Code",
@@ -5659,8 +5356,6 @@ const translations = {
         "copied_link": "✅ Nakopya ang link!",
         "error_copy": "❌ Error, subukan muli.",
         "default_user_name": "User",
-
-        // ==================== AUTH ====================
         "sign_up": "Mag-sign Up",
         "sign_in": "Mag-sign In",
         "create_account": "Gumawa ng Account",
@@ -5677,7 +5372,6 @@ const translations = {
         "username": "Username",
         "or": "o",
         "login_success": "✅ Matagumpay ang pag-login!",
-
         "founder_title": "🎁 Isa ka sa mga unang Founder",
         "founder_line1": "Makukuha mo:",
         "founder_line2": "• 525 puntos ($5.25)",
@@ -5700,8 +5394,6 @@ const translations = {
         "welcome_bonus": "🎉 Na-activate ang referral code!",
         "google_btn": "Mag-sign in gamit ang Google",
         "language_label": "Filipino",
-
-        // ==================== MARKETPLACE ====================
         "add_product": "+ Magdagdag ng Produkto",
         "product_name": "Pangalan ng Produkto",
         "product_description": "Paglalarawan",
@@ -5718,8 +5410,6 @@ const translations = {
         "buy_now": "🛒 Bilhin Ngayon",
         "contact_seller": "Kontakin ang Nagbebenta",
         "no_products": "Wala pang produkto",
-
-        // ==================== AD CENTER ====================
         "ad_center_title": "📢 Sentro ng Ad",
         "ad_center_subtitle": "Pamahalaan ang iyong mga ad campaign sa isang lugar",
         "total_ads": "Kabuuang Ads",
@@ -5778,8 +5468,6 @@ const translations = {
         "recent_activity": "Kamakailang Aktibidad",
         "no_activity": "Wala pang aktibidad",
         "estimated_earnings": "Tinatayang Kita",
-
-        // ==================== EARNINGS ====================
         "earnings": "Kita",
         "earnings_title": "💰 Aking Kita",
         "earnings_subtitle": "Subaybayan ang iyong kita at humiling ng withdrawal",
@@ -5823,7 +5511,6 @@ const translations = {
         "payment_details": "Detalye ng Pagbabayad",
         "amount": "Halaga",
         "processing": "Pinoproseso",
-
         "your_programs": "Iyong mga Programa",
         "stars_program_title": "Mga Bituin",
         "stars_program_desc": "Hayaan ang iyong mga tagahanga na suportahan ka sa pamamagitan ng pagpapadala ng mga Bituin",
@@ -5842,9 +5529,7 @@ const translations = {
         "learn_more": "Matuto Pa",
         "watch_ad_earn": "💰 Manood ng Ad at Kumita ng 5 Puntos",
         "watch_ad_desc": "Manood ng maikling ad at makakuha ng 5 puntos nang libre",
-        "watch_ad_btn": "🎬 Manood ng Ad",
-
-        // ==================== GAMES ====================
+        "watch_ad_btn": "🎬 Manood ng Ad at Kumita ng 5 Puntos",
         "games_title": "🎮 Mga Laro",
         "games_subtitle": "Maglaro at hamunin ang iyong mga kaibigan",
         "tic_tac_toe": "Tic Tac Toe",
@@ -5876,18 +5561,15 @@ const translations = {
         "win": "Panalo",
         "lose": "Talo",
         "draw": "Tie",
-
         "daily_bonus": "Araw-araw na Bonus",
         "claim": "Kunin",
         "claimed": "Nakuha",
         "come_back_tomorrow": "Bumalik bukas",
         "claim_bonus_desc": "Kunin ang 10 puntos araw-araw!",
-
         "spin_wheel": "Gulong ng Fortune",
         "spin_now": "Paikutin Ngayon",
         "spin_again": "Bumalik bukas",
         "you_won_prize": "🎉 Nanalo Ka!",
-
         "terms_title": "📜 Mga Tuntunin ng Serbisyo",
         "terms_subtitle": "Huling na-update: Enero 2025",
         "privacy_title": "🔒 Patakaran sa Privacy",
@@ -5899,7 +5581,6 @@ const translations = {
         "footer_terms": "Mga Tuntunin ng Serbisyo",
         "footer_privacy": "Patakaran sa Privacy",
         "footer_rights": "© 2025 SocialWiki. Lahat ng karapatan ay nakalaan.",
-
         "buy_stars": "Bumili ng mga Bituin",
         "buy_stars_desc": "Suportahan ang iyong mga paboritong creator",
         "star_balance": "Iyong Balanse ng Bituin",
@@ -5912,7 +5593,6 @@ const translations = {
         "bonus_10": "+10% Bonus",
         "bonus_20": "+20% Bonus",
         "bonus_30": "+30% Bonus",
-
         "discover_groups": "Tuklasin at sumali sa mga komunidad",
         "create_group": "Gumawa ng Grupo",
         "create_group_desc": "Gumawa ng iyong sariling komunidad sa SocialWiki",
@@ -5935,7 +5615,6 @@ const translations = {
         "group1": "Grupo 1",
         "group2": "Grupo 2",
         "group3": "Grupo 3",
-
         "event1": "Kaganapan 1",
         "event2": "Kaganapan 2",
         "create_event": "Gumawa ng Kaganapan",
@@ -5943,7 +5622,6 @@ const translations = {
         "going": "Pupunta",
         "not_going": "Hindi Pupunta",
         "location": "Lokasyon",
-
         "edit_profile": "I-edit ang Profile",
         "message": "Mensahe",
         "followers": "Mga Tagasunod",
@@ -5952,7 +5630,6 @@ const translations = {
         "user": "User",
         "zero_points": "0 puntos",
         "points_label": "puntos",
-
         "online": "Online",
         "offline": "Offline",
         "typing": "Nagta-type...",
@@ -5968,7 +5645,6 @@ const translations = {
         "reject": "Tanggihan",
         "no_friends": "Wala pang kaibigan",
         "posts_title": "Mga Post",
-
         "inbox": "Inbox",
         "sent_box": "Napadala",
         "new_message": "Bagong Mensahe",
@@ -6005,14 +5681,12 @@ const translations = {
         "all_messages": "Lahat ng mensahe",
         "archived_messages": "Naka-archive",
         "online_users": "Mga online na user",
-        "watch_ad_btn": "🎬 Manood ng Ad at Kumita ng 5 Puntos",
         "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
-"earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!",
+        "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!"
     },
 
-    
+    // ==================== TAGALOG ====================
     tl: {
-        // ==================== NAVIGATION ====================
         "search_placeholder": "Maghanap sa SocialWiki",
         "home": "Home",
         "friends": "Mga Kaibigan",
@@ -6046,8 +5720,6 @@ const translations = {
         "saved": "Nai-save",
         "messages": "Mga Mensahe",
         "chat": "Chat",
-
-        // ==================== POSTS ====================
         "create_post": "Ano ang nasa isip mo?",
         "photo_video": "Larawan / Video",
         "feeling_activity": "Pakiramdam / Aktibidad",
@@ -6077,8 +5749,6 @@ const translations = {
         "view_all": "Tingnan Lahat",
         "no_results": "Walang Resulta",
         "search_results": "Resulta ng Paghahanap",
-
-        // ==================== STORIES ====================
         "story": "Mga Kwento",
         "create_story": "Gumawa ng Kwento",
         "share_to_story": "Ibahagi sa Kwento",
@@ -6086,8 +5756,6 @@ const translations = {
         "add_to_story": "Idagdag sa Kwento",
         "story_views": "Mga View ng Kwento",
         "story_expired": "Nag-expire ang Kwento",
-
-        // ==================== ACTIONS ====================
         "cancel": "Kanselahin",
         "confirm": "Kumpirmahin",
         "save": "I-save",
@@ -6105,8 +5773,6 @@ const translations = {
         "success_message": "Tagumpay",
         "warning": "Babala",
         "loading": "Naglo-load...",
-
-        // ==================== REFERRAL ====================
         "your_referral_code": "🔑 Iyong Referral Code",
         "your_referral_link": "🔗 Referral Link",
         "copy_code": "📋 Kopyahin ang Code",
@@ -6127,8 +5793,6 @@ const translations = {
         "copied_link": "✅ Nakopya ang link!",
         "error_copy": "❌ Error, subukan muli.",
         "default_user_name": "User",
-
-        // ==================== AUTH ====================
         "sign_up": "Mag-sign Up",
         "sign_in": "Mag-sign In",
         "create_account": "Gumawa ng Account",
@@ -6145,8 +5809,6 @@ const translations = {
         "username": "Username",
         "or": "o",
         "login_success": "✅ Matagumpay ang pag-login!",
-
-        // ==================== NEW AUTH KEYS ====================
         "founder_title": "🎁 Isa ka sa mga unang Founder",
         "founder_line1": "Makukuha mo:",
         "founder_line2": "• 525 puntos ($5.25)",
@@ -6169,8 +5831,6 @@ const translations = {
         "welcome_bonus": "🎉 Na-activate ang referral code!",
         "google_btn": "Mag-sign in gamit ang Google",
         "language_label": "Tagalog",
-
-        // ==================== MARKETPLACE ====================
         "add_product": "+ Magdagdag ng Produkto",
         "product_name": "Pangalan ng Produkto",
         "product_description": "Paglalarawan",
@@ -6187,8 +5847,6 @@ const translations = {
         "buy_now": "🛒 Bilhin Ngayon",
         "contact_seller": "Kontakin ang Nagbebenta",
         "no_products": "Wala pang produkto",
-
-        // ==================== AD CENTER ====================
         "ad_center_title": "📢 Sentro ng Ad",
         "ad_center_subtitle": "Pamahalaan ang iyong mga ad campaign sa isang lugar",
         "total_ads": "Kabuuang Ads",
@@ -6247,8 +5905,6 @@ const translations = {
         "recent_activity": "Kamakailang Aktibidad",
         "no_activity": "Wala pang aktibidad",
         "estimated_earnings": "Tinatayang Kita",
-
-        // ==================== EARNINGS ====================
         "earnings": "Kita",
         "earnings_title": "💰 Aking Kita",
         "earnings_subtitle": "Subaybayan ang iyong kita at humiling ng withdrawal",
@@ -6292,8 +5948,6 @@ const translations = {
         "payment_details": "Detalye ng Pagbabayad",
         "amount": "Halaga",
         "processing": "Pinoproseso",
-
-        // ==================== EARNINGS PAGE (NEW) ====================
         "your_programs": "Iyong mga Programa",
         "stars_program_title": "Mga Bituin",
         "stars_program_desc": "Hayaan ang iyong mga tagahanga na suportahan ka sa pamamagitan ng pagpapadala ng mga Bituin",
@@ -6312,9 +5966,7 @@ const translations = {
         "learn_more": "Matuto Pa",
         "watch_ad_earn": "💰 Manood ng Ad at Kumita ng 5 Puntos",
         "watch_ad_desc": "Manood ng maikling ad at makakuha ng 5 puntos nang libre",
-        "watch_ad_btn": "🎬 Manood ng Ad",
-
-        // ==================== GAMES ====================
+        "watch_ad_btn": "🎬 Manood ng Ad at Kumita ng 5 Puntos",
         "games_title": "🎮 Mga Laro",
         "games_subtitle": "Maglaro at hamunin ang iyong mga kaibigan",
         "tic_tac_toe": "Tic Tac Toe",
@@ -6346,21 +5998,15 @@ const translations = {
         "win": "Panalo",
         "lose": "Talo",
         "draw": "Tie",
-
-        // ==================== DAILY BONUS ====================
         "daily_bonus": "Araw-araw na Bonus",
         "claim": "Kunin",
         "claimed": "Nakuha",
         "come_back_tomorrow": "Bumalik bukas",
         "claim_bonus_desc": "Kunin ang 10 puntos araw-araw!",
-
-        // ==================== SPIN WHEEL ====================
         "spin_wheel": "Gulong ng Fortune",
         "spin_now": "Paikutin Ngayon",
         "spin_again": "Bumalik bukas",
         "you_won_prize": "🎉 Nanalo Ka!",
-
-        // ==================== TERMS / PRIVACY ====================
         "terms_title": "📜 Mga Tuntunin ng Serbisyo",
         "terms_subtitle": "Huling na-update: Enero 2025",
         "privacy_title": "🔒 Patakaran sa Privacy",
@@ -6372,8 +6018,6 @@ const translations = {
         "footer_terms": "Mga Tuntunin ng Serbisyo",
         "footer_privacy": "Patakaran sa Privacy",
         "footer_rights": "© 2025 SocialWiki. Lahat ng karapatan ay nakalaan.",
-
-        // ==================== STARS ====================
         "buy_stars": "Bumili ng mga Bituin",
         "buy_stars_desc": "Suportahan ang iyong mga paboritong creator",
         "star_balance": "Iyong Balanse ng Bituin",
@@ -6386,8 +6030,6 @@ const translations = {
         "bonus_10": "+10% Bonus",
         "bonus_20": "+20% Bonus",
         "bonus_30": "+30% Bonus",
-
-        // ==================== GROUPS ====================
         "discover_groups": "Tuklasin at sumali sa mga komunidad",
         "create_group": "Gumawa ng Grupo",
         "create_group_desc": "Gumawa ng iyong sariling komunidad sa SocialWiki",
@@ -6410,8 +6052,6 @@ const translations = {
         "group1": "Grupo 1",
         "group2": "Grupo 2",
         "group3": "Grupo 3",
-
-        // ==================== EVENTS ====================
         "event1": "Kaganapan 1",
         "event2": "Kaganapan 2",
         "create_event": "Gumawa ng Kaganapan",
@@ -6419,8 +6059,6 @@ const translations = {
         "going": "Pupunta",
         "not_going": "Hindi Pupunta",
         "location": "Lokasyon",
-
-        // ==================== PROFILE ====================
         "edit_profile": "I-edit ang Profile",
         "message": "Mensahe",
         "followers": "Mga Tagasunod",
@@ -6429,8 +6067,6 @@ const translations = {
         "user": "User",
         "zero_points": "0 puntos",
         "points_label": "puntos",
-
-        // ==================== MESSAGES ====================
         "online": "Online",
         "offline": "Offline",
         "typing": "Nagta-type...",
@@ -6446,8 +6082,6 @@ const translations = {
         "reject": "Tanggihan",
         "no_friends": "Wala pang kaibigan",
         "posts_title": "Mga Post",
-
-        // ==================== MESSAGES PAGE ====================
         "inbox": "Inbox",
         "sent_box": "Napadala",
         "new_message": "Bagong Mensahe",
@@ -6484,109 +6118,91 @@ const translations = {
         "all_messages": "Lahat ng mensahe",
         "archived_messages": "Naka-archive",
         "online_users": "Mga online na user",
-        "watch_ad_btn": "🎬 Manood ng Ad at Kumita ng 5 Puntos",
         "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
-"earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!",
-    },
+        "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!"
+    }
+
 };
 
-
 // =========================================================
-// LANGUAGE MANAGEMENT FUNCTIONS
+// TRANSLATION HELPER FUNCTIONS
 // =========================================================
 
-function getCurrentLanguage() {
-    return localStorage.getItem("socialwiki_lang") || "ar";
+/**
+ * الحصول على الترجمة حسب المفتاح واللغة
+ * @param {string} key - مفتاح الترجمة
+ * @param {string} lang - رمز اللغة (ar, en, fr...)
+ * @returns {string} - النص المترجم أو المفتاح نفسه إذا لم يوجد
+ */
+function t(key, lang) {
+    lang = lang || getCurrentLanguage();
+    if (!translations[lang]) lang = 'ar';
+    return translations[lang][key] || translations['en'][key] || key;
 }
 
+/**
+ * تغيير لغة الصفحة بالكامل
+ * @param {string} lang - رمز اللغة
+ */
 function setLanguage(lang) {
-    localStorage.setItem("socialwiki_lang", lang);
+    if (!translations[lang]) {
+        console.warn('Language ' + lang + ' not found, falling back to English.');
+        lang = 'en';
+    }
+
+    localStorage.setItem('socialwiki_lang', lang);
     document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar' || lang === 'he') ? 'rtl' : 'ltr';
 
-    if (lang === "ar") {
-        document.documentElement.dir = "rtl";
-    } else {
-        document.documentElement.dir = "ltr";
-    }
+    // تحديث جميع العناصر التي تحمل data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        var translated = t(key, lang);
 
-    applyTranslations();
-}
-
-function applyTranslations() {
-    const lang = getCurrentLanguage();
-    const t = translations[lang];
-
-    if (!t) return;
-
-    document.querySelectorAll("[data-i18n]").forEach(element => {
-        const key = element.getAttribute("data-i18n");
-        if (t[key]) {
-            element.textContent = t[key];
-        }
-    });
-
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
-        const key = element.getAttribute("data-i18n-placeholder");
-        if (t[key]) {
-            element.placeholder = t[key];
-        }
-    });
-
-    updateLanguageButton();
-}
-
-function toggleLanguageMenu() {
-    const menu = document.getElementById("languageMenu");
-    if (menu) {
-        if (menu.style.display === "none" || menu.style.display === "") {
-            menu.style.display = "block";
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = translated;
         } else {
-            menu.style.display = "none";
+            el.textContent = translated;
         }
+    });
+
+    // تحديث العناصر التي تحمل data-i18n-placeholder
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = t(key, lang);
+    });
+
+    // تحديث العناصر التي تحمل data-i18n-title
+    document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-title');
+        el.title = t(key, lang);
+    });
+
+    // إطلاق حدث لتحديث باقي الصفحة
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
+}
+
+/**
+ * الحصول على اللغة الحالية
+ * @returns {string}
+ */
+function getCurrentLanguage() {
+    return localStorage.getItem('socialwiki_lang') || 'ar';
+}
+
+/**
+ * تهيئة اللغة عند تحميل الصفحة
+ */
+function initLanguage() {
+    var savedLang = getCurrentLanguage();
+    setLanguage(savedLang);
+}
+
+// تشغيل التهيئة عند تحميل الصفحة
+if (typeof window !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLanguage);
+    } else {
+        initLanguage();
     }
 }
-
-function changeLanguage(lang) {
-    setLanguage(lang);
-    toggleLanguageMenu();
-}
-
-function updateLanguageButton() {
-    const langButton = document.getElementById("languageButton");
-    if (langButton) {
-        const langNames = {
-            ar: "🌐 العربية",
-            fr: "🌐 Français",
-            en: "🌐 English",
-            es: "🌐 Español",
-            de: "🌐 Deutsch",
-            it: "🌐 Italiano",
-            ja: "🌐 日本語",
-            zh: "🌐 中文",
-            ko: "🌐 한국어",
-            ru: "🌐 Русский",
-            tr: "🌐 Türkçe",
-            hi: "🌐 हिन्दी",
-            tl: "🌐 Tagalog"
-        };
-        langButton.textContent = langNames[getCurrentLanguage()] || "🌐";
-    }
-}
-
-function t(key) {
-    const lang = getCurrentLanguage();
-    return translations[lang]?.[key] || translations.en?.[key] || key;
-}
-
-window.setLanguage = setLanguage;
-window.changeLanguage = changeLanguage;
-window.toggleLanguageMenu = toggleLanguageMenu;
-window.applyTranslations = applyTranslations;
-window.getCurrentLanguage = getCurrentLanguage;
-window.t = t;
-
-document.addEventListener("DOMContentLoaded", function() {
-    const lang = getCurrentLanguage();
-    setLanguage(lang);
-    applyTranslations();
-});

@@ -3,360 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>الإحالات - SocialWiki</title>
+    <title>socialwiki refereals</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <style>
-        /* =========================================================
-           NAVBAR
-        ========================================================= */
-        
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
-        
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-icons a {
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 50%;
-        }
-        
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-        
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        
-        .logout-button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        /* =========================================================
-           REFERRAL PAGE
-        ========================================================= */
-        
-        .referral-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .referral-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .referral-header h2 {
-            font-size: 24px;
-        }
-        
-        .points-display {
-            background: linear-gradient(135deg, #f7b928, #ffd700);
-            padding: 10px 20px;
-            border-radius: 20px;
-            color: #333;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4);
-        }
-        
-        /* ✅ إصلاح RTL للأرقام */
-        [dir="rtl"] .points-display #pointsValue,
-        [dir="rtl"] .number,
-        [dir="rtl"] .code-display,
-        [dir="rtl"] .stat-card .number {
-            direction: ltr;
-            unicode-bidi: embed;
-            display: inline-block;
-        }
-        
-        .referral-code-box {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .code-display {
-            background: #f0f2f5;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 4px;
-            color: #1877f2;
-            margin: 15px 0;
-            font-family: monospace;
-        }
-        
-        .btn-primary {
-            background: #1877f2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        
-        .btn-primary:hover {
-            background: #166fe5;
-        }
-        
-        .btn-success {
-            background: #42b72a;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        
-        .btn-success:hover {
-            background: #36a420;
-        }
-        
-        .share-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .share-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            color: white;
-            transition: 0.2s;
-        }
-        
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .referral-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .referral-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .referral-header h2 { font-size: 24px; }
+        .points-display { background: linear-gradient(135deg, #f7b928, #ffd700); padding: 10px 20px; border-radius: 20px; color: #333; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4); }
+        [dir="rtl"] .points-display #pointsValue, [dir="rtl"] .number, [dir="rtl"] .code-display, [dir="rtl"] .stat-card .number { direction: ltr; unicode-bidi: embed; display: inline-block; }
+        .referral-code-box { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+        .code-display { background: #f0f2f5; padding: 15px; border-radius: 8px; font-size: 28px; font-weight: bold; letter-spacing: 4px; color: #1877f2; margin: 15px 0; font-family: monospace; }
+        .btn-primary { background: #1877f2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .btn-primary:hover { background: #166fe5; }
+        .share-buttons { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center; }
+        .share-btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; color: white; transition: 0.2s; }
         .share-btn.whatsapp { background: #25D366; }
-        .share-btn.whatsapp:hover { background: #1da851; }
         .share-btn.facebook { background: #1877f2; }
-        .share-btn.facebook:hover { background: #166fe5; }
         .share-btn.twitter { background: #000000; }
-        .share-btn.twitter:hover { background: #1a1a1a; }
         .share-btn.copy { background: #65676b; }
-        .share-btn.copy:hover { background: #4a4a4e; }
-        
-        /* =========================================================
-           STATS
-        ========================================================= */
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .stat-card h4 {
-            margin: 0 0 10px;
-            color: #65676b;
-            font-size: 14px;
-        }
-        
-        .stat-card .number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1877f2;
-            direction: ltr;
-            unicode-bidi: embed;
-            display: inline-block;
-        }
-        
-        .stat-card .number.gold {
-            color: #f7b928;
-        }
-        
-        .stat-card .number.green {
-            color: #42b72a;
-        }
-        
-        /* =========================================================
-           REFERRAL LIST
-        ========================================================= */
-        
-        .referral-list {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .referral-list table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .referral-list th {
-            text-align: right;
-            padding: 10px;
-            border-bottom: 2px solid #e4e6eb;
-            color: #65676b;
-            font-size: 13px;
-        }
-        
-        .referral-list td {
-            padding: 10px;
-            border-bottom: 1px solid #e4e6eb;
-            font-size: 14px;
-        }
-        
-        .referral-list tr:hover {
-            background: #f0f2f5;
-        }
-        
-        /* ✅ خلايا الجدول - إصلاح RTL */
-        .referral-list td.date-cell,
-        .referral-list td.reward-cell {
-            direction: ltr;
-            unicode-bidi: embed;
-            text-align: right;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: #65676b;
-        }
-        
-        /* =========================================================
-           BACK & HOME BUTTONS
-        ========================================================= */
-        
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
-        
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
-        
-        @media (max-width: 700px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .share-buttons {
-                flex-direction: column;
-            }
-            
-            .share-btn {
-                width: 100%;
-            }
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat-card h4 { margin: 0 0 10px; color: #65676b; font-size: 14px; }
+        .stat-card .number { font-size: 28px; font-weight: bold; color: #1877f2; direction: ltr; unicode-bidi: embed; display: inline-block; }
+        .stat-card .number.gold { color: #f7b928; }
+        .stat-card .number.green { color: #42b72a; }
+        .referral-list { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .referral-list table { width: 100%; border-collapse: collapse; }
+        .referral-list th { text-align: right; padding: 10px; border-bottom: 2px solid #e4e6eb; color: #65676b; font-size: 13px; }
+        .referral-list td { padding: 10px; border-bottom: 1px solid #e4e6eb; font-size: 14px; }
+        .referral-list td.date-cell, .referral-list td.reward-cell { direction: ltr; unicode-bidi: embed; text-align: right; }
+        .empty-state { text-align: center; padding: 30px; color: #65676b; }
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
+        .home-btn { color: white; background: #1877f2; }
+        @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr; } .share-buttons { flex-direction: column; } .share-btn { width: 100%; } }
     </style>
 </head>
 <body>
 
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -373,41 +67,34 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            
-            <!-- 🔥 زر اللغة -->
             <div class="language-selector" style="position: relative;">
-                <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
                 <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
-                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
-                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
-                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
-                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
-                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
-                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
-                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
-                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
-                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
-                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
-                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
-                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('ar')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇵🇭 Tagalog</button>
                 </div>
             </div>
-            
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
 
-    <!-- BACK & HOME BUTTONS -->
     <div class="nav-buttons">
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
-    <!-- =========================================================
-         REFERRAL CONTAINER
-    ========================================================= -->
     <div class="referral-container">
-
-        <!-- HEADER -->
         <div class="referral-header">
             <h2 data-i18n="referral">👥 الإحالات</h2>
             <div class="points-display" id="pointsDisplay">
@@ -415,20 +102,18 @@
             </div>
         </div>
 
-        <!-- كود الإحالة -->
         <div class="referral-code-box">
             <h3 data-i18n="your_referral_code">🔑 كود الإحالة الخاص بك</h3>
-            <div class="code-display" id="referralCode" dir="ltr" data-i18n="loading">جاري التحميل...</div>
+            <!-- ✅ تم حذف data-i18n="loading" -->
+            <div class="code-display" id="referralCode" dir="ltr">...</div>
             <button class="btn-primary" onclick="copyReferralCode()" data-i18n="copy_code">📋 نسخ الكود</button>
             
             <h3 style="margin-top: 20px;" data-i18n="your_referral_link">🔗 رابط الإحالة</h3>
-            <div class="code-display" id="referralLink" dir="ltr" style="font-size: 16px; letter-spacing: 0; word-break: break-all;" data-i18n="loading">
-                جاري التحميل...
-            </div>
+            <!-- ✅ تم حذف data-i18n="loading" -->
+            <div class="code-display" id="referralLink" dir="ltr" style="font-size:16px;letter-spacing:0;word-break:break-all;">...</div>
             <button class="btn-primary" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 نسخ الرابط</button>
         </div>
 
-        <!-- أزرار المشاركة -->
         <div class="share-buttons">
             <button class="share-btn whatsapp" onclick="shareOnWhatsApp()" data-i18n="share_whatsapp">💬 واتساب</button>
             <button class="share-btn facebook" onclick="shareOnFacebook()" data-i18n="share_facebook">📘 فيسبوك</button>
@@ -436,7 +121,6 @@
             <button class="share-btn copy" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 نسخ الرابط</button>
         </div>
 
-        <!-- إحصائيات -->
         <div class="stats-grid">
             <div class="stat-card">
                 <h4 data-i18n="total_referrals">👥 المدعوين</h4>
@@ -452,7 +136,6 @@
             </div>
         </div>
 
-        <!-- قائمة المدعوين -->
         <div class="referral-list">
             <h3 data-i18n="referral_list">📋 المدعوين</h3>
             <table>
@@ -472,9 +155,6 @@
         </div>
     </div>
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js?v=999999"></script>
     
@@ -482,52 +162,34 @@
         // =========================================================
         // SUPABASE SETUP
         // =========================================================
-        
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: false
-    },
-    global: {
-        headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`
-        }
-    }
-});
-        
+            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: false },
+            global: { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+        });
+
         // =========================================================
         // LOGOUT
         // =========================================================
-        
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
-        
+
         // =========================================================
         // LOAD USER PROFILE
         // =========================================================
-        
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) return;
                 
-                const { data: profile, error } = await supabaseClient
+                const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('username, full_name, avatar_url')
                     .eq('id', user.id)
                     .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
                 
                 const username = profile?.username || profile?.full_name || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
@@ -537,224 +199,271 @@
                 
                 const navProfileImg = document.getElementById('navProfileImg');
                 if (navProfileImg) navProfileImg.src = avatarUrl;
-                
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Profile error:', error);
             }
         }
-        
+
         // =========================================================
         // GENERATE REFERRAL CODE
         // =========================================================
-        
         function generateReferralCode(userId) {
-            const shortId = userId.substring(0, 6);
+            const shortId = userId.substring(0, 6).toUpperCase();
             const random = Math.random().toString(36).substring(2, 6).toUpperCase();
             return `REF${shortId}${random}`;
         }
-        
+
         // =========================================================
         // GET OR CREATE REFERRAL CODE
         // =========================================================
-        
         async function getOrCreateReferralCode() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            
-            if (!user) return null;
-            
-            const { data: profile } = await supabaseClient
-                .from('profiles')
-                .select('referral_code')
-                .eq('id', user.id)
-                .single();
-            
-            if (profile?.referral_code) {
-                return profile.referral_code;
+            try {
+                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+                
+                if (authError) { console.error('Auth error:', authError); return null; }
+                if (!user) { console.error('No user'); return null; }
+                
+                const { data: profile, error: profileError } = await supabaseClient
+                    .from('profiles')
+                    .select('referral_code')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (profileError) console.error('Profile error:', profileError);
+                
+                if (profile?.referral_code) {
+                    return profile.referral_code;
+                }
+                
+                const newCode = generateReferralCode(user.id);
+                
+                const { error: updateError } = await supabaseClient
+                    .from('profiles')
+                    .update({ referral_code: newCode })
+                    .eq('id', user.id);
+                
+                if (updateError) console.error('Update error:', updateError);
+                
+                return newCode;
+            } catch (err) {
+                console.error('Fatal error:', err);
+                return null;
             }
-            
-            const newCode = generateReferralCode(user.id);
-            
-            await supabaseClient
-                .from('profiles')
-                .update({ referral_code: newCode })
-                .eq('id', user.id);
-            
-            return newCode;
         }
-        
+
         // =========================================================
         // LOAD REFERRAL DATA
         // =========================================================
-        
         async function loadReferralData() {
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        
-        if (!user) {
-            window.location.href = 'auth.html';
-            return;
-        }
-        
-        // 1. جلب كود الإحالة
-        const referralCode = await getOrCreateReferralCode();
-        if (!referralCode) return;
-        
-        document.getElementById('referralCode').textContent = referralCode;
-        
-        const BASE_URL = 'https://socialwiki-wiki2608.loubabiwahid89.workers.dev';
-        document.getElementById('referralLink').textContent = 
-            `${BASE_URL}/auth.html?ref=${referralCode}`;
-        
-        // 2. جلب عدد المدعوين
-        const { data: referrals, error: refError } = await supabaseClient
-            .from('referrals')
-            .select('*')
-            .eq('referrer_id', user.id);
-        
-        if (refError) {
-            console.error('Error loading referrals:', refError);
-            return;
-        }
-        
-        const totalReferrals = referrals?.length || 0;
-        const totalPoints = totalReferrals * 50;
-        const totalDollars = (totalPoints / 100).toFixed(2);
-        
-        document.getElementById('totalReferrals').textContent = totalReferrals;
-        document.getElementById('referralPoints').textContent = totalPoints;
-        document.getElementById('referralDollars').textContent = `$${totalDollars}`;
-        
-        // 3. عرض قائمة المدعوين
-        const tableBody = document.getElementById('referralTableBody');
-        tableBody.innerHTML = '';
-        
-        if (!referrals || referrals.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="3" class="empty-state" data-i18n="no_referrals">
-                        ${typeof t === 'function' ? t('no_referrals') : 'لم تدعُ أي شخص بعد. ابدأ الآن! 🚀'}
-                    </td>
-                </tr>
-            `;
-            if (typeof applyTranslations === 'function') applyTranslations();
-            return;
-        }
-        
-        // 4. جلب أسماء المدعوين
-        const userIds = referrals.map(r => r.referred_id);
-        const { data: profiles } = await supabaseClient
-            .from('profiles')
-            .select('id, username, full_name')
-            .in('id', userIds);
-        
-        const profilesMap = {};
-        if (profiles) {
-            profiles.forEach(p => {
-                profilesMap[p.id] = p.full_name || p.username || (typeof t === 'function' ? t('default_user_name') : 'مستخدم');
-            });
-        }
-        
-        // 5. بناء الصفوف
-        referrals.forEach(ref => {
-            const name = profilesMap[ref.referred_id] || (typeof t === 'function' ? t('default_user_name') : 'مستخدم');
+            const codeEl = document.getElementById('referralCode');
+            const linkEl = document.getElementById('referralLink');
             
-            const dateObj = new Date(ref.created_at);
-            const formattedDate = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()}`;
-            
-            const pointsText = (typeof t === 'function') ? t('points') : 'نقاط';
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${name}</td>
-                <td class="date-cell" dir="ltr">${formattedDate}</td>
-                <td class="reward-cell" dir="ltr">+${ref.points_awarded || 50} ${pointsText}</td>
-            `;
-            tableBody.appendChild(row);
-        });
-        
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-        
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    if (codeEl) codeEl.textContent = '❌ Not logged in';
+                    if (linkEl) linkEl.textContent = '❌ Please login';
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                // 1. كود الإحالة
+                const referralCode = await getOrCreateReferralCode();
+                
+                if (!referralCode) {
+                    if (codeEl) codeEl.textContent = '❌ Error - Check F12 Console';
+                    if (linkEl) linkEl.textContent = '❌ Error loading link';
+                    return;
+                }
+                
+                if (codeEl) codeEl.textContent = referralCode;
+                
+                const BASE_URL = 'https://socialwiki-wiki2608.loubabiwahid89.workers.dev';
+                if (linkEl) linkEl.textContent = `${BASE_URL}/auth.html?ref=${referralCode}`;
+                
+                // 2. عدد المدعوين
+                const { data: referrals, error: refError } = await supabaseClient
+                    .from('referrals')
+                    .select('*')
+                    .eq('referrer_id', user.id);
+                
+                if (refError) console.error('Referrals error:', refError);
+                
+                const totalReferrals = referrals?.length || 0;
+                const totalPoints = totalReferrals * 50;
+                const totalDollars = (totalPoints / 100).toFixed(2);
+                
+                const totalRefEl = document.getElementById('totalReferrals');
+                const refPointsEl = document.getElementById('referralPoints');
+                const refDollarsEl = document.getElementById('referralDollars');
+                
+                if (totalRefEl) totalRefEl.textContent = totalReferrals;
+                if (refPointsEl) refPointsEl.textContent = totalPoints;
+                if (refDollarsEl) refDollarsEl.textContent = '$' + totalDollars;
+                
+                // 3. قائمة المدعوين
+                const tableBody = document.getElementById('referralTableBody');
+                if (!tableBody) return;
+                
+                tableBody.innerHTML = '';
+                
+                if (!referrals || referrals.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="3" class="empty-state">' + 
+                        (typeof t === 'function' ? t('no_referrals') : 'لم تدعُ أي شخص بعد. ابدأ الآن! 🚀') + 
+                        '</td></tr>';
+                    return;
+                }
+                
+                // 4. أسماء المدعوين
+                const userIds = referrals.map(r => r.referred_id);
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name')
+                    .in('id', userIds);
+                
+                const profilesMap = {};
+                if (profiles) {
+                    profiles.forEach(p => {
+                        profilesMap[p.id] = p.full_name || p.username || 'User';
+                    });
+                }
+                
+                // 5. الصفوف
+                referrals.forEach(ref => {
+                    const name = profilesMap[ref.referred_id] || 'User';
+                    const dateObj = new Date(ref.created_at);
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const year = dateObj.getFullYear();
+                    const formattedDate = day + '/' + month + '/' + year;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td>' + name + '</td>' +
+                        '<td class="date-cell" dir="ltr">' + formattedDate + '</td>' +
+                        '<td class="reward-cell" dir="ltr">+' + (ref.points_awarded || 50) + ' ' + 
+                        (typeof t === 'function' ? t('points') : 'نقاط') + '</td>';
+                    tableBody.appendChild(row);
+                });
+                
+            } catch (error) {
+                console.error('Fatal error:', error);
+                if (codeEl) codeEl.textContent = '❌ Error';
+                if (linkEl) linkEl.textContent = '❌ Error';
+            }
+        }
+
         // =========================================================
         // SHARE FUNCTIONS
         // =========================================================
-        
         function copyReferralCode() {
             const code = document.getElementById('referralCode').textContent;
             navigator.clipboard.writeText(code).then(() => {
                 alert(typeof t === 'function' ? t('copied_code') : '✅ تم نسخ كود الإحالة!');
             }).catch(() => {
-                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ، حاول مرة أخرى.');
+                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ');
             });
         }
         
         function copyReferralLink() {
             const link = document.getElementById('referralLink').textContent;
             navigator.clipboard.writeText(link).then(() => {
-                alert(typeof t === 'function' ? t('copied_link') : '✅ تم نسخ رابط الإحالة!');
+                alert(typeof t === 'function' ? t('copied_link') : '✅ تم نسخ الرابط!');
             }).catch(() => {
-                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ، حاول مرة أخرى.');
+                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ');
             });
         }
         
         function shareOnWhatsApp() {
             const link = document.getElementById('referralLink').textContent;
-            const text = encodeURIComponent('🎉 انضم إلى SocialWiki واربح نقاطاً! استخدم رابط الإحالة الخاص بي:');
-            window.open(`https://wa.me/?text=${text}%20${encodeURIComponent(link)}`, '_blank');
+            const text = encodeURIComponent('🎉 انضم إلى SocialWiki واربح نقاطاً!');
+            window.open('https://wa.me/?text=' + text + '%20' + encodeURIComponent(link), '_blank');
         }
         
         function shareOnFacebook() {
             const link = document.getElementById('referralLink').textContent;
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`, '_blank');
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link), '_blank');
         }
         
         function shareOnTwitter() {
             const link = document.getElementById('referralLink').textContent;
-            const text = encodeURIComponent('🎉 انضم إلى SocialWiki واربح نقاطاً!');
-            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(link)}`, '_blank');
+            const text = encodeURIComponent('🎉 انضم إلى SocialWiki!');
+            window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(link), '_blank');
         }
-        
+
         // =========================================================
         // LOAD POINTS
         // =========================================================
-        
         async function loadPoints() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            
-            if (!user) return;
-            
-            const { data: profile } = await supabaseClient
-                .from('profiles')
-                .select('total_points')
-                .eq('id', user.id)
-                .single();
-            
-            const points = profile?.total_points || 0;
-            const pointsEl = document.getElementById('pointsValue');
-            if (pointsEl) {
-                pointsEl.textContent = points;
-                pointsEl.setAttribute('dir', 'ltr');
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('total_points')
+                    .eq('id', user.id)
+                    .single();
+                
+                const points = profile?.total_points || 0;
+                const pointsEl = document.getElementById('pointsValue');
+                if (pointsEl) {
+                    pointsEl.textContent = points;
+                    pointsEl.setAttribute('dir', 'ltr');
+                }
+            } catch (err) {
+                console.error('Points error:', err);
             }
         }
-        
+
+        // =========================================================
+        // LANGUAGE HELPERS (احتياطي)
+        // =========================================================
+        if (typeof applyTranslations !== 'function') {
+            window.applyTranslations = function() {
+                if (typeof setLanguage === 'function' && typeof getCurrentLanguage === 'function') {
+                    setLanguage(getCurrentLanguage());
+                }
+            };
+        }
+        if (typeof changeLanguage !== 'function') {
+            window.changeLanguage = function(lang) {
+                if (typeof setLanguage === 'function') setLanguage(lang);
+                const menu = document.getElementById('languageMenu');
+                if (menu) menu.style.display = 'none';
+            };
+        }
+        if (typeof toggleLanguageMenu !== 'function') {
+            window.toggleLanguageMenu = function() {
+                const menu = document.getElementById('languageMenu');
+                if (!menu) return;
+                menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+            };
+        }
+
         // =========================================================
         // START
         // =========================================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof getCurrentLanguage === 'function') {
-                const lang = getCurrentLanguage();
-                setLanguage(lang);
-                applyTranslations();
+        function initPage() {
+            try {
+                if (typeof applyTranslations === 'function') {
+                    applyTranslations();
+                }
+            } catch (e) {
+                console.warn('Translation error:', e);
             }
             
             loadUserProfile();
             loadPoints();
             loadReferralData();
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
     </script>
-  <script src="js/messenger-notify.js"></script>  
+    <script src="js/messenger-notify.js"></script>
 </body>
 </html>
