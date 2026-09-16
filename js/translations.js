@@ -6206,3 +6206,49 @@ if (typeof window !== 'undefined') {
         initLanguage();
     }
 }
+// =========================================================
+// BACKWARD COMPATIBILITY FUNCTIONS
+// =========================================================
+
+/**
+ * إعادة تطبيق الترجمات على الصفحة (بديل لـ initLanguage)
+ */
+function applyTranslations() {
+    if (typeof getCurrentLanguage !== 'function') return;
+    if (typeof setLanguage !== 'function') return;
+    setLanguage(getCurrentLanguage());
+}
+
+/**
+ * تغيير اللغة (يُستدعى من أزرار اللغة في navbar)
+ */
+function changeLanguage(lang) {
+    if (typeof setLanguage === 'function') {
+        setLanguage(lang);
+    }
+    // إغلاق قائمة اللغة إذا كانت مفتوحة
+    var menu = document.getElementById('languageMenu');
+    if (menu) menu.style.display = 'none';
+}
+
+/**
+ * فتح/إغلاق قائمة اللغة
+ */
+function toggleLanguageMenu() {
+    var menu = document.getElementById('languageMenu');
+    if (!menu) return;
+    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') 
+        ? 'block' 
+        : 'none';
+}
+
+// إغلاق القائمة عند الضغط خارجها
+if (typeof window !== 'undefined') {
+    window.addEventListener('click', function (e) {
+        var menu = document.getElementById('languageMenu');
+        var btn = document.getElementById('languageButton');
+        if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = 'none';
+        }
+    });
+}
