@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <style>
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .page-title { font-size: 26px; font-weight: 700; margin-bottom: 20px; }
+        
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e4e6eb; }
+        .tab { padding: 12px 20px; cursor: pointer; font-weight: 600; color: #65676b; border-bottom: 3px solid transparent; }
+        .tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+        
+        .order-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .order-id { color: #65676b; font-size: 12px; font-family: monospace; }
+        .order-status { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d1ecf1; color: #0c5460; }
+        .status-shipped { background: #d4edda; color: #155724; }
+        .status-delivered { background: #cfe2ff; color: #084298; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+        
+        .order-product { font-size: 18px; font-weight: 700; color: #1877f2; margin-bottom: 8px; }
+        .order-info { color: #65676b; font-size: 14px; margin: 4px 0; }
+        .order-info strong { color: #050505; }
+        
+        .order-actions { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .btn-primary { background: #1877f2; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-secondary { background: #e4e6eb; color: #050505; }
+        
+        .empty-state { text-align: center; padding: 60px 20px; color: #65676b; }
+        .empty-state-icon { font-size: 60px; margin-bottom: 15px; }
+        
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; color: white; background: #1877f2; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left"><a href="index.html" class="logo">📘 SocialWiki</a></div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="nav-buttons">
+        <a href="index.html">🏠 Home</a>
+        <a href="market-plus.html">🛍️ Marketplace</a>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">📦 My Orders</h1>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('received', this)">📥 Received (as Seller)</div>
+            <div class="tab" onclick="switchTab('sent', this)">📤 Sent (as Buyer)</div>
+        </div>
+
+        <div id="ordersList"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentTab = 'received';
+        let currentUser = null;
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadUserProfile() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) { window.location.href = 'auth.html'; return; }
+            currentUser = user;
+
+            const { data: profile } = await supabaseClient
+                .from('profiles').select('username, full_name, avatar_url')
+                .eq('id', user.id).single();
+
+            const username = profile?.username || profile?.full_name || 'User';
+            const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+
+            document.getElementById('navProfileName').textContent = username;
+            document.getElementById('navProfileImg').src = avatarUrl;
+        }
+
+        function switchTab(tab, el) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            loadOrders();
+        }
+
+        async function loadOrders() {
+            const container = document.getElementById('ordersList');
+            container.innerHTML = '<p style="text-align:center;color:#65676b;">Loading...</p>';
+
+            try {
+                const column = currentTab === 'received' ? 'seller_id' : 'buyer_id';
+                const { data: orders, error } = await supabaseClient
+                    .from('product_orders')
+                    .select('*')
+                    .eq(column, currentUser.id)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error:', error);
+                    container.innerHTML = '<p style="text-align:center;color:#dc3545;">Error loading orders</p>';
+                    return;
+                }
+
+                if (!orders || orders.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>No orders yet</h3>
+                            <p>${currentTab === 'received' ? 'Orders from buyers will appear here' : 'Your purchases will appear here'}</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = '';
+                orders.forEach(order => container.appendChild(renderOrder(order)));
+
+            } catch (err) {
+                console.error('Error:', err);
+                container.innerHTML = '<p style="text-align:center;color:#dc3545;">Error loading orders</p>';
+            }
+        }
+
+        function renderOrder(order) {
+            const card = document.createElement('div');
+            card.className = 'order-card';
+
+            const statusClass = 'status-' + (order.status || 'pending');
+            const date = new Date(order.created_at).toLocaleString();
+
+            let actionsHTML = '';
+            if (currentTab === 'received') {
+                // البائع: يمكنه Confirm / Reject / Mark as Shipped
+                if (order.status === 'pending') {
+                    actionsHTML = `
+                        <button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'confirmed')">✅ Confirm</button>
+                        <button class="btn btn-danger" onclick="updateOrderStatus('${order.id}', 'cancelled')">❌ Reject</button>
+                    `;
+                } else if (order.status === 'confirmed') {
+                    actionsHTML = `
+                        <button class="btn btn-primary" onclick="updateOrderStatus('${order.id}', 'shipped')">🚚 Mark as Shipped</button>
+                    `;
+                } else if (order.status === 'shipped') {
+                    actionsHTML = `
+                        <button class="btn btn-primary" onclick="updateOrderStatus('${order.id}', 'delivered')">📦 Mark as Delivered</button>
+                    `;
+                }
+                actionsHTML += `<button class="btn btn-secondary" onclick="contactBuyer('${order.buyer_id}')">💬 Contact Buyer</button>`;
+            } else {
+                // المشتري: يمكنه الاتصال بالبائع
+                actionsHTML = `<button class="btn btn-secondary" onclick="contactSeller('${order.seller_id}')">💬 Contact Seller</button>`;
+            }
+
+            card.innerHTML = `
+                <div class="order-header">
+                    <span class="order-id">#${order.id.substring(0, 8)}</span>
+                    <span class="order-status ${statusClass}">${(order.status || 'pending').toUpperCase()}</span>
+                </div>
+                <div class="order-product">📦 ${escapeHtml(order.product_name || 'Product')}</div>
+                <div class="order-info"><strong>Price:</strong> ${order.price} ${order.currency || 'MAD'}</div>
+                <div class="order-info"><strong>Buyer:</strong> ${escapeHtml(order.buyer_email || 'N/A')}</div>
+                <div class="order-info"><strong>Payment:</strong> ${escapeHtml(order.payment_method || 'N/A')}</div>
+                <div class="order-info"><strong>Address:</strong> ${escapeHtml(order.delivery_address || 'N/A')}</div>
+                ${order.notes ? `<div class="order-info"><strong>Notes:</strong> ${escapeHtml(order.notes)}</div>` : ''}
+                <div class="order-info"><strong>Date:</strong> ${date}</div>
+                <div class="order-actions">${actionsHTML}</div>
+            `;
+            return card;
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            if (!confirm(`Change status to "${newStatus}"?`)) return;
+
+            const { error } = await supabaseClient
+                .from('product_orders')
+                .update({ status: newStatus })
+                .eq('id', orderId)
+                .eq('seller_id', currentUser.id);
+
+            if (error) {
+                alert('Error: ' + error.message);
+                return;
+            }
+
+            alert('✅ Status updated!');
+            loadOrders();
+        }
+
+        function contactSeller(sellerId) {
+            window.location.href = `messenger.html?user_id=${sellerId}`;
+        }
+
+        function contactBuyer(buyerId) {
+            window.location.href = `messenger.html?user_id=${buyerId}`;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadUserProfile();
+            loadOrders();
+        });
+    </script>
+</body>
+</html>

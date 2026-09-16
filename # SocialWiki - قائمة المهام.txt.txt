@@ -1,0 +1,18 @@
+# SocialWiki - قائمة المهام
+
+## صفحات مكتملة
+- [] index.html
+- [] profile.html
+- [] referral.html
+- [] friends.html
+- [] stars.html
+
+
+## صفحات تحتاج إصلاح
+- [ ] market-plus.html
+- [ ] notifications.html
+- [ ] earnings.html
+
+## الأمان
+- [ ] RLS على الجداول
+- [ ] REVOKE على الدوال

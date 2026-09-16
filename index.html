@@ -13,12 +13,18 @@
     <!-- ========================================================= -->
     <nav class="navbar">
         <div class="nav-left">
+            <!-- ☰ زر القائمة Hamburger (يظهر فقط في الجوال) -->
+            <button id="hamburgerBtn" onclick="toggleMobileSidebar()" class="hamburger-btn">
+                ☰
+            </button>
+            
             <a href="index.html" class="logo">📘 SocialWiki</a>
             <div class="search-container">
                 <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search SocialWiki..." autocomplete="off" oninput="searchUsers(this.value)">
                 <div id="searchResults" class="search-results"></div>
             </div>
         </div>
+        
         <ul class="nav-icons">
             <li><a href="index.html" class="active" title="Home">🏠</a></li>
             <li><a href="friends.html" title="Friends">👥</a></li>
@@ -27,6 +33,7 @@
             <li><a href="notifications.html" title="Notifications">🔔</a></li>
             <li><a href="messenger.html" title="Messages">💬</a></li>
         </ul>
+        
         <div class="nav-right">
             <a href="notifications.html" id="navNotificationBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
                 🔔
@@ -40,25 +47,25 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-           <div class="language-selector">
-    <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
-    <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
-        <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
-        <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
-        <button onclick="changeLanguage('en')">🇬🇧 English</button>
-        <button onclick="changeLanguage('es')">🇪🇸 Español</button>
-        <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
-        <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
-        <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
-        <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
-        <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
-        <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
-        <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
-        <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
-        <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
-        <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
-    </div>
-</div>
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+                <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+                </div>
+            </div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
@@ -139,8 +146,8 @@
             <!-- ✅ AD #1 -->
             <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
                 <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
-    📢 Advertisement
-</div>
+                    📢 Advertisement
+                </div>
                 <button onclick="watchAdAndEarn(this)"
                         data-i18n="watch_ad_btn"
                         style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 14px 40px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
@@ -150,9 +157,9 @@
 
             <!-- ✅ AD #2 -->
             <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-               <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
-    📢 Sponsored
-</div>
+                <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
+                    📢 Sponsored
+                </div>
                 <button onclick="watchAdAndEarn(this)"
                         data-i18n="watch_ad_btn"
                         style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 14px 40px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
@@ -1048,6 +1055,70 @@
         };
 
         // =========================================================
+        // 🆕 MOBILE SIDEBAR (HAMBURGER MENU)
+        // =========================================================
+        window.toggleMobileSidebar = function() {
+            const sidebar = document.querySelector('.left-sidebar');
+            if (!sidebar) return;
+            if (sidebar.classList.contains('show')) {
+                closeMobileSidebar();
+            } else {
+                openMobileSidebar();
+            }
+        };
+
+        window.openMobileSidebar = function() {
+            const sidebar = document.querySelector('.left-sidebar');
+            if (!sidebar) return;
+            
+            let overlay = document.querySelector('.mobile-sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'mobile-sidebar-overlay';
+                overlay.onclick = closeMobileSidebar;
+                document.body.appendChild(overlay);
+            }
+            
+            if (!sidebar.querySelector('.mobile-sidebar-close')) {
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'mobile-sidebar-close';
+                closeBtn.innerHTML = '✕';
+                closeBtn.onclick = closeMobileSidebar;
+                sidebar.insertBefore(closeBtn, sidebar.firstChild);
+            }
+            
+            sidebar.classList.add('show');
+            overlay.classList.add('show');
+            document.body.classList.add('sidebar-open');
+        };
+
+        window.closeMobileSidebar = function() {
+            const sidebar = document.querySelector('.left-sidebar');
+            const overlay = document.querySelector('.mobile-sidebar-overlay');
+            if (sidebar) sidebar.classList.remove('show');
+            if (overlay) overlay.classList.remove('show');
+            document.body.classList.remove('sidebar-open');
+        };
+
+        // إغلاق عند الضغط على رابط داخل القائمة
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.left-sidebar');
+            if (sidebar && sidebar.classList.contains('show')) {
+                const link = e.target.closest('a');
+                if (link && sidebar.contains(link)) {
+                    closeMobileSidebar();
+                }
+            }
+        });
+
+        // إغلاق عند تغيير حجم الشاشة لأكثر من 768px
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMobileSidebar();
+            }
+        });
+
+        // =========================================================
         // INITIALIZE
         // =========================================================
         document.addEventListener('DOMContentLoaded', function() {
@@ -1119,11 +1190,8 @@
 
         var AD_URL = "https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default";
         var POINTS_PER_AD = 5;
-        var DAILY_AD_LIMIT = 20; // 20 إعلان × 5 نقاط = 100 نقطة/يوم
+        var DAILY_AD_LIMIT = 20;
 
-        // =========================================================
-        // 1️⃣ فتح إعلان تلقائي عند دخول الصفحة (مرة كل جلسة)
-        // =========================================================
         if (!sessionStorage.getItem('adOpenedThisSession')) {
             sessionStorage.setItem('adOpenedThisSession', '1');
             setTimeout(function() {
@@ -1135,9 +1203,6 @@
             }, 3000);
         }
 
-        // =========================================================
-        // 2️⃣ دالة: مشاهدة الإعلان + ربح 5 نقاط
-        // =========================================================
         window.watchAdAndEarn = async function(btn) {
             if (btn && btn.dataset.busy === '1') return;
             if (btn) {

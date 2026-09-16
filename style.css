@@ -264,17 +264,18 @@ body {
 }
 
 .language-menu {
-    display: none;
     position: absolute;
-    top: 45px;
+    top: calc(100% + 8px);
     right: 0;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 9999;
-    min-width: 180px;
-    max-height: 400px;
+    width: 200px;
+    max-height: 350px;
     overflow-y: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    padding: 6px;
+    z-index: 99999;
+    display: none;
 }
 
 .language-menu.show {
@@ -282,18 +283,32 @@ body {
 }
 
 .language-menu button {
+   display: flex;
+    align-items: center;
+    gap: 10px;
     width: 100%;
-    padding: 12px 15px;
+    padding: 10px 12px;
     border: none;
-    background: white;
-    cursor: pointer;
-    text-align: left;
+    background: transparent;
+    color: #333;
     font-size: 14px;
-    transition: 0.2s;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s;
 }
 
 .language-menu button:hover {
     background: #f0f2f5;
+}
+
+.language-menu::-webkit-scrollbar {
+    width: 6px;
+}
+.language-menu::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
 }
 
 /* =========================================================
@@ -1279,4 +1294,102 @@ body {
 
 a[href*="messenger"] {
     position: relative;
+}
+
+/* =========================================================
+   MOBILE SIDEBAR (HAMBURGER MENU)
+   ========================================================= */
+
+/* زر ☰ — مخفي في PC */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.hamburger-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* Overlay داكن يظهر خلف القائمة */
+.mobile-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.mobile-sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+/* زر إغلاق ✕ في القائمة */
+.mobile-sidebar-close {
+    display: none;
+    background: none;
+    border: none;
+    color: #65676b;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+    margin-left: auto;
+}
+
+/* =========================================================
+   في الجوال (< 768px)
+   ========================================================= */
+@media (max-width: 768px) {
+    
+    /* أظهر زر ☰ */
+    .hamburger-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Left Sidebar يصبح Drawer جانبي */
+    .left-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        max-width: 80vw;
+        background: white;
+        z-index: 9999;
+        overflow-y: auto;
+        padding: 15px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 2px 0 15px rgba(0,0,0,0.15);
+    }
+    
+    /* عند فتح القائمة */
+    .left-sidebar.show {
+        transform: translateX(0);
+    }
+    
+    /* أظهر زر إغلاق ✕ */
+    .mobile-sidebar-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* خلفية ضبابية عند فتح القائمة */
+    body.sidebar-open {
+        overflow: hidden;
+    }
 }
