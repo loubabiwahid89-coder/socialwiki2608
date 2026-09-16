@@ -5706,7 +5706,7 @@ const translations = {
         "archived_messages": "Naka-archive",
         "online_users": "Mga online na user",
         "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
-        "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!"
+        "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!",
  "advertisement": "Advertisement",
 "sponsored": "Sponsored",
     },
@@ -6145,7 +6145,7 @@ const translations = {
         "archived_messages": "Naka-archive",
         "online_users": "Mga online na user",
         "earn_points_title": "🎁 Kumita ng Puntos sa Bawat Aktibidad!",
-        "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!"
+        "earn_points_subtitle": "Anyayahan ang mga kaibigan gamit ang iyong referral code — 50 puntos bawat kaibigan!",
     "advertisement": "Advertisement",
 "sponsored": "Sponsored",
     }
