@@ -7,167 +7,40 @@
     <link rel="stylesheet" href="socialwiki.css">
     <style>
         * { box-sizing: border-box; }
-        body {
-            background: #f0f2f5;
-            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-            margin: 0;
-            color: #050505;
-        }
-        
-        /* NAVBAR */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; color: #050505; }
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
         .nav-left { display: flex; align-items: center; gap: 10px; }
         .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
-        .nav-icons {
-            display: flex; align-items: center; gap: 8px;
-            list-style: none; margin: 0; padding: 0;
-        }
-        .nav-icons a {
-            color: white; font-size: 20px; text-decoration: none;
-            padding: 8px; border-radius: 50%;
-        }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
         .nav-icons a:hover { background: rgba(255,255,255,0.2); }
         .nav-right { display: flex; align-items: center; gap: 8px; }
-        .nav-profile {
-            display: flex; align-items: center; gap: 8px;
-            color: white; text-decoration: none;
-            padding: 5px 10px; border-radius: 50px;
-        }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
-        .logout-button {
-            background: rgba(255,255,255,0.2); border: none;
-            padding: 8px 16px; border-radius: 20px;
-            color: white; cursor: pointer; font-size: 14px;
-        }
-        
-        /* CONTAINER */
-        .stars-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .stars-header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #f7b928, #ffd700);
-            border-radius: 16px;
-            color: #333;
-            margin-bottom: 30px;
-        }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .stars-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .stars-header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #f7b928, #ffd700); border-radius: 16px; color: #333; margin-bottom: 30px; }
         .stars-header h1 { margin: 0 0 10px; font-size: 32px; }
-        .stars-header p { margin: 0; opacity: 0.9; }
-        
-        /* BALANCE */
-        .balance-card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(247, 185, 40, 0.3);
-            margin-bottom: 30px;
-        }
-        .balance-label {
-            font-size: 16px;
-            color: #65676b;
-            margin-bottom: 10px;
-        }
-        .balance-value {
-            font-size: 60px;
-            font-weight: 800;
-            color: #f7b928;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        /* BUY PACKS */
-        .packs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .pack-card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-        .pack-card:hover {
-            transform: translateY(-5px);
-            border-color: #f7b928;
-            box-shadow: 0 8px 20px rgba(247, 185, 40, 0.3);
-        }
-        .pack-stars {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-        .pack-amount {
-            font-size: 24px;
-            font-weight: 700;
-            color: #f7b928;
-            margin-bottom: 5px;
-        }
-        .pack-price {
-            font-size: 18px;
-            color: #65676b;
-            margin-bottom: 15px;
-        }
-        .pack-bonus {
-            background: #e7f7e7;
-            color: #28a745;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        
-        /* INFO */
-        .info-box {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-        .info-box h3 {
-            margin: 0 0 15px;
-            color: #050505;
-        }
-        .info-box p {
-            color: #65676b;
-            line-height: 1.6;
-            margin: 0;
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 700px) {
-            .stars-header h1 { font-size: 24px; }
-            .balance-value { font-size: 40px; }
-        }
+        .balance-card { background: white; border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(247, 185, 40, 0.3); margin-bottom: 30px; }
+        .balance-label { font-size: 16px; color: #65676b; margin-bottom: 10px; }
+        .balance-value { font-size: 60px; font-weight: 800; color: #f7b928; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .pack-card { background: white; border-radius: 12px; padding: 25px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+        .pack-card:hover { transform: translateY(-5px); border-color: #f7b928; box-shadow: 0 8px 20px rgba(247, 185, 40, 0.3); }
+        .pack-stars { font-size: 40px; margin-bottom: 10px; }
+        .pack-amount { font-size: 24px; font-weight: 700; color: #f7b928; margin-bottom: 5px; }
+        .pack-price { font-size: 18px; color: #65676b; margin-bottom: 15px; }
+        .pack-bonus { background: #e7f7e7; color: #28a745; padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; margin-bottom: 10px; }
+        .info-box { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .info-box h3 { margin: 0 0 15px; color: #050505; }
+        .info-box p { color: #65676b; line-height: 1.6; margin: 0; }
+        .buy-btn { padding: 10px 20px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .buy-btn:hover { background: #166fe5; }
+        @media (max-width: 700px) { .stars-header h1 { font-size: 24px; } .balance-value { font-size: 40px; } }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -184,111 +57,110 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            
+            <!-- 🌐 زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-       
     </nav>
-     <!-- BACK & HOME BUTTONS -->
-    <div class="nav-buttons">
+
+    <div class="nav-buttons" style="padding: 10px 20px; background: #f0f2f5;">
+        <a href="index.html" class="home-btn" data-i18n="home_btn" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; color: white; background: #1877f2;">🏠 Home</a>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 12px; padding: 20px; text-align: center; margin: 20px auto; max-width: 900px; color: white;">
+        <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;" data-i18n="watch_ad_earn">💰 اربح 5 نقاط مجاناً</div>
+        <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;" data-i18n="watch_ad_desc">شاهد إعلاناً قصيراً واحصل على 5 نقاط</div>
+        <a href="https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default" 
+           target="_blank"
+           style="display: inline-block; background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;"
+           data-i18n="watch_ad_btn">
+            🎬 شاهد الإعلان
+        </a>
+    </div>
+
+    <div class="stars-container">
+        <div class="stars-header">
+            <h1 data-i18n="stars">⭐ Stars</h1>
+            <p data-i18n="buy_stars_desc" style="color: #1877f2; font-weight: 600; font-size: 18px;">Support your favorite creators</p>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance-label" data-i18n="star_balance">Your Star Balance</div>
+            <div class="balance-value">
+                <span id="starBalance">0</span>
+                <span>⭐</span>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 20px;" data-i18n="buy_stars">Buy Stars</h2>
         
-        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
-    </div>
+        <div class="packs-grid">
+            <div class="pack-card">
+                <div class="pack-stars">⭐</div>
+                <div class="pack-amount">100</div>
+                <div class="pack-price">$1.00</div>
+                <button class="buy-btn" onclick="buyStars(100, 1)" data-i18n="buy_now">🛒 Buy Now</button>
+            </div>
 
-   <!-- CONTAINER -->
-    <div style="background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; color: white;">
-    <div style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">💰 اربح 5 نقاط مجاناً</div>
-    <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.9;">شاهد إعلاناً قصيراً واحصل على 5 نقاط</div>
-    <a href="https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default" 
-       target="_blank"
-       style="display: inline-block; background: white; color: #28a745; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;">
-        🎬 شاهد الإعلان
-    </a>
-</div>
-<div class="stars-container">
+            <div class="pack-card">
+                <div class="pack-bonus" data-i18n="bonus_10">+10% Bonus</div>
+                <div class="pack-stars">⭐⭐</div>
+                <div class="pack-amount">550</div>
+                <div class="pack-price">$5.00</div>
+                <button class="buy-btn" onclick="buyStars(550, 5)" data-i18n="buy_now">🛒 Buy Now</button>
+            </div>
 
-    <div class="stars-header">
-        <h1 data-i18n="stars">⭐ Stars</h1>
-        <p data-i18n="buy_stars_desc" style="color: #1877f2; font-weight: 600; font-size: 18px;">
-            Support your favorite creators
-        </p>
-    </div>
+            <div class="pack-card">
+                <div class="pack-bonus" data-i18n="bonus_20">+20% Bonus</div>
+                <div class="pack-stars">⭐⭐⭐</div>
+                <div class="pack-amount">1200</div>
+                <div class="pack-price">$10.00</div>
+                <button class="buy-btn" onclick="buyStars(1200, 10)" data-i18n="buy_now">🛒 Buy Now</button>
+            </div>
 
-    <!-- BALANCE -->
-    <div class="balance-card">
-        <div class="balance-label" data-i18n="star_balance">Your Star Balance</div>
-        <div class="balance-value">
-            <span id="starBalance">0</span>
-            <span>⭐</span>
+            <div class="pack-card">
+                <div class="pack-bonus" data-i18n="bonus_30">+30% Bonus</div>
+                <div class="pack-stars" style="font-size: 28px;">⭐⭐⭐⭐</div>
+                <div class="pack-amount">6500</div>
+                <div class="pack-price">$50.00</div>
+                <button class="buy-btn" onclick="buyStars(6500, 50)" data-i18n="buy_now">🛒 Buy Now</button>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3 data-i18n="how_stars_work">ℹ️ How Stars Work</h3>
+            <p>
+                ⭐ <span data-i18n="stars_info_1">Buy stars with real money.</span><br>
+                ⭐ <span data-i18n="stars_info_2">Send stars to your favorite creators.</span><br>
+                ⭐ <span data-i18n="stars_info_3">Creators receive 70% of the star value.</span><br>
+                ⭐ <span data-i18n="stars_info_4">SocialWiki keeps 30% as platform fee.</span><br>
+                ⭐ <span data-i18n="stars_info_5">Stars can be used to support posts, videos, and stories.</span>
+            </p>
         </div>
     </div>
 
-    <!-- BUY PACKS -->
-    <h2 style="margin-bottom: 20px;" data-i18n="buy_stars">Buy Stars</h2>
-    
-    <div class="packs-grid">
-        
-        <!-- 100 Stars -->
-        <div class="pack-card">
-            <div class="pack-stars">⭐</div>
-            <div class="pack-amount">100</div>
-            <div class="pack-price">$1.00</div>
-            <button class="buy-btn" onclick="buyStars(100, 1)" data-i18n="buy_now">
-                🛒 Buy Now
-            </button>
-        </div>
-
-        <!-- 550 Stars -->
-        <div class="pack-card">
-            <div class="pack-bonus" data-i18n="bonus_10">+10% Bonus</div>
-            <div class="pack-stars">⭐⭐</div>
-            <div class="pack-amount">550</div>
-            <div class="pack-price">$5.00</div>
-            <button class="buy-btn" onclick="buyStars(550, 5)" data-i18n="buy_now">
-                🛒 Buy Now
-            </button>
-        </div>
-
-        <!-- 1200 Stars -->
-        <div class="pack-card">
-            <div class="pack-bonus" data-i18n="bonus_20">+20% Bonus</div>
-            <div class="pack-stars">⭐⭐⭐</div>
-            <div class="pack-amount">1200</div>
-            <div class="pack-price">$10.00</div>
-            <button class="buy-btn" onclick="buyStars(1200, 10)" data-i18n="buy_now">
-                🛒 Buy Now
-            </button>
-        </div>
-
-        <!-- 6500 Stars -->
-        <div class="pack-card">
-    <div class="pack-bonus" data-i18n="bonus_30">+30% Bonus</div>
-    <div class="pack-stars" style="font-size: 28px;">⭐⭐⭐⭐</div>
-    <div class="pack-amount">6500</div>
-            <div class="pack-price">$50.00</div>
-            <button class="buy-btn" onclick="buyStars(6500, 50)" data-i18n="buy_now">
-                🛒 Buy Now
-            </button>
-        </div>
-
-    </div>
-
-    <!-- INFO -->
-    <div class="info-box">
-        <h3 data-i18n="how_stars_work">ℹ️ How Stars Work</h3>
-        <p>
-            ⭐ <span data-i18n="stars_info_1">Buy stars with real money.</span><br>
-            ⭐ <span data-i18n="stars_info_2">Send stars to your favorite creators.</span><br>
-            ⭐ <span data-i18n="stars_info_3">Creators receive 70% of the star value.</span><br>
-            ⭐ <span data-i18n="stars_info_4">SocialWiki keeps 30% as platform fee.</span><br>
-            ⭐ <span data-i18n="stars_info_5">Stars can be used to support posts, videos, and stories.</span>
-        </p>
-    </div>
-
-</div>
-
-    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/translations.js"></script>
+    <script src="js/translations.js?v=999999"></script>
     <script>
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
@@ -312,69 +184,107 @@
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                 document.getElementById('navProfileName').textContent = username;
                 document.getElementById('navProfileImg').src = avatarUrl;
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
 
-        // =========================================================
-        // LOAD STAR BALANCE
-        // =========================================================
         async function loadStarBalance() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
-
-                const { data: starData, error } = await supabaseClient
+                const { data: starData } = await supabaseClient
                     .from('stars')
                     .select('balance')
                     .eq('user_id', user.id)
                     .maybeSingle();
-
-                if (error) {
-                    console.error('Error loading stars:', error);
-                    return;
-                }
-
-                const balance = starData?.balance || 0;
-                document.getElementById('starBalance').textContent = balance;
-
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                document.getElementById('starBalance').textContent = starData?.balance || 0;
+            } catch (error) { console.error('Error:', error); }
         }
 
         // =========================================================
-        // BUY STARS
+        // BUY STARS — modal لجمع معلومات الدفع
         // =========================================================
         window.buyStars = async function(amount, price) {
-            const confirmed = confirm(`Buy ${amount} stars for $${price.toFixed(2)}?`);
-            if (!confirmed) return;
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) {
+                alert('Please login first!');
+                return;
+            }
+            
+            // عرض modal لجمع معلومات الدفع
+            const modal = document.createElement('div');
+            modal.id = 'buyStarsModal';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+            modal.innerHTML = `
+                <div style="background:white;border-radius:12px;padding:25px;max-width:450px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+                    <h3 style="margin:0 0 15px;color:#050505;">⭐ Buy ${amount} Stars — $${price.toFixed(2)}</h3>
+                    <p style="color:#65676b;font-size:13px;margin:0 0 15px;">Fill in your payment details. We'll contact you to complete the payment.</p>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Email:</label>
+                    <input type="email" id="buyEmail" placeholder="your@email.com" value="${user.email || ''}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Payment Method:</label>
+                    <select id="buyMethod" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+                        <option value="">-- Select --</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="cash">Cash (Morocco)</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Notes (optional):</label>
+                    <textarea id="buyNotes" placeholder="Any additional info..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:15px;height:60px;font-size:14px;resize:vertical;"></textarea>
+                    
+                    <div style="display:flex;gap:10px;">
+                        <button onclick="closeBuyModal()" style="flex:1;padding:12px;border:none;border-radius:8px;background:#e4e6eb;cursor:pointer;font-weight:600;">Cancel</button>
+                        <button onclick="submitBuyRequest(${amount}, ${price})" style="flex:1;padding:12px;border:none;border-radius:8px;background:#1877f2;color:white;cursor:pointer;font-weight:600;">Send Request</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        };
 
+        window.closeBuyModal = function() {
+            const m = document.getElementById('buyStarsModal');
+            if (m) m.remove();
+        };
+
+        window.submitBuyRequest = async function(stars, price) {
+            const email = document.getElementById('buyEmail').value.trim();
+            const method = document.getElementById('buyMethod').value;
+            const notes = document.getElementById('buyNotes').value.trim();
+            
+            if (!email || !method) {
+                alert('Please fill email and payment method');
+                return;
+            }
+            
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) {
-                    alert('Please login first!');
+                
+                const { error } = await supabaseClient
+                    .from('star_orders')
+                    .insert({
+                        user_id: user?.id,
+                        user_email: email,
+                        stars_amount: stars,
+                        price_usd: price,
+                        payment_method: method,
+                        notes: notes,
+                        status: 'pending'
+                    });
+                
+                if (error) {
+                    alert('Error: ' + error.message);
                     return;
                 }
-
-                // ⚠️ هنا يتم الدفع الحقيقي (Stripe أو PayPal)
-                // للآن، سنستخدم طريقة تجريبية:
                 
-                alert('⚠️ Payment integration coming soon!\n\nStars will be added after payment is confirmed.');
-                
-                // ⚠️ مؤقتاً: أضف النجوم يدوياً (للتجريب فقط)
-                // في الإنتاج، يجب أن يتم هذا بعد الدفع الفعلي
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error: ' + error.message);
+                alert('✅ Request sent!\n\nWe will contact you at ' + email + ' to complete the payment.');
+                closeBuyModal();
+            } catch (err) {
+                alert('Error: ' + err.message);
             }
         };
 
-        // =========================================================
-        // INITIALIZE
-        // =========================================================
         document.addEventListener('DOMContentLoaded', function() {
             const lang = getCurrentLanguage();
             setLanguage(lang);
@@ -382,9 +292,12 @@
             loadUserProfile();
             loadStarBalance();
         });
+
+        // إعادة تحميل البيانات عند تغيير اللغة
+        window.addEventListener('languageChanged', function() {
+            loadStarBalance();
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/translations.js"></script>
-  <script src="js/messenger-notify.js"></script>  
+    <script src="js/messenger-notify.js"></script>
 </body>
 </html>
