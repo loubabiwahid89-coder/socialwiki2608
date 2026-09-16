@@ -45,7 +45,6 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -63,7 +62,6 @@
                 <span id="navProfileName">User</span>
             </a>
             
-            <!-- 🌐 زر اللغة -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
                 <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
@@ -88,33 +86,35 @@
         </div>
     </nav>
 
-    <!-- BACK & HOME BUTTONS -->
     <div class="nav-buttons">
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
-    <!-- FRIENDS CONTAINER -->
     <div class="friends-container">
         <div class="friends-header">
-            <h2>👥 Friends</h2>
+            <h2 data-i18n="friends">👥 Friends</h2>
         </div>
         
         <div class="friends-tabs">
-            <div class="friends-tab active" onclick="showTab('friends', this)">All Friends</div>
-            <div class="friends-tab" onclick="showTab('requests', this)">Friend Requests</div>
-            <div class="friends-tab" onclick="showTab('suggestions', this)">Suggestions</div>
+            <div class="friends-tab active" onclick="showTab('friends', this)" data-i18n="friends">All Friends</div>
+            <div class="friends-tab" onclick="showTab('requests', this)" data-i18n="request_sent">Friend Requests</div>
+            <div class="friends-tab" onclick="showTab('suggestions', this)" data-i18n="see_all">Suggestions</div>
         </div>
         
         <div class="friends-list" id="friendsList"></div>
     </div>
 
-    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js?v=999999"></script>
     <script>
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ✅ دالة مساعدة للترجمة
+        function tr(key) {
+            return (typeof t === 'function') ? t(key) : key;
+        }
 
         function logout() {
             supabaseClient.auth.signOut();
@@ -138,14 +138,13 @@
         }
 
         // =========================================================
-        // LOAD FRIENDS — مع إزالة التكرار
+        // LOAD FRIENDS
         // =========================================================
         async function loadFriends() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
                 
-                // جلب كل الصفوف حيث أنا طرف فيها
                 const { data: friends, error } = await supabaseClient
                     .from('friends')
                     .select('*')
@@ -162,7 +161,7 @@
                     return;
                 }
                 
-                // ✅ إزالة التكرار: استخدم Set لحفظ friend_id
+                // إزالة التكرار
                 const uniqueFriendIds = new Set();
                 const uniqueFriendships = [];
                 
@@ -174,7 +173,6 @@
                     }
                 });
                 
-                // جلب بيانات الملفات الشخصية
                 const friendIds = [...uniqueFriendIds];
                 const { data: profiles } = await supabaseClient
                     .from('profiles')
@@ -186,11 +184,10 @@
                     profiles.forEach(p => { profilesMap[p.id] = p; });
                 }
                 
-                // ✅ بناء قائمة نهائية بدون تكرار
                 const enrichedFriends = uniqueFriendships.map(f => {
                     const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
                     return {
-                        friendship_id: f.id,  // لاستخدامها في Remove
+                        friendship_id: f.id,
                         friend: profilesMap[friendId] || {}
                     };
                 });
@@ -200,12 +197,13 @@
             } catch (error) { console.error('Error:', error); }
         }
 
+        // ✅ displayFriends مع الترجمة
         function displayFriends(friends) {
             const container = document.getElementById('friendsList');
             container.innerHTML = '';
             
             if (!friends || friends.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No friends yet</p>';
+                container.innerHTML = `<p style="text-align: center; color: #65676b; padding: 30px;">${tr('no_friends')}</p>`;
                 return;
             }
             
@@ -225,8 +223,8 @@
                         <div class="friend-username">@${escapeHtml(profile.username || '')}</div>
                     </div>
                     <div class="friend-actions">
-                        <button class="friend-action-btn remove-btn" onclick="removeFriend('${friend.friendship_id}')">Remove</button>
-                        <button class="friend-action-btn" onclick="viewProfile('${profile.id}')">View</button>
+                        <button class="friend-action-btn remove-btn" onclick="removeFriend('${friend.friendship_id}')">${tr('delete')}</button>
+                        <button class="friend-action-btn" onclick="viewProfile('${profile.id}')">${tr('view_all')}</button>
                     </div>
                 `;
                 container.appendChild(item);
@@ -246,11 +244,12 @@
             } catch (error) { console.error('Error:', error); }
         }
 
+        // ✅ displayRequests مع الترجمة
         async function displayRequests(requests) {
             const container = document.getElementById('friendsList');
             container.innerHTML = '';
             if (!requests || requests.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No friend requests</p>';
+                container.innerHTML = `<p style="text-align: center; color: #65676b; padding: 30px;">${tr('no_friends')}</p>`;
                 return;
             }
             const senderIds = requests.map(req => req.sender_id);
@@ -274,8 +273,8 @@
                         <div class="friend-username">@${escapeHtml(profile.username || '')}</div>
                     </div>
                     <div class="friend-actions">
-                        <button class="friend-action-btn accept-btn" onclick="acceptRequest('${request.id}')">Accept</button>
-                        <button class="friend-action-btn decline-btn" onclick="declineRequest('${request.id}')">Decline</button>
+                        <button class="friend-action-btn accept-btn" onclick="acceptRequest('${request.id}')">${tr('accept')}</button>
+                        <button class="friend-action-btn decline-btn" onclick="declineRequest('${request.id}')">${tr('reject')}</button>
                     </div>
                 `;
                 container.appendChild(item);
@@ -311,12 +310,13 @@
             window.location.href = `profile.html?id=${userId}`;
         }
 
+        // ✅ showTab مع الترجمة
         function showTab(tab, element) {
             document.querySelectorAll('.friends-tab').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
             if (tab === 'friends') loadFriends();
             else if (tab === 'requests') loadFriendRequests();
-            else if (tab === 'suggestions') document.getElementById('friendsList').innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px;">No suggestions yet</p>';
+            else if (tab === 'suggestions') document.getElementById('friendsList').innerHTML = `<p style="text-align: center; color: #65676b; padding: 30px;">${tr('no_results')}</p>`;
         }
 
         function escapeHtml(text) {
@@ -329,6 +329,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadFriends();
             loadUserProfile();
+        });
+
+        // ✅ بعد تغيير اللغة، أعد تحميل القوائم الديناميكية
+        window.addEventListener('languageChanged', function() {
+            if (document.getElementById('friendsList')) {
+                loadFriends();
+            }
         });
     </script>
 
