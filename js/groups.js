@@ -7803,7 +7803,7 @@ async function renderGroupPosts(posts, groupId) {
 
     if (!posts || posts.length === 0) {
 
-        container.innerHTML = `
+              container.innerHTML = `
             <div
                 style="
                     text-align:center;
@@ -7811,7 +7811,7 @@ async function renderGroupPosts(posts, groupId) {
                     opacity:.7;
                 "
             >
-                📝 No posts yet. Be the first to post!
+                📝 ${t('no_posts_yet')}
             </div>
         `;
 
@@ -8064,48 +8064,30 @@ const canDeletePost =
                 "
             >
 
-                <button
+                              <button
                     type="button"
                     class="group-like-button"
-                    style="
-                        border:none;
-                        background:#f5f5f5;
-                        border-radius:8px;
-                        padding:8px 12px;
-                        cursor:pointer;
-                    "
-                              >
-                    ❤️ Like
+                    ...
+                >
+                    ❤️ ${t('like')}
                     <span class="group-like-count">${post.likeCount || 0}</span>
                 </button>
 
                 <button
                     type="button"
                     class="group-comment-button"
-                    style="
-                        border:none;
-                        background:#f5f5f5;
-                        border-radius:8px;
-                        padding:8px 12px;
-                        cursor:pointer;
-                    "
+                    ...
                 >
-                    💬 Comment
+                    💬 ${t('comment_btn')}
                 </button>
 
 
                 <button
                     type="button"
                     class="group-share-button"
-                    style="
-                        border:none;
-                        background:#f5f5f5;
-                        border-radius:8px;
-                        padding:8px 12px;
-                        cursor:pointer;
-                    "
+                    ...
                 >
-                    ↗️ Share
+                    ↗️ ${t('share_btn')}
                 </button>
 
             </div>
@@ -8128,14 +8110,14 @@ const canDeletePost =
     ${
         (post.comments || []).length === 0
             ? `
-                <div
+                               <div
                     style="
                         font-size:13px;
                         opacity:.6;
                         padding:8px 0;
                     "
                 >
-                    No comments yet.
+                    ${t('no_comments_yet')}
                 </div>
             `
             : (post.comments || []).map(comment => {
@@ -8283,8 +8265,8 @@ const canDeletePost =
                                                 font-size:12px;
                                                 padding:2px 0;
                                             "
-                                        >
-                                            🗑️ Delete
+                                                                               >
+                                            🗑️ ${t('delete')}
                                         </button>
                                     `
                                     : ""
@@ -8305,20 +8287,13 @@ const canDeletePost =
                     "
                 >
 
-                    <input
+                                     <input
                         type="text"
                         class="group-comment-input"
-                        placeholder="Write a comment..."
+                        placeholder="${t('write_comment_placeholder')}"
                         maxlength="2000"
-                        style="
-                            flex:1;
-                            border:1px solid #ddd;
-                            border-radius:8px;
-                            padding:9px 12px;
-                            box-sizing:border-box;
-                        "
+                        ...
                     >
-
 
                     <button
                         type="button"
@@ -8331,8 +8306,8 @@ const canDeletePost =
                             padding:9px 14px;
                             cursor:pointer;
                         "
-                    >
-                        Send
+                                    >
+                        ${t('send')}
                     </button>
 
                 </div>
@@ -8742,9 +8717,9 @@ async function openGroupPage(
                     "
                 >
 
-                    <textarea
+                                       <textarea
                         id="groupPostContentInput"
-                        placeholder="Write something in ${escapeHTML(group.name)}..."
+                        placeholder="${t('post_placeholder')} ${escapeHTML(group.name)}..."
                         style="
                             width:100%;
                             padding:12px;
@@ -8789,7 +8764,7 @@ async function openGroupPage(
                                 cursor:pointer;
                             "
                         >
-                            📷 Add Image
+                            📷 ${t('add_image')}
                         </button>
 
 
@@ -8849,7 +8824,7 @@ async function openGroupPage(
                                 margin-left:auto;
                             "
                         >
-                            📤 Post
+                            📤 ${t('post')}
                         </button>
 
                     </div>
@@ -8873,7 +8848,7 @@ async function openGroupPage(
                             opacity:.7;
                         "
                     >
-                        ⏳ Loading posts...
+                        ⏳ ${t('loading_posts')}
                     </div>
                 </div>
 
@@ -8884,7 +8859,6 @@ async function openGroupPage(
         document.body.appendChild(
             groupPageModal
         );
-
 
         // =====================================================
         // CLOSE MODAL
@@ -9093,13 +9067,13 @@ async function openGroupPage(
                         );
 
 
-                    if (button) {
+                                    if (button) {
 
                         button.disabled =
                             true;
 
                         button.textContent =
-                            "Posting...";
+                            t('posting');
                     }
 
 
@@ -9145,13 +9119,13 @@ async function openGroupPage(
                     }
 
 
-                    if (button) {
+                                      if (button) {
 
                         button.disabled =
                             false;
 
                         button.textContent =
-                            "📤 Post";
+                            "📤 " + t('post');
                     }
 
                 }
