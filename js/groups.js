@@ -7893,9 +7893,23 @@ async function renderGroupPosts(posts, groupId) {
         const avatar =
             profile?.avatar_url || "";
 
-        const isAuthor =
-            String(post.user_id) ===
-            String(currentGroupUser?.id);
+        // 1. هل أنا كاتب المنشور؟
+const isAuthor =
+    String(post.user_id) ===
+    String(currentGroupUser?.id);
+
+// 2. هل أنا مالك المجموعة؟
+const isGroupOwner =
+    String(currentGroupOwnerId) ===
+    String(currentGroupUser?.id);
+
+// 3. هل أنا أدمن المجموعة؟
+const isGroupAdmin =
+    currentUserRole === "admin";
+
+// 4. القرار النهائي: هل يحق لي الحذف؟
+const canDeletePost =
+    isAuthor || isGroupOwner || isGroupAdmin;
 
         const postElement =
             document.createElement("div");
@@ -7975,25 +7989,25 @@ async function renderGroupPosts(posts, groupId) {
 
                 </div>
 
-                ${
-                    isAuthor
-                        ? `
-                            <button
-                                type="button"
-                                class="delete-group-post-button"
-                                style="
-                                    border:none;
-                                    background:none;
-                                    color:#b42318;
-                                    cursor:pointer;
-                                    font-size:18px;
-                                "
-                            >
-                                🗑️
-                            </button>
-                          `
-                        : ""
-                }
+                        ${
+    canDeletePost
+        ? `
+            <button
+                type="button"
+                class="delete-group-post-button"
+                style="
+                    border:none;
+                    background:none;
+                    color:#b42318;
+                    cursor:pointer;
+                    font-size:18px;
+                "
+            >
+                🗑️
+            </button>
+          `
+        : ""
+}
 
             </div>
 
@@ -8039,8 +8053,8 @@ async function renderGroupPosts(posts, groupId) {
                     margin-bottom:12px;
                 "
             >
-               ${new Date(post.created_at?.includes('Z') ? post.created_at : (post.created_at || '') + 'Z').toLocaleString()}
-            </div>
+               ${new Date(post.created_at + 'Z').toLocaleString()}
+               </div>
 
 
             <!-- ACTIONS -->
