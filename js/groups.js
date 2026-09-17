@@ -4698,7 +4698,7 @@ async function renderGroups(
             );
 
 
-        card.innerHTML = `
+               card.innerHTML = `
 
             <div class="group-cover">
 
@@ -4757,7 +4757,7 @@ async function renderGroups(
                                     class="edit-group-button"
                                     data-group-id="${escapeHTML(group.id)}"
                                 >
-                                    ✏️ Edit
+                                    ✏️ ${t('edit_group_btn')}
                                 </button>
                               `
                             : ""
@@ -4774,16 +4774,12 @@ async function renderGroups(
                 <div class="group-meta">
 
                     <span>
-                        🌐 Public
+                        ${t('public_label')}
                     </span>
 
                     <span>
                         👥 ${membersCount}
-                        ${
-                            membersCount === 1
-                                ? "member"
-                                : "members"
-                        }
+                        ${t('members')}
                     </span>
 
                 </div>
@@ -4813,7 +4809,7 @@ async function renderGroups(
                             font-weight:600;
                         "
                     >
-                        👥 Members
+                        👥 ${t('members_btn')}
                     </button>
 
                     <button
@@ -4830,7 +4826,7 @@ async function renderGroups(
                             font-weight:600;
                         "
                     >
-                        📝 Open Group
+                        📝 ${t('open_group')}
                     </button>
 
                     ${
@@ -4850,7 +4846,7 @@ async function renderGroups(
                                         font-weight:600;
                                     "
                                 >
-                                    📩 Invite People
+                                    📩 ${t('invite_people')}
                                 </button>
                               `
                             : ""
@@ -4873,7 +4869,7 @@ async function renderGroups(
                                     class="join-group-button joined"
                                     disabled
                                 >
-                                    Owner
+                                    ${t('owner_label')}
                                 </button>
                               `
                             : `
@@ -4888,8 +4884,8 @@ async function renderGroups(
                                 >
                                     ${
                                         isJoined
-                                            ? "Joined"
-                                            : "Join Group"
+                                            ? t('joined_label')
+                                            : t('join_group_label')
                                     }
                                 </button>
                               `
@@ -10297,6 +10293,17 @@ async function deleteComment(
     }
 }
 
+// =========================================================
+// RE-RENDER ON LANGUAGE CHANGE
+// =========================================================
+
+window.addEventListener("languageChanged", function () {
+    console.log("🌐 Language changed - re-rendering groups");
+
+    if (typeof allGroups !== "undefined" && allGroups.length > 0) {
+        renderGroups(allGroups);
+    }
+});
 
 // =========================================================
 // MAKE FUNCTIONS GLOBAL
