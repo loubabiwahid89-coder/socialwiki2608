@@ -458,7 +458,14 @@ const translations = {
         "edit_group_btn": "تعديل",
         "members_btn": "أعضاء",
         "posting": "جاري النشر...",
-        "loading_posts": "جاري تحميل المنشورات..."
+        "loading_posts": "جاري تحميل المنشورات...",
+        "tic_tac_toe_desc": "لعبة كلاسيكية ضد الكمبيوتر أو صديق",
+"snake_desc": "لعبة الثعبان الكلاسيكية - كل واكبر",
+"memory_desc": "اختبر ذاكرتك بالبطاقات المتطابقة",
+"ad_manager_desc": "أنشئ وأدر إعلاناتك",
+"ad_activity_desc": "اعرض أداء إعلاناتك",
+"create_ad_desc": "ابدأ حملة جديدة",
+"earnings_desc": "تتبع أرباحك",
     },
 
     // ==================== FRENCH ====================
@@ -915,7 +922,14 @@ const translations = {
         "edit_group_btn": "Modifier",
         "members_btn": "Membres",
         "posting": "Publication...",
-        "loading_posts": "Chargement des publications..."
+        "loading_posts": "Chargement des publications...",
+        "tic_tac_toe_desc": "Jeu classique contre l'ordinateur ou un ami",
+"snake_desc": "Jeu classique du serpent - mangez et grandissez",
+"memory_desc": "Testez votre mémoire avec des cartes assorties",
+"ad_manager_desc": "Créez et gérez vos annonces",
+"ad_activity_desc": "Voir les performances de vos annonces",
+"create_ad_desc": "Démarrer une nouvelle campagne",
+"earnings_desc": "Suivez vos revenus",
     },
 
     // ==================== ENGLISH ====================
@@ -1372,7 +1386,14 @@ const translations = {
         "edit_group_btn": "Edit",
         "members_btn": "Members",
         "posting": "Posting...",
-        "loading_posts": "Loading posts..."
+        "loading_posts": "Loading posts...",
+        "tic_tac_toe_desc": "Classic game against computer or friend",
+"snake_desc": "Classic snake game - eat and grow",
+"memory_desc": "Test your memory with matching cards",
+"ad_manager_desc": "Create and manage your ads",
+"ad_activity_desc": "View your ads performance",
+"create_ad_desc": "Start a new campaign",
+"earnings_desc": "Track your earnings",
     },
     
     // ==================== SPANISH ====================
@@ -1829,7 +1850,14 @@ const translations = {
         "edit_group_btn": "Editar",
         "members_btn": "Miembros",
         "posting": "Publicando...",
-        "loading_posts": "Cargando publicaciones..."
+        "loading_posts": "Cargando publicaciones...",
+        "tic_tac_toe_desc": "Juego clásico contra la computadora o un amigo",
+"snake_desc": "Juego clásico de la serpiente - come y crece",
+"memory_desc": "Pon a prueba tu memoria con cartas iguales",
+"ad_manager_desc": "Crea y gestiona tus anuncios",
+"ad_activity_desc": "Ver el rendimiento de tus anuncios",
+"create_ad_desc": "Iniciar una nueva campaña",
+"earnings_desc": "Sigue tus ganancias",
     },
 
     // ==================== GERMAN ====================
@@ -2286,7 +2314,14 @@ const translations = {
         "edit_group_btn": "Bearbeiten",
         "members_btn": "Mitglieder",
         "posting": "Wird gepostet...",
-        "loading_posts": "Beiträge werden geladen..."
+        "loading_posts": "Beiträge werden geladen...",
+        "tic_tac_toe_desc": "Klassisches Spiel gegen Computer oder Freund",
+"snake_desc": "Klassisches Schlangenspiel - friss und wachse",
+"memory_desc": "Teste dein Gedächtnis mit passenden Karten",
+"ad_manager_desc": "Erstelle und verwalte deine Anzeigen",
+"ad_activity_desc": "Sieh dir die Leistung deiner Anzeigen an",
+"create_ad_desc": "Starte eine neue Kampagne",
+"earnings_desc": "Verfolge deine Einnahmen",
     },
 
     // ==================== ITALIAN ====================
@@ -2312,7 +2347,7 @@ const translations = {
         "logout": "Esci",
         "referral": "Referral",
         "back": "Indietro",
-        "home_btn": "Home",
+        "home_btn": "Pagina principale",
         "tasks": "Attività",
         "stars": "Stelle",
         "settings": "Impostazioni",
@@ -2743,7 +2778,14 @@ const translations = {
         "edit_group_btn": "Modifica",
         "members_btn": "Membri",
         "posting": "Pubblicazione...",
-        "loading_posts": "Caricamento post..."
+        "loading_posts": "Caricamento post...",
+        "tic_tac_toe_desc": "Gioco classico contro il computer o un amico",
+"snake_desc": "Gioco classico del serpente - mangia e cresci",
+"memory_desc": "Metti alla prova la tua memoria con carte abbinate",
+"ad_manager_desc": "Crea e gestisci i tuoi annunci",
+"ad_activity_desc": "Visualizza le prestazioni dei tuoi annunci",
+"create_ad_desc": "Avvia una nuova campagna",
+"earnings_desc": "Monitora i tuoi guadagni",
     },
     
     // ==================== JAPANESE ====================
@@ -3200,7 +3242,14 @@ const translations = {
         "edit_group_btn": "編集",
         "members_btn": "メンバー",
         "posting": "投稿中...",
-        "loading_posts": "投稿を読み込み中..."
+        "loading_posts": "投稿を読み込み中...",
+        "tic_tac_toe_desc": "コンピュータまたは友達とのクラシックゲーム",
+"snake_desc": "クラシックなスネークゲーム - 食べて成長する",
+"memory_desc": "カードを合わせて記憶力をテスト",
+"ad_manager_desc": "広告を作成・管理",
+"ad_activity_desc": "広告のパフォーマンスを表示",
+"create_ad_desc": "新しいキャンペーンを開始",
+"earnings_desc": "収益を追跡",
     },
 
     // ==================== CHINESE ====================
@@ -3657,7 +3706,14 @@ const translations = {
         "edit_group_btn": "编辑",
         "members_btn": "成员",
         "posting": "发布中...",
-        "loading_posts": "加载帖子中..."
+        "loading_posts": "加载帖子中...",
+        "tic_tac_toe_desc": "对电脑或朋友的经典游戏",
+"snake_desc": "经典贪吃蛇游戏 - 吃东西并成长",
+"memory_desc": "用匹配的卡片测试你的记忆力",
+"ad_manager_desc": "创建并管理您的广告",
+"ad_activity_desc": "查看您的广告效果",
+"create_ad_desc": "开始新广告系列",
+"earnings_desc": "追踪您的收益",
     },
 
     // ==================== KOREAN ====================
@@ -4114,7 +4170,14 @@ const translations = {
         "edit_group_btn": "편집",
         "members_btn": "멤버",
         "posting": "게시 중...",
-        "loading_posts": "게시물 로딩 중..."
+        "loading_posts": "게시물 로딩 중...",
+        "tic_tac_toe_desc": "컴퓨터 또는 친구와의 클래식 게임",
+"snake_desc": "클래식 뱀 게임 - 먹고 자라기",
+"memory_desc": "짝 맞추기 카드로 기억력 테스트",
+"ad_manager_desc": "광고를 만들고 관리하세요",
+"ad_activity_desc": "광고 실적 보기",
+"create_ad_desc": "새 캠페인 시작",
+"earnings_desc": "수익 추적",
     },
     
     // ==================== RUSSIAN ====================
@@ -4571,7 +4634,14 @@ const translations = {
         "edit_group_btn": "Редактировать",
         "members_btn": "Участники",
         "posting": "Публикация...",
-        "loading_posts": "Загрузка постов..."
+        "loading_posts": "Загрузка постов...",
+        "tic_tac_toe_desc": "Классическая игра против компьютера или друга",
+"snake_desc": "Классическая игра Змейка - ешь и расти",
+"memory_desc": "Проверьте свою память с парными картами",
+"ad_manager_desc": "Создавайте и управляйте объявлениями",
+"ad_activity_desc": "Просмотр эффективности объявлений",
+"create_ad_desc": "Начать новую кампанию",
+"earnings_desc": "Отслеживайте доходы",
     },
 
     // ==================== TURKISH ====================
@@ -5028,7 +5098,14 @@ const translations = {
         "edit_group_btn": "Düzenle",
         "members_btn": "Üyeler",
         "posting": "Paylaşılıyor...",
-        "loading_posts": "Gönderiler yükleniyor..."
+        "loading_posts": "Gönderiler yükleniyor...",
+        "tic_tac_toe_desc": "Bilgisayara veya arkadaşa karşı klasik oyun",
+"snake_desc": "Klasik yılan oyunu - ye ve büyü",
+"memory_desc": "Eşleşen kartlarla hafızanı test et",
+"ad_manager_desc": "Reklamlarınızı oluşturun ve yönetin",
+"ad_activity_desc": "Reklam performansınızı görüntüleyin",
+"create_ad_desc": "Yeni bir kampanya başlat",
+"earnings_desc": "Kazançlarınızı takip edin",
     },
 
     // ==================== HINDI ====================
@@ -5485,13 +5562,20 @@ const translations = {
         "edit_group_btn": "संपादित करें",
         "members_btn": "सदस्य",
         "posting": "पोस्ट कर रहा है...",
-        "loading_posts": "पोस्ट लोड हो रहे हैं..."
+        "loading_posts": "पोस्ट लोड हो रहे हैं...",
+        "tic_tac_toe_desc": "कंप्यूटर या दोस्त के खिलाफ क्लासिक गेम",
+"snake_desc": "क्लासिक सांप का खेल - खाओ और बढ़ो",
+"memory_desc": "मिलते-जुलते कार्ड से अपनी याददाश्त परखें",
+"ad_manager_desc": "अपने विज्ञापन बनाएं और प्रबंधित करें",
+"ad_activity_desc": "अपने विज्ञापन प्रदर्शन देखें",
+"create_ad_desc": "नया अभियान शुरू करें",
+"earnings_desc": "अपनी कमाई ट्रैक करें",
     },
     
     // ==================== FILIPINO ====================
     fil: {
-        "search_placeholder": "Maghanap sa SocialWiki",
-        "home": "Home",
+                "search_placeholder": "Maghanap sa SocialWiki",
+        "home": "Tahanan",
         "friends": "Mga Kaibigan",
         "marketplace": "Merkado",
         "events": "Mga Kaganapan",
@@ -5511,7 +5595,7 @@ const translations = {
         "logout": "Mag-logout",
         "referral": "Referral",
         "back": "Bumalik",
-        "home_btn": "Home",
+        "home_btn": "Tahanan",
         "tasks": "Mga Gawain",
         "stars": "Mga Bituin",
         "settings": "Mga Setting",
@@ -5942,13 +6026,20 @@ const translations = {
         "edit_group_btn": "I-edit",
         "members_btn": "Mga Miyembro",
         "posting": "Nagpo-post...",
-        "loading_posts": "Naglo-load ng mga post..."
+        "loading_posts": "Naglo-load ng mga post...",
+        "tic_tac_toe_desc": "Klasikong laro laban sa computer o kaibigan",
+"snake_desc": "Klasikong laro ng ahas - kumain at lumaki",
+"memory_desc": "Subukan ang iyong memorya sa mga magkapares na card",
+"ad_manager_desc": "Gumawa at pamahalaan ang iyong mga ad",
+"ad_activity_desc": "Tingnan ang performance ng iyong mga ad",
+"create_ad_desc": "Magsimula ng bagong campaign",
+"earnings_desc": "Subaybayan ang iyong kita",
     },
 
     // ==================== TAGALOG ====================
     tl: {
-        "search_placeholder": "Maghanap sa SocialWiki",
-        "home": "Home",
+                "search_placeholder": "Maghanap sa SocialWiki",
+        "home": "Tahanan",
         "friends": "Mga Kaibigan",
         "marketplace": "Merkado",
         "events": "Mga Kaganapan",
@@ -5968,7 +6059,7 @@ const translations = {
         "logout": "Mag-logout",
         "referral": "Referral",
         "back": "Bumalik",
-        "home_btn": "Home",
+        "home_btn": "Tahanan",
         "tasks": "Mga Gawain",
         "stars": "Mga Bituin",
         "settings": "Mga Setting",
@@ -6399,7 +6490,14 @@ const translations = {
         "edit_group_btn": "I-edit",
         "members_btn": "Mga Miyembro",
         "posting": "Nagpo-post...",
-        "loading_posts": "Naglo-load ng mga post..."
+        "loading_posts": "Naglo-load ng mga post...",
+        "tic_tac_toe_desc": "Klasikong laro laban sa computer o kaibigan",
+"snake_desc": "Klasikong laro ng ahas - kumain at lumaki",
+"memory_desc": "Subukan ang iyong memorya sa mga magkapares na card",
+"ad_manager_desc": "Gumawa at pamahalaan ang iyong mga ad",
+"ad_activity_desc": "Tingnan ang performance ng iyong mga ad",
+"create_ad_desc": "Magsimula ng bagong campaign",
+"earnings_desc": "Subaybayan ang iyong kita",
     }
 
 };
