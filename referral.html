@@ -444,25 +444,36 @@
         // =========================================================
         // START
         // =========================================================
-        function initPage() {
-            try {
-                if (typeof applyTranslations === 'function') {
-                    applyTranslations();
-                }
-            } catch (e) {
-                console.warn('Translation error:', e);
-            }
-            
-            loadUserProfile();
-            loadPoints();
-            loadReferralData();
+       function initPage() {
+    try {
+        if (typeof applyTranslations === 'function') {
+            applyTranslations();
         }
+    } catch (e) {
+        console.warn('Translation error:', e);
+    }
+    
+    // ✅ إعادة بناء البيانات عند تغيير اللغة
+    window.addEventListener('languageChanged', function(event) {
+        console.log('🌐 referral.html: Language changed to', event.detail.lang);
+        loadReferralData();
+        loadPoints();
+    });
+    window.addEventListener('languageChanged', function(event) {
+    console.log('🌐 referral.html: Language changed to', event.detail.lang);
+    loadReferralData();
+    loadPoints();
+});
+    loadUserProfile();
+    loadPoints();
+    loadReferralData();
+}
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initPage);
-        } else {
-            initPage();
-        }
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+} else {
+    initPage();
+}
     </script>
     <script src="js/messenger-notify.js"></script>
 </body>
