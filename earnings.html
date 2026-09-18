@@ -505,6 +505,9 @@
         // =========================================================
         // LOAD EARNINGS HISTORY
         // =========================================================
+               // =========================================================
+        // LOAD EARNINGS HISTORY
+        // =========================================================
         async function loadEarnings() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -532,7 +535,21 @@
                 earnings.forEach(e => {
                     const date = new Date(e.created_at).toLocaleDateString();
                     const sourceClass = e.source === 'views' ? 'views' : e.source === 'referral' ? 'referral' : 'bonus';
-                    const sourceText = e.source === 'views' ? 'Views' : e.source === 'referral' ? 'Referral' : 'Bonus';
+
+                    // 🌐 استخدام t() لترجمة كلمات المصدر (Views, Referral, Bonus)
+                    let sourceText = '';
+
+                    if (e.source === 'views') {
+                        sourceText = (typeof t === 'function') ? t('source_views') : 'Views';
+                    } else if (e.source === 'referral') {
+                        sourceText = (typeof t === 'function') ? t('source_referral') : 'Referral';
+                    } else if (e.source === 'bonus') {
+                        sourceText = (typeof t === 'function') ? t('source_bonus') : 'Bonus';
+                    } else if (e.source === 'ad_view') {
+                        sourceText = (typeof t === 'function') ? (t('ad_revenue_title') || 'Ad View') : 'Ad View';
+                    } else {
+                        sourceText = e.source;
+                    }
 
                     const row = document.createElement('tr');
                     row.innerHTML = `
