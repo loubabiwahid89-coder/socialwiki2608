@@ -180,6 +180,8 @@ let allGroups = [];
 
 let editingGroupId = null;
 
+let currentOpenGroupId = null;
+
 
 // =========================================================
 // DYNAMIC PEOPLE MODALS
@@ -8049,7 +8051,7 @@ const canDeletePost =
                     margin-bottom:12px;
                 "
             >
-               ${new Date(post.created_at + 'Z').toLocaleString()}
+               ${post.created_at ? new Date(post.created_at).toLocaleString() : ''}
                </div>
 
 
@@ -8247,7 +8249,7 @@ const canDeletePost =
                                     opacity:.5;
                                 "
                             >
-                                ${new Date(comment.created_at).toLocaleString()}
+                               ${comment.created_at ? new Date(comment.created_at).toLocaleString() : ''}
                             </div>
 
                             ${
@@ -8627,6 +8629,9 @@ async function openGroupPage(
         "📝 Opening group page:",
         group
     );
+        // حفظ معرّف المجموعة المفتوحة
+    currentOpenGroupId = group.id;
+    window.currentOpenGroupId = group.id;
 
 
     // =====================================================
@@ -10271,14 +10276,32 @@ async function deleteComment(
 // RE-RENDER ON LANGUAGE CHANGE
 // =========================================================
 
-window.addEventListener("languageChanged", function () {
-    console.log("🌐 Language changed - re-rendering groups");
+// =========================================================
+// RE-RENDER ON LANGUAGE CHANGE
+// =========================================================
 
+window.addEventListener("languageChanged", function () {
+    console.log("🌐 Language changed - re-rendering groups and posts");
+
+    // 1. إعادة رسم بطاقات المجموعات
     if (typeof allGroups !== "undefined" && allGroups.length > 0) {
         renderGroups(allGroups);
     }
-});
 
+    // 2. إعادة رسم المنشورات إذا كانت نافذة المنشورات مفتوحة
+    const groupPageModal = document.getElementById("groupPageModal");
+
+    if (groupPageModal && !groupPageModal.hidden) {
+
+        // نحتاج لمعرفة معرّف المجموعة المفتوحة
+        // نستخرجها من البيانات المحفوظة
+
+        if (window.currentOpenGroupId) {
+            console.log("🔄 Reloading posts for group:", window.currentOpenGroupId);
+            loadGroupPosts(window.currentOpenGroupId);
+        }
+    }
+});
 // =========================================================
 // MAKE FUNCTIONS GLOBAL
 // =========================================================
