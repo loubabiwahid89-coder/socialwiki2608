@@ -1,4 +1,4 @@
-```javascript
+
 console.log("🔥 Friends system starting...");
 
 document.addEventListener("DOMContentLoaded", async function () {
