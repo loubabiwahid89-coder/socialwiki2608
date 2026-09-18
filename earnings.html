@@ -363,7 +363,7 @@
                         <div class="tier-name">🔴 <span data-i18n="tier_large">Large Withdrawal</span></div>
                         <div class="tier-req" id="tier3req">100,000 points needed</div>
                     </div>
-                    <div class="tier-amount">$100</div>
+                    <div class="tier-amount">$150</div>
                     <div class="tier-status soon" data-i18n="coming_soon">Coming Soon</div>
                 </div>
 
@@ -466,36 +466,27 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- AD MODAL (لا يمكن إغلاقه يدوياً) -->
+    <!-- LOCKED AD OVERLAY (فوق الصفحة، لا يمكن إغلاقه) -->
     <!-- ========================================================= -->
-    <div id="adModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 999999; align-items: center; justify-content: center; flex-direction: column;">
+    <div id="lockedAdOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999999; align-items: center; justify-content: center; flex-direction: column;">
         
-        <!-- Header -->
-        <div style="color: white; text-align: center; margin-bottom: 15px;">
-            <div style="font-size: 20px; font-weight: 700; margin-bottom: 5px;">📺 Watching Ad...</div>
-            <div style="font-size: 14px; opacity: 0.8;">Please wait, ad will close automatically</div>
+        <div style="color: white; text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">📺 Watching Ad...</div>
+            <div style="font-size: 14px; opacity: 0.8;">Please wait, task will complete automatically</div>
         </div>
 
-        <!-- Timer -->
-        <div id="adTimer" style="color: #ffd700; font-size: 48px; font-weight: 800; margin-bottom: 20px;">15</div>
+        <div id="lockedAdTimer" style="color: #ffd700; font-size: 64px; font-weight: 800; margin-bottom: 25px;">15</div>
 
-        <!-- Progress Bar -->
-        <div style="width: 80%; max-width: 600px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; margin-bottom: 20px;">
-            <div id="adProgressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 1s linear;"></div>
+        <div style="width: 80%; max-width: 500px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; margin-bottom: 25px;">
+            <div id="lockedAdProgressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 1s linear;"></div>
         </div>
 
-        <!-- Ad iframe -->
-        <div style="width: 90%; max-width: 728px; height: 400px; background: white; border-radius: 12px; overflow: hidden; position: relative;">
-            <iframe id="adIframe" 
-                    src="" 
-                    style="width: 100%; height: 100%; border: none;"
-                    allow="autoplay; encrypted-media">
-            </iframe>
-        </div>
-
-        <!-- Locked message -->
-        <div style="color: #ff6b6b; margin-top: 15px; font-size: 14px; font-weight: 600;">
+        <div style="color: #ff6b6b; font-size: 15px; font-weight: 600; text-align: center; padding: 0 20px;">
             🔒 Ad is locked. Please wait for it to finish.
+        </div>
+
+        <div style="color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 15px; text-align: center; padding: 0 20px;">
+            If the ad window was blocked, please allow popups for this site.
         </div>
 
     </div>
@@ -517,7 +508,6 @@
         // ============================================================
         const POINT_VALUE = 0.001;
         const MIN_WITHDRAW = 5;
-        const WITHDRAW_ENABLED = false;
 
         const LEVELS = [
             { name: 'Bronze',  icon: '🥉', min: 0,        max: 5000,     color: '#cd7f32' },
@@ -545,16 +535,14 @@
             { key: 'first_story',    cat: 'hard',    icon: '📸', name: 'Post First Story', points: 500,  goal: 1 }
         ];
 
-        let currentBalance = 0;
-        let currentUser = null;
-
         // ============================================================
         // AD CONFIG
         // ============================================================
-        const AD_URL = 'https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default';
+        const AD_URL = 'https://data527.click/4ea290481b28ea656e71/2c5294b8f8/?placementName=5';
         const AD_DURATION = 15; // ثواني
-        let adInterval = null;
-        let adSecondsLeft = AD_DURATION;
+
+        let currentBalance = 0;
+        let currentUser = null;
 
         // ============================================================
         // LOGOUT
@@ -648,6 +636,43 @@
                 if (el('levelProgress')) el('levelProgress').style.width = '100%';
                 if (el('levelProgressText')) el('levelProgressText').textContent = 'Maximum Level!';
             }
+
+            updateWithdrawTiersUI(available);
+        }
+
+        // ============================================================
+        // UPDATE WITHDRAW TIERS UI
+        // ============================================================
+        function updateWithdrawTiersUI(availablePoints) {
+            const tier1 = document.getElementById('tier1');
+            const tier2 = document.getElementById('tier2');
+            const tier3 = document.getElementById('tier3');
+
+            const updateTier = (tierElement, pointsRequired, usdAmount) => {
+                if (!tierElement) return;
+                const statusEl = tierElement.querySelector('.tier-status');
+                const reqEl = tierElement.querySelector('.tier-req');
+                
+                if (reqEl) reqEl.textContent = `${pointsRequired.toLocaleString()} points needed`;
+
+                if (availablePoints >= pointsRequired) {
+                    tierElement.className = 'tier-card unlocked';
+                    if (statusEl) {
+                        statusEl.className = 'tier-status open';
+                        statusEl.innerHTML = `<button onclick="openWithdrawModal(${pointsRequired}, ${usdAmount})" style="background:#28a745;color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Withdraw Now</button>`;
+                    }
+                } else {
+                    tierElement.className = 'tier-card locked';
+                    if (statusEl) {
+                        statusEl.className = 'tier-status locked';
+                        statusEl.textContent = 'Locked';
+                    }
+                }
+            };
+
+            updateTier(tier1, 5000, 5);
+            updateTier(tier2, 25000, 25);
+            updateTier(tier3, 100000, 150);
         }
 
         // ============================================================
@@ -725,7 +750,7 @@
         }
 
         // ============================================================
-        // DO TASK (معدلة مع الإعلان)
+        // DO TASK
         // ============================================================
         window.doTask = async function(taskKey) {
             if (!currentUser) {
@@ -733,9 +758,9 @@
                 return;
             }
 
-            // ✅ إذا كانت المهمة "Watch 5 Ads" → افتح الإعلان المقفل
+            // ✅ إذا كانت المهمة "Watch Ads" → افتح الإعلان + النافذة المقفلة
             if (taskKey === 'watch_5_ads' || taskKey === 'watch_50_ads' || taskKey === 'watch_500_ads') {
-                openLockedAd(taskKey);
+                await watchAdAndCompleteTask(taskKey);
                 return;
             }
 
@@ -744,65 +769,49 @@
         };
 
         // ============================================================
-        // فتح الإعلان المقفل
+        // مشاهدة إعلان + إكمال المهمة
         // ============================================================
-        function openLockedAd(taskKey) {
-            const adModal = document.getElementById('adModal');
-            const adIframe = document.getElementById('adIframe');
-            const adTimer = document.getElementById('adTimer');
-            const adProgressBar = document.getElementById('adProgressBar');
+        async function watchAdAndCompleteTask(taskKey) {
+            // 1. افتح الإعلان في نافذة منبثقة جديدة
+            try {
+                window.open(AD_URL, '_blank');
+            } catch (e) {
+                console.warn('Popup blocked:', e);
+            }
 
-            if (!adModal || !adIframe) {
-                console.error('Ad modal elements not found');
+            // 2. أظهر النافذة المقفلة
+            const overlay = document.getElementById('lockedAdOverlay');
+            const timer = document.getElementById('lockedAdTimer');
+            const progressBar = document.getElementById('lockedAdProgressBar');
+
+            if (!overlay || !timer || !progressBar) {
+                console.error('Locked ad overlay elements not found');
+                await completeTaskDirectly(taskKey);
                 return;
             }
 
-            // فتح الإعلان داخل iframe
-            adIframe.src = AD_URL;
-
-            // إظهار النافذة
-            adModal.style.display = 'flex';
-
-            // إعادة تعيين العداد
-            adSecondsLeft = AD_DURATION;
-            adTimer.textContent = adSecondsLeft;
-            adProgressBar.style.width = '0%';
-
-            // منع التمرير
+            overlay.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
-            // عداد تنازلي
-            if (adInterval) clearInterval(adInterval);
-            
-            adInterval = setInterval(() => {
-                adSecondsLeft--;
-                adTimer.textContent = adSecondsLeft;
+            let secondsLeft = AD_DURATION;
+            timer.textContent = secondsLeft;
+            progressBar.style.width = '0%';
 
-                const progress = ((AD_DURATION - adSecondsLeft) / AD_DURATION) * 100;
-                adProgressBar.style.width = progress + '%';
+            // 3. عداد تنازلي
+            const interval = setInterval(async () => {
+                secondsLeft--;
+                timer.textContent = secondsLeft;
 
-                if (adSecondsLeft <= 0) {
-                    clearInterval(adInterval);
-                    adInterval = null;
-                    closeAdAndComplete(taskKey);
+                const progress = ((AD_DURATION - secondsLeft) / AD_DURATION) * 100;
+                progressBar.style.width = progress + '%';
+
+                if (secondsLeft <= 0) {
+                    clearInterval(interval);
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                    await completeTaskDirectly(taskKey);
                 }
             }, 1000);
-        }
-
-        // ============================================================
-        // إغلاق الإعلان وإكمال المهمة
-        // ============================================================
-        async function closeAdAndComplete(taskKey) {
-            const adModal = document.getElementById('adModal');
-            const adIframe = document.getElementById('adIframe');
-
-            if (adModal) adModal.style.display = 'none';
-            if (adIframe) adIframe.src = '';
-
-            document.body.style.overflow = '';
-
-            // الآن أكمل المهمة
-            await completeTaskDirectly(taskKey);
         }
 
         // ============================================================
@@ -839,11 +848,11 @@
         }
 
         // ============================================================
-        // منع إغلاق الإعلان (ESC)
+        // منع إغلاق النافذة المقفلة
         // ============================================================
         document.addEventListener('keydown', function(e) {
-            const adModal = document.getElementById('adModal');
-            if (adModal && adModal.style.display === 'flex') {
+            const overlay = document.getElementById('lockedAdOverlay');
+            if (overlay && overlay.style.display === 'flex') {
                 if (e.key === 'Escape') {
                     e.preventDefault();
                     e.stopPropagation();
@@ -852,12 +861,11 @@
             }
         }, true);
 
-        // منع النقر على الخلفية لإغلاق الإعلان
         document.addEventListener('DOMContentLoaded', function() {
-            const adModal = document.getElementById('adModal');
-            if (adModal) {
-                adModal.addEventListener('click', function(e) {
-                    if (e.target === adModal) {
+            const overlay = document.getElementById('lockedAdOverlay');
+            if (overlay) {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -962,13 +970,25 @@
         };
 
         // ============================================================
-        // WITHDRAW
+        // WITHDRAW FUNCTIONS
         // ============================================================
-        window.openWithdrawModal = function() {
-            if (!WITHDRAW_ENABLED) {
-                alert('⏳ Withdrawals will be available soon! Keep earning points.');
+        let withdrawAmountPoints = 0;
+        let withdrawAmountUSD = 0;
+
+        window.openWithdrawModal = function(points, usd) {
+            if (currentBalance * 1000 < points) {
+                alert('❌ Not enough points! You need ' + points.toLocaleString() + ' points.');
                 return;
             }
+            
+            withdrawAmountPoints = points;
+            withdrawAmountUSD = usd;
+
+            const modalTitle = document.querySelector('#withdrawModal .modal-title');
+            if (modalTitle) {
+                modalTitle.innerHTML = `💳 Request Withdrawal: <span style="color:#28a745;">${points.toLocaleString()} points = $${usd}</span>`;
+            }
+
             document.getElementById('withdrawModal').classList.add('show');
         };
 
@@ -982,24 +1002,46 @@
 
             if (!details) { alert('Please enter payment details'); return; }
 
-            const { error } = await supabaseClient
-                .from('transactions')
-                .insert({
-                    user_id: currentUser.id,
-                    amount: MIN_WITHDRAW,
-                    method: method,
-                    details: details,
-                    status: 'pending'
-                });
+            if (!confirm(`Are you sure you want to withdraw ${withdrawAmountPoints.toLocaleString()} points ($${withdrawAmountUSD})?`)) {
+                return;
+            }
 
-            if (error) { alert('Error: ' + error.message); return; }
+            try {
+                const newAvailablePoints = currentBalance * 1000 - withdrawAmountPoints;
+                
+                const { error: updateError } = await supabaseClient
+                    .from('user_balances')
+                    .update({ available_points: newAvailablePoints })
+                    .eq('user_id', currentUser.id);
 
-            alert('✅ Withdrawal request submitted!');
-            closeWithdrawModal();
+                if (updateError) throw updateError;
+
+                const { error: insertError } = await supabaseClient
+                    .from('transactions')
+                    .insert({
+                        user_id: currentUser.id,
+                        amount: withdrawAmountUSD,
+                        points_used: withdrawAmountPoints,
+                        method: method,
+                        details: details,
+                        status: 'pending',
+                        created_at: new Date()
+                    });
+
+                if (insertError) throw insertError;
+
+                alert('✅ Withdrawal request submitted successfully!');
+                closeWithdrawModal();
+                await loadBalance();
+
+            } catch (error) {
+                console.error('Withdrawal error:', error);
+                alert('❌ Error: ' + error.message);
+            }
         };
 
         // ============================================================
-        // WATCH AD (للاستخدام من index.html)
+        // WATCH AD (Legacy - للاستخدام من index.html)
         // ============================================================
         window.watchAdAndEarn = async function() {
             if (!currentUser) { alert('Please login first'); return; }
@@ -1026,7 +1068,6 @@
             await loadNetwork();
             await loadHistory();
 
-            // تسجيل الدخول اليومي
             if (currentUser) {
                 const { data } = await supabaseClient.rpc('daily_login_streak', {
                     p_user_id: currentUser.id
@@ -1038,7 +1079,6 @@
                 }
             }
 
-            // إعادة التحميل عند تغيير اللغة
             window.addEventListener('languageChanged', function(event) {
                 console.log('🌐 Language changed to:', event.detail?.lang);
                 loadTasks();
