@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home- SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <!-- ✅ أضف tasks-helper.js هنا ليكون متاحاً قبل أي دالة -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/tasks-helper.js"></script>
 </head>
 <body>
 
@@ -550,8 +553,14 @@
                     .from('posts').insert(postData).select();
                 
                 if (error) { alert('Error: ' + error.message); return; }
-                
-                window.uploadedImageUrl = null;
+
+// ✅ إكمال مهام النشر
+if (typeof verifyAndCompleteTask === 'function') {
+    verifyAndCompleteTask('create_5_posts');
+    verifyAndCompleteTask('create_50_posts');
+}
+
+window.uploadedImageUrl = null;
                 window.uploadedVideoUrl = null;
                 document.getElementById('videoPreviewArea').innerHTML = '';
                 document.getElementById('imagePreviewArea').innerHTML = '';
@@ -693,9 +702,14 @@
                     user_id: user.id, media_url: fileName, media_type: mediaType
                 });
                 if (error) { alert('DB error: ' + error.message); return; }
-                alert('✅ Story uploaded!');
-                closeStoryModal();
-                loadStories();
+           alert('✅ Story uploaded!');
+closeStoryModal();
+loadStories();
+
+// ✅ إكمال مهمة "Post First Story"
+if (typeof verifyAndCompleteTask === 'function') {
+    verifyAndCompleteTask('first_story');
+}
             } catch (error) { alert('Error: ' + error.message); }
         };
 
@@ -814,9 +828,14 @@
                     const { error: likeError } = await window.supabaseClient.from('likes').insert({ post_id: postId, user_id: user.id });
                     if (likeError) { console.error('❌ Like insert error:', likeError); return; }
                     btn.textContent = `👍 Liked`;
-                    btn.style.color = '#1877f2';
-                    
-                    if (postOwnerId !== user.id) {
+btn.style.color = '#1877f2';
+
+// ✅ إكمال مهمة "Like 3 Posts"
+if (typeof verifyAndCompleteTask === 'function') {
+    verifyAndCompleteTask('like_3_posts');
+}
+
+if (postOwnerId !== user.id) {
                         const { data: senderProfile } = await window.supabaseClient
                             .from('profiles').select('username, full_name').eq('id', user.id).single();
                         const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
@@ -850,9 +869,15 @@
                 
                 const { error: commentError } = await window.supabaseClient
                     .from('comments').insert({ post_id: postId, user_id: user.id, content: content });
-                if (commentError) { console.error('❌ Comment error:', commentError); return; }
-                
-                if (post.user_id !== user.id) {
+             if (commentError) { console.error('❌ Comment error:', commentError); return; }
+
+// ✅ إكمال مهام التعليق
+if (typeof verifyAndCompleteTask === 'function') {
+    verifyAndCompleteTask('comment_1');
+    verifyAndCompleteTask('comment_10');
+}
+
+if (post.user_id !== user.id) {
                     const { data: senderProfile } = await window.supabaseClient
                         .from('profiles').select('username, full_name').eq('id', user.id).single();
                     const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
@@ -893,11 +918,16 @@
             } catch (error) { console.error('Error:', error); }
         }
 
-        window.sharePost = function(postId) {
-            const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
-            navigator.clipboard.writeText(url);
-            alert('Link copied!');
-        };
+      window.sharePost = function(postId) {
+    const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
+    navigator.clipboard.writeText(url);
+    alert('Link copied!');
+
+    // ✅ إكمال مهمة "Share a Post"
+    if (typeof verifyAndCompleteTask === 'function') {
+        verifyAndCompleteTask('share_1_post');
+    }
+};
 
         // =========================================================
         // LOAD POSTS
@@ -1109,12 +1139,18 @@
             p_dollars: 1.00
         });
 
-        localStorage.removeItem('pendingReferralCode');
-        console.log('✅ Referral applied with 3-level network');
+      localStorage.removeItem('pendingReferralCode');
+console.log('✅ Referral applied with 3-level network');
 
-        if (typeof showPointsNotification === 'function') {
-            showPointsNotification(1000);
-        }
+// ✅ إكمال مهام الإحالة
+if (typeof verifyAndCompleteTask === 'function') {
+    verifyAndCompleteTask('invite_1_friend');
+    verifyAndCompleteTask('invite_10');
+}
+
+if (typeof showPointsNotification === 'function') {
+    showPointsNotification(1000);
+}
     } catch (error) {
         console.error('❌ Referral error:', error);
     }
