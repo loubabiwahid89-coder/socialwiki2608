@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>socialwiki refereals</title>
+    <title>Referrals - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <style>
         .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
@@ -16,13 +16,12 @@
         .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
         .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
-        .referral-container { max-width: 800px; margin: 0 auto; padding: 20px; }
-        .referral-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .referral-header h2 { font-size: 24px; }
+        .referral-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .referral-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .referral-header h2 { font-size: 24px; margin: 0; }
         .points-display { background: linear-gradient(135deg, #f7b928, #ffd700); padding: 10px 20px; border-radius: 20px; color: #333; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(247, 185, 40, 0.4); }
-        [dir="rtl"] .points-display #pointsValue, [dir="rtl"] .number, [dir="rtl"] .code-display, [dir="rtl"] .stat-card .number { direction: ltr; unicode-bidi: embed; display: inline-block; }
         .referral-code-box { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
-        .code-display { background: #f0f2f5; padding: 15px; border-radius: 8px; font-size: 28px; font-weight: bold; letter-spacing: 4px; color: #1877f2; margin: 15px 0; font-family: monospace; }
+        .code-display { background: #f0f2f5; padding: 15px; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 4px; color: #1877f2; margin: 15px 0; font-family: monospace; word-break: break-all; }
         .btn-primary { background: #1877f2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
         .btn-primary:hover { background: #166fe5; }
         .share-buttons { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; justify-content: center; }
@@ -31,22 +30,37 @@
         .share-btn.facebook { background: #1877f2; }
         .share-btn.twitter { background: #000000; }
         .share-btn.copy { background: #65676b; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
         .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .stat-card h4 { margin: 0 0 10px; color: #65676b; font-size: 14px; }
-        .stat-card .number { font-size: 28px; font-weight: bold; color: #1877f2; direction: ltr; unicode-bidi: embed; display: inline-block; }
+        .stat-card h4 { margin: 0 0 10px; color: #65676b; font-size: 13px; }
+        .stat-card .number { font-size: 26px; font-weight: bold; color: #1877f2; direction: ltr; }
         .stat-card .number.gold { color: #f7b928; }
         .stat-card .number.green { color: #42b72a; }
+        .stat-card .number.purple { color: #6f42c1; }
+
+        /* NETWORK TREE */
+        .network-section { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .network-section h3 { margin: 0 0 15px; font-size: 18px; }
+        .level-block { padding: 15px; background: #f9f9f9; border-radius: 10px; margin-bottom: 10px; border-right: 4px solid #1877f2; }
+        .level-block.l1 { border-right-color: #28a745; background: #e7f7e7; }
+        .level-block.l2 { border-right-color: #1877f2; background: #e5f0ff; }
+        .level-block.l3 { border-right-color: #6f42c1; background: #f5f0ff; }
+        .level-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .level-title { font-weight: 700; font-size: 15px; }
+        .level-count { background: white; padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 13px; color: #1877f2; }
+        .level-desc { font-size: 13px; color: #65676b; line-height: 1.5; }
+        .level-percent { display: inline-block; background: #f7b928; color: #333; padding: 3px 10px; border-radius: 10px; font-weight: 700; font-size: 12px; margin-top: 5px; }
+
+        /* REFERRAL LIST */
         .referral-list { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .referral-list table { width: 100%; border-collapse: collapse; }
         .referral-list th { text-align: right; padding: 10px; border-bottom: 2px solid #e4e6eb; color: #65676b; font-size: 13px; }
         .referral-list td { padding: 10px; border-bottom: 1px solid #e4e6eb; font-size: 14px; }
-        .referral-list td.date-cell, .referral-list td.reward-cell { direction: ltr; unicode-bidi: embed; text-align: right; }
         .empty-state { text-align: center; padding: 30px; color: #65676b; }
         .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
         .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
         .home-btn { color: white; background: #1877f2; }
-        @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr; } .share-buttons { flex-direction: column; } .share-btn { width: 100%; } }
+        @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
@@ -95,69 +109,115 @@
     </div>
 
     <div class="referral-container">
+
+        <!-- HEADER -->
         <div class="referral-header">
-            <h2 data-i18n="referral">👥 الإحالات</h2>
-            <div class="points-display" id="pointsDisplay">
-                🪙 <span id="pointsValue" dir="ltr">0</span> <span data-i18n="points">نقاط</span>
+            <h2 data-i18n="referral">👥 Referrals</h2>
+            <div class="points-display">
+                🪙 <span id="pointsValue" dir="ltr">0</span> <span data-i18n="points">points</span>
             </div>
         </div>
 
+        <!-- REFERRAL CODE BOX -->
         <div class="referral-code-box">
-            <h3 data-i18n="your_referral_code">🔑 كود الإحالة الخاص بك</h3>
-            <!-- ✅ تم حذف data-i18n="loading" -->
+            <h3 data-i18n="your_referral_code">🔑 Your Referral Code</h3>
             <div class="code-display" id="referralCode" dir="ltr">...</div>
-            <button class="btn-primary" onclick="copyReferralCode()" data-i18n="copy_code">📋 نسخ الكود</button>
-            
-            <h3 style="margin-top: 20px;" data-i18n="your_referral_link">🔗 رابط الإحالة</h3>
-            <!-- ✅ تم حذف data-i18n="loading" -->
-            <div class="code-display" id="referralLink" dir="ltr" style="font-size:16px;letter-spacing:0;word-break:break-all;">...</div>
-            <button class="btn-primary" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 نسخ الرابط</button>
+            <button class="btn-primary" onclick="copyReferralCode()" data-i18n="copy_code">📋 Copy Code</button>
+
+            <h3 style="margin-top: 20px;" data-i18n="your_referral_link">🔗 Referral Link</h3>
+            <div class="code-display" id="referralLink" dir="ltr" style="font-size:14px;letter-spacing:0;">...</div>
+            <button class="btn-primary" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 Copy Link</button>
         </div>
 
+        <!-- SHARE BUTTONS -->
         <div class="share-buttons">
-            <button class="share-btn whatsapp" onclick="shareOnWhatsApp()" data-i18n="share_whatsapp">💬 واتساب</button>
-            <button class="share-btn facebook" onclick="shareOnFacebook()" data-i18n="share_facebook">📘 فيسبوك</button>
-            <button class="share-btn twitter" onclick="shareOnTwitter()" data-i18n="share_twitter">🐦 تويتر</button>
-            <button class="share-btn copy" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 نسخ الرابط</button>
+            <button class="share-btn whatsapp" onclick="shareOnWhatsApp()" data-i18n="share_whatsapp">💬 WhatsApp</button>
+            <button class="share-btn facebook" onclick="shareOnFacebook()" data-i18n="share_facebook">📘 Facebook</button>
+            <button class="share-btn twitter" onclick="shareOnTwitter()" data-i18n="share_twitter">🐦 Twitter</button>
+            <button class="share-btn copy" onclick="copyReferralLink()" data-i18n="copy_link_btn">📋 Copy Link</button>
         </div>
 
+        <!-- STATS -->
         <div class="stats-grid">
             <div class="stat-card">
-                <h4 data-i18n="total_referrals">👥 المدعوين</h4>
+                <h4 data-i18n="total_referrals">👥 Total Referrals</h4>
                 <div class="number" id="totalReferrals" dir="ltr">0</div>
             </div>
             <div class="stat-card">
-                <h4 data-i18n="referral_points">🪙 نقاط الإحالات</h4>
+                <h4 data-i18n="referral_points">🪙 Referral Points</h4>
                 <div class="number gold" id="referralPoints" dir="ltr">0</div>
             </div>
             <div class="stat-card">
-                <h4 data-i18n="referral_dollars">💰 ما يعادلها بالدولار</h4>
-                <div class="number green" id="referralDollars" dir="ltr">$0.00</div>
+                <h4 data-i18n="commission_points">💰 Commission Points</h4>
+                <div class="number green" id="commissionPoints" dir="ltr">0</div>
+            </div>
+            <div class="stat-card">
+                <h4 data-i18n="referral_dollars">💵 USD Value</h4>
+                <div class="number purple" id="referralDollars" dir="ltr">$0.00</div>
             </div>
         </div>
 
+        <!-- NETWORK TREE (Multi-Level) -->
+        <div class="network-section">
+            <h3 data-i18n="network_breakdown">📊 My Network (3 Levels)</h3>
+
+            <div class="level-block l1">
+                <div class="level-header">
+                    <span class="level-title">🥇 <span data-i18n="level_1">Level 1 - Direct</span></span>
+                    <span class="level-count" id="level1Count">0</span>
+                </div>
+                <div class="level-desc" data-i18n="level_1_desc">
+                    Friends you personally invited. You earn <strong>500 points</strong> per referral + <strong>10%</strong> of their task earnings.
+                </div>
+                <span class="level-percent">+500 pts + 10%</span>
+            </div>
+
+            <div class="level-block l2">
+                <div class="level-header">
+                    <span class="level-title">🥈 <span data-i18n="level_2">Level 2 - Indirect</span></span>
+                    <span class="level-count" id="level2Count">0</span>
+                </div>
+                <div class="level-desc" data-i18n="level_2_desc">
+                    Friends invited by your Level 1. You earn <strong>5%</strong> of their task earnings.
+                </div>
+                <span class="level-percent">+5%</span>
+            </div>
+
+            <div class="level-block l3">
+                <div class="level-header">
+                    <span class="level-title">🥉 <span data-i18n="level_3">Level 3 - Far</span></span>
+                    <span class="level-count" id="level3Count">0</span>
+                </div>
+                <div class="level-desc" data-i18n="level_3_desc">
+                    Friends invited by your Level 2. You earn <strong>2%</strong> of their task earnings.
+                </div>
+                <span class="level-percent">+2%</span>
+            </div>
+        </div>
+
+        <!-- REFERRAL LIST -->
         <div class="referral-list">
-            <h3 data-i18n="referral_list">📋 المدعوين</h3>
+            <h3 data-i18n="referral_list">📋 My Referrals</h3>
             <table>
                 <thead>
                     <tr>
-                        <th data-i18n="name">الاسم</th>
-                        <th data-i18n="date">تاريخ التسجيل</th>
-                        <th data-i18n="reward">المكافأة</th>
+                        <th data-i18n="name">Name</th>
+                        <th data-i18n="date">Join Date</th>
+                        <th data-i18n="reward">Reward</th>
                     </tr>
                 </thead>
                 <tbody id="referralTableBody">
                     <tr>
-                        <td colspan="3" class="empty-state" data-i18n="no_referrals">لم تدعُ أي شخص بعد. ابدأ الآن! 🚀</td>
+                        <td colspan="3" class="empty-state" data-i18n="no_referrals">You haven't invited anyone yet. Start now! 🚀</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js?v=999999"></script>
-    
     <script>
         // =========================================================
         // SUPABASE SETUP
@@ -165,9 +225,10 @@
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: false },
-            global: { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: false }
         });
+
+        let currentUser = null;
 
         // =========================================================
         // LOGOUT
@@ -184,21 +245,22 @@
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
-                
+                currentUser = user;
+
                 const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('username, full_name, avatar_url')
                     .eq('id', user.id)
                     .single();
-                
+
                 const username = profile?.username || profile?.full_name || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                
-                const navProfileName = document.getElementById('navProfileName');
-                if (navProfileName) navProfileName.textContent = username;
-                
-                const navProfileImg = document.getElementById('navProfileImg');
-                if (navProfileImg) navProfileImg.src = avatarUrl;
+
+                const navName = document.getElementById('navProfileName');
+                if (navName) navName.textContent = username;
+
+                const navImg = document.getElementById('navProfileImg');
+                if (navImg) navImg.src = avatarUrl;
             } catch (error) {
                 console.error('Profile error:', error);
             }
@@ -213,42 +275,24 @@
             return `REF${shortId}${random}`;
         }
 
-        // =========================================================
-        // GET OR CREATE REFERRAL CODE
-        // =========================================================
         async function getOrCreateReferralCode() {
-            try {
-                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
-                
-                if (authError) { console.error('Auth error:', authError); return null; }
-                if (!user) { console.error('No user'); return null; }
-                
-                const { data: profile, error: profileError } = await supabaseClient
-                    .from('profiles')
-                    .select('referral_code')
-                    .eq('id', user.id)
-                    .single();
-                
-                if (profileError) console.error('Profile error:', profileError);
-                
-                if (profile?.referral_code) {
-                    return profile.referral_code;
-                }
-                
-                const newCode = generateReferralCode(user.id);
-                
-                const { error: updateError } = await supabaseClient
-                    .from('profiles')
-                    .update({ referral_code: newCode })
-                    .eq('id', user.id);
-                
-                if (updateError) console.error('Update error:', updateError);
-                
-                return newCode;
-            } catch (err) {
-                console.error('Fatal error:', err);
-                return null;
-            }
+            if (!currentUser) return null;
+
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('referral_code')
+                .eq('id', currentUser.id)
+                .single();
+
+            if (profile?.referral_code) return profile.referral_code;
+
+            const newCode = generateReferralCode(currentUser.id);
+            await supabaseClient
+                .from('profiles')
+                .update({ referral_code: newCode })
+                .eq('id', currentUser.id);
+
+            return newCode;
         }
 
         // =========================================================
@@ -257,223 +301,171 @@
         async function loadReferralData() {
             const codeEl = document.getElementById('referralCode');
             const linkEl = document.getElementById('referralLink');
-            
+
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) {
-                    if (codeEl) codeEl.textContent = '❌ Not logged in';
-                    if (linkEl) linkEl.textContent = '❌ Please login';
                     window.location.href = 'auth.html';
                     return;
                 }
-                
-                // 1. كود الإحالة
+                currentUser = user;
+
+                // 1) Referral Code
                 const referralCode = await getOrCreateReferralCode();
-                
-                if (!referralCode) {
-                    if (codeEl) codeEl.textContent = '❌ Error - Check F12 Console';
-                    if (linkEl) linkEl.textContent = '❌ Error loading link';
-                    return;
-                }
-                
                 if (codeEl) codeEl.textContent = referralCode;
-                
-                const BASE_URL = 'https://socialwiki-wiki2608.loubabiwahid89.workers.dev';
+
+                const BASE_URL = window.location.origin;
                 if (linkEl) linkEl.textContent = `${BASE_URL}/auth.html?ref=${referralCode}`;
-                
-                // 2. عدد المدعوين
-                const { data: referrals, error: refError } = await supabaseClient
+
+                // 2) Referrals count
+                const { data: referrals } = await supabaseClient
                     .from('referrals')
                     .select('*')
                     .eq('referrer_id', user.id);
-                
-                if (refError) console.error('Referrals error:', refError);
-                
+
                 const totalReferrals = referrals?.length || 0;
-                const totalPoints = totalReferrals * 50;
-                const totalDollars = (totalPoints / 100).toFixed(2);
-                
+                const totalPoints = totalReferrals * 500;
+
+                // 3) Commissions
+                const { data: commissions } = await supabaseClient
+                    .from('commissions')
+                    .select('*')
+                    .eq('user_id', user.id);
+
+                const commissionPoints = (commissions || []).reduce((sum, c) => sum + (c.points || 0), 0);
+
+                // 4) Network tree
+                const { data: network } = await supabaseClient
+                    .from('referral_tree')
+                    .select('level')
+                    .eq('referrer_id', user.id);
+
+                const level1Count = (network || []).filter(n => n.level === 1).length;
+                const level2Count = (network || []).filter(n => n.level === 2).length;
+                const level3Count = (network || []).filter(n => n.level === 3).length;
+
+                // 5) Update UI
                 const totalRefEl = document.getElementById('totalReferrals');
                 const refPointsEl = document.getElementById('referralPoints');
                 const refDollarsEl = document.getElementById('referralDollars');
-                
+                const commPointsEl = document.getElementById('commissionPoints');
+                const l1 = document.getElementById('level1Count');
+                const l2 = document.getElementById('level2Count');
+                const l3 = document.getElementById('level3Count');
+                const pointsVal = document.getElementById('pointsValue');
+
                 if (totalRefEl) totalRefEl.textContent = totalReferrals;
-                if (refPointsEl) refPointsEl.textContent = totalPoints;
-                if (refDollarsEl) refDollarsEl.textContent = '$' + totalDollars;
-                
-                // 3. قائمة المدعوين
-                const tableBody = document.getElementById('referralTableBody');
-                if (!tableBody) return;
-                
-                tableBody.innerHTML = '';
-                
-                if (!referrals || referrals.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="3" class="empty-state">' + 
-                        (typeof t === 'function' ? t('no_referrals') : 'لم تدعُ أي شخص بعد. ابدأ الآن! 🚀') + 
-                        '</td></tr>';
-                    return;
-                }
-                
-                // 4. أسماء المدعوين
-                const userIds = referrals.map(r => r.referred_id);
-                const { data: profiles } = await supabaseClient
-                    .from('profiles')
-                    .select('id, username, full_name')
-                    .in('id', userIds);
-                
-                const profilesMap = {};
-                if (profiles) {
-                    profiles.forEach(p => {
-                        profilesMap[p.id] = p.full_name || p.username || 'User';
-                    });
-                }
-                
-                // 5. الصفوف
-                referrals.forEach(ref => {
-                    const name = profilesMap[ref.referred_id] || 'User';
-                    const dateObj = new Date(ref.created_at);
-                    const day = String(dateObj.getDate()).padStart(2, '0');
-                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-                    const year = dateObj.getFullYear();
-                    const formattedDate = day + '/' + month + '/' + year;
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = '<td>' + name + '</td>' +
-                        '<td class="date-cell" dir="ltr">' + formattedDate + '</td>' +
-                        '<td class="reward-cell" dir="ltr">+' + (ref.points_awarded || 50) + ' ' + 
-                        (typeof t === 'function' ? t('points') : 'نقاط') + '</td>';
-                    tableBody.appendChild(row);
-                });
-                
-            } catch (error) {
-                console.error('Fatal error:', error);
-                if (codeEl) codeEl.textContent = '❌ Error';
-                if (linkEl) linkEl.textContent = '❌ Error';
-            }
-        }
+                if (refPointsEl) refPointsEl.textContent = totalPoints.toLocaleString();
+                if (commPointsEl) commPointsEl.textContent = commissionPoints.toLocaleString();
+                if (refDollarsEl) refDollarsEl.textContent = '$' + ((totalPoints + commissionPoints) / 1000).toFixed(2);
+                if (l1) l1.textContent = level1Count;
+                if (l2) l2.textContent = level2Count;
+                if (l3) l3.textContent = level3Count;
 
-        // =========================================================
-        // SHARE FUNCTIONS
-        // =========================================================
-        function copyReferralCode() {
-            const code = document.getElementById('referralCode').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                alert(typeof t === 'function' ? t('copied_code') : '✅ تم نسخ كود الإحالة!');
-            }).catch(() => {
-                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ');
-            });
-        }
-        
-        function copyReferralLink() {
-            const link = document.getElementById('referralLink').textContent;
-            navigator.clipboard.writeText(link).then(() => {
-                alert(typeof t === 'function' ? t('copied_link') : '✅ تم نسخ الرابط!');
-            }).catch(() => {
-                alert(typeof t === 'function' ? t('error_copy') : '❌ حدث خطأ');
-            });
-        }
-        
-        function shareOnWhatsApp() {
-            const link = document.getElementById('referralLink').textContent;
-            const text = encodeURIComponent('🎉 انضم إلى SocialWiki واربح نقاطاً!');
-            window.open('https://wa.me/?text=' + text + '%20' + encodeURIComponent(link), '_blank');
-        }
-        
-        function shareOnFacebook() {
-            const link = document.getElementById('referralLink').textContent;
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link), '_blank');
-        }
-        
-        function shareOnTwitter() {
-            const link = document.getElementById('referralLink').textContent;
-            const text = encodeURIComponent('🎉 انضم إلى SocialWiki!');
-            window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(link), '_blank');
-        }
-
-        // =========================================================
-        // LOAD POINTS
-        // =========================================================
-        async function loadPoints() {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
-                
+                // نقاط المستخدم
                 const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('total_points')
                     .eq('id', user.id)
                     .single();
-                
-                const points = profile?.total_points || 0;
-                const pointsEl = document.getElementById('pointsValue');
-                if (pointsEl) {
-                    pointsEl.textContent = points;
-                    pointsEl.setAttribute('dir', 'ltr');
+                if (pointsVal) pointsVal.textContent = (profile?.total_points || 0).toLocaleString();
+
+                // 6) Referral list
+                const tableBody = document.getElementById('referralTableBody');
+                if (!tableBody) return;
+
+                tableBody.innerHTML = '';
+
+                if (!referrals || referrals.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="3" class="empty-state">' +
+                        (typeof t === 'function' ? t('no_referrals') : 'You haven\'t invited anyone yet.') +
+                        '</td></tr>';
+                    return;
                 }
-            } catch (err) {
-                console.error('Points error:', err);
+
+                // Get profiles
+                const userIds = referrals.map(r => r.referred_id);
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name')
+                    .in('id', userIds);
+
+                const profilesMap = {};
+                (profiles || []).forEach(p => {
+                    profilesMap[p.id] = p.full_name || p.username || 'User';
+                });
+
+                referrals.forEach(ref => {
+                    const name = profilesMap[ref.referred_id] || 'User';
+                    const dateObj = new Date(ref.created_at);
+                    const dateStr = dateObj.toLocaleDateString('en-GB');
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${name}</td>
+                        <td dir="ltr">${dateStr}</td>
+                        <td style="color:#28a745;font-weight:700;">+${ref.points_awarded || 500}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error('Fatal error:', error);
+                if (codeEl) codeEl.textContent = '❌ Error';
             }
         }
 
         // =========================================================
-        // LANGUAGE HELPERS (احتياطي)
+        // COPY & SHARE
         // =========================================================
-        if (typeof applyTranslations !== 'function') {
-            window.applyTranslations = function() {
-                if (typeof setLanguage === 'function' && typeof getCurrentLanguage === 'function') {
-                    setLanguage(getCurrentLanguage());
-                }
-            };
+        function copyReferralCode() {
+            const code = document.getElementById('referralCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert(typeof t === 'function' ? t('copied_code') : '✅ Code copied!');
+            });
         }
-        if (typeof changeLanguage !== 'function') {
-            window.changeLanguage = function(lang) {
-                if (typeof setLanguage === 'function') setLanguage(lang);
-                const menu = document.getElementById('languageMenu');
-                if (menu) menu.style.display = 'none';
-            };
+
+        function copyReferralLink() {
+            const link = document.getElementById('referralLink').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert(typeof t === 'function' ? t('copied_link') : '✅ Link copied!');
+            });
         }
-        if (typeof toggleLanguageMenu !== 'function') {
-            window.toggleLanguageMenu = function() {
-                const menu = document.getElementById('languageMenu');
-                if (!menu) return;
-                menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-            };
+
+        function shareOnWhatsApp() {
+            const link = document.getElementById('referralLink').textContent;
+            const text = encodeURIComponent('🎉 Join SocialWiki and earn points!');
+            window.open('https://wa.me/?text=' + text + '%20' + encodeURIComponent(link), '_blank');
+        }
+
+        function shareOnFacebook() {
+            const link = document.getElementById('referralLink').textContent;
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link), '_blank');
+        }
+
+        function shareOnTwitter() {
+            const link = document.getElementById('referralLink').textContent;
+            const text = encodeURIComponent('🎉 Join SocialWiki!');
+            window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(link), '_blank');
         }
 
         // =========================================================
-        // START
+        // INIT
         // =========================================================
-       function initPage() {
-    try {
-        if (typeof applyTranslations === 'function') {
-            applyTranslations();
-        }
-    } catch (e) {
-        console.warn('Translation error:', e);
-    }
-    
-    // ✅ إعادة بناء البيانات عند تغيير اللغة
-    window.addEventListener('languageChanged', function(event) {
-        console.log('🌐 referral.html: Language changed to', event.detail.lang);
-        loadReferralData();
-        loadPoints();
-    });
-    window.addEventListener('languageChanged', function(event) {
-    console.log('🌐 referral.html: Language changed to', event.detail.lang);
-    loadReferralData();
-    loadPoints();
-});
-    loadUserProfile();
-    loadPoints();
-    loadReferralData();
-}
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof getCurrentLanguage === 'function') {
+                setLanguage(getCurrentLanguage());
+                applyTranslations();
+            }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPage);
-} else {
-    initPage();
-}
+            await loadUserProfile();
+            await loadReferralData();
+
+            // إعادة التحميل عند تغيير اللغة
+            window.addEventListener('languageChanged', function() {
+                if (typeof applyTranslations === 'function') applyTranslations();
+            });
+        });
     </script>
     <script src="js/messenger-notify.js"></script>
 </body>

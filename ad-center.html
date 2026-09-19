@@ -158,15 +158,6 @@
 <body>
 
     <!-- NAVBAR -->
-    </div>
-
-        <!-- BACK & HOME BUTTONS -->
-    <div class="nav-buttons">
-        
-       
-    </div>
-
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
@@ -200,16 +191,17 @@
                     <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
                     <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
                     <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
                 </div>
             </div>
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-         
     </nav>
-     <!-- BACK & HOME BUTTONS -->
+
+    <!-- BACK & HOME BUTTONS -->
     <div class="nav-buttons">
-        
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
@@ -246,36 +238,34 @@
             </div>
         </div>
 
-               <!-- QUICK ACTIONS -->
+        <!-- QUICK ACTIONS -->
         <div class="quick-actions">
             <a href="ad-manager.html" class="action-card">
                 <div class="action-icon">📊</div>
                 <div>
                     <div class="action-title" data-i18n="view_manager">📊 Ad Manager</div>
-                    <div class="action-desc">Create and manage your ads</div>
+                    <div class="action-desc" data-i18n="ad_manager_desc">Create and manage your ads</div>
                 </div>
             </a>
             <a href="ad-activity.html" class="action-card">
                 <div class="action-icon">📈</div>
                 <div>
                     <div class="action-title" data-i18n="view_activity">📈 Ad Activity</div>
-                    <div class="action-desc">View your ads performance</div>
+                    <div class="action-desc" data-i18n="ad_activity_desc">View your ads performance</div>
                 </div>
             </a>
             <a href="ad-manager.html" class="action-card" style="border-left-color: #28a745;">
                 <div class="action-icon">➕</div>
                 <div>
                     <div class="action-title" data-i18n="create_new_ad">+ Create New Ad</div>
-                    <div class="action-desc">Start a new campaign</div>
+                    <div class="action-desc" data-i18n="create_ad_desc">Start a new campaign</div>
                 </div>
             </a>
-            
-            <!-- 🔥 بطاقة الأرباح - أضفها هنا -->
             <a href="earnings.html" class="action-card" style="border-left-color: #ffd700;">
                 <div class="action-icon">💰</div>
                 <div>
                     <div class="action-title" data-i18n="earnings_title">💰 My Earnings</div>
-                    <div class="action-desc">Track your earnings</div>
+                    <div class="action-desc" data-i18n="earnings_desc">Track your earnings</div>
                 </div>
             </a>
         </div>
@@ -366,123 +356,14 @@
             
             loadUserProfile();
             loadStats();
+
+            // ✅ إعادة تطبيق الترجمات عند تغيير اللغة
+            window.addEventListener('languageChanged', function(event) {
+                if (typeof applyTranslations === 'function') applyTranslations();
+            });
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/translations.js"></script>
-<!-- 📢 Smartlink Pop-under -->
-<script>
-(function() {
-    'use strict';
-    
-    // منع التكرار
-    if (window.__smartlinkPopunder) return;
-    window.__smartlinkPopunder = true;
-    
-    var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-    
-    // فتح الرابط في نافذة/تبويب جديد (Pop-under)
-    function openSmartlink() {
-        try {
-            var popup = window.open(
-                SMARTLINK_URL,
-                '_blank',
-                'width=1024,height=768,scrollbars=yes,resizable=yes'
-            );
-            
-            if (popup) {
-                // إرسال النافذة للخلف (Pop-under)
-                popup.blur();
-                window.focus();
-            } else {
-                console.warn('⚠️ Popup blocked by browser');
-            }
-        } catch (e) {
-            console.error('❌ Smartlink error:', e);
-        }
-    }
-    
-    // تشغيل عند أول نقرة من المستخدم (أكثر أماناً لتجاوز حاجب النوافذ)
-    var triggered = false;
-    function triggerOnce() {
-        if (triggered) return;
-        triggered = true;
-        openSmartlink();
-        document.removeEventListener('click', triggerOnce);
-        document.removeEventListener('touchstart', triggerOnce);
-    }
-    
-    document.addEventListener('click', triggerOnce);
-    document.addEventListener('touchstart', triggerOnce);
-    
-    console.log('✅ Smartlink pop-under armed');
-})();
-</script>
-🔧 كيف تضيفه في كل الصفحات بسرعة؟
-الطريقة الأسرع: ابحث عن </body> في كل ملف
-في VS Code:
-
-اضغط Ctrl + Shift + F (بحث في كل الملفات)
-
-ابحث عن: </body>
-
-استبدل الكل بـ:
-
-html
-<script>
-(function() {
-    'use strict';
-    if (window.__smartlinkPopunder) return;
-    window.__smartlinkPopunder = true;
-    var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-    function openSmartlink() {
-        try {
-            var popup = window.open(SMARTLINK_URL, '_blank', 'width=1024,height=768,scrollbars=yes,resizable=yes');
-            if (popup) { popup.blur(); window.focus(); }
-        } catch (e) { console.error('Smartlink error:', e); }
-    }
-    var triggered = false;
-    function triggerOnce() {
-        if (triggered) return;
-        triggered = true;
-        openSmartlink();
-        document.removeEventListener('click', triggerOnce);
-        document.removeEventListener('touchstart', triggerOnce);
-    }
-    document.addEventListener('click', triggerOnce);
-    document.addEventListener('touchstart', triggerOnce);
-})();
-</script>
-</body>
-⚠️ احذر: لا تستبدل </body> في ملفات JavaScript أو CSS. فقط في ملفات .html.
-
-🎯 لماذا استخدمت "عند أول نقرة" بدل "عند التحميل"؟
-الطريقة	الميزة	العيب
-window.open عند التحميل	يعمل فوراً	المتصفحات الحديثة تحجبه 99%
-window.open عند أول نقرة	يعمل دائماً	يفتح عند أول تفاعل من المستخدم
-هذا هو الأسلوب المعياري لـ Pop-under، ويعمل على Chrome، Firefox، Safari، Edge.
-
-📄 إذا أردت تعديل index.html الآن
-أرسل لي groups.html (أو أي صفحة أخرى) وسأضيف الكود فيها نيابةً عنك، أو أخبرني فقط:
-
-"أضفه في index.html و groups.html"
-
-وسأعطيك النسخة المعدلة كاملة.
-
-⚠️ ملاحظات مهمة
-لا تضع الكود مرتين في نفس الصفحة (استخدمنا window.__smartlinkPopunder لمنع التكرار).
-
-قد يمنع AdBlock الرابط — هذا طبيعي.
-
-لا تعمل النافذة في وضع Incognito أحياناً بسبب سياسات المتصفح.
-
-اختبر دائماً على متصفح حقيقي، ليس داخل VS Code Live Preview.
-
-هل تريد أن أعدّل index.html و groups.html مباشرة الآن؟ أرسل لي محتوى groups.html.
-
-
     <script src="js/messenger-notify.js"></script>
 
-</body>
 </body>
 </html>

@@ -1040,7 +1040,7 @@ if (post.user_id !== user.id) {
             return date.toLocaleDateString();
         }
 
-        async function applyPendingReferral() {
+      async function applyPendingReferral() {
     try {
         const referralCode = localStorage.getItem('pendingReferralCode');
         if (!referralCode) return;
@@ -1072,9 +1072,14 @@ if (post.user_id !== user.id) {
             return;
         }
 
-       if (typeof showPointsNotification === 'function') {
-    showPointsNotification(100);  // ✅ 100 بدلاً من 1000
-}
+        // 3) احفظ في referrals
+        await window.supabaseClient.from('referrals').insert({
+            referrer_id: referrer.id,
+            referred_id: user.id,
+            referral_code: referralCode,
+            points_awarded: 50   // ✅ 50
+        });
+
         // 4) Level 1 - المباشر
         await window.supabaseClient.from('referral_tree').insert({
             user_id: user.id,
@@ -1114,7 +1119,7 @@ if (post.user_id !== user.id) {
             }
         }
 
-              // 7) امنح المُحيل 50 نقطة
+        // 7) امنح المُحيل 50 نقطة
         await window.supabaseClient.rpc('add_earnings', {
             p_user_id: referrer.id,
             p_post_id: null,
@@ -1132,18 +1137,19 @@ if (post.user_id !== user.id) {
             p_dollars: 0.10
         });
 
-      localStorage.removeItem('pendingReferralCode');
-console.log('✅ Referral applied with 3-level network');
+        localStorage.removeItem('pendingReferralCode');
+        console.log('✅ Referral applied with 3-level network');
 
-// ✅ إكمال مهام الإحالة
-if (typeof verifyAndCompleteTask === 'function') {
-    verifyAndCompleteTask('invite_1_friend');
-    verifyAndCompleteTask('invite_10');
-}
+        // ✅ إكمال مهام الإحالة
+        if (typeof verifyAndCompleteTask === 'function') {
+            verifyAndCompleteTask('invite_1_friend');
+            verifyAndCompleteTask('invite_10');
+        }
 
-if (typeof showPointsNotification === 'function') {
-    showPointsNotification(1000);
-}
+        // ✅ إشعار واحد فقط في النهاية
+        if (typeof showPointsNotification === 'function') {
+            showPointsNotification(100);
+        }
     } catch (error) {
         console.error('❌ Referral error:', error);
     }
