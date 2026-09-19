@@ -133,12 +133,31 @@
             <li><a href="notifications.html">🔔</a></li>
         </ul>
         <div class="nav-right">
-            <a href="profile.html" class="nav-profile">
-                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
-                <span id="navProfileName">User</span>
-            </a>
-            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+    <a href="profile.html" class="nav-profile">
+        <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+        <span id="navProfileName">User</span>
+    </a>
+    <div class="language-selector" style="position: relative;">
+        <button class="language-btn" onclick="toggleLanguageMenu()" style="background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 18px; padding: 8px 12px; border-radius: 50%;">🌐</button>
+        <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+            <button onclick="changeLanguage('ar')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇲🇦 العربية</button>
+            <button onclick="changeLanguage('fr')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇫🇷 Français</button>
+            <button onclick="changeLanguage('en')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇬🇧 English</button>
+            <button onclick="changeLanguage('es')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇪🇸 Español</button>
+            <button onclick="changeLanguage('de')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇩🇪 Deutsch</button>
+            <button onclick="changeLanguage('it')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇮🇹 Italiano</button>
+            <button onclick="changeLanguage('ja')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇯🇵 日本語</button>
+            <button onclick="changeLanguage('zh')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇨🇳 中文</button>
+            <button onclick="changeLanguage('ko')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇰🇷 한국어</button>
+            <button onclick="changeLanguage('ru')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇷🇺 Русский</button>
+            <button onclick="changeLanguage('tr')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇹🇷 Türkçe</button>
+            <button onclick="changeLanguage('hi')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇮🇳 हिन्दी</button>
+            <button onclick="changeLanguage('fil')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇵🇭 Filipino</button>
+            <button onclick="changeLanguage('tl')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇵🇭 Tagalog</button>
         </div>
+    </div>
+    <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+</div>
     </nav>
 
     <div class="nav-buttons">
@@ -611,14 +630,12 @@
                 const completed = progress?.completed || false;
                 const percent = Math.min(100, (currentProgress / task.goal) * 100);
 
-                let actionHTML = '';
-                if (completed) {
-                    actionHTML = '<div class="task-check">✅</div>';
-                } else if (TASKS_WITH_BUTTON.includes(task.key)) {
-                    actionHTML = `<button class="task-btn" onclick="doTask('${task.key}')">Go</button>`;
-                } else {
-                    actionHTML = `<div class="task-hint">Complete on site</div>`;
-                }
+             let actionHTML = '';
+if (completed) {
+    actionHTML = '<div class="task-check">✅</div>';
+} else {
+    actionHTML = `<button class="task-btn" onclick="doTask('${task.key}')">Go</button>`;
+}
 
                 const div = document.createElement('div');
                 div.className = 'task-item' + (completed ? ' completed' : '');
@@ -932,16 +949,30 @@
             await loadNetwork();
             await loadHistory();
 
-            if (currentUser) {
-                const { data } = await supabaseClient.rpc('daily_login_streak', {
-                    p_user_id: currentUser.id
-                });
-                if (data && !data.already_done) {
-                    console.log('🎁 Daily login bonus:', data.bonus, 'points');
-                    await loadBalance();
-                    await loadTasks();
-                }
+          if (currentUser) {
+    try {
+        const { data, error } = await supabaseClient.rpc('daily_login_streak', {
+            p_user_id: currentUser.id
+        });
+        
+        if (error) {
+            console.error('❌ Daily login error:', error);
+            console.error('Error message:', error.message);
+            console.error('Error details:', error.details);
+        } else {
+            console.log('📅 Daily login result:', data);
+            if (data && !data.already_done) {
+                console.log('🎁 Daily login bonus:', data.bonus, 'points');
+                await loadBalance();
+                await loadTasks();
+            } else if (data && data.already_done) {
+                console.log('✅ Daily login already done today');
             }
+        }
+    } catch (e) {
+        console.error('❌ Daily login exception:', e);
+    }
+}
         });
     </script>
     <script src="js/messenger-notify.js"></script>
