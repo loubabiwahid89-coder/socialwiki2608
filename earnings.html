@@ -949,30 +949,16 @@ if (completed) {
             await loadNetwork();
             await loadHistory();
 
-          if (currentUser) {
-    try {
-        const { data, error } = await supabaseClient.rpc('daily_login_streak', {
-            p_user_id: currentUser.id
-        });
-        
-        if (error) {
-            console.error('❌ Daily login error:', error);
-            console.error('Error message:', error.message);
-            console.error('Error details:', error.details);
-        } else {
-            console.log('📅 Daily login result:', data);
-            if (data && !data.already_done) {
-                console.log('🎁 Daily login bonus:', data.bonus, 'points');
-                await loadBalance();
-                await loadTasks();
-            } else if (data && data.already_done) {
-                console.log('✅ Daily login already done today');
+            if (currentUser) {
+                const { data } = await supabaseClient.rpc('daily_login_streak', {
+                    p_user_id: currentUser.id
+                });
+                if (data && !data.already_done) {
+                    console.log('🎁 Daily login bonus:', data.bonus, 'points');
+                    await loadBalance();
+                    await loadTasks();
+                }
             }
-        }
-    } catch (e) {
-        console.error('❌ Daily login exception:', e);
-    }
-}
         });
     </script>
     <script src="js/messenger-notify.js"></script>

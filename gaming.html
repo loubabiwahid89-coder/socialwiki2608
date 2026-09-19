@@ -250,7 +250,7 @@
         <div class="games-grid">
 
             <!-- لعبة Tic-Tac-Toe -->
-            <a href="tic-tac-toe.html" class="game-card">
+            <a href="tic-tac-toe.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail ttt">❌⭕</div>
                 <div class="game-info">
                     <div class="game-title" data-i18n="tic_tac_toe">Tic Tac Toe</div>
@@ -260,7 +260,7 @@
             </a>
 
             <!-- لعبة Snake -->
-            <a href="snake.html" class="game-card">
+            <a href="snake.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail snake">🐍</div>
                 <div class="game-info">
                     <div class="game-title" data-i18n="snake_game">Snake</div>
@@ -270,7 +270,7 @@
             </a>
 
             <!-- لعبة Memory -->
-            <a href="memory.html" class="game-card">
+            <a href="memory.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail memory">🧠</div>
                 <div class="game-info">
                     <div class="game-title" data-i18n="memory_game">Memory</div>
@@ -286,8 +286,9 @@
     <!-- إغلاق games-container -->
 
     <!-- SCRIPTS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/translations.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/tasks-helper.js"></script>
+<script src="js/translations.js"></script>
     <script>
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
@@ -328,6 +329,39 @@
                 if (typeof applyTranslations === 'function') applyTranslations();
             });
         });
+      window.markGameTask = async function() {
+    try {
+        // 1. الحصول على المستخدم الحالي
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            console.log('⚠️ No user logged in, task not completed');
+            return;
+        }
+
+        // 2. استدعاء دالة إكمال المهمة في Supabase
+        const { data, error } = await supabaseClient.rpc('complete_task', {
+            p_user_id: user.id,
+            p_task_key: 'play_1_game'
+        });
+
+        if (error) {
+            console.error('❌ Task error:', error);
+            return;
+        }
+
+        if (data && data.success) {
+            if (data.completed) {
+                console.log('🎉 Task "play_1_game" completed! +' + data.points + ' points');
+                // إظهار إشعار للمستخدم
+                alert('🎉 تم إكمال مهمة "العب لعبة"! +' + data.points + ' نقطة');
+            } else {
+                console.log('✅ Progress: ' + data.progress + ' / ' + data.goal);
+            }
+        }
+    } catch (error) {
+        console.error('❌ Error completing game task:', error);
+    }
+};
     </script>
     <script src="js/messenger-notify.js"></script>
 
