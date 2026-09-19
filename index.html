@@ -1013,108 +1013,112 @@
         }
 
         async function applyPendingReferral() {
-            try {
-                const referralCode = localStorage.getItem('pendingReferralCode');
-                if (!referralCode) return;
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) return;
-                const { data: existing } = await window.supabaseClient.from('referrals').select('id').eq('referred_id', user.id).maybeSingle();
-                if (existing) { localStorage.removeItem('pendingReferralCode'); return; }
-                const { data: referrer } = await window.supabaseClient.from('profiles').select('id').eq('referral_code', referralCode).maybeSingle();
-                if (!referrer || referrer.id === user.id) { localStorage.removeItem('pendingReferralCode'); return; }
-                
-                await window.supabaseClient.from('referrals').insert({
-                    referrer_id: referrer.id, referred_id: user.id,
-                    referral_code: referralCode, points_awarded: 50
-                });
-                await window.supabaseClient.rpc('add_earnings', {
-                    p_user_id: referrer.id, p_post_id: null, p_source: 'referral',
-                    p_points: 50, p_dollars: 0.50
-                });
-                await window.supabaseClient.rpc('add_earnings', {
-                    p_user_id: user.id, p_post_id: null, p_source: 'welcome',
-                    p_points: 25, p_dollars: 0.25
-                });
-                localStorage.removeItem('pendingReferralCode');
-                showPointsNotification(25);
-            } catch (error) { console.error('Error:', error); }
+    try {
+        const referralCode = localStorage.getItem('pendingReferralCode');
+        if (!referralCode) return;
+
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+
+        // 1) تحقق من عدم وجود إحالة سابقة
+        const { data: existing } = await window.supabaseClient
+            .from('referrals')
+            .select('id')
+            .eq('referred_id', user.id)
+            .maybeSingle();
+
+        if (existing) {
+            localStorage.removeItem('pendingReferralCode');
+            return;
         }
 
-        // =========================================================
-        // SCROLL STORIES
-        // =========================================================
-        window.scrollStoriesLeft = function() {
-            const list = document.getElementById('storyList');
-            if (list) list.scrollBy({ left: -300, behavior: 'smooth' });
-        };
-        window.scrollStoriesRight = function() {
-            const list = document.getElementById('storyList');
-            if (list) list.scrollBy({ left: 300, behavior: 'smooth' });
-        };
+        // 2) ابحث عن المُحيل
+        const { data: referrer } = await window.supabaseClient
+            .from('profiles')
+            .select('id')
+            .eq('referral_code', referralCode)
+            .maybeSingle();
 
-        // =========================================================
-        // 🆕 MOBILE SIDEBAR (HAMBURGER MENU)
-        // =========================================================
-        window.toggleMobileSidebar = function() {
-            const sidebar = document.querySelector('.left-sidebar');
-            if (!sidebar) return;
-            if (sidebar.classList.contains('show')) {
-                closeMobileSidebar();
-            } else {
-                openMobileSidebar();
-            }
-        };
+        if (!referrer || referrer.id === user.id) {
+            localStorage.removeItem('pendingReferralCode');
+            return;
+        }
 
-        window.openMobileSidebar = function() {
-            const sidebar = document.querySelector('.left-sidebar');
-            if (!sidebar) return;
-            
-            let overlay = document.querySelector('.mobile-sidebar-overlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.className = 'mobile-sidebar-overlay';
-                overlay.onclick = closeMobileSidebar;
-                document.body.appendChild(overlay);
-            }
-            
-            if (!sidebar.querySelector('.mobile-sidebar-close')) {
-                const closeBtn = document.createElement('button');
-                closeBtn.className = 'mobile-sidebar-close';
-                closeBtn.innerHTML = '✕';
-                closeBtn.onclick = closeMobileSidebar;
-                sidebar.insertBefore(closeBtn, sidebar.firstChild);
-            }
-            
-            sidebar.classList.add('show');
-            overlay.classList.add('show');
-            document.body.classList.add('sidebar-open');
-        };
-
-        window.closeMobileSidebar = function() {
-            const sidebar = document.querySelector('.left-sidebar');
-            const overlay = document.querySelector('.mobile-sidebar-overlay');
-            if (sidebar) sidebar.classList.remove('show');
-            if (overlay) overlay.classList.remove('show');
-            document.body.classList.remove('sidebar-open');
-        };
-
-        // إغلاق عند الضغط على رابط داخل القائمة
-        document.addEventListener('click', function(e) {
-            const sidebar = document.querySelector('.left-sidebar');
-            if (sidebar && sidebar.classList.contains('show')) {
-                const link = e.target.closest('a');
-                if (link && sidebar.contains(link)) {
-                    closeMobileSidebar();
-                }
-            }
+        // 3) احفظ في referrals
+        await window.supabaseClient.from('referrals').insert({
+            referrer_id: referrer.id,
+            referred_id: user.id,
+            referral_code: referralCode,
+            points_awarded: 500
         });
 
-        // إغلاق عند تغيير حجم الشاشة لأكثر من 768px
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                closeMobileSidebar();
-            }
+        // 4) Level 1 - المباشر
+        await window.supabaseClient.from('referral_tree').insert({
+            user_id: user.id,
+            referrer_id: referrer.id,
+            level: 1
         });
+
+        // 5) Level 2 - غير مباشر
+        const { data: up1 } = await window.supabaseClient
+            .from('referral_tree')
+            .select('referrer_id')
+            .eq('user_id', referrer.id)
+            .eq('level', 1)
+            .maybeSingle();
+
+        if (up1) {
+            await window.supabaseClient.from('referral_tree').insert({
+                user_id: user.id,
+                referrer_id: up1.referrer_id,
+                level: 2
+            });
+
+            // 6) Level 3
+            const { data: up2 } = await window.supabaseClient
+                .from('referral_tree')
+                .select('referrer_id')
+                .eq('user_id', up1.referrer_id)
+                .eq('level', 1)
+                .maybeSingle();
+
+            if (up2) {
+                await window.supabaseClient.from('referral_tree').insert({
+                    user_id: user.id,
+                    referrer_id: up2.referrer_id,
+                    level: 3
+                });
+            }
+        }
+
+        // 7) امنح المُحيل 500 نقطة
+        await window.supabaseClient.rpc('add_earnings', {
+            p_user_id: referrer.id,
+            p_post_id: null,
+            p_source: 'referral',
+            p_points: 500,
+            p_dollars: 0.50
+        });
+
+        // 8) امنح المستخدم الجديد 1000 نقطة ترحيب
+        await window.supabaseClient.rpc('add_earnings', {
+            p_user_id: user.id,
+            p_post_id: null,
+            p_source: 'welcome',
+            p_points: 1000,
+            p_dollars: 1.00
+        });
+
+        localStorage.removeItem('pendingReferralCode');
+        console.log('✅ Referral applied with 3-level network');
+
+        if (typeof showPointsNotification === 'function') {
+            showPointsNotification(1000);
+        }
+    } catch (error) {
+        console.error('❌ Referral error:', error);
+    }
+}
 
         // =========================================================
         // INITIALIZE
@@ -1282,6 +1286,8 @@
         };
     })();
     </script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/tasks-helper.js"></script>  <!-- ✅ أضف هذا السطر -->
+<script src="js/translations.js?v=20261001"></script>
 </body>
 </html>
