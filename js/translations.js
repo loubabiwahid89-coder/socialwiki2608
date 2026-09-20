@@ -478,7 +478,6 @@ const translations = {
 "verified_badge": "الشارة الموثقة",
 "boost_post_7d": "تعزيز المنشور (7 أيام)",
 "stars_100": "100 نجمة",
-"bronze_badge": "الشارة البرونزية",
 "go_btn": "اذهب",
 "shop": "🛍️ المتجر",
 "history": "📊 السجل",
@@ -490,7 +489,7 @@ const translations = {
 "stars_100": "100 نجمة",
 "bronze_badge": "الشارة البرونزية",
 "reset_daily": "(يتم إعادة التعيين كل يوم)",
-    },+
+    },
 
     // ==================== FRENCH ====================
     fr: {
