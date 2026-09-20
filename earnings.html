@@ -213,23 +213,22 @@
         </div>
 
         <!-- TASKS TAB -->
-        <div id="tasksTab">
-            <div class="tasks-section">
-                <h3>🟢 <span data-i18n="daily_tasks">Daily Tasks</span> <span style="font-size:13px;color:#65676b;">(reset كل يوم)</span></h3>
-                <div id="dailyTasks"></div>
-            </div>
+<div id="tasksTab">
+    <div class="tasks-section">
+        <h3>🟢 <span data-i18n="daily_tasks">Daily Tasks</span> <span style="font-size:13px;color:#65676b;" data-i18n="reset_daily">(reset daily)</span></h3>
+        <div id="dailyTasks"></div>
+    </div>
 
-            <div class="tasks-section">
-                <h3>🟡 <span data-i18n="weekly_tasks">Weekly Tasks</span></h3>
-                <div id="weeklyTasks"></div>
-            </div>
+    <div class="tasks-section">
+        <h3>🟡 <span data-i18n="weekly_tasks">Weekly Tasks</span></h3>
+        <div id="weeklyTasks"></div>
+    </div>
 
-            <div class="tasks-section">
-                <h3>🔴 <span data-i18n="hard_tasks">Hard Tasks</span></h3>
-                <div id="hardTasks"></div>
-            </div>
-        </div>
-
+    <div class="tasks-section">
+        <h3>🔴 <span data-i18n="hard_tasks">Hard Tasks</span></h3>
+        <div id="hardTasks"></div>
+    </div>
+</div>
         <!-- NETWORK TAB -->
         <div id="networkTab" style="display:none;">
             <div class="network-summary">
@@ -302,34 +301,34 @@
             </div>
         </div>
 
-        <!-- SHOP TAB -->
-        <div id="shopTab" style="display:none;">
-            <div class="tasks-section">
-                <h3>🎁 Rewards Shop</h3>
-                <div class="rewards-grid">
-                    <div class="reward-card" onclick="redeemReward('badge_bronze', 500)">
-                        <div class="reward-icon">🥉</div>
-                        <div class="reward-name">Bronze Badge</div>
-                        <div class="reward-cost">500 points</div>
-                    </div>
-                    <div class="reward-card" onclick="redeemReward('stars_100', 1000)">
-                        <div class="reward-icon">⭐</div>
-                        <div class="reward-name">100 Stars</div>
-                        <div class="reward-cost">1,000 points</div>
-                    </div>
-                    <div class="reward-card" onclick="redeemReward('boost_post', 2500)">
-                        <div class="reward-icon">🚀</div>
-                        <div class="reward-name">Boost Post (7d)</div>
-                        <div class="reward-cost">2,500 points</div>
-                    </div>
-                    <div class="reward-card" onclick="redeemReward('verified_badge', 10000)">
-                        <div class="reward-icon">✔️</div>
-                        <div class="reward-name">Verified Badge</div>
-                        <div class="reward-cost">10,000 points</div>
-                    </div>
-                </div>
+       <!-- SHOP TAB -->
+<div id="shopTab" style="display:none;">
+    <div class="tasks-section">
+        <h3 data-i18n="rewards_shop_title">🎁 Rewards Shop</h3>
+        <div class="rewards-grid">
+            <div class="reward-card" onclick="redeemReward('badge_bronze', 500)">
+                <div class="reward-icon">🥉</div>
+                <div class="reward-name" data-i18n="bronze_badge">Bronze Badge</div>
+                <div class="reward-cost">500 <span data-i18n="points">points</span></div>
+            </div>
+            <div class="reward-card" onclick="redeemReward('stars_100', 1000)">
+                <div class="reward-icon">⭐</div>
+                <div class="reward-name" data-i18n="stars_100">100 Stars</div>
+                <div class="reward-cost">1,000 <span data-i18n="points">points</span></div>
+            </div>
+            <div class="reward-card" onclick="redeemReward('boost_post', 2500)">
+                <div class="reward-icon">🚀</div>
+                <div class="reward-name" data-i18n="boost_post_7d">Boost Post (7d)</div>
+                <div class="reward-cost">2,500 <span data-i18n="points">points</span></div>
+            </div>
+            <div class="reward-card" onclick="redeemReward('verified_badge', 10000)">
+                <div class="reward-icon">✔️</div>
+                <div class="reward-name" data-i18n="verified_badge">Verified Badge</div>
+                <div class="reward-cost">10,000 <span data-i18n="points">points</span></div>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- HISTORY TAB -->
         <div id="historyTab" style="display:none;">
@@ -630,11 +629,11 @@
                 const completed = progress?.completed || false;
                 const percent = Math.min(100, (currentProgress / task.goal) * 100);
 
-             let actionHTML = '';
+   let actionHTML = '';
 if (completed) {
     actionHTML = '<div class="task-check">✅</div>';
 } else {
-    actionHTML = `<button class="task-btn" onclick="doTask('${task.key}')">Go</button>`;
+    actionHTML = `<button class="task-btn" onclick="doTask('${task.key}')" data-i18n="go_btn">Go</button>`;
 }
 
                 const div = document.createElement('div');
@@ -653,8 +652,13 @@ if (completed) {
                     <div class="task-reward">+${task.points}</div>
                     ${actionHTML}
                 `;
-                container.appendChild(div);
+                           container.appendChild(div);
             });
+
+            // ✅ إعادة تطبيق الترجمات على الأزرار الجديدة
+            if (typeof applyTranslations === 'function') {
+                applyTranslations();
+            }
         }
 
         // ============================================================
