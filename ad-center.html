@@ -283,22 +283,30 @@
 
     </div>
 
+    <!-- ========================================================= -->
     <!-- SCRIPTS -->
+    <!-- ========================================================= -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/translations.js"></script>
+    <script src="js/translations.js?v=20261001"></script>
     <script>
-        // Supabase setup
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
         const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Logout
+        // =========================================================
+        // LOGOUT
+        // =========================================================
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
 
-        // Load user profile
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -317,7 +325,9 @@
             }
         }
 
-        // Load stats (placeholder — will work when ads table exists)
+        // =========================================================
+        // LOAD STATS
+        // =========================================================
         async function loadStats() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
@@ -330,6 +340,10 @@
                 
                 if (error) {
                     console.log('Ads table not found yet, using defaults');
+                    document.getElementById('totalAds').textContent = '0';
+                    document.getElementById('activeAds').textContent = '0';
+                    document.getElementById('totalSpent').textContent = '$0';
+                    document.getElementById('totalImpressions').textContent = '0';
                     return;
                 }
                 
@@ -348,22 +362,115 @@
             }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            const lang = getCurrentLanguage();
-            setLanguage(lang);
-            applyTranslations();
-            
-            loadUserProfile();
-            loadStats();
+        // =========================================================
+        // CHECK PREMIUM
+        // =========================================================
+        async function checkPremium() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return false;
+                const { data, error } = await supabaseClient.rpc('check_premium_status', {
+                    p_user_id: user.id
+                });
+                if (error) {
+                    console.log('Premium function not ready yet');
+                    return false;
+                }
+                if (data && data.is_premium) {
+                    localStorage.setItem('socialwiki_premium', 'true');
+                    document.body.classList.add('premium-user');
+                    return true;
+                } else {
+                    localStorage.removeItem('socialwiki_premium');
+                    document.body.classList.remove('premium-user');
+                    return false;
+                }
+            } catch (error) {
+                return false;
+            }
+        }
 
-            // ✅ إعادة تطبيق الترجمات عند تغيير اللغة
-            window.addEventListener('languageChanged', function(event) {
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            // ✅ فحص آمن لدوال الترجمة
+            if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
+                setLanguage(getCurrentLanguage());
+            }
+            if (typeof applyTranslations === 'function') {
+                applyTranslations();
+            }
+
+            await checkPremium();
+            await loadUserProfile();
+            await loadStats();
+
+            window.addEventListener('languageChanged', function() {
                 if (typeof applyTranslations === 'function') applyTranslations();
             });
         });
     </script>
+
     <script src="js/messenger-notify.js"></script>
+
+    <!-- ========================================================= -->
+    <!-- 📢 SINGLE POP-UNDER AD (One time per page, on empty area only) -->
+    <!-- ========================================================= -->
+    <script>
+    (function() {
+        'use strict';
+        
+        // ✅ تحقق من Premium
+        if (localStorage.getItem('socialwiki_premium') === 'true') {
+            console.log('✅ Premium user — ads skipped');
+            return;
+        }
+        
+        // ✅ منع التكرار في نفس الجلسة
+        if (sessionStorage.getItem('popUnderShown')) return;
+        
+        var POPUNDER_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
+        var triggered = false;
+        
+        function isInteractiveElement(el) {
+            if (!el) return false;
+            var interactive = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'LABEL'];
+            if (interactive.includes(el.tagName)) return true;
+            if (el.onclick) return true;
+            if (el.closest && el.closest('a, button, input, select, textarea, [onclick]')) return true;
+            return false;
+        }
+        
+        function openPopUnder(e) {
+            // ✅ تجاهل النقرات على العناصر التفاعلية
+            if (e && isInteractiveElement(e.target)) return;
+            
+            if (triggered) return;
+            triggered = true;
+            sessionStorage.setItem('popUnderShown', '1');
+            
+            try {
+                var popup = window.open(
+                    POPUNDER_URL,
+                    '_blank',
+                    'width=1024,height=768,scrollbars=yes,resizable=yes'
+                );
+                if (popup) {
+                    popup.blur();
+                    window.focus();
+                }
+            } catch (err) {
+                console.warn('Popunder blocked:', err);
+            }
+            
+            document.removeEventListener('click', openPopUnder);
+        }
+        
+        document.addEventListener('click', openPopUnder);
+        console.log('✅ Smart pop-under armed');
+    })();
+    </script>
 
 </body>
 </html>

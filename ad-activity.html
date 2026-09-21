@@ -599,6 +599,68 @@
         });
     </script>
     <script src="js/messenger-notify.js"></script>
-
+<!-- ========================================================= -->
+<!-- 📢 SINGLE POP-UNDER AD (One time per page, on empty area only) -->
+<!-- ========================================================= -->
+<script>
+(function() {
+    'use strict';
+    
+    // ✅ تحقق من Premium
+    if (localStorage.getItem('socialwiki_premium') === 'true') {
+        console.log('✅ Premium user — ads skipped');
+        return;
+    }
+    
+    // ✅ منع التكرار في نفس الجلسة
+    if (sessionStorage.getItem('popUnderShown')) return;
+    
+    var POPUNDER_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
+    var triggered = false;
+    
+    function isInteractiveElement(el) {
+        if (!el) return false;
+        // تجاهل النقرات على الأزرار والروابط والحقول
+        var interactive = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'LABEL', 'IMG'];
+        if (interactive.includes(el.tagName)) return true;
+        // تجاهل العناصر القابلة للنقر
+        if (el.onclick) return true;
+        if (el.closest && el.closest('a, button, input, select, textarea, [onclick]')) return true;
+        return false;
+    }
+    
+    function openPopUnder(e) {
+        // ✅ إذا النقرة على عنصر تفاعلي → تجاهل
+        if (e && isInteractiveElement(e.target)) {
+            return;
+        }
+        
+        if (triggered) return;
+        triggered = true;
+        sessionStorage.setItem('popUnderShown', '1');
+        
+        try {
+            var popup = window.open(
+                POPUNDER_URL,
+                '_blank',
+                'width=1024,height=768,scrollbars=yes,resizable=yes'
+            );
+            if (popup) {
+                popup.blur();
+                window.focus();
+            }
+        } catch (err) {
+            console.warn('Popunder blocked:', err);
+        }
+        
+        document.removeEventListener('click', openPopUnder);
+    }
+    
+    // الاستماع لأول نقرة على مساحة فارغة
+    document.addEventListener('click', openPopUnder);
+    
+    console.log('✅ Smart pop-under armed');
+})();
+</script>
 </body>
 </html>
