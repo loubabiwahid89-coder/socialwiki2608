@@ -143,7 +143,6 @@
             </a>
         </div>
 
-        <!-- ✅ NAVBAR SEARCH (خارج nav-left) -->
         <div class="navbar-search">
             <span class="search-icon">🔍</span>
             <input 
@@ -226,7 +225,6 @@
             <a href="ad-center.html"><span class="emoji-icon">📢</span><span data-i18n="ad_center">Ad Center</span></a>
             <a href="ad-manager.html"><span class="emoji-icon">📊</span><span data-i18n="ad_manager">Ad Manager</span></a>
             <a href="feeds.html"><span class="emoji-icon">📰</span><span data-i18n="feeds">Feeds</span></a>
-            
             <a href="ad-activity.html"><span class="emoji-icon">📈</span><span data-i18n="ad_activity">Ad Activity</span></a>
             <a href="terms.html"><span class="emoji-icon">📜</span><span data-i18n="terms_title">Terms of Service</span></a>
             <a href="privacy.html"><span class="emoji-icon">🔒</span><span data-i18n="privacy_title">Privacy Policy</span></a>
@@ -872,7 +870,7 @@
                 loadStories();
             } catch (error) { console.error('Error:', error); }
         };
-
+        
         // =========================================================
         // ⚡ LIKE POST
         // =========================================================
@@ -1237,49 +1235,7 @@
     </script>
 
     <!-- ========================================================= -->
-    <!-- 📢 SMARTLINK POP-UNDER -->
-    <!-- ========================================================= -->
-    <script>
-    (function() {
-        'use strict';
-        if (window.__smartlinkPopunder) return;
-        window.__smartlinkPopunder = true;
-        
-        var SMARTLINK_URL = "https://data527.click/e425f4e70b2f3179c0a9/034c85f53f/?placementName=default";
-        
-        function openSmartlink() {
-            try {
-                var popup = window.open(
-                    SMARTLINK_URL,
-                    '_blank',
-                    'width=1024,height=768,scrollbars=yes,resizable=yes'
-                );
-                if (popup) {
-                    popup.blur();
-                    window.focus();
-                }
-            } catch (e) {
-                console.error('❌ Smartlink error:', e);
-            }
-        }
-        
-        var triggered = false;
-        function triggerOnce() {
-            if (triggered) return;
-            triggered = true;
-            openSmartlink();
-            document.removeEventListener('click', triggerOnce);
-            document.removeEventListener('touchstart', triggerOnce);
-        }
-        
-        document.addEventListener('click', triggerOnce);
-        document.addEventListener('touchstart', triggerOnce);
-        console.log('✅ Smartlink pop-under armed');
-    })();
-    </script>
-
-    <!-- ========================================================= -->
-    <!-- 💰 WATCH AD & EARN POINTS -->
+    <!-- 💰 WATCH AD & EARN POINTS (بدون Auto Ad) -->
     <!-- ========================================================= -->
     <script>
     (function() {
@@ -1289,16 +1245,7 @@
         var POINTS_PER_AD = 1;
         var DAILY_AD_LIMIT = 20;
 
-        if (!sessionStorage.getItem('adOpenedThisSession')) {
-            sessionStorage.setItem('adOpenedThisSession', '1');
-            setTimeout(function() {
-                try {
-                    window.open(AD_URL, '_blank');
-                } catch (e) {
-                    console.warn('Auto ad blocked by browser:', e);
-                }
-            }, 3000);
-        }
+        // ✅ تم حذف Auto Ad (فتح تلقائي عند التحميل)
 
         window.watchAdAndEarn = async function(btn) {
             if (btn && btn.dataset.busy === '1') return;
