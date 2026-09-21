@@ -1010,6 +1010,7 @@ const translations = {
 "task_create_50_posts": "Créer 50 publications",
 "task_complete_profile": "Compléter le profil",
 "task_first_story": "Publier la première story",
+"no_referrals": "لم تدعُ أي شخص بعد. ابدأ الآن! 🚀",
     },
 
     // ==================== ENGLISH ====================
@@ -1513,6 +1514,7 @@ const translations = {
 "task_create_50_posts": "Create 50 Posts",
 "task_complete_profile": "Complete Profile",
 "task_first_story": "Post First Story",
+"no_referrals": "Vous n'avez invité personne. Commencez maintenant! 🚀",
     },
     
     // ==================== SPANISH ====================
@@ -2019,6 +2021,7 @@ const translations = {
 "task_create_50_posts": "Crear 50 publicaciones",
 "task_complete_profile": "Completar perfil",
 "task_first_story": "Publicar primera historia",
+"no_referrals": "You haven't invited anyone yet. Start now! 🚀",
     },
 
     // ==================== GERMAN ====================
@@ -2526,6 +2529,7 @@ const translations = {
 "task_create_50_posts": "50 Beiträge erstellen",
 "task_complete_profile": "Profil vervollständigen",
 "task_first_story": "Erste Story posten",
+"no_referrals": "Aún no has invitado a nadie. ¡Empieza ahora! 🚀",
     },
 
     // ==================== ITALIAN ====================
@@ -3033,6 +3037,7 @@ const translations = {
 "task_create_50_posts": "Crea 50 post",
 "task_complete_profile": "Completa profilo",
 "task_first_story": "Pubblica prima storia",
+"no_referrals": "Non hai ancora invitato nessuno. Inizia ora! 🚀",
     },
     
     // ==================== JAPANESE ====================
@@ -3540,6 +3545,7 @@ const translations = {
 "task_create_50_posts": "投稿を50つ作成",
 "task_complete_profile": "プロフィールを完成",
 "task_first_story": "最初のストーリーを投稿",
+"no_referrals": "まだ誰も招待していません。今すぐ始めましょう！ 🚀",
     },
 
     // ==================== CHINESE ====================
@@ -4047,6 +4053,7 @@ const translations = {
 "task_create_50_posts": "创建50个帖子",
 "task_complete_profile": "完成个人资料",
 "task_first_story": "发布第一个故事",
+"no_referrals": "您还没有邀请任何人。现在开始！ 🚀",
     },
 
     // ==================== KOREAN ====================
@@ -4554,6 +4561,7 @@ const translations = {
 "task_create_50_posts": "게시물 50개 작성",
 "task_complete_profile": "프로필 완성",
 "task_first_story": "첫 스토리 게시",
+"no_referrals": "아직 아무도 초대하지 않았습니다. 지금 시작하세요! 🚀",
     },
     
     // ==================== RUSSIAN ====================
@@ -5061,6 +5069,7 @@ const translations = {
 "task_create_50_posts": "Создать 50 постов",
 "task_complete_profile": "Заполнить профиль",
 "task_first_story": "Опубликовать первую историю",
+"no_referrals": "Вы ещё никого не пригласили. Начните сейчас! 🚀",
     },
 
     // ==================== TURKISH ====================
@@ -5567,6 +5576,7 @@ const translations = {
 "task_create_50_posts": "50 Gönderi Oluştur",
 "task_complete_profile": "Profili Tamamla",
 "task_first_story": "İlk Hikayeyi Paylaş",
+"no_referrals": "Henüz kimseyi davet etmediniz. Şimdi başlayın! 🚀",
     },
 
     // ==================== HINDI ====================
@@ -6073,6 +6083,7 @@ const translations = {
 "task_create_50_posts": "50 पोस्ट बनाएं",
 "task_complete_profile": "प्रोफ़ाइल पूर्ण करें",
 "task_first_story": "पहली स्टोरी पोस्ट करें",
+"no_referrals": "आपने अभी तक किसी को आमंत्रित नहीं किया। अभी शुरू करें! 🚀",
     },
     
     // ==================== FILIPINO ====================
@@ -6580,6 +6591,7 @@ const translations = {
 "task_create_50_posts": "Gumawa ng 50 Post",
 "task_complete_profile": "Kumpletuhin ang Profile",
 "task_first_story": "I-post ang Unang Kwento",
+"no_referrals": "Wala ka pang inanyayahan. Magsimula na! 🚀",
     },
 
     // ==================== TAGALOG ====================
@@ -7087,6 +7099,7 @@ const translations = {
 "task_create_50_posts": "Gumawa ng 50 Post",
 "task_complete_profile": "Kumpletuhin ang Profile",
 "task_first_story": "I-post ang Unang Kwento",
+"no_referrals": "Wala ka pang inanyayahan. Magsimula na! 🚀",
     }
 
 };

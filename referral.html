@@ -298,122 +298,132 @@
         // =========================================================
         // LOAD REFERRAL DATA
         // =========================================================
-        async function loadReferralData() {
-            const codeEl = document.getElementById('referralCode');
-            const linkEl = document.getElementById('referralLink');
+      async function loadReferralData() {
+    const codeEl = document.getElementById('referralCode');
+    const linkEl = document.getElementById('referralLink');
 
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) {
-                    window.location.href = 'auth.html';
-                    return;
-                }
-                currentUser = user;
-
-                // 1) Referral Code
-                const referralCode = await getOrCreateReferralCode();
-                if (codeEl) codeEl.textContent = referralCode;
-
-                const BASE_URL = window.location.origin;
-                if (linkEl) linkEl.textContent = `${BASE_URL}/auth.html?ref=${referralCode}`;
-
-                // 2) Referrals count
-                const { data: referrals } = await supabaseClient
-                    .from('referrals')
-                    .select('*')
-                    .eq('referrer_id', user.id);
-
-                const totalReferrals = referrals?.length || 0;
-                const totalPoints = totalReferrals * 500;
-
-                // 3) Commissions
-                const { data: commissions } = await supabaseClient
-                    .from('commissions')
-                    .select('*')
-                    .eq('user_id', user.id);
-
-                const commissionPoints = (commissions || []).reduce((sum, c) => sum + (c.points || 0), 0);
-
-                // 4) Network tree
-                const { data: network } = await supabaseClient
-                    .from('referral_tree')
-                    .select('level')
-                    .eq('referrer_id', user.id);
-
-                const level1Count = (network || []).filter(n => n.level === 1).length;
-                const level2Count = (network || []).filter(n => n.level === 2).length;
-                const level3Count = (network || []).filter(n => n.level === 3).length;
-
-                // 5) Update UI
-                const totalRefEl = document.getElementById('totalReferrals');
-                const refPointsEl = document.getElementById('referralPoints');
-                const refDollarsEl = document.getElementById('referralDollars');
-                const commPointsEl = document.getElementById('commissionPoints');
-                const l1 = document.getElementById('level1Count');
-                const l2 = document.getElementById('level2Count');
-                const l3 = document.getElementById('level3Count');
-                const pointsVal = document.getElementById('pointsValue');
-
-                if (totalRefEl) totalRefEl.textContent = totalReferrals;
-                if (refPointsEl) refPointsEl.textContent = totalPoints.toLocaleString();
-                if (commPointsEl) commPointsEl.textContent = commissionPoints.toLocaleString();
-                if (refDollarsEl) refDollarsEl.textContent = '$' + ((totalPoints + commissionPoints) / 1000).toFixed(2);
-                if (l1) l1.textContent = level1Count;
-                if (l2) l2.textContent = level2Count;
-                if (l3) l3.textContent = level3Count;
-
-                // نقاط المستخدم
-                const { data: profile } = await supabaseClient
-                    .from('profiles')
-                    .select('total_points')
-                    .eq('id', user.id)
-                    .single();
-                if (pointsVal) pointsVal.textContent = (profile?.total_points || 0).toLocaleString();
-
-                // 6) Referral list
-                const tableBody = document.getElementById('referralTableBody');
-                if (!tableBody) return;
-
-                tableBody.innerHTML = '';
-
-                if (!referrals || referrals.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="3" class="empty-state">' +
-                        (typeof t === 'function' ? t('no_referrals') : 'You haven\'t invited anyone yet.') +
-                        '</td></tr>';
-                    return;
-                }
-
-                // Get profiles
-                const userIds = referrals.map(r => r.referred_id);
-                const { data: profiles } = await supabaseClient
-                    .from('profiles')
-                    .select('id, username, full_name')
-                    .in('id', userIds);
-
-                const profilesMap = {};
-                (profiles || []).forEach(p => {
-                    profilesMap[p.id] = p.full_name || p.username || 'User';
-                });
-
-                referrals.forEach(ref => {
-                    const name = profilesMap[ref.referred_id] || 'User';
-                    const dateObj = new Date(ref.created_at);
-                    const dateStr = dateObj.toLocaleDateString('en-GB');
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${name}</td>
-                        <td dir="ltr">${dateStr}</td>
-                        <td style="color:#28a745;font-weight:700;">+${ref.points_awarded || 500}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-            } catch (error) {
-                console.error('Fatal error:', error);
-                if (codeEl) codeEl.textContent = '❌ Error';
-            }
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            window.location.href = 'auth.html';
+            return;
         }
+        currentUser = user;
+
+        // 1) Referral Code
+        const referralCode = await getOrCreateReferralCode();
+        if (codeEl) codeEl.textContent = referralCode;
+
+        const BASE_URL = window.location.origin;
+        if (linkEl) linkEl.textContent = `${BASE_URL}/auth.html?ref=${referralCode}`;
+
+        // 2) Referrals count
+        const { data: referrals } = await supabaseClient
+            .from('referrals')
+            .select('*')
+            .eq('referrer_id', user.id);
+
+        const totalReferrals = referrals?.length || 0;
+        const totalPoints = totalReferrals * 500;
+
+        // 3) Commissions
+        const { data: commissions } = await supabaseClient
+            .from('commissions')
+            .select('*')
+            .eq('user_id', user.id);
+
+        const commissionPoints = (commissions || []).reduce((sum, c) => sum + (c.points || 0), 0);
+
+        // 4) Network tree
+        const { data: network } = await supabaseClient
+            .from('referral_tree')
+            .select('level')
+            .eq('referrer_id', user.id);
+
+        const level1Count = (network || []).filter(n => n.level === 1).length;
+        const level2Count = (network || []).filter(n => n.level === 2).length;
+        const level3Count = (network || []).filter(n => n.level === 3).length;
+
+        // 5) Update UI
+        const totalRefEl = document.getElementById('totalReferrals');
+        const refPointsEl = document.getElementById('referralPoints');
+        const refDollarsEl = document.getElementById('referralDollars');
+        const commPointsEl = document.getElementById('commissionPoints');
+        const l1 = document.getElementById('level1Count');
+        const l2 = document.getElementById('level2Count');
+        const l3 = document.getElementById('level3Count');
+        const pointsVal = document.getElementById('pointsValue');
+
+        if (totalRefEl) totalRefEl.textContent = totalReferrals;
+        if (refPointsEl) refPointsEl.textContent = totalPoints.toLocaleString();
+        if (commPointsEl) commPointsEl.textContent = commissionPoints.toLocaleString();
+        if (refDollarsEl) refDollarsEl.textContent = '$' + ((totalPoints + commissionPoints) / 1000).toFixed(2);
+        if (l1) l1.textContent = level1Count;
+        if (l2) l2.textContent = level2Count;
+        if (l3) l3.textContent = level3Count;
+
+        // نقاط المستخدم
+        const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('total_points')
+            .eq('id', user.id)
+            .single();
+        if (pointsVal) pointsVal.textContent = (profile?.total_points || 0).toLocaleString();
+
+        // 6) Referral list
+        const tableBody = document.getElementById('referralTableBody');
+        if (!tableBody) return;
+
+        tableBody.innerHTML = '';
+
+        if (!referrals || referrals.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="3" class="empty-state" data-i18n="no_referrals">' +
+                (typeof t === 'function' ? t('no_referrals') : 'You haven\'t invited anyone yet. Start now! 🚀') +
+                '</td></tr>';
+
+            // ✅ إعادة تطبيق الترجمات على العناصر الجديدة
+            if (typeof applyTranslations === 'function') {
+                applyTranslations();
+            }
+            return;
+        }
+
+        // Get profiles
+        const userIds = referrals.map(r => r.referred_id);
+        const { data: profiles } = await supabaseClient
+            .from('profiles')
+            .select('id, username, full_name')
+            .in('id', userIds);
+
+        const profilesMap = {};
+        (profiles || []).forEach(p => {
+            profilesMap[p.id] = p.full_name || p.username || 'User';
+        });
+
+        referrals.forEach(ref => {
+            const name = profilesMap[ref.referred_id] || 'User';
+            const dateObj = new Date(ref.created_at);
+            const dateStr = dateObj.toLocaleDateString('en-GB');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td dir="ltr">${dateStr}</td>
+                <td style="color:#28a745;font-weight:700;">+${ref.points_awarded || 500}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // ✅ إعادة تطبيق الترجمات على العناصر الجديدة
+        if (typeof applyTranslations === 'function') {
+            applyTranslations();
+        }
+
+    } catch (error) {
+        console.error('Fatal error:', error);
+        if (codeEl) codeEl.textContent = '❌ Error';
+    }
+}
 
         // =========================================================
         // COPY & SHARE
