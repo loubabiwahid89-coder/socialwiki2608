@@ -5,28 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home- SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
-    <!-- ✅ كل السكريبتات الأساسية في <head> -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
+    <style>
+        /* ========== NAVBAR SEARCH ========== */
+        .navbar-search {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+            position: relative;
+        }
+        .navbar-search input {
+            width: 100%;
+            padding: 10px 40px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .navbar-search input::placeholder {
+            color: rgba(255,255,255,0.75);
+        }
+        .navbar-search input:focus {
+            background: white;
+            color: #050505;
+        }
+        .navbar-search input:focus::placeholder {
+            color: #65676b;
+        }
+        .navbar-search .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: rgba(255,255,255,0.85);
+            pointer-events: none;
+            transition: 0.2s;
+        }
+        .navbar-search input:focus ~ .search-icon {
+            color: #65676b;
+        }
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 9999;
+            margin-top: 8px;
+        }
+        .search-results.show {
+            display: block;
+        }
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+            text-decoration: none;
+            color: #050505;
+        }
+        .search-result-item:hover {
+            background: #f0f2f5;
+        }
+        .search-result-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .search-result-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .search-result-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #050505;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-username {
+            font-size: 12px;
+            color: #65676b;
+        }
+        .search-no-results,
+        .search-loading {
+            padding: 20px;
+            text-align: center;
+            color: #65676b;
+            font-size: 14px;
+        }
+        .search-results-header {
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #65676b;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e4e6eb;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 900px) {
+            .navbar-search {
+                max-width: 250px;
+                margin: 0 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar-search {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- ========================================================= -->
-    <!-- NAVBAR -->
-    <!-- ========================================================= -->
     <nav class="navbar">
         <div class="nav-left">
-            <!-- ☰ زر القائمة Hamburger (يظهر فقط في الجوال) -->
-            <button id="hamburgerBtn" onclick="toggleMobileSidebar()" class="hamburger-btn">
-                ☰
-            </button>
-            
-          <a href="index.html" class="logo">
-    <img src="" alt="SocialWiki" class="logo-img">
-    <span>SocialWiki</span>
-</a>
-        
+            <button id="hamburgerBtn" onclick="toggleMobileSidebar()" class="hamburger-btn">☰</button>
+            <a href="index.html" class="logo">
+                <img src="" alt="SocialWiki" class="logo-img">
+                <span>SocialWiki</span>
+            </a>
+        </div>
+
+        <!-- ✅ NAVBAR SEARCH (خارج nav-left) -->
+        <div class="navbar-search">
+            <span class="search-icon">🔍</span>
+            <input 
+                type="text" 
+                id="navbarSearchInput"
+                data-i18n-placeholder="search_placeholder"
+                placeholder="Search SocialWiki..."
+                autocomplete="off"
+                oninput="handleSearchInput(this.value)"
+                onfocus="handleSearchInput(this.value)">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+
         <ul class="nav-icons">
             <li><a href="index.html" class="active" title="Home">🏠</a></li>
             <li><a href="friends.html" title="Friends">👥</a></li>
@@ -35,7 +165,7 @@
             <li><a href="notifications.html" title="Notifications">🔔</a></li>
             <li><a href="messenger.html" title="Messages">💬</a></li>
         </ul>
-        
+
         <div class="nav-right">
             <a href="notifications.html" id="navNotificationBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
                 🔔
@@ -72,12 +202,7 @@
         </div>
     </nav>
 
-    <!-- ========================================================= -->
-    <!-- MAIN 3 COLUMN LAYOUT -->
-    <!-- ========================================================= -->
     <div class="main-container">
-
-        <!-- ========== COLUMN 1: LEFT SIDEBAR ========== -->
         <div class="left-sidebar">
             <a href="profile.html">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="sidebarImg" alt="Profile" style="width: 28px; height: 28px; border-radius: 50%;">
@@ -108,16 +233,12 @@
             <a href="privacy.html"><span class="emoji-icon">🔒</span><span data-i18n="privacy_title">Privacy Policy</span></a>
         </div>
 
-        <!-- ========== COLUMN 2: MAIN CONTENT ========== -->
         <div class="content">
-
-            <!-- Banner -->
             <div style="background: #6E9FC1; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; color: white;">
                 <div data-i18n="earn_points_title" style="font-weight: 700; color: white; font-size: 22px; margin-bottom: 8px;">🎁 Earn Points from Every Activity!</div>
                 <div data-i18n="earn_points_subtitle" style="font-size: 16px; color: white; opacity: 0.95; font-weight: 500;">Invite friends with your referral code — get 50 points per friend!</div>
             </div>
 
-            <!-- Create Post -->
             <div class="create-post">
                 <div class="post-top">
                     <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="postProfileImg" alt="Profile">
@@ -130,7 +251,6 @@
                 </div>
             </div>
 
-            <!-- Stories -->
             <div class="stories">
                 <div class="story-header" data-i18n="story">Stories</div>
                 <div style="position: relative;">
@@ -145,7 +265,6 @@
                 </div>
             </div>
 
-            <!-- ✅ AD #1 -->
             <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
                 <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
                     📢 Advertisement
@@ -157,7 +276,6 @@
                 </button>
             </div>
 
-            <!-- ✅ AD #2 -->
             <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
                 <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
                     📢 Sponsored
@@ -169,13 +287,9 @@
                 </button>
             </div>
 
-            <!-- Feed Container -->
             <div id="feedContainer"></div>
-
         </div>
-    
 
-        <!-- ========== COLUMN 3: RIGHT SIDEBAR ========== -->
         <div class="right-sidebar">
             <div class="right-profile-box">
                 <a href="profile.html" class="right-profile-link">
@@ -212,11 +326,8 @@
             </div>
         </div>
     </div>
-    <!-- ========== ✅ END MAIN CONTAINER ========== -->
 
-    <!-- ========================================================= -->
     <!-- CREATE POST MODAL -->
-    <!-- ========================================================= -->
     <div id="createPostModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -243,9 +354,7 @@
         </div>
     </div>
 
-    <!-- ========================================================= -->
     <!-- FEELING MODAL -->
-    <!-- ========================================================= -->
     <div id="feelingModal" class="modal-overlay">
         <div class="modal-content" style="width: 400px;">
             <div class="modal-header">
@@ -269,9 +378,7 @@
         </div>
     </div>
 
-    <!-- ========================================================= -->
     <!-- STORY MODAL -->
-    <!-- ========================================================= -->
     <div id="storyModal" class="modal-overlay">
         <div class="modal-content" style="width: 400px;">
             <div class="modal-header">
@@ -284,9 +391,7 @@
         </div>
     </div>
 
-    <!-- ========================================================= -->
     <!-- FOOTER -->
-    <!-- ========================================================= -->
     <footer style="background: white; padding: 30px 20px; text-align: center; margin-top: 30px; border-top: 1px solid #e4e6eb;">
         <div style="max-width: 1200px; margin: 0 auto;">
             <div style="margin-bottom: 15px;">
@@ -303,10 +408,7 @@
             </div>
         </div>
     </footer>
-
     
-    
-
     <!-- ========================================================= -->
     <!-- MAIN APP SCRIPT -->
     <!-- ========================================================= -->
@@ -482,35 +584,6 @@
             } catch (error) { console.error('Error:', error); }
         }
 
-        window.searchUsers = async function(query) {
-            if (!query || query.length < 2) {
-                document.getElementById('searchResults').style.display = 'none';
-                return;
-            }
-            const { data: users } = await window.supabaseClient
-                .from('profiles')
-                .select('id, username, full_name, avatar_url')
-                .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
-                .limit(10);
-            const resultsDiv = document.getElementById('searchResults');
-            resultsDiv.innerHTML = '';
-            resultsDiv.style.display = 'block';
-            if (!users || users.length === 0) {
-                resultsDiv.innerHTML = '<div class="search-no-results">No results found</div>';
-                return;
-            }
-            users.forEach(user => {
-                const item = document.createElement('div');
-                item.className = 'search-result-item';
-                item.onclick = () => window.location.href = `profile.html?id=${user.id}`;
-                const avatar = user.avatar_url 
-                    ? `<img src="${user.avatar_url}" alt="Profile">`
-                    : `<img src="https://ui-avatars.com/api/?name=${user.username || 'User'}&background=1877f2&color=fff" alt="Profile">`;
-                item.innerHTML = `${avatar}<div><div class="search-result-name">${user.full_name || user.username}</div><div class="search-result-username">@${user.username}</div></div>`;
-                resultsDiv.appendChild(item);
-            });
-        };
-
         // =========================================================
         // CREATE POST MODAL
         // =========================================================
@@ -552,13 +625,12 @@
                 
                 if (error) { alert('Error: ' + error.message); return; }
 
-// ✅ إكمال مهام النشر
-if (typeof verifyAndCompleteTask === 'function') {
-    verifyAndCompleteTask('create_5_posts');
-    verifyAndCompleteTask('create_50_posts');
-}
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('create_5_posts');
+                    verifyAndCompleteTask('create_50_posts');
+                }
 
-window.uploadedImageUrl = null;
+                window.uploadedImageUrl = null;
                 window.uploadedVideoUrl = null;
                 document.getElementById('videoPreviewArea').innerHTML = '';
                 document.getElementById('imagePreviewArea').innerHTML = '';
@@ -700,14 +772,13 @@ window.uploadedImageUrl = null;
                     user_id: user.id, media_url: fileName, media_type: mediaType
                 });
                 if (error) { alert('DB error: ' + error.message); return; }
-           alert('✅ Story uploaded!');
-closeStoryModal();
-loadStories();
+                alert('✅ Story uploaded!');
+                closeStoryModal();
+                loadStories();
 
-// ✅ إكمال مهمة "Post First Story"
-if (typeof verifyAndCompleteTask === 'function') {
-    verifyAndCompleteTask('first_story');
-}
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('first_story');
+                }
             } catch (error) { alert('Error: ' + error.message); }
         };
 
@@ -826,14 +897,13 @@ if (typeof verifyAndCompleteTask === 'function') {
                     const { error: likeError } = await window.supabaseClient.from('likes').insert({ post_id: postId, user_id: user.id });
                     if (likeError) { console.error('❌ Like insert error:', likeError); return; }
                     btn.textContent = `👍 Liked`;
-btn.style.color = '#1877f2';
+                    btn.style.color = '#1877f2';
 
-// ✅ إكمال مهمة "Like 3 Posts"
-if (typeof verifyAndCompleteTask === 'function') {
-    verifyAndCompleteTask('like_3_posts');
-}
+                    if (typeof verifyAndCompleteTask === 'function') {
+                        verifyAndCompleteTask('like_3_posts');
+                    }
 
-if (postOwnerId !== user.id) {
+                    if (postOwnerId !== user.id) {
                         const { data: senderProfile } = await window.supabaseClient
                             .from('profiles').select('username, full_name').eq('id', user.id).single();
                         const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
@@ -867,15 +937,14 @@ if (postOwnerId !== user.id) {
                 
                 const { error: commentError } = await window.supabaseClient
                     .from('comments').insert({ post_id: postId, user_id: user.id, content: content });
-             if (commentError) { console.error('❌ Comment error:', commentError); return; }
+                if (commentError) { console.error('❌ Comment error:', commentError); return; }
 
-// ✅ إكمال مهام التعليق
-if (typeof verifyAndCompleteTask === 'function') {
-    verifyAndCompleteTask('comment_1');
-    verifyAndCompleteTask('comment_10');
-}
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('comment_1');
+                    verifyAndCompleteTask('comment_10');
+                }
 
-if (post.user_id !== user.id) {
+                if (post.user_id !== user.id) {
                     const { data: senderProfile } = await window.supabaseClient
                         .from('profiles').select('username, full_name').eq('id', user.id).single();
                     const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
@@ -916,16 +985,15 @@ if (post.user_id !== user.id) {
             } catch (error) { console.error('Error:', error); }
         }
 
-      window.sharePost = function(postId) {
-    const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
-    navigator.clipboard.writeText(url);
-    alert('Link copied!');
+        window.sharePost = function(postId) {
+            const url = window.location.href.split('?')[0] + `?post_id=${postId}`;
+            navigator.clipboard.writeText(url);
+            alert('Link copied!');
 
-    // ✅ إكمال مهمة "Share a Post"
-    if (typeof verifyAndCompleteTask === 'function') {
-        verifyAndCompleteTask('share_1_post');
-    }
-};
+            if (typeof verifyAndCompleteTask === 'function') {
+                verifyAndCompleteTask('share_1_post');
+            }
+        };
 
         // =========================================================
         // LOAD POSTS
@@ -1040,120 +1108,113 @@ if (post.user_id !== user.id) {
             return date.toLocaleDateString();
         }
 
-      async function applyPendingReferral() {
-    try {
-        const referralCode = localStorage.getItem('pendingReferralCode');
-        if (!referralCode) return;
+        // =========================================================
+        // APPLY PENDING REFERRAL
+        // =========================================================
+        async function applyPendingReferral() {
+            try {
+                const referralCode = localStorage.getItem('pendingReferralCode');
+                if (!referralCode) return;
 
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (!user) return;
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) return;
 
-        // 1) تحقق من عدم وجود إحالة سابقة
-        const { data: existing } = await window.supabaseClient
-            .from('referrals')
-            .select('id')
-            .eq('referred_id', user.id)
-            .maybeSingle();
+                const { data: existing } = await window.supabaseClient
+                    .from('referrals')
+                    .select('id')
+                    .eq('referred_id', user.id)
+                    .maybeSingle();
 
-        if (existing) {
-            localStorage.removeItem('pendingReferralCode');
-            return;
-        }
+                if (existing) {
+                    localStorage.removeItem('pendingReferralCode');
+                    return;
+                }
 
-        // 2) ابحث عن المُحيل
-        const { data: referrer } = await window.supabaseClient
-            .from('profiles')
-            .select('id')
-            .eq('referral_code', referralCode)
-            .maybeSingle();
+                const { data: referrer } = await window.supabaseClient
+                    .from('profiles')
+                    .select('id')
+                    .eq('referral_code', referralCode)
+                    .maybeSingle();
 
-        if (!referrer || referrer.id === user.id) {
-            localStorage.removeItem('pendingReferralCode');
-            return;
-        }
+                if (!referrer || referrer.id === user.id) {
+                    localStorage.removeItem('pendingReferralCode');
+                    return;
+                }
 
-        // 3) احفظ في referrals
-        await window.supabaseClient.from('referrals').insert({
-            referrer_id: referrer.id,
-            referred_id: user.id,
-            referral_code: referralCode,
-            points_awarded: 50   // ✅ 50
-        });
+                await window.supabaseClient.from('referrals').insert({
+                    referrer_id: referrer.id,
+                    referred_id: user.id,
+                    referral_code: referralCode,
+                    points_awarded: 50
+                });
 
-        // 4) Level 1 - المباشر
-        await window.supabaseClient.from('referral_tree').insert({
-            user_id: user.id,
-            referrer_id: referrer.id,
-            level: 1
-        });
-
-        // 5) Level 2 - غير مباشر
-        const { data: up1 } = await window.supabaseClient
-            .from('referral_tree')
-            .select('referrer_id')
-            .eq('user_id', referrer.id)
-            .eq('level', 1)
-            .maybeSingle();
-
-        if (up1) {
-            await window.supabaseClient.from('referral_tree').insert({
-                user_id: user.id,
-                referrer_id: up1.referrer_id,
-                level: 2
-            });
-
-            // 6) Level 3
-            const { data: up2 } = await window.supabaseClient
-                .from('referral_tree')
-                .select('referrer_id')
-                .eq('user_id', up1.referrer_id)
-                .eq('level', 1)
-                .maybeSingle();
-
-            if (up2) {
                 await window.supabaseClient.from('referral_tree').insert({
                     user_id: user.id,
-                    referrer_id: up2.referrer_id,
-                    level: 3
+                    referrer_id: referrer.id,
+                    level: 1
                 });
+
+                const { data: up1 } = await window.supabaseClient
+                    .from('referral_tree')
+                    .select('referrer_id')
+                    .eq('user_id', referrer.id)
+                    .eq('level', 1)
+                    .maybeSingle();
+
+                if (up1) {
+                    await window.supabaseClient.from('referral_tree').insert({
+                        user_id: user.id,
+                        referrer_id: up1.referrer_id,
+                        level: 2
+                    });
+
+                    const { data: up2 } = await window.supabaseClient
+                        .from('referral_tree')
+                        .select('referrer_id')
+                        .eq('user_id', up1.referrer_id)
+                        .eq('level', 1)
+                        .maybeSingle();
+
+                    if (up2) {
+                        await window.supabaseClient.from('referral_tree').insert({
+                            user_id: user.id,
+                            referrer_id: up2.referrer_id,
+                            level: 3
+                        });
+                    }
+                }
+
+                await window.supabaseClient.rpc('add_earnings', {
+                    p_user_id: referrer.id,
+                    p_post_id: null,
+                    p_source: 'referral',
+                    p_points: 50,
+                    p_dollars: 0.05
+                });
+
+                await window.supabaseClient.rpc('add_earnings', {
+                    p_user_id: user.id,
+                    p_post_id: null,
+                    p_source: 'welcome',
+                    p_points: 100,
+                    p_dollars: 0.10
+                });
+
+                localStorage.removeItem('pendingReferralCode');
+                console.log('✅ Referral applied with 3-level network');
+
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('invite_1_friend');
+                    verifyAndCompleteTask('invite_10');
+                }
+
+                if (typeof showPointsNotification === 'function') {
+                    showPointsNotification(100);
+                }
+            } catch (error) {
+                console.error('❌ Referral error:', error);
             }
         }
-
-        // 7) امنح المُحيل 50 نقطة
-        await window.supabaseClient.rpc('add_earnings', {
-            p_user_id: referrer.id,
-            p_post_id: null,
-            p_source: 'referral',
-            p_points: 50,
-            p_dollars: 0.05
-        });
-
-        // 8) امنح المستخدم الجديد 100 نقطة ترحيب
-        await window.supabaseClient.rpc('add_earnings', {
-            p_user_id: user.id,
-            p_post_id: null,
-            p_source: 'welcome',
-            p_points: 100,
-            p_dollars: 0.10
-        });
-
-        localStorage.removeItem('pendingReferralCode');
-        console.log('✅ Referral applied with 3-level network');
-
-        // ✅ إكمال مهام الإحالة
-        if (typeof verifyAndCompleteTask === 'function') {
-            verifyAndCompleteTask('invite_1_friend');
-            verifyAndCompleteTask('invite_10');
-        }
-
-        // ✅ إشعار واحد فقط في النهاية
-        if (typeof showPointsNotification === 'function') {
-            showPointsNotification(100);
-        }
-    } catch (error) {
-        console.error('❌ Referral error:', error);
-    }
-}
 
         // =========================================================
         // INITIALIZE
@@ -1219,14 +1280,14 @@ if (post.user_id !== user.id) {
     </script>
 
     <!-- ========================================================= -->
-    <!-- 💰 WATCH AD & EARN POINTS + AUTO AD ON PAGE LOAD -->
+    <!-- 💰 WATCH AD & EARN POINTS -->
     <!-- ========================================================= -->
     <script>
     (function() {
         'use strict';
 
         var AD_URL = "https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default";
-        var POINTS_PER_AD = 1;  // نقطة واحدة لكل إعلان
+        var POINTS_PER_AD = 1;
         var DAILY_AD_LIMIT = 20;
 
         if (!sessionStorage.getItem('adOpenedThisSession')) {
@@ -1274,13 +1335,13 @@ if (post.user_id !== user.id) {
                     return;
                 }
 
-               const { error } = await window.supabaseClient.rpc('add_earnings', {
-    p_user_id: user.id,
-    p_post_id: null,
-    p_source: 'ad_reward',
-    p_points: POINTS_PER_AD,      // 1 نقطة
-    p_dollars: 0.001              // 0.1 سنت
-});
+                const { error } = await window.supabaseClient.rpc('add_earnings', {
+                    p_user_id: user.id,
+                    p_post_id: null,
+                    p_source: 'ad_reward',
+                    p_points: POINTS_PER_AD,
+                    p_dollars: 0.001
+                });
 
                 if (error) {
                     console.error('❌ add_earnings error:', error);
@@ -1322,7 +1383,124 @@ if (post.user_id !== user.id) {
     })();
     </script>
 
+    <!-- ========================================================= -->
+    <!-- 🔍 NAVBAR SEARCH - Search Users -->
+    <!-- ========================================================= -->
+    <script>
+    (function() {
+        'use strict';
+        
+        let searchTimeout = null;
 
+        window.handleSearchInput = function(query) {
+            const resultsDiv = document.getElementById('searchResults');
+            if (!resultsDiv) return;
+
+            if (!query || query.trim().length < 2) {
+                resultsDiv.classList.remove('show');
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            resultsDiv.classList.add('show');
+            resultsDiv.innerHTML = '<div class="search-loading">⏳ ' + 
+                (typeof t === 'function' ? t('loading') : 'Loading...') + 
+                '</div>';
+
+            if (searchTimeout) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                performUserSearch(query.trim());
+            }, 300);
+        };
+
+        async function performUserSearch(query) {
+            const resultsDiv = document.getElementById('searchResults');
+            if (!resultsDiv) return;
+            if (!window.supabaseClient) {
+                resultsDiv.innerHTML = '<div class="search-no-results">❌ Supabase not ready</div>';
+                return;
+            }
+
+            try {
+                const { data: users, error } = await window.supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
+                    .limit(10);
+
+                if (error) {
+                    console.error('❌ Search error:', error);
+                    resultsDiv.innerHTML = '<div class="search-no-results">❌ ' + 
+                        (typeof t === 'function' ? t('error_occurred') : 'An error occurred') + 
+                        '</div>';
+                    return;
+                }
+
+                if (!users || users.length === 0) {
+                    resultsDiv.innerHTML = '<div class="search-no-results">🔍 ' + 
+                        (typeof t === 'function' ? t('no_results') : 'No results') + 
+                        '</div>';
+                    return;
+                }
+
+                resultsDiv.innerHTML = '<div class="search-results-header">' + 
+                    (typeof t === 'function' ? t('search_results') : 'Search Results') + 
+                    '</div>';
+
+                users.forEach(function(user) {
+                    const name = user.full_name || user.username || 'User';
+                    const username = user.username || 'user';
+                    const avatar = user.avatar_url || 
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+                    const item = document.createElement('a');
+                    item.className = 'search-result-item';
+                    item.href = `profile.html?id=${user.id}`;
+                    item.innerHTML = `
+                        <img src="${avatar}" alt="${escapeHtmlSearch(name)}">
+                        <div class="search-result-info">
+                            <div class="search-result-name">${escapeHtmlSearch(name)}</div>
+                            <div class="search-result-username">@${escapeHtmlSearch(username)}</div>
+                        </div>
+                    `;
+                    resultsDiv.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error('❌ Search error:', error);
+                resultsDiv.innerHTML = '<div class="search-no-results">❌ Error</div>';
+            }
+        }
+
+        function escapeHtmlSearch(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('click', function(e) {
+            const searchDiv = document.querySelector('.navbar-search');
+            const resultsDiv = document.getElementById('searchResults');
+            if (searchDiv && resultsDiv && !searchDiv.contains(e.target)) {
+                resultsDiv.classList.remove('show');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const resultsDiv = document.getElementById('searchResults');
+                const input = document.getElementById('navbarSearchInput');
+                if (resultsDiv) resultsDiv.classList.remove('show');
+                if (input) input.blur();
+            }
+        });
+
+        console.log('✅ Navbar search initialized');
+    })();
+    </script>
+    
+    <script src="js/messenger-notify.js"></script>
 
 </body>
 </html>
