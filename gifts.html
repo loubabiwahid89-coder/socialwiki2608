@@ -320,29 +320,87 @@
         .toast .toast-icon { font-size: 22px; }
 
         /* ========== FULL SCREEN ANIMATION (TikTok style) ========== */
-        .gift-animation {
+              .gift-animation {
             position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8);
-            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.85);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             z-index: 999999; pointer-events: none;
-            animation: fadeInOut 3s ease-out forwards;
+            animation: fadeInOut 4s ease-out forwards;
+            overflow: hidden;
         }
         .gift-animation .emoji {
             font-size: 200px;
-            animation: explode 3s ease-out;
+            animation: explode 4s ease-out;
+            filter: drop-shadow(0 0 40px rgba(255,215,0,0.8));
+        }
+        .gift-animation .gift-label {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            margin-top: 20px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            animation: slideUp 4s ease-out;
+            z-index: 10;
         }
         @keyframes fadeInOut {
             0% { opacity: 0; }
             10% { opacity: 1; }
-            80% { opacity: 1; }
+            85% { opacity: 1; }
             100% { opacity: 0; }
         }
         @keyframes explode {
             0% { transform: scale(0) rotate(0deg); }
-            50% { transform: scale(1.5) rotate(20deg); }
+            20% { transform: scale(1.8) rotate(15deg); }
+            50% { transform: scale(1.5) rotate(-10deg); }
+            80% { transform: scale(1.6) rotate(5deg); }
             100% { transform: scale(3) rotate(-20deg); opacity: 0; }
         }
+        @keyframes slideUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            20% { transform: translateY(0); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-20px); opacity: 0; }
+        }
 
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            opacity: 0.9;
+            animation: confettiFall 3s linear forwards;
+            z-index: 5;
+            top: -20px;
+        }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Legendary special effect */
+        .gift-animation.legendary-anim {
+            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(0,0,0,0.95) 70%);
+        }
+        .gift-animation.legendary-anim .emoji {
+            animation: legendaryPulse 4s ease-out;
+            filter: drop-shadow(0 0 60px rgba(255,215,0,1)) drop-shadow(0 0 100px rgba(255,100,0,0.8));
+        }
+               @keyframes legendaryPulse {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            10% { transform: scale(2) rotate(20deg); opacity: 1; }
+            30% { transform: scale(1.4) rotate(-15deg); }
+            50% { transform: scale(1.8) rotate(10deg); }
+            70% { transform: scale(1.5) rotate(-5deg); }
+            100% { transform: scale(4) rotate(-30deg); opacity: 0; }
+        }
         /* ========== RESPONSIVE ========== */
         @media (max-width: 700px) {
             .gifts-header { padding: 20px; flex-direction: column; text-align: center; }
@@ -793,13 +851,100 @@
         // =========================================================
         // FULL SCREEN GIFT ANIMATION
         // =========================================================
+            // =========================================================
+        // 🎵 GIFT SOUNDS MAP
+        // =========================================================
+        const giftSounds = {
+            '🦁': 'sounds/sound-lion.mp3',
+            '🐉': 'sounds/voice-dragon.mp3',
+            '🚀': 'sounds/sound-rocket.mp3',
+            '✈️': 'sounds/sound-rocket.mp3',
+            '🏆': 'sounds/voice-waw.mp3',
+            '👑': 'sounds/voice-waw.mp3',
+            '🦄': 'sounds/voice-waw.mp3',
+            '🚗': 'sounds/voice-waw.mp3',
+            '🏍️': 'sounds/voice-waw.mp3',
+            '💎': 'sounds/voice-waw.mp3',
+            '💍': 'sounds/voice-waw.mp3',
+            '🛥️': 'sounds/voice-waw.mp3',
+            '🏰': 'sounds/voice-waw.mp3',
+            'default': 'sounds/voice-waw.mp3'
+        };
+
+        // =========================================================
+        // 🎵 PLAY GIFT SOUND
+        // =========================================================
+        function playGiftSound(giftIcon) {
+            const soundUrl = giftSounds[giftIcon] || giftSounds['default'];
+            try {
+                const audio = new Audio(soundUrl);
+                audio.volume = 0.7;
+                audio.play().catch(e => console.log('🔇 Audio blocked:', e.message));
+            } catch (e) {
+                console.log('🔇 Sound error:', e);
+            }
+        }
+
+        // =========================================================
+        // 🎉 CREATE CONFETTI
+        // =========================================================
+        function createConfetti(count = 50) {
+            const colors = ['#ffd700', '#ff6b6b', '#4facfe', '#a855f7', '#28a745', '#ec4899'];
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    confetti.style.width = (8 + Math.random() * 12) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+
+                    document.querySelector('.gift-animation')?.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 30);
+            }
+        }
+
+        // =========================================================
+        // 🎬 FULL SCREEN GIFT ANIMATION (TikTok style)
+        // =========================================================
         function showGiftAnimation(gift) {
+            // 1. تشغيل الصوت
+            playGiftSound(gift.icon);
+
+            // 2. تحديد نوع الهدية
+            const isLegendary = gift.category === 'legendary';
+            const isPremium = gift.category === 'premium';
+            const isBig = gift.category === 'big';
+
+            // 3. إنشاء عنصر الأنيميشن
             const anim = document.createElement('div');
             anim.className = 'gift-animation';
-            anim.innerHTML = `<div class="emoji">${gift.icon}</div>`;
+            if (isLegendary) anim.classList.add('legendary-anim');
+
+            anim.innerHTML = `
+                <div class="emoji">${gift.icon}</div>
+                <div class="gift-label">${gift.name_ar || gift.name_en}</div>
+            `;
+
             document.body.appendChild(anim);
 
-            setTimeout(() => anim.remove(), 3000);
+            // 4. Confetti للهدايا الكبيرة والأسطورية
+            if (isLegendary) {
+                createConfetti(100);
+                setTimeout(() => createConfetti(50), 500);
+                setTimeout(() => createConfetti(50), 1000);
+            } else if (isPremium || isBig) {
+                createConfetti(60);
+            } else if (gift.cost_points > 0) {
+                createConfetti(20);
+            }
+
+            // 5. إزالة بعد 4 ثواني
+            setTimeout(() => anim.remove(), 4000);
         }
 
         // =========================================================
