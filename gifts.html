@@ -393,14 +393,26 @@
                 <h1>🎁 <span data-i18n="gifts_title">Gifts</span></h1>
                 <p data-i18n="gifts_subtitle">Send gifts to your friends and make them happy</p>
             </div>
-            <div class="header-right">
+                      <div class="header-right">
+                <!-- Real Points -->
                 <div class="balance-display">
                     <span class="icon">🪙</span>
                     <div>
                         <div class="amount" id="myBalance">0</div>
-                        <div class="label" data-i18n="points">points</div>
+                        <div class="label" data-i18n="real_points">Real Points</div>
                     </div>
                 </div>
+
+                <!-- Gift Points (جديد) -->
+                <div class="balance-display" style="background: linear-gradient(135deg, #ffd700, #f7b928);">
+                    <span class="icon">🎁</span>
+                    <div>
+                        <div class="amount" id="myGiftPoints" style="color: #333;">0</div>
+                        <div class="label" style="color: #333;" data-i18n="gift_points">Gift Points</div>
+                    </div>
+                </div>
+
+                <!-- Buy Points -->
                 <a href="buy-points.html" class="buy-points-btn">
                     💰 <span data-i18n="buy_points">Buy Points</span>
                 </a>
@@ -485,10 +497,11 @@
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let currentUser = null;
+             let currentUser = null;
         let allGifts = [];
         let selectedGift = null;
         let currentBalance = 0;
+        let currentGiftPoints = 0;  // ✅ جديد
 
         // =========================================================
         // LOGOUT
@@ -501,6 +514,9 @@
         // =========================================================
         // LOAD USER
         // =========================================================
+                // =========================================================
+        // LOAD USER
+        // =========================================================
         async function loadUser() {
             const { data: { user } } = await supabaseClient.auth.getUser();
             if (!user) {
@@ -509,27 +525,38 @@
             }
             currentUser = user;
 
+            // جلب بيانات البروفايل
             const { data: profile } = await supabaseClient
                 .from('profiles')
                 .select('username, full_name, avatar_url')
                 .eq('id', user.id)
                 .single();
 
+            // جلب الرصيد (نقاط حقيقية + نقاط هدايا)
             const { data: balance } = await supabaseClient
                 .from('user_balances')
-                .select('available_points')
+                .select('available_points, gift_points')
                 .eq('user_id', user.id)
                 .maybeSingle();
 
             const name = profile?.full_name || profile?.username || 'User';
             const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+            
             currentBalance = balance?.available_points || 0;
+            currentGiftPoints = balance?.gift_points || 0;
 
+            // تحديث Navbar
             document.getElementById('navProfileName').textContent = name;
             document.getElementById('navProfileImg').src = avatar;
-            document.getElementById('myBalance').textContent = currentBalance.toLocaleString();
 
-            return { currentBalance };
+            // تحديث عرض الرصيد
+            const balanceEl = document.getElementById('myBalance');
+            if (balanceEl) balanceEl.textContent = currentBalance.toLocaleString();
+
+            const giftPointsEl = document.getElementById('myGiftPoints');
+            if (giftPointsEl) giftPointsEl.textContent = currentGiftPoints.toLocaleString();
+
+                      return { currentBalance, currentGiftPoints };
         }
 
         // =========================================================
