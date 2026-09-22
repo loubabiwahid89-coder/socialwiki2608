@@ -428,11 +428,10 @@
             <li><a href="messenger.html" title="Messages">💬</a></li>
         </ul>
         <div class="nav-right">
-            <a href="profile.html" class="nav-profile">
-                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
-                <span id="navProfileName">User</span>
-            </a>
-            
+          <a href="profile.html" class="nav-profile">
+    <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+    <span id="navProfileName">User</span>
+</a>      
             <!-- زر اللغة -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
@@ -676,190 +675,201 @@
         // =========================================================
         // LOAD PROFILE
         // =========================================================
-        async function loadProfile() {
-            const userId = getUserIdFromUrl();
-            
-            if (!userId) {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (user) {
-                    profileUserId = user.id;
-                    loadUserProfile(user.id);
-                } else {
-                    window.location.href = 'auth.html';
-                }
-            } else {
-                profileUserId = userId;
-                loadUserProfile(userId);
-            }
+       async function loadProfile() {
+    // profileUserId تم تعيينه بالفعل في DOMContentLoaded
+    if (profileUserId) {
+        loadUserProfile(profileUserId);
+    } else {
+        window.location.href = 'auth.html';
+    }
+}
+        
+        // =========================================================
+// ✅ التحقق من الشارات الجديدة وإرسال إشعار
+// =========================================================
+async function checkForNewBadges(userId, badges) {
+    if (!badges || badges.length === 0) return;
+    
+    try {
+        // جلب الشارات التي شاهدها المستخدم سابقاً
+        const { data: seenBadges, error } = await supabaseClient
+            .from('user_badge_notifications')
+            .select('badge_country')
+            .eq('user_id', userId);
+        
+        if (error) {
+            console.error('Error fetching seen badges:', error);
+            return;
         }
         
+        const seenCountries = (seenBadges || []).map(b => b.badge_country);
+        
+        // البحث عن شارات جديدة
+        for (const badge of badges) {
+            if (!seenCountries.includes(badge.country)) {
+                // إرسال إشعار
+                await sendBadgeNotification(userId, badge);
+                
+                // تسجيل الشارة كمشاهدة
+                await supabaseClient
+                    .from('user_badge_notifications')
+                    .insert({
+                        user_id: userId,
+                        badge_country: badge.country,
+                        is_read: false
+                    });
+            }
+        }
+    } catch (err) {
+        console.error('Error checking badges:', err);
+    }
+}
+
+// =========================================================
+// ✅ إرسال إشعار الشارة
+// =========================================================
+async function sendBadgeNotification(userId, badge) {
+    try {
+        // ✅ استخدام الترجمة حسب لغة المستخدم
+        const congratsText = typeof t === 'function' 
+            ? t('badge_awarded', getCurrentLanguage()) 
+            : '🏆 Congratulations! You earned a new badge!';
+        
+        const firstMemberText = typeof t === 'function' 
+            ? t('first_member_from', getCurrentLanguage()) 
+            : 'First member from';
+        
+        const message = `${congratsText} "${firstMemberText} ${badge.country}"`;
+        
+        await supabaseClient
+            .from('notifications')
+            .insert({
+                receiver_id: userId,
+                sender_id: userId,
+                type: 'badge_awarded',
+                message: message,
+                is_read: false
+            });
+        
+        console.log('✅ Badge notification sent:', badge.country);
+    } catch (err) {
+        console.error('Error sending badge notification:', err);
+    }
+}
+
         // =========================================================
         // LOAD USER PROFILE DATA
         // =========================================================
-        async function loadUserProfile(userId) {
-            try {
-                const { data: profile, error } = await supabaseClient
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', userId)
-                    .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
-                
-                const username = profile?.username || 'User';
-                const fullName = profile?.full_name || 'User';
-                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                const coverUrl = profile?.cover_url || 'https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff';
-                
-                document.getElementById('profileName').textContent = fullName;
-                document.getElementById('profileUsername').textContent = '@' + username;
-                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
-                document.getElementById('avatarImg').src = avatarUrl;
-                document.getElementById('coverImg').src = coverUrl;
+       async function loadUserProfile(userId) {
+    try {
+        const { data: profile, error } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+        
+        if (error) {
+            console.error('Error loading profile:', error);
+            return;
+        }
+        
+        const username = profile?.username || 'User';
+        const fullName = profile?.full_name || 'User';
+        const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+        const coverUrl = profile?.cover_url || 'https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff';
+        
+        document.getElementById('profileName').textContent = fullName;
+        document.getElementById('profileUsername').textContent = '@' + username;
+        document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+        document.getElementById('avatarImg').src = avatarUrl;
+        document.getElementById('coverImg').src = coverUrl;
 
-       // ✅ عرض الشارات (Badges)
-const badges = profile?.badges || [];
-const badgesContainer = document.getElementById('userBadges');
-
-console.log('🏆 Badges:', badges);
-
-if (badgesContainer) {
-    if (badges.length > 0) {
-        badgesContainer.innerHTML = badges.map(badge => `
-            <div style="
-                display: inline-flex;
-                align-items: center;
-                gap: 10px;
-                padding: 12px 22px;
-                background: linear-gradient(135deg, #ffd700, #f7b928);
-                color: #333;
-                border-radius: 30px;
-                font-weight: 700;
-                font-size: 15px;
-                box-shadow: 0 6px 20px rgba(247, 185, 40, 0.5), inset 0 2px 4px rgba(255,255,255,0.5);
-                border: 3px solid #fff;
-                animation: badgePop 0.5s ease-out;
-                position: relative;
-                overflow: hidden;
-            ">
-                              <img src="${badge.flag}" style="width: 28px; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" alt="${badge.country}">
-<span style="font-size: 26px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">${badge.icon}</span>
-<span>First Member from ${badge.country}</span>
-                <span style="
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-                    animation: shine 3s infinite;
-                "></span>
-            </div>
-        `).join('');
-        badgesContainer.style.display = 'flex';
-    } else {
-        badgesContainer.style.display = 'none';
-    }
-}
-                
-                const navProfileName = document.getElementById('navProfileName');
-                if (navProfileName) navProfileName.textContent = fullName;
-                
-                const navProfileImg = document.getElementById('navProfileImg');
-                if (navProfileImg) navProfileImg.src = avatarUrl;
-                
-                // عدد المنشورات
-                const { count: postsCount } = await supabaseClient
-                    .from('posts')
-                    .select('id', { count: 'exact', head: true })
-                    .eq('user_id', userId);
-                
-                document.getElementById('postsCount').textContent = postsCount || 0;
-                
-                // 🆕 عدد الأصدقاء
-                const { count: friendsCount } = await supabaseClient
-                    .from('friends')
-                    .select('id', { count: 'exact', head: true })
-                    .eq('user_id', userId);
-                
-                document.getElementById('friendsCount').textContent = friendsCount || 0;
-                
-                // جلب المنشورات
-                loadUserPosts(userId);
-                
-                // تفعيل تحريك وتكبير الصور
-                enableDragZoom('coverContainer', 'coverImg');
-                enableDragZoom('avatarContainer', 'avatarImg');
-                
-            } catch (error) {
-                console.error('Error:', error);
+        // ✅ عرض الشارات (Badges)
+        const badges = profile?.badges || [];
+        const badgesContainer = document.getElementById('userBadges');
+        
+        console.log('🏆 Badges:', badges);
+        
+        // ✅ التحقق من الشارات الجديدة (هنا المكان الصحيح)
+        if (profileUserId === currentUserId || !currentUserId) {
+            checkForNewBadges(userId, badges);
+        }
+        
+        if (badgesContainer) {
+            if (badges.length > 0) {
+                badgesContainer.innerHTML = badges.map(badge => `
+                    <div style="
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 12px 22px;
+                        background: linear-gradient(135deg, #ffd700, #f7b928);
+                        color: #333;
+                        border-radius: 30px;
+                        font-weight: 700;
+                        font-size: 15px;
+                        box-shadow: 0 6px 20px rgba(247, 185, 40, 0.5), inset 0 2px 4px rgba(255,255,255,0.5);
+                        border: 3px solid #fff;
+                        animation: badgePop 0.5s ease-out;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <img src="${badge.flag}" style="width: 28px; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" alt="${badge.country}">
+                        <span style="font-size: 26px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">${badge.icon}</span>
+                        <span>First Member from ${badge.country}</span>
+                        <span style="
+                            position: absolute;
+                            top: 0;
+                            left: -100%;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                            animation: shine 3s infinite;
+                        "></span>
+                    </div>
+                `).join('');
+                badgesContainer.style.display = 'flex';
+            } else {
+                badgesContainer.style.display = 'none';
             }
         }
         
-        // =========================================================
-        // LOAD USER POSTS
-        // =========================================================
-        async function loadUserPosts(userId) {
-            try {
-                const { data: posts, error } = await supabaseClient
-                    .from('posts')
-                    .select('*')
-                    .eq('user_id', userId)
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Error loading posts:', error);
-                    return;
-                }
-                
-                const postsContainer = document.getElementById('userPosts');
-                if (!postsContainer) return;
-                
-                postsContainer.innerHTML = '';
-                
-                if (!posts || posts.length === 0) {
-                    postsContainer.innerHTML = '<p style="color: #65676b; text-align: center;">No posts yet</p>';
-                    return;
-                }
-                
-                posts.forEach(post => {
-                    const postDiv = document.createElement('div');
-                    postDiv.className = 'profile-post';
-                    
-                    const timeAgo = formatTimeAgo(post.created_at);
-                    
-                    let contentHTML = '';
-                    if (post.content) {
-                        contentHTML += `<p>${escapeHtml(post.content)}</p>`;
-                    }
-                    if (post.image_url) {
-                        contentHTML += `<img src="${post.image_url}" style="width:100%;border-radius:8px;margin-top:10px;">`;
-                    }
-                    if (post.video_url) {
-                        contentHTML += `<video src="${post.video_url}" controls playsinline style="width:100%;border-radius:8px;margin-top:10px;"></video>`;
-                    }
-                    
-                    postDiv.innerHTML = `
-                        ${contentHTML}
-                        <div class="profile-post-footer" style="margin-top:10px;">
-                            <span>${timeAgo}</span>
-                            <div class="profile-post-actions">
-                                <span class="profile-post-action">👍 Like</span>
-                                <span class="profile-post-action">💬 Comment</span>
-                            </div>
-                        </div>
-                    `;
-                    
-                    postsContainer.appendChild(postDiv);
-                });
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
+        // ✅ تحديث Navbar باسم المستخدم الحقيقي (فقط لصاحب الحساب)
+        if (profileUserId === currentUserId || !getUserIdFromUrl()) {
+            const navProfileName = document.getElementById('navProfileName');
+            if (navProfileName) navProfileName.textContent = fullName;
+            
+            const navProfileImg = document.getElementById('navProfileImg');
+            if (navProfileImg) navProfileImg.src = avatarUrl;
         }
+        
+        // عدد المنشورات
+        const { count: postsCount } = await supabaseClient
+            .from('posts')
+            .select('id', { count: 'exact', head: true })
+            .eq('user_id', userId);
+        
+        document.getElementById('postsCount').textContent = postsCount || 0;
+        
+        // 🆕 عدد الأصدقاء
+        const { count: friendsCount } = await supabaseClient
+            .from('friends')
+            .select('id', { count: 'exact', head: true })
+            .eq('user_id', userId);
+        
+        document.getElementById('friendsCount').textContent = friendsCount || 0;
+        
+        // جلب المنشورات
+        loadUserPosts(userId);
+        
+        // تفعيل تحريك وتكبير الصور
+        enableDragZoom('coverContainer', 'coverImg');
+        enableDragZoom('avatarContainer', 'avatarImg');
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
         
         // =========================================================
         // CHANGE AVATAR
@@ -1344,26 +1354,34 @@ if (badgesContainer) {
         // =========================================================
         // INITIALIZE
         // =========================================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🔴 profile.html loaded');
-            
-            if (typeof getCurrentLanguage === 'function') {
-                const lang = getCurrentLanguage();
-                setLanguage(lang);
-                applyTranslations();
-            }
-            
-            profileUserId = getUserIdFromUrl();
-            
-            if (!profileUserId) {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                profileUserId = user?.id;
-            }
-            
-            await loadProfile();
-            
-            setTimeout(checkFriendshipStatus, 500);
-        });
+     document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🔴 profile.html loaded');
+    
+    if (typeof getCurrentLanguage === 'function') {
+        const lang = getCurrentLanguage();
+        setLanguage(lang);
+        applyTranslations();
+    }
+    
+    // ✅ احصل على المستخدم الحالي أولاً
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    currentUserId = user?.id || null;
+    
+    profileUserId = getUserIdFromUrl();
+    
+    if (!profileUserId) {
+        if (user) {
+            profileUserId = user.id;
+        } else {
+            window.location.href = 'auth.html';
+            return;
+        }
+    }
+    
+    await loadProfile();
+    
+    setTimeout(checkFriendshipStatus, 500);
+});
         
         // =========================================================
         // MAKE FUNCTIONS GLOBAL
