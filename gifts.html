@@ -46,6 +46,11 @@
         }
         .gifts-header h1 { margin: 0 0 8px; font-size: 32px; }
         .gifts-header p { margin: 0; font-size: 16px; opacity: 0.95; }
+
+        .header-right {
+            display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+        }
+
         .balance-display {
             background: white; padding: 15px 25px; border-radius: 50px;
             display: flex; align-items: center; gap: 10px;
@@ -55,10 +60,25 @@
         .balance-display .amount { font-size: 24px; font-weight: 800; color: #1877f2; }
         .balance-display .label { font-size: 13px; color: #65676b; }
 
+        .buy-points-btn {
+            background: linear-gradient(135deg, #ffd700, #ff9800);
+            color: #333; text-decoration: none;
+            padding: 15px 25px; border-radius: 50px;
+            font-weight: 800; font-size: 15px;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+            transition: 0.2s;
+        }
+        .buy-points-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+        }
+
         /* ========== FILTERS ========== */
         .filters {
             display: flex; gap: 10px; margin-bottom: 20px;
             flex-wrap: wrap; overflow-x: auto;
+            padding-bottom: 5px;
         }
         .filter-btn {
             padding: 10px 20px; border: 2px solid #e4e6eb;
@@ -70,6 +90,11 @@
         .filter-btn.active {
             background: #1877f2; color: white; border-color: #1877f2;
         }
+        .filter-btn.free.active { background: #28a745; border-color: #28a745; }
+        .filter-btn.legendary.active {
+            background: linear-gradient(135deg, #ffd700, #ff9800);
+            color: #333; border-color: #ffd700;
+        }
 
         /* ========== GIFTS GRID ========== */
         .gifts-grid {
@@ -78,6 +103,7 @@
             gap: 20px;
             margin-bottom: 30px;
         }
+
         .gift-card {
             background: white; border-radius: 16px; padding: 25px 20px;
             text-align: center; cursor: pointer; transition: 0.3s;
@@ -98,6 +124,21 @@
             opacity: 0; transition: 0.3s;
         }
         .gift-card:hover::before { opacity: 1; }
+
+        /* Card colors by category */
+        .gift-card[data-category="free"]:hover { border-color: #28a745; }
+        .gift-card[data-category="free"]::before { background: linear-gradient(90deg, #28a745, #5dd37a); }
+        .gift-card[data-category="small"]:hover { border-color: #cd7f32; }
+        .gift-card[data-category="small"]::before { background: linear-gradient(90deg, #cd7f32, #daa06d); }
+        .gift-card[data-category="medium"]:hover { border-color: #94a3b8; }
+        .gift-card[data-category="medium"]::before { background: linear-gradient(90deg, #94a3b8, #cbd5e1); }
+        .gift-card[data-category="big"]:hover { border-color: #ffd700; }
+        .gift-card[data-category="big"]::before { background: linear-gradient(90deg, #ffd700, #ffed4e); }
+        .gift-card[data-category="premium"]:hover { border-color: #a855f7; }
+        .gift-card[data-category="premium"]::before { background: linear-gradient(90deg, #a855f7, #c084fc); }
+        .gift-card[data-category="legendary"]:hover { border-color: #ef4444; box-shadow: 0 12px 30px rgba(239, 68, 68, 0.3); }
+        .gift-card[data-category="legendary"]::before { background: linear-gradient(90deg, #ffd700, #ef4444, #a855f7); }
+
         .gift-icon {
             font-size: 60px; margin-bottom: 15px;
             display: inline-block; transition: 0.3s;
@@ -108,6 +149,7 @@
         .gift-name {
             font-weight: 700; font-size: 16px;
             color: #050505; margin-bottom: 10px;
+            min-height: 40px;
         }
         .gift-cost {
             display: inline-flex; align-items: center; gap: 5px;
@@ -115,14 +157,40 @@
             border-radius: 20px; font-size: 14px;
             font-weight: 700; color: #1877f2;
         }
+        .gift-cost.free-cost {
+            background: linear-gradient(135deg, #d4edda, #a8e6b8);
+            color: #155724;
+        }
+
         .gift-category-badge {
             position: absolute; top: 10px; right: 10px;
             font-size: 10px; padding: 3px 8px;
             border-radius: 8px; font-weight: 700;
+            text-transform: uppercase;
         }
-        .gift-category-badge.small { background: #e7f7e7; color: #28a745; }
-        .gift-category-badge.medium { background: #fff4e5; color: #f0ad4e; }
-        .gift-category-badge.big { background: #fce7ff; color: #a855f7; }
+        .gift-category-badge.free { background: #d4edda; color: #155724; }
+        .gift-category-badge.small { background: #fce7d4; color: #8b4513; }
+        .gift-category-badge.medium { background: #e2e8f0; color: #475569; }
+        .gift-category-badge.big { background: #fff9c4; color: #b45309; }
+        .gift-category-badge.premium { background: #f3e8ff; color: #7c3aed; }
+        .gift-category-badge.legendary {
+            background: linear-gradient(135deg, #ffd700, #ff9800);
+            color: #333;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .free-label {
+            position: absolute; top: 10px; left: 10px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 3px 10px;
+            border-radius: 8px; font-size: 10px;
+            font-weight: 800; letter-spacing: 0.5px;
+        }
 
         .loading-spinner {
             grid-column: 1 / -1; text-align: center;
@@ -164,6 +232,14 @@
             text-align: center; padding: 25px;
             background: linear-gradient(135deg, #f0f7ff, #e5f0ff);
             border-radius: 16px; margin-bottom: 20px;
+            position: relative;
+        }
+        .gift-preview.free-preview {
+            background: linear-gradient(135deg, #d4edda, #a8e6b8);
+        }
+        .gift-preview.legendary-preview {
+            background: linear-gradient(135deg, #fff9c4, #ffe082);
+            border: 3px solid #ffd700;
         }
         .gift-preview .icon { font-size: 70px; margin-bottom: 10px; }
         .gift-preview .name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
@@ -171,6 +247,9 @@
             display: inline-block; background: #1877f2;
             color: white; padding: 8px 20px;
             border-radius: 20px; font-weight: 700;
+        }
+        .gift-preview .cost.free-cost {
+            background: linear-gradient(135deg, #28a745, #20c997);
         }
 
         .form-group { margin-bottom: 18px; }
@@ -214,6 +293,9 @@
             opacity: 0.6; cursor: not-allowed;
             transform: none;
         }
+        .btn-send.free-send {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
 
         /* ========== EMPTY STATE ========== */
         .empty-state {
@@ -222,7 +304,7 @@
         }
         .empty-state-icon { font-size: 60px; margin-bottom: 15px; }
 
-        /* ========== TOAST NOTIFICATION ========== */
+        /* ========== TOAST ========== */
         .toast {
             position: fixed; top: 80px; left: 50%;
             transform: translateX(-50%) translateY(-100px);
@@ -237,14 +319,41 @@
         .toast.error { border-right-color: #f02849; }
         .toast .toast-icon { font-size: 22px; }
 
+        /* ========== FULL SCREEN ANIMATION (TikTok style) ========== */
+        .gift-animation {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999999; pointer-events: none;
+            animation: fadeInOut 3s ease-out forwards;
+        }
+        .gift-animation .emoji {
+            font-size: 200px;
+            animation: explode 3s ease-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes explode {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.5) rotate(20deg); }
+            100% { transform: scale(3) rotate(-20deg); opacity: 0; }
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 700px) {
-            .gifts-header { padding: 20px; }
+            .gifts-header { padding: 20px; flex-direction: column; text-align: center; }
             .gifts-header h1 { font-size: 24px; }
+            .header-right { width: 100%; justify-content: center; }
             .gifts-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .gift-card { padding: 18px 12px; }
             .gift-icon { font-size: 45px; }
-            .gift-name { font-size: 14px; }
+            .gift-name { font-size: 14px; min-height: 35px; }
+            .balance-display .amount { font-size: 20px; }
+            .buy-points-btn { padding: 12px 20px; font-size: 13px; }
         }
     </style>
 </head>
@@ -284,28 +393,42 @@
                 <h1>🎁 <span data-i18n="gifts_title">Gifts</span></h1>
                 <p data-i18n="gifts_subtitle">Send gifts to your friends and make them happy</p>
             </div>
-            <div class="balance-display">
-                <span class="icon">🪙</span>
-                <div>
-                    <div class="amount" id="myBalance">0</div>
-                    <div class="label" data-i18n="points">points</div>
+            <div class="header-right">
+                <div class="balance-display">
+                    <span class="icon">🪙</span>
+                    <div>
+                        <div class="amount" id="myBalance">0</div>
+                        <div class="label" data-i18n="points">points</div>
+                    </div>
                 </div>
+                <a href="buy-points.html" class="buy-points-btn">
+                    💰 <span data-i18n="buy_points">Buy Points</span>
+                </a>
             </div>
         </div>
 
         <!-- FILTERS -->
         <div class="filters">
             <button class="filter-btn active" onclick="filterGifts('all', this)">
-                ✨ <span data-i18n="all_gifts">All Gifts</span>
+                ✨ <span data-i18n="all_gifts">All</span>
+            </button>
+            <button class="filter-btn free" onclick="filterGifts('free', this)">
+                🆓 <span data-i18n="free_gifts">Free</span>
             </button>
             <button class="filter-btn" onclick="filterGifts('small', this)">
-                🥉 <span data-i18n="small_gifts">Small (1-20)</span>
+                🥉 <span data-i18n="small_gifts">Small</span>
             </button>
             <button class="filter-btn" onclick="filterGifts('medium', this)">
-                🥈 <span data-i18n="medium_gifts">Medium (50-200)</span>
+                🥈 <span data-i18n="medium_gifts">Medium</span>
             </button>
             <button class="filter-btn" onclick="filterGifts('big', this)">
-                🥇 <span data-i18n="big_gifts">Big (500-1000)</span>
+                🥇 <span data-i18n="big_gifts">Big</span>
+            </button>
+            <button class="filter-btn" onclick="filterGifts('premium', this)">
+                👑 <span data-i18n="premium_gifts">Premium</span>
+            </button>
+            <button class="filter-btn legendary" onclick="filterGifts('legendary', this)">
+                💎 <span data-i18n="legendary_gifts">Legendary</span>
             </button>
         </div>
 
@@ -324,7 +447,7 @@
                 <button class="modal-close" onclick="closeSendModal()">✕</button>
             </div>
 
-            <div class="gift-preview">
+            <div class="gift-preview" id="giftPreview">
                 <div class="icon" id="previewIcon">🎁</div>
                 <div class="name" id="previewName">Gift</div>
                 <div class="cost" id="previewCost">0 points</div>
@@ -365,6 +488,7 @@
         let currentUser = null;
         let allGifts = [];
         let selectedGift = null;
+        let currentBalance = 0;
 
         // =========================================================
         // LOGOUT
@@ -385,10 +509,9 @@
             }
             currentUser = user;
 
-            // جلب بيانات البروفايل + الرصيد
             const { data: profile } = await supabaseClient
                 .from('profiles')
-                .select('username, full_name, avatar_url, country_code')
+                .select('username, full_name, avatar_url')
                 .eq('id', user.id)
                 .single();
 
@@ -400,28 +523,27 @@
 
             const name = profile?.full_name || profile?.username || 'User';
             const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
-            const points = balance?.available_points || 0;
-            const country = profile?.country_code || 'GLOBAL';
+            currentBalance = balance?.available_points || 0;
 
-            // تحديث navbar
             document.getElementById('navProfileName').textContent = name;
             document.getElementById('navProfileImg').src = avatar;
+            document.getElementById('myBalance').textContent = currentBalance.toLocaleString();
 
-            // تحديث الرصيد
-            document.getElementById('myBalance').textContent = points.toLocaleString();
-
-            return { country, points };
+            return { currentBalance };
         }
 
         // =========================================================
         // LOAD GIFTS
         // =========================================================
-        async function loadGifts(countryCode) {
+        async function loadGifts() {
             const grid = document.getElementById('giftsGrid');
 
             try {
                 const { data: gifts, error } = await supabaseClient
-                    .rpc('get_gifts_for_country', { p_country_code: countryCode });
+                    .from('gifts')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('display_order', { ascending: true });
 
                 if (error) {
                     console.error('❌ Error:', error);
@@ -451,24 +573,31 @@
             grid.innerHTML = '';
 
             gifts.forEach(gift => {
-                const category = gift.cost_points <= 20 ? 'small'
-                    : gift.cost_points <= 200 ? 'medium'
-                    : 'big';
-
-                const categoryLabel = category === 'small' ? '🥉'
-                    : category === 'medium' ? '🥈'
-                    : '🥇';
+                const category = gift.category || 'small';
+                const isFree = gift.cost_points === 0 || category === 'free';
+                
+                const categoryLabels = {
+                    free: '🆓',
+                    small: '🥉',
+                    medium: '🥈',
+                    big: '🥇',
+                    premium: '👑',
+                    legendary: '💎'
+                };
 
                 const card = document.createElement('div');
                 card.className = 'gift-card';
+                card.setAttribute('data-category', category);
                 card.onclick = () => openSendModal(gift);
+                
                 card.innerHTML = `
-                    <span class="gift-category-badge ${category}">${categoryLabel}</span>
+                    ${isFree ? '<span class="free-label">FREE</span>' : ''}
+                    <span class="gift-category-badge ${category}">${categoryLabels[category] || ''}</span>
                     <div class="gift-icon">${gift.icon}</div>
-                    <div class="gift-name">${gift.name_ar}</div>
-                    <div class="gift-cost">
-                        <span>🪙</span>
-                        <span>${gift.cost_points}</span>
+                    <div class="gift-name">${gift.name_ar || gift.name_en}</div>
+                    <div class="gift-cost ${isFree ? 'free-cost' : ''}">
+                        <span>${isFree ? '🆓' : '🪙'}</span>
+                        <span>${isFree ? 'FREE' : gift.cost_points}</span>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -483,12 +612,8 @@
             btn.classList.add('active');
 
             let filtered = allGifts;
-            if (category === 'small') {
-                filtered = allGifts.filter(g => g.cost_points <= 20);
-            } else if (category === 'medium') {
-                filtered = allGifts.filter(g => g.cost_points > 20 && g.cost_points <= 200);
-            } else if (category === 'big') {
-                filtered = allGifts.filter(g => g.cost_points > 200);
+            if (category !== 'all') {
+                filtered = allGifts.filter(g => g.category === category);
             }
 
             if (filtered.length === 0) {
@@ -504,16 +629,29 @@
         // =========================================================
         async function openSendModal(gift) {
             selectedGift = gift;
+            const isFree = gift.cost_points === 0 || gift.category === 'free';
 
-            // تحديث معاينة الهدية
             document.getElementById('previewIcon').textContent = gift.icon;
-            document.getElementById('previewName').textContent = gift.name_ar;
-            document.getElementById('previewCost').textContent = gift.cost_points + ' points';
+            document.getElementById('previewName').textContent = gift.name_ar || gift.name_en;
+            
+            const costEl = document.getElementById('previewCost');
+            if (isFree) {
+                costEl.textContent = '🆓 FREE';
+                costEl.className = 'cost free-cost';
+            } else {
+                costEl.textContent = `🪙 ${gift.cost_points} points`;
+                costEl.className = 'cost';
+            }
 
-            // تحميل قائمة الأصدقاء
+            const previewEl = document.getElementById('giftPreview');
+            previewEl.className = 'gift-preview';
+            if (isFree) previewEl.classList.add('free-preview');
+            if (gift.category === 'legendary') previewEl.classList.add('legendary-preview');
+
+            const sendBtn = document.getElementById('sendGiftBtn');
+            sendBtn.className = isFree ? 'btn-send free-send' : 'btn-send';
+
             await loadFriendsList();
-
-            // فتح الـ modal
             document.getElementById('sendGiftModal').classList.add('show');
         }
 
@@ -531,7 +669,6 @@
             select.innerHTML = '<option value="">Loading...</option>';
 
             try {
-                // جلب جميع المستخدمين (يمكن تعديلها للأصدقاء فقط لاحقاً)
                 const { data: users, error } = await supabaseClient
                     .from('profiles')
                     .select('id, username, full_name')
@@ -578,7 +715,13 @@
                 return;
             }
 
-            // تعطيل الزر
+            const isFree = selectedGift.cost_points === 0 || selectedGift.category === 'free';
+
+            if (!isFree && currentBalance < selectedGift.cost_points) {
+                showToast(`❌ You need ${selectedGift.cost_points} points. You have ${currentBalance}.`, 'error');
+                return;
+            }
+
             btn.disabled = true;
             btn.textContent = '⏳ Sending...';
 
@@ -601,14 +744,14 @@
                     return;
                 }
 
-                // نجاح
+                // نجاح!
+                showGiftAnimation(selectedGift);
                 showToast(`🎉 Gift sent! ${data.gift_icon} ${data.gift_name}`, 'success');
 
                 // تحديث الرصيد
-                const newBalance = parseInt(document.getElementById('myBalance').textContent.replace(/,/g, '')) - data.cost;
-                document.getElementById('myBalance').textContent = newBalance.toLocaleString();
+                currentBalance = data.new_balance;
+                document.getElementById('myBalance').textContent = currentBalance.toLocaleString();
 
-                // إغلاق الـ modal
                 closeSendModal();
 
             } catch (error) {
@@ -618,6 +761,18 @@
                 btn.disabled = false;
                 btn.textContent = '🎁 Send Gift';
             }
+        }
+
+        // =========================================================
+        // FULL SCREEN GIFT ANIMATION
+        // =========================================================
+        function showGiftAnimation(gift) {
+            const anim = document.createElement('div');
+            anim.className = 'gift-animation';
+            anim.innerHTML = `<div class="emoji">${gift.icon}</div>`;
+            document.body.appendChild(anim);
+
+            setTimeout(() => anim.remove(), 3000);
         }
 
         // =========================================================
@@ -652,27 +807,26 @@
                 setLanguage(getCurrentLanguage());
             }
 
-            const userData = await loadUser();
-            if (userData) {
-                await loadGifts(userData.country);
-            }
+            await loadUser();
+            await loadGifts();
 
-            // إغلاق الـ modal عند الضغط على الخلفية
             document.getElementById('sendGiftModal').addEventListener('click', function(e) {
                 if (e.target === this) closeSendModal();
             });
 
-            // ESC لإغلاق الـ modal
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeSendModal();
             });
-
-            // إعادة الترجمة
-            window.addEventListener('languageChanged', function() {
-                if (typeof applyTranslations === 'function') applyTranslations();
-            });
         });
+
+        // Make global
+        window.logout = logout;
+        window.filterGifts = filterGifts;
+        window.openSendModal = openSendModal;
+        window.closeSendModal = closeSendModal;
+        window.sendGift = sendGift;
     </script>
     <script src="js/messenger-notify.js"></script>
+    <script src="js/popunder-ad.js"></script>
 </body>
 </html>
