@@ -87,6 +87,20 @@
             cursor: pointer;
             font-size: 14px;
         }
+
+        @keyframes badgePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
         
         /* =========================================================
            PROFILE PAGE - FACEBOOK STYLE
@@ -461,10 +475,21 @@
                 </div>
             </div>
 
-            <!-- الاسم والمعلومات -->
-            <div class="profile-name" id="profileName">User</div>
-            <div class="profile-username" id="profileUsername">@user</div>
-            <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
+           <!-- الاسم والمعلومات -->
+<div class="profile-name" id="profileName">User</div>
+<div class="profile-username" id="profileUsername">@user</div>
+<div class="profile-bio" id="profileBio">Welcome to my profile!</div>
+
+<!-- ✅ شارات المستخدم -->
+<div id="userBadges" style="
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px auto;
+    max-width: 600px;
+    padding: 0 20px;
+"></div>
             
             <div class="profile-stats">
                 <div class="stat-item">
@@ -683,6 +708,36 @@
                 document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
                 document.getElementById('avatarImg').src = avatarUrl;
                 document.getElementById('coverImg').src = coverUrl;
+                // ✅ عرض الشارات (Badges)
+const badges = profile?.badges || [];
+const badgesContainer = document.getElementById('userBadges');
+
+if (badgesContainer) {
+    if (badges.length > 0) {
+        badgesContainer.innerHTML = badges.map(badge => `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 18px;
+                background: linear-gradient(135deg, #ffd700, #f7b928);
+                color: #333;
+                border-radius: 25px;
+                font-weight: 700;
+                font-size: 14px;
+                box-shadow: 0 4px 15px rgba(247, 185, 40, 0.5);
+                border: 2px solid #fff;
+                animation: badgePop 0.5s ease-out;
+            " title="Awarded: ${badge.awarded_at ? new Date(badge.awarded_at).toLocaleDateString() : ''}">
+                <span style="font-size: 20px;">${badge.icon}</span>
+                <span>First Member from ${badge.country}</span>
+            </div>
+        `).join('');
+        badgesContainer.style.display = 'flex';
+    } else {
+        badgesContainer.style.display = 'none';
+    }
+}
                 
                 const navProfileName = document.getElementById('navProfileName');
                 if (navProfileName) navProfileName.textContent = fullName;
