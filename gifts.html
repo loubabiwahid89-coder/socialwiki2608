@@ -125,7 +125,6 @@
         }
         .gift-card:hover::before { opacity: 1; }
 
-        /* Card colors by category */
         .gift-card[data-category="free"]:hover { border-color: #28a745; }
         .gift-card[data-category="free"]::before { background: linear-gradient(90deg, #28a745, #5dd37a); }
         .gift-card[data-category="small"]:hover { border-color: #cd7f32; }
@@ -297,14 +296,12 @@
             background: linear-gradient(135deg, #28a745, #20c997);
         }
 
-        /* ========== EMPTY STATE ========== */
         .empty-state {
             text-align: center; padding: 60px 20px;
             grid-column: 1 / -1; color: #65676b;
         }
         .empty-state-icon { font-size: 60px; margin-bottom: 15px; }
 
-        /* ========== TOAST ========== */
         .toast {
             position: fixed; top: 80px; left: 50%;
             transform: translateX(-50%) translateY(-100px);
@@ -319,8 +316,7 @@
         .toast.error { border-right-color: #f02849; }
         .toast .toast-icon { font-size: 22px; }
 
-        /* ========== FULL SCREEN ANIMATION (TikTok style) ========== */
-              .gift-animation {
+        .gift-animation {
             position: fixed; inset: 0;
             background: rgba(0,0,0,0.85);
             display: flex; flex-direction: column;
@@ -363,7 +359,6 @@
             100% { transform: translateY(-20px); opacity: 0; }
         }
 
-        /* Confetti */
         .confetti {
             position: absolute;
             width: 12px;
@@ -385,7 +380,6 @@
             }
         }
 
-        /* Legendary special effect */
         .gift-animation.legendary-anim {
             background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(0,0,0,0.95) 70%);
         }
@@ -393,7 +387,7 @@
             animation: legendaryPulse 4s ease-out;
             filter: drop-shadow(0 0 60px rgba(255,215,0,1)) drop-shadow(0 0 100px rgba(255,100,0,0.8));
         }
-               @keyframes legendaryPulse {
+        @keyframes legendaryPulse {
             0% { transform: scale(0) rotate(0deg); opacity: 0; }
             10% { transform: scale(2) rotate(20deg); opacity: 1; }
             30% { transform: scale(1.4) rotate(-15deg); }
@@ -401,7 +395,6 @@
             70% { transform: scale(1.5) rotate(-5deg); }
             100% { transform: scale(4) rotate(-30deg); opacity: 0; }
         }
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 700px) {
             .gifts-header { padding: 20px; flex-direction: column; text-align: center; }
             .gifts-header h1 { font-size: 24px; }
@@ -566,7 +559,7 @@
     <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/translations.js?v=999999"></script>
-    <script>
+        <script>
         // =========================================================
         // SUPABASE
         // =========================================================
@@ -574,11 +567,52 @@
         const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-             let currentUser = null;
+        let currentUser = null;
         let allGifts = [];
         let selectedGift = null;
         let currentBalance = 0;
-        let currentGiftPoints = 0;  // ✅ جديد
+        let currentGiftPoints = 0;
+
+        // =========================================================
+        // 🆕 GIFT KEY MAP — يربط الأيقونة بمفتاح الترجمة
+        // =========================================================
+        const giftKeyMap = {
+            '🌹': 'gift_rose',
+            '❤️': 'gift_heart',
+            '⭐': 'gift_star',
+            '🎂': 'gift_cake',
+            '👍': 'gift_like',
+            '☕': 'gift_coffee',
+            '🍕': 'gift_pizza',
+            '🎈': 'gift_balloon',
+            '🎵': 'gift_music',
+            '🍀': 'gift_clover',
+            '🍭': 'gift_candy',
+            '🍩': 'gift_donut',
+            '🎁': 'gift_gift',
+            '🧸': 'gift_teddy',
+            '🍫': 'gift_chocolate',
+            '💐': 'gift_bouquet',
+            '💍': 'gift_ring',
+            '📱': 'gift_phone',
+            '🚗': 'gift_car',
+            '🏍️': 'gift_motorcycle',
+            '💻': 'gift_laptop',
+            '📺': 'gift_tv',
+            '✈️': 'gift_plane',
+            '🚁': 'gift_helicopter',
+            '🛥️': 'gift_yacht',
+            '🏰': 'gift_castle',
+            '👑': 'gift_crown',
+            '🛩️': 'gift_private_jet',
+            '🎨': 'gift_art',
+            '🏆': 'gift_trophy',
+            '🌌': 'gift_galaxy',
+            '🦄': 'gift_unicorn',
+            '🐉': 'gift_dragon',
+            '🦁': 'gift_lion',
+            '🚀': 'gift_rocket',
+        };
 
         // =========================================================
         // LOGOUT
@@ -591,9 +625,6 @@
         // =========================================================
         // LOAD USER
         // =========================================================
-                // =========================================================
-        // LOAD USER
-        // =========================================================
         async function loadUser() {
             const { data: { user } } = await supabaseClient.auth.getUser();
             if (!user) {
@@ -602,14 +633,12 @@
             }
             currentUser = user;
 
-            // جلب بيانات البروفايل
             const { data: profile } = await supabaseClient
                 .from('profiles')
                 .select('username, full_name, avatar_url')
                 .eq('id', user.id)
                 .single();
 
-            // جلب الرصيد (نقاط حقيقية + نقاط هدايا)
             const { data: balance } = await supabaseClient
                 .from('user_balances')
                 .select('available_points, gift_points')
@@ -622,18 +651,16 @@
             currentBalance = balance?.available_points || 0;
             currentGiftPoints = balance?.gift_points || 0;
 
-            // تحديث Navbar
             document.getElementById('navProfileName').textContent = name;
             document.getElementById('navProfileImg').src = avatar;
 
-            // تحديث عرض الرصيد
             const balanceEl = document.getElementById('myBalance');
             if (balanceEl) balanceEl.textContent = currentBalance.toLocaleString();
 
             const giftPointsEl = document.getElementById('myGiftPoints');
             if (giftPointsEl) giftPointsEl.textContent = currentGiftPoints.toLocaleString();
 
-                      return { currentBalance, currentGiftPoints };
+            return { currentBalance, currentGiftPoints };
         }
 
         // =========================================================
@@ -670,7 +697,7 @@
         }
 
         // =========================================================
-        // RENDER GIFTS
+        // RENDER GIFTS (✏️ معدّلة — تستعمل data-i18n)
         // =========================================================
         function renderGifts(gifts) {
             const grid = document.getElementById('giftsGrid');
@@ -689,6 +716,9 @@
                     legendary: '💎'
                 };
 
+                // 🆕 استخرج مفتاح الترجمة من الأيقونة
+                const giftKey = giftKeyMap[gift.icon] || 'gift_gift';
+
                 const card = document.createElement('div');
                 card.className = 'gift-card';
                 card.setAttribute('data-category', category);
@@ -698,7 +728,7 @@
                     ${isFree ? '<span class="free-label">FREE</span>' : ''}
                     <span class="gift-category-badge ${category}">${categoryLabels[category] || ''}</span>
                     <div class="gift-icon">${gift.icon}</div>
-                    <div class="gift-name">${gift.name_ar || gift.name_en}</div>
+                    <div class="gift-name" data-i18n="${giftKey}">${gift.name_en || gift.name_ar}</div>
                     <div class="gift-cost ${isFree ? 'free-cost' : ''}">
                         <span>${isFree ? '🆓' : '🪙'}</span>
                         <span>${isFree ? 'FREE' : gift.cost_points}</span>
@@ -706,6 +736,15 @@
                 `;
                 grid.appendChild(card);
             });
+
+            // 🆕 إعادة تطبيق الترجمة على البطاقات الجديدة
+            if (typeof setLanguage === 'function' && typeof getCurrentLanguage === 'function') {
+                try {
+                    setLanguage(getCurrentLanguage());
+                } catch (e) {
+                    console.warn('⚠️ setLanguage failed:', e);
+                }
+            }
         }
 
         // =========================================================
@@ -729,14 +768,18 @@
         }
 
         // =========================================================
-        // OPEN SEND MODAL
+        // OPEN SEND MODAL (✏️ معدّلة — تستعمل t())
         // =========================================================
         async function openSendModal(gift) {
             selectedGift = gift;
             const isFree = gift.cost_points === 0 || gift.category === 'free';
 
             document.getElementById('previewIcon').textContent = gift.icon;
-            document.getElementById('previewName').textContent = gift.name_ar || gift.name_en;
+
+            // 🆕 استخرج مفتاح الترجمة وترجمه
+            const previewKey = giftKeyMap[gift.icon] || 'gift_gift';
+            document.getElementById('previewName').textContent = 
+                (typeof t === 'function' ? t(previewKey) : (gift.name_en || gift.name_ar));
             
             const costEl = document.getElementById('previewCost');
             if (isFree) {
@@ -848,11 +891,9 @@
                     return;
                 }
 
-                // نجاح!
                 showGiftAnimation(selectedGift);
                 showToast(`🎉 Gift sent! ${data.gift_icon} ${data.gift_name}`, 'success');
 
-                // تحديث الرصيد
                 currentBalance = data.new_balance;
                 document.getElementById('myBalance').textContent = currentBalance.toLocaleString();
 
@@ -868,9 +909,6 @@
         }
 
         // =========================================================
-        // FULL SCREEN GIFT ANIMATION
-        // =========================================================
-            // =========================================================
         // 🎵 GIFT SOUNDS MAP
         // =========================================================
         const giftSounds = {
@@ -928,41 +966,40 @@
         }
 
         // =========================================================
-        // 🎬 FULL SCREEN GIFT ANIMATION (TikTok style)
+        // 🎬 FULL SCREEN GIFT ANIMATION (✏️ معدّلة — تستعمل t())
         // =========================================================
         function showGiftAnimation(gift) {
-            // 1. تشغيل الصوت
             playGiftSound(gift.icon);
 
-            // 2. تحديد نوع الهدية
             const isLegendary = gift.category === 'legendary';
             const isPremium = gift.category === 'premium';
             const isBig = gift.category === 'big';
 
-            // 3. إنشاء عنصر الأنيميشن
+            // 🆕 استخرج مفتاح الترجمة وترجمه
+            const animKey = giftKeyMap[gift.icon] || 'gift_gift';
+            const animName = (typeof t === 'function' ? t(animKey) : (gift.name_en || gift.name_ar));
+
             const anim = document.createElement('div');
             anim.className = 'gift-animation';
             if (isLegendary) anim.classList.add('legendary-anim');
 
             anim.innerHTML = `
                 <div class="emoji">${gift.icon}</div>
-                <div class="gift-label">${gift.name_ar || gift.name_en}</div>
+                <div class="gift-label">${animName}</div>
             `;
 
             document.body.appendChild(anim);
 
-            // 4. Confetti للهدايا الكبيرة والأسطورية
             if (isLegendary) {
                 createConfetti(100);
                 setTimeout(() => createConfetti(50), 500);
-                setTimeout(() => createConfetti(50), 1000);
+                setTimeout(() => createConfetti(1000), 500);
             } else if (isPremium || isBig) {
                 createConfetti(60);
             } else if (gift.cost_points > 0) {
                 createConfetti(20);
             }
 
-            // 5. إزالة بعد 4 ثواني
             setTimeout(() => anim.remove(), 4000);
         }
 
@@ -994,13 +1031,13 @@
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🎁 gifts.html loaded');
 
-           if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
-    try {
-        setLanguage(getCurrentLanguage());
-    } catch (e) {
-        console.warn('⚠️ setLanguage failed:', e);
-    }
-}
+            if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
+                try {
+                    setLanguage(getCurrentLanguage());
+                } catch (e) {
+                    console.warn('⚠️ setLanguage failed:', e);
+                }
+            }
 
             await loadUser();
             await loadGifts();
@@ -1020,44 +1057,61 @@
         window.openSendModal = openSendModal;
         window.closeSendModal = closeSendModal;
         window.sendGift = sendGift;
+
         // =========================================================
-// LANGUAGE SELECTOR
-// =========================================================
-window.toggleLanguageMenu = function() {
-    const menu = document.getElementById('languageMenu');
-    if (menu) menu.classList.toggle('show');
-};
+        // LANGUAGE SELECTOR
+        // =========================================================
+        window.toggleLanguageMenu = function() {
+            const menu = document.getElementById('languageMenu');
+            if (menu) menu.classList.toggle('show');
+        };
 
-window.changeLanguage = function(lang) {
-    if (typeof setLanguage === 'function') {
-        setLanguage(lang);
-    } else if (typeof applyTranslations === 'function') {
-        applyTranslations(lang);
-    }
-    const menu = document.getElementById('languageMenu');
-    if (menu) menu.classList.remove('show');
-    localStorage.setItem('preferredLanguage', lang);
-};
+        window.changeLanguage = function(lang) {
+            if (typeof setLanguage === 'function') {
+                setLanguage(lang);
+            } else if (typeof applyTranslations === 'function') {
+                applyTranslations(lang);
+            }
+            const menu = document.getElementById('languageMenu');
+            if (menu) menu.classList.remove('show');
+            localStorage.setItem('preferredLanguage', lang);
 
-// إغلاق القائمة عند الضغط خارجها
-document.addEventListener('click', function(e) {
-    const selector = document.querySelector('.language-selector');
-    const menu = document.getElementById('languageMenu');
-    if (selector && menu && !selector.contains(e.target)) {
-        menu.classList.remove('show');
-    }
-});
+            // 🆕 إعادة رسم البطاقات بعد تغيير اللغة
+            if (allGifts && allGifts.length > 0) {
+                const activeFilter = document.querySelector('.filter-btn.active');
+                const currentCategory = activeFilter ? 
+                    (activeFilter.textContent.includes('🆓') ? 'free' :
+                     activeFilter.textContent.includes('🥉') ? 'small' :
+                     activeFilter.textContent.includes('🥈') ? 'medium' :
+                     activeFilter.textContent.includes('🥇') ? 'big' :
+                     activeFilter.textContent.includes('👑') ? 'premium' :
+                     activeFilter.textContent.includes('💎') ? 'legendary' : 'all') : 'all';
+                
+                const filtered = currentCategory === 'all' 
+                    ? allGifts 
+                    : allGifts.filter(g => g.category === currentCategory);
+                renderGifts(filtered);
+            }
+        };
 
-// تحميل اللغة المحفوظة عند فتح الصفحة
-// تحميل اللغة المحفوظة عند فتح الصفحة
-document.addEventListener('DOMContentLoaded', function() {
-    const savedLang = localStorage.getItem('preferredLanguage');
-    if (savedLang && typeof setLanguage === 'function') {
-        setLanguage(savedLang);
-    } else if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
-        setLanguage(getCurrentLanguage());
-    }
-});
+        // إغلاق القائمة عند الضغط خارجها
+        document.addEventListener('click', function(e) {
+            const selector = document.querySelector('.language-selector');
+            const menu = document.getElementById('languageMenu');
+            if (selector && menu && !selector.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // تحميل اللغة المحفوظة عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && typeof setLanguage === 'function') {
+                setLanguage(savedLang);
+            } else if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
+                setLanguage(getCurrentLanguage());
+            }
+        });
     </script>
     <script src="js/messenger-notify.js"></script>
     <script src="js/popunder-ad.js"></script>
