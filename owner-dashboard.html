@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Dashboard - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
+        <!-- Leaflet for World Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
@@ -158,6 +161,7 @@
             <div class="dashboard-tab" onclick="showTab('withdrawals', this)">💰 Withdrawals</div>
             <div class="dashboard-tab" onclick="showTab('ads', this)">📢 Ads</div>
             <div class="dashboard-tab" onclick="showTab('tasks', this)">🎯 Tasks</div>
+                        <div class="dashboard-tab" onclick="showTab('countries', this)">🌍 Countries</div>
         </div>
 
         <!-- CONTENT -->
@@ -896,7 +900,7 @@
         // =========================================================
         // TAB SWITCHING
         // =========================================================
-        function showTab(tab, element) {
+               function showTab(tab, element) {
             document.querySelectorAll('.dashboard-tab').forEach(t => t.classList.remove('active'));
             if (element) element.classList.add('active');
             
@@ -905,6 +909,40 @@
             else if (tab === 'withdrawals') loadWithdrawals();
             else if (tab === 'ads') loadAds();
             else if (tab === 'tasks') loadTasks();
+            else if (tab === 'countries') loadCountriesTab();
+        }
+
+        // =========================================================
+        // 🌍 COUNTRIES TAB
+        // =========================================================
+        async function loadCountriesTab() {
+            const container = document.getElementById('dashboardContent');
+            if (!container) return;
+
+            // عرض الحاوية أولاً
+            container.innerHTML = `
+                <div id="countryStatsContainer" style="padding: 20px;">
+                    <div class="loading-state">
+                        <div class="spinner">🌍</div>
+                        <p>Loading country statistics...</p>
+                    </div>
+                </div>
+            `;
+
+            // استدعاء الدالة من الملف الخارجي
+            if (typeof window.loadCountryStats === 'function') {
+                await window.loadCountryStats();
+            } else {
+                container.innerHTML = `
+                    <div class="data-table" style="padding:40px;text-align:center;">
+                        <div style="font-size:50px;margin-bottom:15px;">⚠️</div>
+                        <h3 style="margin:0 0 8px 0;">country-stats.js not loaded</h3>
+                        <p style="color:#65676b;margin:0;">
+                            Make sure <code>js/country-stats.js</code> exists and is included.
+                        </p>
+                    </div>
+                `;
+            }
         }
         
         // =========================================================
@@ -944,7 +982,8 @@
         window.deleteAd = deleteAd;
         window.deleteTask = deleteTask;
     </script>
-      <script src="js/messenger-notify.js"></script>  
+           <script src="js/messenger-notify.js"></script>  
+      <script src="js/country-stats.js"></script>
 
 </body>
 </html>

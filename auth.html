@@ -349,6 +349,109 @@
         }
 
         .language-menu button:last-child { border-bottom: none; }
+
+        /* ═══════════════════════════════════════════════════════════ */
+/* 🎟️ WAITLIST PROMO (قبل التسجيل) */
+/* ═══════════════════════════════════════════════════════════ */
+.waitlist-promo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 20px 18px;
+    margin-bottom: 18px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    position: relative;
+    overflow: hidden;
+    animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+    50% { box-shadow: 0 10px 30px rgba(102, 126, 234, 0.7); }
+}
+
+.waitlist-promo::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.waitlist-promo-content {
+    position: relative;
+    z-index: 1;
+}
+
+.waitlist-promo-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    display: inline-block;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.waitlist-promo-title {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: #FFD700;
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+}
+
+.waitlist-promo-text {
+    font-size: 13px;
+    margin: 0 0 12px;
+    opacity: 0.95;
+    line-height: 1.4;
+}
+
+.waitlist-promo-benefits {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+
+.waitlist-benefit {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+}
+
+.waitlist-promo-count {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.25);
+    color: #FFD700;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+@media (max-width: 480px) {
+    .waitlist-promo { padding: 15px 12px; }
+    .waitlist-promo-icon { font-size: 32px; }
+    .waitlist-promo-title { font-size: 16px; }
+    .waitlist-benefit { font-size: 11px; padding: 4px 8px; }
+}
     </style>
 </head>
 
@@ -383,6 +486,29 @@
 
         <!-- TITLE -->
         <h1 id="authPageTitle" data-i18n="signup_title">📘 إنشاء حساب</h1>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎟️ WAITLIST PROMO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="waitlist-promo">
+    <div class="waitlist-promo-content">
+        <div class="waitlist-promo-icon">🎟️</div>
+        <h2 class="waitlist-promo-title" data-i18n="promo_title">
+            Join the Waitlist!
+        </h2>
+        <p class="waitlist-promo-text" data-i18n="promo_text">
+            Be one of the first 20 founders
+        </p>
+        <div class="waitlist-promo-benefits">
+            <span class="waitlist-benefit">🏆 <span data-i18n="promo_b1">Founder Badge</span></span>
+            <span class="waitlist-benefit">🎁 <span data-i18n="promo_b2">5 Free Gifts</span></span>
+            <span class="waitlist-benefit">💰 <span data-i18n="promo_b3">1M Points</span></span>
+        </div>
+        <div class="waitlist-promo-count">
+            <span data-i18n="promo_cta">Sign up below to claim your spot!</span>
+        </div>
+    </div>
+</div>
 
         <!-- FOUNDER BANNER -->
         <div class="founder-banner">
