@@ -809,6 +809,22 @@
         };
 
         window.openLiveVideo = function() { alert('Coming soon!'); };
+        // =========================================================
+// 🎬 STORY SCROLL BUTTONS
+// =========================================================
+window.scrollStoriesLeft = function() {
+    const storyList = document.getElementById('storyList');
+    if (storyList) {
+        storyList.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+};
+
+window.scrollStoriesRight = function() {
+    const storyList = document.getElementById('storyList');
+    if (storyList) {
+        storyList.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+};
 
         // =========================================================
         // ESCAPE HTML
