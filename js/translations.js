@@ -528,6 +528,14 @@ const translations = {
         "send_gift_success": "🎉 تم إرسال الهدية!",
         "insufficient_gift_points": "❌ نقاط الهدايا غير كافية!",
         "select_friend_first": "⚠️ اختر صديقاً أولاً",
+        "waitlist_title": "أنت رقم ",
+"waitlist_title_suffix": " في الطابور!",
+"waitlist_subtitle": "ادعُ 3 أصدقاء لتحصل على 3 هدايا مجانية!",
+"waitlist_invites": "الإحالات",
+"waitlist_gifts": "هدايا مجانية",
+"waitlist_btn_invite": "دعوة الأصدقاء",
+"waitlist_btn_join": "انضم للطابور",
+"waitlist_founder": "أنت من المؤسسين!",
     },
         // ==================== FRENCH ====================
     fr: {
@@ -1088,6 +1096,14 @@ const translations = {
         "gift_dragon": "Dragon",
         "gift_lion": "Lion",
         "gift_rocket": "Fusée",
+        "waitlist_title": "Vous êtes #",
+"waitlist_title_suffix": " dans la file!",
+"waitlist_subtitle": "Invitez 3 amis pour 3 cadeaux gratuits!",
+"waitlist_invites": "Invitations",
+"waitlist_gifts": "Cadeaux gratuits",
+"waitlist_btn_invite": "Inviter des amis",
+"waitlist_btn_join": "Rejoindre",
+"waitlist_founder": "Vous êtes FONDATEUR!",
     
     },
         // ==================== ENGLISH ====================
@@ -2213,6 +2229,14 @@ const translations = {
         "gift_dragon": "Dragón",
         "gift_lion": "León",
         "gift_rocket": "Cohete",
+        "waitlist_title": "Eres el #",
+"waitlist_title_suffix": " en la cola!",
+"waitlist_subtitle": "¡Invita a 3 amigos para 3 regalos gratis!",
+"waitlist_invites": "Invitaciones",
+"waitlist_gifts": "Regalos gratis",
+"waitlist_btn_invite": "Invitar amigos",
+"waitlist_btn_join": "Unirse",
+"waitlist_founder": "¡Eres FUNDADOR!",
     
     },
 
@@ -2779,6 +2803,14 @@ const translations = {
         "gift_dragon": "Drache",
         "gift_lion": "Löwe",
         "gift_rocket": "Rakete",
+        "waitlist_title": "Du bist #",
+"waitlist_title_suffix": " in der Warteschlange!",
+"waitlist_subtitle": "Lade 3 Freunde ein für 3 kostenlose Geschenke!",
+"waitlist_invites": "Einladungen",
+"waitlist_gifts": "Gratis-Geschenke",
+"waitlist_btn_invite": "Freunde einladen",
+"waitlist_btn_join": "Beitreten",
+"waitlist_founder": "Du bist GRÜNDER!",
     },
         // ==================== ITALIAN ====================
     it: {
@@ -3873,6 +3905,14 @@ const translations = {
         "gift_dragon": "ドラゴン",
         "gift_lion": "ライオン",
         "gift_rocket": "ロケット",
+     "waitlist_title": "あなたは #",
+"waitlist_title_suffix": " 番目です！",
+"waitlist_subtitle": "友達3人を招待して3つの無料ギフトを獲得！",
+"waitlist_invites": "招待",
+"waitlist_gifts": "無料ギフト",
+"waitlist_btn_invite": "友達を招待",
+"waitlist_btn_join": "参加する",
+"waitlist_founder": "あなたは創設者です！",
     
     },
 
@@ -4438,6 +4478,14 @@ const translations = {
         "gift_dragon": "龙",
         "gift_lion": "狮子",
         "gift_rocket": "火箭",
+        "waitlist_title": "您是第 ",
+"waitlist_title_suffix": " 位！",
+"waitlist_subtitle": "邀请3位朋友获得3份免费礼物！",
+"waitlist_invites": "邀请",
+"waitlist_gifts": "免费礼物",
+"waitlist_btn_invite": "邀请朋友",
+"waitlist_btn_join": "加入",
+"waitlist_founder": "您是创始人！",
     },
 
     // ==================== KOREAN ====================
@@ -5002,6 +5050,14 @@ const translations = {
         "gift_dragon": "드래곤",
         "gift_lion": "사자",
         "gift_rocket": "로켓",
+        "waitlist_title": "당신은 #",
+"waitlist_title_suffix": " 번째입니다!",
+"waitlist_subtitle": "친구 3명을 초대하여 3개의 무료 선물 받기!",
+"waitlist_invites": "초대",
+"waitlist_gifts": "무료 선물",
+"waitlist_btn_invite": "친구 초대",
+"waitlist_btn_join": "참여하기",
+"waitlist_founder": "당신은 창립자입니다!",
     
     },
         // ==================== RUSSIAN ====================
@@ -5567,6 +5623,14 @@ const translations = {
         "gift_dragon": "Дракон",
         "gift_lion": "Лев",
         "gift_rocket": "Ракета",
+        "waitlist_title": "Вы #",
+"waitlist_title_suffix": " в очереди!",
+"waitlist_subtitle": "Пригласите 3 друзей для 3 бесплатных подарков!",
+"waitlist_invites": "Приглашения",
+"waitlist_gifts": "Бесплатные подарки",
+"waitlist_btn_invite": "Пригласить друзей",
+"waitlist_btn_join": "Присоединиться",
+"waitlist_founder": "Вы ОСНОВАТЕЛЬ!",
     },
     
 
@@ -6132,6 +6196,14 @@ const translations = {
         "gift_dragon": "Ejderha",
         "gift_lion": "Aslan",
         "gift_rocket": "Roket",
+        "waitlist_title": "Sen #",
+"waitlist_title_suffix": " sıradasın!",
+"waitlist_subtitle": "3 arkadaş davet et, 3 ücretsiz hediye kazan!",
+"waitlist_invites": "Davetler",
+"waitlist_gifts": "Ücretsiz Hediyeler",
+"waitlist_btn_invite": "Arkadaş Davet Et",
+"waitlist_btn_join": "Katıl",
+"waitlist_founder": "Sen bir KURUCUsun!",
     },
 
     // ==================== HINDI ====================
@@ -6696,6 +6768,14 @@ const translations = {
         "gift_dragon": "ड्रैगन",
         "gift_lion": "शेर",
         "gift_rocket": "रॉकेट",
+        "waitlist_title": "आप #",
+"waitlist_title_suffix": " पर हैं!",
+"waitlist_subtitle": "3 दोस्तों को आमंत्रित करें और 3 मुफ्त उपहार पाएं!",
+"waitlist_invites": "आमंत्रण",
+"waitlist_gifts": "मुफ्त उपहार",
+"waitlist_btn_invite": "दोस्तों को आमंत्रित करें",
+"waitlist_btn_join": "शामिल हों",
+"waitlist_founder": "आप संस्थापक हैं!",
     },
 
     // ==================== FILIPINO ====================
@@ -7261,6 +7341,14 @@ const translations = {
         "gift_dragon": "Dragon",
         "gift_lion": "Leon",
         "gift_rocket": "Rocket",
+        "waitlist_title": "Ikaw ay #",
+"waitlist_title_suffix": " sa pila!",
+"waitlist_subtitle": "Mag-imbita ng 3 kaibigan para sa 3 libreng regalo!",
+"waitlist_invites": "Mga Imbitasyon",
+"waitlist_gifts": "Libreng Regalo",
+"waitlist_btn_invite": "Mag-imbita ng Kaibigan",
+"waitlist_btn_join": "Sumali",
+"waitlist_founder": "Ikaw ay FOUNDER!",
     },
 
     // ==================== TAGALOG ====================
@@ -7826,6 +7914,14 @@ const translations = {
         "gift_dragon": "Dragon",
         "gift_lion": "Leon",
         "gift_rocket": "Rocket",
+        "waitlist_title": "Ikaw ay #",
+"waitlist_title_suffix": " sa pila!",
+"waitlist_subtitle": "Mag-imbita ng 3 kaibigan para sa 3 libreng regalo!",
+"waitlist_invites": "Mga Imbitasyon",
+"waitlist_gifts": "Libreng Regalo",
+"waitlist_btn_invite": "Mag-imbita",
+"waitlist_btn_join": "Sumali",
+"waitlist_founder": "Ikaw ay FOUNDER!",
     }
 
 };
