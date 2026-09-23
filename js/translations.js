@@ -7831,12 +7831,13 @@ const translations = {
 };
 
 // =========================================================
+// =========================================================
 // TRANSLATION HELPER FUNCTIONS
 // =========================================================
 
 function t(key, lang) {
     lang = lang || getCurrentLanguage();
-    if (!translations[lang]) lang = 'ar';
+    if (!translations[lang]) lang = 'en';
     return translations[lang][key] || translations['en'][key] || key;
 }
 
@@ -7878,14 +7879,202 @@ function getCurrentLanguage() {
     return localStorage.getItem('socialwiki_lang') || 'en';
 }
 
+// =========================================================
+// 🌐 BROWSER LANGUAGE DETECTION
+// =========================================================
+const browserLangToSiteLang = {
+    'ar': 'ar', 'fr': 'fr', 'en': 'en', 'es': 'es', 'de': 'de',
+    'it': 'it', 'ja': 'ja', 'zh': 'zh', 'ko': 'ko', 'ru': 'ru',
+    'tr': 'tr', 'hi': 'hi',
+    'fil': 'fil', 'tl': 'tl',
+};
+
+function detectBrowserLanguage() {
+    try {
+        const browserLang = navigator.language || navigator.userLanguage || 'en';
+        const langCode = browserLang.split('-')[0].toLowerCase();
+        console.log('🌐 Browser language:', browserLang, '→ code:', langCode);
+
+        if (browserLangToSiteLang[langCode]) {
+            return browserLangToSiteLang[langCode];
+        }
+
+        if (navigator.languages && navigator.languages.length > 0) {
+            for (const lang of navigator.languages) {
+                const code = lang.split('-')[0].toLowerCase();
+                if (browserLangToSiteLang[code]) {
+                    return browserLangToSiteLang[code];
+                }
+            }
+        }
+        return null;
+    } catch (e) {
+        console.warn('⚠️ Browser detection failed:', e);
+        return null;
+    }
+}
+
+// =========================================================
+// 🌍 IP LANGUAGE DETECTION (Cloudflare)
+// =========================================================
+const countryToLanguage = {
+    // الدول العربية
+    'MA': 'ar', 'DZ': 'ar', 'TN': 'ar', 'EG': 'ar', 'SA': 'ar',
+    'AE': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
+    'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'LY': 'ar',
+    'SD': 'ar', 'YE': 'ar', 'PS': 'ar', 'MR': 'ar', 'SO': 'ar',
+    'DJ': 'ar', 'KM': 'ar',
+
+    // أوروبا وأمريكا اللاتينية
+    'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr', 'MC': 'fr',
+    'SN': 'fr', 'CI': 'fr', 'ML': 'fr', 'BF': 'fr', 'NE': 'fr',
+    'TG': 'fr', 'BJ': 'fr', 'CM': 'fr', 'GA': 'fr', 'CG': 'fr',
+    'CD': 'fr', 'MG': 'fr',
+
+    'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es',
+    'CL': 'es', 'VE': 'es', 'EC': 'es', 'GT': 'es', 'CU': 'es',
+    'BO': 'es', 'DO': 'es', 'HN': 'es', 'PY': 'es', 'SV': 'es',
+    'NI': 'es', 'CR': 'es', 'PA': 'es', 'UY': 'es', 'PR': 'es',
+
+    'DE': 'de', 'AT': 'de', 'LI': 'de',
+
+    'IT': 'it', 'SM': 'it', 'VA': 'it',
+
+    'TR': 'tr', 'CY': 'tr',
+
+    'RU': 'ru', 'BY': 'ru', 'KZ': 'ru', 'KG': 'ru', 'TJ': 'ru',
+    'UZ': 'ru', 'AM': 'ru', 'AZ': 'ru', 'MD': 'ru',
+
+    // آسيا
+    'JP': 'ja',
+    'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'MO': 'zh', 'SG': 'zh',
+    'KR': 'ko', 'KP': 'ko',
+    'IN': 'hi', 'NP': 'hi', 'BD': 'hi', 'LK': 'hi', 'PK': 'hi',
+    'PH': 'fil',
+};
+
+// =========================================================
+// 🌍 IP LANGUAGE DETECTION (Cloudflare + Fallback APIs)
+// =========================================================
+async function detectLanguageByIP() {
+    // ═══════════════════════════════════════════════════════
+    // المحاولة 1: Cloudflare (إلا كنا منشورين)
+    // ═══════════════════════════════════════════════════════
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+        const response = await fetch('/cdn-cgi/trace', {
+            cache: 'no-store',
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+            const text = await response.text();
+            const match = text.match(/loc=([A-Z]{2})/);
+            const countryCode = match ? match[1] : null;
+
+            console.log('☁️ Cloudflare detected country:', countryCode);
+
+            if (countryCode && countryToLanguage[countryCode]) {
+                return countryToLanguage[countryCode];
+            }
+        }
+    } catch (error) {
+        console.log('⚠️ Cloudflare not available (XAMPP local mode)');
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // المحاولة 2: APIs مجانية (للـ XAMPP محلي)
+    // ═══════════════════════════════════════════════════════
+    const apis = [
+        { url: 'https://ipapi.co/json/', extract: (d) => d.country_code },
+        { url: 'https://ipwho.is/', extract: (d) => d.country_code },
+        { url: 'https://ipinfo.io/json', extract: (d) => d.country },
+        { url: 'https://api.country.is/', extract: (d) => d.country }
+    ];
+
+    for (const api of apis) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+            const response = await fetch(api.url, {
+                cache: 'no-store',
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (!response.ok) continue;
+
+            const data = await response.json();
+            const countryCode = api.extract(data);
+
+            console.log('🌍 API detected country:', countryCode, 'via', api.url);
+
+            if (countryCode && countryToLanguage[countryCode]) {
+                return countryToLanguage[countryCode];
+            }
+        } catch (error) {
+            console.warn('⚠️ API failed:', api.url);
+            continue;
+        }
+    }
+
+    return null;
+}
+
+// =========================================================
+// 🎯 MAIN DETECTION: IP → Browser → English
+// =========================================================
+async function detectLanguage() {
+    // 1. هل اختار المستخدم لغة يدوياً؟
+    const userChosenLang = localStorage.getItem('socialwiki_lang_user_chosen');
+    if (userChosenLang && translations[userChosenLang]) {
+        console.log('✅ User chose language manually:', userChosenLang);
+        return userChosenLang;
+    }
+
+    // 2. IP
+    const ipLang = await detectLanguageByIP();
+    if (ipLang) {
+        console.log('✅ IP-detected language:', ipLang);
+        localStorage.setItem('socialwiki_lang', ipLang);
+        return ipLang;
+    }
+
+    // 3. Browser
+    const browserLang = detectBrowserLanguage();
+    if (browserLang) {
+        console.log('✅ Browser-detected language:', browserLang);
+        localStorage.setItem('socialwiki_lang', browserLang);
+        return browserLang;
+    }
+
+    // 4. English default
+    console.log('⚠️ All detection failed, using English');
+    localStorage.setItem('socialwiki_lang', 'en');
+    return 'en';
+}
+
+async function initLanguageWithIPDetection() {
+    const lang = await detectLanguage();
+    if (typeof setLanguage === 'function') {
+        setLanguage(lang);
+    }
+}
+
 function initLanguage() {
-    // أولاً: حاول اكتشاف اللغة حسب IP
+    // استخدم اللغة المحفوظة فوراً (سريع)
+    const savedLang = localStorage.getItem('socialwiki_lang');
+    if (savedLang && translations[savedLang]) {
+        setLanguage(savedLang);
+    }
+    
+    // ثم اكتشف اللغة تلقائياً
     if (typeof initLanguageWithIPDetection === 'function') {
         initLanguageWithIPDetection();
-    } else {
-        // fallback: استخدم اللغة المحفوظة أو الإنجليزية
-        var savedLang = localStorage.getItem('socialwiki_lang') || 'en';
-        setLanguage(savedLang);
     }
 }
 
@@ -7907,6 +8096,9 @@ function changeLanguage(lang) {
     if (typeof setLanguage === 'function') {
         setLanguage(lang);
     }
+    // ✅ احفظ أن المستخدم اختار اللغة يدوياً
+    localStorage.setItem('socialwiki_lang_user_chosen', lang);
+    
     var menu = document.getElementById('languageMenu');
     if (menu) menu.style.display = 'none';
 }
@@ -7927,135 +8119,4 @@ if (typeof window !== 'undefined') {
             menu.style.display = 'none';
         }
     });
-}
-// =========================================================
-// 🌍 AUTO-DETECT LANGUAGE BY IP (Cloudflare)
-// =========================================================
-async function detectLanguageByIP() {
-    // تحقق أولاً: هل المستخدم اختار لغة يدوياً سابقاً؟
-    const savedLang = localStorage.getItem('socialwiki_lang');
-    if (savedLang && translations[savedLang]) {
-        console.log('✅ User language already saved:', savedLang);
-        return savedLang;
-    }
-
-    try {
-        // اطلب من Cloudflare بيانات الموقع
-        const response = await fetch('/cdn-cgi/trace', { cache: 'no-store' });
-        const text = await response.text();
-        
-        // استخرج كود الدولة من الاستجابة
-        const match = text.match(/loc=([A-Z]{2})/);
-        const countryCode = match ? match[1] : null;
-        
-        console.log('🌍 Detected country:', countryCode);
-
-        // خريطة: الدولة → اللغة
-        const countryToLanguage = {
-            // الدول العربية
-            'MA': 'ar', 'DZ': 'ar', 'TN': 'ar', 'EG': 'ar', 'SA': 'ar',
-            'AE': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
-            'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'LY': 'ar',
-            'SD': 'ar', 'YE': 'ar', 'PS': 'ar',
-            
-            // أوروبا
-            'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr',
-            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'CL': 'es',
-            'DE': 'de', 'AT': 'de',
-            'IT': 'it',
-            'TR': 'tr',
-            'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
-            
-            // آسيا
-            'JP': 'ja',
-            'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'SG': 'zh',
-            'KR': 'ko',
-            'IN': 'hi',
-            'PH': 'fil',
-        };
-
-        const detectedLang = countryToLanguage[countryCode] || 'en';
-        console.log('✅ Auto-detected language:', detectedLang, 'for country:', countryCode);
-
-        // احفظ اللغة المُكتشَفة
-        localStorage.setItem('socialwiki_lang', detectedLang);
-        return detectedLang;
-
-    } catch (error) {
-        console.warn('⚠️ IP detection failed, using English:', error);
-        // افتراضي: الإنجليزية
-        localStorage.setItem('socialwiki_lang', 'en');
-        return 'en';
-    }
-}
-
-// =========================================================
-// 🌍 AUTO-DETECT LANGUAGE BY IP (Cloudflare)
-// =========================================================
-async function detectLanguageByIP() {
-    // تحقق أولاً: هل المستخدم اختار لغة يدوياً سابقاً؟
-    const savedLang = localStorage.getItem('socialwiki_lang');
-    if (savedLang && translations[savedLang]) {
-        console.log('✅ User language already saved:', savedLang);
-        return savedLang;
-    }
-
-    try {
-        // اطلب من Cloudflare بيانات الموقع
-        const response = await fetch('/cdn-cgi/trace', { cache: 'no-store' });
-        const text = await response.text();
-        
-        // استخرج كود الدولة من الاستجابة
-        const match = text.match(/loc=([A-Z]{2})/);
-        const countryCode = match ? match[1] : null;
-        
-        console.log('🌍 Detected country:', countryCode);
-
-        // خريطة: الدولة → اللغة
-        const countryToLanguage = {
-            // الدول العربية
-            'MA': 'ar', 'DZ': 'ar', 'TN': 'ar', 'EG': 'ar', 'SA': 'ar',
-            'AE': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
-            'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'LY': 'ar',
-            'SD': 'ar', 'YE': 'ar', 'PS': 'ar',
-            
-            // أوروبا
-            'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr',
-            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'CL': 'es',
-            'DE': 'de', 'AT': 'de',
-            'IT': 'it',
-            'TR': 'tr',
-            'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
-            
-            // آسيا
-            'JP': 'ja',
-            'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'SG': 'zh',
-            'KR': 'ko',
-            'IN': 'hi',
-            'PH': 'fil',
-        };
-
-        const detectedLang = countryToLanguage[countryCode] || 'en';
-        console.log('✅ Auto-detected language:', detectedLang, 'for country:', countryCode);
-
-        // احفظ اللغة المُكتشَفة
-        localStorage.setItem('socialwiki_lang', detectedLang);
-        return detectedLang;
-
-    } catch (error) {
-        console.warn('⚠️ IP detection failed, using English:', error);
-        // افتراضي: الإنجليزية
-        localStorage.setItem('socialwiki_lang', 'en');
-        return 'en';
-    }
-}
-
-// =========================================================
-// 🚀 APPLY DETECTED LANGUAGE
-// =========================================================
-async function initLanguageWithIPDetection() {
-    const lang = await detectLanguageByIP();
-    if (typeof setLanguage === 'function') {
-        setLanguage(lang);
-    }
 }
