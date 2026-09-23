@@ -507,10 +507,29 @@ const translations = {
 "no_referrals": "لم تدعُ أي شخص بعد. ابدأ الآن! 🚀",
 "badge_awarded": "🏆 مبروك! لقد حصلت على شارة جديدة!",
 "first_member_from": "أول عضو من",
+        "gifts_title": "🎁 الهدايا",
+        "gifts_subtitle": "أرسل هدايا لأصدقائك وأسعدهم",
+        "real_points": "نقاط حقيقية",
+        "gift_points": "نقاط الهدايا",
+        "buy_points": "شراء نقاط",
+        "all_gifts": "الكل",
+        "free_gifts": "مجاني",
+        "small_gifts": "صغيرة",
+        "medium_gifts": "متوسطة",
+        "big_gifts": "كبيرة",
+        "premium_gifts": "فاخرة",
+        "legendary_gifts": "أسطورية",
+        "send_gift_title": "إرسال هدية",
+        "select_friend": "👥 اختر صديقاً",
+        "message_optional": "💬 رسالة (اختياري)",
+        "gift_message_placeholder": "اكتب رسالة لطيفة...",
+        "send_gift_btn": "🎁 إرسال الهدية",
+        "loading_friends": "جاري تحميل الأصدقاء...",
+        "send_gift_success": "🎉 تم إرسال الهدية!",
+        "insufficient_gift_points": "❌ نقاط الهدايا غير كافية!",
+        "select_friend_first": "⚠️ اختر صديقاً أولاً",
     },
-    
-
-    // ==================== FRENCH ====================
+        // ==================== FRENCH ====================
     fr: {
         "search_placeholder": "Rechercher sur SocialWiki",
         "home": "Accueil",
@@ -1013,9 +1032,29 @@ const translations = {
 "task_first_story": "Publier la première story",
 "badge_awarded": "🏆 Félicitations ! Vous avez obtenu un nouveau badge !",
 "first_member_from": "Premier membre de",
+        "gifts_title": "🎁 Cadeaux",
+        "gifts_subtitle": "Envoyez des cadeaux à vos amis",
+        "real_points": "Points Réels",
+        "gift_points": "Points Cadeaux",
+        "buy_points": "Acheter des Points",
+        "all_gifts": "Tout",
+        "free_gifts": "Gratuit",
+        "small_gifts": "Petit",
+        "medium_gifts": "Moyen",
+        "big_gifts": "Grand",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Légendaire",
+        "send_gift_title": "Envoyer un cadeau",
+        "select_friend": "👥 Sélectionner un ami",
+        "message_optional": "💬 Message (Optionnel)",
+        "gift_message_placeholder": "Écrivez un gentil message...",
+        "send_gift_btn": "🎁 Envoyer",
+        "loading_friends": "Chargement des amis...",
+        "send_gift_success": "🎉 Cadeau envoyé!",
+        "insufficient_gift_points": "❌ Points cadeaux insuffisants!",
+        "select_friend_first": "⚠️ Sélectionnez un ami d'abord",
     },
-
-    // ==================== ENGLISH ====================
+        // ==================== ENGLISH ====================
     en: {
         "search_placeholder": "Search SocialWiki",
         "home": "Home",
@@ -1518,9 +1557,29 @@ const translations = {
 "no_referrals": "You haven't invited anyone yet. Start now! 🚀",
 "badge_awarded": "🏆 Congratulations! You earned a new badge!",
 "first_member_from": "First member from",
+        "gifts_title": "🎁 Gifts",
+        "gifts_subtitle": "Send gifts to your friends and make them happy",
+        "real_points": "Real Points",
+        "gift_points": "Gift Points",
+        "buy_points": "Buy Points",
+        "all_gifts": "All",
+        "free_gifts": "Free",
+        "small_gifts": "Small",
+        "medium_gifts": "Medium",
+        "big_gifts": "Big",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Legendary",
+        "send_gift_title": "Send Gift",
+        "select_friend": "👥 Select Friend",
+        "message_optional": "💬 Message (Optional)",
+        "gift_message_placeholder": "Write a nice message...",
+        "send_gift_btn": "🎁 Send Gift",
+        "loading_friends": "Loading friends...",
+        "send_gift_success": "🎉 Gift sent!",
+        "insufficient_gift_points": "❌ Insufficient gift points!",
+        "select_friend_first": "⚠️ Select a friend first",
     },
-    
-    // ==================== SPANISH ====================
+        // ==================== SPANISH ====================
     es: {
         "search_placeholder": "Buscar en SocialWiki",
         "home": "Inicio",
@@ -2026,6 +2085,27 @@ const translations = {
 "no_referrals": "Aún no has invitado a nadie. ¡Empieza ahora! 🚀",
 "badge_awarded": "🏆 ¡Felicidades! ¡Has ganado una nueva insignia!",
 "first_member_from": "Primer miembro de",
+        "gifts_title": "🎁 Regalos",
+        "gifts_subtitle": "Envía regalos a tus amigos",
+        "real_points": "Puntos Reales",
+        "gift_points": "Puntos de Regalo",
+        "buy_points": "Comprar Puntos",
+        "all_gifts": "Todos",
+        "free_gifts": "Gratis",
+        "small_gifts": "Pequeño",
+        "medium_gifts": "Mediano",
+        "big_gifts": "Grande",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Legendario",
+        "send_gift_title": "Enviar regalo",
+        "select_friend": "👥 Seleccionar amigo",
+        "message_optional": "💬 Mensaje (Opcional)",
+        "gift_message_placeholder": "Escribe un mensaje bonito...",
+        "send_gift_btn": "🎁 Enviar regalo",
+        "loading_friends": "Cargando amigos...",
+        "send_gift_success": "🎉 ¡Regalo enviado!",
+        "insufficient_gift_points": "❌ ¡Puntos de regalo insuficientes!",
+        "select_friend_first": "⚠️ Selecciona un amigo primero",
     },
 
     // ==================== GERMAN ====================
@@ -2535,9 +2615,29 @@ const translations = {
 "badge_awarded": "🏆 Herzlichen Glückwunsch! Du hast ein neues Abzeichen erhalten!",
 "first_member_from": "Erstes Mitglied aus",
 "no_referrals": "Du hast noch niemanden eingeladen. Starte jetzt! 🚀",
+        "gifts_title": "🎁 Geschenke",
+        "gifts_subtitle": "Sende Geschenke an deine Freunde",
+        "real_points": "Echte Punkte",
+        "gift_points": "Geschenkpunkte",
+        "buy_points": "Punkte kaufen",
+        "all_gifts": "Alle",
+        "free_gifts": "Gratis",
+        "small_gifts": "Klein",
+        "medium_gifts": "Mittel",
+        "big_gifts": "Groß",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Legendär",
+        "send_gift_title": "Geschenk senden",
+        "select_friend": "👥 Freund auswählen",
+        "message_optional": "💬 Nachricht (Optional)",
+        "gift_message_placeholder": "Schreibe eine nette Nachricht...",
+        "send_gift_btn": "🎁 Geschenk senden",
+        "loading_friends": "Freunde werden geladen...",
+        "send_gift_success": "🎉 Geschenk gesendet!",
+        "insufficient_gift_points": "❌ Nicht genug Geschenkpunkte!",
+        "select_friend_first": "⚠️ Wähle zuerst einen Freund",
     },
-
-    // ==================== ITALIAN ====================
+        // ==================== ITALIAN ====================
     it: {
         "search_placeholder": "Cerca su SocialWiki",
         "home": "Home",
@@ -3044,8 +3144,29 @@ const translations = {
 "badge_awarded": "🏆 Congratulazioni! Hai guadagnato un nuovo badge!",
 "first_member_from": "Primo membro da",
 "no_referrals": "Non hai ancora invitato nessuno. Inizia ora! 🚀",
+        "gifts_title": "🎁 Regali",
+        "gifts_subtitle": "Invia regali ai tuoi amici",
+        "real_points": "Punti Reali",
+        "gift_points": "Punti Regalo",
+        "buy_points": "Compra Punti",
+        "all_gifts": "Tutti",
+        "free_gifts": "Gratis",
+        "small_gifts": "Piccolo",
+        "medium_gifts": "Medio",
+        "big_gifts": "Grande",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Leggendario",
+        "send_gift_title": "Invia regalo",
+        "select_friend": "👥 Seleziona amico",
+        "message_optional": "💬 Messaggio (Opzionale)",
+        "gift_message_placeholder": "Scrivi un bel messaggio...",
+        "send_gift_btn": "🎁 Invia regalo",
+        "loading_friends": "Caricamento amici...",
+        "send_gift_success": "🎉 Regalo inviato!",
+        "insufficient_gift_points": "❌ Punti regalo insufficienti!",
+        "select_friend_first": "⚠️ Seleziona prima un amico",
     },
-    
+
     // ==================== JAPANESE ====================
     ja: {
         "search_placeholder": "SocialWikiを検索",
@@ -3553,6 +3674,27 @@ const translations = {
 "badge_awarded": "🏆 おめでとうございます！新しいバッジを獲得しました！",
 "first_member_from": "最初のメンバー:",
 "no_referrals": "まだ誰も招待していません。今すぐ始めましょう！ 🚀",
+        "gifts_title": "🎁 ギフト",
+        "gifts_subtitle": "友達にギフトを送って喜ばせましょう",
+        "real_points": "リアルポイント",
+        "gift_points": "ギフトポイント",
+        "buy_points": "ポイントを購入",
+        "all_gifts": "すべて",
+        "free_gifts": "無料",
+        "small_gifts": "小",
+        "medium_gifts": "中",
+        "big_gifts": "大",
+        "premium_gifts": "プレミアム",
+        "legendary_gifts": "伝説",
+        "send_gift_title": "ギフトを送る",
+        "select_friend": "👥 友達を選択",
+        "message_optional": "💬 メッセージ（任意）",
+        "gift_message_placeholder": "素敵なメッセージを...",
+        "send_gift_btn": "🎁 ギフトを送る",
+        "loading_friends": "友達を読み込み中...",
+        "send_gift_success": "🎉 ギフトを送りました！",
+        "insufficient_gift_points": "❌ ギフトポイントが足りません！",
+        "select_friend_first": "⚠️ まず友達を選択してください",
     },
 
     // ==================== CHINESE ====================
@@ -4061,6 +4203,27 @@ const translations = {
 "badge_awarded": "🏆 恭喜！您获得了新徽章！",
 "first_member_from": "首位成员来自",
 "no_referrals": "您还没有邀请任何人。现在开始！ 🚀",
+        "gifts_title": "🎁 礼物",
+        "gifts_subtitle": "给朋友送礼物让他们开心",
+        "real_points": "真实积分",
+        "gift_points": "礼物积分",
+        "buy_points": "购买积分",
+        "all_gifts": "全部",
+        "free_gifts": "免费",
+        "small_gifts": "小",
+        "medium_gifts": "中",
+        "big_gifts": "大",
+        "premium_gifts": "高级",
+        "legendary_gifts": "传奇",
+        "send_gift_title": "发送礼物",
+        "select_friend": "👥 选择好友",
+        "message_optional": "💬 留言（可选）",
+        "gift_message_placeholder": "写一条美好的留言...",
+        "send_gift_btn": "🎁 发送礼物",
+        "loading_friends": "加载好友中...",
+        "send_gift_success": "🎉 礼物已发送！",
+        "insufficient_gift_points": "❌ 礼物积分不足！",
+        "select_friend_first": "⚠️ 请先选择好友",
     },
 
     // ==================== KOREAN ====================
@@ -4569,9 +4732,29 @@ const translations = {
 "badge_awarded": "🏆 축하합니다! 새로운 배지를 획득했습니다!",
 "first_member_from": "첫 번째 멤버:",
 "no_referrals": "아직 아무도 초대하지 않았습니다. 지금 시작하세요! 🚀",
+        "gifts_title": "🎁 선물",
+        "gifts_subtitle": "친구에게 선물을 보내 기쁘게 하세요",
+        "real_points": "실제 포인트",
+        "gift_points": "선물 포인트",
+        "buy_points": "포인트 구매",
+        "all_gifts": "전체",
+        "free_gifts": "무료",
+        "small_gifts": "작은",
+        "medium_gifts": "중간",
+        "big_gifts": "큰",
+        "premium_gifts": "프리미엄",
+        "legendary_gifts": "전설",
+        "send_gift_title": "선물 보내기",
+        "select_friend": "👥 친구 선택",
+        "message_optional": "💬 메시지 (선택사항)",
+        "gift_message_placeholder": "좋은 메시지를 작성하세요...",
+        "send_gift_btn": "🎁 선물 보내기",
+        "loading_friends": "친구 로딩 중...",
+        "send_gift_success": "🎉 선물 전송됨!",
+        "insufficient_gift_points": "❌ 선물 포인트 부족!",
+        "select_friend_first": "⚠️ 먼저 친구를 선택하세요",
     },
-    
-    // ==================== RUSSIAN ====================
+        // ==================== RUSSIAN ====================
     ru: {
         "search_placeholder": "Поиск в SocialWiki",
         "home": "Главная",
@@ -4673,6 +4856,7 @@ const translations = {
         "name": "Имя",
         "date": "Дата регистрации",
         "reward": "Награда",
+        "no_referrals": "Вы ещё никого не пригласили. Начните сейчас! 🚀",
         "points": "баллов",
         "copied_code": "✅ Код скопирован!",
         "copied_link": "✅ Ссылка скопирована!",
@@ -5077,6 +5261,27 @@ const translations = {
 "badge_awarded": "🏆 Поздравляем! Вы получили новый значок!",
 "first_member_from": "Первый участник из",
 "no_referrals": "Вы ещё никого не пригласили. Начните сейчас! 🚀",
+        "gifts_title": "🎁 Подарки",
+        "gifts_subtitle": "Дарите подарки друзьям",
+        "real_points": "Реальные баллы",
+        "gift_points": "Подарочные баллы",
+        "buy_points": "Купить баллы",
+        "all_gifts": "Все",
+        "free_gifts": "Бесплатно",
+        "small_gifts": "Маленький",
+        "medium_gifts": "Средний",
+        "big_gifts": "Большой",
+        "premium_gifts": "Премиум",
+        "legendary_gifts": "Легендарный",
+        "send_gift_title": "Отправить подарок",
+        "select_friend": "👥 Выбрать друга",
+        "message_optional": "💬 Сообщение (необязательно)",
+        "gift_message_placeholder": "Напишите хорошее сообщение...",
+        "send_gift_btn": "🎁 Отправить подарок",
+        "loading_friends": "Загрузка друзей...",
+        "send_gift_success": "🎉 Подарок отправлен!",
+        "insufficient_gift_points": "❌ Недостаточно подарочных баллов!",
+        "select_friend_first": "⚠️ Сначала выберите друга",
     },
 
     // ==================== TURKISH ====================
@@ -5181,6 +5386,7 @@ const translations = {
         "name": "İsim",
         "date": "Kayıt Tarihi",
         "reward": "Ödül",
+        "no_referrals": "Henüz kimseyi davet etmediniz. Şimdi başlayın! 🚀",
         "points": "puan",
         "copied_code": "✅ Kod kopyalandı!",
         "copied_link": "✅ Bağlantı kopyalandı!",
@@ -5584,6 +5790,27 @@ const translations = {
 "badge_awarded": "🏆 Tebrikler! Yeni bir rozet kazandınız!",
 "first_member_from": "İlk üye:",
 "no_referrals": "Henüz kimseyi davet etmediniz. Şimdi başlayın! 🚀",
+        "gifts_title": "🎁 Hediyeler",
+        "gifts_subtitle": "Arkadaşlarına hediye gönder",
+        "real_points": "Gerçek Puanlar",
+        "gift_points": "Hediye Puanları",
+        "buy_points": "Puan Satın Al",
+        "all_gifts": "Tümü",
+        "free_gifts": "Ücretsiz",
+        "small_gifts": "Küçük",
+        "medium_gifts": "Orta",
+        "big_gifts": "Büyük",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Efsanevi",
+        "send_gift_title": "Hediye Gönder",
+        "select_friend": "👥 Arkadaş Seç",
+        "message_optional": "💬 Mesaj (İsteğe bağlı)",
+        "gift_message_placeholder": "Güzel bir mesaj yaz...",
+        "send_gift_btn": "🎁 Hediye Gönder",
+        "loading_friends": "Arkadaşlar yükleniyor...",
+        "send_gift_success": "🎉 Hediye gönderildi!",
+        "insufficient_gift_points": "❌ Yetersiz hediye puanı!",
+        "select_friend_first": "⚠️ Önce bir arkadaş seç",
     },
 
     // ==================== HINDI ====================
@@ -5688,6 +5915,7 @@ const translations = {
         "name": "नाम",
         "date": "पंजीकरण तिथि",
         "reward": "इनाम",
+        "no_referrals": "आपने अभी तक किसी को आमंत्रित नहीं किया। अभी शुरू करें! 🚀",
         "points": "अंक",
         "copied_code": "✅ कोड कॉपी हो गया!",
         "copied_link": "✅ लिंक कॉपी हो गया!",
@@ -6091,8 +6319,29 @@ const translations = {
 "badge_awarded": "🏆 बधाई हो! आपने एक नया बैज अर्जित किया!",
 "first_member_from": "पहला सदस्य यहाँ से",
 "no_referrals": "आपने अभी तक किसी को आमंत्रित नहीं किया। अभी शुरू करें! 🚀",
+        "gifts_title": "🎁 उपहार",
+        "gifts_subtitle": "दोस्तों को उपहार भेजें",
+        "real_points": "असली अंक",
+        "gift_points": "उपहार अंक",
+        "buy_points": "अंक खरीदें",
+        "all_gifts": "सभी",
+        "free_gifts": "मुफ्त",
+        "small_gifts": "छोटा",
+        "medium_gifts": "मध्यम",
+        "big_gifts": "बड़ा",
+        "premium_gifts": "प्रीमियम",
+        "legendary_gifts": "पौराणिक",
+        "send_gift_title": "उपहार भेजें",
+        "select_friend": "👥 मित्र चुनें",
+        "message_optional": "💬 संदेश (वैकल्पिक)",
+        "gift_message_placeholder": "एक अच्छा संदेश लिखें...",
+        "send_gift_btn": "🎁 उपहार भेजें",
+        "loading_friends": "मित्र लोड हो रहे हैं...",
+        "send_gift_success": "🎉 उपहार भेजा गया!",
+        "insufficient_gift_points": "❌ अपर्याप्त उपहार अंक!",
+        "select_friend_first": "⚠️ पहले एक मित्र चुनें",
     },
-    
+
     // ==================== FILIPINO ====================
     fil: {
                 "search_placeholder": "Maghanap sa SocialWiki",
@@ -6195,6 +6444,7 @@ const translations = {
         "name": "Pangalan",
         "date": "Petsa ng Signup",
         "reward": "Gantimpala",
+        "no_referrals": "Wala ka pang inanyayahan. Magsimula na! 🚀",
         "points": "puntos",
         "copied_code": "✅ Nakopya ang code!",
         "copied_link": "✅ Nakopya ang link!",
@@ -6599,6 +6849,27 @@ const translations = {
 "badge_awarded": "🏆 Binabati kita! Nakakuha ka ng bagong badge!",
 "first_member_from": "Unang miyembro mula sa",
 "no_referrals": "Wala ka pang inanyayahan. Magsimula na! 🚀",
+        "gifts_title": "🎁 Mga Regalo",
+        "gifts_subtitle": "Magpadala ng regalo sa iyong mga kaibigan",
+        "real_points": "Tunay na Puntos",
+        "gift_points": "Puntos ng Regalo",
+        "buy_points": "Bumili ng Puntos",
+        "all_gifts": "Lahat",
+        "free_gifts": "Libre",
+        "small_gifts": "Maliit",
+        "medium_gifts": "Katamtaman",
+        "big_gifts": "Malaki",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Alamat",
+        "send_gift_title": "Magpadala ng Regalo",
+        "select_friend": "👥 Pumili ng Kaibigan",
+        "message_optional": "💬 Mensahe (Opsyonal)",
+        "gift_message_placeholder": "Magsulat ng magandang mensahe...",
+        "send_gift_btn": "🎁 Magpadala ng Regalo",
+        "loading_friends": "Naglo-load ng mga kaibigan...",
+        "send_gift_success": "🎉 Naipadala ang regalo!",
+        "insufficient_gift_points": "❌ Kulang ang puntos ng regalo!",
+        "select_friend_first": "⚠️ Pumili muna ng kaibigan",
     },
 
     // ==================== TAGALOG ====================
@@ -6703,6 +6974,7 @@ const translations = {
         "name": "Pangalan",
         "date": "Petsa ng Signup",
         "reward": "Gantimpala",
+        "no_referrals": "Wala ka pang inanyayahan. Magsimula na! 🚀",
         "points": "puntos",
         "copied_code": "✅ Nakopya ang code!",
         "copied_link": "✅ Nakopya ang link!",
@@ -7107,6 +7379,27 @@ const translations = {
 "badge_awarded": "🏆 Binabati kita! Nakakuha ka ng bagong badge!",
 "first_member_from": "Unang miyembro mula sa",
 "no_referrals": "Wala ka pang inanyayahan. Magsimula na! 🚀",
+        "gifts_title": "🎁 Mga Regalo",
+        "gifts_subtitle": "Magpadala ng regalo sa iyong mga kaibigan",
+        "real_points": "Tunay na Puntos",
+        "gift_points": "Puntos ng Regalo",
+        "buy_points": "Bumili ng Puntos",
+        "all_gifts": "Lahat",
+        "free_gifts": "Libre",
+        "small_gifts": "Maliit",
+        "medium_gifts": "Katamtaman",
+        "big_gifts": "Malaki",
+        "premium_gifts": "Premium",
+        "legendary_gifts": "Alamat",
+        "send_gift_title": "Magpadala ng Regalo",
+        "select_friend": "👥 Pumili ng Kaibigan",
+        "message_optional": "💬 Mensahe (Opsyonal)",
+        "gift_message_placeholder": "Magsulat ng magandang mensahe...",
+        "send_gift_btn": "🎁 Magpadala ng Regalo",
+        "loading_friends": "Naglo-load ng mga kaibigan...",
+        "send_gift_success": "🎉 Naipadala ang regalo!",
+        "insufficient_gift_points": "❌ Kulang ang puntos ng regalo!",
+        "select_friend_first": "⚠️ Pumili muna ng kaibigan",
     }
 
 };
@@ -7115,22 +7408,12 @@ const translations = {
 // TRANSLATION HELPER FUNCTIONS
 // =========================================================
 
-/**
- * الحصول على الترجمة حسب المفتاح واللغة
- * @param {string} key - مفتاح الترجمة
- * @param {string} lang - رمز اللغة (ar, en, fr...)
- * @returns {string} - النص المترجم أو المفتاح نفسه إذا لم يوجد
- */
 function t(key, lang) {
     lang = lang || getCurrentLanguage();
     if (!translations[lang]) lang = 'ar';
     return translations[lang][key] || translations['en'][key] || key;
 }
 
-/**
- * تغيير لغة الصفحة بالكامل
- * @param {string} lang - رمز اللغة
- */
 function setLanguage(lang) {
     if (!translations[lang]) {
         console.warn('Language ' + lang + ' not found, falling back to English.');
@@ -7141,7 +7424,6 @@ function setLanguage(lang) {
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang === 'ar' || lang === 'he') ? 'rtl' : 'ltr';
 
-    // تحديث جميع العناصر التي تحمل data-i18n
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
         var key = el.getAttribute('data-i18n');
         var translated = t(key, lang);
@@ -7153,39 +7435,28 @@ function setLanguage(lang) {
         }
     });
 
-    // تحديث العناصر التي تحمل data-i18n-placeholder
     document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
         var key = el.getAttribute('data-i18n-placeholder');
         el.placeholder = t(key, lang);
     });
 
-    // تحديث العناصر التي تحمل data-i18n-title
     document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
         var key = el.getAttribute('data-i18n-title');
         el.title = t(key, lang);
     });
 
-    // إطلاق حدث لتحديث باقي الصفحة
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
 }
 
-/**
- * الحصول على اللغة الحالية
- * @returns {string}
- */
 function getCurrentLanguage() {
     return localStorage.getItem('socialwiki_lang') || 'ar';
 }
 
-/**
- * تهيئة اللغة عند تحميل الصفحة
- */
 function initLanguage() {
     var savedLang = getCurrentLanguage();
     setLanguage(savedLang);
 }
 
-// تشغيل التهيئة عند تحميل الصفحة
 if (typeof window !== 'undefined') {
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initLanguage);
@@ -7194,34 +7465,20 @@ if (typeof window !== 'undefined') {
     }
 }
 
-// =========================================================
-// BACKWARD COMPATIBILITY FUNCTIONS
-// =========================================================
-
-/**
- * إعادة تطبيق الترجمات على الصفحة (بديل لـ initLanguage)
- */
 function applyTranslations() {
     if (typeof getCurrentLanguage !== 'function') return;
     if (typeof setLanguage !== 'function') return;
     setLanguage(getCurrentLanguage());
 }
 
-/**
- * تغيير اللغة (يُستدعى من أزرار اللغة في navbar)
- */
 function changeLanguage(lang) {
     if (typeof setLanguage === 'function') {
         setLanguage(lang);
     }
-    // إغلاق قائمة اللغة إذا كانت مفتوحة
     var menu = document.getElementById('languageMenu');
     if (menu) menu.style.display = 'none';
 }
 
-/**
- * فتح/إغلاق قائمة اللغة
- */
 function toggleLanguageMenu() {
     var menu = document.getElementById('languageMenu');
     if (!menu) return;
@@ -7230,7 +7487,6 @@ function toggleLanguageMenu() {
         : 'none';
 }
 
-// إغلاق القائمة عند الضغط خارجها
 if (typeof window !== 'undefined') {
     window.addEventListener('click', function (e) {
         var menu = document.getElementById('languageMenu');
