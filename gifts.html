@@ -429,13 +429,32 @@
             <li><a href="events.html">📅</a></li>
             <li><a href="notifications.html">🔔</a></li>
         </ul>
-        <div class="nav-right">
-            <a href="profile.html" class="nav-profile">
-                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
-                <span id="navProfileName">User</span>
-            </a>
-            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+       <div class="nav-right">
+    <a href="profile.html" class="nav-profile">
+        <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+        <span id="navProfileName">User</span>
+    </a>
+    <div class="language-selector">
+        <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+        <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
+            <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+            <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+            <button onclick="changeLanguage('en')">🇬🇧 English</button>
+            <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+            <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+            <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+            <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+            <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+            <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+            <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+            <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+            <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+            <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+            <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
         </div>
+    </div>
+    <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+</div>
     </nav>
 
     <div class="nav-buttons">
@@ -975,9 +994,13 @@
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🎁 gifts.html loaded');
 
-            if (typeof getCurrentLanguage === 'function') {
-                setLanguage(getCurrentLanguage());
-            }
+           if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
+    try {
+        setLanguage(getCurrentLanguage());
+    } catch (e) {
+        console.warn('⚠️ setLanguage failed:', e);
+    }
+}
 
             await loadUser();
             await loadGifts();
@@ -997,6 +1020,44 @@
         window.openSendModal = openSendModal;
         window.closeSendModal = closeSendModal;
         window.sendGift = sendGift;
+        // =========================================================
+// LANGUAGE SELECTOR
+// =========================================================
+window.toggleLanguageMenu = function() {
+    const menu = document.getElementById('languageMenu');
+    if (menu) menu.classList.toggle('show');
+};
+
+window.changeLanguage = function(lang) {
+    if (typeof setLanguage === 'function') {
+        setLanguage(lang);
+    } else if (typeof applyTranslations === 'function') {
+        applyTranslations(lang);
+    }
+    const menu = document.getElementById('languageMenu');
+    if (menu) menu.classList.remove('show');
+    localStorage.setItem('preferredLanguage', lang);
+};
+
+// إغلاق القائمة عند الضغط خارجها
+document.addEventListener('click', function(e) {
+    const selector = document.querySelector('.language-selector');
+    const menu = document.getElementById('languageMenu');
+    if (selector && menu && !selector.contains(e.target)) {
+        menu.classList.remove('show');
+    }
+});
+
+// تحميل اللغة المحفوظة عند فتح الصفحة
+// تحميل اللغة المحفوظة عند فتح الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    if (savedLang && typeof setLanguage === 'function') {
+        setLanguage(savedLang);
+    } else if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
+        setLanguage(getCurrentLanguage());
+    }
+});
     </script>
     <script src="js/messenger-notify.js"></script>
     <script src="js/popunder-ad.js"></script>
