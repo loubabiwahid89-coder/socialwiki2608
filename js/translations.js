@@ -7875,12 +7875,18 @@ function setLanguage(lang) {
 }
 
 function getCurrentLanguage() {
-    return localStorage.getItem('socialwiki_lang') || 'ar';
+    return localStorage.getItem('socialwiki_lang') || 'en';
 }
 
 function initLanguage() {
-    var savedLang = getCurrentLanguage();
-    setLanguage(savedLang);
+    // أولاً: حاول اكتشاف اللغة حسب IP
+    if (typeof initLanguageWithIPDetection === 'function') {
+        initLanguageWithIPDetection();
+    } else {
+        // fallback: استخدم اللغة المحفوظة أو الإنجليزية
+        var savedLang = localStorage.getItem('socialwiki_lang') || 'en';
+        setLanguage(savedLang);
+    }
 }
 
 if (typeof window !== 'undefined') {
@@ -7921,4 +7927,135 @@ if (typeof window !== 'undefined') {
             menu.style.display = 'none';
         }
     });
+}
+// =========================================================
+// 🌍 AUTO-DETECT LANGUAGE BY IP (Cloudflare)
+// =========================================================
+async function detectLanguageByIP() {
+    // تحقق أولاً: هل المستخدم اختار لغة يدوياً سابقاً؟
+    const savedLang = localStorage.getItem('socialwiki_lang');
+    if (savedLang && translations[savedLang]) {
+        console.log('✅ User language already saved:', savedLang);
+        return savedLang;
+    }
+
+    try {
+        // اطلب من Cloudflare بيانات الموقع
+        const response = await fetch('/cdn-cgi/trace', { cache: 'no-store' });
+        const text = await response.text();
+        
+        // استخرج كود الدولة من الاستجابة
+        const match = text.match(/loc=([A-Z]{2})/);
+        const countryCode = match ? match[1] : null;
+        
+        console.log('🌍 Detected country:', countryCode);
+
+        // خريطة: الدولة → اللغة
+        const countryToLanguage = {
+            // الدول العربية
+            'MA': 'ar', 'DZ': 'ar', 'TN': 'ar', 'EG': 'ar', 'SA': 'ar',
+            'AE': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
+            'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'LY': 'ar',
+            'SD': 'ar', 'YE': 'ar', 'PS': 'ar',
+            
+            // أوروبا
+            'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr',
+            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'CL': 'es',
+            'DE': 'de', 'AT': 'de',
+            'IT': 'it',
+            'TR': 'tr',
+            'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
+            
+            // آسيا
+            'JP': 'ja',
+            'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'SG': 'zh',
+            'KR': 'ko',
+            'IN': 'hi',
+            'PH': 'fil',
+        };
+
+        const detectedLang = countryToLanguage[countryCode] || 'en';
+        console.log('✅ Auto-detected language:', detectedLang, 'for country:', countryCode);
+
+        // احفظ اللغة المُكتشَفة
+        localStorage.setItem('socialwiki_lang', detectedLang);
+        return detectedLang;
+
+    } catch (error) {
+        console.warn('⚠️ IP detection failed, using English:', error);
+        // افتراضي: الإنجليزية
+        localStorage.setItem('socialwiki_lang', 'en');
+        return 'en';
+    }
+}
+
+// =========================================================
+// 🌍 AUTO-DETECT LANGUAGE BY IP (Cloudflare)
+// =========================================================
+async function detectLanguageByIP() {
+    // تحقق أولاً: هل المستخدم اختار لغة يدوياً سابقاً؟
+    const savedLang = localStorage.getItem('socialwiki_lang');
+    if (savedLang && translations[savedLang]) {
+        console.log('✅ User language already saved:', savedLang);
+        return savedLang;
+    }
+
+    try {
+        // اطلب من Cloudflare بيانات الموقع
+        const response = await fetch('/cdn-cgi/trace', { cache: 'no-store' });
+        const text = await response.text();
+        
+        // استخرج كود الدولة من الاستجابة
+        const match = text.match(/loc=([A-Z]{2})/);
+        const countryCode = match ? match[1] : null;
+        
+        console.log('🌍 Detected country:', countryCode);
+
+        // خريطة: الدولة → اللغة
+        const countryToLanguage = {
+            // الدول العربية
+            'MA': 'ar', 'DZ': 'ar', 'TN': 'ar', 'EG': 'ar', 'SA': 'ar',
+            'AE': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
+            'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'LY': 'ar',
+            'SD': 'ar', 'YE': 'ar', 'PS': 'ar',
+            
+            // أوروبا
+            'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr',
+            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'CL': 'es',
+            'DE': 'de', 'AT': 'de',
+            'IT': 'it',
+            'TR': 'tr',
+            'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
+            
+            // آسيا
+            'JP': 'ja',
+            'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'SG': 'zh',
+            'KR': 'ko',
+            'IN': 'hi',
+            'PH': 'fil',
+        };
+
+        const detectedLang = countryToLanguage[countryCode] || 'en';
+        console.log('✅ Auto-detected language:', detectedLang, 'for country:', countryCode);
+
+        // احفظ اللغة المُكتشَفة
+        localStorage.setItem('socialwiki_lang', detectedLang);
+        return detectedLang;
+
+    } catch (error) {
+        console.warn('⚠️ IP detection failed, using English:', error);
+        // افتراضي: الإنجليزية
+        localStorage.setItem('socialwiki_lang', 'en');
+        return 'en';
+    }
+}
+
+// =========================================================
+// 🚀 APPLY DETECTED LANGUAGE
+// =========================================================
+async function initLanguageWithIPDetection() {
+    const lang = await detectLanguageByIP();
+    if (typeof setLanguage === 'function') {
+        setLanguage(lang);
+    }
 }
