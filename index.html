@@ -482,19 +482,21 @@
             }
         }
 
-        function showPointsNotification(points) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed; top: 80px; right: 20px;
-                background: linear-gradient(135deg, #ffd700, #f7b928);
-                color: #333; padding: 15px 25px; border-radius: 12px;
-                font-weight: 700; z-index: 99999;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            `;
-            toast.textContent = `+${points} نقاط! 💰`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
+      function showPointsNotification(points) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; top: 80px; right: 20px;
+        background: linear-gradient(135deg, #ffd700, #f7b928);
+        color: #333; padding: 15px 25px; border-radius: 12px;
+        font-weight: 700; z-index: 99999;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    `;
+    // ✅ استخدم الترجمة بدل النص الثابت
+    const pointsLabel = (typeof t === 'function') ? t('points') : 'points';
+    toast.textContent = `+${points} ${pointsLabel}! 💰`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
 
         async function handleAuthCallback() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
@@ -664,8 +666,8 @@
                 window.uploadedVideoUrl = null;
                 document.getElementById('videoPreviewArea').innerHTML = '';
                 document.getElementById('imagePreviewArea').innerHTML = '';
-                closeCreatePostModal();
-                window.location.reload();
+               closeCreatePostModal();
+loadPosts();  // ✅ أسرع بكثير
             } catch (error) { console.error('❌ Error:', error); }
         };
 
@@ -1229,127 +1231,85 @@
         // =========================================================
         
         async function loadWaitlistStatus() {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) return;
-
-                const { data, error } = await window.supabaseClient.rpc('get_waitlist_info');
-                
-                if (error) {
-                    console.error('❌ Waitlist error:', error);
-                    return;
-                }
-
-                const banner = document.getElementById('waitlistBanner');
-                if (!banner) return;
-
-                banner.style.display = 'block';
-
-                document.getElementById('waitlistPosition').textContent = data.position.toLocaleString();
-                document.getElementById('waitlistInvites').textContent = data.invites_count || 0;
-                document.getElementById('waitlistGifts').textContent = data.free_gifts || 0;
-
-                const founderBadge = document.getElementById('waitlistFounderBadge');
-                founderBadge.style.display = data.is_founder ? 'block' : 'none';
-
-                const joinBtn = document.getElementById('waitlistJoinBtn');
-                const inviteBtn = document.querySelector('.waitlist-btn-invite');
-                
-                if (!data.in_waitlist) {
-                    joinBtn.style.display = 'flex';
-                    inviteBtn.style.display = 'none';
-                } else {
-                    joinBtn.style.display = 'none';
-                    inviteBtn.style.display = 'flex';
-                }
-
-                const progress = Math.min(100, (data.invites_count || 0) * 10);
-                const progressBar = document.getElementById('waitlistProgress');
-                if (progressBar) progressBar.style.width = progress + '%';
-
-            } catch (error) {
-                console.error('❌ Waitlist load error:', error);
-            }
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            console.log('⚠️ No user, skipping waitlist');
+            return;
         }
 
-        window.joinWaitlist = async function() {
-            try {
-                const btn = document.getElementById('waitlistJoinBtn');
-                if (btn) {
-                    btn.disabled = true;
-                    btn.innerHTML = '⏳ Loading...';
-                }
+        const { data, error } = await window.supabaseClient.rpc('get_waitlist_info');
 
-                const { data, error } = await window.supabaseClient.rpc('join_waitlist');
-                
-                if (error) {
-                    alert('❌ Error: ' + error.message);
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = '🎟️ Join Waitlist';
-                    }
-                    return;
-                }
+        // ✅ إظهار تفاصيل الخطأ الكاملة
+        if (error) {
+            console.error('❌ Waitlist RPC error:', {
+                message: error?.message,
+                details: error?.details,
+                hint: error?.hint,
+                code: error?.code
+            });
+            return;
+        }
 
-                if (!data.success) {
-                    alert('❌ ' + (data.error || 'Unknown error'));
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = '🎟️ Join Waitlist';
-                    }
-                    return;
-                }
+        // ✅ FIX: RPC RETURNS TABLE → مصفوفة، خذ العنصر الأول
+        const info = Array.isArray(data) ? data[0] : data;
 
-                showWaitlistCelebration(data.position, data.is_founder);
-                await loadWaitlistStatus();
+        if (!info) {
+            console.warn('⚠️ Empty waitlist data (no row returned)');
+            return;
+        }
 
-            } catch (error) {
-                console.error('❌ Join error:', error);
-            }
-        };
+        console.log('✅ Waitlist info loaded:', info);
 
-        window.copyWaitlistLink = async function() {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) return;
+        const banner = document.getElementById('waitlistBanner');
+        if (!banner) return;
 
-                const { data: profile } = await window.supabaseClient
-                    .from('profiles')
-                    .select('referral_code')
-                    .eq('id', user.id)
-                    .single();
+        banner.style.display = 'block';
 
-                let code = profile?.referral_code;
-                if (!code) {
-                    code = 'REF' + user.id.substring(0, 6).toUpperCase();
-                    await window.supabaseClient
-                        .from('profiles')
-                        .update({ referral_code: code })
-                        .eq('id', user.id);
-                }
+        // ✅ فحص آمن لكل عنصر
+        const posEl = document.getElementById('waitlistPosition');
+        if (posEl) {
+            posEl.textContent = (info.position || 0).toLocaleString();
+        }
 
-                const link = `${window.location.origin}/auth.html?ref=${code}`;
-                await navigator.clipboard.writeText(link);
-                
-                const toast = document.createElement('div');
-                toast.style.cssText = `
-                    position: fixed; top: 80px; left: 50%;
-                    transform: translateX(-50%);
-                    background: linear-gradient(135deg, #28a745, #20c997);
-                    color: white; padding: 15px 30px;
-                    border-radius: 12px; font-weight: 700;
-                    z-index: 99999;
-                    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
-                `;
-                toast.textContent = '✅ Link copied!';
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
+        const invEl = document.getElementById('waitlistInvites');
+        if (invEl) {
+            invEl.textContent = info.invites ?? info.invites_count ?? 0;
+        }
 
-            } catch (error) {
-                console.error('❌ Copy error:', error);
-                alert('❌ Failed to copy link');
-            }
-        };
+        const giftEl = document.getElementById('waitlistGifts');
+        if (giftEl) {
+            giftEl.textContent = info.free_gifts ?? 0;
+        }
+
+        const founderBadge = document.getElementById('waitlistFounderBadge');
+        if (founderBadge) {
+            founderBadge.style.display = info.is_founder ? 'block' : 'none';
+        }
+
+        const joinBtn = document.getElementById('waitlistJoinBtn');
+        const inviteBtn = document.querySelector('.waitlist-btn-invite');
+
+        // ✅ إذا لم تُرجع الدالة in_waitlist، افترض أن المستخدم في الطابور
+        const inWaitlist = info.in_waitlist !== undefined ? info.in_waitlist : true;
+
+        if (!inWaitlist) {
+            if (joinBtn) joinBtn.style.display = 'flex';
+            if (inviteBtn) inviteBtn.style.display = 'none';
+        } else {
+            if (joinBtn) joinBtn.style.display = 'none';
+            if (inviteBtn) inviteBtn.style.display = 'flex';
+        }
+
+        const invites = info.invites ?? info.invites_count ?? 0;
+        const progress = Math.min(100, invites * 10);
+        const progressBar = document.getElementById('waitlistProgress');
+        if (progressBar) progressBar.style.width = progress + '%';
+
+    } catch (error) {
+        console.error('❌ Waitlist load error:', error);
+    }
+}
 
         function showWaitlistCelebration(position, isFounder) {
             const overlay = document.createElement('div');
@@ -1386,7 +1346,98 @@
 
             document.body.appendChild(overlay);
         }
+        window.joinWaitlist = async function() {
+            const btn = document.getElementById('waitlistJoinBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '⏳ Loading...';
+            }
 
+            try {
+                const { data, error } = await window.supabaseClient.rpc('join_waitlist');
+
+                if (error) {
+                    console.error('❌ Join RPC error:', {
+                        message: error.message,
+                        details: error.details,
+                        hint: error.hint,
+                        code: error.code
+                    });
+                    alert('❌ Error: ' + error.message);
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '🎟️ Join Waitlist';
+                    }
+                    return;
+                }
+
+                // ✅ FIX: RPC قد تُرجع مصفوفة
+                const result = Array.isArray(data) ? data[0] : data;
+
+                if (!result || !result.success) {
+                    alert('❌ ' + (result?.error || 'Unknown error'));
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '🎟️ Join Waitlist';
+                    }
+                    return;
+                }
+
+                showWaitlistCelebration(result.position, result.is_founder);
+                await loadWaitlistStatus();
+
+            } catch (error) {
+                console.error('❌ Join exception:', error);
+                alert('❌ Error: ' + error.message);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '🎟️ Join Waitlist';
+                }
+            }
+        };
+
+        window.copyWaitlistLink = async function() {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { data: profile } = await window.supabaseClient
+                    .from('profiles')
+                    .select('referral_code')
+                    .eq('id', user.id)
+                    .single();
+
+                let code = profile?.referral_code;
+                if (!code) {
+                    code = 'REF' + user.id.substring(0, 6).toUpperCase();
+                    await window.supabaseClient
+                        .from('profiles')
+                        .update({ referral_code: code })
+                        .eq('id', user.id);
+                }
+
+                const link = `${window.location.origin}/auth.html?ref=${code}`;
+                await navigator.clipboard.writeText(link);
+
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed; top: 80px; left: 50%;
+                    transform: translateX(-50%);
+                    background: linear-gradient(135deg, #28a745, #20c997);
+                    color: white; padding: 15px 30px;
+                    border-radius: 12px; font-weight: 700;
+                    z-index: 99999;
+                    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+                `;
+                toast.textContent = '✅ Link copied!';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+
+            } catch (error) {
+                console.error('❌ Copy error:', error);
+                alert('❌ Failed to copy link');
+            }
+        };
         // =========================================================
         // INITIALIZE
         // =========================================================
@@ -1569,13 +1620,13 @@
                     const item = document.createElement('a');
                     item.className = 'search-result-item';
                     item.href = `profile.html?id=${user.id}`;
-                    item.innerHTML = `
-                        <img src="${avatar}" alt="${escapeHtmlSearch(name)}">
-                        <div class="search-result-info">
-                            <div class="search-result-name">${escapeHtmlSearch(name)}</div>
-                            <div class="search-result-username">@${escapeHtmlSearch(username)}</div>
-                        </div>
-                    `;
+                 item.innerHTML = `
+    <img src="${avatar}" alt="${escapeHtml(name)}">
+    <div class="search-result-info">
+        <div class="search-result-name">${escapeHtml(name)}</div>
+        <div class="search-result-username">@${escapeHtml(username)}</div>
+    </div>
+`;
                     resultsDiv.appendChild(item);
                 });
 
@@ -1585,13 +1636,7 @@
             }
         }
 
-        function escapeHtmlSearch(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
+    
         document.addEventListener('click', function(e) {
             const searchDiv = document.querySelector('.navbar-search');
             const resultsDiv = document.getElementById('searchResults');
