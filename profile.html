@@ -600,10 +600,10 @@
                 <button class="edit-btn" onclick="editProfile()" data-i18n="edit_profile">Edit Profile</button>
                 <button class="message-btn" onclick="sendMessage()" data-i18n="message">Message</button>
                 
-                <a href="earnings.html" data-i18n="earnings_title" 
-                   style="display: inline-flex; align-items: center; gap: 5px; padding: 12px 28px; background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;">
-                    💰 My Earnings
-                </a>
+               <a href="earnings.html" id="earningsBtn" data-i18n="earnings_title" 
+   style="display: none; align-items: center; gap: 5px; padding: 12px 28px; background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;">
+    💰 My Earnings
+</a>
             </div>
         </div>
         
@@ -1244,18 +1244,24 @@ if (verifiedBadgeEl) {
                 if (!addBtn || !sentBtn || !actionsBtn) return;
                 
                 // إذا كنت في صفحتك → أخفِ أزرار الصداقة وأظهر Edit
-                if (profileUserId === currentUserId) {
-                    addBtn.style.display = 'none';
-                    sentBtn.style.display = 'none';
-                    actionsBtn.style.display = 'none';
-                    if (editBtn) editBtn.style.display = 'inline-flex';
-                    if (messageBtn) messageBtn.style.display = 'none';
-                    return;
-                }
+               if (profileUserId === currentUserId) {
+    addBtn.style.display = 'none';
+    sentBtn.style.display = 'none';
+    actionsBtn.style.display = 'none';
+    if (editBtn) editBtn.style.display = 'inline-flex';
+    if (messageBtn) messageBtn.style.display = 'none';
+    
+    // ✅ إظهار زر My Earnings للمالك فقط
+    const earningsBtn = document.getElementById('earningsBtn');
+    if (earningsBtn) earningsBtn.style.display = 'inline-flex';
+    
+    return;
+}
                 
                 // إذا كنت في صفحة شخص آخر → أخفِ Edit وأظهر Message
-                if (editBtn) editBtn.style.display = 'none';
-                if (messageBtn) messageBtn.style.display = 'inline-flex';
+                // ✅ إخفاء زر My Earnings عن الزوار
+const earningsBtn = document.getElementById('earningsBtn');
+if (earningsBtn) earningsBtn.style.display = 'none';
                 
                 // 1. هل هم أصدقاء بالفعل؟
                 const { data: friend } = await supabaseClient
