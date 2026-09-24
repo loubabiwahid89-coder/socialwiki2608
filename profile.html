@@ -1230,10 +1230,16 @@ if (verifiedBadgeEl) {
         // =========================================================
         async function checkFriendshipStatus() {
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
-                
-                currentUserId = user.id;
+               const { data: { user } } = await supabaseClient.auth.getUser();
+if (!user) {
+    console.log('⚠️ No user logged in');
+    return;
+}
+
+currentUserId = user.id;
+console.log('✅ Current User:', currentUserId);
+console.log('👤 Profile User:', profileUserId);
+console.log('🔍 Is Owner?', profileUserId === currentUserId);
                 
                 const addBtn = document.getElementById('addFriendBtn');
                 const sentBtn = document.getElementById('requestSentBtn');
@@ -1468,7 +1474,8 @@ if (earningsBtn) earningsBtn.style.display = 'none';
     
     await loadProfile();
     
-    setTimeout(checkFriendshipStatus, 500);
+   // بدلاً من setTimeout
+setTimeout(checkFriendshipStatus, 1500);
 });
 
 // =========================================================
