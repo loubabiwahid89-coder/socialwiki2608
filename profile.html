@@ -846,6 +846,23 @@ async function sendBadgeNotification(userId, badge) {
         document.getElementById('profileName').textContent = fullName;
         document.getElementById('profileUsername').textContent = '@' + username;
         document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+        // =========================================================
+// ✅ إظهار شارات Owner و Verified
+// =========================================================
+const ownerBadgeEl = document.getElementById('ownerBadge');
+const verifiedBadgeEl = document.getElementById('verifiedBadge');
+
+if (ownerBadgeEl) {
+    ownerBadgeEl.style.display = (profile?.is_owner === true) 
+        ? 'inline-flex' 
+        : 'none';
+}
+
+if (verifiedBadgeEl) {
+    verifiedBadgeEl.style.display = (profile?.is_verified === true) 
+        ? 'inline-flex' 
+        : 'none';
+}
         document.getElementById('avatarImg').src = avatarUrl;
         document.getElementById('coverImg').src = coverUrl;
 
@@ -1447,16 +1464,153 @@ async function sendBadgeNotification(userId, badge) {
     
     setTimeout(checkFriendshipStatus, 500);
 });
+
+// =========================================================
+// ✅ LOAD USER POSTS
+// =========================================================
+async function loadUserPosts(userId) {
+    try {
+        const container = document.getElementById('userPosts');
+        if (!container) return;
+        
+        container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Loading posts...</p>';
+        
+        const { data: posts, error } = await supabaseClient
+            .from('posts')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+        
+        if (error) {
+            console.error('Error loading posts:', error);
+            container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Error loading posts</p>';
+            return;
+        }
+        
+        if (!posts || posts.length === 0) {
+            container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">No posts yet</p>';
+            return;
+        }
+        
+        container.innerHTML = '';
+        
+        posts.forEach(post => {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'profile-post';
+            postDiv.style.cssText = 'background:#f8f9fa;border-radius:8px;padding:15px;margin-bottom:15px;';
+            
+            const timeAgo = formatTimeAgo(post.created_at);
+            const imageHtml = post.image_url 
+                ? `<img src="${post.image_url}" style="width:100%;border-radius:8px;margin-top:10px;" alt="Post image">` 
+                : '';
+            
+            postDiv.innerHTML = `
+                <p style="margin:0 0 10px;font-size:15px;color:#050505;">${escapeHtml(post.content || '')}</p>
+                ${imageHtml}
+                <div class="profile-post-footer" style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#65676b;margin-top:10px;padding-top:10px;border-top:1px solid #e4e6eb;">
+                    <span>${timeAgo}</span>
+                    <div class="profile-post-actions" style="display:flex;gap:15px;">
+                        <span class="profile-post-action" style="cursor:pointer;">👍 ${post.likes_count || 0}</span>
+                        <span class="profile-post-action" style="cursor:pointer;">💬 ${post.comments_count || 0}</span>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(postDiv);
+        });
+        
+    } catch (error) {
+        console.error('Error:', error);
+        const container = document.getElementById('userPosts');
+        if (container) {
+            container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Error loading posts</p>';
+        }
+    }
+}
+
+
+// =========================================================
+// ✅ SEND MESSAGE
+// =========================================================
+async function sendMessage() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Please login first');
+            window.location.href = 'auth.html';
+            return;
+        }
+        
+        if (!profileUserId) {
+            alert('Profile not loaded');
+            return;
+        }
+        
+        if (profileUserId === user.id) {
+            alert('You cannot message yourself');
+            return;
+        }
+        
+        // الانتقال إلى صفحة المراسلة مع فتح المحادثة
+        window.location.href = `messenger.html?user=${profileUserId}`;
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+
+// =========================================================
+// ✅ FORMAT TIME AGO (إذا لم تكن موجودة)
+// =========================================================
+if (typeof formatTimeAgo !== 'function') {
+    window.formatTimeAgo = function(timestamp) {
+        if (!timestamp) return 'Just now';
+        
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        
+        const seconds = Math.floor(diff / 1000);
+        if (seconds < 60) return 'Just now';
+        
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes} min ago`;
+        
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} hr ago`;
+        
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days} days ago`;
+        
+        return date.toLocaleDateString();
+    };
+}
+
+
+// =========================================================
+// ✅ ESCAPE HTML (إذا لم تكن موجودة)
+// =========================================================
+if (typeof escapeHtml !== 'function') {
+    window.escapeHtml = function(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    };
+}
         
         // =========================================================
         // MAKE FUNCTIONS GLOBAL
         // =========================================================
+        window.loadUserPosts = loadUserPosts;
+window.sendMessage = sendMessage;
         window.sendFriendRequest = sendFriendRequest;
         window.acceptFriendRequest = acceptFriendRequest;
         window.rejectFriendRequest = rejectFriendRequest;
         window.checkFriendshipStatus = checkFriendshipStatus;
         window.editProfile = editProfile;
-        window.sendMessage = sendMessage;
         window.changeAvatar = changeAvatar;
         window.changeCover = changeCover;
         window.showTab = showTab;
