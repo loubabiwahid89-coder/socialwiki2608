@@ -415,23 +415,25 @@
            OFFICIAL BANNER (شريط الحساب الرسمي)
         ========================================================= */
         #officialBanner {
-            display: none;
-            background: linear-gradient(135deg, #1877f2, #0d5bbd);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            margin: 0 auto 15px;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            max-width: 400px;
-            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+             display: none;
+    background: linear-gradient(135deg, #1877f2, #0d5bbd);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 15px auto 15px;  /* ← مسافة فوق وتحت */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+    position: relative;
+    z-index: 20;  /* ← يظهر فوق الصورة */
         }
 
         #officialBanner.active {
-            display: inline-flex;
+           display: inline-flex;
         }
 
         /* =========================================================
