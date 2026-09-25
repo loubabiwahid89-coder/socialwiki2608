@@ -492,18 +492,7 @@ const translations = {
         "level_2_desc": "أصدقاء المستوى الأول. تربح 5% من مهامهم.",
         "level_3_desc": "أصدقاء المستوى الثاني. تربح 2% من مهامهم.",
         "commission_points": "نقاط العمولات",
-        "network_breakdown": "شبكتي (3 مستويات)",
-        "rewards_shop_title": "🎁 متجر المكافآت",
-        "verified_badge": "الشارة الموثقة",
-        "boost_post_7d": "تعزيز المنشور (7 أيام)",
-        "stars_100": "100 نجمة",
-        "bronze_badge": "الشارة البرونزية",
-        "go_btn": "اذهب",
-        "shop": "🛍️ المتجر",
-        "history": "📊 السجل",
-        "network": "👥 شبكتي",
-        "withdraw": "💳 سحب",
-        "reset_daily": "(يتم إعادة التعيين كل يوم)",
+        "network": "شبكتي",
         // ---------- Tasks ----------
         "task_daily_login": "تسجيل الدخول اليومي",
         "task_watch_5_ads": "شاهد 5 إعلانات",
@@ -638,8 +627,38 @@ const translations = {
         "daily_points": "نقاط يومية",
         "free_points_no_withdraw": "النقاط المجانية غير قابلة للسحب",
         "points_separate": "أنواع النقاط منفصلة",
+        // ---------- Rewards Shop / Levels ----------
+        "level_bronze": "🥉 المستوى البرونزي",
+        "level_silver": "🥈 المستوى الفضي",
+        "level_gold": "🥇 المستوى الذهبي",
+        "level_diamond": "💎 المستوى الماسي",
+        "to_silver": "إلى الفضي",
+        "to_gold": "إلى الذهبي",
+        "to_diamond": "إلى الماسي",
+        "daily_tasks": "المهام اليومية",
+        "weekly_tasks": "المهام الأسبوعية",
+        "hard_tasks": "المهام الصعبة",
+        "direct_referrals": "الإحالات المباشرة",
+        "indirect_referrals": "الإحالات غير المباشرة",
+        "far_referrals": "الإحالات البعيدة",
+        "withdraw_options": "خيارات السحب",
+        "rewards_shop_title": "🎁 متجر المكافآت",
+        "bronze_badge": "الشارة البرونزية",
+        "stars_100": "100 نجمة",
+        "boost_post_7d": "تعزيز المنشور (7 أيام)",
+        "verified_badge": "الشارة الموثقة",
+        "go_btn": "اذهب",
+        "starter_rewards": "🥉 مكافآت المبتدئين",
+        "advanced_rewards": "⭐ مكافآت متقدمة",
+        "insufficient_points": "❌ نقاط غير كافية!",
+        "confirm_redeem": "تأكيد شراء",
+        "reward_redeemed": "🎉 تم تفعيل المكافأة!",
+        "you_have": "لديك",
+        "you_need": "تحتاج",
+        "missing": "ناقص",
     },
-        // ==================== FRENCH ====================
+
+    // ==================== FRENCH ====================
     fr: {
         "search_placeholder": "Rechercher sur SocialWiki",
         "home": "Accueil",
@@ -1246,8 +1265,29 @@ const translations = {
         "daily_points": "Points quotidiens",
         "free_points_no_withdraw": "Les points gratuits ne sont pas retirables",
         "points_separate": "Types de points séparés",
+        "level_bronze": "🥉 Niveau Bronze",
+        "level_silver": "🥈 Niveau Argent",
+        "level_gold": "🥇 Niveau Or",
+        "level_diamond": "💎 Niveau Diamant",
+        "to_silver": "vers Argent",
+        "to_gold": "vers Or",
+        "to_diamond": "vers Diamant",
+        "daily_tasks": "Tâches quotidiennes",
+        "weekly_tasks": "Tâches hebdomadaires",
+        "hard_tasks": "Tâches difficiles",
+        "direct_referrals": "Parrainages directs",
+        "indirect_referrals": "Parrainages indirects",
+        "far_referrals": "Parrainages éloignés",
+        "withdraw_options": "Options de retrait",
+        "starter_rewards": "🥉 Débutant",
+        "advanced_rewards": "⭐ Avancé",
+        "insufficient_points": "❌ Pas assez de points!",
+        "confirm_redeem": "Confirmer l'achat",
+        "reward_redeemed": "🎉 Récompense activée!",
+        "you_have": "Vous avez",
+        "you_need": "Vous avez besoin de",
+        "missing": "Manquant",
     },
-
         // ==================== ENGLISH ====================
     en: {
         "search_placeholder": "Search SocialWiki",
@@ -1855,8 +1895,31 @@ const translations = {
         "daily_points": "Daily Points",
         "free_points_no_withdraw": "Free points cannot be withdrawn",
         "points_separate": "Points types are separate",
+        "level_bronze": "🥉 Bronze Level",
+        "level_silver": "🥈 Silver Level",
+        "level_gold": "🥇 Gold Level",
+        "level_diamond": "💎 Diamond Level",
+        "to_silver": "to Silver",
+        "to_gold": "to Gold",
+        "to_diamond": "to Diamond",
+        "daily_tasks": "Daily Tasks",
+        "weekly_tasks": "Weekly Tasks",
+        "hard_tasks": "Hard Tasks",
+        "direct_referrals": "Direct Referrals",
+        "indirect_referrals": "Indirect Referrals",
+        "far_referrals": "Far Referrals",
+        "withdraw_options": "Withdrawal Options",
+        "starter_rewards": "🥉 Starter",
+        "advanced_rewards": "⭐ Advanced",
+        "insufficient_points": "❌ Not enough points!",
+        "confirm_redeem": "Confirm redemption",
+        "reward_redeemed": "🎉 Reward activated!",
+        "you_have": "You have",
+        "you_need": "You need",
+        "missing": "Missing",
     },
-        // ==================== SPANISH ====================
+
+    // ==================== SPANISH ====================
     es: {
         "search_placeholder": "Buscar en SocialWiki",
         "home": "Inicio",
@@ -2463,9 +2526,31 @@ const translations = {
         "daily_points": "Puntos diarios",
         "free_points_no_withdraw": "Los puntos gratis no son retirables",
         "points_separate": "Tipos de puntos separados",
+        "level_bronze": "🥉 Nivel Bronce",
+        "level_silver": "🥈 Nivel Plata",
+        "level_gold": "🥇 Nivel Oro",
+        "level_diamond": "💎 Nivel Diamante",
+        "to_silver": "a Plata",
+        "to_gold": "a Oro",
+        "to_diamond": "a Diamante",
+        "daily_tasks": "Tareas Diarias",
+        "weekly_tasks": "Tareas Semanales",
+        "hard_tasks": "Tareas Difíciles",
+        "direct_referrals": "Referidos Directos",
+        "indirect_referrals": "Referidos Indirectos",
+        "far_referrals": "Referidos Lejanos",
+        "withdraw_options": "Opciones de Retiro",
+        "starter_rewards": "🥉 Principiante",
+        "advanced_rewards": "⭐ Avanzado",
+        "insufficient_points": "❌ ¡Puntos insuficientes!",
+        "confirm_redeem": "Confirmar canje",
+        "reward_redeemed": "🎉 ¡Recompensa activada!",
+        "you_have": "Tienes",
+        "you_need": "Necesitas",
+        "missing": "Faltan",
     },
 
-        // ==================== GERMAN ====================
+    // ==================== GERMAN ====================
     de: {
         "search_placeholder": "SocialWiki durchsuchen",
         "home": "Startseite",
@@ -3072,8 +3157,29 @@ const translations = {
         "daily_points": "Tägliche Punkte",
         "free_points_no_withdraw": "Kostenlose Punkte können nicht ausgezahlt werden",
         "points_separate": "Punktetypen sind getrennt",
+        "level_bronze": "🥉 Bronze-Level",
+        "level_silver": "🥈 Silber-Level",
+        "level_gold": "🥇 Gold-Level",
+        "level_diamond": "💎 Diamant-Level",
+        "to_silver": "zu Silber",
+        "to_gold": "zu Gold",
+        "to_diamond": "zu Diamant",
+        "daily_tasks": "Tägliche Aufgaben",
+        "weekly_tasks": "Wöchentliche Aufgaben",
+        "hard_tasks": "Schwere Aufgaben",
+        "direct_referrals": "Direkte Empfehlungen",
+        "indirect_referrals": "Indirekte Empfehlungen",
+        "far_referrals": "Entfernte Empfehlungen",
+        "withdraw_options": "Auszahlungsoptionen",
+        "starter_rewards": "🥉 Anfänger",
+        "advanced_rewards": "⭐ Fortgeschritten",
+        "insufficient_points": "❌ Nicht genügend Punkte!",
+        "confirm_redeem": "Einlösung bestätigen",
+        "reward_redeemed": "🎉 Belohnung aktiviert!",
+        "you_have": "Du hast",
+        "you_need": "Du brauchst",
+        "missing": "Fehlend",
     },
-
         // ==================== ITALIAN ====================
     it: {
         "search_placeholder": "Cerca su SocialWiki",
@@ -3681,9 +3787,31 @@ const translations = {
         "daily_points": "Punti giornalieri",
         "free_points_no_withdraw": "I punti gratis non sono prelevabili",
         "points_separate": "I tipi di punti sono separati",
+        "level_bronze": "🥉 Livello Bronzo",
+        "level_silver": "🥈 Livello Argento",
+        "level_gold": "🥇 Livello Oro",
+        "level_diamond": "💎 Livello Diamante",
+        "to_silver": "ad Argento",
+        "to_gold": "ad Oro",
+        "to_diamond": "a Diamante",
+        "daily_tasks": "Attività Giornaliere",
+        "weekly_tasks": "Attività Settimanali",
+        "hard_tasks": "Attività Difficili",
+        "direct_referrals": "Inviti Diretti",
+        "indirect_referrals": "Inviti Indiretti",
+        "far_referrals": "Inviti Lontani",
+        "withdraw_options": "Opzioni di Prelievo",
+        "starter_rewards": "🥉 Principiante",
+        "advanced_rewards": "⭐ Avanzato",
+        "insufficient_points": "❌ Punti insufficienti!",
+        "confirm_redeem": "Conferma riscatto",
+        "reward_redeemed": "🎉 Premio attivato!",
+        "you_have": "Hai",
+        "you_need": "Ti servono",
+        "missing": "Mancanti",
     },
 
-        // ==================== CHINESE ====================
+    // ==================== CHINESE ====================
     zh: {
         "search_placeholder": "搜索 SocialWiki",
         "home": "首页",
@@ -4290,8 +4418,31 @@ const translations = {
         "daily_points": "每日积分",
         "free_points_no_withdraw": "免费积分不可提现",
         "points_separate": "积分类型分开",
+        "level_bronze": "🥉 青铜等级",
+        "level_silver": "🥈 白银等级",
+        "level_gold": "🥇 黄金等级",
+        "level_diamond": "💎 钻石等级",
+        "to_silver": "到白银",
+        "to_gold": "到黄金",
+        "to_diamond": "到钻石",
+        "daily_tasks": "每日任务",
+        "weekly_tasks": "每周任务",
+        "hard_tasks": "困难任务",
+        "direct_referrals": "直接推荐",
+        "indirect_referrals": "间接推荐",
+        "far_referrals": "远距离推荐",
+        "withdraw_options": "提现选项",
+        "starter_rewards": "🥉 新手",
+        "advanced_rewards": "⭐ 高级",
+        "insufficient_points": "❌ 积分不足！",
+        "confirm_redeem": "确认兑换",
+        "reward_redeemed": "🎉 奖励已激活！",
+        "you_have": "你有",
+        "you_need": "你需要",
+        "missing": "缺少",
     },
-        // ==================== JAPANESE ====================
+
+    // ==================== JAPANESE ====================
     ja: {
         "search_placeholder": "SocialWikiを検索",
         "home": "ホーム",
@@ -4898,9 +5049,31 @@ const translations = {
         "daily_points": "毎日のポイント",
         "free_points_no_withdraw": "無料ポイントは出金できません",
         "points_separate": "ポイントタイプは別々です",
+        "level_bronze": "🥉 ブロンズレベル",
+        "level_silver": "🥈 シルバーレベル",
+        "level_gold": "🥇 ゴールドレベル",
+        "level_diamond": "💎 ダイヤモンドレベル",
+        "to_silver": "シルバーへ",
+        "to_gold": "ゴールドへ",
+        "to_diamond": "ダイヤモンドへ",
+        "daily_tasks": "デイリータスク",
+        "weekly_tasks": "ウィークリータスク",
+        "hard_tasks": "ハードタスク",
+        "direct_referrals": "直接紹介",
+        "indirect_referrals": "間接紹介",
+        "far_referrals": "遠隔紹介",
+        "withdraw_options": "出金オプション",
+        "starter_rewards": "🥉 スターター",
+        "advanced_rewards": "⭐ アドバンス",
+        "insufficient_points": "❌ ポイントが足りません！",
+        "confirm_redeem": "交換を確認",
+        "reward_redeemed": "🎉 特典が有効化されました！",
+        "you_have": "あなたのポイント",
+        "you_need": "必要なポイント",
+        "missing": "不足",
     },
 
-        // ==================== KOREAN ====================
+    // ==================== KOREAN ====================
     ko: {
         "search_placeholder": "SocialWiki 검색",
         "home": "홈",
@@ -5507,8 +5680,31 @@ const translations = {
         "daily_points": "일일 포인트",
         "free_points_no_withdraw": "무료 포인트는 출금할 수 없습니다",
         "points_separate": "포인트 유형 분리",
+        "level_bronze": "🥉 브론즈 레벨",
+        "level_silver": "🥈 실버 레벨",
+        "level_gold": "🥇 골드 레벨",
+        "level_diamond": "💎 다이아몬드 레벨",
+        "to_silver": "실버로",
+        "to_gold": "골드로",
+        "to_diamond": "다이아몬드로",
+        "daily_tasks": "일일 작업",
+        "weekly_tasks": "주간 작업",
+        "hard_tasks": "어려운 작업",
+        "direct_referrals": "직접 추천",
+        "indirect_referrals": "간접 추천",
+        "far_referrals": "원거리 추천",
+        "withdraw_options": "출금 옵션",
+        "starter_rewards": "🥉 초급",
+        "advanced_rewards": "⭐ 고급",
+        "insufficient_points": "❌ 포인트 부족!",
+        "confirm_redeem": "교환 확인",
+        "reward_redeemed": "🎉 보상 활성화됨!",
+        "you_have": "보유",
+        "you_need": "필요",
+        "missing": "부족",
     },
-        // ==================== RUSSIAN ====================
+
+    // ==================== RUSSIAN ====================
     ru: {
         "search_placeholder": "Поиск в SocialWiki",
         "home": "Главная",
@@ -6115,6 +6311,28 @@ const translations = {
         "daily_points": "Ежедневные баллы",
         "free_points_no_withdraw": "Бесплатные баллы не выводятся",
         "points_separate": "Типы баллов разделены",
+        "level_bronze": "🥉 Бронзовый уровень",
+        "level_silver": "🥈 Серебряный уровень",
+        "level_gold": "🥇 Золотой уровень",
+        "level_diamond": "💎 Алмазный уровень",
+        "to_silver": "до Серебра",
+        "to_gold": "до Золота",
+        "to_diamond": "до Алмаза",
+        "daily_tasks": "Ежедневные задания",
+        "weekly_tasks": "Еженедельные задания",
+        "hard_tasks": "Сложные задания",
+        "direct_referrals": "Прямые рефералы",
+        "indirect_referrals": "Косвенные рефералы",
+        "far_referrals": "Дальние рефералы",
+        "withdraw_options": "Варианты вывода",
+        "starter_rewards": "🥉 Начальный",
+        "advanced_rewards": "⭐ Продвинутый",
+        "insufficient_points": "❌ Недостаточно баллов!",
+        "confirm_redeem": "Подтвердить обмен",
+        "reward_redeemed": "🎉 Награда активирована!",
+        "you_have": "У вас",
+        "you_need": "Вам нужно",
+        "missing": "Не хватает",
     },
         // ==================== TURKISH ====================
     tr: {
@@ -6723,8 +6941,31 @@ const translations = {
         "daily_points": "Günlük puanlar",
         "free_points_no_withdraw": "Ücretsiz puanlar çekilemez",
         "points_separate": "Puan türleri ayrı",
+        "level_bronze": "🥉 Bronz Seviye",
+        "level_silver": "🥈 Gümüş Seviye",
+        "level_gold": "🥇 Altın Seviye",
+        "level_diamond": "💎 Elmas Seviye",
+        "to_silver": "Gümüşe",
+        "to_gold": "Altına",
+        "to_diamond": "Elmasa",
+        "daily_tasks": "Günlük Görevler",
+        "weekly_tasks": "Haftalık Görevler",
+        "hard_tasks": "Zor Görevler",
+        "direct_referrals": "Doğrudan Referanslar",
+        "indirect_referrals": "Dolaylı Referanslar",
+        "far_referrals": "Uzak Referanslar",
+        "withdraw_options": "Para Çekme Seçenekleri",
+        "starter_rewards": "🥉 Başlangıç",
+        "advanced_rewards": "⭐ İleri",
+        "insufficient_points": "❌ Yetersiz puan!",
+        "confirm_redeem": "Kullanımı onayla",
+        "reward_redeemed": "🎉 Ödül etkinleştirildi!",
+        "you_have": "Sende",
+        "you_need": "İhtiyacın",
+        "missing": "Eksik",
     },
-        // ==================== HINDI ====================
+
+    // ==================== HINDI ====================
     hi: {
         "search_placeholder": "SocialWiki खोजें",
         "home": "होम",
@@ -7331,8 +7572,31 @@ const translations = {
         "daily_points": "दैनिक अंक",
         "free_points_no_withdraw": "मुफ्त अंक निकाले नहीं जा सकते",
         "points_separate": "अंक प्रकार अलग",
+        "level_bronze": "🥉 कांस्य स्तर",
+        "level_silver": "🥈 रजत स्तर",
+        "level_gold": "🥇 स्वर्ण स्तर",
+        "level_diamond": "💎 हीरा स्तर",
+        "to_silver": "रजत तक",
+        "to_gold": "स्वर्ण तक",
+        "to_diamond": "हीरा तक",
+        "daily_tasks": "दैनिक कार्य",
+        "weekly_tasks": "साप्ताहिक कार्य",
+        "hard_tasks": "कठिन कार्य",
+        "direct_referrals": "प्रत्यक्ष रेफ़रल",
+        "indirect_referrals": "अप्रत्यक्ष रेफ़रल",
+        "far_referrals": "दूरस्थ रेफ़रल",
+        "withdraw_options": "निकासी विकल्प",
+        "starter_rewards": "🥉 शुरुआती",
+        "advanced_rewards": "⭐ उन्नत",
+        "insufficient_points": "❌ अपर्याप्त अंक!",
+        "confirm_redeem": "भुनाई की पुष्टि करें",
+        "reward_redeemed": "🎉 इनाम सक्रिय!",
+        "you_have": "आपके पास",
+        "you_need": "आपको चाहिए",
+        "missing": "कमी",
     },
-        // ==================== FILIPINO ====================
+
+    // ==================== FILIPINO ====================
     fil: {
         "search_placeholder": "Maghanap sa SocialWiki",
         "home": "Tahanan",
@@ -7939,8 +8203,31 @@ const translations = {
         "daily_points": "Daily Points",
         "free_points_no_withdraw": "Hindi ma-withdraw ang free points",
         "points_separate": "Hiwalay ang points types",
+        "level_bronze": "🥉 Antas Bronze",
+        "level_silver": "🥈 Antas Silver",
+        "level_gold": "🥇 Antas Gold",
+        "level_diamond": "💎 Antas Diamond",
+        "to_silver": "sa Silver",
+        "to_gold": "sa Gold",
+        "to_diamond": "sa Diamond",
+        "daily_tasks": "Araw-araw na Gawain",
+        "weekly_tasks": "Lingguhang Gawain",
+        "hard_tasks": "Mahirap na Gawain",
+        "direct_referrals": "Direktang Referral",
+        "indirect_referrals": "Hindi Direktang Referral",
+        "far_referrals": "Malayong Referral",
+        "withdraw_options": "Mga Pagpipilian sa Withdrawal",
+        "starter_rewards": "🥉 Nagsisimula",
+        "advanced_rewards": "⭐ Advanced",
+        "insufficient_points": "❌ Kulang ang puntos!",
+        "confirm_redeem": "Kumpirmahin ang pag-redeem",
+        "reward_redeemed": "🎉 Na-activate ang reward!",
+        "you_have": "Mayroon ka",
+        "you_need": "Kailangan mo",
+        "missing": "Kulang",
     },
-        // ==================== TAGALOG ====================
+
+    // ==================== TAGALOG ====================
     tl: {
         "search_placeholder": "Maghanap sa SocialWiki",
         "home": "Tahanan",
@@ -8546,13 +8833,35 @@ const translations = {
         "gift_points": "Gift Points",
         "daily_points": "Daily Points",
         "free_points_no_withdraw": "Hindi ma-withdraw ang free points",
-               "points_separate": "Hiwalay ang points types",
+        "points_separate": "Hiwalay ang points types",
+        "level_bronze": "🥉 Antas Bronze",
+        "level_silver": "🥈 Antas Silver",
+        "level_gold": "🥇 Antas Gold",
+        "level_diamond": "💎 Antas Diamond",
+        "to_silver": "sa Silver",
+        "to_gold": "sa Gold",
+        "to_diamond": "sa Diamond",
+        "daily_tasks": "Araw-araw na Gawain",
+        "weekly_tasks": "Lingguhang Gawain",
+        "hard_tasks": "Mahirap na Gawain",
+        "direct_referrals": "Direktang Referral",
+        "indirect_referrals": "Hindi Direktang Referral",
+        "far_referrals": "Malayong Referral",
+        "withdraw_options": "Mga Pagpipilian sa Withdrawal",
+        "rewards_shop_title": "🎁 Tindahan ng Gantimpala",  // ✅ تم تصحيح Gampanla → Gantimpala
+        "starter_rewards": "🥉 Nagsisimula",
+        "advanced_rewards": "⭐ Advanced",
+        "insufficient_points": "❌ Kulang ang puntos!",
+        "confirm_redeem": "Kumpirmahin ang pag-redeem",
+        "reward_redeemed": "🎉 Na-activate ang reward!",
+        "you_have": "Mayroon ka",
+        "you_need": "Kailangan mo",
+        "missing": "Kulang",
     },
-};                                    // ← ✅ أضف هذا السطر
+};
 
 // =========================================================
 // TRANSLATION HELPER FUNCTIONS
-// =========================================================
 // =========================================================
 
 function t(key, lang) {
@@ -8576,7 +8885,6 @@ function setLanguage(lang) {
         var translated = t(key, lang);
 
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            // ✅ فقط إذا كان الحقل فارغاً
             if (!el.value) {
                 el.placeholder = translated;
             }
@@ -8595,7 +8903,6 @@ function setLanguage(lang) {
         el.title = t(key, lang);
     });
 
-    // ✅ NEW: دعم data-i18n-value
     document.querySelectorAll('[data-i18n-value]').forEach(function (el) {
         var key = el.getAttribute('data-i18n-value');
         el.value = t(key, lang);
@@ -8616,7 +8923,7 @@ const browserLangToSiteLang = {
     'it': 'it', 'ja': 'ja', 'zh': 'zh', 'ko': 'ko', 'ru': 'ru',
     'tr': 'tr', 'hi': 'hi',
     'fil': 'fil',
-    'tl': 'fil',   // ✅ التاغالوغية → الفلبينية
+    'tl': 'fil',
 };
 
 function detectBrowserLanguage() {
@@ -8678,7 +8985,7 @@ const countryToLanguage = {
     'KR': 'ko', 'KP': 'ko',
     'IN': 'hi', 'NP': 'hi', 'BD': 'hi', 'LK': 'hi', 'PK': 'hi',
     'PH': 'fil',
-    'TL': 'fil',   // ✅ تيمور الشرقية
+    // ✅ تم حذف 'TL': 'fil' لأن تيمور الشرقية ليست الفلبينية
 };
 
 async function detectLanguageByIP() {
@@ -8750,14 +9057,12 @@ async function detectLanguageByIP() {
 // 🎯 MAIN DETECTION: User Choice → IP → Browser → English
 // =========================================================
 async function detectLanguage() {
-    // 1. هل اختار المستخدم لغة يدوياً؟
     const userChosenLang = localStorage.getItem('socialwiki_lang_user_chosen');
     if (userChosenLang && translations[userChosenLang]) {
         console.log('✅ User chose language manually:', userChosenLang);
         return userChosenLang;
     }
 
-    // 2. IP
     const ipLang = await detectLanguageByIP();
     if (ipLang) {
         console.log('✅ IP-detected language:', ipLang);
@@ -8765,7 +9070,6 @@ async function detectLanguage() {
         return ipLang;
     }
 
-    // 3. Browser
     const browserLang = detectBrowserLanguage();
     if (browserLang) {
         console.log('✅ Browser-detected language:', browserLang);
@@ -8773,7 +9077,6 @@ async function detectLanguage() {
         return browserLang;
     }
 
-    // 4. English default
     console.log('⚠️ All detection failed, using English');
     localStorage.setItem('socialwiki_lang', 'en');
     return 'en';
@@ -8786,11 +9089,9 @@ async function initLanguage() {
     if (_languageInitDone) return;
     _languageInitDone = true;
 
-    // طبّق اللغة المحفوظة فوراً
     const savedLang = localStorage.getItem('socialwiki_lang');
     setLanguage(savedLang && translations[savedLang] ? savedLang : 'en');
 
-    // ثم اكتشف اللغة فقط إن لم يختر المستخدم يدوياً
     const userChosen = localStorage.getItem('socialwiki_lang_user_chosen');
     if (!userChosen) {
         const detected = await detectLanguage();
@@ -8818,7 +9119,6 @@ function changeLanguage(lang) {
     if (typeof setLanguage === 'function') {
         setLanguage(lang);
     }
-    // ✅ احفظ أن المستخدم اختار اللغة يدوياً
     localStorage.setItem('socialwiki_lang_user_chosen', lang);
 
     var menu = document.getElementById('languageMenu');
@@ -8841,4 +9141,9 @@ if (typeof window !== 'undefined') {
             menu.style.display = 'none';
         }
     });
+}
+
+// ✅ NEW: إعادة تصفير حارس التهيئة (اختياري)
+function resetLanguageInit() {
+    _languageInitDone = false;
 }
