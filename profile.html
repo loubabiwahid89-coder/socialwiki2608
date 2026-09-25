@@ -89,29 +89,29 @@
         }
 
         @keyframes badgePop {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
         @keyframes shine {
-    0% {
-        left: -100%;
-    }
-    20% {
-        left: 100%;
-    }
-    100% {
-        left: 100%;
-    }
-}
+            0% {
+                left: -100%;
+            }
+            20% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
         /* =========================================================
            PROFILE PAGE - FACEBOOK STYLE
         ========================================================= */
@@ -180,6 +180,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             position: relative;
             cursor: move;
+            transition: box-shadow 0.3s;
         }
         
         .avatar-img {
@@ -219,6 +220,7 @@
             margin-top: -60px;
             position: relative;
             z-index: 5;
+            transition: all 0.3s;
         }
         
         .profile-name {
@@ -410,304 +412,352 @@
         }
 
         /* =========================================================
-   OWNER & VERIFIED BADGES
-========================================================= */
-.profile-name-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 15px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-}
+           OFFICIAL BANNER (شريط الحساب الرسمي)
+        ========================================================= */
+        #officialBanner {
+            display: none;
+            background: linear-gradient(135deg, #1877f2, #0d5bbd);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 auto 15px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
 
-.profile-name-wrapper .profile-name {
-    margin: 0;
-}
+        #officialBanner.active {
+            display: inline-flex;
+        }
 
-.badge-owner {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5),
-                inset 0 2px 4px rgba(255, 255, 255, 0.4);
-    border: 3px solid white;
-    animation: badgePop 0.5s ease-out;
-    cursor: help;
-    transition: transform 0.2s;
-}
+        /* =========================================================
+           OWNER & VERIFIED BADGES
+        ========================================================= */
+        .profile-name-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
 
-.badge-owner:hover {
-    transform: scale(1.15) rotate(10deg);
-}
+        .profile-name-wrapper .profile-name {
+            margin: 0;
+        }
 
-.badge-verified {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, #1DA1F2, #0d8ddb);
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(29, 161, 242, 0.5),
-                inset 0 2px 4px rgba(255, 255, 255, 0.4);
-    border: 3px solid white;
-    animation: badgePop 0.5s ease-out;
-    cursor: help;
-    transition: transform 0.2s;
-    color: white;
-    font-weight: 900;
-}
+        .badge-owner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.4);
+            border: 3px solid white;
+            animation: badgePop 0.5s ease-out;
+            cursor: help;
+            transition: transform 0.2s;
+        }
 
-.badge-verified:hover {
-    transform: scale(1.15) rotate(-10deg);
-}
+        .badge-owner:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
 
-/* =========================================================
-   EDIT PROFILE MODAL
-========================================================= */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 10000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow-y: auto;
-}
+        .badge-verified {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #1DA1F2, #0d8ddb);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(29, 161, 242, 0.5),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.4);
+            border: 3px solid white;
+            animation: badgePop 0.5s ease-out;
+            cursor: help;
+            transition: transform 0.2s;
+            color: white;
+            font-weight: 900;
+        }
 
-.modal-overlay.active {
-    display: flex;
-}
+        .badge-verified:hover {
+            transform: scale(1.15) rotate(-10deg);
+        }
 
-.modal-box {
-    background: white;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    animation: modalSlideIn 0.3s ease-out;
-}
+        .badge-official {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #1877f2, #0d5bbd);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.5);
+            border: 3px solid white;
+            animation: badgePop 0.5s ease-out;
+            cursor: help;
+            transition: transform 0.2s;
+        }
 
-@keyframes modalSlideIn {
-    from {
-        transform: translateY(-30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
+        .badge-official:hover {
+            transform: scale(1.15);
+        }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px;
-    border-bottom: 1px solid #e4e6eb;
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 1;
-    border-radius: 12px 12px 0 0;
-}
+        /* =========================================================
+           OWNER PROFILE (تصميم خاص للمالك)
+        ========================================================= */
+        .profile-info.owner-profile {
+            background: linear-gradient(180deg, #fffbf0 0%, #ffffff 100%);
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+        }
 
-.modal-header h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: #050505;
-}
+        .profile-info.owner-profile .profile-avatar {
+            border: 5px solid #FFD700;
+            box-shadow: 0 0 0 3px #FFA500, 0 8px 30px rgba(255, 215, 0, 0.5);
+            animation: ownerGlow 2s infinite alternate;
+        }
 
-.modal-close {
-    background: #e4e6eb;
-    border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #050505;
-    transition: background 0.2s;
-}
+        @keyframes ownerGlow {
+            from {
+                box-shadow: 0 0 0 3px #FFA500, 0 8px 30px rgba(255, 215, 0, 0.5);
+            }
+            to {
+                box-shadow: 0 0 0 3px #FFA500, 0 8px 40px rgba(255, 215, 0, 0.8);
+            }
+        }
 
-.modal-close:hover {
-    background: #d0d2d6;
-}
+        /* =========================================================
+           EDIT PROFILE MODAL
+        ========================================================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
 
-.modal-body {
-    padding: 25px;
-}
+        .modal-overlay.active {
+            display: flex;
+        }
 
-.form-group {
-    margin-bottom: 18px;
-}
+        .modal-box {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
 
-.form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #050505;
-    margin-bottom: 8px;
-}
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccd0d5;
-    border-radius: 8px;
-    font-size: 15px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    box-sizing: border-box;
-    background: white;
-}
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e4e6eb;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+            border-radius: 12px 12px 0 0;
+        }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    border-color: #1877f2;
-    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
-}
+        .modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #050505;
+        }
 
-.form-group textarea {
-    resize: vertical;
-    min-height: 80px;
-}
+        .modal-close {
+            background: #e4e6eb;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #050505;
+            transition: background 0.2s;
+        }
 
-.form-group select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2365676b' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 18px;
-    padding-right: 40px;
-}
+        .modal-close:hover {
+            background: #d0d2d6;
+        }
 
-.gender-options {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+        .modal-body {
+            padding: 25px;
+        }
 
-.gender-option {
-    flex: 1;
-    min-width: 100px;
-    padding: 12px;
-    border: 2px solid #ccd0d5;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: #050505;
-    transition: all 0.2s;
-}
+        .form-group {
+            margin-bottom: 18px;
+        }
 
-.gender-option:hover {
-    border-color: #1877f2;
-    background: #f0f7ff;
-}
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #050505;
+            margin-bottom: 8px;
+        }
 
-.gender-option.selected {
-    border-color: #1877f2;
-    background: #e7f3ff;
-    color: #1877f2;
-}
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccd0d5;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+            background: white;
+        }
 
-.modal-footer {
-    display: flex;
-    gap: 10px;
-    padding: 20px 25px;
-    border-top: 1px solid #e4e6eb;
-    position: sticky;
-    bottom: 0;
-    background: white;
-    border-radius: 0 0 12px 12px;
-}
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+        }
 
-.modal-footer button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
 
-.btn-cancel {
-    background: #e4e6eb;
-    color: #050505;
-}
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2365676b' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+            padding-right: 40px;
+        }
 
-.btn-cancel:hover {
-    background: #d0d2d6;
-}
+        .gender-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-.btn-save {
-    background: #1877f2;
-    color: white;
-}
+        .gender-option {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px;
+            border: 2px solid #ccd0d5;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #050505;
+            transition: all 0.2s;
+        }
 
-.btn-save:hover {
-    background: #166fe5;
-}
+        .gender-option:hover {
+            border-color: #1877f2;
+            background: #f0f7ff;
+        }
 
-.btn-save:disabled {
-    background: #a0b8d8;
-    cursor: not-allowed;
-}
+        .gender-option.selected {
+            border-color: #1877f2;
+            background: #e7f3ff;
+            color: #1877f2;
+        }
 
-/* RTL Support */
-[dir="rtl"] .form-group select {
-    background-position: left 12px center;
-    padding-right: 15px;
-    padding-left: 40px;
-}
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            padding: 20px 25px;
+            border-top: 1px solid #e4e6eb;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            border-radius: 0 0 12px 12px;
+        }
 
-.badge-official {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, #1877f2, #0d5bbd);
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(24, 119, 242, 0.4);
-    border: 2px solid white;
-    cursor: help;
-    transition: transform 0.2s;
-}
+        .modal-footer button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-.badge-official:hover {
-    transform: scale(1.1);
-}
+        .btn-cancel {
+            background: #e4e6eb;
+            color: #050505;
+        }
+
+        .btn-cancel:hover {
+            background: #d0d2d6;
+        }
+
+        .btn-save {
+            background: #1877f2;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #166fe5;
+        }
+
+        .btn-save:disabled {
+            background: #a0b8d8;
+            cursor: not-allowed;
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .form-group select {
+            background-position: left 12px center;
+            padding-right: 15px;
+            padding-left: 40px;
+        }
     </style>
 </head>
 <body>
@@ -749,7 +799,7 @@
                     <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
                     <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
                     <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
-<button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
                 </div>
             </div>
             
@@ -774,7 +824,12 @@
         </div>
         
         <!-- معلومات الملف -->
-        <div class="profile-info">
+        <div class="profile-info" id="profileInfoBox">
+
+            <!-- ✅ شريط الحساب الرسمي (للمالك فقط) -->
+            <div id="officialBanner">
+                🌐 Official SocialWiki Account
+            </div>
 
             <!-- الصورة الشخصية -->
             <div class="profile-avatar-wrapper">
@@ -785,25 +840,25 @@
             </div>
 
            <!-- الاسم والمعلومات -->
-<div class="profile-name-wrapper">
-    <span class="profile-name" id="profileName">User</span>
-    <span class="badge-owner" id="ownerBadge" style="display:none;" title="Owner">👑</span>
-    <span class="badge-verified" id="verifiedBadge" style="display:none;" title="Verified">✅</span>
-    <span class="badge-official" id="officialBadge" style="display:none;" title="Official SocialWiki Account">🌐</span>
-</div>
-<div class="profile-username" id="profileUsername">@user</div>
-<div class="profile-bio" id="profileBio">Welcome to my profile!</div>
+            <div class="profile-name-wrapper">
+                <span class="profile-name" id="profileName">User</span>
+                <span class="badge-owner" id="ownerBadge" style="display:none;" title="Owner">👑</span>
+                <span class="badge-verified" id="verifiedBadge" style="display:none;" title="Verified">✅</span>
+                <span class="badge-official" id="officialBadge" style="display:none;" title="Official SocialWiki Account">🌐</span>
+            </div>
+            <div class="profile-username" id="profileUsername">@user</div>
+            <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
 
-<!-- ✅ شارات المستخدم -->
-<div id="userBadges" style="
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin: 15px auto;
-    max-width: 600px;
-    padding: 0 20px;
-"></div>
+            <!-- ✅ شارات المستخدم -->
+            <div id="userBadges" style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+                margin: 15px auto;
+                max-width: 600px;
+                padding: 0 20px;
+            "></div>
             
             <div class="profile-stats">
                 <div class="stat-item">
@@ -867,7 +922,7 @@
     </div>
 
     <!-- =========================================================
-         ✅ EDIT PROFILE MODAL (نقلناه إلى هنا - قبل السكريبتات)
+         ✅ EDIT PROFILE MODAL (قبل السكريبتات)
     ========================================================= -->
     <div class="modal-overlay" id="editProfileModal">
         <div class="modal-box">
@@ -1053,229 +1108,246 @@
         // LOAD PROFILE
         // =========================================================
        async function loadProfile() {
-    if (profileUserId) {
-        loadUserProfile(profileUserId);
-    } else {
-        window.location.href = 'auth.html';
-    }
-}
+            if (profileUserId) {
+                loadUserProfile(profileUserId);
+            } else {
+                window.location.href = 'auth.html';
+            }
+        }
         
         // =========================================================
         // ✅ التحقق من الشارات الجديدة وإرسال إشعار
         // =========================================================
-async function checkForNewBadges(userId, badges) {
-    if (!badges || badges.length === 0) return;
-    
-    try {
-        const { data: seenBadges, error } = await supabaseClient
-            .from('user_badge_notifications')
-            .select('badge_country')
-            .eq('user_id', userId);
-        
-        if (error) {
-            console.error('Error fetching seen badges:', error);
-            return;
-        }
-        
-        const seenCountries = (seenBadges || []).map(b => b.badge_country);
-        
-        for (const badge of badges) {
-            if (!seenCountries.includes(badge.country)) {
-                await sendBadgeNotification(userId, badge);
-                
-                await supabaseClient
+        async function checkForNewBadges(userId, badges) {
+            if (!badges || badges.length === 0) return;
+            
+            try {
+                const { data: seenBadges, error } = await supabaseClient
                     .from('user_badge_notifications')
-                    .insert({
-                        user_id: userId,
-                        badge_country: badge.country,
-                        is_read: false
-                    });
+                    .select('badge_country')
+                    .eq('user_id', userId);
+                
+                if (error) {
+                    console.error('Error fetching seen badges:', error);
+                    return;
+                }
+                
+                const seenCountries = (seenBadges || []).map(b => b.badge_country);
+                
+                for (const badge of badges) {
+                    if (!seenCountries.includes(badge.country)) {
+                        await sendBadgeNotification(userId, badge);
+                        
+                        await supabaseClient
+                            .from('user_badge_notifications')
+                            .insert({
+                                user_id: userId,
+                                badge_country: badge.country,
+                                is_read: false
+                            });
+                    }
+                }
+            } catch (err) {
+                console.error('Error checking badges:', err);
             }
         }
-    } catch (err) {
-        console.error('Error checking badges:', err);
-    }
-}
 
-// =========================================================
-// ✅ إرسال إشعار الشارة
-// =========================================================
-async function sendBadgeNotification(userId, badge) {
-    try {
-        const congratsText = typeof t === 'function' 
-            ? t('badge_awarded', getCurrentLanguage()) 
-            : '🏆 Congratulations! You earned a new badge!';
-        
-        const firstMemberText = typeof t === 'function' 
-            ? t('first_member_from', getCurrentLanguage()) 
-            : 'First member from';
-        
-        const message = `${congratsText} "${firstMemberText} ${badge.country}"`;
-        
-        await supabaseClient
-            .from('notifications')
-            .insert({
-                receiver_id: userId,
-                sender_id: userId,
-                type: 'badge_awarded',
-                message: message,
-                is_read: false
-            });
-        
-        console.log('✅ Badge notification sent:', badge.country);
-    } catch (err) {
-        console.error('Error sending badge notification:', err);
-    }
-}
+        // =========================================================
+        // ✅ إرسال إشعار الشارة
+        // =========================================================
+        async function sendBadgeNotification(userId, badge) {
+            try {
+                const congratsText = typeof t === 'function' 
+                    ? t('badge_awarded', getCurrentLanguage()) 
+                    : '🏆 Congratulations! You earned a new badge!';
+                
+                const firstMemberText = typeof t === 'function' 
+                    ? t('first_member_from', getCurrentLanguage()) 
+                    : 'First member from';
+                
+                const message = `${congratsText} "${firstMemberText} ${badge.country}"`;
+                
+                await supabaseClient
+                    .from('notifications')
+                    .insert({
+                        receiver_id: userId,
+                        sender_id: userId,
+                        type: 'badge_awarded',
+                        message: message,
+                        is_read: false
+                    });
+                
+                console.log('✅ Badge notification sent:', badge.country);
+            } catch (err) {
+                console.error('Error sending badge notification:', err);
+            }
+        }
 
         // =========================================================
         // LOAD USER PROFILE DATA
         // =========================================================
        async function loadUserProfile(userId) {
-    try {
-        const { data: profile, error } = await supabaseClient
-            .from('profiles')
-            .select('*')
-            .eq('id', userId)
-            .single();
-        
-        if (error) {
-            console.error('Error loading profile:', error);
-            return;
-        }
-        
-        const username = profile?.username || 'User';
-        const fullName = profile?.full_name || 'User';
-        const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-        const coverUrl = profile?.cover_url || 'https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff';
-        
-        document.getElementById('profileName').textContent = fullName;
-        document.getElementById('profileUsername').textContent = '@' + username;
-        document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
-        
-        // =========================================================
-        // ✅ إظهار شارات Owner و Verified
-        // =========================================================
-        const ownerBadgeEl = document.getElementById('ownerBadge');
-        const verifiedBadgeEl = document.getElementById('verifiedBadge');
+            try {
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const username = profile?.username || 'User';
+                const fullName = profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                const coverUrl = profile?.cover_url || 'https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff';
+                
+                document.getElementById('profileName').textContent = fullName;
+                document.getElementById('profileUsername').textContent = '@' + username;
+                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+                
+                // =========================================================
+                // ✅ إظهار شارات Owner و Verified و Official
+                // =========================================================
+                const ownerBadgeEl = document.getElementById('ownerBadge');
+                const verifiedBadgeEl = document.getElementById('verifiedBadge');
+                const officialBadgeEl = document.getElementById('officialBadge');
+                const officialBannerEl = document.getElementById('officialBanner');
+                const profileInfoBox = document.getElementById('profileInfoBox');
 
-        if (ownerBadgeEl) {
-            ownerBadgeEl.style.display = (profile?.is_owner === true) 
-                ? 'inline-flex' 
-                : 'none';
-        }
+                if (ownerBadgeEl) {
+                    ownerBadgeEl.style.display = (profile?.is_owner === true) 
+                        ? 'inline-flex' 
+                        : 'none';
+                }
 
-       const officialBadgeEl = document.getElementById('officialBadge');
-if (officialBadgeEl) {
-    officialBadgeEl.style.display = (profile?.is_owner === true) 
-        ? 'inline-flex' 
-        : 'none';
-}
-        
-        document.getElementById('avatarImg').src = avatarUrl;
-        document.getElementById('coverImg').src = coverUrl;
+                if (verifiedBadgeEl) {
+                    verifiedBadgeEl.style.display = (profile?.is_verified === true) 
+                        ? 'inline-flex' 
+                        : 'none';
+                }
 
-        // ✅ عرض الشارات (Badges)
-        const badges = profile?.badges || [];
-        const badgesContainer = document.getElementById('userBadges');
-        
-        console.log('🏆 Badges:', badges);
-        
-        if (profileUserId === currentUserId || !currentUserId) {
-            checkForNewBadges(userId, badges);
-        }
-        
-        if (badgesContainer) {
-            if (badges.length > 0) {
-                badgesContainer.innerHTML = badges.map(badge => `
-                    <div style="
-                        display: inline-flex;
-                        align-items: center;
-                        gap: 10px;
-                        padding: 12px 22px;
-                        background: linear-gradient(135deg, #ffd700, #f7b928);
-                        color: #333;
-                        border-radius: 30px;
-                        font-weight: 700;
-                        font-size: 15px;
-                        box-shadow: 0 6px 20px rgba(247, 185, 40, 0.5), inset 0 2px 4px rgba(255,255,255,0.5);
-                        border: 3px solid #fff;
-                        animation: badgePop 0.5s ease-out;
-                        position: relative;
-                        overflow: hidden;
-                    ">
-                        <img src="${badge.flag}" style="width: 28px; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" alt="${badge.country}">
-                        <span style="font-size: 26px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">${badge.icon}</span>
-                        <span>First Member from ${badge.country}</span>
-                        <span style="
-                            position: absolute;
-                            top: 0;
-                            left: -100%;
-                            width: 100%;
-                            height: 100%;
-                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-                            animation: shine 3s infinite;
-                        "></span>
-                    </div>
-                `).join('');
-                badgesContainer.style.display = 'flex';
-            } else {
-                badgesContainer.style.display = 'none';
+                if (officialBadgeEl) {
+                    officialBadgeEl.style.display = (profile?.is_owner === true) 
+                        ? 'inline-flex' 
+                        : 'none';
+                }
+
+                // ✅ إظهار شريط الحساب الرسمي + تصميم ذهبي
+                if (profile?.is_owner === true) {
+                    if (officialBannerEl) officialBannerEl.classList.add('active');
+                    if (profileInfoBox) profileInfoBox.classList.add('owner-profile');
+                } else {
+                    if (officialBannerEl) officialBannerEl.classList.remove('active');
+                    if (profileInfoBox) profileInfoBox.classList.remove('owner-profile');
+                }
+                
+                document.getElementById('avatarImg').src = avatarUrl;
+                document.getElementById('coverImg').src = coverUrl;
+
+                // ✅ عرض الشارات (Badges)
+                const badges = profile?.badges || [];
+                const badgesContainer = document.getElementById('userBadges');
+                
+                console.log('🏆 Badges:', badges);
+                
+                if (profileUserId === currentUserId || !currentUserId) {
+                    checkForNewBadges(userId, badges);
+                }
+                
+                if (badgesContainer) {
+                    if (badges.length > 0) {
+                        badgesContainer.innerHTML = badges.map(badge => `
+                            <div style="
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 10px;
+                                padding: 12px 22px;
+                                background: linear-gradient(135deg, #ffd700, #f7b928);
+                                color: #333;
+                                border-radius: 30px;
+                                font-weight: 700;
+                                font-size: 15px;
+                                box-shadow: 0 6px 20px rgba(247, 185, 40, 0.5), inset 0 2px 4px rgba(255,255,255,0.5);
+                                border: 3px solid #fff;
+                                animation: badgePop 0.5s ease-out;
+                                position: relative;
+                                overflow: hidden;
+                            ">
+                                <img src="${badge.flag}" style="width: 28px; height: auto; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" alt="${badge.country}">
+                                <span style="font-size: 26px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">${badge.icon}</span>
+                                <span>First Member from ${badge.country}</span>
+                                <span style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: -100%;
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                                    animation: shine 3s infinite;
+                                "></span>
+                            </div>
+                        `).join('');
+                        badgesContainer.style.display = 'flex';
+                    } else {
+                        badgesContainer.style.display = 'none';
+                    }
+                }
+                
+                // =========================================================
+                // ✅ تحديث Navbar باسم المستخدم الحالي (المشاهد)
+                // =========================================================
+                if (currentUserId) {
+                    const { data: navProfile } = await supabaseClient
+                        .from('profiles')
+                        .select('username, full_name, avatar_url')
+                        .eq('id', currentUserId)
+                        .single();
+                    
+                    if (navProfile) {
+                        const navName = navProfile.full_name || navProfile.username || 'User';
+                        const navAvatar = navProfile.avatar_url 
+                            || `https://ui-avatars.com/api/?name=${navProfile.username}&background=1877f2&color=fff`;
+                        
+                        const navProfileName = document.getElementById('navProfileName');
+                        const navProfileImg = document.getElementById('navProfileImg');
+                        
+                        if (navProfileName) navProfileName.textContent = navName;
+                        if (navProfileImg) navProfileImg.src = navAvatar;
+                        
+                        console.log('✅ Navbar updated:', navName);
+                    }
+                }
+                
+                // عدد المنشورات
+                const { count: postsCount } = await supabaseClient
+                    .from('posts')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('user_id', userId);
+                
+                document.getElementById('postsCount').textContent = postsCount || 0;
+                
+                // 🆕 عدد الأصدقاء
+                const { count: friendsCount } = await supabaseClient
+                    .from('friends')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('user_id', userId);
+                
+                document.getElementById('friendsCount').textContent = friendsCount || 0;
+                
+                // جلب المنشورات
+                loadUserPosts(userId);
+                
+                // تفعيل تحريك وتكبير الصور
+                enableDragZoom('coverContainer', 'coverImg');
+                enableDragZoom('avatarContainer', 'avatarImg');
+                
+            } catch (error) {
+                console.error('Error:', error);
             }
         }
-        
-        // =========================================================
-        // ✅ تحديث Navbar باسم المستخدم الحالي (المشاهد)
-        // =========================================================
-        if (currentUserId) {
-            const { data: navProfile } = await supabaseClient
-                .from('profiles')
-                .select('username, full_name, avatar_url')
-                .eq('id', currentUserId)
-                .single();
-            
-            if (navProfile) {
-                const navName = navProfile.full_name || navProfile.username || 'User';
-                const navAvatar = navProfile.avatar_url 
-                    || `https://ui-avatars.com/api/?name=${navProfile.username}&background=1877f2&color=fff`;
-                
-                const navProfileName = document.getElementById('navProfileName');
-                const navProfileImg = document.getElementById('navProfileImg');
-                
-                if (navProfileName) navProfileName.textContent = navName;
-                if (navProfileImg) navProfileImg.src = navAvatar;
-                
-                console.log('✅ Navbar updated:', navName);
-            }
-        }
-        
-        // عدد المنشورات
-        const { count: postsCount } = await supabaseClient
-            .from('posts')
-            .select('id', { count: 'exact', head: true })
-            .eq('user_id', userId);
-        
-        document.getElementById('postsCount').textContent = postsCount || 0;
-        
-        // 🆕 عدد الأصدقاء
-        const { count: friendsCount } = await supabaseClient
-            .from('friends')
-            .select('id', { count: 'exact', head: true })
-            .eq('user_id', userId);
-        
-        document.getElementById('friendsCount').textContent = friendsCount || 0;
-        
-        // جلب المنشورات
-        loadUserPosts(userId);
-        
-        // تفعيل تحريك وتكبير الصور
-        enableDragZoom('coverContainer', 'coverImg');
-        enableDragZoom('avatarContainer', 'avatarImg');
-        
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
         
         // =========================================================
         // CHANGE AVATAR
@@ -1382,14 +1454,12 @@ if (officialBadgeEl) {
         let selectedGender = null;
 
         async function editProfile() {
-            // 🔒 حماية: لا يمكنك تعديل إلا ملفك
             const { data: { user } } = await supabaseClient.auth.getUser();
             if (!user || profileUserId !== user.id) {
                 alert("❌ You can only edit your own profile");
                 return;
             }
             
-            // جلب البيانات الحالية
             const { data: profile, error } = await supabaseClient
                 .from('profiles')
                 .select('*')
@@ -1402,17 +1472,14 @@ if (officialBadgeEl) {
                 return;
             }
             
-            // ملء الحقول
             document.getElementById('editFullName').value = profile?.full_name || '';
             document.getElementById('editUsername').value = profile?.username || '';
             document.getElementById('editBio').value = profile?.bio || '';
             document.getElementById('editCountry').value = profile?.country || '';
             
-            // تعيين الجنس
             selectedGender = profile?.gender || null;
             updateGenderSelection();
             
-            // إظهار الـ Modal
             document.getElementById('editProfileModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -1460,7 +1527,6 @@ if (officialBadgeEl) {
                 const bio = document.getElementById('editBio').value.trim();
                 const country = document.getElementById('editCountry').value;
                 
-                // التحقق من الاسم
                 if (!fullName) {
                     alert('❌ Full name is required');
                     saveBtn.disabled = false;
@@ -1468,7 +1534,6 @@ if (officialBadgeEl) {
                     return;
                 }
                 
-                // التحقق من اسم المستخدم
                 if (!username) {
                     alert('❌ Username is required');
                     saveBtn.disabled = false;
@@ -1476,7 +1541,6 @@ if (officialBadgeEl) {
                     return;
                 }
                 
-                // أسماء محظورة
                 const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
                 if (forbiddenNames.includes(username.toLowerCase())) {
                     alert('❌ This username is not allowed!');
@@ -1485,7 +1549,6 @@ if (officialBadgeEl) {
                     return;
                 }
                 
-                // التحقق من عدم وجود اسم مستخدم آخر
                 const { data: existing } = await supabaseClient
                     .from('profiles')
                     .select('id')
@@ -1500,7 +1563,6 @@ if (officialBadgeEl) {
                     return;
                 }
                 
-                // تحديث البيانات
                 const updates = {
                     full_name: fullName,
                     username: username,
@@ -1522,7 +1584,6 @@ if (officialBadgeEl) {
                     return;
                 }
                 
-                // ✅ إكمال مهمة "Complete Profile"
                 if (typeof verifyAndCompleteTask === 'function') {
                     verifyAndCompleteTask('complete_profile');
                 }
@@ -1539,48 +1600,49 @@ if (officialBadgeEl) {
         }
         
         // =========================================================
-        // ✅ DUAL UPDATE PROFILE (القديمة - محفوظة)
+        // ✅ UPDATE PROFILE (القديمة - محفوظة)
         // =========================================================
-      async function updateProfile(updates) {
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) {
-            alert("Please login first!");
-            window.location.href = "auth.html";
-            return;
-        }
-        
-        if (updates.username) {
-            const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
-            if (forbiddenNames.includes(updates.username.toLowerCase())) {
-                alert('This username is not allowed!');
-                return;
+        async function updateProfile(updates) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    alert("Please login first!");
+                    window.location.href = "auth.html";
+                    return;
+                }
+                
+                if (updates.username) {
+                    const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
+                    if (forbiddenNames.includes(updates.username.toLowerCase())) {
+                        alert('This username is not allowed!');
+                        return;
+                    }
+                }
+                
+                const { error } = await supabaseClient
+                    .from("profiles")
+                    .update(updates)
+                    .eq("id", user.id);
+                
+                if (error) {
+                    console.error("Error updating profile:", error);
+                    alert("Error updating profile: " + error.message);
+                    return;
+                }
+                
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('complete_profile');
+                }
+                
+                alert("✅ Profile updated successfully!");
+                window.location.reload();
+                
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred: " + error.message);
             }
         }
         
-        const { error } = await supabaseClient
-            .from("profiles")
-            .update(updates)
-            .eq("id", user.id);
-        
-        if (error) {
-            console.error("Error updating profile:", error);
-            alert("Error updating profile: " + error.message);
-            return;
-        }
-        
-        if (typeof verifyAndCompleteTask === 'function') {
-            verifyAndCompleteTask('complete_profile');
-        }
-        
-        alert("✅ Profile updated successfully!");
-        window.location.reload();
-        
-    } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred: " + error.message);
-    }
-}
         // =========================================================
         // TAB SWITCHING
         // =========================================================
@@ -1692,79 +1754,80 @@ if (officialBadgeEl) {
         // =========================================================
         // FRIEND SYSTEM
         // =========================================================
-      async function checkFriendshipStatus() {
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return;
-        
-        currentUserId = user.id;
-        
-        console.log('✅ Current User:', currentUserId);
-        console.log('👤 Profile User:', profileUserId);
-        console.log('🔍 Is Owner?', profileUserId === currentUserId);
-        
-        const addBtn = document.getElementById('addFriendBtn');
-        const sentBtn = document.getElementById('requestSentBtn');
-        const actionsBtn = document.getElementById('friendActionsBtn');
-        const editBtn = document.querySelector('.edit-btn');
-        const messageBtn = document.querySelector('.message-btn');
-        const earningsBtn = document.getElementById('earningsBtn');
-        
-        if (addBtn) addBtn.style.display = 'none';
-        if (sentBtn) sentBtn.style.display = 'none';
-        if (actionsBtn) actionsBtn.style.display = 'none';
-        if (editBtn) editBtn.style.display = 'none';
-        if (messageBtn) messageBtn.style.display = 'none';
-        if (earningsBtn) earningsBtn.style.display = 'none';
-        
-        if (profileUserId === currentUserId) {
-            if (editBtn) editBtn.style.display = 'inline-flex';
-            if (earningsBtn) earningsBtn.style.display = 'inline-flex';
-            console.log('✅ OWNER MODE');
-            return;
-        }
-        
-        if (messageBtn) messageBtn.style.display = 'inline-flex';
-        console.log('✅ VISITOR MODE');
-        
-        const { data: friend } = await supabaseClient
-            .from('friends')
-            .select('id')
-            .eq('user_id', currentUserId)
-            .eq('friend_id', profileUserId)
-            .maybeSingle();
-        
-        if (friend) {
-            if (actionsBtn) actionsBtn.style.display = 'inline-flex';
-            console.log('✅ Already friends');
-            return;
-        }
-        
-        const { data: request } = await supabaseClient
-            .from('friend_requests')
-            .select('id, sender_id')
-            .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
-            .eq('status', 'pending')
-            .maybeSingle();
-        
-        if (request) {
-            if (request.sender_id === currentUserId) {
-                if (sentBtn) sentBtn.style.display = 'inline-flex';
-                console.log('✅ Request sent');
-            } else {
-                showFriendRequestActions(request.id);
-                console.log('✅ Request received');
+        async function checkFriendshipStatus() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                currentUserId = user.id;
+                
+                console.log('✅ Current User:', currentUserId);
+                console.log('👤 Profile User:', profileUserId);
+                console.log('🔍 Is Owner?', profileUserId === currentUserId);
+                
+                const addBtn = document.getElementById('addFriendBtn');
+                const sentBtn = document.getElementById('requestSentBtn');
+                const actionsBtn = document.getElementById('friendActionsBtn');
+                const editBtn = document.querySelector('.edit-btn');
+                const messageBtn = document.querySelector('.message-btn');
+                const earningsBtn = document.getElementById('earningsBtn');
+                
+                if (addBtn) addBtn.style.display = 'none';
+                if (sentBtn) sentBtn.style.display = 'none';
+                if (actionsBtn) actionsBtn.style.display = 'none';
+                if (editBtn) editBtn.style.display = 'none';
+                if (messageBtn) messageBtn.style.display = 'none';
+                if (earningsBtn) earningsBtn.style.display = 'none';
+                
+                if (profileUserId === currentUserId) {
+                    if (editBtn) editBtn.style.display = 'inline-flex';
+                    if (earningsBtn) earningsBtn.style.display = 'inline-flex';
+                    console.log('✅ OWNER MODE');
+                    return;
+                }
+                
+                if (messageBtn) messageBtn.style.display = 'inline-flex';
+                console.log('✅ VISITOR MODE');
+                
+                const { data: friend } = await supabaseClient
+                    .from('friends')
+                    .select('id')
+                    .eq('user_id', currentUserId)
+                    .eq('friend_id', profileUserId)
+                    .maybeSingle();
+                
+                if (friend) {
+                    if (actionsBtn) actionsBtn.style.display = 'inline-flex';
+                    console.log('✅ Already friends');
+                    return;
+                }
+                
+                const { data: request } = await supabaseClient
+                    .from('friend_requests')
+                    .select('id, sender_id')
+                    .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
+                    .eq('status', 'pending')
+                    .maybeSingle();
+                
+                if (request) {
+                    if (request.sender_id === currentUserId) {
+                        if (sentBtn) sentBtn.style.display = 'inline-flex';
+                        console.log('✅ Request sent');
+                    } else {
+                        showFriendRequestActions(request.id);
+                        console.log('✅ Request received');
+                    }
+                    return;
+                }
+                
+                if (addBtn) addBtn.style.display = 'inline-flex';
+                console.log('✅ Showing Add Friend');
+                
+            } catch (error) {
+                console.error('Error checking friendship:', error);
             }
-            return;
         }
         
-        if (addBtn) addBtn.style.display = 'inline-flex';
-        console.log('✅ Showing Add Friend');
-        
-    } catch (error) {
-        console.error('Error checking friendship:', error);
-    }
-}
         // إرسال طلب صداقة
         async function sendFriendRequest() {
             try {
@@ -1896,168 +1959,168 @@ if (officialBadgeEl) {
         // =========================================================
         // INITIALIZE
         // =========================================================
-     document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🔴 profile.html loaded');
-    
-    if (typeof getCurrentLanguage === 'function') {
-        const lang = getCurrentLanguage();
-        setLanguage(lang);
-        applyTranslations();
-    }
-    
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    currentUserId = user?.id || null;
-    
-    profileUserId = getUserIdFromUrl();
-    
-    if (!profileUserId) {
-        if (user) {
-            profileUserId = user.id;
-        } else {
-            window.location.href = 'auth.html';
-            return;
-        }
-    }
-    
-    await loadProfile();
-    await new Promise(resolve => setTimeout(resolve, 300));
-    await checkFriendshipStatus();
-});
-
-// =========================================================
-// ✅ LOAD USER POSTS
-// =========================================================
-async function loadUserPosts(userId) {
-    try {
-        const container = document.getElementById('userPosts');
-        if (!container) return;
-        
-        container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Loading posts...</p>';
-        
-        const { data: posts, error } = await supabaseClient
-            .from('posts')
-            .select('*')
-            .eq('user_id', userId)
-            .order('created_at', { ascending: false });
-        
-        if (error) {
-            console.error('Error loading posts:', error);
-            container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Error loading posts</p>';
-            return;
-        }
-        
-        if (!posts || posts.length === 0) {
-            container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">No posts yet</p>';
-            return;
-        }
-        
-        container.innerHTML = '';
-        
-        posts.forEach(post => {
-            const postDiv = document.createElement('div');
-            postDiv.className = 'profile-post';
-            postDiv.style.cssText = 'background:#f8f9fa;border-radius:8px;padding:15px;margin-bottom:15px;';
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔴 profile.html loaded');
             
-            const timeAgo = formatTimeAgo(post.created_at);
-            const imageHtml = post.image_url 
-                ? `<img src="${post.image_url}" style="width:100%;border-radius:8px;margin-top:10px;" alt="Post image">` 
-                : '';
+            if (typeof getCurrentLanguage === 'function') {
+                const lang = getCurrentLanguage();
+                setLanguage(lang);
+                applyTranslations();
+            }
             
-            postDiv.innerHTML = `
-                <p style="margin:0 0 10px;font-size:15px;color:#050505;">${escapeHtml(post.content || '')}</p>
-                ${imageHtml}
-                <div class="profile-post-footer" style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#65676b;margin-top:10px;padding-top:10px;border-top:1px solid #e4e6eb;">
-                    <span>${timeAgo}</span>
-                    <div class="profile-post-actions" style="display:flex;gap:15px;">
-                        <span class="profile-post-action" style="cursor:pointer;">👍 ${post.likes_count || 0}</span>
-                        <span class="profile-post-action" style="cursor:pointer;">💬 ${post.comments_count || 0}</span>
-                    </div>
-                </div>
-            `;
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            currentUserId = user?.id || null;
             
-            container.appendChild(postDiv);
+            profileUserId = getUserIdFromUrl();
+            
+            if (!profileUserId) {
+                if (user) {
+                    profileUserId = user.id;
+                } else {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+            }
+            
+            await loadProfile();
+            await new Promise(resolve => setTimeout(resolve, 300));
+            await checkFriendshipStatus();
         });
-        
-    } catch (error) {
-        console.error('Error:', error);
-        const container = document.getElementById('userPosts');
-        if (container) {
-            container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Error loading posts</p>';
+
+        // =========================================================
+        // ✅ LOAD USER POSTS
+        // =========================================================
+        async function loadUserPosts(userId) {
+            try {
+                const container = document.getElementById('userPosts');
+                if (!container) return;
+                
+                container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Loading posts...</p>';
+                
+                const { data: posts, error } = await supabaseClient
+                    .from('posts')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading posts:', error);
+                    container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Error loading posts</p>';
+                    return;
+                }
+                
+                if (!posts || posts.length === 0) {
+                    container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">No posts yet</p>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                
+                posts.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'profile-post';
+                    postDiv.style.cssText = 'background:#f8f9fa;border-radius:8px;padding:15px;margin-bottom:15px;';
+                    
+                    const timeAgo = formatTimeAgo(post.created_at);
+                    const imageHtml = post.image_url 
+                        ? `<img src="${post.image_url}" style="width:100%;border-radius:8px;margin-top:10px;" alt="Post image">` 
+                        : '';
+                    
+                    postDiv.innerHTML = `
+                        <p style="margin:0 0 10px;font-size:15px;color:#050505;">${escapeHtml(post.content || '')}</p>
+                        ${imageHtml}
+                        <div class="profile-post-footer" style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#65676b;margin-top:10px;padding-top:10px;border-top:1px solid #e4e6eb;">
+                            <span>${timeAgo}</span>
+                            <div class="profile-post-actions" style="display:flex;gap:15px;">
+                                <span class="profile-post-action" style="cursor:pointer;">👍 ${post.likes_count || 0}</span>
+                                <span class="profile-post-action" style="cursor:pointer;">💬 ${post.comments_count || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(postDiv);
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+                const container = document.getElementById('userPosts');
+                if (container) {
+                    container.innerHTML = '<p style="color:#65676b;text-align:center;padding:20px;">Error loading posts</p>';
+                }
+            }
         }
-    }
-}
 
 
-// =========================================================
-// ✅ SEND MESSAGE
-// =========================================================
-async function sendMessage() {
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) {
-            alert('Please login first');
-            window.location.href = 'auth.html';
-            return;
+        // =========================================================
+        // ✅ SEND MESSAGE
+        // =========================================================
+        async function sendMessage() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    alert('Please login first');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                if (!profileUserId) {
+                    alert('Profile not loaded');
+                    return;
+                }
+                
+                if (profileUserId === user.id) {
+                    alert('You cannot message yourself');
+                    return;
+                }
+                
+                window.location.href = `messenger.html?user=${profileUserId}`;
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('Error: ' + error.message);
+            }
         }
-        
-        if (!profileUserId) {
-            alert('Profile not loaded');
-            return;
+
+
+        // =========================================================
+        // ✅ FORMAT TIME AGO (إذا لم تكن موجودة)
+        // =========================================================
+        if (typeof formatTimeAgo !== 'function') {
+            window.formatTimeAgo = function(timestamp) {
+                if (!timestamp) return 'Just now';
+                
+                const date = new Date(timestamp);
+                const now = new Date();
+                const diff = now - date;
+                
+                const seconds = Math.floor(diff / 1000);
+                if (seconds < 60) return 'Just now';
+                
+                const minutes = Math.floor(seconds / 60);
+                if (minutes < 60) return `${minutes} min ago`;
+                
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) return `${hours} hr ago`;
+                
+                const days = Math.floor(hours / 24);
+                if (days < 7) return `${days} days ago`;
+                
+                return date.toLocaleDateString();
+            };
         }
-        
-        if (profileUserId === user.id) {
-            alert('You cannot message yourself');
-            return;
+
+
+        // =========================================================
+        // ✅ ESCAPE HTML (إذا لم تكن موجودة)
+        // =========================================================
+        if (typeof escapeHtml !== 'function') {
+            window.escapeHtml = function(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            };
         }
-        
-        window.location.href = `messenger.html?user=${profileUserId}`;
-        
-    } catch (error) {
-        console.error('Error sending message:', error);
-        alert('Error: ' + error.message);
-    }
-}
-
-
-// =========================================================
-// ✅ FORMAT TIME AGO (إذا لم تكن موجودة)
-// =========================================================
-if (typeof formatTimeAgo !== 'function') {
-    window.formatTimeAgo = function(timestamp) {
-        if (!timestamp) return 'Just now';
-        
-        const date = new Date(timestamp);
-        const now = new Date();
-        const diff = now - date;
-        
-        const seconds = Math.floor(diff / 1000);
-        if (seconds < 60) return 'Just now';
-        
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `${minutes} min ago`;
-        
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours} hr ago`;
-        
-        const days = Math.floor(hours / 24);
-        if (days < 7) return `${days} days ago`;
-        
-        return date.toLocaleDateString();
-    };
-}
-
-
-// =========================================================
-// ✅ ESCAPE HTML (إذا لم تكن موجودة)
-// =========================================================
-if (typeof escapeHtml !== 'function') {
-    window.escapeHtml = function(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    };
-}
         
         // =========================================================
         // MAKE FUNCTIONS GLOBAL
@@ -2077,7 +2140,7 @@ if (typeof escapeHtml !== 'function') {
         window.showTab = showTab;
         window.logout = logout;
     </script>
-          <script src="js/messenger-notify.js"></script>
-<script src="js/popunder-ad.js"></script>
+    <script src="js/messenger-notify.js"></script>
+    <script src="js/popunder-ad.js"></script>
 </body>
 </html>
