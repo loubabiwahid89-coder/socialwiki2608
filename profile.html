@@ -469,6 +469,226 @@
 .badge-verified:hover {
     transform: scale(1.15) rotate(-10deg);
 }
+
+/* =========================================================
+   EDIT PROFILE MODAL
+========================================================= */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #e4e6eb;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #050505;
+}
+
+.modal-close {
+    background: #e4e6eb;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #050505;
+    transition: background 0.2s;
+}
+
+.modal-close:hover {
+    background: #d0d2d6;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #050505;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccd0d5;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #1877f2;
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2365676b' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 40px;
+}
+
+.gender-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.gender-option {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px;
+    border: 2px solid #ccd0d5;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #050505;
+    transition: all 0.2s;
+}
+
+.gender-option:hover {
+    border-color: #1877f2;
+    background: #f0f7ff;
+}
+
+.gender-option.selected {
+    border-color: #1877f2;
+    background: #e7f3ff;
+    color: #1877f2;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    padding: 20px 25px;
+    border-top: 1px solid #e4e6eb;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-radius: 0 0 12px 12px;
+}
+
+.modal-footer button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel {
+    background: #e4e6eb;
+    color: #050505;
+}
+
+.btn-cancel:hover {
+    background: #d0d2d6;
+}
+
+.btn-save {
+    background: #1877f2;
+    color: white;
+}
+
+.btn-save:hover {
+    background: #166fe5;
+}
+
+.btn-save:disabled {
+    background: #a0b8d8;
+    cursor: not-allowed;
+}
+
+/* RTL Support */
+[dir="rtl"] .form-group select {
+    background-position: left 12px center;
+    padding-right: 15px;
+    padding-left: 40px;
+}
     </style>
 </head>
 <body>
@@ -625,12 +845,84 @@
             </div>
         </div>
     </div>
-        <!-- =========================================================
+
+    <!-- =========================================================
+         ✅ EDIT PROFILE MODAL (نقلناه إلى هنا - قبل السكريبتات)
+    ========================================================= -->
+    <div class="modal-overlay" id="editProfileModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 data-i18n="edit_profile">Edit Profile</h2>
+                <button class="modal-close" onclick="closeEditProfileModal()">✕</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- الاسم الكامل -->
+                <div class="form-group">
+                    <label data-i18n="full_name">Full Name</label>
+                    <input type="text" id="editFullName" placeholder="Enter your full name">
+                </div>
+                
+                <!-- اسم المستخدم -->
+                <div class="form-group">
+                    <label data-i18n="username">Username</label>
+                    <input type="text" id="editUsername" placeholder="Enter your username">
+                </div>
+                
+                <!-- النبذة -->
+                <div class="form-group">
+                    <label data-i18n="about">Bio</label>
+                    <textarea id="editBio" placeholder="Tell us about yourself..."></textarea>
+                </div>
+                
+                <!-- الجنس -->
+                <div class="form-group">
+                    <label data-i18n="gender">Gender</label>
+                    <div class="gender-options" id="genderOptions">
+                        <button type="button" class="gender-option" data-value="male" onclick="selectGender('male')">👨 Male</button>
+                        <button type="button" class="gender-option" data-value="female" onclick="selectGender('female')">👩 Female</button>
+                        <button type="button" class="gender-option" data-value="other" onclick="selectGender('other')">🌈 Other</button>
+                    </div>
+                </div>
+                
+                <!-- الدولة -->
+                <div class="form-group">
+                    <label data-i18n="country">Country</label>
+                    <select id="editCountry">
+                        <option value="">Select your country</option>
+                        <option value="MA">🇲🇦 Morocco</option>
+                        <option value="DZ">🇩🇿 Algeria</option>
+                        <option value="TN">🇹🇳 Tunisia</option>
+                        <option value="EG">🇪🇬 Egypt</option>
+                        <option value="SA">🇸🇦 Saudi Arabia</option>
+                        <option value="AE">🇦🇪 UAE</option>
+                        <option value="FR">🇫🇷 France</option>
+                        <option value="ES">🇪🇸 Spain</option>
+                        <option value="US">🇺🇸 United States</option>
+                        <option value="GB">🇬🇧 United Kingdom</option>
+                        <option value="DE">🇩🇪 Germany</option>
+                        <option value="IT">🇮🇹 Italy</option>
+                        <option value="TR">🇹🇷 Turkey</option>
+                        <option value="IN">🇮🇳 India</option>
+                        <option value="PH">🇵🇭 Philippines</option>
+                        <option value="OTHER">🌍 Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeEditProfileModal()" data-i18n="cancel">Cancel</button>
+                <button class="btn-save" id="saveProfileBtn" onclick="saveProfileChanges()" data-i18n="save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
          SCRIPTS
     ========================================================= -->
     
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/tasks-helper.js"></script>  <!-- ✅ أضف هذا السطر -->
+<script src="js/tasks-helper.js"></script>
 <script src="js/translations.js"></script>
     
     <script>
@@ -741,7 +1033,6 @@
         // LOAD PROFILE
         // =========================================================
        async function loadProfile() {
-    // profileUserId تم تعيينه بالفعل في DOMContentLoaded
     if (profileUserId) {
         loadUserProfile(profileUserId);
     } else {
@@ -750,13 +1041,12 @@
 }
         
         // =========================================================
-// ✅ التحقق من الشارات الجديدة وإرسال إشعار
-// =========================================================
+        // ✅ التحقق من الشارات الجديدة وإرسال إشعار
+        // =========================================================
 async function checkForNewBadges(userId, badges) {
     if (!badges || badges.length === 0) return;
     
     try {
-        // جلب الشارات التي شاهدها المستخدم سابقاً
         const { data: seenBadges, error } = await supabaseClient
             .from('user_badge_notifications')
             .select('badge_country')
@@ -769,13 +1059,10 @@ async function checkForNewBadges(userId, badges) {
         
         const seenCountries = (seenBadges || []).map(b => b.badge_country);
         
-        // البحث عن شارات جديدة
         for (const badge of badges) {
             if (!seenCountries.includes(badge.country)) {
-                // إرسال إشعار
                 await sendBadgeNotification(userId, badge);
                 
-                // تسجيل الشارة كمشاهدة
                 await supabaseClient
                     .from('user_badge_notifications')
                     .insert({
@@ -795,7 +1082,6 @@ async function checkForNewBadges(userId, badges) {
 // =========================================================
 async function sendBadgeNotification(userId, badge) {
     try {
-        // ✅ استخدام الترجمة حسب لغة المستخدم
         const congratsText = typeof t === 'function' 
             ? t('badge_awarded', getCurrentLanguage()) 
             : '🏆 Congratulations! You earned a new badge!';
@@ -846,23 +1132,25 @@ async function sendBadgeNotification(userId, badge) {
         document.getElementById('profileName').textContent = fullName;
         document.getElementById('profileUsername').textContent = '@' + username;
         document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+        
         // =========================================================
-// ✅ إظهار شارات Owner و Verified
-// =========================================================
-const ownerBadgeEl = document.getElementById('ownerBadge');
-const verifiedBadgeEl = document.getElementById('verifiedBadge');
+        // ✅ إظهار شارات Owner و Verified
+        // =========================================================
+        const ownerBadgeEl = document.getElementById('ownerBadge');
+        const verifiedBadgeEl = document.getElementById('verifiedBadge');
 
-if (ownerBadgeEl) {
-    ownerBadgeEl.style.display = (profile?.is_owner === true) 
-        ? 'inline-flex' 
-        : 'none';
-}
+        if (ownerBadgeEl) {
+            ownerBadgeEl.style.display = (profile?.is_owner === true) 
+                ? 'inline-flex' 
+                : 'none';
+        }
 
-if (verifiedBadgeEl) {
-    verifiedBadgeEl.style.display = (profile?.is_verified === true) 
-        ? 'inline-flex' 
-        : 'none';
-}
+        if (verifiedBadgeEl) {
+            verifiedBadgeEl.style.display = (profile?.is_verified === true) 
+                ? 'inline-flex' 
+                : 'none';
+        }
+        
         document.getElementById('avatarImg').src = avatarUrl;
         document.getElementById('coverImg').src = coverUrl;
 
@@ -872,7 +1160,6 @@ if (verifiedBadgeEl) {
         
         console.log('🏆 Badges:', badges);
         
-        // ✅ التحقق من الشارات الجديدة (هنا المكان الصحيح)
         if (profileUserId === currentUserId || !currentUserId) {
             checkForNewBadges(userId, badges);
         }
@@ -916,13 +1203,29 @@ if (verifiedBadgeEl) {
             }
         }
         
-        // ✅ تحديث Navbar باسم المستخدم الحقيقي (فقط لصاحب الحساب)
-        if (profileUserId === currentUserId || !getUserIdFromUrl()) {
-            const navProfileName = document.getElementById('navProfileName');
-            if (navProfileName) navProfileName.textContent = fullName;
+        // =========================================================
+        // ✅ تحديث Navbar باسم المستخدم الحالي (المشاهد)
+        // =========================================================
+        if (currentUserId) {
+            const { data: navProfile } = await supabaseClient
+                .from('profiles')
+                .select('username, full_name, avatar_url')
+                .eq('id', currentUserId)
+                .single();
             
-            const navProfileImg = document.getElementById('navProfileImg');
-            if (navProfileImg) navProfileImg.src = avatarUrl;
+            if (navProfile) {
+                const navName = navProfile.full_name || navProfile.username || 'User';
+                const navAvatar = navProfile.avatar_url 
+                    || `https://ui-avatars.com/api/?name=${navProfile.username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                const navProfileImg = document.getElementById('navProfileImg');
+                
+                if (navProfileName) navProfileName.textContent = navName;
+                if (navProfileImg) navProfileImg.src = navAvatar;
+                
+                console.log('✅ Navbar updated:', navName);
+            }
         }
         
         // عدد المنشورات
@@ -1053,8 +1356,10 @@ if (verifiedBadgeEl) {
         }
         
         // =========================================================
-        // EDIT PROFILE
+        // ✅ EDIT PROFILE - OPEN MODAL
         // =========================================================
+        let selectedGender = null;
+
         async function editProfile() {
             // 🔒 حماية: لا يمكنك تعديل إلا ملفك
             const { data: { user } } = await supabaseClient.auth.getUser();
@@ -1063,19 +1368,160 @@ if (verifiedBadgeEl) {
                 return;
             }
             
-            const name = prompt("Enter your new display name:");
-            if (name) await updateProfile({ full_name: name });
+            // جلب البيانات الحالية
+            const { data: profile, error } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
             
-            const username = prompt("Enter your new username:");
-            if (username) await updateProfile({ username: username });
+            if (error) {
+                console.error('Error loading profile:', error);
+                alert('Error loading profile data');
+                return;
+            }
             
-            const bio = prompt("Enter your new bio:");
-            if (bio) await updateProfile({ bio: bio });
+            // ملء الحقول
+            document.getElementById('editFullName').value = profile?.full_name || '';
+            document.getElementById('editUsername').value = profile?.username || '';
+            document.getElementById('editBio').value = profile?.bio || '';
+            document.getElementById('editCountry').value = profile?.country || '';
+            
+            // تعيين الجنس
+            selectedGender = profile?.gender || null;
+            updateGenderSelection();
+            
+            // إظهار الـ Modal
+            document.getElementById('editProfileModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // =========================================================
+        // ✅ CLOSE MODAL
+        // =========================================================
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // =========================================================
+        // ✅ SELECT GENDER
+        // =========================================================
+        function selectGender(gender) {
+            selectedGender = gender;
+            updateGenderSelection();
+        }
+
+        function updateGenderSelection() {
+            document.querySelectorAll('.gender-option').forEach(btn => {
+                btn.classList.toggle('selected', btn.dataset.value === selectedGender);
+            });
+        }
+
+        // =========================================================
+        // ✅ SAVE PROFILE CHANGES
+        // =========================================================
+        async function saveProfileChanges() {
+            const saveBtn = document.getElementById('saveProfileBtn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    alert('Please login first');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                const fullName = document.getElementById('editFullName').value.trim();
+                const username = document.getElementById('editUsername').value.trim();
+                const bio = document.getElementById('editBio').value.trim();
+                const country = document.getElementById('editCountry').value;
+                
+                // التحقق من الاسم
+                if (!fullName) {
+                    alert('❌ Full name is required');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                    return;
+                }
+                
+                // التحقق من اسم المستخدم
+                if (!username) {
+                    alert('❌ Username is required');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                    return;
+                }
+                
+                // أسماء محظورة
+                const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
+                if (forbiddenNames.includes(username.toLowerCase())) {
+                    alert('❌ This username is not allowed!');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                    return;
+                }
+                
+                // التحقق من عدم وجود اسم مستخدم آخر
+                const { data: existing } = await supabaseClient
+                    .from('profiles')
+                    .select('id')
+                    .eq('username', username)
+                    .neq('id', user.id)
+                    .maybeSingle();
+                
+                if (existing) {
+                    alert('❌ This username is already taken!');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                    return;
+                }
+                
+                // تحديث البيانات
+                const updates = {
+                    full_name: fullName,
+                    username: username,
+                    bio: bio,
+                    gender: selectedGender,
+                    country: country
+                };
+                
+                const { error } = await supabaseClient
+                    .from('profiles')
+                    .update(updates)
+                    .eq('id', user.id);
+                
+                if (error) {
+                    console.error('Update error:', error);
+                    alert('❌ Error updating profile: ' + error.message);
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                    return;
+                }
+                
+                // ✅ إكمال مهمة "Complete Profile"
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('complete_profile');
+                }
+                
+                alert('✅ Profile updated successfully!');
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error: ' + error.message);
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save';
+            }
         }
         
+        // =========================================================
+        // ✅ DUAL UPDATE PROFILE (القديمة - محفوظة)
+        // =========================================================
       async function updateProfile(updates) {
     try {
-        // احصل على المستخدم أولاً
         const { data: { user } } = await supabaseClient.auth.getUser();
         if (!user) {
             alert("Please login first!");
@@ -1083,7 +1529,6 @@ if (verifiedBadgeEl) {
             return;
         }
         
-        // تحقق من username
         if (updates.username) {
             const forbiddenNames = ['admin', 'owner', 'super_admin', 'administrator', 'moderator'];
             if (forbiddenNames.includes(updates.username.toLowerCase())) {
@@ -1092,7 +1537,6 @@ if (verifiedBadgeEl) {
             }
         }
         
-        // حدّث البيانات
         const { error } = await supabaseClient
             .from("profiles")
             .update(updates)
@@ -1104,7 +1548,6 @@ if (verifiedBadgeEl) {
             return;
         }
         
-        // ✅ إكمال مهمة "Complete Profile"
         if (typeof verifyAndCompleteTask === 'function') {
             verifyAndCompleteTask('complete_profile');
         }
@@ -1228,94 +1671,79 @@ if (verifiedBadgeEl) {
         // =========================================================
         // FRIEND SYSTEM
         // =========================================================
-        async function checkFriendshipStatus() {
-            try {
-               const { data: { user } } = await supabaseClient.auth.getUser();
-if (!user) {
-    console.log('⚠️ No user logged in');
-    return;
-}
-
-currentUserId = user.id;
-console.log('✅ Current User:', currentUserId);
-console.log('👤 Profile User:', profileUserId);
-console.log('🔍 Is Owner?', profileUserId === currentUserId);
-                
-                const addBtn = document.getElementById('addFriendBtn');
-                const sentBtn = document.getElementById('requestSentBtn');
-                const actionsBtn = document.getElementById('friendActionsBtn');
-                const editBtn = document.querySelector('.edit-btn');
-                const messageBtn = document.querySelector('.message-btn');
-                
-                if (!addBtn || !sentBtn || !actionsBtn) return;
-                
-                // إذا كنت في صفحتك → أخفِ أزرار الصداقة وأظهر Edit
-               if (profileUserId === currentUserId) {
-    addBtn.style.display = 'none';
-    sentBtn.style.display = 'none';
-    actionsBtn.style.display = 'none';
-    if (editBtn) editBtn.style.display = 'inline-flex';
-    if (messageBtn) messageBtn.style.display = 'none';
-    
-    // ✅ إظهار زر My Earnings للمالك فقط
-    const earningsBtn = document.getElementById('earningsBtn');
-    if (earningsBtn) earningsBtn.style.display = 'inline-flex';
-    
-    return;
-}
-                
-                // إذا كنت في صفحة شخص آخر → أخفِ Edit وأظهر Message
-                // ✅ إخفاء زر My Earnings عن الزوار
-const earningsBtn = document.getElementById('earningsBtn');
-if (earningsBtn) earningsBtn.style.display = 'none';
-                
-                // 1. هل هم أصدقاء بالفعل؟
-                const { data: friend } = await supabaseClient
-                    .from('friends')
-                    .select('id')
-                    .eq('user_id', currentUserId)
-                    .eq('friend_id', profileUserId)
-                    .maybeSingle();
-                
-                if (friend) {
-                    addBtn.style.display = 'none';
-                    sentBtn.style.display = 'none';
-                    actionsBtn.style.display = 'inline-flex';
-                    return;
-                }
-                
-                // 2. هل هناك طلب معلّق؟
-                const { data: request } = await supabaseClient
-                    .from('friend_requests')
-                    .select('id, sender_id')
-                    .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
-                    .eq('status', 'pending')
-                    .maybeSingle();
-                
-                if (request) {
-                    if (request.sender_id === currentUserId) {
-                        addBtn.style.display = 'none';
-                        sentBtn.style.display = 'inline-flex';
-                        actionsBtn.style.display = 'none';
-                    } else {
-                        addBtn.style.display = 'none';
-                        sentBtn.style.display = 'none';
-                        actionsBtn.style.display = 'none';
-                        showFriendRequestActions(request.id);
-                    }
-                    return;
-                }
-                
-                // 3. لا شيء → "Add Friend"
-                addBtn.style.display = 'inline-flex';
-                sentBtn.style.display = 'none';
-                actionsBtn.style.display = 'none';
-                
-            } catch (error) {
-                console.error('Error checking friendship:', error);
-            }
+      async function checkFriendshipStatus() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        currentUserId = user.id;
+        
+        console.log('✅ Current User:', currentUserId);
+        console.log('👤 Profile User:', profileUserId);
+        console.log('🔍 Is Owner?', profileUserId === currentUserId);
+        
+        const addBtn = document.getElementById('addFriendBtn');
+        const sentBtn = document.getElementById('requestSentBtn');
+        const actionsBtn = document.getElementById('friendActionsBtn');
+        const editBtn = document.querySelector('.edit-btn');
+        const messageBtn = document.querySelector('.message-btn');
+        const earningsBtn = document.getElementById('earningsBtn');
+        
+        if (addBtn) addBtn.style.display = 'none';
+        if (sentBtn) sentBtn.style.display = 'none';
+        if (actionsBtn) actionsBtn.style.display = 'none';
+        if (editBtn) editBtn.style.display = 'none';
+        if (messageBtn) messageBtn.style.display = 'none';
+        if (earningsBtn) earningsBtn.style.display = 'none';
+        
+        if (profileUserId === currentUserId) {
+            if (editBtn) editBtn.style.display = 'inline-flex';
+            if (earningsBtn) earningsBtn.style.display = 'inline-flex';
+            console.log('✅ OWNER MODE');
+            return;
         }
         
+        if (messageBtn) messageBtn.style.display = 'inline-flex';
+        console.log('✅ VISITOR MODE');
+        
+        const { data: friend } = await supabaseClient
+            .from('friends')
+            .select('id')
+            .eq('user_id', currentUserId)
+            .eq('friend_id', profileUserId)
+            .maybeSingle();
+        
+        if (friend) {
+            if (actionsBtn) actionsBtn.style.display = 'inline-flex';
+            console.log('✅ Already friends');
+            return;
+        }
+        
+        const { data: request } = await supabaseClient
+            .from('friend_requests')
+            .select('id, sender_id')
+            .or(`and(sender_id.eq.${currentUserId},receiver_id.eq.${profileUserId}),and(sender_id.eq.${profileUserId},receiver_id.eq.${currentUserId})`)
+            .eq('status', 'pending')
+            .maybeSingle();
+        
+        if (request) {
+            if (request.sender_id === currentUserId) {
+                if (sentBtn) sentBtn.style.display = 'inline-flex';
+                console.log('✅ Request sent');
+            } else {
+                showFriendRequestActions(request.id);
+                console.log('✅ Request received');
+            }
+            return;
+        }
+        
+        if (addBtn) addBtn.style.display = 'inline-flex';
+        console.log('✅ Showing Add Friend');
+        
+    } catch (error) {
+        console.error('Error checking friendship:', error);
+    }
+}
         // إرسال طلب صداقة
         async function sendFriendRequest() {
             try {
@@ -1344,7 +1772,6 @@ if (earningsBtn) earningsBtn.style.display = 'none';
                     return;
                 }
                 
-                // إرسال إشعار
                 const { data: senderProfile } = await supabaseClient
                     .from('profiles')
                     .select('username, full_name')
@@ -1457,7 +1884,6 @@ if (earningsBtn) earningsBtn.style.display = 'none';
         applyTranslations();
     }
     
-    // ✅ احصل على المستخدم الحالي أولاً
     const { data: { user } } = await supabaseClient.auth.getUser();
     currentUserId = user?.id || null;
     
@@ -1473,9 +1899,8 @@ if (earningsBtn) earningsBtn.style.display = 'none';
     }
     
     await loadProfile();
-    
-   // بدلاً من setTimeout
-setTimeout(checkFriendshipStatus, 1500);
+    await new Promise(resolve => setTimeout(resolve, 300));
+    await checkFriendshipStatus();
 });
 
 // =========================================================
@@ -1564,7 +1989,6 @@ async function sendMessage() {
             return;
         }
         
-        // الانتقال إلى صفحة المراسلة مع فتح المحادثة
         window.location.href = `messenger.html?user=${profileUserId}`;
         
     } catch (error) {
@@ -1618,12 +2042,15 @@ if (typeof escapeHtml !== 'function') {
         // MAKE FUNCTIONS GLOBAL
         // =========================================================
         window.loadUserPosts = loadUserPosts;
-window.sendMessage = sendMessage;
+        window.sendMessage = sendMessage;
         window.sendFriendRequest = sendFriendRequest;
         window.acceptFriendRequest = acceptFriendRequest;
         window.rejectFriendRequest = rejectFriendRequest;
         window.checkFriendshipStatus = checkFriendshipStatus;
         window.editProfile = editProfile;
+        window.closeEditProfileModal = closeEditProfileModal;
+        window.selectGender = selectGender;
+        window.saveProfileChanges = saveProfileChanges;
         window.changeAvatar = changeAvatar;
         window.changeCover = changeCover;
         window.showTab = showTab;
@@ -1631,6 +2058,5 @@ window.sendMessage = sendMessage;
     </script>
           <script src="js/messenger-notify.js"></script>
 <script src="js/popunder-ad.js"></script>
-    
 </body>
 </html>
