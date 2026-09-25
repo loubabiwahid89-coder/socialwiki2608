@@ -689,6 +689,25 @@
     padding-right: 15px;
     padding-left: 40px;
 }
+
+.badge-official {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #1877f2, #0d5bbd);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(24, 119, 242, 0.4);
+    border: 2px solid white;
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+.badge-official:hover {
+    transform: scale(1.1);
+}
     </style>
 </head>
 <body>
@@ -770,6 +789,7 @@
     <span class="profile-name" id="profileName">User</span>
     <span class="badge-owner" id="ownerBadge" style="display:none;" title="Owner">👑</span>
     <span class="badge-verified" id="verifiedBadge" style="display:none;" title="Verified">✅</span>
+    <span class="badge-official" id="officialBadge" style="display:none;" title="Official SocialWiki Account">🌐</span>
 </div>
 <div class="profile-username" id="profileUsername">@user</div>
 <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
@@ -1145,11 +1165,12 @@ async function sendBadgeNotification(userId, badge) {
                 : 'none';
         }
 
-        if (verifiedBadgeEl) {
-            verifiedBadgeEl.style.display = (profile?.is_verified === true) 
-                ? 'inline-flex' 
-                : 'none';
-        }
+       const officialBadgeEl = document.getElementById('officialBadge');
+if (officialBadgeEl) {
+    officialBadgeEl.style.display = (profile?.is_owner === true) 
+        ? 'inline-flex' 
+        : 'none';
+}
         
         document.getElementById('avatarImg').src = avatarUrl;
         document.getElementById('coverImg').src = coverUrl;
