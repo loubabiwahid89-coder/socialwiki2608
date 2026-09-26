@@ -951,7 +951,7 @@
                     localStorage.setItem('pendingGender', gender);
                 }
 
-                const redirectUrl = window.location.origin + '/index.html';
+                const redirectUrl = 'https://wikidoogo.com/index.html';
 
                 const { error } = await supabaseClient.auth.signInWithOAuth({
                     provider: 'google',
