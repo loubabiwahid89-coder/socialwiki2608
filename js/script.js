@@ -6,8 +6,8 @@
 
 // تأكد من أن supabaseClient موجود
 if (!window.supabaseClient) {
-    const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
     window.supaba-seClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 }
 console.log("🚨 SCRIPT.JS START 🚨");
@@ -15,10 +15,10 @@ console.log("🚨 SCRIPT.JS START 🚨");
 // SUPABASE CONFIG
 
 const SUPABASE_URL =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+    "https://zcffrkvxmxvojkbmtufe.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
 
 // =========================================================
 // CREATE SUPABASE CLIENT

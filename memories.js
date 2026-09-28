@@ -378,11 +378,11 @@ function getMemoriesTranslations() {
 // =========================================================
 
 const memoriesSupabaseUrl =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+    "https://zcffrkvxmxvojkbmtufe.supabase.co";
 
 
 const memoriesSupabaseKey =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
 
 
 // =========================================================

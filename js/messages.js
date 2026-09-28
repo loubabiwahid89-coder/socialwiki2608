@@ -5,8 +5,8 @@
 // ========== SUPABASE ==========
 if (!window.supabaseClient) {
     window.supabaseClient = window.supabase.createClient(
-        "https://hvslktufqrgdgrgxmvcm.supabase.co",
-        "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT"
+        "https://zcffrkvxmxvojkbmtufe.supabase.co",
+        "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
     );
 }
 const sb = window.supabaseClient;

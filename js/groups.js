@@ -7,10 +7,10 @@ console.log("🔥 GROUPS VERSION: INVITE-MEMBERS-REMOVE-1");
 // =========================================================
 
 const groupsSupabaseUrl =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+    "https://zcffrkvxmxvojkbmtufe.supabase.co";
 
 const groupsSupabaseKey =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
 
 let groupsSupabase = null;
 

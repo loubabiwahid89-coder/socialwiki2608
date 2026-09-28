@@ -10,10 +10,10 @@ console.log("admin-router.js is working");
 // ==========================================
 
 const supabaseUrl =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+    "https://zcffrkvxmxvojkbmtufe.supabase.co";
 
 const supabaseKey =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
 
 const supabaseClient =
     window.supabase.createClient(

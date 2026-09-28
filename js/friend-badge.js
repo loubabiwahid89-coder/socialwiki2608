@@ -10,10 +10,10 @@ console.log("👥 Checking friend request badge...");
 // =====================================================
 
 const SUPABASE_URL =
-    "https://hvslktufqrgdgrgxmvcm.supabase.co";
+    "https://zcffrkvxmxvojkbmtufe.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+    "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
 
 if (!window.supabase) {
 

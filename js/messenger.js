@@ -14,8 +14,8 @@ if (!messengerSupabase) {
     if (!window.supabase) {
         console.error("❌ Supabase library not found");
     } else {
-        const SUPABASE_URL = "https://hvslktufqrgdgrgxmvcm.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT";
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
         messengerSupabase = window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_KEY,
