@@ -1480,37 +1480,60 @@ badgeBorder = '#FFD700';
         // =========================================================
         let selectedGender = null;
 
-        async function editProfile() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            if (!user || profileUserId !== user.id) {
-                alert("❌ You can only edit your own profile");
-                return;
-            }
-            
-            const { data: profile, error } = await supabaseClient
-                .from('profiles')
-                .select('*')
-                .eq('id', user.id)
-                .single();
-            
-            if (error) {
-                console.error('Error loading profile:', error);
-                alert('Error loading profile data');
-                return;
-            }
-            
-            document.getElementById('editFullName').value = profile?.full_name || '';
-            document.getElementById('editUsername').value = profile?.username || '';
-            document.getElementById('editBio').value = profile?.bio || '';
-            document.getElementById('editCountry').value = profile?.country || '';
-            
-            selectedGender = profile?.gender || null;
-            updateGenderSelection();
-            
-            document.getElementById('editProfileModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
+    async function editProfile() {
+    console.log('🔧 editProfile() called');
+    
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    
+    // ✅ التحقق من تسجيل الدخول
+    if (!user) {
+        alert("❌ Please login first");
+        window.location.href = 'auth.html';
+        return;
+    }
+    
+    const myId = String(user.id).trim();
+    const targetId = String(profileUserId || myId).trim();
+    
+    console.log('🔍 editProfile check:');
+    console.log('   myId:', myId);
+    console.log('   targetId:', targetId);
+    console.log('   profileUserId:', profileUserId);
+    
+    // ✅ المقارنة الآمنة
+    if (targetId !== myId) {
+        alert("❌ You can only edit your own profile");
+        return;
+    }
+    
+    // ✅ جلب بيانات البروفايل
+    const { data: profile, error } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('id', myId)
+        .single();
+    
+    if (error) {
+        console.error('❌ Error loading profile:', error);
+        alert('Error loading profile data: ' + error.message);
+        return;
+    }
+    
+    // ✅ ملء الحقول
+    document.getElementById('editFullName').value = profile?.full_name || '';
+    document.getElementById('editUsername').value = profile?.username || '';
+    document.getElementById('editBio').value = profile?.bio || '';
+    document.getElementById('editCountry').value = profile?.country || '';
+    
+    selectedGender = profile?.gender || null;
+    updateGenderSelection();
+    
+    // ✅ فتح المودال
+    document.getElementById('editProfileModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    console.log('✅ Edit profile modal opened');
+}
         // =========================================================
         // ✅ CLOSE MODAL
         // =========================================================
@@ -1786,7 +1809,7 @@ badgeBorder = '#FFD700';
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
                 
-                currentUserId = user.id;
+                currentUserId = String(user.id).trim();
                 
                 console.log('✅ Current User:', currentUserId);
                 console.log('👤 Profile User:', profileUserId);
@@ -1806,22 +1829,25 @@ badgeBorder = '#FFD700';
                 if (messageBtn) messageBtn.style.display = 'none';
                 if (earningsBtn) earningsBtn.style.display = 'none';
                 
-                if (profileUserId === currentUserId) {
-                    if (editBtn) editBtn.style.display = 'inline-flex';
-                    if (earningsBtn) earningsBtn.style.display = 'inline-flex';
-                    console.log('✅ OWNER MODE');
-                    return;
-                }
+              const myId = String(currentUserId).trim();
+const targetId = String(profileUserId || myId).trim();
+
+if (myId === targetId) {
+    if (editBtn) editBtn.style.display = 'inline-flex';
+    if (earningsBtn) earningsBtn.style.display = 'inline-flex';
+    console.log('✅ OWNER MODE');
+    return;
+}
                 
                 if (messageBtn) messageBtn.style.display = 'inline-flex';
                 console.log('✅ VISITOR MODE');
                 
                 const { data: friend } = await supabaseClient
-                    .from('friends')
-                    .select('id')
-                    .eq('user_id', currentUserId)
-                    .eq('friend_id', profileUserId)
-                    .maybeSingle();
+    .from('friends')
+    .select('id')
+    .eq('user_id', myId)
+    .eq('friend_id', targetId)
+    .maybeSingle();
                 
                 if (friend) {
                     if (actionsBtn) actionsBtn.style.display = 'inline-flex';
@@ -1837,7 +1863,7 @@ badgeBorder = '#FFD700';
                     .maybeSingle();
                 
                 if (request) {
-                    if (request.sender_id === currentUserId) {
+                    if (String(request.sender_id) === String(currentUserId)) {
                         if (sentBtn) sentBtn.style.display = 'inline-flex';
                         console.log('✅ Request sent');
                     } else {
