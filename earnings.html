@@ -604,7 +604,8 @@ if (lvlBadge) {
                 .eq('user_id', currentUser.id);
 
             const tasksMap = {};
-            (userTasks || []).forEach(t => {
+ (userTasks || []).forEach(t => {
+                if (!t || !t.task_key || typeof t.task_key !== 'string') return;  // ✅ تخطَّ الصفوف الفارغة
                 const today = new Date().toISOString().split('T')[0];
                 const thisWeek = getWeekStart();
                 const thisMonth = today.substring(0, 7) + '-01';
