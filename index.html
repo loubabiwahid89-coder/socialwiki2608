@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home- SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
@@ -1288,7 +1289,7 @@ loadPosts();  // ✅ أسرع بكثير
         // ✅ فحص آمن لكل عنصر
         const posEl = document.getElementById('waitlistPosition');
         if (posEl) {
-            posEl.textContent = (info.position || 0).toLocaleString();
+            posEl.textContent = (info.queue_position || 0).toLocaleString();
         }
 
         const invEl = document.getElementById('waitlistInvites');
@@ -1402,7 +1403,7 @@ loadPosts();  // ✅ أسرع بكثير
                     return;
                 }
 
-                showWaitlistCelebration(result.position, result.is_founder);
+                showWaitlistCelebration(result.queue_position, result.is_founder);
                 await loadWaitlistStatus();
 
             } catch (error) {
