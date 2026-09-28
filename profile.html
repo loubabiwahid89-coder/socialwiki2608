@@ -760,6 +760,107 @@
             padding-right: 15px;
             padding-left: 40px;
         }
+
+        /* 👑 King's Frame - إطار ملكي ذهبي متحرك */
+.owner-profile .profile-avatar {
+    border: 5px solid transparent;
+    background-image: 
+        linear-gradient(white, white),
+        linear-gradient(45deg, #FFD700, #FFA500, #FF6347, #FFD700);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    animation: kinglyRotate 4s linear infinite, kingGlow 2s ease-in-out infinite alternate;
+    position: relative;
+}
+
+@keyframes kinglyRotate {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+@keyframes kingGlow {
+    from {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    to {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 165, 0, 0.6);
+    }
+}
+
+/* 👑 تاج متحرك فوق الاسم */
+.profile-name-wrapper {
+    position: relative;
+}
+
+.profile-info.owner-profile .profile-name-wrapper::before {
+    content: '👑';
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    animation: crownFloat 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes crownFloat {
+    0%, 100% { 
+        transform: translateX(-50%) translateY(0px) rotate(-5deg); 
+    }
+    50% { 
+        transform: translateX(-50%) translateY(-8px) rotate(5deg); 
+    }
+}
+
+/* 👑 خلفية ملكية للصفحة */
+.profile-info.owner-profile {
+    background: linear-gradient(180deg, #fffbf0 0%, #fffdf5 50%, #ffffff 100%);
+    border: 2px solid #FFD700;
+    box-shadow: 
+        0 4px 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 60px rgba(255, 215, 0, 0.05);
+    position: relative;
+}
+
+/* 👑 شريط ملكي في الأسفل */
+.profile-info.owner-profile::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #FFD700 20%, 
+        #FFA500 50%, 
+        #FFD700 80%, 
+        transparent 100%);
+    animation: royalShine 3s linear infinite;
+}
+
+@keyframes royalShine {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* 👑 اسم ذهبي للملك */
+.profile-info.owner-profile .profile-name {
+    background: linear-gradient(135deg, #FFD700, #FFA500, #B8860B, #FFD700);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: goldShine 3s linear infinite;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes goldShine {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
     </style>
 </head>
 <body>
@@ -1259,9 +1360,75 @@
                     checkForNewBadges(userId, badges);
                 }
                 
-                if (badgesContainer) {
-                    if (badges.length > 0) {
-                     badgesContainer.innerHTML = badges.map(badge => {
+               if (badgesContainer) {
+    if (badges.length > 0) {
+        badgesContainer.innerHTML = badges.map(badge => {
+            // ✅ تحديد النص والألوان حسب نوع الشارة
+            const badgeType = (badge.type || badge.country || '').toLowerCase();
+            
+            let badgeText = '';
+            let badgeIcon = badge.icon || '🏆';
+            let badgeBg = 'linear-gradient(135deg, #ffd700, #f7b928)';
+            let textColor = '#333';
+            let borderColor = '#fff';
+            
+            if (badgeType === 'owner') {
+                badgeText = 'Owner of SocialWiki';
+                badgeIcon = '👑';
+                badgeBg = 'linear-gradient(135deg, #8B0000, #FF0000)';
+                textColor = '#fff';
+            } else if (badgeType === 'founder') {
+                badgeText = 'Founder of SocialWiki';
+                badgeIcon = '🏆';
+                badgeBg = 'linear-gradient(135deg, #FFD700, #FFA500, #FFD700)';
+                textColor = '#000';
+            } else if (badgeType === 'verified') {
+                badgeText = 'Verified Account';
+                badgeIcon = '✅';
+                badgeBg = 'linear-gradient(135deg, #1DA1F2, #0d8ddb)';
+                textColor = '#fff';
+            } else {
+                // شارات أخرى (First Member from Country)
+                badgeText = `First Member from ${badge.country}`;
+            }
+            
+            return `
+                <div style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 12px 22px;
+                    background: ${badgeBg};
+                    color: ${textColor};
+                    border-radius: 30px;
+                    font-weight: 700;
+                    font-size: 15px;
+                    box-shadow: 0 6px 20px rgba(247, 185, 40, 0.5);
+                    border: 3px solid ${borderColor};
+                    animation: badgePop 0.5s ease-out;
+                    position: relative;
+                    overflow: hidden;
+                    margin: 5px;
+                ">
+                    <span style="font-size: 26px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));">${badgeIcon}</span>
+                    <span>${badgeText}</span>
+                    <span style="
+                        position: absolute;
+                        top: 0;
+                        left: -100%;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                        animation: shine 3s infinite;
+                    "></span>
+                </div>
+            `;
+        }).join('');
+        badgesContainer.style.display = 'flex';
+    } else {
+        badgesContainer.style.display = 'none';
+    }
+}
     // ✅ تحديد النص حسب نوع الشارة
     let badgeText = '';
     let badgeBg = 'linear-gradient(135deg, #ffd700, #f7b928)';
@@ -2015,10 +2182,8 @@ if (myId === targetId) {
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🔴 profile.html loaded');
             
-           if (typeof getCurrentLanguage === 'function') {
-    const lang = getCurrentLanguage();
-    setLanguage(lang);
-    // applyTranslations();  // ← تم التعليق لأن الدالة غير موجودة
+   if (typeof getCurrentLanguage === 'function') {
+    setLanguage(getCurrentLanguage());
 }
             
             const { data: { user } } = await supabaseClient.auth.getUser();
