@@ -131,8 +131,17 @@
             }
         }
     </style>
+     <!-- Cloudflare Web Analytics -->
+
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 </head>
 <body>
+    <script type="text/javascript">
+    aclib.runAutoTag({
+        zoneId: 'rc7d5jml81',
+    });
+</script>
+
 
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- 🎟️ WAITLIST BANNER -->
@@ -361,16 +370,22 @@
                 <a href="events.html"><span class="emoji-icon">📅</span><span data-i18n="event2">Event 2</span></a>
             </div>
 
-            <div class="ad-box" style="text-align: center; padding: 15px;">
-                <h3 data-i18n="sponsored" style="margin-bottom: 12px;">Sponsored</h3>
-                <button onclick="watchAdAndEarn(this)"
-                        data-i18n="watch_ad_btn"
-                        style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 14px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
-                    🎬 شاهد الإعلان واربح 5 نقاط
-                </button>
-            </div>
-        </div>
-    </div>
+         <!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎁 OFFERWALL.GG - REWARDED ADS WALL -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="ad-box" style="text-align: center; padding: 15px;">
+    <h3 data-i18n="sponsored" style="margin-bottom: 12px;">🎁 Earn Free Points</h3>
+    <p style="font-size: 13px; color: #65676b; margin-bottom: 12px;">
+        Complete offers and surveys to earn points!
+    </p>
+    <button onclick="openOfferwall()"
+            data-i18n="open_offerwall"
+            style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px 30px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 15px; box-shadow: 0 4px 12px rgba(102,126,234,0.4);">
+        🎁 فتح جدار المكافآت
+    </button>
+</div>
+
+
 
     <!-- CREATE POST MODAL -->
     <div id="createPostModal" class="modal-overlay">
@@ -1660,6 +1675,55 @@ loadPosts();  // ✅ أسرع بكثير
     
     <script src="js/messenger-notify.js"></script>
     <script src="js/popunder-ad.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════
+// 🎁 OFFERWALL.GG - Open/Close Functions
+// ═══════════════════════════════════════════════════════════
 
+// ⚠️ استبدل هذا الرابط بالرابط من لوحة Offerwall.gg
+const OFFERWALL_BASE_URL = "https://offerwall.gg/wall/15ed18329c4fbf70ba184debe1ac699c";
+
+window.openOfferwall = async function() {
+    try {
+        // 1. Get current user
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Please login first!');
+            return;
+        }
+        
+        // 2. Build the URL with the real user_id
+        const wallUrl = OFFERWALL_BASE_URL + '?userId=' + encodeURIComponent(user.id);
+        
+        // 3. Load it in the iframe
+        const iframe = document.getElementById('offerwallFrame');
+        iframe.src = wallUrl;
+        
+        // 4. Show the modal
+        document.getElementById('offerwallModal').style.display = 'flex';
+        
+    } catch (error) {
+        console.error('❌ Offerwall error:', error);
+        alert('Error opening offerwall: ' + error.message);
+    }
+};
+
+window.closeOfferwall = function() {
+    document.getElementById('offerwallModal').style.display = 'none';
+    document.getElementById('offerwallFrame').src = '';
+};
+</script>
+<!-- OFFERWALL MODAL -->
+<div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:12px; width:95%; max-width:900px; height:90vh; display:flex; flex-direction:column; overflow:hidden;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 20px; border-bottom:1px solid #e4e6eb; background:#1877f2; color:white;">
+            <h3 style="margin:0; font-size:18px;">🎁 Earn Points</h3>
+            <button onclick="closeOfferwall()" style="background:rgba(255,255,255,0.2); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:20px; cursor:pointer;">✕</button>
+        </div>
+        <iframe id="offerwallFrame" src="" style="width:100%; height:100%; border:0; flex:1;"></iframe>
+    </div>
+</div>
+        </div>
+    </div>
 </body>
 </html>
