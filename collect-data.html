@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>جمع بيانات SocialWiki</title>
+    <style>
+        body { font-family: Arial; padding: 20px; direction: rtl; }
+        button { padding: 15px 30px; font-size: 18px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #218838; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 8px; margin-top: 20px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>🎁 جمع بيانات SocialWiki من Supabase</h1>
+    <p>اضغط الزر أدناه لجمع كل البيانات وتنزيلها كملف JSON.</p>
+    <button onclick="collectData()">🚀 ابدأ الجمع</button>
+    <pre id="output">في انتظار الضغط على الزر...</pre>
+    
+    <script>
+    async function collectData() {
+        const output = document.getElementById('output');
+        output.textContent = '⏳ جاري الجمع...\n\n';
+        
+        // الرمز الذي نسخته
+        const accessToken = 'eyJhbGciOiJFUzI1NiIsImtpZCI6ImZjYTcyZjMwLWRkMGYtNDc0OS04ZjE5LTIyZjdlNTJhY2ZjNCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2h2c2xrdHVmcXJnZGdyZ3htdmNtLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI1MzkxMzEzMy04M2Y3LTQ2ZjItYjlmZi0wMWVjNTY0ZGNkNmYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzkwNTM0NjcxLCJpYXQiOjE3OTA1MzEwNzEsImVtYWlsIjoibG91YmFiaXdhaGlkODlAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJnb29nbGUiLCJwcm92aWRlcnMiOlsiZ29vZ2xlIl19LCJ1c2VyX21ldGFkYXRhIjp7ImF2YXRhcl91cmwiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKV3JWYlJVTkNsbktNNTlnMmlRZFZPbm5WakxYQkYyZ1FvbzlROVpnN01hOVNVX3c9czk2LWMiLCJlbWFpbCI6ImxvdWJhYml3YWhpZDg5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmdWxsX25hbWUiOiJMb3ViYWJpIFdhaGlkOTEiLCJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYW1lIjoiTG91YmFiaSBXYWhpZDkxIiwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSldyVmJSVU5DbG5LTTU5ZzJpUWRWT25uVmpMWEJGMmdRb285UTlaZzdNYTlTVV93PXM5Ni1jIiwicHJvdmlkZXJfaWQiOiIxMDEwNzA3NTA5MjU3ODY1MzM3NTIiLCJzdWIiOiIxMDEwNzA3NTA5MjU3ODY1MzM3NTIifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJvYXV0aCIsInRpbWVzdGFtcCI6MTc5MDUyNzU1Mn1dLCJzZXNzaW9uX2lkIjoiODgzNTExOTgtYmQ0ZC00NWE5LWFkOGMtZjVlMWMwODJjNjA4IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.Z-onIR9loIHVdIP0Oec0G9eOLkhTxxSG2L7P79uwsgngMgoXMgZ2nKpK2gNjTC5Ndu00mRYqDlZg883pYc6enw';
+        
+        const baseUrl = 'https://hvslktufqrgdgrgxmvcm.supabase.co/rest/v1';
+        const headers = {
+            'apikey': 'sb_publishable_fm8uX1P8x0QyQEIb7VTDDA_27nNJBeT',
+            'Authorization': 'Bearer ' + accessToken
+        };
+        
+        const tables = [
+            'profiles', 'posts', 'likes', 'comments',
+            'user_balances', 'notifications', 'referrals',
+            'referral_tree', 'stories', 'post_views',
+            'earnings', 'withdrawals', 'tasks'
+        ];
+        
+        const allData = {};
+        let totalRecords = 0;
+        
+        for (const table of tables) {
+            try {
+                const response = await fetch(baseUrl + '/' + table + '?select=*', { headers });
+                const data = await response.json();
+                allData[table] = data;
+                totalRecords += data.length;
+                output.textContent += '✅ ' + table + ': ' + data.length + ' سجل\n';
+            } catch (e) {
+                output.textContent += '❌ ' + table + ': خطأ - ' + e.message + '\n';
+                allData[table] = [];
+            }
+        }
+        
+        // تنزيل الملف
+        const json = JSON.stringify(allData, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'socialwiki-backup-' + new Date().toISOString().split('T')[0] + '.json';
+        a.click();
+        
+        output.textContent += '\n✅ المجموع: ' + totalRecords + ' سجل';
+        output.textContent += '\n✅ تم تنزيل الملف: socialwiki-backup.json';
+    }
+    </script>
+</body>
+</html>
