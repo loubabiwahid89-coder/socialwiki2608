@@ -1470,6 +1470,44 @@ html[dir="rtl"] .chat-msg.me {
 }
 
 /* =========================================================
+   DELETE STORY BUTTON
+========================================================= */
+.story-item {
+    position: relative; /* ✅ ضروري */
+    overflow: hidden;
+}
+
+.delete-story-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.delete-story-btn:hover {
+    background: #f44336;
+    transform: scale(1.1);
+}
+
+.delete-story-btn:active {
+    transform: scale(0.95);
+}
+
+/* =========================================================
    RESPONSIVE - Tablet
 ========================================================= */
 
