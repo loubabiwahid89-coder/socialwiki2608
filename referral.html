@@ -295,10 +295,7 @@
             return newCode;
         }
 
-        // =========================================================
-        // LOAD REFERRAL DATA
-        // =========================================================
-      async function loadReferralData() {
+            async function loadReferralData() {
     const codeEl = document.getElementById('referralCode');
     const linkEl = document.getElementById('referralLink');
 
@@ -381,10 +378,6 @@
                 (typeof t === 'function' ? t('no_referrals') : 'You haven\'t invited anyone yet. Start now! 🚀') +
                 '</td></tr>';
 
-            // ✅ إعادة تطبيق الترجمات على العناصر الجديدة
-            if (typeof applyTranslations === 'function') {
-                applyTranslations();
-            }
             return;
         }
 
@@ -414,17 +407,11 @@
             tableBody.appendChild(row);
         });
 
-        // ✅ إعادة تطبيق الترجمات على العناصر الجديدة
-        if (typeof applyTranslations === 'function') {
-            applyTranslations();
-        }
-
     } catch (error) {
         console.error('Fatal error:', error);
         if (codeEl) codeEl.textContent = '❌ Error';
     }
 }
-
         // =========================================================
         // COPY & SHARE
         // =========================================================
@@ -458,24 +445,17 @@
             const text = encodeURIComponent('🎉 Join SocialWiki!');
             window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(link), '_blank');
         }
+// =========================================================
+// INIT
+// =========================================================
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof getCurrentLanguage === 'function') {
+        setLanguage(getCurrentLanguage());
+    }
 
-        // =========================================================
-        // INIT
-        // =========================================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            if (typeof getCurrentLanguage === 'function') {
-                setLanguage(getCurrentLanguage());
-                applyTranslations();
-            }
-
-            await loadUserProfile();
-            await loadReferralData();
-
-            // إعادة التحميل عند تغيير اللغة
-            window.addEventListener('languageChanged', function() {
-                if (typeof applyTranslations === 'function') applyTranslations();
-            });
-        });
+    await loadUserProfile();
+    await loadReferralData();
+});
     </script>
         <script src="js/messenger-notify.js"></script>
 <script src="js/popunder-ad.js"></script>

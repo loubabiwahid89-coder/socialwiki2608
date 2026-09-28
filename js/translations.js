@@ -8908,7 +8908,7 @@ function setLanguage(lang) {
         el.value = t(key, lang);
     });
 
-    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
+   
 }
 
 function getCurrentLanguage() {
