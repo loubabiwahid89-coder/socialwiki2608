@@ -9109,11 +9109,7 @@ if (typeof window !== 'undefined') {
     }
 }
 
-function applyTranslations() {
-    if (typeof getCurrentLanguage !== 'function') return;
-    if (typeof setLanguage !== 'function') return;
-    setLanguage(getCurrentLanguage());
-}
+
 
 function changeLanguage(lang) {
     if (typeof setLanguage === 'function') {

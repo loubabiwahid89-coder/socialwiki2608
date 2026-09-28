@@ -315,27 +315,31 @@
                 </div>
             </div>
 
-            <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
-                    📢 Advertisement
-                </div>
-                <button onclick="watchAdAndEarn(this)"
-                        data-i18n="watch_ad_btn"
-                        style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 14px 40px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
-                    🎬 شاهد الإعلان واربح 5 نقاط
-                </button>
-            </div>
+          <!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 ADVERTISEMENT #1 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+    <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
+        📢 Advertisement
+    </div>
+   <button onclick="watchAdAndEarn(this)"
+        data-i18n="watch_ad_btn"
+        style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 14px 40px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
+</button>
+</div>
 
-            <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
-                    📢 Sponsored
-                </div>
-                <button onclick="watchAdAndEarn(this)"
-                        data-i18n="watch_ad_btn"
-                        style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 14px 40px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
-                    🎬 شاهد الإعلان واربح 5 نقاط
-                </button>
-            </div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 SPONSORED #2 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+    <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
+        📢 Sponsored
+    </div>
+   <button onclick="watchAdAndEarn(this)"
+        data-i18n="watch_ad_btn"
+        style="display: inline-block; background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 14px 40px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(40,167,69,0.35);">
+</button>
+</div>
 
             <div id="feedContainer"></div>
         </div>
@@ -366,20 +370,23 @@
                 <a href="events.html"><span class="emoji-icon">📅</span><span data-i18n="event2">Event 2</span></a>
             </div>
 
-         <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- 🎁 OFFERWALL.GG - REWARDED ADS WALL -->
-<!-- ═══════════════════════════════════════════════════════════ -->
-<div class="ad-box" style="text-align: center; padding: 15px;">
-    <h3 data-i18n="sponsored" style="margin-bottom: 12px;">🎁 Earn Free Points</h3>
-    <p style="font-size: 13px; color: #65676b; margin-bottom: 12px;">
-        Complete offers and surveys to earn points!
-    </p>
-    <button onclick="openOfferwall()"
-            data-i18n="open_offerwall"
-            style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px 30px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 15px; box-shadow: 0 4px 12px rgba(102,126,234,0.4);">
-        🎁 فتح جدار المكافآت
-    </button>
-</div>
+               <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- 🎁 OFFERWALL.GG - REWARDED ADS WALL -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="ad-box" style="text-align: center; padding: 15px;">
+            <h3 data-i18n="sponsored" style="margin-bottom: 12px;">🎁 Earn Free Points</h3>
+            <p style="font-size: 13px; color: #65676b; margin-bottom: 12px;">
+                Complete offers and surveys to earn points!
+            </p>
+            <button onclick="openOfferwall()"
+                    data-i18n="open_offerwall"
+                    style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px 30px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 15px; box-shadow: 0 4px 12px rgba(102,126,234,0.4);">
+                🎁 Open Rewards Wall
+            </button>
+        </div>
+    </div><!-- ✅ إغلاق right-sidebar -->
+
+   
 
 
 
@@ -898,66 +905,67 @@ loadPosts();  // ✅ أسرع بكثير
             } catch (error) { console.error('Error:', error); }
         }
 
-        window.deleteStory = async function(storyId, mediaUrl) {
-            if (!confirm('Delete this story?')) return;
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) return;
-                await window.supabaseClient.from('stories').delete().eq('id', storyId).eq('user_id', user.id);
-                if (mediaUrl) await window.supabaseClient.storage.from('stories').remove([mediaUrl]);
-                alert('✅ Deleted!');
-                loadStories();
-            } catch (error) { console.error('Error:', error); }
-        };
+      window.deleteStory = async function(storyId, mediaUrl) {
+    if (!confirm('هل أنت متأكد من حذف هذه القصة؟')) return;
+    
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            alert('❌ يجب تسجيل الدخول أولاً');
+            return;
+        }
         
-        window.likePost = async function(postId, btn) {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) { alert('Please login first!'); return; }
-                
-                const { data: post } = await window.supabaseClient.from('posts').select('user_id').eq('id', postId).single();
-                if (!post) return;
-                const postOwnerId = post.user_id;
-                
-                const { data: existingLike } = await window.supabaseClient
-                    .from('likes').select('*').eq('post_id', postId).eq('user_id', user.id).maybeSingle();
-                
-                if (existingLike) {
-                    await window.supabaseClient.from('likes').delete().eq('post_id', postId).eq('user_id', user.id);
-                    btn.textContent = `👍 Like`;
-                    btn.style.color = '#65676b';
-                } else {
-                    const { error: likeError } = await window.supabaseClient.from('likes').insert({ post_id: postId, user_id: user.id });
-                    if (likeError) { console.error('❌ Like insert error:', likeError); return; }
-                    btn.textContent = `👍 Liked`;
-                    btn.style.color = '#1877f2';
-
-                    if (typeof verifyAndCompleteTask === 'function') {
-                        verifyAndCompleteTask('like_3_posts');
-                    }
-
-                    if (postOwnerId !== user.id) {
-                        const { data: senderProfile } = await window.supabaseClient
-                            .from('profiles').select('username, full_name').eq('id', user.id).single();
-                        const senderName = senderProfile?.full_name || senderProfile?.username || 'Someone';
-                        await window.supabaseClient.from('notifications').insert({
-                            receiver_id: postOwnerId, sender_id: user.id, type: 'like',
-                            message: `${senderName} liked your post`, post_id: postId, is_read: false
-                        });
-                    }
-                }
-                
-                const { count } = await window.supabaseClient
-                    .from('likes').select('id', { count: 'exact', head: true }).eq('post_id', postId);
-                btn.textContent = `👍 ${count || 0}`;
-            } catch (error) { console.error('❌ Like error:', error); }
-        };
-
-        window.commentPost = function(postId) {
-            const comment = prompt('Write a comment:');
-            if (comment) addComment(postId, comment);
-        };
-
+        // 1) احذف من قاعدة البيانات
+        const { error: dbError } = await window.supabaseClient
+            .from('stories')
+            .delete()
+            .eq('id', storyId)
+            .eq('user_id', user.id);  // ✅ تأكد أن المستخدم يملك القصة
+        
+        if (dbError) {
+            console.error('❌ DB delete error:', dbError);
+            alert('❌ فشل حذف القصة: ' + dbError.message);
+            return;
+        }
+        
+        // 2) احذف الملف من Storage
+        if (mediaUrl) {
+            const { error: storageError } = await window.supabaseClient
+                .storage
+                .from('stories')
+                .remove([mediaUrl]);
+            
+            if (storageError) {
+                console.warn('⚠️ Storage delete warning:', storageError);
+                // لا نوقف العملية إذا فشل حذف الملف
+            }
+        }
+        
+        // 3) أعد تحميل القصص
+        await loadStories();
+        
+        // 4) أظهر إشعار نجاح
+        if (typeof showPointsNotification === 'function') {
+            // لا نستخدم showPointsNotification لأنها للنقاط
+        }
+        
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 80px; right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 15px 25px; border-radius: 12px;
+            font-weight: 700; z-index: 99999;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+        `;
+        toast.textContent = '✅ تم حذف القصة';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+        
+    } catch (error) {
+        console.error('❌ Delete error:', error);
+        alert('❌ حدث خطأ: ' + error.message);
+    }
+};
         async function addComment(postId, content) {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
@@ -1452,23 +1460,27 @@ loadPosts();  // ✅ أسرع بكثير
         // =========================================================
         // INITIALIZE
         // =========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("🔴 index.html loaded");
-            handleAuthCallback();
-            checkSessionAndRedirect();
-            
-            setTimeout(updateNotificationBadge, 500);
-            setTimeout(updatePointsBadge, 500);
-            setInterval(updateNotificationBadge, 30000);
-            setInterval(updatePointsBadge, 30000);
-            
-            setTimeout(checkRole, 500);
-            setTimeout(loadUserProfile, 500);
-            setTimeout(loadStories, 500);
-            setTimeout(loadPosts, 500);
-            setTimeout(applyPendingReferral, 2000);
-            setTimeout(loadWaitlistStatus, 1500);
-        });
+      document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔴 index.html loaded");
+    
+    // ✅ هذه الدالة تستدعي loadUserProfile داخلها
+    handleAuthCallback();
+    checkSessionAndRedirect();
+    
+    // Badges (تعمل بشكل دوري)
+    setTimeout(updateNotificationBadge, 500);
+    setTimeout(updatePointsBadge, 500);
+    setInterval(updateNotificationBadge, 30000);
+    setInterval(updatePointsBadge, 30000);
+    
+    // باقي الدوال
+    setTimeout(checkRole, 500);
+    // ❌ حذفنا: setTimeout(loadUserProfile, 500);  - مكرر
+    setTimeout(loadStories, 500);
+    setTimeout(loadPosts, 500);
+    setTimeout(applyPendingReferral, 2000);
+    setTimeout(loadWaitlistStatus, 1500);
+});
     </script>
 
     <!-- ========================================================= -->
@@ -1719,7 +1731,6 @@ window.closeOfferwall = function() {
         <iframe id="offerwallFrame" src="" style="width:100%; height:100%; border:0; flex:1;"></iframe>
     </div>
 </div>
-        </div>
-    </div>
+       
 </body>
 </html>
