@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
+    <script src="js/device-fingerprint.js"></script>
     <style>
         /* ========== NAVBAR SEARCH ========== */
         .navbar-search {
@@ -560,27 +561,30 @@
             } catch (error) { console.error('❌ Badge error:', error); }
         }
 
-        async function updatePointsBadge() {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) return;
-                const { data: balance } = await window.supabaseClient
-                    .from('user_balances')
-                    .select('available_points')
-                    .eq('user_id', user.id)
-                    .maybeSingle();
-                const points = balance?.available_points || 0;
-                const badge = document.getElementById('navPointsBadge');
-                if (badge) {
-                    if (points > 0) {
-                        badge.textContent = points > 999 ? '999+' : points;
-                        badge.style.display = 'flex';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                }
-            } catch (error) { console.error('Error:', error); }
+      async function updatePointsBadge() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        // ✅ استخدام user_points الجديد
+        const { data: points } = await window.supabaseClient
+            .from('user_points')
+            .select('total_points')
+            .eq('user_id', user.id)
+            .maybeSingle();
+        
+        const total = points?.total_points || 0;
+        const badge = document.getElementById('navPointsBadge');
+        if (badge) {
+            if (total > 0) {
+                badge.textContent = total > 999 ? '999+' : total;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
         }
+    } catch (error) { console.error('Error:', error); }
+}
 
         async function checkRole() {
             try {
@@ -1141,22 +1145,46 @@ window.deleteStory = async function(storyId, mediaUrl) {
             } catch (error) { console.error('Error:', error); }
         }
 
-        async function trackPostView(postId) {
-            try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) return;
-                const { data: post } = await window.supabaseClient.from('posts').select('user_id').eq('id', postId).single();
-                if (!post || post.user_id === user.id) return;
-                
-                await window.supabaseClient.from('post_views').insert({ post_id: postId, viewer_id: user.id });
-                await window.supabaseClient.rpc('add_earnings', {
-                    p_user_id: post.user_id, p_post_id: postId, p_source: 'views',
-                    p_points: 1, p_dollars: 0.0001
-                });
-                showPointsNotification(1);
-                updatePointsBadge();
-            } catch (error) { console.error('Error:', error); }
+       async function trackPostView(postId) {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        const { data: post } = await window.supabaseClient
+            .from('posts')
+            .select('user_id')
+            .eq('id', postId)
+            .single();
+        
+        if (!post || post.user_id === user.id) return;
+        
+        // 🔍 احصل على بصمة الجهاز
+        const fingerprint = window.getDeviceFingerprint();
+        
+        // 🎯 استدعاء دالة SQL الآمنة
+        const { data, error } = await window.supabaseClient.rpc('add_post_view', {
+            p_post_id: postId,
+            p_viewer_id: user.id,
+            p_device_fingerprint: fingerprint,
+            p_post_owner_id: post.user_id
+        });
+        
+        if (error) {
+            console.error('❌ View error:', error);
+            return;
         }
+        
+        if (data?.unique) {
+            console.log('✅ Unique view recorded');
+            // إشعار اختياري للمشاهد
+        } else if (data?.message) {
+            console.log('⚠️', data.message);
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
         function formatTimeAgo(timestamp) {
             if (!timestamp) return 'Just now';
@@ -1719,6 +1747,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
     <script src="js/messenger-notify.js"></script>
     <script src="js/popunder-ad.js"></script>
 <script>
+   
 // ═══════════════════════════════════════════════════════════
 // 🎁 OFFERWALL.GG - Open/Close Functions
 // ═══════════════════════════════════════════════════════════
@@ -1755,6 +1784,77 @@ window.closeOfferwall = function() {
     document.getElementById('offerwallModal').style.display = 'none';
     document.getElementById('offerwallFrame').src = '';
 };
+
+// =========================================================
+// ✅ LIKE POST (دالة احتياطية)
+// =========================================================
+async function likePost(postId, button) {
+    try {
+        console.log('👍 Liking post:', postId);
+        
+        // ✅ استخدام window.supabaseClient
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Please login first');
+            return;
+        }
+        
+        // جلب عدد الإعجابات الحالي
+        const { data: post } = await window.supabaseClient
+            .from('posts')
+            .select('likes_count, liked_by')
+            .eq('id', postId)
+            .single();
+        
+        if (!post) {
+            console.error('Post not found');
+            return;
+        }
+        
+        const likedBy = post.liked_by || [];
+        const isLiked = likedBy.includes(user.id);
+        
+        let newLikedBy;
+        let newCount;
+        
+        if (isLiked) {
+            newLikedBy = likedBy.filter(id => id !== user.id);
+            newCount = Math.max(0, (post.likes_count || 0) - 1);
+        } else {
+            newLikedBy = [...likedBy, user.id];
+            newCount = (post.likes_count || 0) + 1;
+        }
+        
+        // تحديث
+        const { error } = await window.supabaseClient
+            .from('posts')
+            .update({
+                likes_count: newCount,
+                liked_by: newLikedBy
+            })
+            .eq('id', postId);
+        
+        if (error) {
+            console.error('Like error:', error);
+            return;
+        }
+        
+        // تحديث الواجهة
+        if (button) {
+            button.textContent = `👍 ${newCount}`;
+            button.style.color = isLiked ? '#65676b' : '#1877f2';
+        }
+        
+        console.log('✅ Like updated');
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// جعل الدالة متاحة عالمياً
+window.likePost = likePost;
+       
 </script>
 <!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
