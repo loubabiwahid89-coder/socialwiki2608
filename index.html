@@ -1609,6 +1609,11 @@ window.deleteStory = async function(storyId, mediaUrl) {
                 watched++;
                 localStorage.setItem(key, watched);
 
+                // ✅ أضف مهمة مشاهدة الإعلان
+                if (typeof verifyAndCompleteTask === 'function') {
+                    verifyAndCompleteTask('watch_5_ads');
+                }
+
                 if (typeof showPointsNotification === 'function') {
                     showPointsNotification(POINTS_PER_AD);
                 }
@@ -1843,6 +1848,11 @@ async function likePost(postId, button) {
         if (button) {
             button.textContent = `👍 ${newCount}`;
             button.style.color = isLiked ? '#65676b' : '#1877f2';
+        }
+        
+        // ✅ أضف مهمة الإعجاب
+        if (typeof verifyAndCompleteTask === 'function') {
+            verifyAndCompleteTask('like_3_posts');
         }
         
         console.log('✅ Like updated');
