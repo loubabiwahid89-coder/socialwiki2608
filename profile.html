@@ -2015,26 +2015,33 @@ if (myId === targetId) {
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🔴 profile.html loaded');
             
-            if (typeof getCurrentLanguage === 'function') {
-                const lang = getCurrentLanguage();
-                setLanguage(lang);
-                applyTranslations();
-            }
+           if (typeof getCurrentLanguage === 'function') {
+    const lang = getCurrentLanguage();
+    setLanguage(lang);
+    // applyTranslations();  // ← تم التعليق لأن الدالة غير موجودة
+}
             
             const { data: { user } } = await supabaseClient.auth.getUser();
             currentUserId = user?.id || null;
             
-            profileUserId = getUserIdFromUrl();
-            
-            if (!profileUserId) {
-                if (user) {
-                    profileUserId = user.id;
-                } else {
-                    window.location.href = 'auth.html';
-                    return;
-                }
-            }
-            
+           // ✅ التحقق من الـ URL بطريقة آمنة
+const urlId = getUserIdFromUrl();
+
+console.log('🔍 URL ID:', urlId);
+console.log('🔍 User ID:', user?.id);
+
+// ✅ إذا كان الرابط يحتوي على id صالح، استخدمه
+// وإلا استخدم حساب المستخدم الحالي
+if (urlId && urlId !== 'undefined' && urlId !== 'null' && urlId !== '' && urlId !== user?.id) {
+    profileUserId = urlId;
+    console.log('👁️ Viewing another profile:', profileUserId);
+} else if (user) {
+    profileUserId = user.id;
+    console.log('✅ Viewing own profile:', profileUserId);
+} else {
+    window.location.href = 'auth.html';
+    return;
+}
             await loadProfile();
             await new Promise(resolve => setTimeout(resolve, 300));
             await checkFriendshipStatus();
