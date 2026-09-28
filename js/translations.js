@@ -1917,6 +1917,12 @@ const translations = {
         "you_have": "You have",
         "you_need": "You need",
         "missing": "Missing",
+        "shop": "🛍️ Shop",
+"history": "📊 History",
+"network": "👥 My Network",
+"network_breakdown": "My Network (3 Levels)",
+"withdraw": "💳 Withdraw",
+"reset_daily": "(resets daily)",
     },
 
     // ==================== SPANISH ====================
@@ -2548,6 +2554,12 @@ const translations = {
         "you_have": "Tienes",
         "you_need": "Necesitas",
         "missing": "Faltan",
+        "shop": "🛍️ Tienda",
+"history": "📊 Historial",
+"network": "👥 Mi red",
+"network_breakdown": "Mi red (3 niveles)",
+"withdraw": "💳 Retirar",
+"reset_daily": "(se reinicia cada día)",
     },
 
     // ==================== GERMAN ====================
@@ -3179,6 +3191,12 @@ const translations = {
         "you_have": "Du hast",
         "you_need": "Du brauchst",
         "missing": "Fehlend",
+        "shop": "🛍️ Shop",
+"history": "📊 Verlauf",
+"network": "👥 Mein Netzwerk",
+"network_breakdown": "Mein Netzwerk (3 Ebenen)",
+"withdraw": "💳 Auszahlen",
+"reset_daily": "(wird täglich zurückgesetzt)",
     },
         // ==================== ITALIAN ====================
     it: {
@@ -3809,6 +3827,12 @@ const translations = {
         "you_have": "Hai",
         "you_need": "Ti servono",
         "missing": "Mancanti",
+        "shop": "🛍️ Negozio",
+"history": "📊 Cronologia",
+"network": "👥 La mia rete",
+"network_breakdown": "La mia rete (3 livelli)",
+"withdraw": "💳 Preleva",
+"reset_daily": "(si azzera ogni giorno)",
     },
 
     // ==================== CHINESE ====================
@@ -4440,6 +4464,12 @@ const translations = {
         "you_have": "你有",
         "you_need": "你需要",
         "missing": "缺少",
+        "shop": "🛍️ 商店",
+"history": "📊 历史",
+"network": "👥 我的网络",
+"network_breakdown": "我的网络（3 级）",
+"withdraw": "💳 提现",
+"reset_daily": "（每天重置）",
     },
 
     // ==================== JAPANESE ====================
@@ -5071,6 +5101,12 @@ const translations = {
         "you_have": "あなたのポイント",
         "you_need": "必要なポイント",
         "missing": "不足",
+        "shop": "🛍️ ショップ",
+"history": "📊 履歴",
+"network": "👥 マイネットワーク",
+"network_breakdown": "マイネットワーク（3レベル）",
+"withdraw": "💳 出金",
+"reset_daily": "(毎日リセット)",
     },
 
     // ==================== KOREAN ====================
@@ -5702,6 +5738,12 @@ const translations = {
         "you_have": "보유",
         "you_need": "필요",
         "missing": "부족",
+        "shop": "🛍️ 상점",
+"history": "📊 기록",
+"network": "👥 내 네트워크",
+"network_breakdown": "내 네트워크 (3 레벨)",
+"withdraw": "💳 출금",
+"reset_daily": "(매일 초기화)",
     },
 
     // ==================== RUSSIAN ====================
@@ -6333,6 +6375,12 @@ const translations = {
         "you_have": "У вас",
         "you_need": "Вам нужно",
         "missing": "Не хватает",
+        "shop": "🛍️ Магазин",
+"history": "📊 История",
+"network": "👥 Моя сеть",
+"network_breakdown": "Моя сеть (3 уровня)",
+"withdraw": "💳 Вывод",
+"reset_daily": "(сбрасывается ежедневно)",
     },
         // ==================== TURKISH ====================
     tr: {
@@ -6963,6 +7011,12 @@ const translations = {
         "you_have": "Sende",
         "you_need": "İhtiyacın",
         "missing": "Eksik",
+        "shop": "🛍️ Mağaza",
+"history": "📊 Geçmiş",
+"network": "👥 Ağım",
+"network_breakdown": "Ağım (3 Seviye)",
+"withdraw": "💳 Çekim",
+"reset_daily": "(günlük sıfırlanır)",
     },
 
     // ==================== HINDI ====================
@@ -7594,6 +7648,12 @@ const translations = {
         "you_have": "आपके पास",
         "you_need": "आपको चाहिए",
         "missing": "कमी",
+        "shop": "🛍️ दुकान",
+"history": "📊 इतिहास",
+"network": "👥 मेरा नेटवर्क",
+"network_breakdown": "मेरा नेटवर्क (3 स्तर)",
+"withdraw": "💳 निकासी",
+"reset_daily": "(प्रतिदिन रीसेट)",
     },
 
     // ==================== FILIPINO ====================
@@ -8225,6 +8285,12 @@ const translations = {
         "you_have": "Mayroon ka",
         "you_need": "Kailangan mo",
         "missing": "Kulang",
+        "shop": "🛍️ Tindahan",
+"history": "📊 Kasaysayan",
+"network": "👥 Aking Network",
+"network_breakdown": "Aking Network (3 Levels)",
+"withdraw": "💳 Mag-withdraw",
+"reset_daily": "(nire-reset araw-araw)",
     },
 
     // ==================== TAGALOG ====================
@@ -8857,6 +8923,12 @@ const translations = {
         "you_have": "Mayroon ka",
         "you_need": "Kailangan mo",
         "missing": "Kulang",
+        "shop": "🛍️ Tindahan",
+"history": "📊 Kasaysayan",
+"network": "👥 Aking Network",
+"network_breakdown": "Aking Network (3 Antas)",
+"withdraw": "💳 Mag-withdraw",
+"reset_daily": "(nire-reset araw-araw)",
     },
 };
 
@@ -8908,9 +8980,11 @@ function setLanguage(lang) {
         el.value = t(key, lang);
     });
 
-   
+    // ✅ NEW: إطلاق حدث تغيير اللغة لتحديث البيانات الديناميكية
+    window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { lang: lang } 
+    }));
 }
-
 function getCurrentLanguage() {
     return localStorage.getItem('socialwiki_lang') || 'en';
 }
