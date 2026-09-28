@@ -818,7 +818,7 @@ loadPosts();  // ✅ أسرع بكثير
                 if (typeof verifyAndCompleteTask === 'function') {
                     verifyAndCompleteTask('first_story');
                 }
-            } catch (error) { alert('Error: ' + error.message); }
+                      } catch (error) { alert('Error: ' + error.message); }
         };
 
         window.openStory = async function(storyId) {
@@ -848,6 +848,66 @@ loadPosts();  // ✅ أسرع بكثير
         };
 
         window.openLiveVideo = function() { alert('Coming soon!'); };
+        
+// =========================================================
+// 🗑️ DELETE STORY
+// =========================================================
+window.deleteStory = async function(storyId, mediaUrl) {
+    const confirmMsg = (typeof t === 'function') 
+        ? t('delete_post_confirm') 
+        : 'Are you sure you want to delete this story?';
+    
+    if (!confirm(confirmMsg)) return;
+    
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            alert('❌ Please login first');
+            return;
+        }
+        
+        const { error: dbError } = await window.supabaseClient
+            .from('stories')
+            .delete()
+            .eq('id', storyId)
+            .eq('user_id', user.id);
+        
+        if (dbError) {
+            console.error('❌ DB delete error:', dbError);
+            alert('❌ ' + dbError.message);
+            return;
+        }
+        
+        if (mediaUrl) {
+            const { error: storageError } = await window.supabaseClient
+                .storage
+                .from('stories')
+                .remove([mediaUrl]);
+            
+            if (storageError) {
+                console.warn('⚠️ Storage delete warning:', storageError);
+            }
+        }
+        
+        await loadStories();
+        
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 80px; right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 15px 25px; border-radius: 12px;
+            font-weight: 700; z-index: 99999;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+        `;
+        toast.textContent = '✅ Story deleted';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+        
+    } catch (error) {
+        console.error('❌ Delete error:', error);
+        alert('❌ ' + error.message);
+    }
+};
 
         window.scrollStoriesLeft = function() {
             const storyList = document.getElementById('storyList');
@@ -870,103 +930,77 @@ loadPosts();  // ✅ أسرع بكثير
             return div.innerHTML;
         }
 
-        async function loadStories() {
-            try {
-                const { data: stories } = await window.supabaseClient
-                    .from('stories').select('*').order('created_at', { ascending: false }).limit(20);
-                if (!stories || stories.length === 0) return;
-                const userIds = stories.map(s => s.user_id);
-                const { data: profiles } = await window.supabaseClient
-                    .from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
-                const profilesMap = {};
-                if (profiles) profiles.forEach(p => profilesMap[p.id] = p);
-                
-                const storyList = document.querySelector('.story-list');
-                storyList.querySelectorAll('.story-item:not(:first-child)').forEach(el => el.remove());
-                
-                const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
-                
-                for (const story of stories) {
-                    const profile = profilesMap[story.user_id] || {};
-                    const username = profile.full_name || profile.username || 'User';
-                    const storyItem = document.createElement('div');
-                    storyItem.className = 'story-item';
-                    storyItem.onclick = () => openStory(story.id);
-                    const { data: urlData } = window.supabaseClient.storage.from('stories').getPublicUrl(story.media_url);
-                    const mediaUrl = urlData.publicUrl;
-                    const isOwnStory = currentUser && currentUser.id === story.user_id;
-                    
-                    if (story.media_type === 'video') {
-                        storyItem.innerHTML = `<video src="${mediaUrl}" muted playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video><span class="story-name">${escapeHtml(username)}</span>${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')">🗑️</button>` : ''}`;
-                    } else {
-                        storyItem.innerHTML = `<img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"><span class="story-name">${escapeHtml(username)}</span>${isOwnStory ? `<button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory('${story.id}', '${story.media_url}')">🗑️</button>` : ''}`;
-                    }
-                    storyList.appendChild(storyItem);
-                }
-            } catch (error) { console.error('Error:', error); }
-        }
-
-      window.deleteStory = async function(storyId, mediaUrl) {
-    if (!confirm('هل أنت متأكد من حذف هذه القصة؟')) return;
-    
+       async function loadStories() {
     try {
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (!user) {
-            alert('❌ يجب تسجيل الدخول أولاً');
-            return;
-        }
+        const { data: stories } = await window.supabaseClient
+            .from('stories').select('*').order('created_at', { ascending: false }).limit(20);
+        if (!stories || stories.length === 0) return;
         
-        // 1) احذف من قاعدة البيانات
-        const { error: dbError } = await window.supabaseClient
-            .from('stories')
-            .delete()
-            .eq('id', storyId)
-            .eq('user_id', user.id);  // ✅ تأكد أن المستخدم يملك القصة
+        const userIds = stories.map(s => s.user_id);
+        const { data: profiles } = await window.supabaseClient
+            .from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
+        const profilesMap = {};
+        if (profiles) profiles.forEach(p => profilesMap[p.id] = p);
         
-        if (dbError) {
-            console.error('❌ DB delete error:', dbError);
-            alert('❌ فشل حذف القصة: ' + dbError.message);
-            return;
-        }
+        const storyList = document.querySelector('.story-list');
+        storyList.querySelectorAll('.story-item:not(:first-child)').forEach(el => el.remove());
         
-        // 2) احذف الملف من Storage
-        if (mediaUrl) {
-            const { error: storageError } = await window.supabaseClient
-                .storage
-                .from('stories')
-                .remove([mediaUrl]);
+        const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
+        
+        for (const story of stories) {
+            const profile = profilesMap[story.user_id] || {};
+            const username = profile.full_name || profile.username || 'User';
+            const isOwnStory = currentUser && currentUser.id === story.user_id;
             
-            if (storageError) {
-                console.warn('⚠️ Storage delete warning:', storageError);
-                // لا نوقف العملية إذا فشل حذف الملف
+            const storyItem = document.createElement('div');
+            storyItem.className = 'story-item';
+            storyItem.style.position = 'relative';
+            
+            // ✅ النقر على البطاقة يفتح القصة (مع تجاهل زر الحذف)
+            storyItem.addEventListener('click', function(e) {
+                if (e.target.closest('.delete-story-btn')) return;
+                openStory(story.id);
+            });
+            
+            const { data: urlData } = window.supabaseClient.storage
+                .from('stories').getPublicUrl(story.media_url);
+            const mediaUrl = urlData.publicUrl;
+            
+            // ✅ بناء محتوى البطاقة
+            let innerHTML = '';
+            if (story.media_type === 'video') {
+                innerHTML = `<video src="${mediaUrl}" muted playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>`;
+            } else {
+                innerHTML = `<img src="${mediaUrl}" alt="Story" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">`;
             }
+            
+            innerHTML += `<span class="story-name">${escapeHtml(username)}</span>`;
+            
+            // ✅ زر الحذف فقط للقصص الخاصة
+            if (isOwnStory) {
+                innerHTML += `<button class="delete-story-btn" type="button" title="Delete story">🗑️</button>`;
+            }
+            
+            storyItem.innerHTML = innerHTML;
+            
+            // ✅ listener منفصل لزر الحذف
+            if (isOwnStory) {
+                const deleteBtn = storyItem.querySelector('.delete-story-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        deleteStory(story.id, story.media_url);
+                    });
+                }
+            }
+            
+            storyList.appendChild(storyItem);
         }
-        
-        // 3) أعد تحميل القصص
-        await loadStories();
-        
-        // 4) أظهر إشعار نجاح
-        if (typeof showPointsNotification === 'function') {
-            // لا نستخدم showPointsNotification لأنها للنقاط
-        }
-        
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed; top: 80px; right: 20px;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white; padding: 15px 25px; border-radius: 12px;
-            font-weight: 700; z-index: 99999;
-            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
-        `;
-        toast.textContent = '✅ تم حذف القصة';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2500);
-        
-    } catch (error) {
-        console.error('❌ Delete error:', error);
-        alert('❌ حدث خطأ: ' + error.message);
+    } catch (error) { 
+        console.error('Error loading stories:', error); 
     }
-};
+}
         async function addComment(postId, content) {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
