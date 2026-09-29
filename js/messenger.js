@@ -118,7 +118,21 @@ async function loadMessengerFriends() {
             return;
         }
 
-        const friendIds = data.map(row => row.friend_id).filter(Boolean);
+        let friendIds = data.map(row => row.friend_id).filter(Boolean);
+
+        // استبعد المحظورين
+        try {
+            const { data: blocked } = await messengerSupabase
+                .from("blocked_users")
+                .select("blocked_id")
+                .eq("blocker_id", currentUser.id);
+
+            const blockedIds = (blocked || []).map(b => b.blocked_id);
+            friendIds = friendIds.filter(id => !blockedIds.includes(id));
+        } catch (e) {
+            console.warn("Blocked users table not found, skipping filter");
+        }
+
         if (friendIds.length === 0) {
             friends = [];
             renderFriends([]);
@@ -286,7 +300,99 @@ function renderFriends(list) {
             });
         }
 
-        button.addEventListener("click", () => selectFriend(friend));
+                // زر حذف الصديق
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = "🗑️";
+        deleteBtn.title = "Delete friend";
+        deleteBtn.style.cssText = `
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            opacity: 0.6;
+            margin-left: 4px;
+        `;
+        deleteBtn.onmouseover = () => deleteBtn.style.opacity = "1";
+        deleteBtn.onmouseout = () => deleteBtn.style.opacity = "0.6";
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation();
+            deleteFriend(friend);
+        };
+        button.appendChild(deleteBtn);
+
+        // زر الحظر
+        const blockBtn = document.createElement("button");
+        blockBtn.innerHTML = "🚫";
+        blockBtn.title = "Block user";
+        blockBtn.style.cssText = `
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            opacity: 0.6;
+            margin-left: 4px;
+        `;
+        blockBtn.onmouseover = () => blockBtn.style.opacity = "1";
+        blockBtn.onmouseout = () => blockBtn.style.opacity = "0.6";
+        blockBtn.onclick = (e) => {
+            e.stopPropagation();
+            blockUser(friend);
+        };
+        button.appendChild(blockBtn);
+
+        // ✅ زر البروفايل
+        const profileBtn = document.createElement("button");
+        profileBtn.innerHTML = "👤";
+        profileBtn.title = "View profile";
+        profileBtn.style.cssText = `
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            opacity: 0.6;
+            margin-left: 4px;
+        `;
+        profileBtn.onmouseover = () => profileBtn.style.opacity = "1";
+        profileBtn.onmouseout = () => profileBtn.style.opacity = "0.6";
+        profileBtn.onclick = (e) => {
+            e.stopPropagation();
+            window.location.href = `profile.html?id=${friend.id}`;
+        };
+        button.appendChild(profileBtn);
+
+        // زر التبليغ
+        const reportBtn = document.createElement("button");
+        reportBtn.innerHTML = "⚠️";
+        reportBtn.title = "Report user";
+        reportBtn.style.cssText = `
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px 6px;
+            border-radius: 6px;
+            opacity: 0.6;
+            margin-left: 2px;
+        `;
+        reportBtn.onmouseover = () => reportBtn.style.opacity = "1";
+        reportBtn.onmouseout = () => reportBtn.style.opacity = "0.6";
+        reportBtn.onclick = (e) => {
+            e.stopPropagation();
+            reportUser(friend);
+        };
+        button.appendChild(reportBtn);
+
+          button.addEventListener("click", (e) => {
+            if (e.target === deleteBtn || e.target === blockBtn || e.target === profileBtn || e.target === reportBtn) return;
+            selectFriend(friend);
+        });
+          
         messengerFriends.appendChild(button);
     });
 
@@ -308,6 +414,102 @@ function searchMessengerFriends() {
         return username.includes(searchText) || fullName.includes(searchText);
     });
     renderFriends(filtered);
+}
+
+// =========================================================
+// BLOCK USER
+// =========================================================
+async function blockUser(friend) {
+    const name = friend.full_name || friend.username || "this user";
+    if (!confirm(`Block ${name}?\n\nThey won't be able to message you.`)) return;
+
+    try {
+        const { error } = await messengerSupabase
+            .from("blocked_users")
+            .insert({
+                blocker_id: currentUser.id,
+                blocked_id: friend.id
+            });
+
+        if (error) {
+            if (error.code === "23505") {
+                alert("Already blocked");
+                return;
+            }
+            throw error;
+        }
+
+        // حذف الصداقة من الاتجاهين
+        await messengerSupabase
+            .from("friends")
+            .delete()
+            .eq("user_id", currentUser.id)
+            .eq("friend_id", friend.id);
+
+        await messengerSupabase
+            .from("friends")
+            .delete()
+            .eq("user_id", friend.id)
+            .eq("friend_id", currentUser.id);
+
+        // إزالة من القايمة
+        friends = friends.filter(f => f.id !== friend.id);
+
+        if (selectedFriend && selectedFriend.id === friend.id) {
+            selectedFriend = null;
+            if (messagesContainer) messagesContainer.innerHTML = "";
+            if (chatUserName) chatUserName.textContent = "Select a conversation";
+            if (chatUserStatus) chatUserStatus.textContent = "Choose a friend to start chatting";
+            if (messageInput) messageInput.disabled = true;
+            if (sendMessageButton) sendMessageButton.disabled = true;
+        }
+
+        renderFriends(friends);
+        alert(`🚫 ${name} has been blocked`);
+    } catch (err) {
+        console.error("❌ blockUser error:", err);
+        alert("Error: " + err.message);
+    }
+}
+// =========================================================
+// DELETE FRIEND
+// =========================================================
+async function deleteFriend(friend) {
+    const name = friend.full_name || friend.username || "this friend";
+    if (!confirm(`Remove ${name} from your friends?`)) return;
+
+    try {
+        // احذف من الاتجاهين
+        await messengerSupabase
+            .from("friends")
+            .delete()
+            .eq("user_id", currentUser.id)
+            .eq("friend_id", friend.id);
+
+        await messengerSupabase
+            .from("friends")
+            .delete()
+            .eq("user_id", friend.id)
+            .eq("friend_id", currentUser.id);
+
+        // تحديث القايمة
+        friends = friends.filter(f => f.id !== friend.id);
+        
+        if (selectedFriend && selectedFriend.id === friend.id) {
+            selectedFriend = null;
+            if (messagesContainer) messagesContainer.innerHTML = "";
+            if (chatUserName) chatUserName.textContent = "Select a conversation";
+            if (chatUserStatus) chatUserStatus.textContent = "Choose a friend to start chatting";
+            if (messageInput) messageInput.disabled = true;
+            if (sendMessageButton) sendMessageButton.disabled = true;
+        }
+        
+        renderFriends(friends);
+        alert(`✅ ${name} removed`);
+    } catch (err) {
+        console.error("❌ deleteFriend error:", err);
+        alert("Error: " + err.message);
+    }
 }
 
 // =========================================================
@@ -341,7 +543,14 @@ async function selectFriend(friend) {
         messageInput.focus();
     }
 
+
     if (sendMessageButton) sendMessageButton.disabled = false;
+
+    // ✅ تفعيل أزرار الإيموجي والصورة والصوت
+    ['emojiBtn', 'imageBtn', 'voiceBtn'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+    });
 
     await loadMessages();
     setupRealtimeMessages();
@@ -371,7 +580,7 @@ async function loadMessages() {
     try {
         const { data, error } = await messengerSupabase
             .from("chat_messages")
-            .select("id, sender_id, receiver_id, message, is_read, created_at")
+              .select("id, sender_id, receiver_id, message, is_read, seen_at, created_at")
             .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${selectedFriend.id}),and(sender_id.eq.${selectedFriend.id},receiver_id.eq.${currentUser.id})`)
             .order("created_at", { ascending: true });
 
@@ -419,11 +628,61 @@ function renderMessages(messages) {
         bubble.className = "message-bubble";
 
         const messageText = document.createElement("div");
-        messageText.textContent = msg.message || "";
+        const rawText = msg.message || "";
 
+        // 🖼️ صورة
+        if (rawText.startsWith('[IMAGE:')) {
+            const url = rawText.slice(7, -1);
+            messageText.innerHTML = `<img src="${url}" class="msg-image" onclick="window.open('${url}','_blank')">`;
+        }
+        // 🎤 صوت
+        else if (rawText.startsWith('[VOICE:')) {
+            const url = rawText.slice(7, -1);
+            messageText.innerHTML = `<div class="voice-bubble">🎤 <audio controls src="${url}"></audio></div>`;
+        }
+        // نص عادي
+        else {
+            messageText.textContent = rawText;
+        }
+        // ⚠️ زر Report للرسائل المستقبَلة فقط
+        if (!isSent) {
+            const reportMsgBtn = document.createElement("button");
+            reportMsgBtn.innerHTML = "⚠️";
+            reportMsgBtn.title = "Report this message";
+            reportMsgBtn.style.cssText = `
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 12px;
+                padding: 2px 4px;
+                opacity: 0;
+                margin-left: 6px;
+                transition: opacity 0.2s;
+                vertical-align: middle;
+            `;
+            bubble.onmouseover = () => reportMsgBtn.style.opacity = "0.7";
+            bubble.onmouseout = () => reportMsgBtn.style.opacity = "0";
+            reportMsgBtn.onmouseover = () => reportMsgBtn.style.opacity = "1";
+            reportMsgBtn.onclick = (e) => {
+                e.stopPropagation();
+                reportMessage(msg);
+            };
+            bubble.appendChild(reportMsgBtn);
+        }
         const time = document.createElement("span");
         time.className = "message-time";
-        time.textContent = formatMessageTime(msg.created_at);
+        
+        // ✓✓ للرسائل المُرسلة
+        let seenHtml = '';
+        if (isSent) {
+            if (msg.is_read) {
+                seenHtml = ' <span style="color:#4fc3f7;font-weight:bold;">✓✓</span>';
+            } else {
+                seenHtml = ' <span style="opacity:0.7;">✓</span>';
+            }
+        }
+        
+        time.innerHTML = formatMessageTime(msg.created_at) + seenHtml;
 
         bubble.appendChild(messageText);
         bubble.appendChild(time);
@@ -433,13 +692,206 @@ function renderMessages(messages) {
 
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
+// =========================================================
+// EMOJI PICKER
+// =========================================================
+const EMOJIS = [
+    '😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰',
+    '😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏',
+    '😒','😞','😔','😟','😕','🙁','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡',
+    '🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶',
+    '❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖',
+    '👍','👎','👌','✌️','🤞','🤟','🤘','🤙','👈','👉','👆','👇','☝️','✋','🤚','🖐️',
+    '🎉','🎊','🎁','🎂','🍕','🍔','🍟','🌮','☕','🍺','🍻','⚽','🏀','🎮','🎬','🎵'
+];
 
+window.closeEmojiPicker = function() {
+    const picker = document.getElementById('emojiPicker');
+    if (picker) picker.style.display = 'none';
+};
+
+function setupEmojiPicker() {
+    const emojiBtn = document.getElementById('emojiBtn');
+    const picker = document.getElementById('emojiPicker');
+    const grid = document.getElementById('emojiGrid');
+    const input = document.getElementById('messageInput');
+
+    if (!emojiBtn || !picker || !grid) return;
+
+    grid.innerHTML = '';
+    EMOJIS.forEach(emoji => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = emoji;
+        btn.onclick = () => {
+            if (input) {
+                input.value += emoji;
+                input.focus();
+            }
+        };
+        grid.appendChild(btn);
+    });
+
+    emojiBtn.onclick = (e) => {
+        e.preventDefault();
+        picker.style.display = picker.style.display === 'none' ? 'flex' : 'none';
+    };
+
+    document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target) && e.target !== emojiBtn) {
+            picker.style.display = 'none';
+        }
+    });
+}
+
+// =========================================================
+// IMAGE UPLOAD
+// =========================================================
+function setupImageUpload() {
+    const imageBtn = document.getElementById('imageBtn');
+    const imageInput = document.getElementById('imageInput');
+    
+    if (!imageBtn || !imageInput) return;
+
+    imageBtn.onclick = () => imageInput.click();
+
+    imageInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+            alert('❌ Image too large. Max 5MB');
+            return;
+        }
+
+        try {
+            const fileName = `chat/${currentUser.id}/${Date.now()}_${file.name}`;
+            const { error: upErr } = await messengerSupabase.storage
+                .from('chat-images')
+                .upload(fileName, file);
+
+            if (upErr) {
+                alert('Upload error: ' + upErr.message);
+                return;
+            }
+
+            const { data: urlData } = messengerSupabase.storage
+                .from('chat-images')
+                .getPublicUrl(fileName);
+
+            const { error } = await messengerSupabase
+                .from('chat_messages')
+                .insert({
+                    sender_id: currentUser.id,
+                    receiver_id: selectedFriend.id,
+                    message: `[IMAGE:${urlData.publicUrl}]`,
+                    is_read: false
+                });
+
+            if (error) {
+                alert('Error: ' + error.message);
+                return;
+            }
+
+            imageInput.value = '';
+            await loadMessages();
+        } catch (err) {
+            console.error(err);
+            alert('Error: ' + err.message);
+        }
+    };
+}
+
+// =========================================================
+// VOICE RECORDING
+// =========================================================
+let mediaRecorder = null;
+let audioChunks = [];
+
+function setupVoiceRecorder() {
+    const voiceBtn = document.getElementById('voiceBtn');
+    if (!voiceBtn) return;
+
+    let isRecording = false;
+
+    voiceBtn.onclick = async () => {
+        if (!navigator.mediaDevices) {
+            alert('❌ Recording not supported');
+            return;
+        }
+
+        if (!isRecording) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+
+                mediaRecorder.onstop = async () => {
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    stream.getTracks().forEach(t => t.stop());
+
+                    try {
+                        const fileName = `voice/${currentUser.id}/${Date.now()}.webm`;
+                        const { error: upErr } = await messengerSupabase.storage
+                            .from('chat-images')
+                            .upload(fileName, blob);
+
+                        if (upErr) {
+                            alert('Upload error: ' + upErr.message);
+                            return;
+                        }
+
+                        const { data: urlData } = messengerSupabase.storage
+                            .from('chat-images')
+                            .getPublicUrl(fileName);
+
+                        await messengerSupabase.from('chat_messages').insert({
+                            sender_id: currentUser.id,
+                            receiver_id: selectedFriend.id,
+                            message: `[VOICE:${urlData.publicUrl}]`,
+                            is_read: false
+                        });
+
+                        await loadMessages();
+                    } catch (err) {
+                        alert('Error: ' + err.message);
+                    }
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+                voiceBtn.classList.add('recording');
+                voiceBtn.textContent = '⏹️';
+            } catch (err) {
+                alert('❌ Microphone access denied');
+            }
+        } else {
+            mediaRecorder.stop();
+            isRecording = false;
+            voiceBtn.classList.remove('recording');
+            voiceBtn.textContent = '🎤';
+        }
+    };
+}
 // =========================================================
 // SEND MESSAGE
 // =========================================================
 async function sendMessage() {
     if (!currentUser) { alert("Please log in first."); return; }
     if (!selectedFriend) { alert("Please select a friend first."); return; }
+
+    // تحقق من الحظر
+    const { data: blocked } = await messengerSupabase
+        .from("blocked_users")
+        .select("id")
+        .or(`and(blocker_id.eq.${currentUser.id},blocked_id.eq.${selectedFriend.id}),and(blocker_id.eq.${selectedFriend.id},blocked_id.eq.${currentUser.id})`)
+        .maybeSingle();
+
+    if (blocked) {
+        alert("❌ Cannot send message. User is blocked.");
+        return;
+    }
 
     const text = messageInput?.value?.trim();
     if (!text) return;
@@ -478,12 +930,17 @@ async function sendMessage() {
 // =========================================================
 // MARK MESSAGES AS READ
 // =========================================================
-async function markMessagesAsRead() {
+   
+
+        async function markMessagesAsRead() {
     if (!currentUser || !selectedFriend) return;
     try {
         const { error } = await messengerSupabase
             .from("chat_messages")
-            .update({ is_read: true })
+            .update({ 
+                is_read: true,
+                seen_at: new Date().toISOString()
+            })
             .eq("sender_id", selectedFriend.id)
             .eq("receiver_id", currentUser.id)
             .eq("is_read", false);
@@ -558,7 +1015,8 @@ function setupRealtimeMessages() {
                 console.log("⌨️ Typing received:", payload);
 
                 if (!payload || !payload.payload) return;
-                if (payload.payload.userId === selectedFriend.id) {
+                if (selectedFriend && payload.payload.userId === selectedFriend.id) {
+          
                     if (chatUserStatus) {
                         chatUserStatus.textContent = "typing...";
                         chatUserStatus.style.color = "#1877f2";
@@ -684,6 +1142,393 @@ window.addEventListener("beforeunload", () => {
 });
 
 // =========================================================
+// ⚠️ REPORT SYSTEM (MODAL)
+// =========================================================
+let reportContext = null;
+
+async function reportUser(friend) {
+    reportContext = {
+        type: 'user',
+        reportedId: friend.id,
+        name: friend.full_name || friend.username || "this user",
+        messageId: null,
+        messageContent: null
+    };
+    openReportModal(`Report ${reportContext.name}`);
+}
+
+async function reportMessage(msg) {
+    if (!selectedFriend) return;
+    reportContext = {
+        type: 'message',
+        reportedId: selectedFriend.id,
+        name: selectedFriend.full_name || selectedFriend.username || "this user",
+        messageId: msg.id,
+        messageContent: msg.message
+    };
+    const preview = (msg.message || "").substring(0, 50);
+    openReportModal(`Report message: "${preview}..."`);
+}
+
+function openReportModal(targetText) {
+    const modal = document.getElementById("reportModal");
+    const targetEl = document.getElementById("reportTarget");
+    const screenshotInput = document.getElementById("reportScreenshot");
+    const screenshotPreview = document.getElementById("reportScreenshotPreview");
+    const screenshotImg = document.getElementById("reportScreenshotImg");
+
+    if (!modal) { alert("Report modal not found"); return; }
+
+    if (targetEl) targetEl.textContent = targetText;
+
+    document.getElementById("reportReason").value = "Spam";
+    document.getElementById("reportDetails").value = "";
+    if (screenshotInput) screenshotInput.value = "";
+    if (screenshotPreview) screenshotPreview.style.display = "none";
+
+    if (screenshotInput) {
+        screenshotInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file && file.size <= 5 * 1024 * 1024) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    if (screenshotImg) screenshotImg.src = ev.target.result;
+                    if (screenshotPreview) screenshotPreview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            } else if (file) {
+                alert("❌ Image too large. Max 5MB");
+                screenshotInput.value = "";
+            }
+        };
+    }
+
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+
+window.closeReportModal = function() {
+    const modal = document.getElementById("reportModal");
+    if (modal) modal.style.display = "none";
+    document.body.style.overflow = "";
+    reportContext = null;
+};
+
+   window.submitReport = async function() {
+    if (!reportContext) return;
+
+    // ✅ احفظ النسخة محلياً قبل أي عملية
+    const ctx = { ...reportContext };
+
+    const reason = document.getElementById("reportReason").value;
+    const details = document.getElementById("reportDetails").value.trim();
+    const fileInput = document.getElementById("reportScreenshot");
+    const file = fileInput?.files[0];
+
+    const btn = document.getElementById("reportSubmitBtn");
+    if (btn) { btn.disabled = true; btn.textContent = "⏳ Sending..."; }
+
+    try {
+        let screenshotUrl = null;
+
+        if (file) {
+            const fileName = `reports/${currentUser.id}/${Date.now()}_${file.name}`;
+            const { error: upErr } = await messengerSupabase.storage
+                .from("report-screenshots")
+                .upload(fileName, file);
+
+            if (!upErr) {
+                const { data: urlData } = messengerSupabase.storage
+                    .from("report-screenshots")
+                    .getPublicUrl(fileName);
+                screenshotUrl = urlData.publicUrl;
+            }
+        }
+
+        if (reportContext.type === 'user') {
+            const { error } = await messengerSupabase
+                .from("user_reports")
+                .insert({
+                    reporter_id: currentUser.id,
+                    reported_id: reportContext.reportedId,
+                    reason: reason,
+                    details: details,
+                    screenshot_url: screenshotUrl,
+                    status: 'pending'
+                });
+            if (error) throw error;
+        } else {
+            const { error } = await messengerSupabase
+                .from("message_reports")
+                .insert({
+                    reporter_id: currentUser.id,
+                    reported_id: reportContext.reportedId,
+                    message_id: reportContext.messageId,
+                    message_content: reportContext.messageContent,
+                    reason: reason,
+                    details: details,
+                    screenshot_url: screenshotUrl,
+                    status: 'pending'
+                });
+            if (error) throw error;
+        }
+
+        const toast = document.createElement("div");
+        toast.style.cssText = `
+            position: fixed; top: 80px; right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 15px 25px; border-radius: 12px;
+            font-weight: 700; z-index: 999999;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+        `;
+        const reportType = reportContext.type;
+
+        toast.textContent = "✅ Report sent successfully";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+
+        closeReportModal();
+        console.log("✅ Report submitted:", reportType);
+    } catch (err) {
+        console.error("❌ submitReport error:", err);
+        alert("Error: " + err.message);
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = "🚨 Send Report"; }
+    }
+};
+
+window.reportUser = reportUser;
+window.reportMessage = reportMessage;
+
+// =========================================================
+// ⚠️ REPORT MESSAGE
+// =========================================================
+async function reportMessage(msg) {
+    if (!selectedFriend) return;
+
+    const reason = prompt(
+        `Report this message\n\nMessage: "${(msg.message || "").substring(0, 60)}..."\n\nChoose a reason:\n1 - Spam\n2 - Harassment\n3 - Inappropriate content\n4 - Threat\n5 - Other\n\nEnter number (1-5):`
+    );
+
+    if (!reason) return;
+
+    const reasons = {
+        '1': 'Spam',
+        '2': 'Harassment',
+        '3': 'Inappropriate content',
+        '4': 'Threat',
+        '5': 'Other'
+    };
+
+    const selectedReason = reasons[reason.trim()];
+    if (!selectedReason) {
+        alert("❌ Invalid choice. Please enter 1-5.");
+        return;
+    }
+
+    let details = "";
+    if (selectedReason === 'Other' || confirm("Add more details?")) {
+        details = prompt("Describe the issue (optional):") || "";
+    }
+
+    let screenshotUrl = null;
+    if (confirm("📷 Attach a screenshot?")) {
+        screenshotUrl = await pickReportScreenshot();
+    }
+
+    try {
+        const { error } = await messengerSupabase
+            .from("message_reports")
+            .insert({
+                reporter_id: currentUser.id,
+                reported_id: selectedFriend.id,
+                message_id: msg.id,
+                message_content: msg.message,
+                reason: selectedReason,
+                details: details,
+                screenshot_url: screenshotUrl,
+                status: 'pending'
+            });
+
+        if (error) throw error;
+
+        alert(`✅ Message reported${screenshotUrl ? " with screenshot" : ""}\n\nThank you!`);
+        console.log("✅ Message reported:", msg.id);
+    } catch (err) {
+        console.error("❌ reportMessage error:", err);
+        alert("Error: " + err.message);
+    }
+}
+
+window.reportMessage = reportMessage;
+ 
+
+
+// ✅ اختيار ورفع الصورة
+async function pickReportScreenshot() {
+    return new Promise((resolve) => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) { resolve(null); return; }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("❌ Image too large. Max 5MB");
+                resolve(null);
+                return;
+            }
+
+            try {
+                const fileName = `reports/${currentUser.id}/${Date.now()}_${file.name}`;
+                const { error: upErr } = await messengerSupabase.storage
+                    .from("report-screenshots")
+                    .upload(fileName, file);
+
+                if (upErr) {
+                    console.error("Screenshot upload error:", upErr);
+                    alert("⚠️ Screenshot upload failed");
+                    resolve(null);
+                    return;
+                }
+
+                const { data: urlData } = messengerSupabase.storage
+                    .from("report-screenshots")
+                    .getPublicUrl(fileName);
+
+                console.log("✅ Screenshot uploaded:", urlData.publicUrl);
+                resolve(urlData.publicUrl);
+            } catch (err) {
+                console.error("pickReportScreenshot error:", err);
+                resolve(null);
+            }
+        };
+
+        input.click();
+    });
+}
+// =========================================================
+// 🚫 BLOCKED USERS LIST
+// =========================================================
+async function showBlockedUsers() {
+    const list = document.getElementById("blockedList");
+    if (!list) return;
+
+    if (list.style.display === "block") {
+        list.style.display = "none";
+        return;
+    }
+
+    list.style.display = "block";
+    list.innerHTML = '<div style="text-align:center;padding:10px;color:#65676b;">Loading...</div>';
+
+    try {
+        const { data: blocked } = await messengerSupabase
+            .from("blocked_users")
+            .select("blocked_id")
+            .eq("blocker_id", currentUser.id);
+
+        if (!blocked || blocked.length === 0) {
+            list.innerHTML = '<div style="text-align:center;padding:15px;color:#65676b;font-size:13px;">✅ No blocked users</div>';
+            return;
+        }
+
+        const blockedIds = blocked.map(b => b.blocked_id);
+        const { data: profiles } = await messengerSupabase
+            .from("profiles")
+            .select("id, username, full_name, avatar_url")
+            .in("id", blockedIds);
+
+        list.innerHTML = "";
+
+        (profiles || []).forEach(profile => {
+            const avatar = profile.avatar_url || DEFAULT_AVATAR;
+            const name = profile.full_name || profile.username || "User";
+
+            const div = document.createElement("div");
+            div.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px;
+                background: white;
+                border-radius: 8px;
+                margin-bottom: 6px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            `;
+            div.innerHTML = `
+                <img src="${avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+                <div style="flex:1;min-width:0;">
+                    <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(name)}</div>
+                    <div style="font-size:11px;color:#65676b;">@${escapeHtml(profile.username || "user")}</div>
+                </div>
+                <button onclick="unblockUser('${profile.id}')" style="
+                    padding: 6px 10px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    white-space: nowrap;
+                ">Unblock</button>
+            `;
+            list.appendChild(div);
+        });
+
+    } catch (err) {
+        console.error("showBlockedUsers error:", err);
+        list.innerHTML = '<div style="text-align:center;padding:15px;color:#f02849;font-size:13px;">Error</div>';
+    }
+}
+
+async function unblockUser(userId) {
+    if (!confirm("Unblock this user?")) return;
+
+    try {
+        const { error } = await messengerSupabase
+            .from("blocked_users")
+            .delete()
+            .eq("blocker_id", currentUser.id)
+            .eq("blocked_id", userId);
+
+        if (error) throw error;
+
+        alert("✅ User unblocked");
+
+        // تحديث العدد
+        await updateBlockedCount();
+
+        // إعادة تحميل القائمة والصديق
+        await showBlockedUsers();
+        await loadMessengerFriends();
+    } catch (err) {
+        console.error("unblockUser error:", err);
+        alert("Error: " + err.message);
+    }
+}
+
+async function updateBlockedCount() {
+    try {
+        const { data } = await messengerSupabase
+            .from("blocked_users")
+            .select("id")
+            .eq("blocker_id", currentUser.id);
+
+        const countEl = document.getElementById("blockedCount");
+        if (countEl) countEl.textContent = (data || []).length;
+    } catch (e) {
+        console.warn("updateBlockedCount error:", e);
+    }
+}
+
+window.showBlockedUsers = showBlockedUsers;
+window.unblockUser = unblockUser;
+window.updateBlockedCount = updateBlockedCount;
+// =========================================================
 // INITIALIZE
 // =========================================================
 async function initializeMessenger() {
@@ -706,8 +1551,14 @@ async function initializeMessenger() {
 
     console.log("👤 User:", currentUser.id);
 
+    // ✅ دلوقتي currentUser موجود
+    await updateBlockedCount();
+
     await loadMessengerFriends();
     await openTargetUserFromUrl();
+    setupEmojiPicker();
+setupImageUpload();
+setupVoiceRecorder();
 
     console.log("⚡ Messenger initialized");
 }
@@ -718,3 +1569,13 @@ async function initializeMessenger() {
 initializeMessenger();
 
 console.log("✅ MESSENGER READY");
+
+window.blockUser = blockUser;
+window.deleteFriend = deleteFriend;
+window.goToChatProfile = function() {
+    if (selectedFriend) {
+        window.location.href = `profile.html?id=${selectedFriend.id}`;
+    }
+};
+
+window.reportUser = reportUser;

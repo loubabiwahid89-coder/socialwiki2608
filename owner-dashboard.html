@@ -96,6 +96,7 @@
             .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
 
@@ -162,6 +163,7 @@
             <div class="dashboard-tab" onclick="showTab('ads', this)">📢 Ads</div>
             <div class="dashboard-tab" onclick="showTab('tasks', this)">🎯 Tasks</div>
                         <div class="dashboard-tab" onclick="showTab('countries', this)">🌍 Countries</div>
+                                    <div class="dashboard-tab" onclick="showTab('revenue', this)">💰 Revenue</div>
         </div>
 
         <!-- CONTENT -->
@@ -910,6 +912,7 @@
             else if (tab === 'ads') loadAds();
             else if (tab === 'tasks') loadTasks();
             else if (tab === 'countries') loadCountriesTab();
+                        else if (tab === 'revenue') loadRevenueTab();
         }
 
         // =========================================================
@@ -945,6 +948,204 @@
             }
         }
         
+                // =========================================================
+        // 💰 REVENUE TAB
+        // =========================================================
+        async function loadRevenueTab() {
+            const container = document.getElementById('dashboardContent');
+
+            const today = new Date().toISOString().split('T')[0];
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+                .toISOString().split('T')[0];
+
+            // احسب مشاهدات اليوم
+            const { data: todayViewsData } = await supabaseClient
+                .from('post_views')
+                .select('id')
+                .gte('created_at', today);
+
+            const { data: weekViewsData } = await supabaseClient
+                .from('post_views')
+                .select('id')
+                .gte('created_at', weekAgo);
+
+            // اجلب سجل التوزيعات
+            const { data: earnings } = await supabaseClient
+                .from('user_earnings')
+                .select('*')
+                .like('source', 'ad_revenue%')
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            const todayViews = (todayViewsData || []).length;
+            const weekViews = (weekViewsData || []).length;
+
+            const totalDistributed = (earnings || []).reduce(
+                (sum, e) => sum + parseFloat(e.dollars || 0), 0
+            );
+
+            // اجلب أسماء المستخدمين
+            const userIds = [...new Set((earnings || []).map(e => e.user_id))];
+            const { data: profiles } = await supabaseClient
+                .from('profiles')
+                .select('id, username, full_name')
+                .in('id', userIds);
+
+            const profilesMap = {};
+            (profiles || []).forEach(p => profilesMap[p.id] = p);
+
+            container.innerHTML = `
+                <div style="padding: 20px;">
+                    <h2 style="margin: 0 0 20px 0;">💰 Ad Revenue Distribution</h2>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="font-size: 13px; color: #65676b; margin-bottom: 5px;">Views Today</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #1877f2;">${todayViews.toLocaleString()}</div>
+                        </div>
+                        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="font-size: 13px; color: #65676b; margin-bottom: 5px;">Views (7 Days)</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #1877f2;">${weekViews.toLocaleString()}</div>
+                        </div>
+                        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="font-size: 13px; color: #65676b; margin-bottom: 5px;">Total Distributed</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #28a745;">$${totalDistributed.toFixed(2)}</div>
+                        </div>
+                        <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="font-size: 13px; color: #65676b; margin-bottom: 5px;">Users Rewarded</div>
+                            <div style="font-size: 32px; font-weight: 700; color: #f7b928;">${(earnings || []).length}</div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <h3 style="margin: 0 0 10px 0;">💸 Distribute Revenue</h3>
+                        <p style="color: #65676b; font-size: 14px; margin: 0 0 15px 0;">
+                            ادخل إجمالي الأرباح من Adsterra + Monetag لهذا اليوم. النظام هيوزع النسبة المحددة على أصحاب المنشورات حسب مشاهداتهم.
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Total Revenue ($)</label>
+                                <input type="number" id="totalRevenueInput" step="0.01" min="0" placeholder="10.00"
+                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">User Share (%)</label>
+                                <input type="number" id="userShareInput" value="60" min="0" max="100"
+                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Date</label>
+                                <input type="date" id="revenueDateInput" value="${today}"
+                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+                            </div>
+                        </div>
+
+                        <button onclick="distributeRevenue()"
+                                style="background: #28a745; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;">
+                            💸 Distribute Revenue Now
+                        </button>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <h3 style="margin: 0 0 15px 0;">📋 Recent Distributions</h3>
+                        ${earnings && earnings.length > 0 ? `
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; min-width: 500px;">
+                                    <thead>
+                                        <tr style="background: #f0f2f5;">
+                                            <th style="padding: 12px; text-align: left; font-size: 13px;">Date</th>
+                                            <th style="padding: 12px; text-align: left; font-size: 13px;">User</th>
+                                            <th style="padding: 12px; text-align: left; font-size: 13px;">Source</th>
+                                            <th style="padding: 12px; text-align: right; font-size: 13px;">Points</th>
+                                            <th style="padding: 12px; text-align: right; font-size: 13px;">Dollars</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${earnings.map(e => {
+                                            const p = profilesMap[e.user_id] || {};
+                                            const userName = p.full_name || p.username || (e.user_id || '').substring(0, 8) + '...';
+                                            return `
+                                                <tr style="border-bottom: 1px solid #f0f2f5;">
+                                                    <td style="padding: 12px; font-size: 13px;">${new Date(e.created_at).toLocaleDateString()}</td>
+                                                    <td style="padding: 12px; font-size: 13px;">${escapeHtml(userName)}</td>
+                                                    <td style="padding: 12px; font-size: 13px;">${escapeHtml(e.source || '—')}</td>
+                                                    <td style="padding: 12px; text-align: right; color: #28a745; font-weight: 600;">+${e.points || 0}</td>
+                                                    <td style="padding: 12px; text-align: right; color: #28a745; font-weight: 600;">$${parseFloat(e.dollars || 0).toFixed(4)}</td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p style="color: #65676b; text-align: center; padding: 20px;">No distributions yet</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        // =========================================================
+        // 💸 DISTRIBUTE REVENUE
+        // =========================================================
+        async function distributeRevenue() {
+            const revenue = parseFloat(document.getElementById('totalRevenueInput').value);
+            const userShare = parseInt(document.getElementById('userShareInput').value) / 100;
+            const date = document.getElementById('revenueDateInput').value;
+
+            if (!revenue || revenue <= 0) {
+                alert('❌ Please enter a valid revenue amount');
+                return;
+            }
+
+            if (userShare < 0 || userShare > 1) {
+                alert('❌ User share must be between 0 and 100');
+                return;
+            }
+
+            if (!confirm(`Distribute $${revenue} to users?\n\nUser Share: ${userShare * 100}%\nPlatform Keeps: ${100 - userShare * 100}%`)) {
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient.rpc('distribute_ad_revenue', {
+                    p_total_revenue: revenue,
+                    p_user_share_pct: userShare,
+                    p_date: date
+                });
+
+                if (error) {
+                    console.error('RPC error:', error);
+                    alert('❌ Error: ' + error.message);
+                    return;
+                }
+
+                if (!data.success) {
+                    alert('⚠️ ' + (data.message || 'Distribution failed'));
+                    return;
+                }
+
+                alert(
+                    `✅ Distribution Complete!\n\n` +
+                    `📅 Date: ${data.date}\n` +
+                    `💰 Total Revenue: $${data.total_revenue}\n` +
+                    `👥 User Share (${userShare * 100}%): $${parseFloat(data.user_share).toFixed(2)}\n` +
+                    `👁️ Total Views: ${data.total_views}\n` +
+                    `✅ Users Rewarded: ${data.users_rewarded}\n` +
+                    `💵 Total Distributed: $${parseFloat(data.total_distributed).toFixed(2)}\n` +
+                    `🏦 Platform Kept: $${parseFloat(data.platform_kept).toFixed(2)}`
+                );
+
+                // Refresh
+                loadRevenueTab();
+            } catch (err) {
+                console.error('Error:', err);
+                alert('❌ Error: ' + err.message);
+            }
+        }
+
+        window.loadRevenueTab = loadRevenueTab;
+        window.distributeRevenue = distributeRevenue;
+
         // =========================================================
         // 🆕 SECURE INITIALIZE
         // =========================================================
@@ -952,10 +1153,16 @@
             console.log('🔴 owner-dashboard.html loaded');
             
             // Language
-            if (typeof getCurrentLanguage === 'function') {
-                const lang = getCurrentLanguage();
-                setLanguage(lang);
-                applyTranslations();
+            try {
+                if (typeof getCurrentLanguage === 'function') {
+                    const lang = getCurrentLanguage();
+                    setLanguage(lang);
+                }
+                if (typeof applyTranslations === 'function') {
+                    applyTranslations();
+                }
+            } catch (e) {
+                console.warn('Translation init skipped:', e);
             }
             
             // 🚨 Check access FIRST

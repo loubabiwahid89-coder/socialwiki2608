@@ -135,7 +135,7 @@
     </style>
      <!-- Cloudflare Web Analytics -->
 
-   
+   <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
    
@@ -271,6 +271,7 @@
             <a href="referral.html"><span class="emoji-icon">👥</span><span data-i18n="referral">Referral</span></a>
             <a href="stars.html"><span class="emoji-icon">⭐</span><span data-i18n="stars">Stars</span></a>
             <a href="earnings.html"><span class="emoji-icon">💰</span><span data-i18n="earnings_title">My Earnings</span></a>
+            <a href="my-stats.html"><span class="emoji-icon">📊</span><span>إحصائياتي</span></a>
             <a href="owner-dashboard.html" id="dashboardLink" style="display: none;">
                 <span class="emoji-icon">👑</span><span data-i18n="dashboard">Dashboard</span>
             </a>
@@ -826,25 +827,178 @@ loadPosts();  // ✅ أسرع بكثير
         };
 
         window.openStory = async function(storyId) {
-            try {
-                const { data: story } = await window.supabaseClient.from('stories').select('*').eq('id', storyId).single();
-                if (!story) { alert('Story not found'); return; }
-                const { data: urlData } = window.supabaseClient.storage.from('stories').getPublicUrl(story.media_url);
-                const mediaUrl = urlData.publicUrl;
-                const storyViewer = document.createElement('div');
-                storyViewer.id = 'storyViewer';
-                storyViewer.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99999;display:flex;align-items:center;justify-content:center;';
-                const content = story.media_type === 'video'
-                    ? `<video src="${mediaUrl}" controls autoplay playsinline style="max-width:90%;max-height:90%;border-radius:12px;"></video>`
-                    : `<img src="${mediaUrl}" style="max-width:90%;max-height:90%;border-radius:12px;">`;
-                storyViewer.innerHTML = `
-                    <button onclick="closeStoryViewer()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);color:white;border:none;width:50px;height:50px;border-radius:50%;font-size:24px;cursor:pointer;z-index:10;">✕</button>
-                    ${content}
-                `;
-                document.body.appendChild(storyViewer);
-                storyViewer.onclick = function(e) { if (e.target === storyViewer) closeStoryViewer(); };
-            } catch (error) { alert('Error opening story: ' + error.message); }
-        };
+    try {
+        const { data: story } = await window.supabaseClient
+            .from('stories').select('*').eq('id', storyId).single();
+        if (!story) { alert('Story not found'); return; }
+
+        const { data: profile } = await window.supabaseClient
+            .from('profiles').select('username, full_name, avatar_url')
+            .eq('id', story.user_id).single();
+
+        const username = profile?.full_name || profile?.username || 'User';
+        const avatar = profile?.avatar_url || 
+            `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+
+        const { data: urlData } = window.supabaseClient.storage
+            .from('stories').getPublicUrl(story.media_url);
+        const mediaUrl = urlData.publicUrl;
+
+        const viewer = document.createElement('div');
+        viewer.id = 'storyViewer';
+      viewer.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.98);
+    z-index: 99999; display: flex; align-items: center;
+    justify-content: center; flex-direction: column; overflow-y: auto;
+    padding: 60px 20px 20px;
+`;
+
+        const mediaHTML = story.media_type === 'video'
+          ? `<video src="${mediaUrl}" controls autoplay playsinline style="max-width:90%;max-height:45vh;border-radius:12px;"></video>`
+            : `<img src="${mediaUrl}" style="max-width:90%;max-height:45vh;border-radius:12px;object-fit:contain;">`;
+
+        const emojis = ['❤️','😂','😮','😢','😡','👍'];
+
+        viewer.innerHTML = `
+            <button onclick="closeStoryViewer()" style="position:fixed;top:20px;right:20px;background:rgba(255,255,255,0.2);color:white;border:none;width:50px;height:50px;border-radius:50%;font-size:24px;cursor:pointer;z-index:10;">✕</button>
+            
+            <div style="position:fixed;top:20px;left:20px;display:flex;align-items:center;gap:10px;color:white;z-index:10;">
+                <img src="${avatar}" style="width:40px;height:40px;border-radius:50%;">
+                <span style="font-weight:700;">${username}</span>
+            </div>
+
+            <div style="width:100%;display:flex;justify-content:center;margin-top:60px;margin-bottom:15px;">${mediaHTML}</div>
+            <div style="width:90%;max-width:500px;margin-top:15px;padding-bottom:30px;">
+                <div id="storyReactions_${storyId}" style="display:flex;gap:8px;margin-bottom:15px;justify-content:center;flex-wrap:wrap;">
+                    ${emojis.map(e => 
+                        `<button onclick="toggleStoryReaction('${storyId}','${e}',this)" 
+                         style="background:#2a2a2a;border:none;color:white;padding:10px 16px;
+                         border-radius:25px;cursor:pointer;font-size:20px;transition:0.2s;">
+                         ${e}
+                         </button>`
+                    ).join('')}
+                </div>
+
+                <div id="storyComments_${storyId}" style="max-height:200px;overflow-y:auto;margin-bottom:12px;"></div>
+
+                <div style="display:flex;gap:8px;">
+                    <input id="storyCommentInput_${storyId}" 
+                           placeholder="Write a comment..." 
+                           style="flex:1;padding:12px 18px;border-radius:25px;border:none;
+                           background:#2a2a2a;color:white;outline:none;font-size:14px;"
+                           onkeypress="if(event.key==='Enter') addStoryComment('${storyId}')">
+                    <button onclick="addStoryComment('${storyId}')" 
+                            style="background:#1877f2;border:none;color:white;width:48px;
+                            height:48px;border-radius:50%;cursor:pointer;font-size:20px;">➤</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(viewer);
+        loadStoryComments(storyId);
+        loadStoryReactions(storyId);
+    } catch (error) {
+        console.error('Error opening story:', error);
+        alert('Error: ' + error.message);
+    }
+};
+
+// ✅ تحميل التفاعلات
+async function loadStoryReactions(storyId) {
+    const { data: reactions } = await window.supabaseClient
+        .from('story_reactions').select('emoji').eq('story_id', storyId);
+    if (!reactions) return;
+
+    const counts = {};
+    reactions.forEach(r => { counts[r.emoji] = (counts[r.emoji] || 0) + 1; });
+
+    const btns = document.querySelectorAll(`#storyReactions_${storyId} button`);
+    btns.forEach(btn => {
+        const emoji = btn.textContent.trim().split(' ')[0];
+        if (counts[emoji]) {
+            btn.textContent = `${emoji} ${counts[emoji]}`;
+        }
+    });
+}
+
+// ✅ تفاعل
+window.toggleStoryReaction = async function(storyId, emoji, btn) {
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    if (!user) { alert('Please login'); return; }
+
+    const { data: existing } = await window.supabaseClient
+        .from('story_reactions').select('id, emoji')
+        .eq('story_id', storyId).eq('user_id', user.id).maybeSingle();
+
+    if (existing) {
+        if (existing.emoji === emoji) {
+            await window.supabaseClient.from('story_reactions').delete().eq('id', existing.id);
+        } else {
+            await window.supabaseClient.from('story_reactions').update({ emoji }).eq('id', existing.id);
+        }
+    } else {
+        await window.supabaseClient.from('story_reactions').insert({
+            story_id: storyId, user_id: user.id, emoji: emoji
+        });
+    }
+
+    loadStoryReactions(storyId);
+};
+
+// ✅ تحميل الكومنتات
+async function loadStoryComments(storyId) {
+    const { data: comments } = await window.supabaseClient
+        .from('story_comments').select('*').eq('story_id', storyId)
+        .order('created_at', { ascending: true }).limit(20);
+
+    const container = document.getElementById(`storyComments_${storyId}`);
+    if (!container) return;
+
+    if (!comments || comments.length === 0) {
+        container.innerHTML = '<p style="color:#65676b;font-size:13px;text-align:center;">No comments yet</p>';
+        return;
+    }
+
+    const userIds = comments.map(c => c.user_id);
+    const { data: profiles } = await window.supabaseClient
+        .from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
+
+    const profilesMap = {};
+    (profiles || []).forEach(p => profilesMap[p.id] = p);
+
+    container.innerHTML = comments.map(c => {
+        const p = profilesMap[c.user_id] || {};
+        const name = p.full_name || p.username || 'User';
+        const av = p.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+        return `<div style="display:flex;gap:8px;margin-bottom:10px;">
+            <img src="${av}" style="width:32px;height:32px;border-radius:50%;">
+            <div style="background:#2a2a2a;border-radius:12px;padding:8px 12px;flex:1;">
+                <div style="font-weight:700;font-size:13px;color:white;">${name}</div>
+                <div style="font-size:13px;color:#ddd;">${c.content}</div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ✅ إضافة كومنت
+window.addStoryComment = async function(storyId) {
+    const input = document.getElementById(`storyCommentInput_${storyId}`);
+    if (!input) return;
+    const content = input.value.trim();
+    if (!content) return;
+
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    if (!user) { alert('Please login'); return; }
+
+    const { error } = await window.supabaseClient.from('story_comments').insert({
+        story_id: storyId, user_id: user.id, content: content
+    });
+
+    if (error) { alert('Error: ' + error.message); return; }
+
+    input.value = '';
+    loadStoryComments(storyId);
+};
 
         window.closeStoryViewer = function() {
             const viewer = document.getElementById('storyViewer');
@@ -1864,7 +2018,49 @@ async function likePost(postId, button) {
 
 // جعل الدالة متاحة عالمياً
 window.likePost = likePost;
-       
+// =========================================================
+// ✅ COMMENT POST - دالة واحدة نظيفة
+// =========================================================
+window.commentPost = async function(postId) {
+    const input = document.querySelector(`input[onkeypress*="${postId}"]`);
+    if (!input) {
+        console.warn('⚠️ No comment input for post:', postId);
+        return;
+    }
+    
+    const content = input.value.trim();
+    if (!content) return;
+    
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) { alert('Please login first'); return; }
+        
+        const { error } = await window.supabaseClient
+            .from('comments')
+            .insert({ post_id: postId, user_id: user.id, content: content });
+        
+        if (error) { 
+            console.error('❌ Comment error:', error);
+            alert('❌ ' + error.message); 
+            return; 
+        }
+        
+        input.value = '';
+        
+        if (typeof verifyAndCompleteTask === 'function') {
+            verifyAndCompleteTask('comment_1');
+            verifyAndCompleteTask('comment_10');
+        }
+        
+        if (typeof loadComments === 'function') await loadComments(postId);
+        
+        console.log('✅ Comment added successfully');
+        
+    } catch (error) {
+        console.error('❌ Error:', error);
+        alert('❌ ' + error.message);
+    }
+};
 </script>
 <!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
@@ -1876,6 +2072,8 @@ window.likePost = likePost;
         <iframe id="offerwallFrame" src="" style="width:100%; height:100%; border:0; flex:1;"></iframe>
     </div>
 </div>
-       
+       <script src="js/dark-mode.js"></script>
+       <script src="js/monetag.js" data-cfasync="false"></script>
+       <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 </body>
 </html>

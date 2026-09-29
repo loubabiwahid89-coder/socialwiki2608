@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 المتصدرين - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        .navbar {
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar a { color: white; text-decoration: none; font-size: 20px; }
+        .logo { font-weight: 800; font-size: 22px; }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffd700, #f7b928);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .header h1 { margin: 0 0 5px; font-size: 28px; }
+        .header p { margin: 0; opacity: 0.8; }
+
+        .period-tabs {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        .period-tab {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #65676b;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .period-tab.active {
+            background: #1877f2;
+            color: white;
+        }
+
+        .lb-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .lb-item:hover { transform: translateX(-3px); }
+
+        .lb-rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .lb-rank.top-1 { background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; font-size: 20px; }
+        .lb-rank.top-2 { background: linear-gradient(135deg, #c0c0c0, #e0e0e0); color: #333; font-size: 20px; }
+        .lb-rank.top-3 { background: linear-gradient(135deg, #cd7f32, #e8a559); color: white; font-size: 20px; }
+        .lb-rank.other { background: #f0f2f5; color: #65676b; }
+
+        .lb-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e4e6eb;
+        }
+
+        .lb-info { flex: 1; min-width: 0; }
+        .lb-name {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .lb-username { font-size: 12px; color: #65676b; }
+
+        .lb-views { text-align: center; flex-shrink: 0; }
+        .lb-views-value { font-size: 20px; font-weight: 800; color: #1877f2; }
+        .lb-views-label { font-size: 11px; color: #65676b; }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+        }
+        .empty-icon { font-size: 60px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">📘 SocialWiki</a>
+    <div style="display:flex;gap:15px;align-items:center;">
+        <a href="leaderboard.html" title="المتصدرين" style="font-size:20px;">🏆</a>
+        <a href="my-stats.html" title="إحصائياتي" style="font-size:20px;">📊</a>
+        <a href="earnings.html" title="الأرباح" style="font-size:20px;">💰</a>
+        <a href="index.html" title="الرئيسية" style="font-size:20px;">🏠</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="header">
+        <h1>🏆 قائمة المتصدرين</h1>
+        <p>أكثر المستخدمين نشاطاً على SocialWiki</p>
+    </div>
+
+    <div class="period-tabs">
+        <button class="period-tab active" onclick="loadLB('today', this)">اليوم</button>
+        <button class="period-tab" onclick="loadLB('week', this)">الأسبوع</button>
+        <button class="period-tab" onclick="loadLB('month', this)">الشهر</button>
+        <button class="period-tab" onclick="loadLB('all', this)">الكل</button>
+    </div>
+
+    <div id="leaderboard">
+        <div class="empty">
+            <div class="empty-icon">⏳</div>
+            <p>جاري التحميل...</p>
+        </div>
+    </div>
+
+    <!-- زر المشاركة -->
+    <div style="margin: 30px 0 20px;">
+        <button onclick="shareLeaderboard()" style="
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1877f2, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
+        ">
+            📤 شارك قائمة المتصدرين
+        </button>
+    </div>
+</div>
+
+<script>
+    if (!window.supabaseClient) {
+        window.supabaseClient = window.supabase.createClient(
+            "https://zcffrkvxmxvojkbmtufe.supabase.co",
+            "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
+        );
+    }
+    const sb = window.supabaseClient;
+
+    async function loadLB(period, btn) {
+        document.querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        const container = document.getElementById('leaderboard');
+        container.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div>`;
+
+        try {
+            const { data, error } = await sb.rpc('get_leaderboard', {
+                p_period: period,
+                p_limit: 20
+            });
+
+            if (error) {
+                console.error(error);
+                container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>خطأ: ${error.message}</p></div>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">📭</div>
+                        <h3>مفيش بيانات بعد</h3>
+                        <p>لما المستخدمين يبدؤوا ينشروا، هتلاقيهم هنا!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = data.map((user, i) => {
+                const rank = i + 1;
+                const rankClass = rank <= 3 ? `top-${rank}` : 'other';
+                const rankIcon = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+                const name = user.full_name || user.username || 'User';
+                const avatar = user.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+                return `
+                    <div class="lb-item">
+                        <div class="lb-rank ${rankClass}">${rankIcon}</div>
+                        <img class="lb-avatar" src="${avatar}">
+                        <div class="lb-info">
+                            <div class="lb-name">${name}</div>
+                            <div class="lb-username">@${user.username || 'user'}</div>
+                        </div>
+                        <div class="lb-views">
+                            <div class="lb-views-value">${(user.total_views || 0).toLocaleString()}</div>
+                            <div class="lb-views-label">مشاهدة</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>خطأ</p></div>`;
+        }
+    }
+
+    window.loadLB = loadLB;
+    document.addEventListener('DOMContentLoaded', () => loadLB('today'));
+    function shareLeaderboard() {
+    const url = window.location.origin + '/leaderboard.html';
+    const text = '🏆 شوف قائمة المتصدرين على SocialWiki!';
+    
+    if (navigator.share) {
+        navigator.share({
+            title: '🏆 المتصدرين - SocialWiki',
+            text: text,
+            url: url
+        }).catch(err => console.log('Share failed:', err));
+    } else {
+        navigator.clipboard.writeText(text + ' ' + url);
+        alert('✅ تم نسخ الرابط!');
+    }
+}
+window.shareLeaderboard = shareLeaderboard;
+</script>
+
+</body>
+</html>

@@ -117,6 +117,7 @@
             .tabs { overflow-x: auto; }
         }
     </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
 
@@ -595,35 +596,37 @@ if (lvlBadge) {
         // ============================================================
         // LOAD TASKS
         // ============================================================
-        async function loadTasks() {
-            if (!currentUser) return;
+      async function loadTasks() {
+    if (!currentUser) return;
 
-            const { data: userTasks } = await supabaseClient
-                .from('user_tasks')
-                .select('*')
-                .eq('user_id', currentUser.id);
+    const { data: userTasks } = await supabaseClient
+        .from('user_tasks')
+        .select('*')
+        .eq('user_id', currentUser.id);
 
-            const tasksMap = {};
- (userTasks || []).forEach(t => {
-                if (!t || !t.task_key || typeof t.task_key !== 'string') return;  // ✅ تخطَّ الصفوف الفارغة
-                const today = new Date().toISOString().split('T')[0];
-                const thisWeek = getWeekStart();
-                const thisMonth = today.substring(0, 7) + '-01';
+    const tasksMap = {};
+    (userTasks || []).forEach(t => {
+        if (!t || !t.task_id) return;
+        
+        const today = new Date().toISOString().split('T')[0];
+        const thisWeek = getWeekStart();
 
-                let valid = false;
-                if (t.period_start === today) valid = true;
-                if (t.period_start === thisWeek) valid = true;
-                if (t.period_start === thisMonth) valid = true;
-                if (t.task_key.startsWith('complete_profile') || t.task_key.startsWith('first_story')) valid = true;
+        let valid = false;
+        if (t.period_start === today) valid = true;
+        if (t.period_start === thisWeek) valid = true;
+        // المهام الدائمة (hard) - نقبل أي تاريخ
+        const hardTasks = ['complete_profile', 'first_story', 'invite_10', 'watch_500_ads', 'create_50_posts'];
+        if (hardTasks.includes(t.task_id)) valid = true;
 
-                if (valid) tasksMap[t.task_key] = t;
-            });
+        if (valid) tasksMap[t.task_id] = t;
+    });
 
-            renderTasks('dailyTasks', 'daily', tasksMap);
-            renderTasks('weeklyTasks', 'weekly', tasksMap);
-            renderTasks('hardTasks', 'hard', tasksMap);
-        }
+    console.log('📋 tasksMap:', tasksMap);
 
+    renderTasks('dailyTasks', 'daily', tasksMap);
+    renderTasks('weeklyTasks', 'weekly', tasksMap);
+    renderTasks('hardTasks', 'hard', tasksMap);
+}
         function getWeekStart() {
             const d = new Date();
             const day = d.getDay();
@@ -643,9 +646,9 @@ if (lvlBadge) {
             container.innerHTML = '';
 
             tasks.forEach(task => {
-                const progress = tasksMap[task.key];
-                const currentProgress = progress?.progress || 0;
-                const completed = progress?.completed || false;
+                const taskRecord = tasksMap[task.key];
+                const currentProgress = taskRecord?.progress || 0;
+                const completed = taskRecord?.completed || false;
                 const percent = Math.min(100, (currentProgress / task.goal) * 100);
 
    let actionHTML = '';
@@ -754,13 +757,39 @@ if (completed) {
         // ============================================================
         async function completeTaskDirectly(taskKey) {
             try {
-                const { data, error } = await supabaseClient.rpc('complete_task', {
-                    p_user_id: currentUser.id,
-                    p_task_key: taskKey
-                });
+                let tasksToComplete = [taskKey];
+                // لو مهمة إعلان، نادي كل المستويات
+                if (taskKey === 'watch_5_ads') {
+                    tasksToComplete = ['watch_5_ads', 'watch_50_ads', 'watch_500_ads'];
+                } else if (taskKey === 'watch_50_ads') {
+                    tasksToComplete = ['watch_50_ads', 'watch_500_ads'];
+                }
 
-                if (error) {
-                    console.error('Task error:', error);
+                let lastData = null;
+                let hasError = false;
+
+                for (const tk of tasksToComplete) {
+                    const { data, error } = await supabaseClient.rpc('complete_task', {
+                        p_user_id: currentUser.id,
+                        p_task_key: tk
+                    });
+                    if (error) { 
+                        console.error('Task error for', tk, ':', error); 
+                        hasError = true;
+                        continue;
+                    }
+                    console.log('✅ Task', tk, 'result:', data);
+                    lastData = data;
+                }
+
+                if (hasError && !lastData) {
+                    alert('⚠️ Task failed. Check console.');
+                    return;
+                }
+
+                const data = lastData;
+                if (!data) {
+                    alert('⚠️ No response from server');
                     return;
                 }
 
@@ -769,13 +798,22 @@ if (completed) {
                         alert('🎉 Task completed! +' + data.points + ' points');
                         await loadBalance();
                         await loadTasks();
-                    } else {
+                    } else if (data.message === 'Task already completed') {
+                        alert('✅ You already completed this task!\n\nCome back tomorrow/week.');
+                        await loadTasks();
+                    } else if (data.message === 'Progress updated') {
                         alert('✅ Progress: ' + data.progress + ' / ' + data.goal);
                         await loadTasks();
+                    } else {
+                        alert('ℹ️ ' + (data.message || 'Done'));
+                        await loadTasks();
                     }
+                } else {
+                    alert('⚠️ ' + (data.message || 'Task failed'));
                 }
             } catch (error) {
-                console.error('Task error:', error);
+                console.error('❌ Crash:', error);
+                alert('❌ Error: ' + error.message);
             }
         }
 
@@ -849,7 +887,7 @@ if (completed) {
                 row.innerHTML = `
                     <td style="padding:12px;border-bottom:1px solid #e4e6eb;">${date}</td>
                     <td style="padding:12px;border-bottom:1px solid #e4e6eb;">${e.source || 'earnings'}</td>
-                    <td style="padding:12px;border-bottom:1px solid #e4e6eb;color:#28a745;font-weight:700;">+${e.points_earned || 0}</td>
+                    <td style="padding:12px;border-bottom:1px solid #e4e6eb;color:#28a745;font-weight:700;">+${e.points || 0}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -978,7 +1016,8 @@ if (completed) {
             .insert({
                 user_id: currentUser.id,
                 source: 'reward_' + rewardKey,
-                points_earned: -cost,
+                points: -cost,
+                dollars: -cost * 0.001,
                 created_at: new Date()
             });
         
@@ -1102,5 +1141,8 @@ if (completed) {
     </script>
         <script src="js/messenger-notify.js"></script>
 <script src="js/popunder-ad.js"></script>
+<script src="js/dark-mode.js"></script>
+<script src="js/monetag.js" data-cfasync="false"></script>
+<div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 </body>
 </html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إحصائياتي - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        .navbar {
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar a { color: white; text-decoration: none; font-size: 20px; }
+        .logo { font-weight: 800; font-size: 22px; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats-header {
+            background: linear-gradient(135deg, #1877f2, #8b5cf6);
+            border-radius: 16px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .stats-header h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+        }
+        .stats-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        .stat-card .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1877f2;
+            margin-bottom: 5px;
+        }
+        .stat-card .label {
+            font-size: 13px;
+            color: #65676b;
+            font-weight: 500;
+        }
+
+        .earnings-breakdown {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .earnings-breakdown h3 {
+            margin: 0 0 20px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .earning-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .earning-row .label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .earning-row .amount {
+            font-size: 18px;
+            font-weight: 800;
+            color: #28a745;
+        }
+        .earning-row .amount.zero {
+            color: #65676b;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #ffd700, #f7b928);
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .cta-box h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .cta-box p {
+            margin: 0 0 15px;
+            color: #333;
+            font-size: 14px;
+        }
+        .cta-box a {
+            display: inline-block;
+            background: #1877f2;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+        }
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">📘 SocialWiki</a>
+    <a href="index.html">🏠</a>
+</nav>
+
+<div class="container">
+    <div class="stats-header">
+        <h1>📊 إحصائياتي</h1>
+        <p>شوف أداءك وأرباحك على SocialWiki</p>
+    </div>
+
+    <div id="statsContent">
+        <div class="empty">
+            <div class="empty-icon">⏳</div>
+            <p>جاري التحميل...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    if (!window.supabaseClient) {
+        window.supabaseClient = window.supabase.createClient(
+            "https://zcffrkvxmxvojkbmtufe.supabase.co",
+            "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
+        );
+    }
+    const sb = window.supabaseClient;
+
+    const POINT_VALUE = 0.001;
+
+    async function loadStats() {
+        const container = document.getElementById('statsContent');
+        try {
+            const { data: { user } } = await sb.auth.getUser();
+            if (!user) {
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            // جلب الإحصائيات
+            const { data, error } = await sb.rpc('get_user_stats', {
+                p_user_id: user.id
+            });
+
+            if (error) {
+                console.error('Error:', error);
+                container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>خطأ في التحميل</p></div>`;
+                return;
+            }
+
+            const s = data;
+
+            container.innerHTML = `
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="icon">📝</div>
+                        <div class="value">${(s.total_posts || 0).toLocaleString()}</div>
+                        <div class="label">إجمالي المنشورات</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">👁️</div>
+                        <div class="value">${(s.total_views || 0).toLocaleString()}</div>
+                        <div class="label">إجمالي المشاهدات</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">💰</div>
+                        <div class="value">$${parseFloat(s.total_dollars || 0).toFixed(2)}</div>
+                        <div class="label">إجمالي الأرباح</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">🎯</div>
+                        <div class="value">${(s.total_points || 0).toLocaleString()}</div>
+                        <div class="label">إجمالي النقاط</div>
+                    </div>
+                </div>
+
+                <div class="earnings-breakdown">
+                    <h3>💵 تفاصيل الأرباح</h3>
+                    
+                    <div class="earning-row">
+                        <div class="label">👁️ من المشاهدات</div>
+                        <div class="amount ${(s.earnings_from_views || 0) > 0 ? '' : 'zero'}">
+                            $${parseFloat(s.earnings_from_views || 0).toFixed(2)}
+                        </div>
+                    </div>
+                    
+                    <div class="earning-row">
+                        <div class="label">🎯 من المهام</div>
+                        <div class="amount ${(s.earnings_from_tasks || 0) > 0 ? '' : 'zero'}">
+                            $${parseFloat(s.earnings_from_tasks || 0).toFixed(2)}
+                        </div>
+                    </div>
+                    
+                    <div class="earning-row">
+                        <div class="label">👥 من الإحالات</div>
+                        <div class="amount ${(s.earnings_from_referrals || 0) > 0 ? '' : 'zero'}">
+                            $${parseFloat(s.earnings_from_referrals || 0).toFixed(2)}
+                        </div>
+                    </div>
+                    
+                    <div class="earning-row" style="background: #e7f7e7; border: 2px solid #28a745;">
+                        <div class="label">✅ الإجمالي</div>
+                        <div class="amount" style="font-size: 22px;">
+                            $${parseFloat(s.total_dollars || 0).toFixed(2)}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-box">
+                    <h3>🚀 عايز تكسب أكثر؟</h3>
+                    <p>انشر محتوى أكثر، ادعُ أصدقاءك، واكمل المهام اليومية!</p>
+                    <a href="earnings.html">💰 روح للأرباح</a>
+                </div>
+            `;
+        } catch (err) {
+            console.error('Error:', err);
+            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>حدث خطأ</p></div>`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadStats);
+</script>
+
+</body>
+</html>

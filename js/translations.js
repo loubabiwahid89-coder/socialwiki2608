@@ -9217,3 +9217,38 @@ if (typeof window !== 'undefined') {
 function resetLanguageInit() {
     _languageInitDone = false;
 }
+// =========================================================
+// 🎯 applyTranslations() — إعادة تطبيق الترجمات
+// =========================================================
+function applyTranslations() {
+    const lang = getCurrentLanguage();
+
+    // 1. النصوص العادية
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const translated = t(key, lang);
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            if (!el.value) el.placeholder = translated;
+        } else {
+            el.textContent = translated;
+        }
+    });
+
+    // 2. Placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.getAttribute('data-i18n-placeholder'), lang);
+    });
+
+    // 3. Titles
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        el.title = t(el.getAttribute('data-i18n-title'), lang);
+    });
+
+    // 4. Values
+    document.querySelectorAll('[data-i18n-value]').forEach(el => {
+        el.value = t(el.getAttribute('data-i18n-value'), lang);
+    });
+}
+
+// جعلها متاحة عالمياً
+window.applyTranslations = applyTranslations;

@@ -1,0 +1,200 @@
+/* =========================================================
+   🌙 SOCIALWIKI DARK MODE
+   ========================================================= */
+
+html.dark-mode {
+    --bg-primary: #18191a;
+    --bg-secondary: #242526;
+    --bg-tertiary: #3a3b3c;
+    --text-primary: #e4e6eb;
+    --text-secondary: #b0b3b8;
+    --border-color: #3e4042;
+    --accent: #1877f2;
+}
+
+html.dark-mode body {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Navbar يفضل أزرق */
+html.dark-mode .navbar {
+    background: #1877f2 !important;
+}
+
+/* Cards */
+html.dark-mode .feed-post,
+html.dark-mode .create-post,
+html.dark-mode .stories,
+html.dark-mode .right-profile-box,
+html.dark-mode .right-box,
+html.dark-mode .profile-info,
+html.dark-mode .profile-cover,
+html.dark-mode .profile-posts,
+html.dark-mode .tasks-section,
+html.dark-mode .balance-card,
+html.dark-mode .tier-card,
+html.dark-mode .reward-card,
+html.dark-mode .network-card,
+html.dark-mode .ad-container,
+html.dark-mode .ad-box,
+html.dark-mode .notification-item,
+html.dark-mode .messenger-sidebar,
+html.dark-mode .messenger-chat,
+html.dark-mode .chat-header,
+html.dark-mode .modal-box,
+html.dark-mode .modal-content,
+html.dark-mode .post-card,
+html.dark-mode .settings-card,
+html.dark-mode .friend-card,
+html.dark-mode .event-card,
+html.dark-mode .product-card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* النصوص */
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode p,
+html.dark-mode span,
+html.dark-mode div,
+html.dark-mode label,
+html.dark-mode a {
+    color: var(--text-primary);
+}
+
+html.dark-mode .feed-time,
+html.dark-mode .feed-content,
+html.dark-mode .profile-username,
+html.dark-mode .profile-bio,
+html.dark-mode .notification-time,
+html.dark-mode .stat-label,
+html.dark-mode .task-progress-text,
+html.dark-mode .messenger-friend-username,
+html.dark-mode .chat-user span {
+    color: var(--text-secondary) !important;
+}
+
+/* Sidebar */
+html.dark-mode .left-sidebar,
+html.dark-mode .right-sidebar {
+    background: transparent !important;
+}
+
+html.dark-mode .left-sidebar a,
+html.dark-mode .right-box a {
+    color: var(--text-primary);
+}
+
+html.dark-mode .left-sidebar a:hover {
+    background: var(--bg-tertiary) !important;
+}
+
+/* Inputs */
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+html.dark-mode input::placeholder,
+html.dark-mode textarea::placeholder {
+    color: var(--text-secondary) !important;
+}
+
+/* Messenger */
+html.dark-mode .message-row.received .message-bubble {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+html.dark-mode .messenger-friend:hover {
+    background: var(--bg-tertiary) !important;
+}
+
+html.dark-mode .messenger-friend.active {
+    background: var(--bg-tertiary) !important;
+}
+
+html.dark-mode .messenger-search input {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Modals */
+html.dark-mode .modal-overlay {
+    background: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Stories */
+html.dark-mode .story-item {
+    border-color: var(--border-color) !important;
+}
+
+/* Tabs */
+html.dark-mode .tab,
+html.dark-mode .profile-tab {
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+html.dark-mode .tab.active,
+html.dark-mode .profile-tab.active {
+    color: var(--accent) !important;
+}
+
+/* Buttons */
+html.dark-mode .home-btn,
+html.dark-mode .edit-btn {
+    background: var(--accent) !important;
+    color: white !important;
+}
+
+html.dark-mode .message-btn,
+html.dark-mode .mark-all-read {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Scrollbar */
+html.dark-mode ::-webkit-scrollbar {
+    background: var(--bg-primary);
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+}
+
+/* Profile */
+html.dark-mode .profile-cover {
+    background: linear-gradient(135deg, #1877f2, #8b5cf6) !important;
+}
+
+html.dark-mode .profile-stats {
+    border-color: var(--border-color) !important;
+}
+
+/* Footer */
+html.dark-mode footer {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Notification item unread */
+html.dark-mode .notification-item.unread {
+    background: #1e3a5f !important;
+}
+
+/* Ad containers */
+html.dark-mode .ad-container > div:first-child,
+html.dark-mode .ad-box > h3 {
+    color: var(--text-secondary) !important;
+}
