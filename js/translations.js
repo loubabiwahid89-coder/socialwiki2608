@@ -664,7 +664,7 @@ const translations = {
     "please_login": "الرجاء تسجيل الدخول أولاً!",
     "already_joined_event": "لقد انضممت بالفعل لهذا الحدث!",
     "joined_event_success": "لقد انضممت للحدث!",
-}
+
     },
 
     // ==================== FRENCH ====================
