@@ -1083,13 +1083,19 @@ if (completed) {
             await loadHistory();
 
             if (currentUser) {
-                const { data } = await supabaseClient.rpc('daily_login_streak', {
-                    p_user_id: currentUser.id
-                });
-                if (data && !data.already_done) {
-                    console.log('🎁 Daily login bonus:', data.bonus, 'points');
-                    await loadBalance();
-                    await loadTasks();
+                try {
+                    const { data, error } = await supabaseClient.rpc('daily_login_streak', {
+                        p_user_id: currentUser.id
+                    });
+                    if (error) {
+                        console.warn('⚠️ daily_login_streak not available:', error.message);
+                    } else if (data && !data.already_done) {
+                        console.log('🎁 Daily login bonus:', data.bonus, 'points');
+                        await loadBalance();
+                        await loadTasks();
+                    }
+                } catch (e) {
+                    console.warn('⚠️ daily_login_streak skipped:', e.message);
                 }
             }
         });
