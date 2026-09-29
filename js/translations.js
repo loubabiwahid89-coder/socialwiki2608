@@ -656,6 +656,15 @@ const translations = {
         "you_have": "لديك",
         "you_need": "تحتاج",
         "missing": "ناقص",
+    "weekly_events": "🏆 الأحداث الأسبوعية",
+    "no_events": "لا توجد أحداث متاحة",
+    "reward": "المكافأة",
+    "join": "انضم",
+    "points": "نقاط",
+    "please_login": "الرجاء تسجيل الدخول أولاً!",
+    "already_joined_event": "لقد انضممت بالفعل لهذا الحدث!",
+    "joined_event_success": "لقد انضممت للحدث!",
+}
     },
 
     // ==================== FRENCH ====================
@@ -1287,7 +1296,16 @@ const translations = {
         "you_have": "Vous avez",
         "you_need": "Vous avez besoin de",
         "missing": "Manquant",
-    },
+    "weekly_events": "🏆 Événements Hebdomadaires",
+    "no_events": "Aucun événement disponible",
+    "reward": "Récompense",
+    "join": "Rejoindre",
+    "points": "Points",
+    "please_login": "Veuillez vous connecter d'abord!",
+    "already_joined_event": "Vous avez déjà rejoint cet événement!",
+    "joined_event_success": "Vous avez rejoint l'événement!",
+}
+    
         // ==================== ENGLISH ====================
     en: {
         "search_placeholder": "Search SocialWiki",
@@ -1923,7 +1941,16 @@ const translations = {
 "network_breakdown": "My Network (3 Levels)",
 "withdraw": "💳 Withdraw",
 "reset_daily": "(resets daily)",
-    },
+    "weekly_events": "🏆 Weekly Events",
+    "no_events": "No events available",
+    "reward": "Reward",
+    "join": "Join",
+    "points": "Points",
+    "please_login": "Please login first!",
+    "already_joined_event": "You have already joined this event!",
+    "joined_event_success": "You have joined the event!",
+}
+    
 
     // ==================== SPANISH ====================
     es: {
@@ -2560,7 +2587,16 @@ const translations = {
 "network_breakdown": "Mi red (3 niveles)",
 "withdraw": "💳 Retirar",
 "reset_daily": "(se reinicia cada día)",
-    },
+    "weekly_events": "🏆 Eventos Semanales",
+    "no_events": "No hay eventos disponibles",
+    "reward": "Recompensa",
+    "join": "Unirse",
+    "points": "Puntos",
+    "please_login": "¡Por favor inicia sesión primero!",
+    "already_joined_event": "¡Ya te has unido a este evento!",
+    "joined_event_success": "¡Te has unido al evento!",
+}
+    
 
     // ==================== GERMAN ====================
     de: {
@@ -3197,7 +3233,16 @@ const translations = {
 "network_breakdown": "Mein Netzwerk (3 Ebenen)",
 "withdraw": "💳 Auszahlen",
 "reset_daily": "(wird täglich zurückgesetzt)",
-    },
+    "weekly_events": "🏆 Wöchentliche Veranstaltungen",
+    "no_events": "Keine Veranstaltungen verfügbar",
+    "reward": "Belohnung",
+    "join": "Beitreten",
+    "points": "Punkte",
+    "please_login": "Bitte zuerst anmelden!",
+    "already_joined_event": "Du bist diesem Event bereits beigetreten!",
+    "joined_event_success": "Du bist dem Event beigetreten!",
+}
+    
         // ==================== ITALIAN ====================
     it: {
         "search_placeholder": "Cerca su SocialWiki",
@@ -3833,7 +3878,16 @@ const translations = {
 "network_breakdown": "La mia rete (3 livelli)",
 "withdraw": "💳 Preleva",
 "reset_daily": "(si azzera ogni giorno)",
-    },
+    "weekly_events": "🏆 Eventi Settimanali",
+    "no_events": "Nessun evento disponibile",
+    "reward": "Ricompensa",
+    "join": "Unisciti",
+    "points": "Punti",
+    "please_login": "Per favore accedi prima!",
+    "already_joined_event": "Hai già partecipato a questo evento!",
+    "joined_event_success": "Ti sei unito all'evento!",
+}
+    
 
     // ==================== CHINESE ====================
     zh: {
@@ -4470,7 +4524,16 @@ const translations = {
 "network_breakdown": "我的网络（3 级）",
 "withdraw": "💳 提现",
 "reset_daily": "（每天重置）",
-    },
+    "weekly_events": "🏆 每周活动",
+    "no_events": "暂无可用活动",
+    "reward": "奖励",
+    "join": "加入",
+    "points": "积分",
+    "please_login": "请先登录！",
+    "already_joined_event": "您已经加入此活动！",
+    "joined_event_success": "您已加入活动！",
+}
+    
 
     // ==================== JAPANESE ====================
     ja: {
@@ -5107,7 +5170,16 @@ const translations = {
 "network_breakdown": "マイネットワーク（3レベル）",
 "withdraw": "💳 出金",
 "reset_daily": "(毎日リセット)",
-    },
+    "weekly_events": "🏆 ウィークリーイベント",
+    "no_events": "利用可能なイベントはありません",
+    "reward": "報酬",
+    "join": "参加",
+    "points": "ポイント",
+    "please_login": " сначалаログインしてください！",
+    "already_joined_event": "すでにこのイベントに参加しています！",
+    "joined_event_success": "イベントに参加しました！",
+}
+    
 
     // ==================== KOREAN ====================
     ko: {
@@ -5744,7 +5816,16 @@ const translations = {
 "network_breakdown": "내 네트워크 (3 레벨)",
 "withdraw": "💳 출금",
 "reset_daily": "(매일 초기화)",
-    },
+    "weekly_events": "🏆 주간 이벤트",
+    "no_events": "사용 가능한 이벤트가 없습니다",
+    "reward": "보상",
+    "join": "참여",
+    "points": "포인트",
+    "please_login": "먼저 로그인하세요!",
+    "already_joined_event": "이미 이 이벤트에 참여했습니다!",
+    "joined_event_success": "이벤트에 참여했습니다!",
+}
+    
 
     // ==================== RUSSIAN ====================
     ru: {
@@ -6381,7 +6462,18 @@ const translations = {
 "network_breakdown": "Моя сеть (3 уровня)",
 "withdraw": "💳 Вывод",
 "reset_daily": "(сбрасывается ежедневно)",
-    },
+    "weekly_events": "🏆 Еженедельные события",
+    "no_events": "Нет доступных событий",
+    "reward": "Награда",
+    "join": "Присоединиться",
+    "points": "баллов",
+    "please_login": "Пожалуйста, войдите сначала!",
+    "already_joined_event": "Вы уже присоединились к этому событию!",
+    "joined_event_success": "Вы присоединились к событию!",
+}
+    
+
+
         // ==================== TURKISH ====================
     tr: {
         "search_placeholder": "SocialWiki'de ara",
@@ -7017,7 +7109,17 @@ const translations = {
 "network_breakdown": "Ağım (3 Seviye)",
 "withdraw": "💳 Çekim",
 "reset_daily": "(günlük sıfırlanır)",
-    },
+    "weekly_events": "🏆 Haftalık Etkinlikler",
+    "no_events": "Uygun etkinlik yok",
+    "reward": "Ödül",
+    "join": "Katıl",
+    "points": "Puan",
+    "please_login": "Lütfen önce giriş yapın!",
+    "already_joined_event": "Bu etkinliğe zaten katıldınız!",
+    "joined_event_success": "Etkinliğe katıldınız!",
+}
+
+    
 
     // ==================== HINDI ====================
     hi: {
@@ -7654,7 +7756,16 @@ const translations = {
 "network_breakdown": "मेरा नेटवर्क (3 स्तर)",
 "withdraw": "💳 निकासी",
 "reset_daily": "(प्रतिदिन रीसेट)",
-    },
+    "weekly_events": "🏆 साप्ताहिक कार्यक्रम",
+    "no_events": "कोई कार्यक्रम उपलब्ध नहीं",
+    "reward": "इनाम",
+    "join": "शामिल हों",
+    "points": "अंक",
+    "please_login": "कृपया पहले लॉगिन करें!",
+    "already_joined_event": "आप पहले ही इस कार्यक्रम में शामिल हो चुके हैं!",
+    "joined_event_success": "आप कार्यक्रम में शामिल हो गए!",
+}
+    
 
     // ==================== FILIPINO ====================
     fil: {
@@ -8291,7 +8402,16 @@ const translations = {
 "network_breakdown": "Aking Network (3 Levels)",
 "withdraw": "💳 Mag-withdraw",
 "reset_daily": "(nire-reset araw-araw)",
-    },
+    "weekly_events": "🏆 Lingguhang Mga Kaganapan",
+    "no_events": "Walang available na kaganapan",
+    "reward": "Gantimpala",
+    "join": "Sumali",
+    "points": "Puntos",
+    "please_login": "Mangyaring mag-login muna!",
+    "already_joined_event": "Sumali ka na sa kaganapang ito!",
+    "joined_event_success": "Sumali ka sa kaganapan!",
+}
+    
 
     // ==================== TAGALOG ====================
     tl: {
@@ -8929,8 +9049,17 @@ const translations = {
 "network_breakdown": "Aking Network (3 Antas)",
 "withdraw": "💳 Mag-withdraw",
 "reset_daily": "(nire-reset araw-araw)",
-    },
-};
+    "weekly_events": "🏆 Lingguhang Mga Kaganapan",
+    "no_events": "Walang available na kaganapan",
+    "reward": "Gantimpala",
+    "join": "Sumali",
+    "points": "Puntos",
+    "please_login": "Mangyaring mag-login muna!",
+    "already_joined_event": "Sumali ka na sa kaganapang ito!",
+    "joined_event_success": "Sumali ka sa kaganapan!",
+}
+    
+
 
 // =========================================================
 // TRANSLATION HELPER FUNCTIONS
