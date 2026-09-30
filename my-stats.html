@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki</title>
+    <title>SocialWiki - Stats</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      <script src="js/translations.js"></script> <!-- ملف الترجمات -->
     <style>
         * { box-sizing: border-box; }
         body {
@@ -28,6 +29,50 @@
         .navbar a { color: white; text-decoration: none; font-size: 20px; }
         .logo { font-weight: 800; font-size: 22px; }
 
+        /* زر اللغة */
+        .lang-wrapper { position: relative; }
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lang-btn:hover { background: rgba(255,255,255,0.3); }
+        .lang-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 180px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 2000;
+        }
+        .lang-menu.show { display: block; }
+        .lang-menu button {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            background: white;
+            text-align: start;
+            cursor: pointer;
+            font-size: 14px;
+            color: #050505;
+        }
+        .lang-menu button:hover { background: #f0f2f5; }
+        .lang-menu button.active { background: #e7f3ff; color: #1877f2; font-weight: 700; }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -42,14 +87,8 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .stats-header h1 {
-            margin: 0 0 10px;
-            font-size: 28px;
-        }
-        .stats-header p {
-            margin: 0;
-            opacity: 0.9;
-        }
+        .stats-header h1 { margin: 0 0 10px; font-size: 28px; }
+        .stats-header p { margin: 0; opacity: 0.9; }
 
         .stat-grid {
             display: grid;
@@ -66,13 +105,8 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.2s;
         }
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
-        .stat-card .icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-card .icon { font-size: 40px; margin-bottom: 10px; }
         .stat-card .value {
             font-size: 32px;
             font-weight: 800;
@@ -121,9 +155,7 @@
             font-weight: 800;
             color: #28a745;
         }
-        .earning-row .amount.zero {
-            color: #65676b;
-        }
+        .earning-row .amount.zero { color: #65676b; }
 
         .cta-box {
             background: linear-gradient(135deg, #ffd700, #f7b928);
@@ -132,15 +164,8 @@
             text-align: center;
             margin-top: 20px;
         }
-        .cta-box h3 {
-            margin: 0 0 10px;
-            color: #333;
-        }
-        .cta-box p {
-            margin: 0 0 15px;
-            color: #333;
-            font-size: 14px;
-        }
+        .cta-box h3 { margin: 0 0 10px; color: #333; }
+        .cta-box p { margin: 0 0 15px; color: #333; font-size: 14px; }
         .cta-box a {
             display: inline-block;
             background: #1877f2;
@@ -151,39 +176,60 @@
             font-weight: 700;
         }
 
-        .empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: #65676b;
-        }
-        .empty-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
+        .empty { text-align: center; padding: 60px 20px; color: #65676b; }
+        .empty-icon { font-size: 60px; margin-bottom: 15px; }
+
+        /* قائمة اللغات */
+        .languages-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     </style>
 </head>
 <body>
 
 <nav class="navbar">
     <a href="index.html" class="logo">📘 SocialWiki</a>
-    <a href="index.html">🏠</a>
+    <div style="display:flex; align-items:center; gap:12px;">
+        <!-- زر اللغة -->
+        <div class="lang-wrapper">
+            <button class="lang-btn" id="languageButton" onclick="toggleLanguageMenu()">
+                🌐 <span data-i18n="language_label">العربية</span>
+            </button>
+            <div class="lang-menu" id="languageMenu">
+                <button onclick="changeLanguage('ar')" data-lang="ar">🇸🇦 العربية</button>
+                <button onclick="changeLanguage('en')" data-lang="en">🇬🇧 English</button>
+                <button onclick="changeLanguage('fr')" data-lang="fr">🇫🇷 Français</button>
+                <button onclick="changeLanguage('es')" data-lang="es">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')" data-lang="de">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')" data-lang="it">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('ja')" data-lang="ja">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('zh')" data-lang="zh">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ko')" data-lang="ko">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')" data-lang="ru">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')" data-lang="tr">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')" data-lang="hi">🇮🇳 हिन्दी</button>
+                <button onclick="changeLanguage('fil')" data-lang="fil">🇵🇭 Filipino</button>
+                <button onclick="changeLanguage('tl')" data-lang="tl">🇵🇭 Tagalog</button>
+            </div>
+        </div>
+        <a href="index.html">🏠</a>
+    </div>
 </nav>
 
 <div class="container">
     <div class="stats-header">
-        <h1>📊 إحصائياتي</h1>
-        <p>شوف أداءك وأرباحك على SocialWiki</p>
+        <h1 data-i18n="stats_title">📊 إحصائياتي</h1>
+        <p data-i18n="stats_subtitle">شوف أداءك وأرباحك على SocialWiki</p>
     </div>
 
     <div id="statsContent">
         <div class="empty">
             <div class="empty-icon">⏳</div>
-            <p>جاري التحميل...</p>
+            <p data-i18n="loading_data">جاري التحميل...</p>
         </div>
     </div>
 </div>
 
 <script>
+    // ============ Supabase ============
     if (!window.supabaseClient) {
         window.supabaseClient = window.supabase.createClient(
             "https://zcffrkvxmxvojkbmtufe.supabase.co",
@@ -191,9 +237,9 @@
         );
     }
     const sb = window.supabaseClient;
-
     const POINT_VALUE = 0.001;
 
+    // ============ تحميل الإحصائيات ============
     async function loadStats() {
         const container = document.getElementById('statsContent');
         try {
@@ -203,14 +249,14 @@
                 return;
             }
 
-            // جلب الإحصائيات
             const { data, error } = await sb.rpc('get_user_stats', {
                 p_user_id: user.id
             });
 
             if (error) {
                 console.error('Error:', error);
-                container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>خطأ في التحميل</p></div>`;
+                container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p data-i18n="error_loading">خطأ في التحميل</p></div>`;
+                if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
                 return;
             }
 
@@ -221,51 +267,51 @@
                     <div class="stat-card">
                         <div class="icon">📝</div>
                         <div class="value">${(s.total_posts || 0).toLocaleString()}</div>
-                        <div class="label">إجمالي المنشورات</div>
+                        <div class="label" data-i18n="total_posts">إجمالي المنشورات</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">👁️</div>
                         <div class="value">${(s.total_views || 0).toLocaleString()}</div>
-                        <div class="label">إجمالي المشاهدات</div>
+                        <div class="label" data-i18n="total_views">إجمالي المشاهدات</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">💰</div>
                         <div class="value">$${parseFloat(s.total_dollars || 0).toFixed(2)}</div>
-                        <div class="label">إجمالي الأرباح</div>
+                        <div class="label" data-i18n="total_earnings">إجمالي الأرباح</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">🎯</div>
                         <div class="value">${(s.total_points || 0).toLocaleString()}</div>
-                        <div class="label">إجمالي النقاط</div>
+                        <div class="label" data-i18n="total_points">إجمالي النقاط</div>
                     </div>
                 </div>
 
                 <div class="earnings-breakdown">
-                    <h3>💵 تفاصيل الأرباح</h3>
-                    
+                    <h3 data-i18n="earnings_breakdown">💵 تفاصيل الأرباح</h3>
+
                     <div class="earning-row">
-                        <div class="label">👁️ من المشاهدات</div>
+                        <div class="label" data-i18n="earnings_from_views">👁️ من المشاهدات</div>
                         <div class="amount ${(s.earnings_from_views || 0) > 0 ? '' : 'zero'}">
                             $${parseFloat(s.earnings_from_views || 0).toFixed(2)}
                         </div>
                     </div>
-                    
+
                     <div class="earning-row">
-                        <div class="label">🎯 من المهام</div>
+                        <div class="label" data-i18n="earnings_from_tasks">🎯 من المهام</div>
                         <div class="amount ${(s.earnings_from_tasks || 0) > 0 ? '' : 'zero'}">
                             $${parseFloat(s.earnings_from_tasks || 0).toFixed(2)}
                         </div>
                     </div>
-                    
+
                     <div class="earning-row">
-                        <div class="label">👥 من الإحالات</div>
+                        <div class="label" data-i18n="earnings_from_referrals">👥 من الإحالات</div>
                         <div class="amount ${(s.earnings_from_referrals || 0) > 0 ? '' : 'zero'}">
                             $${parseFloat(s.earnings_from_referrals || 0).toFixed(2)}
                         </div>
                     </div>
-                    
+
                     <div class="earning-row" style="background: #e7f7e7; border: 2px solid #28a745;">
-                        <div class="label">✅ الإجمالي</div>
+                        <div class="label" data-i18n="total_label">✅ الإجمالي</div>
                         <div class="amount" style="font-size: 22px;">
                             $${parseFloat(s.total_dollars || 0).toFixed(2)}
                         </div>
@@ -273,18 +319,76 @@
                 </div>
 
                 <div class="cta-box">
-                    <h3>🚀 عايز تكسب أكثر؟</h3>
-                    <p>انشر محتوى أكثر، ادعُ أصدقاءك، واكمل المهام اليومية!</p>
-                    <a href="earnings.html">💰 روح للأرباح</a>
+                    <h3 data-i18n="want_earn_more">🚀 عايز تكسب أكثر؟</h3>
+                    <p data-i18n="earn_more_desc">انشر محتوى أكثر، ادعُ أصدقاءك، واكمل المهام اليومية!</p>
+                    <a href="earnings.html" data-i18n="go_to_earnings">💰 روح للأرباح</a>
                 </div>
             `;
+
+            // إعادة تطبيق الترجمات على المحتوى الجديد
+            if (typeof setLanguage === 'function') {
+                setLanguage(getCurrentLanguage());
+            }
+
+            // تحديث زر اللغة النشط
+            updateActiveLangButton();
+
         } catch (err) {
             console.error('Error:', err);
-            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>حدث خطأ</p></div>`;
+            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p data-i18n="error_occurred">حدث خطأ</p></div>`;
+            if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
         }
     }
 
-    document.addEventListener('DOMContentLoaded', loadStats);
+    // ============ تمييز اللغة النشطة ============
+    function updateActiveLangButton() {
+        const current = typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'ar';
+        document.querySelectorAll('.lang-menu button').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === current);
+        });
+    }
+
+    // ============ إغلاق القائمة عند الضغط خارجها ============
+    window.addEventListener('click', function (e) {
+        const menu = document.getElementById('languageMenu');
+        const btn = document.getElementById('languageButton');
+        if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+
+    // ============ إعادة رسم عند تغيير اللغة ============
+    window.addEventListener('languageChanged', function () {
+        updateActiveLangButton();
+    });
+
+    // ============ البدء ============
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof initLanguage === 'function') initLanguage();
+        updateActiveLangButton();
+        loadStats();
+    });
+
+        // =========================================================
+    // LANGUAGE MENU HELPERS (fallback إذا لم توجد في translations.js)
+    // =========================================================
+    if (typeof toggleLanguageMenu !== 'function') {
+        window.toggleLanguageMenu = function() {
+            var menu = document.getElementById('languageMenu');
+            if (!menu) return;
+            menu.classList.toggle('show');
+        };
+    }
+
+    if (typeof changeLanguage !== 'function') {
+        window.changeLanguage = function(lang) {
+            if (typeof setLanguage === 'function') {
+                setLanguage(lang);
+            }
+            var menu = document.getElementById('languageMenu');
+            if (menu) menu.classList.remove('show');
+        };
+    }
 </script>
 
 </body>
