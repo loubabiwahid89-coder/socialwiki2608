@@ -1,1 +1,846 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="rewards_title">Rewards Shop - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=20261001"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #050505;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 22px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .language-btn { background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 18px; padding: 8px 12px; border-radius: 50%; }
+        .language-menu { display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto; }
+        .language-menu.show { display: block; }
+        .language-menu button { width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: start; font-size: 14px; }
+        .language-menu button:hover { background: #f0f2f5; }
+
+        /* ========== HERO ========== */
+        .rewards-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .rewards-hero {
+            background: linear-gradient(135deg, #8b5cf6, #1877f2);
+            border-radius: 16px;
+            padding: 30px 25px;
+            color: white;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .rewards-hero h1 { margin: 0 0 8px; font-size: 30px; }
+        .rewards-hero p { margin: 0 0 20px; opacity: 0.9; font-size: 15px; }
+
+        /* ========== BALANCE CARDS ========== */
+        .balance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .balance-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
+        .balance-card.gift { border-color: #ffd700; background: linear-gradient(135deg, #fffef5, #fff8e1); }
+        .balance-card.real { border-color: #28a745; background: linear-gradient(135deg, #f0fff4, #e7f7e7); }
+        .balance-card.stars { border-color: #8b5cf6; background: linear-gradient(135deg, #faf5ff, #f3e8ff); }
+
+        .balance-card .icon { font-size: 36px; margin-bottom: 8px; }
+        .balance-card .value { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+        .balance-card.gift .value { color: #d97706; }
+        .balance-card.real .value { color: #28a745; }
+        .balance-card.stars .value { color: #8b5cf6; }
+        .balance-card .label { font-size: 13px; color: #65676b; font-weight: 600; }
+
+        /* ========== TABS ========== */
+        .rewards-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e4e6eb;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+        .reward-tab {
+            padding: 14px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #65676b;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .reward-tab:hover { color: #1877f2; }
+        .reward-tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+
+        /* ========== SECTIONS ========== */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .section-title {
+            margin: 25px 0 15px;
+            font-size: 18px;
+            color: #050505;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-subtitle {
+            margin: 0 0 20px;
+            color: #65676b;
+            font-size: 14px;
+        }
+
+        /* ========== GRID ========== */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .reward-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+            overflow: hidden;
+        }
+        .reward-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            border-color: #1877f2;
+        }
+
+        .reward-card.owned { border-color: #28a745; background: #f0fff4; }
+        .reward-card.owned::after {
+            content: '✅ Owned';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        .reward-card.locked { opacity: 0.65; }
+
+        .reward-icon {
+            font-size: 55px;
+            margin-bottom: 12px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+        .reward-name {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: #050505;
+        }
+        .reward-desc {
+            font-size: 12px;
+            color: #65676b;
+            margin-bottom: 12px;
+            min-height: 32px;
+            line-height: 1.4;
+        }
+        .reward-cost {
+            font-size: 15px;
+            color: #d97706;
+            font-weight: 700;
+            padding: 6px 14px;
+            background: #fff8e1;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .reward-cost.cant-afford { background: #ffe5e5; color: #dc3545; }
+
+        .reward-badge-rarity {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .rarity-common { background: #e4e6eb; color: #65676b; }
+        .rarity-rare { background: #cce5ff; color: #0056b3; }
+        .rarity-epic { background: #e6d5ff; color: #6f42c1; }
+        .rarity-legendary { background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .modal-overlay.show { display: flex; }
+
+        .modal-box {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            animation: modalIn 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-icon { font-size: 70px; margin-bottom: 15px; }
+        .modal-title { font-size: 22px; font-weight: 800; margin: 0 0 10px; }
+        .modal-subtitle { font-size: 14px; color: #65676b; margin: 0 0 20px; line-height: 1.5; }
+        .modal-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #d97706;
+            padding: 15px;
+            background: #fff8e1;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .modal-price .sub { font-size: 13px; color: #65676b; font-weight: 500; display: block; margin-top: 4px; }
+
+        .modal-actions { display: flex; gap: 10px; }
+        .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        .btn-cancel { background: #e4e6eb; color: #050505; }
+        .btn-cancel:hover { background: #d0d2d6; }
+        .btn-buy {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+        }
+        .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(40,167,69,0.5); }
+        .btn-buy:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* ========== NOTIFICATION ========== */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 700;
+            z-index: 999999;
+            box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+            animation: toastIn 0.4s ease;
+            max-width: 350px;
+        }
+        .toast.error { background: linear-gradient(135deg, #dc3545, #c82333); box-shadow: 0 6px 20px rgba(220,53,69,0.4); }
+        .toast.info { background: linear-gradient(135deg, #1877f2, #0d5bbd); box-shadow: 0 6px 20px rgba(24,119,242,0.4); }
+        @keyframes toastIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* ========== EMPTY ========== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+            background: white;
+            border-radius: 14px;
+        }
+        .empty-icon { font-size: 60px; margin-bottom: 15px; }
+
+        /* ========== LOADING ========== */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #65676b;
+        }
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e4e6eb;
+            border-top-color: #1877f2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 700px) {
+            .rewards-hero h1 { font-size: 22px; }
+            .balance-grid { grid-template-columns: 1fr; }
+            .rewards-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .reward-card { padding: 18px 12px; }
+            .reward-icon { font-size: 40px; }
+            .reward-name { font-size: 14px; }
+            .modal-box { padding: 20px; }
+        }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="index.html" class="logo">📘 SocialWiki</a>
+    </div>
+    <ul class="nav-icons">
+        <li><a href="index.html" title="Home">🏠</a></li>
+        <li><a href="friends.html" title="Friends">👥</a></li>
+        <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+        <li><a href="events.html" title="Events">📅</a></li>
+        <li><a href="notifications.html" title="Notifications">🔔</a></li>
+    </ul>
+    <div class="nav-right">
+        <a href="profile.html" class="nav-profile">
+            <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+            <span id="navProfileName">User</span>
+        </a>
+        <div style="position: relative;">
+            <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+            <div class="language-menu" id="languageMenu">
+                <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+                <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+            </div>
+        </div>
+        <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+</nav>
+
+<!-- ========== CONTAINER ========== -->
+<div class="rewards-container">
+
+    <!-- HERO -->
+    <div class="rewards-hero">
+        <h1 data-i18n="rewards_title">🎁 Rewards Shop</h1>
+        <p data-i18n="rewards_subtitle">Buy badges, frames, and boosts with your points</p>
+    </div>
+
+    <!-- BALANCE CARDS -->
+    <div class="balance-grid">
+        <div class="balance-card gift">
+            <div class="icon">🎁</div>
+            <div class="value" id="giftPoints">0</div>
+            <div class="label" data-i18n="gift_points">Gift Points (Shop)</div>
+        </div>
+        <div class="balance-card real">
+            <div class="icon">💰</div>
+            <div class="value" id="realPoints">0</div>
+            <div class="label" data-i18n="real_points">Real Points</div>
+        </div>
+        <div class="balance-card stars">
+            <div class="icon">⭐</div>
+            <div class="value" id="starsBalance">0</div>
+            <div class="label" data-i18n="stars_balance">Stars</div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="rewards-tabs">
+        <button class="reward-tab active" onclick="switchRewardTab('badges', this)" data-i18n="tab_badges">
+            🎖️ Badges
+        </button>
+        <button class="reward-tab" onclick="switchRewardTab('frames', this)" data-i18n="tab_frames">
+            🖼️ Frames
+        </button>
+        <button class="reward-tab" onclick="switchRewardTab('boost', this)" data-i18n="tab_boost">
+            🚀 Boost
+        </button>
+    </div>
+
+    <!-- TAB: BADGES -->
+    <div id="badgesTab" class="tab-content active">
+        <h2 class="section-title">🎖️ <span data-i18n="badges_title">Badges</span></h2>
+        <p class="section-subtitle" data-i18n="badges_desc">Buy badges to show on your profile</p>
+        <div class="rewards-grid" id="badgesGrid"></div>
+    </div>
+
+    <!-- TAB: FRAMES -->
+    <div id="framesTab" class="tab-content">
+        <h2 class="section-title">🖼️ <span data-i18n="frames_title">Avatar Frames</span></h2>
+        <p class="section-subtitle" data-i18n="frames_desc">Decorate your profile picture with unique frames</p>
+        <div class="rewards-grid" id="framesGrid"></div>
+    </div>
+
+    <!-- TAB: BOOST -->
+    <div id="boostTab" class="tab-content">
+        <h2 class="section-title">🚀 <span data-i18n="boost_title">Boost Posts</span></h2>
+        <p class="section-subtitle" data-i18n="boost_desc">Promote your posts to reach more people</p>
+        <div class="rewards-grid" id="boostGrid"></div>
+    </div>
+
+</div>
+
+<!-- ========== MODAL ========== -->
+<div class="modal-overlay" id="buyModal">
+    <div class="modal-box">
+        <div class="modal-icon" id="modalIcon">🎁</div>
+        <h2 class="modal-title" id="modalTitle" data-i18n="confirm_buy">Confirm Purchase</h2>
+        <p class="modal-subtitle" id="modalSubtitle"></p>
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeBuyModal()" data-i18n="cancel">Cancel</button>
+            <button class="btn-buy" id="buyBtn" onclick="confirmBuy()" data-i18n="buy_now">✅ Buy Now</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+    // ============ SUPABASE ============
+    if (!window.supabaseClient) {
+        window.supabaseClient = window.supabase.createClient(
+            "https://zcffrkvxmxvojkbmtufe.supabase.co",
+            "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
+        );
+    }
+    const sb = window.supabaseClient;
+
+    let currentUser = null;
+    let userBalance = { gift_points: 0, real_points: 0, stars_balance: 0 };
+    let ownedItems = []; // IDs of purchased items
+    let activeFrame = null;
+    let selectedItem = null;
+
+    // ============ ITEM CATALOG ============
+    const BADGES = [
+        { id: 'badge_bronze',  icon: '🥉', name: 'Bronze Badge',  cost: 5000,   rarity: 'common',    desc: 'A starter badge for newcomers' },
+        { id: 'badge_silver',  icon: '🥈', name: 'Silver Badge',  cost: 25000,  rarity: 'common',    desc: 'Show your progress with silver' },
+        { id: 'badge_gold',    icon: '🥇', name: 'Gold Badge',    cost: 100000, rarity: 'rare',      desc: 'Premium gold badge for active users' },
+        { id: 'badge_vip',     icon: '👑', name: 'VIP Badge',     cost: 250000, rarity: 'epic',      desc: 'Exclusive VIP badge with golden glow' },
+        { id: 'badge_verified',icon: '✅', name: 'Verified Badge',cost: 1000000,rarity: 'legendary', desc: 'The most prestigious verified badge' }
+    ];
+
+    const FRAMES = [
+        { id: 'frame_bronze',  icon: '🥉', name: 'Bronze Frame',  cost: 5000,   rarity: 'common',    desc: 'Simple bronze avatar frame' },
+        { id: 'frame_silver',  icon: '🥈', name: 'Silver Frame',  cost: 25000,  rarity: 'common',    desc: 'Elegant silver avatar frame' },
+        { id: 'frame_gold',    icon: '🥇', name: 'Gold Frame',    cost: 100000, rarity: 'rare',      desc: 'Shiny gold frame with pulse effect' },
+        { id: 'frame_fire',    icon: '🔥', name: 'Fire Frame',    cost: 200000, rarity: 'epic',      desc: 'Blazing fire effect around your avatar' },
+        { id: 'frame_rainbow', icon: '🌈', name: 'Rainbow Frame', cost: 300000, rarity: 'epic',      desc: 'Colorful rainbow rotating frame' },
+        { id: 'frame_diamond', icon: '💎', name: 'Diamond Frame', cost: 500000, rarity: 'legendary', desc: 'Rotating diamond frame with shine' },
+        { id: 'frame_royal',   icon: '👑', name: 'Royal Frame',   cost: 1000000,rarity: 'legendary', desc: 'The ultimate royal golden frame' }
+    ];
+
+    const BOOSTS = [
+        { id: 'boost_1h',    icon: '⚡', name: 'Boost 1 Hour',  cost: 5000,   rarity: 'common',    desc: 'Boost your post for 1 hour' },
+        { id: 'boost_24h',   icon: '🚀', name: 'Boost 24 Hours',cost: 20000,  rarity: 'common',    desc: 'Boost your post for a full day' },
+        { id: 'boost_7d',    icon: '🌟', name: 'Boost 7 Days',  cost: 100000, rarity: 'rare',      desc: 'Boost your post for a week' },
+        { id: 'boost_home',  icon: '🏠', name: 'Home Feature',  cost: 500000, rarity: 'legendary', desc: 'Featured on homepage for 24h' }
+    ];
+
+    // ============ LOGOUT ============
+    window.logout = async function() {
+        await sb.auth.signOut();
+        window.location.href = 'auth.html';
+    };
+
+    // ============ LOAD USER ============
+    async function loadUser() {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) { window.location.href = 'auth.html'; return null; }
+        currentUser = user;
+
+        const { data: profile } = await sb
+            .from('profiles')
+            .select('username, full_name, avatar_url')
+            .eq('id', user.id)
+            .single();
+
+        const name = profile?.full_name || profile?.username || 'User';
+        const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+        const nEl = document.getElementById('navProfileName');
+        if (nEl) nEl.textContent = name;
+
+        const iEl = document.getElementById('navProfileImg');
+        if (iEl) iEl.src = avatar;
+
+        return user;
+    }
+
+    // ============ LOAD BALANCE ============
+    async function loadBalance() {
+        if (!currentUser) return;
+
+        const { data: bal } = await sb
+            .from('user_balances')
+            .select('gift_points, real_points, stars_balance, available_points')
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+
+        if (!bal) {
+            userBalance = { gift_points: 0, real_points: 0, stars_balance: 0 };
+        } else {
+            // ✅ fallback: لو gift_points صفر، استخدم available_points
+            const gift = bal.gift_points > 0 ? bal.gift_points : (bal.available_points || 0);
+            userBalance = {
+                gift_points: gift,
+                real_points: bal.real_points || 0,
+                stars_balance: bal.stars_balance || 0
+            };
+        }
+
+        document.getElementById('giftPoints').textContent = userBalance.gift_points.toLocaleString();
+        document.getElementById('realPoints').textContent = userBalance.real_points.toLocaleString();
+        document.getElementById('starsBalance').textContent = userBalance.stars_balance.toLocaleString();
+    }
+
+    // ============ LOAD OWNED ITEMS ============
+    async function loadOwnedItems() {
+        if (!currentUser) return;
+
+        // من user_active_items (الإطار والشارة المفعلين)
+        const { data: active } = await sb
+            .from('user_active_items')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+
+        if (active) {
+            activeFrame = active.active_frame;
+        }
+
+        // من shop_orders (كل المشتريات)
+        const { data: orders } = await sb
+            .from('shop_orders')
+            .select('item_key')
+            .eq('user_id', currentUser.id);
+
+        ownedItems = (orders || []).map(o => o.item_key);
+    }
+
+    // ============ RENDER CATALOG ============
+    function renderItems(items, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        items.forEach(item => {
+            const owned = ownedItems.includes(item.id);
+            const canAfford = userBalance.gift_points >= item.cost;
+
+            const card = document.createElement('div');
+            card.className = 'reward-card';
+            if (owned) card.classList.add('owned');
+            if (!canAfford && !owned) card.classList.add('locked');
+
+            card.onclick = () => openBuyModal(item);
+
+            card.innerHTML = `
+                <span class="reward-badge-rarity rarity-${item.rarity}">${item.rarity}</span>
+                <span class="reward-icon">${item.icon}</span>
+                <div class="reward-name">${item.name}</div>
+                <div class="reward-desc">${item.desc}</div>
+                <div class="reward-cost ${canAfford ? '' : 'cant-afford'}">
+                    ${item.cost.toLocaleString()} 🎁
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    }
+
+    function renderAll() {
+        renderItems(BADGES, 'badgesGrid');
+        renderItems(FRAMES, 'framesGrid');
+        renderItems(BOOSTS, 'boostGrid');
+    }
+
+    // ============ TABS ============
+    window.switchRewardTab = function(tab, btn) {
+        document.querySelectorAll('.reward-tab').forEach(t => t.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        const target = document.getElementById(tab + 'Tab');
+        if (target) target.classList.add('active');
+    };
+
+    // ============ BUY MODAL ============
+    window.openBuyModal = function(item) {
+        selectedItem = item;
+
+        const owned = ownedItems.includes(item.id);
+        if (owned) {
+            showToast('✅ You already own this item!', 'info');
+            return;
+        }
+
+        if (userBalance.gift_points < item.cost) {
+            const missing = item.cost - userBalance.gift_points;
+            showToast(`❌ Not enough points! You need ${missing.toLocaleString()} more.`, 'error');
+            return;
+        }
+
+        document.getElementById('modalIcon').textContent = item.icon;
+        document.getElementById('modalTitle').textContent = item.name;
+        document.getElementById('modalSubtitle').textContent = item.desc;
+        document.getElementById('modalPrice').innerHTML = `
+            ${item.cost.toLocaleString()} 🎁
+            <span class="sub">From your Gift Points (${userBalance.gift_points.toLocaleString()} available)</span>
+        `;
+
+        document.getElementById('buyModal').classList.add('show');
+    };
+
+    window.closeBuyModal = function() {
+        document.getElementById('buyModal').classList.remove('show');
+        selectedItem = null;
+    };
+
+    // ============ CONFIRM BUY ============
+    window.confirmBuy = async function() {
+        if (!selectedItem || !currentUser) return;
+
+        const btn = document.getElementById('buyBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Processing...';
+
+        try {
+            // 1. تحقق من الرصيد
+            if (userBalance.gift_points < selectedItem.cost) {
+                throw new Error('Insufficient points');
+            }
+
+            // 2. خصم من الرصيد (نستخدم real_points لأنها موجودة)
+            const newAvailable = (userBalance.gift_points || 0) - selectedItem.cost;
+
+            // ✅ جرب gift_points أولاً، وإلا available_points
+            const { data: bal } = await sb
+                .from('user_balances')
+                .select('gift_points, real_points, available_points')
+                .eq('user_id', currentUser.id)
+                .single();
+
+            let updateData = {};
+            if (bal?.gift_points > 0) {
+                updateData.gift_points = bal.gift_points - selectedItem.cost;
+                updateData.available_points = Math.max(0, (bal.available_points || 0) - selectedItem.cost);
+            } else {
+                updateData.available_points = Math.max(0, (bal?.available_points || 0) - selectedItem.cost);
+                updateData.real_points = Math.max(0, (bal?.real_points || 0) - selectedItem.cost);
+            }
+
+            const { error: deductError } = await sb
+                .from('user_balances')
+                .update(updateData)
+                .eq('user_id', currentUser.id);
+
+            if (deductError) throw deductError;
+
+            // 3. تسجيل الطلب
+            const { error: orderError } = await sb
+                .from('shop_orders')
+                .insert({
+                    user_id: currentUser.id,
+                    item_key: selectedItem.id,
+                    item_type: selectedItem.id.split('_')[0], // badge/frame/boost
+                    item_name: selectedItem.name,
+                    item_icon: selectedItem.icon,
+                    cost_points: selectedItem.cost,
+                    points_type: 'gift',
+                    status: 'completed'
+                });
+
+            if (orderError) console.warn('Order log error:', orderError);
+
+            // 4. تطبيق المكافأة
+            await applyReward(selectedItem);
+
+            // 5. تحديث الواجهة
+            ownedItems.push(selectedItem.id);
+            await loadBalance();
+            await loadOwnedItems();
+            renderAll();
+
+            closeBuyModal();
+            showToast(`🎉 ${selectedItem.name} unlocked!`, 'success');
+
+        } catch (error) {
+            console.error('Buy error:', error);
+            showToast('❌ ' + (error.message || 'Purchase failed'), 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '✅ Buy Now';
+        }
+    };
+
+    // ============ APPLY REWARD ============
+    async function applyReward(item) {
+        const type = item.id.split('_')[0];
+
+        if (type === 'badge') {
+            const badgeKey = item.id.replace('badge_', '');
+            // احفظ في user_active_items
+            await upsertActiveItems({ active_badge: badgeKey });
+            // أضف في profiles.badges
+            const { data: profile } = await sb
+                .from('profiles')
+                .select('badges')
+                .eq('id', currentUser.id)
+                .single();
+
+            const badges = profile?.badges || [];
+            const exists = badges.some(b => b.id === item.id);
+            if (!exists) {
+                badges.push({
+                    id: item.id,
+                    type: badgeKey,
+                    icon: item.icon,
+                    name: item.name,
+                    purchased_at: new Date().toISOString()
+                });
+                await sb.from('profiles').update({ badges }).eq('id', currentUser.id);
+            }
+        }
+        else if (type === 'frame') {
+            const frameKey = item.id.replace('frame_', '');
+            await upsertActiveItems({ active_frame: frameKey });
+        }
+        else if (type === 'boost') {
+            // احفظ boost_expires_at
+            const durations = { '1h': 1, '24h': 24, '7d': 168, 'home': 24 };
+            const hours = durations[item.id.replace('boost_', '')] || 1;
+            const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000);
+
+            await sb.from('profiles')
+                .update({ boost_expires_at: expiresAt.toISOString() })
+                .eq('id', currentUser.id);
+        }
+    }
+
+    async function upsertActiveItems(data) {
+        const { data: existing } = await sb
+            .from('user_active_items')
+            .select('user_id')
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+
+        if (existing) {
+            await sb.from('user_active_items')
+                .update({ ...data, updated_at: new Date().toISOString() })
+                .eq('user_id', currentUser.id);
+        } else {
+            await sb.from('user_active_items')
+                .insert({ user_id: currentUser.id, ...data });
+        }
+    }
+
+    // ============ TOAST ============
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = 'toast ' + type;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(400px)';
+            toast.style.transition = '0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // ============ LANGUAGE MENU ============
+    window.toggleLanguageMenu = function() {
+        const menu = document.getElementById('languageMenu');
+        if (menu) menu.classList.toggle('show');
+    };
+
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('languageMenu');
+        const btn = e.target.closest('.language-btn');
+        if (menu && !btn && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+
+    // ============ INIT ============
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('🎁 rewards.html loaded');
+
+        if (typeof initLanguage === 'function') initLanguage();
+
+        await loadUser();
+        await loadBalance();
+        await loadOwnedItems();
+        renderAll();
+    });
+</script>
+
+<script src="js/messenger-notify.js"></script>
+<script src="js/dark-mode.js"></script>
+
+</body>
+</html>
