@@ -1301,8 +1301,11 @@ const translations = {
     "points": "Points",
     "please_login": "Veuillez vous connecter d'abord!",
     "already_joined_event": "Vous avez déjà rejoint cet événement!",
-"joined_event_success": "لقد انضممت للحدث!",
+"joined_event_success": "Vous avez rejoint l'événement!",
     },
+
+    // ==================== ENGLISH ====================
+    en: {
         "search_placeholder": "Search SocialWiki",
         "home": "Home",
         "friends": "Friends",
