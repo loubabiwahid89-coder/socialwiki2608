@@ -8407,7 +8407,8 @@ const translations = {
     "please_login": "Mangyaring mag-login muna!",
     "already_joined_event": "Sumali ka na sa kaganapang ito!",
     "joined_event_success": "Sumali ka sa kaganapan!",
-},
+    }
+};                    ← ✅ إغلاق صحيح للكائن translations
     
 
     // ==================== TAGALOG ====================
@@ -9054,7 +9055,8 @@ const translations = {
     "please_login": "Mangyaring mag-login muna!",
     "already_joined_event": "Sumali ka na sa kaganapang ito!",
     "joined_event_success": "Sumali ka sa kaganapan!",
-},
+    }
+};                    ← ✅ إغلاق صحيح للكائن translations
 
     
 
