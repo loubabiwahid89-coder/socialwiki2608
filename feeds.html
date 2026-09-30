@@ -1,1 +1,831 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="feeds_title">Feeds - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=20261001"></script>
+    <script src="js/tasks-helper.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #050505;
+        }
+
+        /* ========== NAVBAR (من index) ========== */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: 800;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo-img { width: 32px; height: 32px; border-radius: 50%; }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .nav-icons a:hover, .nav-icons a.active { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .logout-button:hover { background: rgba(255,255,255,0.3); }
+
+        /* Language selector */
+        .language-selector { position: relative; }
+        .language-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 50%;
+        }
+        .language-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            min-width: 180px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .language-menu.show { display: block; }
+        .language-menu button {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            text-align: start;
+            font-size: 14px;
+        }
+        .language-menu button:hover { background: #f0f2f5; }
+
+        /* ========== CONTAINER ========== */
+        .feeds-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ========== HERO ========== */
+        .feeds-hero {
+            background: linear-gradient(135deg, #1877f2, #8b5cf6);
+            border-radius: 16px;
+            padding: 25px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .feeds-hero h1 { margin: 0 0 8px; font-size: 26px; }
+        .feeds-hero p { margin: 0; opacity: 0.9; font-size: 15px; }
+
+        /* ========== TABS ========== */
+        .feeds-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            gap: 5px;
+        }
+        .feed-tab {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #65676b;
+            transition: 0.2s;
+        }
+        .feed-tab:hover { background: #f0f2f5; }
+        .feed-tab.active {
+            background: #1877f2;
+            color: white;
+        }
+
+        /* ========== REFERRAL BANNER ========== */
+        .referral-banner {
+            background: linear-gradient(135deg, #ffd700, #f7b928);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(247,185,40,0.3);
+        }
+        .referral-banner .info { flex: 1; min-width: 200px; }
+        .referral-banner h3 {
+            margin: 0 0 5px;
+            color: #333;
+            font-size: 17px;
+        }
+        .referral-banner p {
+            margin: 0;
+            color: #333;
+            font-size: 13px;
+            opacity: 0.85;
+        }
+        .referral-banner a {
+            background: #1877f2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .referral-banner a:hover { background: #166fe5; }
+
+        /* ========== POST CARD ========== */
+        .post-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.2s;
+        }
+        .post-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .post-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .post-author { flex: 1; min-width: 0; }
+        .post-author-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #050505;
+            margin: 0 0 2px;
+        }
+        .post-author-time {
+            font-size: 12px;
+            color: #65676b;
+        }
+        .post-badge {
+            background: linear-gradient(135deg, #ffd700, #f7b928);
+            color: #333;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .post-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #050505;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+        }
+        .post-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            max-height: 500px;
+            object-fit: cover;
+        }
+
+        .post-actions {
+            display: flex;
+            border-top: 1px solid #e4e6eb;
+            padding-top: 12px;
+            gap: 5px;
+        }
+        .post-action {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #65676b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .post-action:hover { background: #f0f2f5; color: #1877f2; }
+
+        /* ========== PEOPLE CARD ========== */
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .person-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.2s;
+        }
+        .person-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .person-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            object-fit: cover;
+            border: 3px solid #e7f3ff;
+        }
+        .person-name {
+            font-weight: 700;
+            font-size: 15px;
+            margin: 0 0 4px;
+            color: #050505;
+        }
+        .person-username {
+            font-size: 13px;
+            color: #65676b;
+            margin: 0 0 12px;
+        }
+        .person-follow {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            width: 100%;
+        }
+        .person-follow:hover { background: #166fe5; }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+            background: white;
+            border-radius: 14px;
+        }
+        .empty-icon { font-size: 60px; margin-bottom: 15px; }
+        .empty-text { font-size: 16px; margin-bottom: 8px; }
+        .empty-subtext { font-size: 13px; opacity: 0.8; }
+
+        /* ========== LOADING ========== */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px 20px;
+            color: #65676b;
+        }
+        .loading-spinner::after {
+            content: "";
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e4e6eb;
+            border-top-color: #1877f2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ========== FLOATING EARN BUTTON ========== */
+        .fab-earn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 22px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 6px 20px rgba(40,167,69,0.45);
+            z-index: 999;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .fab-earn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(40,167,69,0.55); }
+
+        /* ========== MOBILE ========== */
+        @media (max-width: 700px) {
+            .nav-icons { display: none; }
+            .feeds-hero h1 { font-size: 20px; }
+            .referral-banner { flex-direction: column; text-align: center; }
+            .people-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- NAVBAR -->
+<!-- ============================================================ -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="index.html" class="logo">
+            <img src="images/storyimage.jpeg" alt="SocialWiki" class="logo-img" onerror="this.style.display='none'">
+            <span>SocialWiki</span>
+        </a>
+    </div>
+
+    <ul class="nav-icons">
+        <li><a href="index.html" title="Home">🏠</a></li>
+        <li><a href="friends.html" title="Friends">👥</a></li>
+        <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+        <li><a href="events.html" title="Events">📅</a></li>
+        <li><a href="messenger.html" title="Messages">💬</a></li>
+        <li><a href="feeds.html" class="active" title="Feeds">📰</a></li>
+    </ul>
+
+    <div class="nav-right">
+        <a href="notifications.html" class="nav-profile" style="position:relative;">
+            🔔
+            <span id="navNotificationBadge" style="display:none; position:absolute; top:-5px; right:-5px; background:#f02849; color:white; font-size:10px; padding:2px 5px; border-radius:10px;">0</span>
+        </a>
+        <a href="profile.html" class="nav-profile">
+            <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+            <span id="navProfileName">User</span>
+        </a>
+        <div class="language-selector">
+            <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+            <div class="language-menu" id="languageMenu">
+                <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+                <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+            </div>
+        </div>
+        <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- CONTAINER -->
+<!-- ============================================================ -->
+<div class="feeds-container">
+
+    <!-- HERO -->
+    <div class="feeds-hero">
+        <h1 data-i18n="feeds_hero_title">📰 Explore Feeds</h1>
+        <p data-i18n="feeds_hero_subtitle">Discover trending posts, latest updates, and new people</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="feeds-tabs">
+        <button class="feed-tab active" onclick="switchFeedTab('trending', this)" data-i18n="tab_trending">🔥 Trending</button>
+        <button class="feed-tab" onclick="switchFeedTab('latest', this)" data-i18n="tab_latest">📰 Latest</button>
+        <button class="feed-tab" onclick="switchFeedTab('people', this)" data-i18n="tab_people">👥 People</button>
+    </div>
+
+    <!-- REFERRAL BANNER -->
+    <div class="referral-banner">
+        <div class="info">
+            <h3 data-i18n="referral_banner_title">🎁 Earn 50 points per friend!</h3>
+            <p data-i18n="referral_banner_desc">Invite your friends with your referral code and earn rewards.</p>
+        </div>
+        <a href="referral.html" data-i18n="go_to_referral">Invite Now →</a>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div id="feedContent">
+        <div class="loading-spinner"></div>
+    </div>
+
+</div>
+
+<!-- FLOATING EARN BUTTON -->
+<a href="earnings.html" class="fab-earn">
+    💰 <span data-i18n="earn_more">Earn More</span>
+</a>
+
+<!-- ============================================================ -->
+<!-- SCRIPTS -->
+<!-- ============================================================ -->
+<script>
+    // ============ SUPABASE ============
+    if (!window.supabaseClient) {
+        window.supabaseClient = window.supabase.createClient(
+            "https://zcffrkvxmxvojkbmtufe.supabase.co",
+            "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
+        );
+    }
+    const sb = window.supabaseClient;
+
+    let currentUser = null;
+    let activeTab = 'trending';
+
+    // ============ LOGOUT ============
+    window.logout = async function() {
+        await sb.auth.signOut();
+        window.location.href = 'auth.html';
+    };
+
+    // ============ LOAD USER ============
+    async function loadUserProfile() {
+        try {
+            const { data: { user } } = await sb.auth.getUser();
+            if (!user) { window.location.href = 'auth.html'; return; }
+            currentUser = user;
+
+            const { data: profile } = await sb
+                .from('profiles')
+                .select('username, full_name, avatar_url')
+                .eq('id', user.id)
+                .single();
+
+            const name = profile?.full_name || profile?.username || 'User';
+            const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+            const nameEl = document.getElementById('navProfileName');
+            if (nameEl) nameEl.textContent = name;
+
+            const imgEl = document.getElementById('navProfileImg');
+            if (imgEl) imgEl.src = avatar;
+        } catch (e) {
+            console.error('Profile error:', e);
+        }
+    }
+
+    // ============ TAB SWITCH ============
+    window.switchFeedTab = function(tab, btn) {
+        activeTab = tab;
+        document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        const content = document.getElementById('feedContent');
+        content.innerHTML = '<div class="loading-spinner"></div>';
+
+        if (tab === 'trending') loadTrending();
+        else if (tab === 'latest') loadLatest();
+        else if (tab === 'people') loadPeople();
+    };
+
+    // ============ TRENDING ============
+    async function loadTrending() {
+        try {
+            const { data: posts, error } = await sb
+                .from('posts')
+                .select('*')
+                .order('likes_count', { ascending: false })
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            if (error) throw error;
+            renderPosts(posts || []);
+        } catch (e) {
+            console.error('Trending error:', e);
+            showEmpty('error');
+        }
+    }
+
+    // ============ LATEST ============
+    async function loadLatest() {
+        try {
+            const { data: posts, error } = await sb
+                .from('posts')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            if (error) throw error;
+            renderPosts(posts || []);
+        } catch (e) {
+            console.error('Latest error:', e);
+            showEmpty('error');
+        }
+    }
+
+    // ============ RENDER POSTS ============
+    async function renderPosts(posts) {
+        const content = document.getElementById('feedContent');
+
+        if (!posts || posts.length === 0) {
+            content.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <div class="empty-text" data-i18n="no_posts_yet">No posts yet</div>
+                    <div class="empty-subtext" data-i18n="be_first_post">Be the first to post!</div>
+                </div>
+            `;
+            if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
+            return;
+        }
+
+        // جلب الملفات الشخصية
+        const userIds = [...new Set(posts.map(p => p.user_id))];
+        const { data: profiles } = await sb
+            .from('profiles')
+            .select('id, username, full_name, avatar_url')
+            .in('id', userIds);
+
+        const profilesMap = {};
+        (profiles || []).forEach(p => profilesMap[p.id] = p);
+
+        content.innerHTML = '';
+        posts.forEach(post => {
+            const profile = profilesMap[post.user_id] || {};
+            const name = profile.full_name || profile.username || 'User';
+            const avatar = profile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+            const timeAgo = formatTimeAgo(post.created_at);
+
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <div class="post-header">
+                    <a href="profile.html?id=${post.user_id}">
+                        <img src="${avatar}" class="post-avatar" alt="${escapeHtml(name)}">
+                    </a>
+                    <div class="post-author">
+                        <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:inherit;">
+                            <div class="post-author-name">${escapeHtml(name)}</div>
+                        </a>
+                        <div class="post-author-time">${timeAgo}</div>
+                    </div>
+                </div>
+                ${post.content ? `<div class="post-content">${escapeHtml(post.content)}</div>` : ''}
+                ${post.image_url ? `<img src="${post.image_url}" class="post-image" loading="lazy">` : ''}
+                ${post.video_url ? `<video src="${post.video_url}" controls playsinline class="post-image"></video>` : ''}
+                <div class="post-actions">
+                    <button class="post-action" onclick="likePost('${post.id}', this)">
+                        👍 <span>${post.likes_count || 0}</span>
+                    </button>
+                    <button class="post-action" onclick="openPost('${post.id}')">
+                        💬 <span data-i18n="comment">Comment</span>
+                    </button>
+                    <button class="post-action" onclick="sharePost('${post.id}')">
+                        ↗️ <span data-i18n="share">Share</span>
+                    </button>
+                </div>
+            `;
+            content.appendChild(card);
+        });
+
+        if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
+    }
+
+    // ============ PEOPLE ============
+    async function loadPeople() {
+        try {
+            const { data: profiles, error } = await sb
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .neq('id', currentUser?.id || '')
+                .limit(20);
+
+            if (error) throw error;
+            renderPeople(profiles || []);
+        } catch (e) {
+            console.error('People error:', e);
+            showEmpty('error');
+        }
+    }
+
+    function renderPeople(people) {
+        const content = document.getElementById('feedContent');
+
+        if (!people || people.length === 0) {
+            content.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <div class="empty-text" data-i18n="no_people">No people yet</div>
+                    <div class="empty-subtext" data-i18n="invite_to_join">Invite your friends to join!</div>
+                </div>
+            `;
+            if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
+            return;
+        }
+
+        content.innerHTML = '<div class="people-grid"></div>';
+        const grid = content.querySelector('.people-grid');
+
+        people.forEach(p => {
+            const name = p.full_name || p.username || 'User';
+            const username = p.username || 'user';
+            const avatar = p.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+            const card = document.createElement('div');
+            card.className = 'person-card';
+            card.innerHTML = `
+                <img src="${avatar}" class="person-avatar" alt="${escapeHtml(name)}">
+                <div class="person-name">${escapeHtml(name)}</div>
+                <div class="person-username">@${escapeHtml(username)}</div>
+                <button class="person-follow" onclick="followUser('${p.id}', this)" data-i18n="follow">
+                    Follow
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+
+        if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
+    }
+
+    // ============ ACTIONS ============
+    window.likePost = async function(postId, btn) {
+        if (!currentUser) { alert('Please login'); return; }
+        try {
+            const { data: post } = await sb.from('posts').select('likes_count, liked_by').eq('id', postId).single();
+            if (!post) return;
+
+            const likedBy = post.liked_by || [];
+            const isLiked = likedBy.includes(currentUser.id);
+
+            const newLikedBy = isLiked ? likedBy.filter(id => id !== currentUser.id) : [...likedBy, currentUser.id];
+            const newCount = Math.max(0, (post.likes_count || 0) + (isLiked ? -1 : 1));
+
+            await sb.from('posts').update({ likes_count: newCount, liked_by: newLikedBy }).eq('id', postId);
+
+            if (btn) {
+                btn.querySelector('span').textContent = newCount;
+                btn.style.color = isLiked ? '#65676b' : '#1877f2';
+            }
+        } catch (e) { console.error(e); }
+    };
+
+    window.openPost = function(postId) {
+        window.location.href = `index.html?post_id=${postId}`;
+    };
+
+    window.sharePost = function(postId) {
+        const url = window.location.origin + `/index.html?post_id=${postId}`;
+        navigator.clipboard.writeText(url).then(() => alert('✅ Link copied!'));
+    };
+
+    window.followUser = function(userId, btn) {
+        if (!currentUser) { alert('Please login'); return; }
+        // مؤقت: زر Follow يعرض رسالة
+        alert('Follow feature coming soon! 🚀');
+        if (btn) {
+            btn.textContent = '✓ Following';
+            btn.style.background = '#42b72a';
+        }
+    };
+
+    // ============ HELPERS ============
+    function formatTimeAgo(timestamp) {
+        if (!timestamp) return 'Just now';
+        let ts = String(timestamp);
+        if (!ts.includes('Z') && !ts.includes('+')) ts = ts + 'Z';
+        const date = new Date(ts);
+        const diff = Date.now() - date.getTime();
+        const mins = Math.floor(diff / 60000);
+        if (mins < 1) return 'Just now';
+        if (mins < 60) return `${mins} min ago`;
+        const hours = Math.floor(mins / 60);
+        if (hours < 24) return `${hours} hr ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 7) return `${days} days ago`;
+        return date.toLocaleDateString();
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function showEmpty(type) {
+        const content = document.getElementById('feedContent');
+        content.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">${type === 'error' ? '⚠️' : '📭'}</div>
+                <div class="empty-text" data-i18n="${type === 'error' ? 'error_occurred' : 'no_posts_yet'}">
+                    ${type === 'error' ? 'An error occurred' : 'No content'}
+                </div>
+            </div>
+        `;
+        if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
+    }
+
+    // ============ NOTIFICATION BADGE ============
+    async function updateNotificationBadge() {
+        if (!currentUser) return;
+        try {
+            const { data: notifications } = await sb
+                .from('notifications')
+                .select('id, is_read')
+                .eq('receiver_id', currentUser.id);
+
+            if (!notifications) return;
+            const unread = notifications.filter(n => !n.is_read).length;
+            const badge = document.getElementById('navNotificationBadge');
+            if (badge) {
+                if (unread > 0) {
+                    badge.textContent = unread > 99 ? '99+' : unread;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        } catch (e) { console.error(e); }
+    }
+
+    // ============ INIT ============
+    document.addEventListener('DOMContentLoaded', async function() {
+        if (typeof initLanguage === 'function') initLanguage();
+        await loadUserProfile();
+        await loadTrending();
+        updateNotificationBadge();
+        setInterval(updateNotificationBadge, 30000);
+
+        // إعادة رسم عند تغيير اللغة
+        window.addEventListener('languageChanged', () => {
+            // المحتوى يستخدم setLanguage مباشرة
+        });
+    });
+</script>
+
+<!-- ============================================================ -->
+<!-- EXTRA SCRIPTS -->
+<!-- ============================================================ -->
+<script src="js/messenger-notify.js"></script>
+<script src="js/dark-mode.js"></script>
+
+</body>
+</html>
