@@ -629,6 +629,20 @@
 
     // ============ BUY MODAL ============
     window.openBuyModal = function(item) {
+        console.log('🛒 openBuyModal:', item);
+
+        if (!item || !item.id || !item.name) {
+            console.error('❌ Invalid item');
+            showToast('❌ Error: Item not found', 'error');
+            return;
+        }
+
+        if (!userBalance) {
+            console.error('❌ userBalance is null');
+            showToast('❌ Error loading balance', 'error');
+            return;
+        }
+
         selectedItem = item;
 
         const owned = ownedItems.includes(item.id);
@@ -637,21 +651,29 @@
             return;
         }
 
-        if (userBalance.gift_points < item.cost) {
-            const missing = item.cost - userBalance.gift_points;
+        const giftPoints = userBalance.gift_points || 0;
+        if (giftPoints < item.cost) {
+            const missing = item.cost - giftPoints;
             showToast(`❌ Not enough points! You need ${missing.toLocaleString()} more.`, 'error');
             return;
         }
 
-        document.getElementById('modalIcon').textContent = item.icon;
-        document.getElementById('modalTitle').textContent = item.name;
-        document.getElementById('modalSubtitle').textContent = item.desc;
-        document.getElementById('modalPrice').innerHTML = `
-            ${item.cost.toLocaleString()} 🎁
-            <span class="sub">From your Gift Points (${userBalance.gift_points.toLocaleString()} available)</span>
-        `;
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const buyModal = document.getElementById('buyModal');
 
-        document.getElementById('buyModal').classList.add('show');
+        if (modalIcon) modalIcon.textContent = item.icon || '🎁';
+        if (modalTitle) modalTitle.textContent = item.name || 'Reward';
+        if (modalSubtitle) modalSubtitle.textContent = item.desc || '';
+        if (modalPrice) {
+            modalPrice.innerHTML = `
+                ${(item.cost || 0).toLocaleString()} 🎁
+                <span class="sub">From your Gift Points (${giftPoints.toLocaleString()} available)</span>
+            `;
+        }
+        if (buyModal) buyModal.classList.add('show');
     };
 
     window.closeBuyModal = function() {
@@ -661,74 +683,77 @@
 
     // ============ CONFIRM BUY ============
     window.confirmBuy = async function() {
-        if (!selectedItem || !currentUser) return;
+        if (!selectedItem || !currentUser) {
+            showToast('❌ Error: No item selected', 'error');
+            return;
+        }
 
         const btn = document.getElementById('buyBtn');
         btn.disabled = true;
         btn.textContent = '⏳ Processing...';
 
         try {
-            // 1. تحقق من الرصيد
-            if (userBalance.gift_points < selectedItem.cost) {
-                throw new Error('Insufficient points');
-            }
-
-            // 2. خصم من الرصيد (نستخدم real_points لأنها موجودة)
-            const newAvailable = (userBalance.gift_points || 0) - selectedItem.cost;
-
-            // ✅ جرب gift_points أولاً، وإلا available_points
-            const { data: bal } = await sb
+            const { data: bal, error: balErr } = await sb
                 .from('user_balances')
-                .select('gift_points, real_points, available_points')
+                .select('gift_points, available_points, real_points')
                 .eq('user_id', currentUser.id)
                 .single();
 
-            let updateData = {};
-            if (bal?.gift_points > 0) {
-                updateData.gift_points = bal.gift_points - selectedItem.cost;
-                updateData.available_points = Math.max(0, (bal.available_points || 0) - selectedItem.cost);
-            } else {
-                updateData.available_points = Math.max(0, (bal?.available_points || 0) - selectedItem.cost);
-                updateData.real_points = Math.max(0, (bal?.real_points || 0) - selectedItem.cost);
+            if (balErr) throw new Error('Cannot load balance');
+
+            let pointsSource = 'gift_points';
+            let currentPoints = bal?.gift_points || 0;
+
+            if (currentPoints < selectedItem.cost) {
+                if ((bal?.available_points || 0) >= selectedItem.cost) {
+                    pointsSource = 'available_points';
+                    currentPoints = bal.available_points;
+                } else if ((bal?.real_points || 0) >= selectedItem.cost) {
+                    pointsSource = 'real_points';
+                    currentPoints = bal.real_points;
+                } else {
+                    throw new Error(`Not enough points! You have ${(bal?.gift_points || 0).toLocaleString()}`);
+                }
             }
 
-            const { error: deductError } = await sb
+            console.log('✅ Paying with:', pointsSource, '=', currentPoints);
+
+            const updateData = {};
+            updateData[pointsSource] = currentPoints - selectedItem.cost;
+
+            const { error: deductErr } = await sb
                 .from('user_balances')
                 .update(updateData)
                 .eq('user_id', currentUser.id);
 
-            if (deductError) throw deductError;
+            if (deductErr) throw deductErr;
 
-            // 3. تسجيل الطلب
-            const { error: orderError } = await sb
+            const { error: orderErr } = await sb
                 .from('shop_orders')
                 .insert({
                     user_id: currentUser.id,
                     item_key: selectedItem.id,
-                    item_type: selectedItem.id.split('_')[0], // badge/frame/boost
+                    item_type: selectedItem.id.split('_')[0],
                     item_name: selectedItem.name,
                     item_icon: selectedItem.icon,
-                    cost_points: selectedItem.cost,
-                    points_type: 'gift',
+                    points_spent: selectedItem.cost,
+                    points_type: pointsSource,
                     status: 'completed'
                 });
 
-            if (orderError) console.warn('Order log error:', orderError);
+            if (orderErr) console.warn('⚠️ Order log error:', orderErr);
 
-            // 4. تطبيق المكافأة
             await applyReward(selectedItem);
 
-            // 5. تحديث الواجهة
             ownedItems.push(selectedItem.id);
             await loadBalance();
-            await loadOwnedItems();
             renderAll();
 
             closeBuyModal();
             showToast(`🎉 ${selectedItem.name} unlocked!`, 'success');
 
         } catch (error) {
-            console.error('Buy error:', error);
+            console.error('❌ Buy error:', error);
             showToast('❌ ' + (error.message || 'Purchase failed'), 'error');
         } finally {
             btn.disabled = false;
