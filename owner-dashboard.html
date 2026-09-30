@@ -92,8 +92,68 @@
         }
         .home-btn { color: white; background: #1877f2; }
         
+              /* TIERS */
+        .tier-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .tier-stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 5px solid #ccc;
+        }
+        .tier-stat-card.regular { border-top-color: #65676b; }
+        .tier-stat-card.creator { border-top-color: #f7b928; }
+        .tier-stat-card.influencer { border-top-color: #dc3545; }
+        .tier-stat-card .icon { font-size: 40px; margin-bottom: 10px; }
+        .tier-stat-card .value { font-size: 32px; font-weight: 800; color: #1877f2; }
+        .tier-stat-card .label { font-size: 13px; color: #65676b; margin-top: 5px; }
+        .tier-stat-card .percent { font-size: 12px; color: #28a745; font-weight: 700; margin-top: 3px; }
+
+        .tier-select {
+            padding: 8px 12px;
+            border: 2px solid #e4e6eb;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tier-select:focus { outline: none; border-color: #1877f2; }
+        .tier-select.regular { border-color: #65676b; }
+        .tier-select.creator { border-color: #f7b928; background: #fff9e6; }
+        .tier-select.influencer { border-color: #dc3545; background: #ffe6e6; }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .tier-badge.regular { background: #e4e6eb; color: #333; }
+        .tier-badge.creator { background: #fff3cd; color: #856404; }
+        .tier-badge.influencer { background: linear-gradient(135deg, #ffd700, #ff6b6b); color: white; }
+
+        .search-tier-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e4e6eb;
+            border-radius: 25px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .search-tier-box:focus { outline: none; border-color: #1877f2; }
+
         @media (max-width: 700px) {
             .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+            .tier-stats { grid-template-columns: 1fr; }
         }
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
@@ -156,15 +216,16 @@
         </div>
 
         <!-- TABS -->
-        <div class="dashboard-tabs">
-            <div class="dashboard-tab active" onclick="showTab('users', this)">👥 Users</div>
-            <div class="dashboard-tab" onclick="showTab('reports', this)">🚨 Reports</div>
-            <div class="dashboard-tab" onclick="showTab('withdrawals', this)">💰 Withdrawals</div>
-            <div class="dashboard-tab" onclick="showTab('ads', this)">📢 Ads</div>
-            <div class="dashboard-tab" onclick="showTab('tasks', this)">🎯 Tasks</div>
-                        <div class="dashboard-tab" onclick="showTab('countries', this)">🌍 Countries</div>
-                                    <div class="dashboard-tab" onclick="showTab('revenue', this)">💰 Revenue</div>
-        </div>
+       <div class="dashboard-tabs">
+    <div class="dashboard-tab active" onclick="showTab('users', this)">👥 Users</div>
+    <div class="dashboard-tab" onclick="showTab('reports', this)">🚨 Reports</div>
+    <div class="dashboard-tab" onclick="showTab('withdrawals', this)">💰 Withdrawals</div>
+    <div class="dashboard-tab" onclick="showTab('ads', this)">📢 Ads</div>
+    <div class="dashboard-tab" onclick="showTab('tasks', this)">🎯 Tasks</div>
+    <div class="dashboard-tab" onclick="showTab('countries', this)">🌍 Countries</div>
+    <div class="dashboard-tab" onclick="showTab('revenue', this)">💰 Revenue</div>
+    <div class="dashboard-tab" onclick="showTab('tiers', this)">🎨 Tiers</div>
+</div>
 
         <!-- CONTENT -->
         <div id="dashboardContent">
@@ -912,7 +973,8 @@
             else if (tab === 'ads') loadAds();
             else if (tab === 'tasks') loadTasks();
             else if (tab === 'countries') loadCountriesTab();
-                        else if (tab === 'revenue') loadRevenueTab();
+            else if (tab === 'revenue') loadRevenueTab();
+            else if (tab === 'tiers') loadTiersTab();
         }
 
         // =========================================================
@@ -1146,6 +1208,218 @@
         window.loadRevenueTab = loadRevenueTab;
         window.distributeRevenue = distributeRevenue;
 
+                // =========================================================
+        // 🎨 TIERS TAB
+        // =========================================================
+        let allUsersForTiers = [];
+
+        async function loadTiersTab() {
+            const container = document.getElementById('dashboardContent');
+            container.innerHTML = `
+                <div class="loading-state">
+                    <div class="spinner">🎨</div>
+                    <p>Loading tiers...</p>
+                </div>
+            `;
+
+            try {
+                const { data: profiles, error } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url, creator_tier')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    container.innerHTML = `<div class="data-table" style="padding:20px;text-align:center;">Error: ${error.message}</div>`;
+                    return;
+                }
+
+                const { data: balances } = await supabaseClient
+                    .from('user_balances')
+                    .select('user_id, total_points');
+
+                const pointsMap = {};
+                (balances || []).forEach(b => pointsMap[b.user_id] = b.total_points || 0);
+
+                allUsersForTiers = (profiles || []).map(p => ({
+                    ...p,
+                    points: pointsMap[p.id] || 0,
+                    tier: p.creator_tier || 'regular'
+                }));
+
+                renderTiersTab(allUsersForTiers);
+            } catch (err) {
+                console.error('Tiers error:', err);
+                container.innerHTML = `<div class="data-table" style="padding:20px;text-align:center;">Error loading tiers</div>`;
+            }
+        }
+
+        function renderTiersTab(users) {
+            const container = document.getElementById('dashboardContent');
+
+            const regular = users.filter(u => u.tier === 'regular').length;
+            const creator = users.filter(u => u.tier === 'creator').length;
+            const influencer = users.filter(u => u.tier === 'influencer').length;
+
+            container.innerHTML = `
+                <div style="padding: 20px;">
+                    <h2 style="margin: 0 0 20px 0;">🎨 User Tiers Management</h2>
+
+                    <div class="tier-stats">
+                        <div class="tier-stat-card regular">
+                            <div class="icon">👤</div>
+                            <div class="value">${regular}</div>
+                            <div class="label">Regular Users</div>
+                            <div class="percent">30% earnings</div>
+                        </div>
+                        <div class="tier-stat-card creator">
+                            <div class="icon">🎨</div>
+                            <div class="value">${creator}</div>
+                            <div class="label">Creators</div>
+                            <div class="percent">50% earnings</div>
+                        </div>
+                        <div class="tier-stat-card influencer">
+                            <div class="icon">🌟</div>
+                            <div class="value">${influencer}</div>
+                            <div class="label">Influencers</div>
+                            <div class="percent">70% earnings</div>
+                        </div>
+                    </div>
+
+                    <div style="background: #e7f7e7; padding: 15px; border-radius: 12px; margin-bottom: 20px; border-right: 4px solid #28a745;">
+                        <strong>💡 How it works:</strong>
+                        <ul style="margin: 8px 0 0 0; padding-right: 20px; color: #65676b; font-size: 14px;">
+                            <li><strong>👤 Regular (30%)</strong> — Regular users</li>
+                            <li><strong>🎨 Creator (50%)</strong> — Content creators from other platforms</li>
+                            <li><strong>🌟 Influencer (70%)</strong> — Famous influencers</li>
+                        </ul>
+                    </div>
+
+                    <input type="text" class="search-tier-box" id="tierSearch" placeholder="🔍 Search user by name or username..." oninput="filterTiersUsers()">
+
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User</th>
+                                    <th>Points</th>
+                                    <th>Current Tier</th>
+                                    <th>Change Tier</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tiersTableBody">
+                                ${renderTiersRows(users)}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTiersRows(users) {
+            if (users.length === 0) {
+                return '<tr><td colspan="5" style="text-align:center;padding:30px;color:#65676b;">No users found</td></tr>';
+            }
+
+            return users.map((u, i) => {
+                const name = u.full_name || u.username || 'User';
+                const avatar = u.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+                const tierLabels = {
+                    'regular': '👤 Regular',
+                    'creator': '🎨 Creator',
+                    'influencer': '🌟 Influencer'
+                };
+
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <img src="${avatar}" style="width:36px;height:36px;border-radius:50%;">
+                                <div>
+                                    <div style="font-weight:600;">${escapeHtml(name)}</div>
+                                    <div style="font-size:12px;color:#65676b;">@${escapeHtml(u.username || 'user')}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-weight:700;color:#f7b928;">${u.points.toLocaleString()} 🪙</td>
+                        <td>
+                            <span class="tier-badge ${u.tier}">${tierLabels[u.tier]}</span>
+                        </td>
+                        <td>
+                            <select class="tier-select ${u.tier}" onchange="changeUserTier('${u.id}', this.value, this)">
+                                <option value="regular" ${u.tier === 'regular' ? 'selected' : ''}>👤 Regular (30%)</option>
+                                <option value="creator" ${u.tier === 'creator' ? 'selected' : ''}>🎨 Creator (50%)</option>
+                                <option value="influencer" ${u.tier === 'influencer' ? 'selected' : ''}>🌟 Influencer (70%)</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        window.filterTiersUsers = function() {
+            const query = document.getElementById('tierSearch').value.toLowerCase();
+            const filtered = query
+                ? allUsersForTiers.filter(u => 
+                    (u.full_name || '').toLowerCase().includes(query) ||
+                    (u.username || '').toLowerCase().includes(query)
+                  )
+                : allUsersForTiers;
+
+            document.getElementById('tiersTableBody').innerHTML = renderTiersRows(filtered);
+        };
+
+        window.changeUserTier = async function(userId, newTier, selectEl) {
+            try {
+                const { error } = await supabaseClient
+                    .from('profiles')
+                    .update({ creator_tier: newTier })
+                    .eq('id', userId);
+
+                if (error) {
+                    alert('❌ Error: ' + error.message);
+                    return;
+                }
+
+                const user = allUsersForTiers.find(u => u.id === userId);
+                if (user) user.tier = newTier;
+
+                const row = selectEl.closest('tr');
+                const badge = row.querySelector('.tier-badge');
+                const tierLabels = {
+                    'regular': '👤 Regular',
+                    'creator': '🎨 Creator',
+                    'influencer': '🌟 Influencer'
+                };
+                badge.className = 'tier-badge ' + newTier;
+                badge.textContent = tierLabels[newTier];
+
+                selectEl.className = 'tier-select ' + newTier;
+
+                const toast = document.createElement('div');
+                toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#28a745;color:white;padding:15px 25px;border-radius:12px;font-weight:700;z-index:99999;box-shadow:0 4px 15px rgba(0,0,0,0.2);';
+                toast.textContent = '✅ Tier updated to ' + tierLabels[newTier];
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2500);
+
+                const regular = allUsersForTiers.filter(u => u.tier === 'regular').length;
+                const creator = allUsersForTiers.filter(u => u.tier === 'creator').length;
+                const influencer = allUsersForTiers.filter(u => u.tier === 'influencer').length;
+
+                document.querySelectorAll('.tier-stat-card')[0].querySelector('.value').textContent = regular;
+                document.querySelectorAll('.tier-stat-card')[1].querySelector('.value').textContent = creator;
+                document.querySelectorAll('.tier-stat-card')[2].querySelector('.value').textContent = influencer;
+
+            } catch (err) {
+                console.error('Tier error:', err);
+                alert('❌ Error: ' + err.message);
+            }
+        };
+
+        window.loadTiersTab = loadTiersTab;
+
         // =========================================================
         // 🆕 SECURE INITIALIZE
         // =========================================================
@@ -1188,6 +1462,9 @@
         window.rejectWithdrawal = rejectWithdrawal;
         window.deleteAd = deleteAd;
         window.deleteTask = deleteTask;
+                window.loadTiersTab = loadTiersTab;
+        window.changeUserTier = changeUserTier;
+        window.filterTiersUsers = filterTiersUsers;
     </script>
            <script src="js/messenger-notify.js"></script>  
       <script src="js/country-stats.js"></script>
