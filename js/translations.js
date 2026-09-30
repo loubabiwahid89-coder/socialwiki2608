@@ -454,7 +454,6 @@ const translations = {
         "all_messages": "كل الرسائل",
         "archived_messages": "المؤرشفة",
         "online_users": "المستخدمون المتصلون",
-        // ---------- Points Banner ----------
         "earn_points_title": "🎁 اربح نقاطاً من كل نشاط!",
         "earn_points_subtitle": "ادعُ أصدقاءك بكود الإحالة — احصل على 50 نقطة لكل صديق!",
         "advertisement": "إعلان",
@@ -484,7 +483,6 @@ const translations = {
         "ad_activity_desc": "اعرض أداء إعلاناتك",
         "create_ad_desc": "ابدأ حملة جديدة",
         "earnings_desc": "تتبع أرباحك",
-        // ---------- Network ----------
         "level_1": "المستوى 1 - مباشر",
         "level_2": "المستوى 2 - غير مباشر",
         "level_3": "المستوى 3 - بعيد",
@@ -1303,11 +1301,8 @@ const translations = {
     "points": "Points",
     "please_login": "Veuillez vous connecter d'abord!",
     "already_joined_event": "Vous avez déjà rejoint cet événement!",
-    "joined_event_success": "Vous avez rejoint l'événement!",
-}
-    
-        // ==================== ENGLISH ====================
-    en: {
+"joined_event_success": "لقد انضممت للحدث!",
+    },
         "search_placeholder": "Search SocialWiki",
         "home": "Home",
         "friends": "Friends",
