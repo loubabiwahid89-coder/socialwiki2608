@@ -1944,7 +1944,7 @@ const translations = {
     "please_login": "Please login first!",
     "already_joined_event": "You have already joined this event!",
     "joined_event_success": "You have joined the event!",
-}
+},
     
 
     // ==================== SPANISH ====================
@@ -2590,7 +2590,7 @@ const translations = {
     "please_login": "¡Por favor inicia sesión primero!",
     "already_joined_event": "¡Ya te has unido a este evento!",
     "joined_event_success": "¡Te has unido al evento!",
-}
+},
     
 
     // ==================== GERMAN ====================
@@ -3230,13 +3230,12 @@ const translations = {
 "reset_daily": "(wird täglich zurückgesetzt)",
     "weekly_events": "🏆 Wöchentliche Veranstaltungen",
     "no_events": "Keine Veranstaltungen verfügbar",
-    "reward": "Belohnung",
     "join": "Beitreten",
     "points": "Punkte",
     "please_login": "Bitte zuerst anmelden!",
     "already_joined_event": "Du bist diesem Event bereits beigetreten!",
     "joined_event_success": "Du bist dem Event beigetreten!",
-}
+},
     
         // ==================== ITALIAN ====================
     it: {
@@ -3881,7 +3880,7 @@ const translations = {
     "please_login": "Per favore accedi prima!",
     "already_joined_event": "Hai già partecipato a questo evento!",
     "joined_event_success": "Ti sei unito all'evento!",
-}
+},
     
 
     // ==================== CHINESE ====================
@@ -4527,7 +4526,7 @@ const translations = {
     "please_login": "请先登录！",
     "already_joined_event": "您已经加入此活动！",
     "joined_event_success": "您已加入活动！",
-}
+},
     
 
     // ==================== JAPANESE ====================
@@ -5173,7 +5172,7 @@ const translations = {
     "please_login": " сначалаログインしてください！",
     "already_joined_event": "すでにこのイベントに参加しています！",
     "joined_event_success": "イベントに参加しました！",
-}
+},
     
 
     // ==================== KOREAN ====================
@@ -5819,7 +5818,7 @@ const translations = {
     "please_login": "먼저 로그인하세요!",
     "already_joined_event": "이미 이 이벤트에 참여했습니다!",
     "joined_event_success": "이벤트에 참여했습니다!",
-}
+},
     
 
     // ==================== RUSSIAN ====================
@@ -6465,7 +6464,7 @@ const translations = {
     "please_login": "Пожалуйста, войдите сначала!",
     "already_joined_event": "Вы уже присоединились к этому событию!",
     "joined_event_success": "Вы присоединились к событию!",
-}
+},
     
 
 
@@ -7112,7 +7111,7 @@ const translations = {
     "please_login": "Lütfen önce giriş yapın!",
     "already_joined_event": "Bu etkinliğe zaten katıldınız!",
     "joined_event_success": "Etkinliğe katıldınız!",
-}
+},
 
     
 
@@ -7759,7 +7758,7 @@ const translations = {
     "please_login": "कृपया पहले लॉगिन करें!",
     "already_joined_event": "आप पहले ही इस कार्यक्रम में शामिल हो चुके हैं!",
     "joined_event_success": "आप कार्यक्रम में शामिल हो गए!",
-}
+},
     
 
     // ==================== FILIPINO ====================
@@ -8405,7 +8404,7 @@ const translations = {
     "please_login": "Mangyaring mag-login muna!",
     "already_joined_event": "Sumali ka na sa kaganapang ito!",
     "joined_event_success": "Sumali ka sa kaganapan!",
-}
+},
     
 
     // ==================== TAGALOG ====================
@@ -9052,7 +9051,8 @@ const translations = {
     "please_login": "Mangyaring mag-login muna!",
     "already_joined_event": "Sumali ka na sa kaganapang ito!",
     "joined_event_success": "Sumali ka sa kaganapan!",
-}
+},
+
     
 
 
