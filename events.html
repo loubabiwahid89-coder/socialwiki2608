@@ -3,285 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events - SocialWiki</title>
-    <link rel="stylesheet" href="socialwiki.css">
+    <title>Events - wikidoogo</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=999999"></script>
     <style>
-        /* =========================================================
-           NAVBAR (بسيط)
-        ========================================================= */
-        
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 800;
-            text-decoration: none;
-        }
-        
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-icons a {
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 50%;
-        }
-        
-        .nav-icons a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-        
-        .nav-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        
-        .logout-button {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        /* =========================================================
-           EVENTS PAGE
-        ========================================================= */
-        
-        .events-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .events-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .events-header h2 {
-            font-size: 24px;
-        }
-        
-        .event-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .event-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            background: #f0f2f5;
-        }
-        
-        .event-info {
-            flex: 1;
-        }
-        
-        .event-title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .event-description {
-            color: #65676b;
-            font-size: 14px;
-        }
-        
-        .event-reward {
-            color: #f7b928;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 5px;
-        }
-        
-        .event-status {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            background: #1877f2;
-            color: white;
-        }
-        
-        /* =========================================================
-           BACK & HOME BUTTONS
-        ========================================================= */
-        
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
+        * { box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; color: #050505; }
 
-        /* =========================================================
-   LANGUAGE SELECTOR
-========================================================= */
-.language-selector {
-    position: relative;
-}
+        /* NAVBAR */
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
 
-.language-btn {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    font-size: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-}
+        .language-selector { position: relative; }
+        .language-btn { background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+        .language-menu { display: none; position: absolute; top: 50px; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); min-width: 180px; z-index: 99999; padding: 8px; max-height: 400px; overflow-y: auto; }
+        .language-menu button { display: block; width: 100%; padding: 10px 14px; background: none; border: none; text-align: left; cursor: pointer; border-radius: 8px; font-size: 14px; color: #050505; }
+        .language-menu button:hover { background: #f0f2f5; }
 
-.language-btn:hover {
-    background: rgba(255,255,255,0.3);
-}
+        /* WAITLIST BANNER */
+        .waitlist-banner { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 20px; }
+        .waitlist-banner-content { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .waitlist-icon { font-size: 40px; }
+        .waitlist-info { flex: 1; min-width: 250px; }
+        .waitlist-title { margin: 0 0 5px; font-size: 18px; font-weight: 700; }
+        .waitlist-position { color: #ffd700; }
+        .waitlist-subtitle { margin: 0; font-size: 13px; opacity: 0.9; }
+        .waitlist-stats { display: flex; gap: 20px; }
+        .waitlist-stat { text-align: center; }
+        .stat-value { display: block; font-size: 22px; font-weight: 800; color: #ffd700; }
+        .stat-label { font-size: 11px; opacity: 0.85; }
+        .waitlist-actions { display: flex; gap: 10px; }
+        .waitlist-btn-invite, .waitlist-btn-join { padding: 10px 18px; border: none; border-radius: 25px; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .waitlist-btn-invite { background: #ffd700; color: #333; }
+        .waitlist-btn-join { background: white; color: #764ba2; }
+        .waitlist-progress { flex-basis: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; margin-top: 5px; }
+        .waitlist-progress-fill { height: 100%; background: #ffd700; transition: width 0.5s; }
+        .waitlist-founder-badge { background: rgba(255,215,0,0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #ffd700; }
 
-.language-menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    min-width: 180px;
-    z-index: 99999;
-    padding: 8px;
-}
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; }
+        .home-btn { color: white; background: #1877f2; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
 
-.language-menu button {
-    display: block;
-    width: 100%;
-    padding: 10px 14px;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #050505;
-    transition: 0.15s;
-}
+        /* MAIN */
+        .events-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .events-header { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #f7b928, #ffd700); border-radius: 16px; color: #333; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(247, 185, 40, 0.3); }
+        .events-header h1 { margin: 0 0 10px; font-size: 32px; }
+        .events-header p { margin: 0; font-size: 16px; opacity: 0.9; }
 
-.language-menu button:hover {
-    background: #f0f2f5;
-}
+        /* BALANCE CARD */
+        .balance-card { background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4); margin-bottom: 25px; color: white; }
+        .balance-label { font-size: 14px; opacity: 0.9; margin-bottom: 8px; }
+        .balance-value { font-size: 42px; font-weight: 800; margin-bottom: 5px; }
+        .balance-sub { font-size: 14px; opacity: 0.9; }
+        .tier-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 14px; margin-top: 12px; background: rgba(255,255,255,0.25); color: white; }
+        .tier-badge.regular { background: rgba(255,255,255,0.3); }
+        .tier-badge.creator { background: rgba(255,215,0,0.4); color: #333; }
+        .tier-badge.influencer { background: linear-gradient(135deg, #ffd700, #ff6b6b); color: white; }
+        .level-progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; margin-top: 15px; }
+        .level-progress-fill { height: 100%; background: white; border-radius: 4px; transition: width 0.5s; }
+
+        /* STATS */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .stat-card .icon { font-size: 28px; margin-bottom: 6px; }
+        .stat-card .value { font-size: 24px; font-weight: 700; color: #1877f2; }
+        .stat-card .label { font-size: 12px; color: #65676b; margin-top: 4px; }
+
+        /* TABS */
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #e4e6eb; overflow-x: auto; }
+        .tab { padding: 12px 20px; background: none; border: none; cursor: pointer; font-size: 15px; font-weight: 600; color: #65676b; border-bottom: 3px solid transparent; white-space: nowrap; }
+        .tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+
+        /* TASKS */
+        .tasks-section { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .tasks-section h3 { margin: 0 0 15px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .task-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f9f9f9; border-radius: 10px; margin-bottom: 10px; transition: 0.2s; }
+        .task-item:hover { background: #f0f2f5; }
+        .task-item.completed { background: #e7f7e7; }
+        .task-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .task-icon { font-size: 28px; }
+        .task-info { flex: 1; }
+        .task-name { font-weight: 600; font-size: 15px; margin-bottom: 3px; }
+        .task-progress-text { font-size: 12px; color: #65676b; }
+        .task-progress-bar { width: 100%; height: 6px; background: #e4e6eb; border-radius: 3px; margin-top: 5px; overflow: hidden; }
+        .task-progress-fill { height: 100%; background: #1877f2; border-radius: 3px; transition: width 0.5s; }
+        .task-item.completed .task-progress-fill { background: #28a745; }
+        .task-reward { font-weight: 700; font-size: 15px; color: #f7b928; margin-right: 10px; }
+        .task-btn { background: #1877f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .task-check { color: #28a745; font-size: 24px; }
+
+        /* LEADERBOARD */
+        .leaderboard-table { width: 100%; border-collapse: collapse; }
+        .leaderboard-table th { text-align: left; padding: 12px; border-bottom: 2px solid #e4e6eb; color: #65676b; font-size: 13px; font-weight: 700; }
+        .leaderboard-table td { padding: 12px; border-bottom: 1px solid #e4e6eb; font-size: 14px; }
+        .leaderboard-table tr:hover { background: #f9f9f9; }
+        .rank-1 { color: #ffd700; font-weight: 800; }
+        .rank-2 { color: #c0c0c0; font-weight: 800; }
+        .rank-3 { color: #cd7f32; font-weight: 800; }
+        .player-info { display: flex; align-items: center; gap: 10px; }
+        .player-avatar { width: 36px; height: 36px; border-radius: 50%; }
+        .player-tier { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+        .player-tier.regular { background: #e4e6eb; color: #333; }
+        .player-tier.creator { background: #fff3cd; color: #856404; }
+        .player-tier.influencer { background: linear-gradient(135deg, #ffd700, #ff6b6b); color: white; }
+
+        footer { background: white; padding: 30px 20px; text-align: center; margin-top: 30px; border-top: 1px solid #e4e6eb; }
+        footer a { color: #65676b; text-decoration: none; font-size: 14px; margin: 0 10px; }
+
+        @media (max-width: 700px) {
+            .events-header h1 { font-size: 24px; }
+            .balance-value { font-size: 32px; }
+            .nav-icons { display: none; }
+            .waitlist-banner-content { flex-direction: column; align-items: flex-start; }
+        }
     </style>
-     <link rel="stylesheet" href="css/dark-mode.css">
-    <script src="js/translations.js"></script>
+    <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
 
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.html" class="logo">📘 SocialWiki</a>
         </div>
         <ul class="nav-icons">
-            <li><a href="index.html">🏠</a></li>
-            <li><a href="friends.html">👥</a></li>
-            <li><a href="market-plus.html">🛍️</a></li>
-            <li><a href="events.html" class="active">📅</a></li>
-            <li><a href="notifications.html">🔔</a></li>
+            <li><a href="index.html" title="Home">🏠</a></li>
+            <li><a href="friends.html" title="Friends">👥</a></li>
+            <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+            <li><a href="events.html" class="active" title="Events">📅</a></li>
+            <li><a href="notifications.html" title="Notifications">🔔</a></li>
         </ul>
-               <div class="nav-right">
+        <div class="nav-right">
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
             <div class="language-selector">
                 <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
-                <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
+                <div class="language-menu" id="languageMenu">
                     <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
                     <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
                     <button onclick="changeLanguage('en')">🇬🇧 English</button>
@@ -300,214 +168,607 @@
             </div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-       
     </nav>
-     <!-- BACK & HOME BUTTONS -->
+
+    <!-- WAITLIST BANNER -->
+    <div id="waitlistBanner" class="waitlist-banner" style="display: none;">
+        <div class="waitlist-banner-content">
+            <div class="waitlist-icon">🎟️</div>
+            <div class="waitlist-info">
+                <h3 class="waitlist-title">
+                    <span data-i18n="waitlist_title">You are #</span>
+                    <span id="waitlistPosition" class="waitlist-position">--</span>
+                    <span data-i18n="waitlist_title_suffix">in the queue!</span>
+                </h3>
+                <p class="waitlist-subtitle" data-i18n="waitlist_subtitle">Invite 3 friends to get 3 free gifts!</p>
+            </div>
+            <div class="waitlist-stats">
+                <div class="waitlist-stat">
+                    <span class="stat-value" id="waitlistInvites">0</span>
+                    <span class="stat-label" data-i18n="waitlist_invites">Invites</span>
+                </div>
+                <div class="waitlist-stat">
+                    <span class="stat-value" id="waitlistGifts">0</span>
+                    <span class="stat-label" data-i18n="waitlist_gifts">Free Gifts</span>
+                </div>
+            </div>
+            <div class="waitlist-actions">
+                <button class="waitlist-btn-invite" onclick="copyWaitlistLink()" style="display: none;">
+                    📤 <span data-i18n="waitlist_btn_invite">Invite Friends</span>
+                </button>
+                <button class="waitlist-btn-join" id="waitlistJoinBtn" onclick="joinWaitlist()">
+                    🎟️ <span data-i18n="waitlist_btn_join">Join Waitlist</span>
+                </button>
+            </div>
+            <div class="waitlist-progress">
+                <div class="waitlist-progress-fill" id="waitlistProgress" style="width: 0%;"></div>
+            </div>
+            <div id="waitlistFounderBadge" class="waitlist-founder-badge" style="display: none;">
+                🏆 <span data-i18n="waitlist_founder">You are a FOUNDER!</span>
+            </div>
+        </div>
+    </div>
+
     <div class="nav-buttons">
-        
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
-    <!-- =========================================================
-         EVENTS CONTAINER
-    ========================================================= -->
     <div class="events-container">
+        <!-- HEADER -->
         <div class="events-header">
-            <h2 data-i18n="weekly_events">🏆 Weekly Events</h2>
+            <h1 data-i18n="weekly_events">🏆 Weekly Events</h1>
+            <p data-i18n="earn_points_subtitle">Complete events, earn points, climb the leaderboard!</p>
         </div>
 
-        <div id="eventsList">
-            <!-- الأحداث ستظهر هنا -->
+        <!-- BALANCE CARD -->
+        <div class="balance-card">
+            <div class="balance-label" data-i18n="my_balance">My Current Balance</div>
+            <div class="balance-value" id="balanceValue">$0.00</div>
+            <div class="balance-sub" id="balancePoints">0 <span data-i18n="points">points</span></div>
+            <div class="tier-badge regular" id="tierBadge">👤 Regular (30%)</div>
+            <div class="level-progress-bar">
+                <div class="level-progress-fill" id="levelProgress" style="width: 0%;"></div>
+            </div>
+            <div style="font-size: 12px; margin-top: 6px; opacity: 0.9;" id="levelProgressText">0 / 5,000 to Silver</div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">🎯</div>
+                <div class="value" id="statJoined">0</div>
+                <div class="label" data-i18n="joined_label">Joined</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🏆</div>
+                <div class="value" id="statCompleted">0</div>
+                <div class="label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🪙</div>
+                <div class="value" id="statPoints">0</div>
+                <div class="label" data-i18n="points">Points</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⭐</div>
+                <div class="value" id="statRank">#-</div>
+                <div class="label" data-i18n="leaderboard">Rank</div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('daily', this)" data-i18n="daily_tasks">📅 Daily</button>
+            <button class="tab" onclick="switchTab('weekly', this)" data-i18n="weekly_tasks">🏆 Weekly</button>
+            <button class="tab" onclick="switchTab('hard', this)" data-i18n="hard_tasks">🔥 Hard</button>
+            <button class="tab" onclick="switchTab('leaderboard', this)" data-i18n="leaderboard">🏅 Leaderboard</button>
+        </div>
+
+        <div id="dailyTab" class="tasks-section">
+            <h3>📅 <span data-i18n="daily_tasks">Daily Events</span> <span style="font-size:13px;color:#65676b;" data-i18n="reset_daily">(reset daily)</span></h3>
+            <div id="dailyEvents"></div>
+        </div>
+
+        <div id="weeklyTab" class="tasks-section" style="display:none;">
+            <h3>🏆 <span data-i18n="weekly_tasks">Weekly Events</span></h3>
+            <div id="weeklyEvents"></div>
+        </div>
+
+        <div id="hardTab" class="tasks-section" style="display:none;">
+            <h3>🔥 <span data-i18n="hard_tasks">Hard Events</span></h3>
+            <div id="hardEvents"></div>
+        </div>
+
+        <div id="leaderboardTab" class="tasks-section" style="display:none;">
+            <h3>🏅 <span data-i18n="leaderboard">Top Players</span></h3>
+            <div style="overflow-x: auto;">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th data-i18n="points">Points</th>
+                            <th data-i18n="level">Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr><td colspan="4" style="text-align:center;padding:30px;color:#65676b;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- FOOTER -->
+    <footer>
+        <div style="margin-bottom: 15px;">
+            <a href="index.html" style="color: #1877f2; font-weight: 700; font-size: 20px;">📘 SocialWiki</a>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <a href="terms.html" data-i18n="terms_title">Terms of Service</a>
+            <a href="privacy.html" data-i18n="privacy_title">Privacy Policy</a>
+            <a href="about.html" data-i18n="about_title">About</a>
+            <a href="contact.html" data-i18n="contact_title">Contact</a>
+        </div>
+        <div style="color: #65676b; font-size: 12px;">© 2025 SocialWiki. All rights reserved.</div>
+    </footer>
+
+    <!-- SCRIPTS -->
     <script>
-        // Supabase setup
-        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // =========================================================
+        // ═══════════════════════════════════════════════════════════
+        // SUPABASE SETUP
+        // ═══════════════════════════════════════════════════════════
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+        const supabaseClient = window.supabaseClient;
+
+        let currentUser = null;
+        let currentProfile = null;
+
+        // ═══════════════════════════════════════════════════════════
         // LOGOUT
-        // =========================================================
-        
+        // ═══════════════════════════════════════════════════════════
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
-        
-        // =========================================================
-        // LOAD USER PROFILE
-        // =========================================================
-        
+
+        // ═══════════════════════════════════════════════════════════
+        // LOAD USER
+        // ═══════════════════════════════════════════════════════════
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-                
-                if (!user) return;
-                
-                const { data: profile, error } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name, avatar_url')
-                    .eq('id', user.id)
-                    .single();
-                
-                if (error) {
-                    console.error('Error loading profile:', error);
-                    return;
-                }
-                
-                const username = profile?.username || profile?.full_name || 'User';
-                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                
-                const navProfileName = document.getElementById('navProfileName');
-                if (navProfileName) navProfileName.textContent = username;
-                
-                const navProfileImg = document.getElementById('navProfileImg');
-                if (navProfileImg) navProfileImg.src = avatarUrl;
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-        
-        // =========================================================
-        // LOAD EVENTS
-        // =========================================================
-        
-        async function loadEvents() {
-            try {
-                const { data: events, error } = await supabaseClient
-                    .from('events')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Error loading events:', error);
-                    return;
-                }
-                
-                displayEvents(events || []);
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-        
-        // =========================================================
-        // DISPLAY EVENTS (مترجمة)
-        // =========================================================
-        
-        function displayEvents(events) {
-            const container = document.getElementById('eventsList');
-            container.innerHTML = '';
-            
-            if (!events || events.length === 0) {
-                // ✅ استخدام الترجمة
-                const noEventsText = (typeof t === 'function') ? t('no_events') : 'No events available';
-                container.innerHTML = `<p style="text-align: center; color: #65676b; padding: 30px;">${noEventsText}</p>`;
-                return;
-            }
-            
-            events.forEach(event => {
-                const card = document.createElement('div');
-                card.className = 'event-card';
-                
-                // ✅ استخدام الترجمة
-                const rewardLabel = (typeof t === 'function') ? t('reward') : 'Reward';
-                const joinLabel = (typeof t === 'function') ? t('join') : 'Join';
-                const pointsLabel = (typeof t === 'function') ? t('points') : 'Points';
-                
-                card.innerHTML = `
-                    <div class="event-icon">🏆</div>
-                    <div class="event-info">
-                        <div class="event-title">${escapeHtml(event.title)}</div>
-                        <div class="event-description">${escapeHtml(event.description)}</div>
-                        <div class="event-reward">${rewardLabel}: ${event.points_reward} ${pointsLabel}</div>
-                    </div>
-                    <button class="event-status" onclick="joinEvent('${event.id}')">${joinLabel}</button>
-                `;
-                
-                container.appendChild(card);
-            });
-        }
-        
-        // =========================================================
-        // JOIN EVENT (مترجمة)
-        // =========================================================
-        
-        async function joinEvent(eventId) {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                
                 if (!user) {
-                    // ✅ استخدام الترجمة
-                    const loginMsg = (typeof t === 'function') ? t('please_login') : 'Please login first!';
-                    alert(loginMsg);
                     window.location.href = 'auth.html';
                     return;
                 }
-                
-                // التحقق من عدم الانضمام من قبل
-                const { data: existingJoin } = await supabaseClient
-                    .from('event_participants')
-                    .select('*')
-                    .eq('event_id', eventId)
-                    .eq('user_id', user.id)
-                    .maybeSingle();
-                
-                if (existingJoin) {
-                    // ✅ استخدام الترجمة
-                    const alreadyJoinedMsg = (typeof t === 'function') ? t('already_joined_event') : 'You have already joined this event!';
-                    alert(alreadyJoinedMsg);
-                    return;
-                }
-                
-                // الانضمام للحدث
-                await supabaseClient
-                    .from('event_participants')
-                    .insert({
-                        event_id: eventId,
-                        user_id: user.id
-                    });
-                
-                // ✅ استخدام الترجمة
-                const joinedMsg = (typeof t === 'function') ? t('joined_event_success') : 'You have joined the event!';
-                alert(joinedMsg);
-                
+                currentUser = user;
+
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url, creator_tier')
+                    .eq('id', user.id)
+                    .single();
+
+                currentProfile = profile;
+
+                const name = profile?.full_name || profile?.username || 'User';
+                const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+
+                document.getElementById('navProfileName').textContent = name;
+                document.getElementById('navProfileImg').src = avatar;
+
+                // عرض الفئة
+                updateTierBadge(profile?.creator_tier || 'regular');
             } catch (error) {
-                console.error('Error:', error);
-                alert('Error: ' + error.message);
+                console.error('Profile error:', error);
             }
         }
-        
-        // =========================================================
+
+        function updateTierBadge(tier) {
+            const badge = document.getElementById('tierBadge');
+            if (!badge) return;
+
+            const tiers = {
+                'regular': { text: '👤 Regular (30%)', class: 'regular' },
+                'creator': { text: '🎨 Creator (50%)', class: 'creator' },
+                'influencer': { text: '🌟 Influencer (70%)', class: 'influencer' }
+            };
+
+            const info = tiers[tier] || tiers.regular;
+            badge.textContent = info.text;
+            badge.className = 'tier-badge ' + info.class;
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // LOAD BALANCE
+        // ═══════════════════════════════════════════════════════════
+        async function loadBalance() {
+            if (!currentUser) return;
+
+            const { data: bal } = await supabaseClient
+                .from('user_balances')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .maybeSingle();
+
+            const points = bal?.total_points || 0;
+            const dollars = bal?.total_dollars || 0;
+
+            document.getElementById('balanceValue').textContent = '$' + (points * 0.001).toFixed(2);
+            document.getElementById('balancePoints').innerHTML = points.toLocaleString() + ' <span data-i18n="points">points</span>';
+            document.getElementById('statPoints').textContent = points.toLocaleString();
+
+            // Level Progress
+            const levels = [0, 5000, 25000, 100000];
+            const levelNames = ['Bronze', 'Silver', 'Gold', 'Diamond'];
+            let currentLevel = 0;
+            for (let i = 0; i < levels.length; i++) {
+                if (points >= levels[i]) currentLevel = i;
+            }
+
+            const nextLevel = currentLevel + 1 < levels.length ? levels[currentLevel + 1] : levels[levels.length - 1];
+            const currentBase = levels[currentLevel];
+            const percent = Math.min(100, ((points - currentBase) / (nextLevel - currentBase)) * 100);
+
+            document.getElementById('levelProgress').style.width = percent + '%';
+            document.getElementById('levelProgressText').textContent = 
+                points.toLocaleString() + ' / ' + nextLevel.toLocaleString() + ' to ' + (levelNames[currentLevel + 1] || 'Max');
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // LOAD EVENTS
+        // ═══════════════════════════════════════════════════════════
+        async function loadEvents() {
+            const { data: events } = await supabaseClient
+                .from('events')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (!events) return;
+
+            // جلب مشاركات المستخدم
+            let participations = [];
+            if (currentUser) {
+                const { data: p } = await supabaseClient
+                    .from('event_participants')
+                    .select('*')
+                    .eq('user_id', currentUser.id);
+                participations = p || [];
+            }
+
+            const partsMap = {};
+            participations.forEach(p => partsMap[p.event_id] = p);
+
+            // تجميع حسب النوع
+            const daily = events.filter(e => e.event_type === 'daily');
+            const weekly = events.filter(e => e.event_type === 'weekly');
+            const hard = events.filter(e => e.event_type === 'hard');
+
+            renderEvents('dailyEvents', daily, partsMap);
+            renderEvents('weeklyEvents', weekly, partsMap);
+            renderEvents('hardEvents', hard, partsMap);
+
+            // إحصائيات
+            document.getElementById('statJoined').textContent = participations.length;
+            document.getElementById('statCompleted').textContent = participations.filter(p => p.completed).length;
+        }
+
+        function renderEvents(containerId, events, partsMap) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (events.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#65676b;padding:20px;">No events</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            events.forEach(event => {
+                const part = partsMap[event.id];
+                const completed = part?.completed || false;
+                const progress = part?.progress || 0;
+                const goal = event.goal || 1;
+                const percent = Math.min(100, (progress / goal) * 100);
+
+                // ✅ احسب مكافأة المستخدم حسب فئته
+                const tier = currentProfile?.creator_tier || 'regular';
+                const multiplier = tier === 'influencer' ? 1.7 : tier === 'creator' ? 1.5 : 1.0;
+                const userPoints = Math.round(event.points_reward * multiplier);
+                const bonusPercent = Math.round((multiplier - 1) * 100);
+
+                const div = document.createElement('div');
+                div.className = 'task-item' + (completed ? ' completed' : '');
+                div.innerHTML = `
+                    <div class="task-left">
+                        <div class="task-icon">${event.icon || '🏆'}</div>
+                        <div class="task-info">
+                            <div class="task-name">${translateEventName(event.title)}</div>
+                            <div class="task-progress-text">${progress} / ${goal}</div>
+                            <div class="task-progress-bar">
+                                <div class="task-progress-fill" style="width:${percent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-reward">
+                        +${userPoints}
+                        ${bonusPercent > 0 ? `<span style="font-size:11px;color:#28a745;">(+${bonusPercent}%)</span>` : ''}
+                    </div>
+                    ${completed 
+                        ? '<div class="task-check">✅</div>' 
+                        : `<button class="task-btn" onclick="doEvent('${event.id}')">Go</button>`}
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function translateEventName(title) {
+            if (typeof t === 'function') {
+                const translated = t(title);
+                if (translated !== title) return translated;
+            }
+            // إذا لم تُترجم، اعرض عنواناً جميلاً
+            return title.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // DO EVENT
+        // ═══════════════════════════════════════════════════════════
+        window.doEvent = async function(eventId) {
+            if (!currentUser) {
+                alert('Please login first');
+                return;
+            }
+
+            // أحداث الإعلانات
+            const adEvents = ['watch_5_ads'];
+            const { data: event } = await supabaseClient
+                .from('events')
+                .select('title')
+                .eq('id', eventId)
+                .single();
+
+            if (event && adEvents.includes(event.title)) {
+                window.open('https://data527.click/e425f4e70b2f3179c0a9/1925225afb/?placementName=default', '_blank');
+                setTimeout(async () => {
+                    await completeEvent(eventId);
+                }, 3000);
+                return;
+            }
+
+            // الأحداث الأخرى - أكملها مباشرة
+            await completeEvent(eventId);
+        };
+
+        async function completeEvent(eventId) {
+            try {
+                const { data, error } = await supabaseClient.rpc('complete_event', {
+                    p_user_id: currentUser.id,
+                    p_event_id: eventId
+                });
+
+                if (error) {
+                    console.error('Complete error:', error);
+                    alert('❌ Error: ' + error.message);
+                    return;
+                }
+
+                const result = Array.isArray(data) ? data[0] : data;
+
+                if (result.success) {
+                    alert('🎉 Event completed! +' + result.points + ' points');
+                    await loadBalance();
+                    await loadEvents();
+                    await loadLeaderboard();
+                } else {
+                    alert('⚠️ ' + (result.message || 'Failed'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ ' + err.message);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // LEADERBOARD
+        // ═══════════════════════════════════════════════════════════
+        async function loadLeaderboard() {
+            const { data: profiles } = await supabaseClient
+                .from('profiles')
+                .select('id, username, full_name, avatar_url, creator_tier, total_points')
+                .order('total_points', { ascending: false })
+                .limit(50);
+
+            const tbody = document.getElementById('leaderboardBody');
+            if (!tbody) return;
+
+            if (!profiles || profiles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:#65676b;">No players yet</td></tr>';
+                return;
+            }
+
+            // احسب ترتيب المستخدم
+            const myRank = profiles.findIndex(p => p.id === currentUser?.id);
+            if (myRank >= 0) {
+                document.getElementById('statRank').textContent = '#' + (myRank + 1);
+            }
+
+            tbody.innerHTML = '';
+            profiles.forEach((p, index) => {
+                const name = p.full_name || p.username || 'User';
+                const avatar = p.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+                const points = p.total_points || 0;
+                const tier = p.creator_tier || 'regular';
+
+                const tierNames = {
+                    'regular': '👤 Regular',
+                    'creator': '🎨 Creator',
+                    'influencer': '🌟 Influencer'
+                };
+
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                const rankIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '#' + (index + 1);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><span class="${rankClass}">${rankIcon}</span></td>
+                    <td>
+                        <div class="player-info">
+                            <img src="${avatar}" class="player-avatar">
+                            <span class="player-name">${escapeHtml(name)}</span>
+                        </div>
+                    </td>
+                    <td style="font-weight:700;color:#f7b928;">${points.toLocaleString()} 🪙</td>
+                    <td><span class="player-tier ${tier}">${tierNames[tier]}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // WAITLIST
+        // ═══════════════════════════════════════════════════════════
+        async function loadWaitlistStatus() {
+            if (!currentUser) return;
+
+            try {
+                const { data, error } = await supabaseClient.rpc('get_waitlist_info');
+                if (error) { console.warn('Waitlist error:', error); return; }
+
+                const info = Array.isArray(data) ? data[0] : data;
+                if (!info) return;
+
+                const banner = document.getElementById('waitlistBanner');
+                if (!banner) return;
+                banner.style.display = 'block';
+
+                document.getElementById('waitlistPosition').textContent = (info.queue_position || 0).toLocaleString();
+                document.getElementById('waitlistInvites').textContent = info.invites ?? 0;
+                document.getElementById('waitlistGifts').textContent = info.free_gifts ?? 0;
+
+                const founderBadge = document.getElementById('waitlistFounderBadge');
+                if (founderBadge) founderBadge.style.display = info.is_founder ? 'block' : 'none';
+
+                const joinBtn = document.getElementById('waitlistJoinBtn');
+                const inviteBtn = document.querySelector('.waitlist-btn-invite');
+
+                const inWaitlist = info.in_waitlist !== undefined ? info.in_waitlist : true;
+                if (!inWaitlist) {
+                    if (joinBtn) joinBtn.style.display = 'flex';
+                    if (inviteBtn) inviteBtn.style.display = 'none';
+                } else {
+                    if (joinBtn) joinBtn.style.display = 'none';
+                    if (inviteBtn) inviteBtn.style.display = 'flex';
+                }
+
+                const invites = info.invites ?? 0;
+                document.getElementById('waitlistProgress').style.width = Math.min(100, invites * 10) + '%';
+            } catch (e) {
+                console.warn('Waitlist skipped');
+            }
+        }
+
+        window.joinWaitlist = async function() {
+            const btn = document.getElementById('waitlistJoinBtn');
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Loading...'; }
+
+            try {
+                const { data, error } = await supabaseClient.rpc('join_waitlist');
+                if (error) {
+                    alert('❌ Error: ' + error.message);
+                    if (btn) { btn.disabled = false; btn.textContent = '🎟️ Join Waitlist'; }
+                    return;
+                }
+
+                const result = Array.isArray(data) ? data[0] : data;
+                if (!result || !result.success) {
+                    alert('❌ ' + (result?.error || 'Unknown error'));
+                    if (btn) { btn.disabled = false; btn.textContent = '🎟️ Join Waitlist'; }
+                    return;
+                }
+
+                alert('🎉 You joined! Position: #' + result.queue_position);
+                await loadWaitlistStatus();
+            } catch (err) {
+                alert('❌ ' + err.message);
+            }
+        };
+
+        window.copyWaitlistLink = async function() {
+            try {
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('referral_code')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                let code = profile?.referral_code;
+                if (!code) {
+                    code = 'REF' + currentUser.id.substring(0, 6).toUpperCase();
+                    await supabaseClient.from('profiles').update({ referral_code: code }).eq('id', currentUser.id);
+                }
+
+                const link = `${window.location.origin}/auth.html?ref=${code}`;
+                await navigator.clipboard.writeText(link);
+                alert('✅ Link copied!');
+            } catch (err) {
+                alert('❌ Failed to copy');
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // TABS
+        // ═══════════════════════════════════════════════════════════
+        window.switchTab = function(tab, btn) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            ['daily', 'weekly', 'hard', 'leaderboard'].forEach(name => {
+                const el = document.getElementById(name + 'Tab');
+                if (el) el.style.display = 'none';
+            });
+
+            const target = document.getElementById(tab + 'Tab');
+            if (target) target.style.display = 'block';
+
+            if (tab === 'leaderboard') loadLeaderboard();
+        };
+
+        // ═══════════════════════════════════════════════════════════
         // ESCAPE HTML
-        // =========================================================
-        
+        // ═══════════════════════════════════════════════════════════
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        
-        // =========================================================
-        // START
-        // =========================================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserProfile();
-            loadEvents();
+
+        // ═══════════════════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof initLanguage === 'function') initLanguage();
+            if (typeof setLanguage === 'function') setLanguage(getCurrentLanguage());
+
+            await loadUserProfile();
+            await loadBalance();
+            await loadEvents();
+            await loadLeaderboard();
+            await loadWaitlistStatus();
+        });
+
+        window.addEventListener('languageChanged', function() {
+            if (typeof applyTranslations === 'function') applyTranslations();
         });
     </script>
-     <script src="js/messenger-notify.js"></script>
-    <!-- ⛔ Popunder disabled -->
-    <!-- <script src="js/popunder-ad.js"></script> -->
+
+    <script src="js/messenger-notify.js"></script>
     <script src="js/dark-mode.js"></script>
     <script src="js/monetag.js" data-cfasync="false"></script>
     <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
