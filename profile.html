@@ -861,6 +861,121 @@
     0% { background-position: 0% center; }
     100% { background-position: 200% center; }
 }
+
+/* =========================================================
+   🎨 PROFILE CUSTOMIZATION - AVATAR FRAMES
+   ========================================================= */
+
+/* إطار أساسي */
+.avatar-frame {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* 🥉 Bronze */
+.avatar-frame.bronze {
+    border: 4px solid #cd7f32;
+    box-shadow: 0 0 15px rgba(205,127,50,0.5);
+}
+
+/* 🥈 Silver */
+.avatar-frame.silver {
+    border: 4px solid #c0c0c0;
+    box-shadow: 0 0 20px rgba(192,192,192,0.6);
+}
+
+/* 🥇 Gold */
+.avatar-frame.gold {
+    border: 4px solid #ffd700;
+    box-shadow: 0 0 25px #ffd700;
+    animation: goldPulse 2s infinite;
+}
+@keyframes goldPulse {
+    0%, 100% { box-shadow: 0 0 25px #ffd700; }
+    50% { box-shadow: 0 0 45px #ffd700, 0 0 70px #ffd700; }
+}
+
+/* 💎 Diamond */
+.avatar-frame.diamond {
+    padding: 5px;
+    background: conic-gradient(from 0deg, #00f2fe, #4facfe, #00f2fe, #4facfe, #00f2fe);
+    animation: diamondRotate 3s linear infinite;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+@keyframes diamondRotate {
+    to { transform: rotate(360deg); }
+}
+
+/* 🔥 Fire */
+.avatar-frame.fire {
+    border: 5px solid transparent;
+    background: linear-gradient(45deg, #ff6b00, #ff0000, #ff6b00);
+    background-origin: border-box;
+    background-clip: border-box;
+    box-shadow: 0 0 30px rgba(255,107,0,0.8);
+    animation: firePulse 1.5s infinite alternate;
+}
+@keyframes firePulse {
+    from { box-shadow: 0 0 20px rgba(255,107,0,0.6); }
+    to { box-shadow: 0 0 45px rgba(255,107,0,1); }
+}
+
+/* 🌈 Rainbow */
+.avatar-frame.rainbow {
+    padding: 5px;
+    background: conic-gradient(from 0deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000);
+    animation: rainbowRotate 2s linear infinite;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+@keyframes rainbowRotate {
+    to { transform: rotate(360deg); }
+}
+
+/* 👑 Royal */
+.avatar-frame.royal {
+    border: 5px solid #ffd700;
+    background: linear-gradient(45deg, #ffd700, #b8860b, #ffd700);
+    background-origin: border-box;
+    background-clip: border-box;
+    box-shadow: 0 0 40px rgba(255,215,0,0.9);
+    animation: royalPulse 3s infinite;
+}
+@keyframes royalPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
+/* 🎖️ شارات المستخدم - User Badges */
+.user-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    animation: badgePop 0.5s ease-out;
+}
+.user-badge.bronze { background: linear-gradient(135deg, #cd7f32, #8b5a2b); }
+.user-badge.silver { background: linear-gradient(135deg, #c0c0c0, #808080); }
+.user-badge.gold { background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; }
+.user-badge.verified { background: linear-gradient(135deg, #1DA1F2, #0d8ddb); }
+.user-badge.vip { background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; }
+.user-badge.premium { background: linear-gradient(135deg, #8b5cf6, #6f42c1); }
+.user-badge.legend { background: linear-gradient(135deg, #8B0000, #FF0000); }
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
@@ -937,9 +1052,11 @@
 
             <!-- الصورة الشخصية -->
             <div class="profile-avatar-wrapper">
-                <div class="profile-avatar" id="avatarContainer">
+                <div class="profile-avatar" id="avatarContainer" style="position: relative;">
                     <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" class="avatar-img" id="avatarImg" alt="Avatar" draggable="false">
                     <button class="avatar-overlay" onclick="changeAvatar()">📷 Change</button>
+                    <!-- ✅ إطار التخصيص -->
+                    <div class="avatar-frame" id="activeFrame"></div>
                 </div>
             </div>
 
@@ -2151,9 +2268,12 @@ if (urlId && urlId !== 'undefined' && urlId !== 'null' && urlId !== '' && urlId 
     window.location.href = 'auth.html';
     return;
 }
-            await loadProfile();
-            await new Promise(resolve => setTimeout(resolve, 300));
-            await checkFriendshipStatus();
+          await loadProfile();
+await new Promise(resolve => setTimeout(resolve, 300));
+await checkFriendshipStatus();
+
+// ✅ أضف هذا السطر: تحميل التخصيصات (الإطارات، الشارات)
+await loadProfileCustomization(profileUserId);
         });
 
         // =========================================================
@@ -2306,6 +2426,96 @@ if (urlId && urlId !== 'undefined' && urlId !== 'null' && urlId !== '' && urlId 
         window.saveProfileChanges = saveProfileChanges;
         window.changeAvatar = changeAvatar;
         window.changeCover = changeCover;
+                // =========================================================
+        // 🎨 LOAD PROFILE CUSTOMIZATION
+        // =========================================================
+        async function loadProfileCustomization(userId) {
+            try {
+                console.log('🎨 Loading customization for:', userId);
+
+                const { data: active, error } = await supabaseClient
+                    .from('user_active_items')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .maybeSingle();
+
+                if (error) {
+                    console.warn('⚠️ No customization table yet:', error.message);
+                    return;
+                }
+
+                if (!active) {
+                    console.log('ℹ️ No active customization');
+                    return;
+                }
+
+                // ✅ 1. الإطار
+                const frameEl = document.getElementById('activeFrame');
+                if (frameEl && active.active_frame) {
+                    frameEl.className = 'avatar-frame ' + active.active_frame;
+                    console.log('✅ Frame applied:', active.active_frame);
+                }
+
+                // ✅ 2. شارة إضافية
+                if (active.active_badge) {
+                    const badgesContainer = document.getElementById('userBadges');
+                    if (badgesContainer) {
+                        const badgeEmojis = {
+                            bronze: '🥉',
+                            silver: '🥈',
+                            gold: '🥇',
+                            verified: '✅',
+                            vip: '👑',
+                            legend: '🏆',
+                            premium: '💎'
+                        };
+
+                        const badgeNames = {
+                            bronze: 'Bronze',
+                            silver: 'Silver',
+                            gold: 'Gold',
+                            verified: 'Verified',
+                            vip: 'VIP',
+                            legend: 'Legend',
+                            premium: 'Premium'
+                        };
+
+                        const emoji = badgeEmojis[active.active_badge] || '🏅';
+                        const name = badgeNames[active.active_badge] || active.active_badge;
+
+                        const badgeEl = document.createElement('div');
+                        badgeEl.className = 'user-badge ' + active.active_badge;
+                        badgeEl.innerHTML = `<span>${emoji}</span><span>${name}</span>`;
+                        badgesContainer.appendChild(badgeEl);
+
+                        badgesContainer.style.display = 'flex';
+                        console.log('✅ Badge applied:', active.active_badge);
+                    }
+                }
+
+                // ✅ 3. تأثير الاسم
+                const nameEl = document.getElementById('profileName');
+                if (nameEl && active.active_name_effect) {
+                    nameEl.classList.add(active.active_name_effect);
+                    console.log('✅ Name effect:', active.active_name_effect);
+                }
+
+                // ✅ 4. الثيم
+                if (active.active_theme) {
+                    document.body.classList.add('theme-' + active.active_theme);
+                    console.log('✅ Theme:', active.active_theme);
+                }
+
+            } catch (e) {
+                console.error('❌ Customization error:', e);
+            }
+        }
+
+        // تصدير الدالة عالمياً
+        window.loadProfileCustomization = loadProfileCustomization;
+
+// ✅ هذا السطر يجب أن يكون موجوداً (تأكد)
+window.logout = logout;
         window.showTab = showTab;
         window.logout = logout;
     </script>
