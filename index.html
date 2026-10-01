@@ -1869,7 +1869,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
                 '</div>';
 
             if (searchTimeout) clearTimeout(searchTimeout);
-                  searchTimeout = setTimeout(async function() {
+            searchTimeout = setTimeout(async function() {
                 console.log('Searching:', query);
                 // Perform inline search
                 try {
@@ -1932,9 +1932,8 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     resultsDiv.innerHTML = '<div class="search-no-results">❌ خطأ</div>';
                 }
             }, 300);
-        };
 
-      
+        };
     
         document.addEventListener('click', function(e) {
             const searchDiv = document.querySelector('.navbar-search');
@@ -1948,7 +1947,10 @@ window.deleteStory = async function(storyId, mediaUrl) {
             if (e.key === 'Escape') {
                 const resultsDiv = document.getElementById('searchResults');
                 const input = document.getElementById('navbarSearchInput');
-                if (resultsDiv) resultsDiv.classList.remove('show');
+                 if (resultsDiv) {
+    resultsDiv.classList.remove('show');
+    resultsDiv.style.display = 'none';
+}
                 if (input) input.blur();
             }
         });
