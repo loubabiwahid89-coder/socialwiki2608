@@ -1359,13 +1359,14 @@
                     if (!seenCountries.includes(badge.country)) {
                         await sendBadgeNotification(userId, badge);
                         
-                        await supabaseClient
-                            .from('user_badge_notifications')
-                            .insert({
-                                user_id: userId,
-                                badge_country: badge.country,
-                                is_read: false
-                            });
+                     await supabaseClient
+    .from('user_badge_notifications')
+    .insert({
+        user_id: userId,
+        badge_country: badge.country,
+        badge_icon: badge.icon || null, // نضيف الأيقونة إذا كانت موجودة
+        is_seen: false // <-- استخدم is_seen بدلاً من is_read
+    });
                     }
                 }
             } catch (err) {
