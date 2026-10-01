@@ -1,1 +1,653 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="memories_title">Memories - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💭</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=20261001"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #050505;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 22px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .language-btn { background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 18px; padding: 8px 12px; border-radius: 50%; }
+        .language-menu { display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto; }
+        .language-menu.show { display: block; }
+        .language-menu button { width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: start; font-size: 14px; }
+        .language-menu button:hover { background: #f0f2f5; }
+
+        /* ========== CONTAINER ========== */
+        .memories-container { max-width: 680px; margin: 0 auto; padding: 20px; }
+
+        /* ========== HERO ========== */
+        .memories-hero {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 16px;
+            padding: 30px 25px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .memories-hero h1 { margin: 0 0 8px; font-size: 28px; }
+        .memories-hero p { margin: 0; opacity: 0.9; font-size: 15px; }
+
+        /* ========== STATS ========== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .stat-card .icon { font-size: 28px; margin-bottom: 6px; }
+        .stat-card .value { font-size: 22px; font-weight: 800; color: #1877f2; margin-bottom: 4px; }
+        .stat-card .label { font-size: 12px; color: #65676b; font-weight: 600; }
+
+        /* ========== TABS ========== */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #65676b;
+            border-radius: 8px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .tab:hover { background: #f0f2f5; }
+        .tab.active { background: #1877f2; color: white; }
+
+        /* ========== MEMORY CARD ========== */
+        .memory-section { display: none; }
+        .memory-section.active { display: block; }
+
+        .memory-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.2s;
+        }
+        .memory-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .memory-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .memory-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: #050505;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .memory-time {
+            font-size: 12px;
+            color: #65676b;
+        }
+
+        .memory-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #050505;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+        }
+        .memory-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .memory-footer {
+            display: flex;
+            gap: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #e4e6eb;
+            font-size: 13px;
+            color: #65676b;
+        }
+        .memory-footer span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+            background: white;
+            border-radius: 14px;
+        }
+        .empty-icon { font-size: 60px; margin-bottom: 15px; }
+        .empty-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #050505; }
+        .empty-text { font-size: 14px; }
+
+        /* ========== LOADING ========== */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #65676b;
+        }
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e4e6eb;
+            border-top-color: #1877f2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ========== ON THIS DAY ========== */
+        .on-this-day {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #fbbf24;
+        }
+        .on-this-day-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-weight: 800;
+            color: #92400e;
+        }
+        .on-this-day-title { font-size: 16px; }
+
+        @media (max-width: 700px) {
+            .memories-hero h1 { font-size: 22px; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .tab { font-size: 12px; padding: 10px 8px; }
+        }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="index.html" class="logo">📘 SocialWiki</a>
+    </div>
+    <ul class="nav-icons">
+        <li><a href="index.html" title="Home">🏠</a></li>
+        <li><a href="friends.html" title="Friends">👥</a></li>
+        <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+        <li><a href="events.html" title="Events">📅</a></li>
+        <li><a href="notifications.html" title="Notifications">🔔</a></li>
+    </ul>
+    <div class="nav-right">
+        <a href="profile.html" class="nav-profile">
+            <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+            <span id="navProfileName">User</span>
+        </a>
+        <div style="position: relative;">
+            <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+            <div class="language-menu" id="languageMenu">
+                <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+                <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+            </div>
+        </div>
+        <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+</nav>
+
+<!-- ========== CONTAINER ========== -->
+<div class="memories-container">
+
+    <!-- HERO -->
+    <div class="memories-hero">
+        <h1 data-i18n="memories_title">💭 Memories</h1>
+        <p data-i18n="memories_subtitle">Relive your best moments on SocialWiki</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="icon">📸</div>
+            <div class="value" id="totalPosts">0</div>
+            <div class="label" data-i18n="total_posts">Posts</div>
+        </div>
+        <div class="stat-card">
+            <div class="icon">📅</div>
+            <div class="value" id="memberSince">-</div>
+            <div class="label" data-i18n="member_since">Member</div>
+        </div>
+        <div class="stat-card">
+            <div class="icon">❤️</div>
+            <div class="value" id="totalLikes">0</div>
+            <div class="label" data-i18n="total_likes">Likes</div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('onThisDay', this)" data-i18n="tab_on_this_day">📅 On This Day</button>
+        <button class="tab" onclick="switchTab('firstPost', this)" data-i18n="tab_first_post">🎉 First Post</button>
+        <button class="tab" onclick="switchTab('oldPosts', this)" data-i18n="tab_old_posts">📸 Old Posts</button>
+        <button class="tab" onclick="switchTab('likedPosts', this)" data-i18n="tab_liked_posts">❤️ Most Liked</button>
+    </div>
+
+    <!-- TAB: ON THIS DAY -->
+    <div id="onThisDay" class="memory-section active">
+        <div id="onThisDayContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <!-- TAB: FIRST POST -->
+    <div id="firstPost" class="memory-section">
+        <div id="firstPostContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <!-- TAB: OLD POSTS -->
+    <div id="oldPosts" class="memory-section">
+        <div id="oldPostsContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <!-- TAB: LIKED POSTS -->
+    <div id="likedPosts" class="memory-section">
+        <div id="likedPostsContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+    // ============ SUPABASE ============
+    if (!window.supabaseClient) {
+        window.supabaseClient = window.supabase.createClient(
+            "https://zcffrkvxmxvojkbmtufe.supabase.co",
+            "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
+        );
+    }
+    const sb = window.supabaseClient;
+    let currentUser = null;
+
+    // ============ LOGOUT ============
+    window.logout = async function() {
+        await sb.auth.signOut();
+        window.location.href = 'auth.html';
+    };
+
+    // ============ LOAD USER ============
+    async function loadUser() {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) { window.location.href = 'auth.html'; return null; }
+        currentUser = user;
+
+        const { data: profile } = await sb
+            .from('profiles')
+            .select('username, full_name, avatar_url, created_at')
+            .eq('id', user.id)
+            .single();
+
+        const name = profile?.full_name || profile?.username || 'User';
+        const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+        const nEl = document.getElementById('navProfileName');
+        if (nEl) nEl.textContent = name;
+        const iEl = document.getElementById('navProfileImg');
+        if (iEl) iEl.src = avatar;
+
+        // Member since
+        if (profile?.created_at) {
+            const date = new Date(profile.created_at);
+            document.getElementById('memberSince').textContent = date.getFullYear();
+        }
+
+        return user;
+    }
+
+    // ============ LOAD STATS ============
+    async function loadStats() {
+        const { count: postsCount } = await sb
+            .from('posts')
+            .select('id', { count: 'exact', head: true })
+            .eq('user_id', currentUser.id);
+
+        document.getElementById('totalPosts').textContent = postsCount || 0;
+
+        // Likes
+        const { data: posts } = await sb
+            .from('posts')
+            .select('likes_count')
+            .eq('user_id', currentUser.id);
+
+        const totalLikes = (posts || []).reduce((sum, p) => sum + (p.likes_count || 0), 0);
+        document.getElementById('totalLikes').textContent = totalLikes.toLocaleString();
+    }
+
+    // ============ FORMAT DATE ============
+    function formatDate(timestamp) {
+        if (!timestamp) return '';
+        const date = new Date(timestamp);
+        return date.toLocaleDateString('en-GB', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+
+    function timeAgo(timestamp) {
+        if (!timestamp) return '';
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+        if (days < 1) return 'Today';
+        if (days === 1) return 'Yesterday';
+        if (days < 30) return `${days} days ago`;
+        if (days < 365) return `${Math.floor(days / 30)} months ago`;
+        return `${Math.floor(days / 365)} years ago`;
+    }
+
+    // ============ ESCAPE HTML ============
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ============ CREATE POST CARD ============
+    function createPostCard(post, label = '') {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.innerHTML = `
+            ${label ? `<div class="memory-header"><div class="memory-title">${label}</div></div>` : ''}
+            <div class="memory-header">
+                <div class="memory-title">📝 Post</div>
+                <div class="memory-time">${timeAgo(post.created_at)}</div>
+            </div>
+            ${post.content ? `<div class="memory-content">${escapeHtml(post.content)}</div>` : ''}
+            ${post.image_url ? `<img src="${post.image_url}" class="memory-image" loading="lazy">` : ''}
+            <div class="memory-footer">
+                <span>👍 ${post.likes_count || 0}</span>
+                <span>💬 ${post.comments_count || 0}</span>
+                <span>📅 ${formatDate(post.created_at)}</span>
+            </div>
+        `;
+        return card;
+    }
+
+    // ============ ON THIS DAY ============
+    async function loadOnThisDay() {
+        const container = document.getElementById('onThisDayContent');
+        container.innerHTML = '<div class="loading">Loading...</div>';
+
+        // احصل على المنشورات من نفس اليوم في سنوات سابقة
+        const { data: posts } = await sb
+            .from('posts')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('created_at', { ascending: false });
+
+        const today = new Date();
+        const todayMonth = today.getMonth();
+        const todayDay = today.getDate();
+
+        const memoryPosts = (posts || []).filter(p => {
+            const d = new Date(p.created_at);
+            return d.getMonth() === todayMonth && 
+                   d.getDate() === todayDay &&
+                   d.getFullYear() < today.getFullYear();
+        });
+
+        container.innerHTML = '';
+
+        if (memoryPosts.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📅</div>
+                    <div class="empty-title" data-i18n="no_memories_today">No memories for today</div>
+                    <div class="empty-text" data-i18n="come_back_tomorrow">Come back tomorrow for more memories!</div>
+                </div>
+            `;
+            return;
+        }
+
+        const header = document.createElement('div');
+        header.className = 'on-this-day';
+        header.innerHTML = `
+            <div class="on-this-day-header">
+                <span style="font-size: 24px;">🎉</span>
+                <div>
+                    <div class="on-this-day-title" data-i18n="on_this_day_title">On This Day</div>
+                    <div style="font-size: 13px; color: #92400e;" data-i18n="on_this_day_desc">You shared these memories on this day</div>
+                </div>
+            </div>
+        `;
+        container.appendChild(header);
+
+        memoryPosts.forEach(post => {
+            const year = new Date(post.created_at).getFullYear();
+            const yearsAgo = today.getFullYear() - year;
+            const label = yearsAgo === 1 ? '1 year ago' : `${yearsAgo} years ago`;
+            container.appendChild(createPostCard(post, `🎂 ${label}`));
+        });
+    }
+
+    // ============ FIRST POST ============
+    async function loadFirstPost() {
+        const container = document.getElementById('firstPostContent');
+        container.innerHTML = '<div class="loading">Loading...</div>';
+
+        const { data: posts } = await sb
+            .from('posts')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('created_at', { ascending: true })
+            .limit(1);
+
+        container.innerHTML = '';
+
+        if (!posts || posts.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🎉</div>
+                    <div class="empty-title">No posts yet</div>
+                    <div class="empty-text">Create your first post to see it here!</div>
+                </div>
+            `;
+            return;
+        }
+
+        const post = posts[0];
+        container.appendChild(createPostCard(post, '🎉 Your First Post'));
+    }
+
+    // ============ OLD POSTS ============
+    async function loadOldPosts() {
+        const container = document.getElementById('oldPostsContent');
+        container.innerHTML = '<div class="loading">Loading...</div>';
+
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+        const { data: posts } = await sb
+            .from('posts')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .lt('created_at', oneYearAgo.toISOString())
+            .order('created_at', { ascending: false })
+            .limit(20);
+
+        container.innerHTML = '';
+
+        if (!posts || posts.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📸</div>
+                    <div class="empty-title">No old posts</div>
+                    <div class="empty-text">Posts from over a year ago will appear here</div>
+                </div>
+            `;
+            return;
+        }
+
+        posts.forEach(post => container.appendChild(createPostCard(post)));
+    }
+
+    // ============ LIKED POSTS ============
+    async function loadLikedPosts() {
+        const container = document.getElementById('likedPostsContent');
+        container.innerHTML = '<div class="loading">Loading...</div>';
+
+        const { data: posts } = await sb
+            .from('posts')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('likes_count', { ascending: false })
+            .limit(20);
+
+        container.innerHTML = '';
+
+        if (!posts || posts.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">❤️</div>
+                    <div class="empty-title">No liked posts</div>
+                    <div class="empty-text">Your most liked posts will appear here</div>
+                </div>
+            `;
+            return;
+        }
+
+        posts.forEach(post => {
+            const card = createPostCard(post);
+            if ((post.likes_count || 0) > 0) {
+                const header = card.querySelector('.memory-header');
+                header.innerHTML = `
+                    <div class="memory-title">❤️ ${post.likes_count} likes</div>
+                    <div class="memory-time">${timeAgo(post.created_at)}</div>
+                `;
+            }
+            container.appendChild(card);
+        });
+    }
+
+    // ============ TABS ============
+    window.switchTab = function(tabName, btn) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        document.querySelectorAll('.memory-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(tabName);
+        if (target) target.classList.add('active');
+
+        // Load data
+        if (tabName === 'onThisDay') loadOnThisDay();
+        if (tabName === 'firstPost') loadFirstPost();
+        if (tabName === 'oldPosts') loadOldPosts();
+        if (tabName === 'likedPosts') loadLikedPosts();
+    };
+
+    // ============ LANGUAGE MENU ============
+    window.toggleLanguageMenu = function() {
+        const menu = document.getElementById('languageMenu');
+        if (menu) menu.classList.toggle('show');
+    };
+
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('languageMenu');
+        const btn = e.target.closest('.language-btn');
+        if (menu && !btn && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+
+    // ============ INIT ============
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('💭 memories.html loaded');
+        if (typeof initLanguage === 'function') initLanguage();
+
+        await loadUser();
+        await loadStats();
+        await loadOnThisDay();
+    });
+</script>
+
+<script src="js/messenger-notify.js"></script>
+<script src="js/dark-mode.js"></script>
+
+</body>
+</html>
