@@ -1469,9 +1469,91 @@
                 document.getElementById('avatarImg').src = avatarUrl;
                 document.getElementById('coverImg').src = coverUrl;
 
-                // ✅ عرض الشارات (Badges)
-                const badges = profile?.badges || [];
+                  // ═══════════════════════════════════════════════
+                // ✅ عرض الشارات الجديدة (special_badges + is_verified)
+                // ═══════════════════════════════════════════════
                 const badgesContainer = document.getElementById('userBadges');
+                let badgesHTML = '';
+                
+                // ✅ 1. شارة Verified
+                if (profile?.is_verified === true) {
+                    badgesHTML += `
+                        <div style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 20px;
+                            background: linear-gradient(135deg, #1DA1F2, #0d8ddb);
+                            color: white;
+                            border-radius: 25px;
+                            font-weight: 700;
+                            font-size: 14px;
+                            box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4);
+                            border: 2px solid rgba(255,255,255,0.3);
+                            margin: 5px;
+                        ">
+                            <span style="font-size: 18px;">✅</span>
+                            <span>Verified Account</span>
+                        </div>
+                    `;
+                }
+                
+                // ✅ 2. شارة First from Morocco
+                if (profile?.special_badges && profile.special_badges.includes('morocco')) {
+                    badgesHTML += `
+                        <div style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 20px;
+                            background: linear-gradient(135deg, #006633, #C1272D);
+                            color: white;
+                            border-radius: 25px;
+                            font-weight: 700;
+                            font-size: 14px;
+                            box-shadow: 0 4px 15px rgba(193, 39, 45, 0.4);
+                            border: 2px solid rgba(255,215,0,0.6);
+                            margin: 5px;
+                        ">
+                            <span style="font-size: 18px;">🇲🇦</span>
+                            <span>First Member from Morocco</span>
+                        </div>
+                    `;
+                }
+                
+                // ✅ 3. شارة Early Founder
+                if (profile?.special_badges && profile.special_badges.includes('founder_member')) {
+                    badgesHTML += `
+                        <div style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 20px;
+                            background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+                            color: #333;
+                            border-radius: 25px;
+                            font-weight: 700;
+                            font-size: 14px;
+                            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5);
+                            border: 2px solid rgba(255,255,255,0.7);
+                            margin: 5px;
+                            animation: badgePulse 2s infinite;
+                        ">
+                            <span style="font-size: 18px;">🏅</span>
+                            <span>Early Founder</span>
+                        </div>
+                    `;
+                }
+                
+                // ✅ عرض الشارات
+                if (badgesContainer) {
+                    if (badgesHTML) {
+                        badgesContainer.innerHTML = badgesHTML;
+                        badgesContainer.style.display = 'flex';
+                    } else {
+                        badgesContainer.style.display = 'none';
+                    }
+                }
                 
                 console.log('🏆 Badges:', badges);
                 
