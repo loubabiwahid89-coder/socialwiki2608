@@ -368,10 +368,14 @@
         if (iEl) iEl.src = avatar;
 
         // Member since
-        if (profile?.created_at) {
-            const date = new Date(profile.created_at);
-            document.getElementById('memberSince').textContent = date.getFullYear();
-        }
+     // Member since
+if (profile?.created_at) {
+    const date = new Date(profile.created_at);
+    const lang = typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'en';
+    const month = date.toLocaleDateString(lang, { month: 'short' });
+    const year = date.getFullYear();
+    document.getElementById('memberSince').textContent = `${month} ${year}`;
+}
 
         return user;
     }
