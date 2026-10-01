@@ -976,6 +976,55 @@
 .user-badge.vip { background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; }
 .user-badge.premium { background: linear-gradient(135deg, #8b5cf6, #6f42c1); }
 .user-badge.legend { background: linear-gradient(135deg, #8B0000, #FF0000); }
+
+@keyframes kingBadgePulse {
+    0%, 100% { 
+        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 6px 35px rgba(255, 0, 0, 0.9), inset 0 2px 4px rgba(255, 215, 0, 0.6);
+        transform: scale(1.03);
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   🎨 SPECIAL BADGES ANIMATIONS
+   ═══════════════════════════════════════════════ */
+
+/* 👑 King Badge - أحمر/ذهبي نابض */
+@keyframes kingBadgePulse {
+    0%, 100% { 
+        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 6px 35px rgba(255, 0, 0, 0.9), inset 0 2px 4px rgba(255, 215, 0, 0.6);
+        transform: scale(1.03);
+    }
+}
+
+/* 🇲🇦 Morocco Badge - لمعان أفقي */
+@keyframes moroccoBadgeShine {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* ⭐ Top Contributor - بريق أزرق */
+@keyframes topContributorGlow {
+    0%, 100% { 
+        box-shadow: 0 6px 20px rgba(29, 161, 242, 0.4), inset 0 2px 4px rgba(192, 192, 192, 0.3);
+    }
+    50% { 
+        box-shadow: 0 6px 30px rgba(29, 161, 242, 0.9), inset 0 2px 4px rgba(192, 192, 192, 0.6);
+    }
+}
+
+/* 💎 Diamond - دوران قوس قزح */
+@keyframes diamondRotate {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
@@ -1428,6 +1477,21 @@
                 
                 document.getElementById('profileName').textContent = fullName;
                 document.getElementById('profileUsername').textContent = '@' + username;
+                // ✅ علم الدولة بجانب الاسم (لصديقك)
+if (profile?.country === 'MA' || (profile?.special_badges && profile.special_badges.includes('morocco'))) {
+    const nameEl = document.getElementById('profileName');
+    if (nameEl) {
+        nameEl.insertAdjacentHTML('afterend', `
+            <span style="
+                display: inline-block;
+                font-size: 32px;
+                margin-left: 8px;
+                vertical-align: middle;
+                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            " title="Morocco">🇲🇦</span>
+        `);
+    }
+}
                 document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
                 
                 // =========================================================
@@ -1498,8 +1562,34 @@
                     `;
                 }
                 
-                // ✅ 2. شارة First from Morocco
-                if (profile?.special_badges && profile.special_badges.includes('morocco')) {
+                // ✅ 2. شارة First from Morocco - محسّنة
+if (profile?.special_badges && profile.special_badges.includes('morocco')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #006633 0%, #C1272D 50%, #006633 100%);
+            background-size: 200% 200%;
+            color: white;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 15px;
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
+            border: 3px solid #FFD700;
+            margin: 5px;
+            animation: moroccoBadgeShine 3s infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        ">
+            <img src="https://flagcdn.com/w40/ma.png" 
+                 style="width: 32px; height: 22px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.8);" 
+                 alt="Morocco">
+            <span>First Member from Morocco</span>
+            <span style="font-size: 18px;">🏆</span>
+        </div>
+    `;
+}
                     badgesHTML += `
                         <div style="
                             display: inline-flex;
@@ -1520,7 +1610,116 @@
                         </div>
                     `;
                 }
-                
+                // ✅ شارة الملك (King Badge) - لصديقك فقط
+if (profile?.special_badges && profile.special_badges.includes('king')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #8B0000, #FF0000, #8B0000);
+            background-size: 200% 200%;
+            color: #FFD700;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 16px;
+            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
+            border: 3px solid #FFD700;
+            margin: 5px;
+            animation: kingBadgePulse 2s infinite;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        ">
+            <span style="font-size: 24px; filter: drop-shadow(0 2px 6px rgba(255,215,0,0.9));">👑</span>
+            <span>King of Morocco</span>
+            <span style="font-size: 20px;">🇲🇦</span>
+        </div>
+    `;
+}
+// ═══════════════════════════════════════════════
+// 👑 شارة KING OF MOROCCO
+// ═══════════════════════════════════════════════
+if (profile?.special_badges && profile.special_badges.includes('king')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #8B0000 0%, #FF0000 50%, #8B0000 100%);
+            background-size: 200% 200%;
+            color: #FFD700;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 16px;
+            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
+            border: 3px solid #FFD700;
+            margin: 5px;
+            animation: kingBadgePulse 2s infinite;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        ">
+            <span style="font-size: 24px; filter: drop-shadow(0 2px 6px rgba(255,215,0,0.9));">👑</span>
+            <span>King of Morocco</span>
+            <span style="font-size: 20px;">🇲🇦</span>
+        </div>
+    `;
+}
+
+// ═══════════════════════════════════════════════
+// ⭐ شارة TOP CONTRIBUTOR
+// ═══════════════════════════════════════════════
+if (profile?.special_badges && profile.special_badges.includes('top_contributor')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1DA1F2 0%, #c0c0c0 50%, #1DA1F2 100%);
+            background-size: 200% 200%;
+            color: white;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 15px;
+            box-shadow: 0 6px 20px rgba(29, 161, 242, 0.4), inset 0 2px 4px rgba(192, 192, 192, 0.3);
+            border: 3px solid #c0c0c0;
+            margin: 5px;
+            animation: topContributorGlow 2s infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        ">
+            <span style="font-size: 22px; filter: drop-shadow(0 2px 4px rgba(255,255,255,0.6));">⭐</span>
+            <span>Top Contributor</span>
+        </div>
+    `;
+}
+
+// ═══════════════════════════════════════════════
+// 💎 شارة DIAMOND MEMBER
+// ═══════════════════════════════════════════════
+if (profile?.special_badges && profile.special_badges.includes('diamond')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #8B00FF, #C1272D, #1DA1F2, #00FF88, #FFD700, #8B00FF);
+            background-size: 300% 100%;
+            color: white;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 15px;
+            box-shadow: 0 6px 25px rgba(139, 0, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            margin: 5px;
+            animation: diamondRotate 4s linear infinite;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+        ">
+            <span style="font-size: 22px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));">💎</span>
+            <span>Diamond Member</span>
+        </div>
+    `;
+}
                 // ✅ 3. شارة Early Founder
                 if (profile?.special_badges && profile.special_badges.includes('founder_member')) {
                     badgesHTML += `
