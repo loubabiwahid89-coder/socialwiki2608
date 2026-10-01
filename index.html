@@ -1935,12 +1935,18 @@ window.deleteStory = async function(storyId, mediaUrl) {
 
         };
     
-        document.addEventListener('click', function(e) {
+               document.addEventListener('click', function(e) {
             const searchDiv = document.querySelector('.navbar-search');
             const resultsDiv = document.getElementById('searchResults');
-            if (searchDiv && resultsDiv && !searchDiv.contains(e.target)) {
-                resultsDiv.classList.remove('show');
-            }
+            if (!searchDiv || !resultsDiv) return;
+
+            // ✅ إذا كان النقر داخل البحث → لا تغلق
+            if (searchDiv.contains(e.target)) return;
+            
+            // ✅ إذا كان النقر على نتيجة → لا تغلق (دع الرابط يعمل)
+            if (e.target.closest('.search-result-item')) return;
+
+            resultsDiv.classList.remove('show');
         });
 
         document.addEventListener('keydown', function(e) {
