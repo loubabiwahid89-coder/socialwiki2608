@@ -1869,7 +1869,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
                 '</div>';
 
             if (searchTimeout) clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(function() {
+                  searchTimeout = setTimeout(async function() {
                 console.log('Searching:', query);
                 // Perform inline search
                 try {
@@ -1907,65 +1907,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
             }, 300);
         };
 
-        async function performUserSearch(query) {
-            const resultsDiv = document.getElementById('searchResults');
-            if (!resultsDiv) return;
-            if (!window.supabaseClient) {
-                resultsDiv.innerHTML = '<div class="search-no-results">❌ Supabase not ready</div>';
-                return;
-            }
-
-            try {
-                const { data: users, error } = await window.supabaseClient
-                    .from('profiles')
-                    .select('id, username, full_name, avatar_url')
-                    .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
-                    .limit(10);
-
-                if (error) {
-                    console.error('❌ Search error:', error);
-                    resultsDiv.innerHTML = '<div class="search-no-results">❌ ' + 
-                        (typeof t === 'function' ? t('error_occurred') : 'An error occurred') + 
-                        '</div>';
-                    return;
-                }
-
-                if (!users || users.length === 0) {
-                    resultsDiv.innerHTML = '<div class="search-no-results">🔍 ' + 
-                        (typeof t === 'function' ? t('no_results') : 'No results') + 
-                        '</div>';
-                    return;
-                }
-
-                resultsDiv.innerHTML = '<div class="search-results-header">' + 
-                    (typeof t === 'function' ? t('search_results') : 'Search Results') + 
-                    '</div>';
-
-                users.forEach(function(user) {
-                    const name = user.full_name || user.username || 'User';
-                    const username = user.username || 'user';
-                    const avatar = user.avatar_url || 
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
-
-                    const item = document.createElement('a');
-                    item.className = 'search-result-item';
-                    item.href = `profile.html?id=${user.id}`;
-                 item.innerHTML = `
-    <img src="${avatar}" alt="${escapeHtml(name)}">
-    <div class="search-result-info">
-        <div class="search-result-name">${escapeHtml(name)}</div>
-        <div class="search-result-username">@${escapeHtml(username)}</div>
-    </div>
-`;
-                    resultsDiv.appendChild(item);
-                });
-
-            } catch (error) {
-                console.error('❌ Search error:', error);
-                resultsDiv.innerHTML = '<div class="search-no-results">❌ Error</div>';
-            }
-        }
-
+      
     
         document.addEventListener('click', function(e) {
             const searchDiv = document.querySelector('.navbar-search');
