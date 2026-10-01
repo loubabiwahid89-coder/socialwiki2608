@@ -132,6 +132,57 @@
                 display: none;
             }
         }
+
+        /* ========== MOBILE SIDEBAR ========== */
+@media (max-width: 768px) {
+    .left-sidebar {
+        position: fixed;
+        top: 56px;
+        left: -280px;
+        width: 280px;
+        height: calc(100vh - 56px);
+        background: white;
+        z-index: 999;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        padding: 15px;
+    }
+    
+    .left-sidebar.mobile-open {
+        left: 0;
+    }
+    
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        top: 56px;
+    }
+    
+    .sidebar-overlay.show {
+        display: block;
+    }
+    
+    .hamburger-btn {
+        display: block !important;
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        font-size: 22px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 769px) {
+    .hamburger-btn {
+        display: none !important;
+    }
+}
     </style>
      <!-- Cloudflare Web Analytics -->
 
@@ -2063,6 +2114,32 @@ window.commentPost = async function(postId) {
         alert('❌ ' + error.message);
     }
 };
+
+// =========================================================
+// ☰ MOBILE SIDEBAR
+// =========================================================
+window.toggleMobileSidebar = function() {
+    console.log('☰ Toggling sidebar');
+    
+    const sidebar = document.querySelector('.left-sidebar');
+    if (!sidebar) {
+        console.warn('⚠️ Sidebar not found');
+        return;
+    }
+
+    sidebar.classList.toggle('mobile-open');
+    document.body.classList.toggle('sidebar-open');
+
+    // Overlay
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        overlay.onclick = window.toggleMobileSidebar;
+        document.body.appendChild(overlay);
+    }
+    overlay.classList.toggle('show');
+};
 </script>
 <!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
@@ -2075,7 +2152,8 @@ window.commentPost = async function(postId) {
     </div>
 </div>
        <script src="js/dark-mode.js"></script>
-       <script src="js/monetag.js" data-cfasync="false"></script>
+       <!-- Monetag OFF - adult ads issue -->
+<!-- <script src="js/monetag.js" data-cfasync="false"></script> -->
        <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 </body>
 </html>
