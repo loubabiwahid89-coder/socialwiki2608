@@ -1754,11 +1754,14 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                     }
                 }
                 
-                console.log('🏆 Badges:', badges);
-                
-                if (profileUserId === currentUserId || !currentUserId) {
-                    checkForNewBadges(userId, badges);
-                }
+               // ✅ تعريف badges بأمان
+const badges = profile?.special_badges || [];
+
+console.log('🏆 Badges:', badges);
+
+if (profileUserId === currentUserId || !currentUserId) {
+    checkForNewBadges(userId, badges);
+}
                 
                 if (badgesContainer) {
                     if (badges.length > 0) {
@@ -2740,6 +2743,7 @@ await loadProfileCustomization(profileUserId);
 
                 // ✅ 2. شارة إضافية
                 if (active.active_badge) {
+                    const badges = profile?.badges || [];
                     const badgesContainer = document.getElementById('userBadges');
                     if (badgesContainer) {
                         const badgeEmojis = {
