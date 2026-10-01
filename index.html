@@ -1873,36 +1873,63 @@ window.deleteStory = async function(storyId, mediaUrl) {
                 console.log('Searching:', query);
                 // Perform inline search
                 try {
-                    const { data: users, error } = await window.supabaseClient
+                    console.log('🔍 Searching:', query);
+                    
+                    // جرّب username أولاً
+                    let { data: users, error } = await window.supabaseClient
                         .from('profiles')
                         .select('id, username, full_name, avatar_url')
-                        .or(`username.ilike.%${query}%,full_name.ilike.%${query}%`)
+                        .ilike('username', `%${query}%`)
                         .limit(10);
-                    
-                    if (!error && users && users.length > 0) {
-                        resultsDiv.innerHTML = '<div class="search-results-header">نتائج البحث</div>';
-                        users.forEach(function(user) {
-                            const name = user.full_name || user.username || 'User';
-                            const avatar = user.avatar_url || 
-                                `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
-                            
-                            const item = document.createElement('a');
-                            item.className = 'search-result-item';
-                            item.href = `profile.html?id=${user.id}`;
-                            item.innerHTML = `
-                                <img src="${avatar}" alt="${name}">
-                                <div class="search-result-info">
-                                    <div class="search-result-name">${name}</div>
-                                    <div class="search-result-username">@${user.username || 'user'}</div>
-                                </div>
-                            `;
-                            resultsDiv.appendChild(item);
-                        });
-                    } else if (!error) {
-                        resultsDiv.innerHTML = '<div class="search-no-results">🔍 لا توجد نتائج</div>';
+
+                    // إذا لا نتائج، جرّب full_name
+                    if (!users || users.length === 0) {
+                        const { data: users2 } = await window.supabaseClient
+                            .from('profiles')
+                            .select('id, username, full_name, avatar_url')
+                            .ilike('full_name', `%${query}%`)
+                            .limit(10);
+                        users = users2;
                     }
+
+                    console.log('📊 Users:', users);
+                    console.log('❌ Error:', error);
+
+                    if (error) {
+                        resultsDiv.innerHTML = '<div class="search-no-results">❌ خطأ</div>';
+                        return;
+                    }
+
+                    if (!users || users.length === 0) {
+                        resultsDiv.innerHTML = '<div class="search-no-results">🔍 لا توجد نتائج</div>';
+                        return;
+                    }
+
+                    // عرض النتائج
+                    resultsDiv.innerHTML = '<div class="search-results-header">نتائج البحث</div>';
+
+                    users.forEach(function(user) {
+                        const name = user.full_name || user.username || 'User';
+                        const avatar = user.avatar_url || 
+                            `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+                        const item = document.createElement('a');
+                        item.className = 'search-result-item';
+                        item.href = `profile.html?id=${user.id}`;
+                        item.innerHTML = `
+                            <img src="${avatar}" alt="${name}">
+                            <div class="search-result-info">
+                                <div class="search-result-name">${name}</div>
+                                <div class="search-result-username">@${user.username || 'user'}</div>
+                            </div>
+                        `;
+                        resultsDiv.appendChild(item);
+                    });
+
+                    console.log('✅ Results displayed');
                 } catch (e) {
-                    console.error('Search error:', e);
+                    console.error('❌ Search error:', e);
+                    resultsDiv.innerHTML = '<div class="search-no-results">❌ خطأ</div>';
                 }
             }, 300);
         };
