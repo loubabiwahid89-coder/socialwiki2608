@@ -1590,55 +1590,10 @@ if (profile?.special_badges && profile.special_badges.includes('morocco')) {
         </div>
     `;
 }
-                    badgesHTML += `
-                        <div style="
-                            display: inline-flex;
-                            align-items: center;
-                            gap: 8px;
-                            padding: 10px 20px;
-                            background: linear-gradient(135deg, #006633, #C1272D);
-                            color: white;
-                            border-radius: 25px;
-                            font-weight: 700;
-                            font-size: 14px;
-                            box-shadow: 0 4px 15px rgba(193, 39, 45, 0.4);
-                            border: 2px solid rgba(255,215,0,0.6);
-                            margin: 5px;
-                        ">
-                            <span style="font-size: 18px;">🇲🇦</span>
-                            <span>First Member from Morocco</span>
-                        </div>
-                    `;
-                }
                 // ✅ شارة الملك (King Badge) - لصديقك فقط
 if (profile?.special_badges && profile.special_badges.includes('king')) {
-    badgesHTML += `
-        <div style="
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #8B0000, #FF0000, #8B0000);
-            background-size: 200% 200%;
-            color: #FFD700;
-            border-radius: 30px;
-            font-weight: 900;
-            font-size: 16px;
-            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
-            border: 3px solid #FFD700;
-            margin: 5px;
-            animation: kingBadgePulse 2s infinite;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        ">
-            <span style="font-size: 24px; filter: drop-shadow(0 2px 6px rgba(255,215,0,0.9));">👑</span>
-            <span>King of Morocco</span>
-            <span style="font-size: 20px;">🇲🇦</span>
-        </div>
-    `;
-}
-// ═══════════════════════════════════════════════
-// 👑 شارة KING OF MOROCCO
-// ═══════════════════════════════════════════════
+  
+
 if (profile?.special_badges && profile.special_badges.includes('king')) {
     badgesHTML += `
         <div style="
