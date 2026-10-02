@@ -1705,11 +1705,11 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                         badgesContainer.style.display = 'none';
                     }
                 }
-                
-                  // ✅ تعريف badges بأمان للإشعارات
-               
+                                // ✅ تعريف badges
+                const badges = profile?.special_badges || [];
+                                  // ✅ تعريف badges بأمان للإشعارات
                 if (profileUserId === currentUserId || !currentUserId) {
-                    checkForNewBadges(userId, badges);
+                    checkForNewBadges(userId, profile?.special_badges || []);
                 }
                 
                 // =========================================================
