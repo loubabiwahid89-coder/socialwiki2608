@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+    <meta name="google-site-verification" content="Ww7WxIAVNzik-4EiGNjMJEgn4cNwtTRwBsyFS-bO6aY" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialWiki - Home</title>
@@ -184,11 +185,70 @@
         display: none !important;
     }
 }
+
+/* ═══ البادجات المميزة ═══ */
+.profile-badges-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.badge-verified {
+    background: linear-gradient(135deg, #1DA1F2, #0d8ddb);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.badge-morocco {
+    background: linear-gradient(135deg, #006633, #C1272D);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(193, 39, 45, 0.4);
+    border: 2px solid rgba(255,215,0,0.5);
+}
+
+.badge-founder-member {
+    background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+    color: #333;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+    border: 2px solid rgba(255,255,255,0.6);
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4); }
+    50% { box-shadow: 0 4px 25px rgba(255, 165, 0, 0.8); }
+}
     </style>
      <!-- Cloudflare Web Analytics -->
 
    <link rel="stylesheet" href="css/dark-mode.css">
+  
 </head>
+
 <body>
    
 
@@ -2221,6 +2281,8 @@ window.toggleMobileSidebar = function() {
 
     console.log('✅ Sidebar permanently fixed!');
 })();
+
+
 </script>
 <!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
@@ -2234,7 +2296,7 @@ window.toggleMobileSidebar = function() {
 </div>
        <script src="js/dark-mode.js"></script>
        <!-- Monetag OFF - adult ads issue -->
-<!-- <script src="js/monetag.js" data-cfasync="false"></script> -->
+
        <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 </body>
 </html>
