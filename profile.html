@@ -2617,9 +2617,8 @@ await loadProfileCustomization(profileUserId);
                     console.log('✅ Frame applied:', active.active_frame);
                 }
 
-                // ✅ 2. شارة إضافية
+                   // ✅ 2. شارة إضافية
                 if (active.active_badge) {
-                    const badges = profile?.badges || [];
                     const badgesContainer = document.getElementById('userBadges');
                     if (badgesContainer) {
                         const badgeEmojis = {
