@@ -1707,7 +1707,7 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                 }
                 
                   // ✅ تعريف badges بأمان للإشعارات
-                const badges = profile?.special_badges || [];
+               
                 if (profileUserId === currentUserId || !currentUserId) {
                     checkForNewBadges(userId, badges);
                 }
@@ -2619,7 +2619,7 @@ await loadProfileCustomization(profileUserId);
 
                    // ✅ 2. شارة إضافية
                 if (active.active_badge) {
-                    const badgesContainer = document.getElementById('userBadges');
+                                       const badgesContainer = document.getElementById('userBadges');
                     if (badgesContainer) {
                         const badgeEmojis = {
                             bronze: '🥉',
@@ -2681,9 +2681,6 @@ window.logout = logout;
         window.logout = logout;
     </script>
     <script src="js/messenger-notify.js"></script>
-    <script src="js/popunder-ad.js"></script>
-    <script src="js/dark-mode.js"></script>
-    <script src="js/monetag.js" data-cfasync="false"></script>
-    <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+<script src="js/dark-mode.js"></script>
 </body>
 </html>
