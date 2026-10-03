@@ -1121,13 +1121,14 @@
 
            <div id="userBadges" style="
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin: 25px auto;
-    max-width: 500px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+    max-width: 700px;
     padding: 0 20px;
 "></div>
+    
             
             <div class="profile-stats">
                 <div class="stat-item">
@@ -1543,8 +1544,78 @@ if (profile?.country === 'MA' || (profile?.special_badges && profile.special_bad
                 const badgesContainer = document.getElementById('userBadges');
                 let badgesHTML = '';
                 
-                // ✅ 1. شارة Verified
-                if (profile?.is_verified === true) {
+    // ✅ 1. Owner of SocialWiki
+if (profile?.is_owner === true) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #8B0000, #FF0000);
+            color: white;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(139, 0, 0, 0.4);
+            border: 3px solid #FFD700;
+            margin: 5px;
+        ">
+            <span>Owner of SocialWiki</span>
+            <span style="font-size: 20px;">👑</span>
+        </div>
+    `;
+}
+                // ✅ 2. Founder of SocialWiki
+if (profile?.is_owner === true || (profile?.special_badges && profile.special_badges.includes('founder_member'))) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+            border: 3px solid white;
+            margin: 5px;
+        ">
+            <span>Founder of SocialWiki</span>
+            <span style="font-size: 20px;">🏆</span>
+        </div>
+    `;
+}
+                // ✅ 3. VIP
+if (profile?.badges && Array.isArray(profile.badges)) {
+    const vipBadge = profile.badges.find(b => b.type === 'vip');
+    if (vipBadge) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 10px 20px;
+                background: linear-gradient(135deg, #FFD700, #F7B928);
+                color: #333;
+                border-radius: 20px;
+                font-weight: 700;
+                font-size: 13px;
+                box-shadow: 0 4px 12px rgba(247, 185, 40, 0.4);
+                border: 2px solid white;
+                margin: 5px;
+            ">
+                <span>VIP</span>
+                <span>🎖️</span>
+            </div>
+        `;
+    }
+}
+                // ✅ 4. Verified
+if (profile?.is_verified === true) {
+    
                     badgesHTML += `
                         <div style="
                             display: inline-flex;
@@ -1566,7 +1637,7 @@ if (profile?.country === 'MA' || (profile?.special_badges && profile.special_bad
                     `;
                 }
                 
-                // ✅ 2. شارة First from Morocco - محسّنة
+                    // ✅ 2. شارة First from Morocco - محسّنة
 if (profile?.special_badges && profile.special_badges.includes('morocco')) {
     badgesHTML += `
         <div style="
@@ -1620,7 +1691,31 @@ if (profile?.special_badges && profile.special_badges.includes('king')) {
         </div>
     `;
 }
-
+                // ✅ 5. First Member from Morocco (ذهبي + علم)
+if (profile?.special_badges && profile.special_badges.includes('morocco')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+            border: 3px solid white;
+            margin: 5px;
+        ">
+            <img src="https://flagcdn.com/w40/ma.png" 
+                 style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);" 
+                 alt="Morocco">
+            <span>First Member from Morocco</span>
+            <span style="font-size: 20px;">🏆</span>
+        </div>
+    `;
+}
 // ═══════════════════════════════════════════════
 // ⭐ شارة TOP CONTRIBUTOR
 // ═══════════════════════════════════════════════
