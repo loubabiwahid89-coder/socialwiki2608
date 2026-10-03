@@ -1637,34 +1637,7 @@ if (profile?.is_verified === true) {
                     `;
                 }
                 
-                    // ✅ 2. شارة First from Morocco - محسّنة
-if (profile?.special_badges && profile.special_badges.includes('morocco')) {
-    badgesHTML += `
-        <div style="
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #006633 0%, #C1272D 50%, #006633 100%);
-            background-size: 200% 200%;
-            color: white;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 15px;
-            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.5), inset 0 2px 4px rgba(255, 215, 0, 0.3);
-            border: 3px solid #FFD700;
-            margin: 5px;
-            animation: moroccoBadgeShine 3s infinite;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        ">
-            <img src="https://flagcdn.com/w40/ma.png" 
-                 style="width: 32px; height: 22px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.8);" 
-                 alt="Morocco">
-            <span>First Member from Morocco</span>
-            <span style="font-size: 18px;">🏆</span>
-        </div>
-    `;
-}
+                     // (Morocco badge removed - duplicate)
                 // ✅ شارة الملك (King Badge) - لصديقك فقط
 if (profile?.special_badges && profile.special_badges.includes('king')) {
     badgesHTML += `
@@ -2713,8 +2686,8 @@ await loadProfileCustomization(profileUserId);
                     console.log('✅ Frame applied:', active.active_frame);
                 }
 
-                   // ✅ 2. شارة إضافية
-                if (active.active_badge) {
+                                                    // ✅ 2. شارة إضافية (معطّلة - الشارات تأتي من special_badges)
+                if (false && active.active_badge) {
                                        const badgesContainer = document.getElementById('userBadges');
                     if (badgesContainer) {
                         const badgeEmojis = {
