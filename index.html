@@ -13,6 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
+    <!-- Google IMA SDK for VAST Video Ads -->
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="js/device-fingerprint.js"></script>
     <style>
         /* ========== NAVBAR SEARCH ========== */
@@ -2292,12 +2294,14 @@ window.toggleMobileSidebar = function() {
 })();
 
 
-
 // =========================================================
-// 🎥 REAL VIDEO IMPRESSIONS - تسجيل المشاهدات الحقيقية
+// 🎥 REAL VIDEO IMPRESSIONS + VAST ADS - النظام الكامل
 // =========================================================
 
+const VAST_TAG_URL = "https://s.magsrv.com/v1/vast.php?idz=6046566";
 const videoImpressions = new Map();
+const videoAdState = new Map(); // تتبع حالة الإعلانات لكل فيديو
+let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلانات
 
 // ✅ التحقق من مدة الفيديو
 window.checkVideoDuration = function(videoElement, postId) {
@@ -2305,17 +2309,230 @@ window.checkVideoDuration = function(videoElement, postId) {
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
 
     if (duration >= 60) {
-        console.log(`✅ Video ${postId} is long enough for ads`);
+        console.log(`✅ Video ${postId} is long enough for ads (${duration.toFixed(1)}s)`);
+        setupVideoAds(videoElement, postId, duration);
     } else {
         console.log(`⏭️ Video ${postId} too short - skipping ads`);
     }
 };
 
+// ═══════════════════════════════════════════════════════════
+// 🎬 إعداد نظام الإعلانات VAST
+// ═══════════════════════════════════════════════════════════
+function setupVideoAds(videoElement, postId, duration) {
+    if (videoAdState.has(postId)) return;
+    
+    // حساب مواقع Mid-rolls
+    const midRollPoints = [];
+    
+    // فيديو 2-4 دقائق: 1 mid-roll عند 60s
+    if (duration >= 120 && duration < 240) {
+        midRollPoints.push(60);
+    }
+    // فيديو +4 دقائق: 2 mid-rolls عند 60s و 180s
+    else if (duration >= 240) {
+        midRollPoints.push(60);
+        midRollPoints.push(180);
+    }
+    
+    const state = {
+        preRollPlayed: false,
+        midRollsPlayed: new Set(),
+        postRollPlayed: false,
+        midRollPoints: midRollPoints,
+        isPlayingAd: false,
+        duration: duration
+    };
+    
+    videoAdState.set(postId, state);
+    console.log(`📺 Ads setup for ${postId}: ${midRollPoints.length} mid-rolls`);
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🎬 تشغيل إعلان VAST قبل / أثناء / بعد الفيديو
+// ═══════════════════════════════════════════════════════════
+function playVastAd(videoElement, postId, adType, onComplete) {
+    // ✅ إذا كان هناك إعلان يعمل → تخطى
+    if (globalAdLock) {
+        console.log('🔒 Ad locked');
+        if (onComplete) onComplete();
+        return;
+    }
+    
+    const state = videoAdState.get(postId);
+    if (!state) {
+        if (onComplete) onComplete();
+        return;
+    }
+    
+    if (state.isPlayingAd) {
+        if (onComplete) onComplete();
+        return;
+    }
+    
+    state.isPlayingAd = true;
+    globalAdLock = true;  // ✅ اقفل
+    
+    try {
+        const adContainer = document.createElement('div');
+        adContainer.id = 'adContainer_' + postId;
+        adContainer.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 100;
+            border-radius: 8px;
+            overflow: hidden;
+        `;
+        
+        // جعل الفيديو position: relative
+        videoElement.style.position = 'relative';
+        videoElement.parentElement.style.position = 'relative';
+        videoElement.parentElement.appendChild(adContainer);
+        
+        // إخفاء الفيديو مؤقتاً
+        videoElement.style.visibility = 'hidden';
+        videoElement.pause();
+        
+        // إنشاء إعلان IMA
+        const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
+        const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
+        const adsRequest = new google.ima.AdsRequest();
+        
+        adsRequest.adTagUrl = VAST_TAG_URL;
+        adsRequest.linearAdSlotWidth = videoElement.clientWidth || 640;
+        adsRequest.linearAdSlotHeight = videoElement.clientHeight || 360;
+        adsRequest.nonLinearAdSlotWidth = videoElement.clientWidth || 640;
+        adsRequest.nonLinearAdSlotHeight = 150;
+        
+        // أحداث الإعلان
+        adsLoader.addEventListener(
+            google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+            function(event) {
+                const adsManager = event.getAdsManager(videoElement);
+                
+                adsManager.addEventListener(google.ima.AdEvent.Type.ALL_ADS_COMPLETED, function() {
+                    console.log(`✅ Ad completed (${adType}) for ${postId}`);
+                    cleanupAd(adContainer, videoElement);
+                    state.isPlayingAd = false;
+                    if (onComplete) onComplete();
+                });
+                
+                adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, function() {
+                    console.log(`⏭️ Ad skipped for ${postId}`);
+                    cleanupAd(adContainer, videoElement);
+                    state.isPlayingAd = false;
+                    if (onComplete) onComplete();
+                });
+                
+                adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, function(err) {
+                    console.warn(`⚠️ Ad error for ${postId}:`, err.getError());
+                    cleanupAd(adContainer, videoElement);
+                    state.isPlayingAd = false;
+                    if (onComplete) onComplete();
+                });
+                
+                try {
+                    adsManager.init(
+                        videoElement.clientWidth || 640,
+                        videoElement.clientHeight || 360,
+                        google.ima.ViewMode.NORMAL
+                    );
+                    adsManager.start();
+                } catch (e) {
+                    console.warn('⚠️ AdsManager init error:', e);
+                    cleanupAd(adContainer, videoElement);
+                    state.isPlayingAd = false;
+                    if (onComplete) onComplete();
+                }
+            }
+        );
+        
+        adsLoader.addEventListener(
+            google.ima.AdErrorEvent.Type.AD_ERROR,
+            function(err) {
+                console.warn(`⚠️ AdsLoader error for ${postId}:`, err.getError());
+                cleanupAd(adContainer, videoElement);
+                state.isPlayingAd = false;
+                if (onComplete) onComplete();
+            }
+        );
+        
+        adsLoader.requestAds(adsRequest);
+        
+    } catch (error) {
+        console.error('❌ Ad setup error:', error);
+        state.isPlayingAd = false;
+        if (onComplete) onComplete();
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🧹 تنظيف الإعلان بعد الانتهاء
+// ═══════════════════════════════════════════════════════════
+function cleanupAd(adContainer, videoElement) {
+    if (adContainer && adContainer.parentNode) {
+        adContainer.parentNode.removeChild(adContainer);
+    }
+    videoElement.style.visibility = 'visible';
+    globalAdLock = false;  // ✅ افتح
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🎬 تسجيل المشاهدة + Pre-roll Ad
+// ═══════════════════════════════════════════════════════════
 window.startVideoImpression = function(postId, videoElement) {
+    const state = videoAdState.get(postId);
+    
+    // إذا لم يكن الفيديو مؤهلاً → سجل المشاهدة فقط
+    if (!state) {
+        startImpressionTimer(postId, videoElement);
+        return;
+    }
+    
+    // ✅ Pre-roll: قبل الفيديو
+    if (!state.preRollPlayed) {
+        state.preRollPlayed = true;
+        videoElement.pause();
+        
+        playVastAd(videoElement, postId, 'pre-roll', function() {
+            // بعد انتهاء الإعلان، شغّل الفيديو
+            videoElement.play();
+            startImpressionTimer(postId, videoElement);
+        });
+        return;
+    }
+    
+    // ✅ Mid-rolls: أثناء الفيديو
+    const currentTime = videoElement.currentTime;
+    for (const midPoint of state.midRollPoints) {
+        const key = `mid_${midPoint}`;
+        if (currentTime >= midPoint && !state.midRollsPlayed.has(key)) {
+            state.midRollsPlayed.add(key);
+            videoElement.pause();
+            
+            playVastAd(videoElement, postId, `mid-roll-${midPoint}s`, function() {
+                videoElement.play();
+            });
+            return;
+        }
+    }
+    
+    // ✅ تسجيل المشاهدة العادية
+    startImpressionTimer(postId, videoElement);
+};
+
+// ═══════════════════════════════════════════════════════════
+// ⏱️ مؤقت تسجيل المشاهدة (3 ثوانٍ)
+// ═══════════════════════════════════════════════════════════
+function startImpressionTimer(postId, videoElement) {
     if (videoImpressions.has(postId)) return;
-
+    
     const IMPRESSION_DURATION = 3000;
-
+    
     const timer = setTimeout(async () => {
         if (videoElement.paused || videoElement.ended) {
             videoImpressions.delete(postId);
@@ -2325,7 +2542,7 @@ window.startVideoImpression = function(postId, videoElement) {
         videoImpressions.set(postId, true);
         console.log(`✅ Video impression recorded for post ${postId}`);
     }, IMPRESSION_DURATION);
-
+    
     videoElement.onpause = function() {
         clearTimeout(timer);
         videoImpressions.delete(postId);
@@ -2333,27 +2550,37 @@ window.startVideoImpression = function(postId, videoElement) {
     videoElement.onended = function() {
         clearTimeout(timer);
         videoImpressions.delete(postId);
+        
+        // ✅ Post-roll: بعد الفيديو
+        const state = videoAdState.get(postId);
+        if (state && !state.postRollPlayed) {
+            state.postRollPlayed = true;
+            playVastAd(videoElement, postId, 'post-roll', null);
+        }
     };
-};
+}
 
+// ═══════════════════════════════════════════════════════════
+// 💰 تسجيل المشاهدة في قاعدة البيانات
+// ═══════════════════════════════════════════════════════════
 async function recordVideoImpression(postId) {
     try {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) return;
-
+        
         const fingerprint = window.getDeviceFingerprint ? window.getDeviceFingerprint() : 'unknown';
-
+        
         const { data, error } = await window.supabaseClient.rpc('add_video_impression', {
             p_post_id: postId,
             p_viewer_id: user.id,
             p_device_fingerprint: fingerprint
         });
-
+        
         if (error) {
             console.error('❌ Video impression error:', error);
             return;
         }
-
+        
         if (data?.success) {
             console.log('💰 Video impression recorded:', data);
         } else {
