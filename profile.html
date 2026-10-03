@@ -1481,13 +1481,18 @@ if (profile?.country === 'MA' || (profile?.special_badges && profile.special_bad
     const nameEl = document.getElementById('profileName');
     if (nameEl) {
         nameEl.insertAdjacentHTML('afterend', `
-            <span style="
-                display: inline-block;
-                font-size: 32px;
-                margin-left: 8px;
-                vertical-align: middle;
-                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-            " title="Morocco">🇲🇦</span>
+            <img src="https://flagcdn.com/w60/ma.png" 
+                 style="
+                     width: 48px;
+                     height: 32px;
+                     margin-left: 10px;
+                     vertical-align: middle;
+                     border-radius: 6px;
+                     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                     border: 2px solid white;
+                 " 
+                 alt="Morocco" 
+                 title="Morocco">
         `);
     }
 }
@@ -1706,10 +1711,8 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                 }
                                 // ✅ تعريف badges
                 const badges = profile?.special_badges || [];
-                                  // ✅ تعريف badges بأمان للإشعارات
-                if (profileUserId === currentUserId || !currentUserId) {
-                    checkForNewBadges(userId, profile?.special_badges || []);
-                }
+                                  // ✅ تعريف badges (بدون إشعارات للشارات القديمة)
+                const badges = profile?.special_badges || [];
                 
                 // =========================================================
                 // ✅ تحديث Navbar باسم المستخدم الحالي (المشاهد)
