@@ -1379,9 +1379,11 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     if (post.image_url) {
                         contentHTML += `<img src="${post.image_url}" class="feed-image" style="width:100%;max-height:500px;object-fit:cover;border-radius:8px;margin-bottom:10px;">`;
                     }
-                  if (post.video_url) {
+                             if (post.video_url) {
     const videoId = `video_${post.id}`;
-    contentHTML += `<video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" onplay="startVideoImpression('${post.id}', this)"></video>`;
+    contentHTML += `<video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" 
+        onloadedmetadata="checkVideoDuration(this, '${post.id}')"
+        onplay="startVideoImpression('${post.id}', this)"></video>`;
 }
                     
                     const postDiv = document.createElement('div');
@@ -2294,7 +2296,25 @@ window.toggleMobileSidebar = function() {
 // =========================================================
 // 🎥 REAL VIDEO IMPRESSIONS - تسجيل المشاهدات الحقيقية
 // =========================================================
+// =========================================================
+// 🎬 التحقق من مدة الفيديو + تشغيل ExoClick
+// =========================================================
+window.checkVideoDuration = function(videoElement, postId) {
+    const duration = videoElement.duration;
+    console.log(`🎬 Video ${postId} duration: ${duration}s`);
 
+    // إذا كان الفيديو أكثر من 60 ثانية → ExoClick
+    if (duration >= 60) {
+        console.log(`✅ Video ${postId} is long enough for ads`);
+        // سيتم تشغيل ExoClick تلقائياً عند التشغيل
+    } else {
+        console.log(`⏭️ Video ${postId} too short (${duration}s) - skipping ads`);
+    }
+};
+
+const videoImpressions = new Map();
+
+window.startVideoImpression = function(postId, videoElement) {
 const videoImpressions = new Map();
 
 window.startVideoImpression = function(postId, videoElement) {
