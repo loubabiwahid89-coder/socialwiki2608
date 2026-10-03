@@ -2296,31 +2296,25 @@ window.toggleMobileSidebar = function() {
 // =========================================================
 // 🎥 REAL VIDEO IMPRESSIONS - تسجيل المشاهدات الحقيقية
 // =========================================================
-// =========================================================
-// 🎬 التحقق من مدة الفيديو + تشغيل ExoClick
-// =========================================================
+
+const videoImpressions = new Map();
+
+// ✅ التحقق من مدة الفيديو
 window.checkVideoDuration = function(videoElement, postId) {
     const duration = videoElement.duration;
-    console.log(`🎬 Video ${postId} duration: ${duration}s`);
+    console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
 
-    // إذا كان الفيديو أكثر من 60 ثانية → ExoClick
     if (duration >= 60) {
         console.log(`✅ Video ${postId} is long enough for ads`);
-        // سيتم تشغيل ExoClick تلقائياً عند التشغيل
     } else {
-        console.log(`⏭️ Video ${postId} too short (${duration}s) - skipping ads`);
+        console.log(`⏭️ Video ${postId} too short - skipping ads`);
     }
 };
-
-const videoImpressions = new Map();
-
-window.startVideoImpression = function(postId, videoElement) {
-const videoImpressions = new Map();
 
 window.startVideoImpression = function(postId, videoElement) {
     if (videoImpressions.has(postId)) return;
 
-    const IMPRESSION_DURATION = 3000; // 3 ثوانٍ
+    const IMPRESSION_DURATION = 3000;
 
     const timer = setTimeout(async () => {
         if (videoElement.paused || videoElement.ended) {
@@ -2370,6 +2364,7 @@ async function recordVideoImpression(postId) {
     }
 }
 </script>
+
 <!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
     <div style="background:white; border-radius:12px; width:95%; max-width:900px; height:90vh; display:flex; flex-direction:column; overflow:hidden;">
