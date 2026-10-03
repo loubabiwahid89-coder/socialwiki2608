@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Dashboard - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; color: #050505; }
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .logo { color: white; font-size: 22px; font-weight: 800; text-decoration: none; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .creator-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 30px; color: white; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(102,126,234,0.35); }
+        .creator-header h1 { margin: 0 0 10px; font-size: 28px; }
+        .creator-header p { margin: 0; opacity: 0.9; }
+        .creator-badge { display: inline-block; background: rgba(255,255,255,0.25); padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; margin-top: 10px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #1877f2; }
+        .stat-card.green { border-left-color: #28a745; }
+        .stat-card.gold { border-left-color: #f7b928; }
+        .stat-card.purple { border-left-color: #764ba2; }
+        .stat-card .icon { font-size: 28px; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; font-weight: 800; color: #050505; }
+        .stat-card .label { font-size: 13px; color: #65676b; margin-top: 4px; }
+        .progress-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px; }
+        .progress-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #65676b; }
+        .progress-bar-container { width: 100%; height: 20px; background: #e4e6eb; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 0.5s ease; border-radius: 10px; }
+        .eligibility-banner { padding: 20px; border-radius: 12px; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+        .eligibility-banner.eligible { background: linear-gradient(135deg, #d4edda, #c3e6cb); border-left: 5px solid #28a745; }
+        .eligibility-banner.not-eligible { background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 5px solid #f7b928; }
+        .eligibility-banner .icon { font-size: 40px; }
+        .videos-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .video-row { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid #e4e6eb; transition: 0.2s; }
+        .video-row:hover { background: #f9f9f9; border-radius: 8px; }
+        .video-thumb { width: 80px; height: 60px; border-radius: 8px; object-fit: cover; background: #000; flex-shrink: 0; }
+        .video-info { flex: 1; min-width: 0; }
+        .video-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+        .video-meta { font-size: 12px; color: #65676b; }
+        .video-earnings { font-weight: 800; font-size: 18px; color: #28a745; text-align: left; direction: ltr; }
+        .empty-state { text-align: center; padding: 40px; color: #65676b; }
+        .loading { text-align: center; padding: 40px; color: #65676b; }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">📘 SocialWiki</a>
+        <div class="nav-right">
+            <a href="index.html" style="color:white;text-decoration:none;font-size:20px;">🏠</a>
+            <a href="earnings.html" style="color:white;text-decoration:none;font-size:20px;">💰</a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="creator-header">
+            <h1>🎬 Creator Dashboard</h1>
+            <p>تتبع أرباحك من الفيديوهات — 70% من كل مشاهدة حقيقية</p>
+            <div class="creator-badge">💰 70% Creator Revenue Share</div>
+        </div>
+
+        <div id="eligibilityBanner" class="eligibility-banner not-eligible">
+            <div class="icon">⏳</div>
+            <div>
+                <h3 id="eligibilityTitle">جاري التحقق...</h3>
+                <p id="eligibilityDesc">يتم تحميل بياناتك</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">👁️</div>
+                <div class="value" id="totalViews">0</div>
+                <div class="label">إجمالي المشاهدات</div>
+            </div>
+            <div class="stat-card gold">
+                <div class="icon">💵</div>
+                <div class="value" id="totalEarnings">$0.00</div>
+                <div class="label">أرباح الفيديوهات</div>
+            </div>
+            <div class="stat-card green">
+                <div class="icon">🎬</div>
+                <div class="value" id="totalVideos">0</div>
+                <div class="label">عدد الفيديوهات</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="icon">⭐</div>
+                <div class="value" id="creatorPoints">0</div>
+                <div class="label">نقاط الصانع</div>
+            </div>
+        </div>
+
+        <div class="progress-card">
+            <h3>🎯 التقدم نحو تحقيق الربح</h3>
+            <div class="progress-info">
+                <span>المشاهدات المطلوبة: 1,000</span>
+                <span id="viewsProgressText">0 / 1,000</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="viewsProgress" style="width: 0%;"></div>
+            </div>
+            <div class="progress-info">
+                <span>الفيديوهات المطلوبة: 5</span>
+                <span id="videosProgressText">0 / 5</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="videosProgress" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="videos-card">
+            <h3>📹 فيديوهاتك</h3>
+            <div id="videosList">
+                <div class="loading">⏳ جاري التحميل...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentUser = null;
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadCreatorStats() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) { window.location.href = 'auth.html'; return; }
+                currentUser = user;
+
+                const { data, error } = await supabaseClient.rpc('get_creator_stats', {
+                    p_user_id: user.id
+                });
+
+                if (error) { console.error('❌ Stats error:', error); return; }
+
+                const totalViews = data?.total_views || 0;
+                const totalEarnings = parseFloat(data?.total_earnings || 0);
+                const totalVideos = data?.total_posts || 0;
+                const creatorPoints = data?.creator_points || 0;
+                const eligible = data?.eligible_for_monetization || false;
+
+                document.getElementById('totalViews').textContent = totalViews.toLocaleString();
+                document.getElementById('totalEarnings').textContent = '$' + totalEarnings.toFixed(2);
+                document.getElementById('totalVideos').textContent = totalVideos;
+                document.getElementById('creatorPoints').textContent = creatorPoints.toLocaleString();
+
+                const viewsPercent = Math.min(100, (totalViews / 1000) * 100);
+                const videosPercent = Math.min(100, (totalVideos / 5) * 100);
+
+                document.getElementById('viewsProgress').style.width = viewsPercent + '%';
+                document.getElementById('videosProgress').style.width = videosPercent + '%';
+                document.getElementById('viewsProgressText').textContent = totalViews.toLocaleString() + ' / 1,000';
+                document.getElementById('videosProgressText').textContent = totalVideos + ' / 5';
+
+                const banner = document.getElementById('eligibilityBanner');
+                const title = document.getElementById('eligibilityTitle');
+                const desc = document.getElementById('eligibilityDesc');
+
+                if (eligible) {
+                    banner.className = 'eligibility-banner eligible';
+                    banner.querySelector('.icon').textContent = '✅';
+                    title.textContent = '🎉 أنت مؤهل لتحقيق الربح!';
+                    desc.textContent = 'كل مشاهدة جديدة تضيف 70% من الأرباح إلى حسابك مباشرة.';
+                } else {
+                    banner.className = 'eligibility-banner not-eligible';
+                    banner.querySelector('.icon').textContent = '⏳';
+                    title.textContent = 'استمر في النشر!';
+                    const viewsNeeded = Math.max(0, 1000 - totalViews);
+                    const videosNeeded = Math.max(0, 5 - totalVideos);
+                    desc.textContent = `تحتاج ${viewsNeeded.toLocaleString()} مشاهدة و ${videosNeeded} فيديو إضافي.`;
+                }
+            } catch (error) { console.error('❌ Error:', error); }
+        }
+
+        async function loadCreatorVideos() {
+            try {
+                if (!currentUser) return;
+                const { data, error } = await supabaseClient.rpc('get_creator_videos', {
+                    p_user_id: currentUser.id
+                });
+
+                const container = document.getElementById('videosList');
+                if (error) {
+                    container.innerHTML = '<div class="empty-state">❌ خطأ</div>';
+                    return;
+                }
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div style="font-size:60px;">🎬</div>
+                            <p>لم تنشر أي فيديو بعد.</p>
+                            <a href="index.html" style="display:inline-block;margin-top:15px;background:#1877f2;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;">
+                                📹 انشر أول فيديو
+                            </a>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                data.forEach(video => {
+                    const earnings = parseFloat(video.earnings || 0);
+                    const date = new Date(video.created_at).toLocaleDateString('ar-EG');
+                    const row = document.createElement('div');
+                    row.className = 'video-row';
+                    row.innerHTML = `
+                        <video src="${video.video_url}" class="video-thumb" muted preload="metadata"></video>
+                        <div class="video-info">
+                            <div class="video-title">فيديو #${video.post_id.substring(0, 8)}</div>
+                            <div class="video-meta">
+                                📅 ${date} • 
+                                👁️ ${video.views_count} مشاهدة • 
+                                🎯 ${video.unique_views} فريد
+                            </div>
+                        </div>
+                        <div class="video-earnings">+$${earnings.toFixed(4)}</div>
+                    `;
+                    container.appendChild(row);
+                });
+            } catch (error) { console.error('❌ Error:', error); }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadCreatorStats();
+            await loadCreatorVideos();
+        });
+    </script>
+    <script src="js/dark-mode.js"></script>
+</body>
+</html>

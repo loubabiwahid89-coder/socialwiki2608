@@ -1377,9 +1377,10 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     if (post.image_url) {
                         contentHTML += `<img src="${post.image_url}" class="feed-image" style="width:100%;max-height:500px;object-fit:cover;border-radius:8px;margin-bottom:10px;">`;
                     }
-                    if (post.video_url) {
-                        contentHTML += `<video src="${post.video_url}" controls playsinline preload="metadata" class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;"></video>`;
-                    }
+                  if (post.video_url) {
+    const videoId = `video_${post.id}`;
+    contentHTML += `<video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" onplay="startVideoImpression('${post.id}', this)"></video>`;
+}
                     
                     const postDiv = document.createElement('div');
                     postDiv.className = 'feed-post';
@@ -2288,6 +2289,64 @@ window.toggleMobileSidebar = function() {
 
 
 
+// =========================================================
+// 🎥 REAL VIDEO IMPRESSIONS - تسجيل المشاهدات الحقيقية
+// =========================================================
+
+const videoImpressions = new Map();
+
+window.startVideoImpression = function(postId, videoElement) {
+    if (videoImpressions.has(postId)) return;
+
+    const IMPRESSION_DURATION = 3000; // 3 ثوانٍ
+
+    const timer = setTimeout(async () => {
+        if (videoElement.paused || videoElement.ended) {
+            videoImpressions.delete(postId);
+            return;
+        }
+        await recordVideoImpression(postId);
+        videoImpressions.set(postId, true);
+        console.log(`✅ Video impression recorded for post ${postId}`);
+    }, IMPRESSION_DURATION);
+
+    videoElement.onpause = function() {
+        clearTimeout(timer);
+        videoImpressions.delete(postId);
+    };
+    videoElement.onended = function() {
+        clearTimeout(timer);
+        videoImpressions.delete(postId);
+    };
+};
+
+async function recordVideoImpression(postId) {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+
+        const fingerprint = window.getDeviceFingerprint ? window.getDeviceFingerprint() : 'unknown';
+
+        const { data, error } = await window.supabaseClient.rpc('add_video_impression', {
+            p_post_id: postId,
+            p_viewer_id: user.id,
+            p_device_fingerprint: fingerprint
+        });
+
+        if (error) {
+            console.error('❌ Video impression error:', error);
+            return;
+        }
+
+        if (data?.success) {
+            console.log('💰 Video impression recorded:', data);
+        } else {
+            console.log('ℹ️ Impression not counted:', data?.message);
+        }
+    } catch (error) {
+        console.error('❌ Error recording video impression:', error);
+    }
+}
 </script>
 <!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
