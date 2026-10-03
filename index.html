@@ -2529,7 +2529,14 @@ window.startVideoImpression = function(postId, videoElement) {
 // ⏱️ مؤقت تسجيل المشاهدة (3 ثوانٍ)
 // ═══════════════════════════════════════════════════════════
 function startImpressionTimer(postId, videoElement) {
-    if (videoImpressions.has(postId)) return;
+    // ✅ منع التسجيل المزدوج
+    if (videoImpressions.has(postId)) {
+        console.log(`⏭️ Impression already tracked for ${postId}`);
+        return;
+    }
+    
+    // ✅ ضع علامة فوراً لمنع التنفيذ المتكرر
+    videoImpressions.set(postId, 'pending');
     
     const IMPRESSION_DURATION = 3000;
     
@@ -2538,8 +2545,14 @@ function startImpressionTimer(postId, videoElement) {
             videoImpressions.delete(postId);
             return;
         }
+        
+        // ✅ تحقق أن التسجيل لم يحدث بعد
+        if (videoImpressions.get(postId) === 'recorded') {
+            return;
+        }
+        
         await recordVideoImpression(postId);
-        videoImpressions.set(postId, true);
+        videoImpressions.set(postId, 'recorded');
         console.log(`✅ Video impression recorded for post ${postId}`);
     }, IMPRESSION_DURATION);
     
@@ -2547,13 +2560,14 @@ function startImpressionTimer(postId, videoElement) {
         clearTimeout(timer);
         videoImpressions.delete(postId);
     };
+    
     videoElement.onended = function() {
         clearTimeout(timer);
         videoImpressions.delete(postId);
         
-        // ✅ Post-roll: بعد الفيديو
+        // ✅ Post-roll
         const state = videoAdState.get(postId);
-        if (state && !state.postRollPlayed) {
+        if (state && !state.postRollPlayed && !globalAdLock) {
             state.postRollPlayed = true;
             playVastAd(videoElement, postId, 'post-roll', null);
         }
