@@ -1145,31 +1145,37 @@
                 </div>
             </div>
             
-            <!-- أزرار الملف الشخصي -->
-            <div class="profile-actions">
-                
-                <!-- 🆕 أزرار الصداقة (تظهر فقط في صفحات الآخرين) -->
-                <button id="addFriendBtn" onclick="sendFriendRequest()" style="background: #1877f2; color: white; display: none;">
-                    ➕ Add Friend
-                </button>
-                
-                <button id="requestSentBtn" style="background: #e4e6eb; color: #65676b; display: none;" disabled>
-                    ⏳ Request Sent
-                </button>
-                
-                <button id="friendActionsBtn" style="background: #e4e6eb; color: #050505; display: none;">
-                    👥 Friends
-                </button>
-                
-                <!-- الأزرار الأساسية -->
-                <button class="edit-btn" onclick="editProfile()" data-i18n="edit_profile">Edit Profile</button>
-                <button class="message-btn" onclick="sendMessage()" data-i18n="message">Message</button>
-                
-               <a href="earnings.html" id="earningsBtn" data-i18n="earnings_title" 
+           <div class="profile-actions">
+    
+    <!-- 🆕 أزرار الصداقة (تظهر فقط في صفحات الآخرين) -->
+    <button id="addFriendBtn" onclick="sendFriendRequest()" style="background: #1877f2; color: white; display: none;">
+        ➕ Add Friend
+    </button>
+    
+    <button id="requestSentBtn" style="background: #e4e6eb; color: #65676b; display: none;" disabled>
+        ⏳ Request Sent
+    </button>
+    
+    <button id="friendActionsBtn" style="background: #e4e6eb; color: #050505; display: none;">
+        👥 Friends
+    </button>
+    
+    <!-- الأزرار الأساسية -->
+    <button class="edit-btn" onclick="editProfile()" data-i18n="edit_profile">Edit Profile</button>
+    <button class="message-btn" onclick="sendMessage()" data-i18n="message">Message</button>
+    
+   <a href="earnings.html" id="earningsBtn" data-i18n="earnings_title" 
    style="display: none; align-items: center; gap: 5px; padding: 12px 28px; background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;">
     💰 My Earnings
 </a>
-            </div>
+
+   <!-- 🎬 Creator Dashboard (يظهر فقط لصاحب الحساب) -->
+   <a href="creator-dashboard.html" id="creatorDashboardBtn"
+   style="display: none; align-items: center; gap: 5px; padding: 12px 28px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;">
+    🎬 Creator Dashboard
+</a>
+
+</div>
         </div>
         
         <!-- التبويبات -->
@@ -2279,13 +2285,14 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                 const editBtn = document.querySelector('.edit-btn');
                 const messageBtn = document.querySelector('.message-btn');
                 const earningsBtn = document.getElementById('earningsBtn');
+                const creatorDashboardBtn = document.getElementById('creatorDashboardBtn');
                 
                 if (addBtn) addBtn.style.display = 'none';
                 if (sentBtn) sentBtn.style.display = 'none';
                 if (actionsBtn) actionsBtn.style.display = 'none';
                 if (editBtn) editBtn.style.display = 'none';
                 if (messageBtn) messageBtn.style.display = 'none';
-                if (earningsBtn) earningsBtn.style.display = 'none';
+            if (earningsBtn) earningsBtn.style.display = 'none';
                 
               const myId = String(currentUserId).trim();
 const targetId = String(profileUserId || myId).trim();
@@ -2293,6 +2300,7 @@ const targetId = String(profileUserId || myId).trim();
 if (myId === targetId) {
     if (editBtn) editBtn.style.display = 'inline-flex';
     if (earningsBtn) earningsBtn.style.display = 'inline-flex';
+    if (creatorDashboardBtn) creatorDashboardBtn.style.display = 'inline-flex'; // ← جديد
     console.log('✅ OWNER MODE');
     return;
 }
