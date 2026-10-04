@@ -96,6 +96,46 @@
     </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 EXOCLICK BANNER - REELS PAGE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="ad-container" style="background: #1a1a1a; border-radius: 12px; padding: 20px; margin: 20px auto; text-align: center; min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column; max-width: 500px;">
+    <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
+        📢 Sponsored
+    </div>
+    <div id="exoBannerContainer"></div>
+</div>
+
+<script>
+    (function() {
+        var isMobile = window.innerWidth <= 768;
+        var container = document.getElementById('exoBannerContainer');
+        if (!container) return;
+
+        var script1 = document.createElement('script');
+        script1.async = true;
+        script1.type = 'application/javascript';
+        script1.src = 'https://a.magsrv.com/ad-provider.js';
+        container.appendChild(script1);
+
+        var ins = document.createElement('ins');
+        if (isMobile) {
+            ins.className = 'eas6a97888e10';
+            ins.setAttribute('data-zoneid', '6046832');
+            console.log('📱 Loading Mobile Ad (Reels)');
+        } else {
+            ins.className = 'eas6a97888e2';
+            ins.setAttribute('data-zoneid', '6046804');
+            console.log('🖥️ Loading Desktop Ad (Reels)');
+        }
+        container.appendChild(ins);
+
+        var script2 = document.createElement('script');
+        script2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
+        container.appendChild(script2);
+    })();
+</script>
+
 <button class="upload-btn" onclick="openUploadModal()">+</button>
 
 <div id="uploadModal" class="modal">
@@ -153,8 +193,6 @@
             const username = profile.full_name || profile.username || 'User';
             const avatar = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
             
-            // ✅ كشف نوع الوسائط من الرابط
-            // ✅ الاعتماد على امتداد الرابط أولاً
 const url = (reel.video_url || '').toLowerCase();
 const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
 
@@ -211,12 +249,10 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
 
         if (existing) {
             if (existing.emoji === emoji) {
-                // إزالة التفاعل
                 await window.supabaseClient.from('reel_reactions').delete().eq('id', existing.id);
                 btn.classList.remove('active');
                 return;
             } else {
-                // تغيير الإيموجي
                 await window.supabaseClient.from('reel_reactions').update({ emoji }).eq('id', existing.id);
                 document.querySelectorAll(`.reaction-btn`).forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -224,7 +260,6 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
             }
         }
 
-        // تفاعل جديد
         await window.supabaseClient.from('reel_reactions').insert({
             reel_id: reelId, user_id: user.id, emoji: emoji
         });
@@ -307,7 +342,6 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) { alert('Please login'); return; }
 
-        // ✅ اكتشف نوع الملف
         const isVideo = file.type.startsWith('video/');
         const mediaType = isVideo ? 'video' : 'image';
 
@@ -343,11 +377,10 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
     document.addEventListener('DOMContentLoaded', loadReels);
 </script>
 <script src="js/dark-mode.js"></script>
-<script src="js/monetag.js" data-cfasync="false"></script>
-<div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
-<!-- ============================================== -->
-<!-- 🎬 PRE-ROLL AD MODAL -->
-<!-- ============================================== -->
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 PRE-ROLL AD MODAL (نسخة واحدة فقط) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <div id="prerollModal" style="
     display: none;
     position: fixed;
@@ -365,7 +398,6 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
         </div>
     </div>
 
-    <!-- Ad Container -->
     <div id="prerollAdContainer" style="
         background: white;
         border-radius: 12px;
@@ -378,10 +410,8 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
         justify-content: center;
         overflow: hidden;
     ">
-        <!-- الإعلان هيتحقن هنا -->
     </div>
 
-    <!-- Skip Button -->
     <button id="prerollSkipBtn" disabled style="
         margin-top: 25px;
         padding: 14px 45px;
@@ -402,133 +432,10 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
         Your video will play after the ad
     </div>
 </div>
+
 <script>
 // =========================================================
-// PRE-ROLL AD SYSTEM
-// =========================================================
-(function() {
-    'use strict';
-
-    let prerollTimer = null;
-    let prerollCallback = null;
-    let prerollActive = false;
-
-    const NATIVE_AD_SCRIPT = 'https://pl31577799.profitableratecpmnetwork.com/1af43291506a9f729cf5b2e0c450d957/invoke.js';
-    const NATIVE_AD_CONTAINER = 'container-1af43291506a9f729cf5b2e0c450d957';
-    const SKIP_DELAY = 5;
-
-    window.showPrerollAd = function(callback) {
-        const modal = document.getElementById('prerollModal');
-        const adContainer = document.getElementById('prerollAdContainer');
-        const skipBtn = document.getElementById('prerollSkipBtn');
-
-        if (!modal || !adContainer || !skipBtn) {
-            if (callback) callback();
-            return;
-        }
-
-        if (prerollActive) return;
-        prerollActive = true;
-        prerollCallback = callback;
-
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        adContainer.innerHTML = '';
-
-        // حقن الإعلان
-        const adScript = document.createElement('script');
-        adScript.async = true;
-        adScript.setAttribute('data-cfasync', 'false');
-        adScript.src = NATIVE_AD_SCRIPT;
-        adContainer.appendChild(adScript);
-
-        const adDiv = document.createElement('div');
-        adDiv.id = NATIVE_AD_CONTAINER;
-        adContainer.appendChild(adDiv);
-
-        // العداد
-        let countdown = SKIP_DELAY;
-        skipBtn.disabled = true;
-        skipBtn.textContent = `Skip in ${countdown}...`;
-        skipBtn.style.cursor = 'not-allowed';
-        skipBtn.style.opacity = '0.6';
-        skipBtn.style.background = 'rgba(255,255,255,0.15)';
-        skipBtn.style.borderColor = 'rgba(255,255,255,0.3)';
-
-        clearInterval(prerollTimer);
-        prerollTimer = setInterval(() => {
-            countdown--;
-            if (countdown > 0) {
-                skipBtn.textContent = `Skip in ${countdown}...`;
-            } else {
-                clearInterval(prerollTimer);
-                skipBtn.disabled = false;
-                skipBtn.textContent = '⏭️ Skip Ad';
-                skipBtn.style.cursor = 'pointer';
-                skipBtn.style.opacity = '1';
-                skipBtn.style.background = '#1877f2';
-                skipBtn.style.borderColor = '#1877f2';
-            }
-        }, 1000);
-
-        skipBtn.onclick = () => {
-            if (skipBtn.disabled) return;
-            closePreroll();
-        };
-    };
-
-    function closePreroll() {
-        const modal = document.getElementById('prerollModal');
-        const adContainer = document.getElementById('prerollAdContainer');
-
-        if (modal) modal.style.display = 'none';
-        document.body.style.overflow = '';
-        clearInterval(prerollTimer);
-        prerollActive = false;
-
-        if (adContainer) adContainer.innerHTML = '';
-
-        const cb = prerollCallback;
-        prerollCallback = null;
-        if (cb) cb();
-    }
-
-    window.closePreroll = closePreroll;
-    console.log('✅ Pre-roll system ready');
-})();
-
-// =========================================================
-// ✅ ربط Pre-roll بكل فيديو في الـ Reels
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    // انتظر تحميل الـ reels
-    setTimeout(() => {
-        const videos = document.querySelectorAll('.reel-video[src$=".mp4"], .reel-video[src$=".webm"], .reel-video[src$=".mov"]');
-        
-        videos.forEach((video, index) => {
-            // أظهر الـ Pre-roll مرة واحدة لكل فيديو
-            video.addEventListener('play', function onceHandler() {
-                // شيل الـ listener عشان ميظهرش تاني
-                video.removeEventListener('play', onceHandler);
-                
-                // وقّف الفيديو مؤقتاً
-                video.pause();
-                
-                // اعرض الـ Pre-roll
-                showPrerollAd(() => {
-                    // بعد ما المستخدم يدوس Skip
-                    video.play();
-                });
-            });
-        });
-
-        console.log(`🎬 Pre-roll bound to ${videos.length} videos`);
-    }, 2000); // انتظر 2 ثانية لحد ما الـ reels تحمّل
-});
-</script>
-<script>
-// =========================================================
-// PRE-ROLL AD SYSTEM
+// PRE-ROLL AD SYSTEM (نسخة واحدة فقط)
 // =========================================================
 (function() {
     'use strict';
