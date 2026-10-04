@@ -283,45 +283,30 @@
         </div>
         <!-- إغلاق games-grid -->
 
-             <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- 📢 EXOCLICK BANNER - GAMING PAGE (Responsive) -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
-                   <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- 📢 EXOCLICK BANNER - GAMING PAGE -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <div class="ad-container" style="background: white; border-radius: 16px; padding: 20px; margin-top: 30px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+               <div class="ad-container" style="background: white; border-radius: 16px; padding: 20px; margin-top: 30px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
             <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
                 📢 Sponsored
             </div>
-
-            <!-- 🖥️ إعلان الكمبيوتر (Web) - يظهر فقط على الشاشات الكبيرة -->
-            <div class="ad-desktop" id="adDesktop">
-                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-                <ins class="eas6a97888e2" data-zoneid="6046804"></ins>
-                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-            </div>
-
-            <!-- 📱 إعلان الجوال (Mobile) - يظهر فقط على الشاشات الصغيرة -->
-            <div class="ad-mobile" id="adMobile">
-                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-                <ins class="eas6a97888e10" data-zoneid="6046832"></ins>
-                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-            </div>
+            <div id="exoBannerContainer"></div>
         </div>
 
         <script>
-            // ✅ حذف الكود غير المناسب فوراً قبل أن يرسل طلباً
             (function() {
                 var isMobile = window.innerWidth <= 768;
-                var desktopAd = document.getElementById('adDesktop');
-                var mobileAd = document.getElementById('adMobile');
+                var container = document.getElementById('exoBannerContainer');
+                if (!container) return;
 
+                // ✅ نضع الكود داخل HTML مباشرة، لكن نختار واحداً فقط
                 if (isMobile) {
-                    if (desktopAd) desktopAd.remove();
-                    console.log('📱 Mobile detected - Desktop ad removed');
+                    container.innerHTML = '<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"><\/script>' +
+                        '<ins class="eas6a97888e10" data-zoneid="6046832"></ins>' +
+                        '<script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>';
+                    console.log('📱 Loading Mobile Ad (6046832)');
                 } else {
-                    if (mobileAd) mobileAd.remove();
-                    console.log('🖥️ Desktop detected - Mobile ad removed');
+                    container.innerHTML = '<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"><\/script>' +
+                        '<ins class="eas6a97888e2" data-zoneid="6046804"></ins>' +
+                        '<script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>';
+                    console.log('🖥️ Loading Desktop Ad (6046804)');
                 }
             })();
         </script>
