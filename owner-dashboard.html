@@ -450,36 +450,106 @@
             }
         }
         
-        // =========================================================
-        // UPDATE ROLE
-        // =========================================================
-        async function updateRole(userId, newRole) {
-            if (!confirm(`Change role to "${newRole}"?`)) {
-                loadUsers();
-                return;
-            }
-            
-            try {
-                const { error } = await supabaseClient
-                    .from('profiles')
-                    .update({ role: newRole })
-                    .eq('id', userId);
-                
-                if (error) {
-                    console.error('Error updating role:', error);
-                    alert('Error: ' + error.message);
-                    return;
-                }
-                
-                alert('✅ Role updated successfully!');
-                loadUsers();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error: ' + error.message);
-            }
+     // =========================================================
+// ✅ UPDATE ROLE + إرسال إشعار
+// =========================================================
+async function updateRole(userId, newRole) {
+    if (!confirm(`Change role to "${newRole}"?`)) {
+        loadUsers();
+        return;
+    }
+    
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('❌ Please login first');
+            return;
         }
         
+        // ✅ جلب الدور القديم
+        const { data: oldProfile } = await supabaseClient
+            .from('profiles')
+            .select('role, username, full_name')
+            .eq('id', userId)
+            .single();
+        
+        const oldRole = oldProfile?.role || 'user';
+        
+        // ✅ منع التغيير إذا كان نفس الدور
+        if (oldRole === newRole) {
+            alert('⚠️ User already has this role');
+            loadUsers();
+            return;
+        }
+        
+        // ✅ تحديث الدور
+        const { error } = await supabaseClient
+            .from('profiles')
+            .update({ role: newRole })
+            .eq('id', userId);
+        
+        if (error) {
+            console.error('❌ Error updating role:', error);
+            alert('❌ Error: ' + error.message);
+            return;
+        }
+        
+        // ✅ تحديد الأيقونة والعنوان
+        let roleEmoji = '👤';
+        let roleTitle = newRole;
+        let roleMessage = '';
+        
+        switch(newRole) {
+            case 'admin':
+                roleEmoji = '🛡️';
+                roleTitle = 'Admin';
+                roleMessage = '🎉 Congratulations! You are now an Admin on SocialWiki! You have access to the admin panel.';
+                break;
+            case 'super_admin':
+                roleEmoji = '👑';
+                roleTitle = 'Super Admin';
+                roleMessage = '🏆 Amazing! You are now a Super Admin on SocialWiki! You have full access to all features.';
+                break;
+            case 'owner':
+                roleEmoji = '💎';
+                roleTitle = 'Owner';
+                roleMessage = '👑 Welcome, Owner! You now have full control over SocialWiki.';
+                break;
+            case 'user':
+                roleEmoji = '👤';
+                roleTitle = 'User';
+                roleMessage = 'ℹ️ Your role has been changed to Regular User.';
+                break;
+            default:
+                roleTitle = newRole;
+                roleMessage = `ℹ️ Your role has been updated to ${newRole}.`;
+        }
+        
+        // ✅ إرسال الإشعار
+        const { error: notifError } = await supabaseClient
+            .from('notifications')
+            .insert({
+                receiver_id: userId,
+                sender_id: user.id,
+                type: 'role_change',
+                message: `${roleEmoji} ${roleMessage}`,
+                is_read: false,
+                created_at: new Date()
+            });
+        
+        if (notifError) {
+            console.warn('⚠️ Notification error:', notifError);
+        }
+        
+        // ✅ نجاح
+        alert(`✅ Role changed: ${oldRole} → ${newRole}\n\n📬 Notification sent to ${oldProfile?.full_name || oldProfile?.username || 'user'}!`);
+        loadUsers();
+        
+    } catch (error) {
+        console.error('❌ Crash:', error);
+        alert('❌ Error: ' + error.message);
+    }
+}
         // =========================================================
         // BAN USER
         // =========================================================
