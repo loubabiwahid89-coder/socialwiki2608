@@ -290,10 +290,33 @@
             <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
                 📢 Sponsored
             </div>
-            <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-            <ins class="eas6a97888e2" data-zoneid="6046804"></ins>
-            <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+
+            <!-- 🖥️ إعلان الكمبيوتر (Web) -->
+            <div class="ad-desktop" style="display: block;">
+                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+                <ins class="eas6a97888e2" data-zoneid="6046804"></ins>
+                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+            </div>
+
+            <!-- 📱 إعلان الجوال (Mobile) -->
+            <div class="ad-mobile" style="display: none;">
+                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+                <ins class="eas6a97888e10" data-zoneid="6046832"></ins>
+                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+            </div>
         </div>
+
+        <style>
+            /* إخفاء إعلان الجوال على الكمبيوتر */
+            .ad-mobile { display: none !important; }
+            .ad-desktop { display: block !important; }
+
+            /* إظهار إعلان الجوال وإخفاء إعلان الكمبيوتر على الشاشات الصغيرة */
+            @media (max-width: 768px) {
+                .ad-desktop { display: none !important; }
+                .ad-mobile { display: block !important; }
+            }
+        </style>
 
     </div>
     <!-- إغلاق games-container -->
