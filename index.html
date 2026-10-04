@@ -460,35 +460,47 @@
     <div id="exoBanner2"></div>
 </div>
 
-<script>
+     <script>
     (function() {
         var isMobile = window.innerWidth <= 768;
 
+        // ✅ دالة مساعدة لإنشاء الإعلان
+        function loadAd(containerId, zoneId, className) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            // 1. سكريبت ad-provider.js
+            var script1 = document.createElement('script');
+            script1.async = true;
+            script1.type = 'application/javascript';
+            script1.src = 'https://a.magsrv.com/ad-provider.js';
+            container.appendChild(script1);
+
+            // 2. عنصر <ins>
+            var ins = document.createElement('ins');
+            ins.className = className;
+            ins.setAttribute('data-zoneid', zoneId);
+            container.appendChild(ins);
+
+            // 3. سكريبت التشغيل
+            var script2 = document.createElement('script');
+            script2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
+            container.appendChild(script2);
+        }
+
         // ✅ على الكمبيوتر: إعلان Desktop فقط
         if (!isMobile) {
-            var container1 = document.getElementById('exoBanner1');
-            if (container1) {
-                container1.innerHTML = 
-                    '<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"><\/script>' +
-                    '<ins class="eas6a97888e2" data-zoneid="6046804"></ins>' +
-                    '<script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>';
-                console.log('🖥️ Loading Desktop Ad (6046804)');
-            }
-            // إخفاء إعلان الجوال
+            loadAd('exoBanner1', '6046804', 'eas6a97888e2');
+            console.log('🖥️ Loading Desktop Ad (6046804)');
+
             var ad2 = document.getElementById('adContainer2');
             if (ad2) ad2.style.display = 'none';
         } 
         // ✅ على الجوال: إعلان Mobile فقط
         else {
-            var container2 = document.getElementById('exoBanner2');
-            if (container2) {
-                container2.innerHTML = 
-                    '<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"><\/script>' +
-                    '<ins class="eas6a97888e10" data-zoneid="6046832"></ins>' +
-                    '<script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>';
-                console.log('📱 Loading Mobile Ad (6046832)');
-            }
-            // إخفاء إعلان الكمبيوتر
+            loadAd('exoBanner2', '6046832', 'eas6a97888e10');
+            console.log('📱 Loading Mobile Ad (6046832)');
+
             var ad1 = document.getElementById('adContainer1');
             if (ad1) ad1.style.display = 'none';
         }
