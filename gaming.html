@@ -283,38 +283,48 @@
         </div>
         <!-- إغلاق games-grid -->
 
+             <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- 📢 EXOCLICK BANNER - GAMING PAGE (Responsive) -->
         <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- 📢 EXOCLICK BANNER - GAMING PAGE -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <div class="ad-container" style="background: white; border-radius: 16px; padding: 20px; margin-top: 30px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <div id="exoBannerContainer" style="background: white; border-radius: 16px; padding: 20px; margin-top: 30px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
             <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
                 📢 Sponsored
             </div>
-
-            <!-- 🖥️ إعلان الكمبيوتر (Web) -->
-            <div class="ad-desktop" style="display: block;">
-                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-                <ins class="eas6a97888e2" data-zoneid="6046804"></ins>
-                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-            </div>
-
-            <!-- 📱 إعلان الجوال (Mobile) -->
-            <div class="ad-mobile" style="display: none;">
-                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-                <ins class="eas6a97888e10" data-zoneid="6046832"></ins>
-                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-            </div>
+            <!-- سيتم إدخال كود الإعلان هنا تلقائياً -->
         </div>
 
-        <style>
-            .ad-mobile { display: none; }
-            .ad-desktop { display: block; }
+        <script>
+            (function() {
+                var isMobile = window.innerWidth <= 768;
+                var container = document.getElementById('exoBannerContainer');
+                if (!container) return;
 
-            @media (max-width: 768px) {
-                .ad-desktop { display: none; }
-                .ad-mobile { display: block; }
-            }
-        </style>
+                var script1 = document.createElement('script');
+                script1.async = true;
+                script1.type = 'application/javascript';
+                script1.src = 'https://a.magsrv.com/ad-provider.js';
+
+                var ins = document.createElement('ins');
+                if (isMobile) {
+                    ins.className = 'eas6a97888e10';
+                    ins.setAttribute('data-zoneid', '6046832');
+                    console.log('📱 Loading Mobile Ad (6046832)');
+                } else {
+                    ins.className = 'eas6a97888e2';
+                    ins.setAttribute('data-zoneid', '6046804');
+                    console.log('🖥️ Loading Desktop Ad (6046804)');
+                }
+
+                var script2 = document.createElement('script');
+                script2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
+
+                container.appendChild(script1);
+                container.appendChild(ins);
+                container.appendChild(script2);
+            })();
+        </script>
+    
+        
 
     </div>
     <!-- إغلاق games-container -->
