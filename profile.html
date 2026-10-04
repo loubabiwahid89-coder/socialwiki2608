@@ -1051,6 +1051,36 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+/* 👑 Queen Shine */
+@keyframes queenShine {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* 💝 Mother Heart */
+@keyframes motherHeart {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 8px 30px rgba(255, 105, 180, 0.7); 
+    }
+    50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 8px 40px rgba(255, 105, 180, 1), 0 0 60px rgba(255, 215, 0, 0.6); 
+    }
+}
+
+/* 🌹 First Lady */
+@keyframes firstLadyPulse {
+    0%, 100% { box-shadow: 0 6px 25px rgba(193, 39, 45, 0.6); }
+    50% { box-shadow: 0 6px 35px rgba(193, 39, 45, 0.9), 0 0 50px rgba(255, 215, 0, 0.5); }
+}
+
+/* 💎👑 Diamond Queen */
+@keyframes diamondQueen {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
@@ -1752,6 +1782,121 @@ if (profile?.special_badges && profile.special_badges.includes('top_contributor'
 // 🎯 BADGES خاصة لصديق معين (ID محدد)
 // ═══════════════════════════════════════════════
 const FRIEND_ID = 'a3c3c4c8-4628-49f3-a531-010a63fa9988';
+// ═══════════════════════════════════════════════
+// 👑 BADGES خاصة للأم (ID محدد)
+// ═══════════════════════════════════════════════
+const MOTHER_ID = '3b9f297e-fad8-467d-b843-0f0f7f84eefc';
+
+if (userId === MOTHER_ID) {
+    
+    // 👑 Queen of SocialWiki
+    if (profile?.special_badges && profile.special_badges.includes('queen')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 16px 32px;
+                background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+                background-size: 200% 200%;
+                color: #8B0000;
+                border-radius: 30px;
+                font-weight: 900;
+                font-size: 17px;
+                box-shadow: 0 8px 30px rgba(255, 215, 0, 0.8);
+                border: 4px solid #8B0000;
+                margin: 5px;
+                animation: queenShine 2s infinite;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+            ">
+                <span style="font-size: 26px;">👑</span>
+                <span>Queen of SocialWiki</span>
+                <span style="font-size: 24px;">👑</span>
+            </div>
+        `;
+    }
+
+    // 💝 Mother of SocialWiki
+    if (profile?.special_badges && profile.special_badges.includes('mother_of_socialwiki')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 16px 32px;
+                background: linear-gradient(135deg, #FF69B4, #FFD700, #FF69B4);
+                background-size: 200% 200%;
+                color: #ffffff;
+                border-radius: 30px;
+                font-weight: 900;
+                font-size: 17px;
+                box-shadow: 0 8px 30px rgba(255, 105, 180, 0.7);
+                border: 4px solid #ffffff;
+                margin: 5px;
+                animation: motherHeart 2s infinite;
+                text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+            ">
+                <span style="font-size: 26px;">💝</span>
+                <span>Mother of SocialWiki</span>
+                <span style="font-size: 24px;">💐</span>
+            </div>
+        `;
+    }
+
+    // 🌹 First Lady
+    if (profile?.special_badges && profile.special_badges.includes('first_lady')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 28px;
+                background: linear-gradient(135deg, #C1272D, #FF69B4, #C1272D);
+                background-size: 200% 200%;
+                color: #ffffff;
+                border-radius: 30px;
+                font-weight: 800;
+                font-size: 16px;
+                box-shadow: 0 6px 25px rgba(193, 39, 45, 0.6);
+                border: 3px solid #FFD700;
+                margin: 5px;
+                animation: firstLadyPulse 2s infinite;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            ">
+                <span style="font-size: 24px;">🌹</span>
+                <span>First Lady</span>
+                <span style="font-size: 20px;">💐</span>
+            </div>
+        `;
+    }
+
+    // 💎👑 Diamond Queen
+    if (profile?.special_badges && profile.special_badges.includes('diamond_queen')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 16px 32px;
+                background: linear-gradient(90deg, #FFD700, #FF69B4, #8B00FF, #1DA1F2, #FFD700);
+                background-size: 300% 100%;
+                color: #ffffff;
+                border-radius: 30px;
+                font-weight: 900;
+                font-size: 17px;
+                box-shadow: 0 8px 35px rgba(139, 0, 255, 0.7), 0 0 60px rgba(255, 215, 0, 0.6);
+                border: 4px solid #FFD700;
+                margin: 5px;
+                animation: diamondQueen 3s infinite;
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            ">
+                <span style="font-size: 24px;">💎</span>
+                <span>Diamond Queen</span>
+                <span style="font-size: 24px;">👑</span>
+            </div>
+        `;
+    }
+}
 
 if (userId === FRIEND_ID) {
     
