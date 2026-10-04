@@ -307,14 +307,12 @@
         </div>
 
         <style>
-            /* إخفاء إعلان الجوال على الكمبيوتر */
-            .ad-mobile { display: none !important; }
-            .ad-desktop { display: block !important; }
+            .ad-mobile { display: none; }
+            .ad-desktop { display: block; }
 
-            /* إظهار إعلان الجوال وإخفاء إعلان الكمبيوتر على الشاشات الصغيرة */
             @media (max-width: 768px) {
-                .ad-desktop { display: none !important; }
-                .ad-mobile { display: block !important; }
+                .ad-desktop { display: none; }
+                .ad-mobile { display: block; }
             }
         </style>
 
@@ -322,9 +320,9 @@
     <!-- إغلاق games-container -->
 
     <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/tasks-helper.js"></script>
-<script src="js/translations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/tasks-helper.js"></script>
+    <script src="js/translations.js"></script>
     <script>
         const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
         const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
@@ -359,50 +357,46 @@
             applyTranslations();
             loadUserProfile();
 
-            // ✅ إعادة تطبيق الترجمات عند تغيير اللغة
             window.addEventListener('languageChanged', function(event) {
                 console.log('🌐 gaming.html: Language changed to', event.detail.lang);
                 if (typeof applyTranslations === 'function') applyTranslations();
             });
         });
-      window.markGameTask = async function() {
-    try {
-        // 1. الحصول على المستخدم الحالي
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) {
-            console.log('⚠️ No user logged in, task not completed');
-            return;
-        }
 
-        // 2. استدعاء دالة إكمال المهمة في Supabase
-        const { data, error } = await supabaseClient.rpc('complete_task', {
-            p_user_id: user.id,
-            p_task_key: 'play_1_game'
-        });
+        window.markGameTask = async function() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    console.log('⚠️ No user logged in, task not completed');
+                    return;
+                }
 
-        if (error) {
-            console.error('❌ Task error:', error);
-            return;
-        }
+                const { data, error } = await supabaseClient.rpc('complete_task', {
+                    p_user_id: user.id,
+                    p_task_key: 'play_1_game'
+                });
 
-        if (data && data.success) {
-            if (data.completed) {
-                console.log('🎉 Task "play_1_game" completed! +' + data.points + ' points');
-                // إظهار إشعار للمستخدم
-                alert('🎉 تم إكمال مهمة "العب لعبة"! +' + data.points + ' نقطة');
-            } else {
-                console.log('✅ Progress: ' + data.progress + ' / ' + data.goal);
+                if (error) {
+                    console.error('❌ Task error:', error);
+                    return;
+                }
+
+                if (data && data.success) {
+                    if (data.completed) {
+                        console.log('🎉 Task "play_1_game" completed! +' + data.points + ' points');
+                        alert('🎉 تم إكمال مهمة "العب لعبة"! +' + data.points + ' نقطة');
+                    } else {
+                        console.log('✅ Progress: ' + data.progress + ' / ' + data.goal);
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Error completing game task:', error);
             }
-        }
-    } catch (error) {
-        console.error('❌ Error completing game task:', error);
-    }
-};
+        };
     </script>
-        <script src="js/messenger-notify.js"></script>
-<!-- Popunder disabled -->
-<script src="js/dark-mode.js"></script>
-<script src="js/monetag.js" data-cfasync="false"></script>
-<div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+    <script src="js/messenger-notify.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/monetag.js" data-cfasync="false"></script>
+    <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 </body>
 </html>
