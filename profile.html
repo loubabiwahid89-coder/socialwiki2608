@@ -1025,6 +1025,32 @@
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
 }
+
+/* ═══ ELITE ═══ */
+@keyframes eliteShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ═══ MASTER ═══ */
+@keyframes masterPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 6px 25px rgba(139, 0, 255, 0.6); 
+    }
+    50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 6px 35px rgba(139, 0, 255, 0.9), 0 0 50px rgba(255, 215, 0, 0.6); 
+    }
+}
+
+/* ═══ LEGEND ═══ */
+@keyframes legendFire {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
@@ -1722,7 +1748,119 @@ if (profile?.special_badges && profile.special_badges.includes('top_contributor'
         </div>
     `;
 }
+// ═══════════════════════════════════════════════
+// 🎯 BADGES خاصة لصديق معين (ID محدد)
+// ═══════════════════════════════════════════════
+const FRIEND_ID = 'a3c3c4c8-4628-49f3-a531-010a63fa9988';
 
+if (userId === FRIEND_ID) {
+    
+    // 🛡️ Super Admin
+    if (profile?.special_badges && profile.special_badges.includes('super_admin')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 28px;
+                background: linear-gradient(135deg, #000000, #434343);
+                color: #FFD700;
+                border-radius: 30px;
+                font-weight: 900;
+                font-size: 16px;
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 215, 0, 0.3);
+                border: 3px solid #FFD700;
+                margin: 5px;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            ">
+                <span style="font-size: 22px;">🛡️</span>
+                <span>Super Admin</span>
+                <span style="font-size: 20px;">⚙️</span>
+            </div>
+        `;
+    }
+
+    // ⚡ Elite
+    if (profile?.special_badges && profile.special_badges.includes('elite')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 28px;
+                background: linear-gradient(135deg, #1a1a1a, #4a4a4a, #1a1a1a);
+                background-size: 200% 200%;
+                color: #ffffff;
+                border-radius: 30px;
+                font-weight: 800;
+                font-size: 16px;
+                box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+                border: 3px solid #ffffff;
+                margin: 5px;
+                animation: eliteShine 3s infinite;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            ">
+                <span style="font-size: 22px;">⚡</span>
+                <span>Elite</span>
+                <span style="font-size: 20px;">⚔️</span>
+            </div>
+        `;
+    }
+
+    // 🎯 Master
+    if (profile?.special_badges && profile.special_badges.includes('master')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 28px;
+                background: linear-gradient(135deg, #4B0082, #8B00FF, #4B0082);
+                background-size: 200% 200%;
+                color: #FFD700;
+                border-radius: 30px;
+                font-weight: 900;
+                font-size: 16px;
+                box-shadow: 0 6px 25px rgba(139, 0, 255, 0.6);
+                border: 3px solid #FFD700;
+                margin: 5px;
+                animation: masterPulse 2s infinite;
+                text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+            ">
+                <span style="font-size: 22px;">🎯</span>
+                <span>Master</span>
+                <span style="font-size: 20px;">🏆</span>
+            </div>
+        `;
+    }
+
+    // 🔥 Legend
+    if (profile?.special_badges && profile.special_badges.includes('legend')) {
+        badgesHTML += `
+            <div style="
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 28px;
+                background: linear-gradient(135deg, #FF0000, #FF8C00, #FFD700, #FF8C00, #FF0000);
+                background-size: 300% 100%;
+                color: #ffffff;
+                border-radius: 30px;
+                font-weight: 900;
+                font-size: 16px;
+                box-shadow: 0 6px 30px rgba(255, 69, 0, 0.8), 0 0 50px rgba(255, 215, 0, 0.6);
+                border: 3px solid #FFD700;
+                margin: 5px;
+                animation: legendFire 2s infinite;
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            ">
+                <span style="font-size: 22px;">🔥</span>
+                <span>Legend</span>
+                <span style="font-size: 20px;">💫</span>
+            </div>
+        `;
+    }
+}
 // ═══════════════════════════════════════════════
 // 💎 شارة DIAMOND MEMBER
 // ═══════════════════════════════════════════════
