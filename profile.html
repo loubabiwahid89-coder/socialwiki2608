@@ -1606,8 +1606,11 @@ if (profile?.country === 'MA' || (profile?.special_badges && profile.special_bad
                 const badgesContainer = document.getElementById('userBadges');
                 let badgesHTML = '';
                 
-    // ✅ 1. Owner of SocialWiki
-if (profile?.is_owner === true) {
+    
+// ✅ 1. Owner of SocialWiki - مخفي عن adamhajbi
+const HIDDEN_OWNER_BADGE = ['adamhajbi'];  // المستخدمون المخفي عنهم Badge Owner فقط
+
+if (profile?.is_owner === true && !HIDDEN_OWNER_BADGE.includes(profile?.username)) {
     badgesHTML += `
         <div style="
             display: inline-flex;
