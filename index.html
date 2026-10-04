@@ -440,10 +440,10 @@
             </div>
 
          
-        <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- 📢 ADVERTISEMENT #1 (Desktop) -->
+       <!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 ADVERTISEMENT #1 (Desktop Only) -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+<div class="ad-container" id="adContainer1" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
     <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
         📢 Advertisement
     </div>
@@ -451,9 +451,9 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- 📢 SPONSORED #2 (Mobile) -->
+<!-- 📢 SPONSORED #2 (Mobile Only) -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+<div class="ad-container" id="adContainer2" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
     <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
         📢 Sponsored
     </div>
@@ -462,46 +462,38 @@
 
 <script>
     (function() {
-        // ✅ الإعلان الأول: كود الكمبيوتر (Web)
-        var container1 = document.getElementById('exoBanner1');
-        if (container1) {
-            var s1 = document.createElement('script');
-            s1.async = true;
-            s1.type = 'application/javascript';
-            s1.src = 'https://a.magsrv.com/ad-provider.js';
-            container1.appendChild(s1);
+        var isMobile = window.innerWidth <= 768;
 
-            var ins1 = document.createElement('ins');
-            ins1.className = 'eas6a97888e2';
-            ins1.setAttribute('data-zoneid', '6046804');
-            container1.appendChild(ins1);
-
-            var s2 = document.createElement('script');
-            s2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
-            container1.appendChild(s2);
-        }
-
-        // ✅ الإعلان الثاني: كود الجوال (Mobile)
-        var container2 = document.getElementById('exoBanner2');
-        if (container2) {
-            var s3 = document.createElement('script');
-            s3.async = true;
-            s3.type = 'application/javascript';
-            s3.src = 'https://a.magsrv.com/ad-provider.js';
-            container2.appendChild(s3);
-
-            var ins2 = document.createElement('ins');
-            ins2.className = 'eas6a97888e10';
-            ins2.setAttribute('data-zoneid', '6046832');
-            container2.appendChild(ins2);
-
-            var s4 = document.createElement('script');
-            s4.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
-            container2.appendChild(s4);
+        // ✅ على الكمبيوتر: إعلان Desktop فقط
+        if (!isMobile) {
+            var container1 = document.getElementById('exoBanner1');
+            if (container1) {
+                container1.innerHTML = 
+                    '<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"><\/script>' +
+                    '<ins class="eas6a97888e2" data-zoneid="6046804"></ins>' +
+                    '<script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>';
+                console.log('🖥️ Loading Desktop Ad (6046804)');
+            }
+            // إخفاء إعلان الجوال
+            var ad2 = document.getElementById('adContainer2');
+            if (ad2) ad2.style.display = 'none';
+        } 
+        // ✅ على الجوال: إعلان Mobile فقط
+        else {
+            var container2 = document.getElementById('exoBanner2');
+            if (container2) {
+                container2.innerHTML = 
+                    '<script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"><\/script>' +
+                    '<ins class="eas6a97888e10" data-zoneid="6046832"></ins>' +
+                    '<script>(AdProvider = window.AdProvider || []).push({"serve": {}});<\/script>';
+                console.log('📱 Loading Mobile Ad (6046832)');
+            }
+            // إخفاء إعلان الكمبيوتر
+            var ad1 = document.getElementById('adContainer1');
+            if (ad1) ad1.style.display = 'none';
         }
     })();
 </script>
-
             <div id="feedContainer"></div>
         </div>
 
