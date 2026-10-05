@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /auth.html
+Disallow: /owner-dashboard.html
+Disallow: /admin.html
+
+Sitemap: https://wikidoogo.com/sitemap.xml
