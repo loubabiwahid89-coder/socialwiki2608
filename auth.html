@@ -482,6 +482,7 @@
                 <button onclick="changeAuthLanguage('hi')">🇮🇳 हिन्दी</button>
                 <button onclick="changeAuthLanguage('fil')">🇵🇭 Filipino</button>
                 <button onclick="changeAuthLanguage('tl')">🇵🇭 Tagalog</button>
+                <button onclick="changeAuthLanguage('am')">🇪🇹 አማርኛ</button>
             </div>
         </div>
 
@@ -547,36 +548,95 @@
             <input type="email" id="authEmail" data-i18n-placeholder="email" placeholder="البريد الإلكتروني" dir="ltr">
             <input type="password" id="authPassword" data-i18n-placeholder="password" placeholder="كلمة المرور" dir="ltr">
 
-            <!-- ✅ COUNTRY (SIGNUP ONLY) -->
-            <div class="form-group" id="authCountryField">
-                <select id="authCountry" dir="ltr">
-                    <option value="">🌍 Select your country</option>
-                    <option value="PH">🇵🇭 Philippines</option>
-                    <option value="CM">🇨🇲 Cameroon</option>
-                    <option value="MA">🇲🇦 Morocco</option>
-                    <option value="EG">🇪🇬 Egypt</option>
-                    <option value="SA">🇸🇦 Saudi Arabia</option>
-                    <option value="DZ">🇩🇿 Algeria</option>
-                    <option value="TN">🇹🇳 Tunisia</option>
-                    <option value="NG">🇳🇬 Nigeria</option>
-                    <option value="IN">🇮🇳 India</option>
-                    <option value="ID">🇮🇩 Indonesia</option>
-                    <option value="US">🇺🇸 United States</option>
-                    <option value="FR">🇫🇷 France</option>
-                    <option value="GB">🇬🇧 United Kingdom</option>
-                    <option value="DE">🇩🇪 Germany</option>
-                    <option value="ES">🇪🇸 Spain</option>
-                    <option value="IT">🇮🇹 Italy</option>
-                    <option value="TR">🇹🇷 Turkey</option>
-                    <option value="RU">🇷🇺 Russia</option>
-                    <option value="CN">🇨🇳 China</option>
-                    <option value="JP">🇯🇵 Japan</option>
-                    <option value="KR">🇰🇷 South Korea</option>
-                    <option value="BR">🇧🇷 Brazil</option>
-                    <option value="MX">🇲🇽 Mexico</option>
-                    <option value="CA">🇨🇦 Canada</option>
-                    <option value="AU">🇦🇺 Australia</option>
-                </select>
+            <select id="authCountry" dir="ltr">
+    <option value="">🌍 Select your country</option>
+    
+    <!-- 🌍 الدول العربية -->
+    <option value="MA">🇲🇦 Morocco</option>
+    <option value="DZ">🇩🇿 Algeria</option>
+    <option value="TN">🇹🇳 Tunisia</option>
+    <option value="EG">🇪🇬 Egypt</option>
+    <option value="SA">🇸🇦 Saudi Arabia</option>
+    <option value="AE">🇦🇪 United Arab Emirates</option>
+    <option value="KW">🇰🇼 Kuwait</option>
+    <option value="QA">🇶🇦 Qatar</option>
+    <option value="BH">🇧🇭 Bahrain</option>
+    <option value="OM">🇴🇲 Oman</option>
+    <option value="JO">🇯🇴 Jordan</option>
+    <option value="LB">🇱🇧 Lebanon</option>
+    <option value="SY">🇸🇾 Syria</option>
+    <option value="IQ">🇮🇶 Iraq</option>
+    <option value="LY">🇱🇾 Libya</option>
+    <option value="SD">🇸🇩 Sudan</option>
+    <option value="YE">🇾🇪 Yemen</option>
+    <option value="PS">🇵🇸 Palestine</option>
+    <option value="MR">🇲🇷 Mauritania</option>
+    <option value="SO">🇸🇴 Somalia</option>
+    <option value="DJ">🇩🇯 Djibouti</option>
+    <option value="KM">🇰🇲 Comoros</option>
+    
+    <!-- 🌍 إفريقيا -->
+    <option value="ET">🇪🇹 Ethiopia</option>       <!-- ✅ جديد -->
+    <option value="ER">🇪🇷 Eritrea</option>        <!-- ✅ جديد -->
+    <option value="NG">🇳🇬 Nigeria</option>
+    <option value="CM">🇨🇲 Cameroon</option>
+    <option value="KE">🇰🇪 Kenya</option>          <!-- ✅ جديد -->
+    <option value="GH">🇬🇭 Ghana</option>          <!-- ✅ جديد -->
+    <option value="ZA">🇿🇦 South Africa</option>   <!-- ✅ جديد -->
+    <option value="TZ">🇹🇿 Tanzania</option>       <!-- ✅ جديد -->
+    <option value="UG">🇺🇬 Uganda</option>         <!-- ✅ جديد -->
+    <option value="SN">🇸🇳 Senegal</option>        <!-- ✅ جديد -->
+    <option value="CI">🇨🇮 Côte d'Ivoire</option>  <!-- ✅ جديد -->
+    <option value="ML">🇲🇱 Mali</option>           <!-- ✅ جديد -->
+    
+    <!-- 🌍 أوروبا -->
+    <option value="FR">🇫🇷 France</option>
+    <option value="GB">🇬🇧 United Kingdom</option>
+    <option value="DE">🇩🇪 Germany</option>
+    <option value="ES">🇪🇸 Spain</option>
+    <option value="IT">🇮🇹 Italy</option>
+    <option value="PT">🇵🇹 Portugal</option>       <!-- ✅ جديد -->
+    <option value="NL">🇳🇱 Netherlands</option>    <!-- ✅ جديد -->
+    <option value="BE">🇧🇪 Belgium</option>        <!-- ✅ جديد -->
+    <option value="CH">🇨🇭 Switzerland</option>    <!-- ✅ جديد -->
+    <option value="SE">🇸🇪 Sweden</option>         <!-- ✅ جديد -->
+    <option value="NO">🇳🇴 Norway</option>         <!-- ✅ جديد -->
+    <option value="PL">🇵🇱 Poland</option>         <!-- ✅ جديد -->
+    <option value="RO">🇷🇴 Romania</option>        <!-- ✅ جديد -->
+    <option value="GR">🇬🇷 Greece</option>         <!-- ✅ جديد -->
+    <option value="IE">🇮🇪 Ireland</option>        <!-- ✅ جديد -->
+    
+    <!-- 🌍 آسيا -->
+    <option value="TR">🇹🇷 Turkey</option>
+    <option value="RU">🇷🇺 Russia</option>
+    <option value="CN">🇨🇳 China</option>
+    <option value="JP">🇯🇵 Japan</option>
+    <option value="KR">🇰🇷 South Korea</option>
+    <option value="IN">🇮🇳 India</option>
+    <option value="ID">🇮🇩 Indonesia</option>
+    <option value="PH">🇵🇭 Philippines</option>
+    <option value="PK">🇵🇰 Pakistan</option>        <!-- ✅ جديد -->
+    <option value="BD">🇧🇩 Bangladesh</option>      <!-- ✅ جديد -->
+    <option value="VN">🇻🇳 Vietnam</option>         <!-- ✅ جديد -->
+    <option value="TH">🇹🇭 Thailand</option>        <!-- ✅ جديد -->
+    <option value="MY">🇲🇾 Malaysia</option>        <!-- ✅ جديد -->
+    <option value="SG">🇸🇬 Singapore</option>       <!-- ✅ جديد -->
+    <option value="SA">🇸🇦 Saudi Arabia</option>
+    
+    <!-- 🌍 أمريكا -->
+    <option value="US">🇺🇸 United States</option>
+    <option value="CA">🇨🇦 Canada</option>
+    <option value="MX">🇲🇽 Mexico</option>
+    <option value="BR">🇧🇷 Brazil</option>
+    <option value="AR">🇦🇷 Argentina</option>        <!-- ✅ جديد -->
+    <option value="CO">🇨🇴 Colombia</option>         <!-- ✅ جديد -->
+    <option value="CL">🇨🇱 Chile</option>            <!-- ✅ جديد -->
+    <option value="PE">🇵🇪 Peru</option>             <!-- ✅ جديد -->
+    
+    <!-- 🌍 أوقيانوسيا -->
+    <option value="AU">🇦🇺 Australia</option>
+    <option value="NZ">🇳🇿 New Zealand</option>      <!-- ✅ جديد -->
+</select>
             </div>
 
             <!-- ✅ GENDER (SIGNUP ONLY) -->
@@ -673,18 +733,18 @@
                 es: 'Español', de: 'Deutsch', it: 'Italiano',
                 ja: '日本語', zh: '中文', ko: '한국어',
                 ru: 'Русский', tr: 'Türkçe', hi: 'हिन्दी',
-                fil: 'Filipino', tl: 'Tagalog'
+                fil: 'Filipino', tl: 'Tagalog',
+                am: 'አማርኛ'
             };
 
             document.getElementById('currentAuthLangLabel').textContent = langNames[lang] || 'العربية';
 
-            if (lang === 'ar') {
+            if (lang === 'ar' || lang === 'he') {
                 document.documentElement.dir = 'rtl';
-                document.documentElement.lang = 'ar';
             } else {
                 document.documentElement.dir = 'ltr';
-                document.documentElement.lang = lang;
             }
+            document.documentElement.lang = lang;
 
             updateToggleText();
 
