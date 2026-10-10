@@ -424,6 +424,7 @@
                     <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
                     <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
                     <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+                        <button onclick="changeLanguage('am')">🇪🇹 አማርኛ</button>
                 </div>
             </div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
@@ -495,6 +496,15 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- 📢 EXOCLICK NEW BANNER - Zone 6051758 -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
+                    📢 Advertisement
+                </div>
+                <div id="exoBanner3"></div>
+            </div>
          
        <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- 📢 ADVERTISEMENT #1 (Desktop Only) -->
@@ -516,7 +526,7 @@
     <div id="exoBanner2"></div>
 </div>
 
-     <script>
+         <script>
     (function() {
         var isMobile = window.innerWidth <= 768;
 
@@ -544,10 +554,12 @@
             container.appendChild(script2);
         }
 
-        // ✅ على الكمبيوتر: إعلان Desktop فقط
+           // ✅ على الكمبيوتر: إعلان Desktop فقط
         if (!isMobile) {
             loadAd('exoBanner1', '6046804', 'eas6a97888e2');
+            loadAd('exoBanner3', '6051758', 'eas6a97888e37');
             console.log('🖥️ Loading Desktop Ad (6046804)');
+            console.log('🖥️ Loading Desktop Ad (6051758)');
 
             var ad2 = document.getElementById('adContainer2');
             if (ad2) ad2.style.display = 'none';
@@ -555,7 +567,9 @@
         // ✅ على الجوال: إعلان Mobile فقط
         else {
             loadAd('exoBanner2', '6046832', 'eas6a97888e10');
+            loadAd('exoBanner3', '6051758', 'eas6a97888e37');
             console.log('📱 Loading Mobile Ad (6046832)');
+            console.log('📱 Loading Mobile Ad (6051758)');
 
             var ad1 = document.getElementById('adContainer1');
             if (ad1) ad1.style.display = 'none';
