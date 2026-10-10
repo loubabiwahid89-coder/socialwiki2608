@@ -526,6 +526,16 @@
     <div id="exoBanner2"></div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 FOOTER BANNER (يظهر أسفل الصفحة) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="ad-container" id="adContainerFooter" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+    <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
+        📢 Advertisement
+    </div>
+    <div id="exoFooter"></div>
+</div>
+
          <script>
     (function() {
         var isMobile = window.innerWidth <= 768;
@@ -554,22 +564,26 @@
             container.appendChild(script2);
         }
 
-           // ✅ على الكمبيوتر: إعلان Desktop فقط
+           // ✅ على الكمبيوتر: Desktop فقط
         if (!isMobile) {
             loadAd('exoBanner1', '6046804', 'eas6a97888e2');
             loadAd('exoBanner3', '6051758', 'eas6a97888e37');
+            loadAd('exoFooter', '6046804', 'eas6a97888e2');
             console.log('🖥️ Loading Desktop Ad (6046804)');
             console.log('🖥️ Loading Desktop Ad (6051758)');
+            console.log('🖥️ Loading Footer Desktop Ad (6046804)');
 
             var ad2 = document.getElementById('adContainer2');
             if (ad2) ad2.style.display = 'none';
         } 
-        // ✅ على الجوال: إعلان Mobile فقط
+        // ✅ على الجوال: Mobile فقط
         else {
             loadAd('exoBanner2', '6046832', 'eas6a97888e10');
             loadAd('exoBanner3', '6051758', 'eas6a97888e37');
+            loadAd('exoFooter', '6046832', 'eas6a97888e10');
             console.log('📱 Loading Mobile Ad (6046832)');
             console.log('📱 Loading Mobile Ad (6051758)');
+            console.log('📱 Loading Footer Mobile Ad (6046832)');
 
             var ad1 = document.getElementById('adContainer1');
             if (ad1) ad1.style.display = 'none';
@@ -1525,6 +1539,45 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
+                    // ✅ إعلان Outstream بعد كل 5 منشورات
+                    window._postCounter = (window._postCounter || 0) + 1;
+                    if (window._postCounter % 5 === 0) {
+                        const adId = 'exoMid_' + window._postCounter + '_' + Date.now();
+                        const adDiv = document.createElement('div');
+                        adDiv.style.cssText = 'background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;';
+                        adDiv.innerHTML = `
+                            <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
+                                📢 Sponsored
+                            </div>
+                            <div id="${adId}"></div>
+                        `;
+                        feedContainer.appendChild(adDiv);
+                        
+                        setTimeout(() => {
+                            const container = document.getElementById(adId);
+                            if (!container) return;
+                            
+                            const isMobileNow = window.innerWidth <= 768;
+                            
+                            const s1 = document.createElement('script');
+                            s1.async = true;
+                            s1.type = 'application/javascript';
+                            s1.src = 'https://a.magsrv.com/ad-provider.js';
+                            container.appendChild(s1);
+                            
+                            const ins = document.createElement('ins');
+                            ins.className = isMobileNow ? 'eas6a97888e10' : 'eas6a97888e2';
+                            ins.setAttribute('data-zoneid', isMobileNow ? '6046832' : '6046804');
+                            container.appendChild(ins);
+                            
+                            const s2 = document.createElement('script');
+                            s2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
+                            container.appendChild(s2);
+                            
+                            console.log('📢 Mid-feed ad loaded (post #' + window._postCounter + ')');
+                        }, 150);
+                    }
+                    
                     if (!viewedPosts.includes(post.id)) {
                         trackPostView(post.id);
                         viewedPosts.push(post.id);
@@ -2409,13 +2462,14 @@ window.toggleMobileSidebar = function() {
 // 🎥 REAL VIDEO IMPRESSIONS + VAST ADS - النظام الكامل
 // =========================================================
 
-const VAST_TAG_URL = "https://s.magsrv.com/v1/vast.php?idz=6046566";
+const VAST_TAG_URL = null; // ✅ معطّل (ExoClick لا يدعم VAST في المغرب)
 const videoImpressions = new Map();
 const videoAdState = new Map(); // تتبع حالة الإعلانات لكل فيديو
 let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلانات
 
 // ✅ التحقق من مدة الفيديو
-window.checkVideoDuration = function(videoElement, postId) {
+               window.checkVideoDuration = function(videoElement, postId) {
+    if (!VAST_TAG_URL) return;
     const duration = videoElement.duration;
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
 
