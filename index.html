@@ -2457,7 +2457,6 @@ window.toggleMobileSidebar = function() {
     console.log('✅ Sidebar permanently fixed!');
 })();
 
-
 // =========================================================
 // 🎥 REAL VIDEO IMPRESSIONS + VAST ADS - النظام الكامل
 // =========================================================
@@ -2469,7 +2468,7 @@ const videoAdState = new Map(); // تتبع حالة الإعلانات لكل �
 let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلانات
 
 // ✅ التحقق من مدة الفيديو
-               window.checkVideoDuration = function(videoElement, postId) {
+window.checkVideoDuration = function(videoElement, postId) {
     const duration = videoElement.duration;
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
     
@@ -2480,15 +2479,6 @@ let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلا
         console.log(`⏭️ Video ${postId} too short`);
     }
 };
-    console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
-
-    if (duration >= 60) {
-        console.log(`✅ Video ${postId} is long enough for ads (${duration.toFixed(1)}s)`);
-        setupVideoAds(videoElement, postId, duration);
-    } else {
-        console.log(`⏭️ Video ${postId} too short - skipping ads`);
-    }
-};
 
 // ═══════════════════════════════════════════════════════════
 // 🎬 إعداد نظام الإعلانات VAST
@@ -2496,15 +2486,11 @@ let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلا
 function setupVideoAds(videoElement, postId, duration) {
     if (videoAdState.has(postId)) return;
     
-    // حساب مواقع Mid-rolls
     const midRollPoints = [];
     
-    // فيديو 2-4 دقائق: 1 mid-roll عند 60s
     if (duration >= 120 && duration < 240) {
         midRollPoints.push(60);
-    }
-    // فيديو +4 دقائق: 2 mid-rolls عند 60s و 180s
-    else if (duration >= 240) {
+    } else if (duration >= 240) {
         midRollPoints.push(60);
         midRollPoints.push(180);
     }
@@ -2526,7 +2512,7 @@ function setupVideoAds(videoElement, postId, duration) {
 // 🎬 تشغيل إعلان VAST قبل / أثناء / بعد الفيديو
 // ═══════════════════════════════════════════════════════════
 function playVastAd(videoElement, postId, adType, onComplete) {
-    // ✅ إذا VAST معطّل → تخطى الإعلان فوراً (لكن سجّل المشاهدة)
+    // ✅ إذا VAST معطّل → تخطى الإعلان فوراً
     if (!VAST_TAG_URL) {
         console.log(`⏭️ VAST disabled - skipping ${adType}`);
         if (onComplete) onComplete();
@@ -2552,7 +2538,7 @@ function playVastAd(videoElement, postId, adType, onComplete) {
     }
     
     state.isPlayingAd = true;
-    globalAdLock = true;  // ✅ اقفل
+    globalAdLock = true;
     
     try {
         const adContainer = document.createElement('div');
@@ -2569,16 +2555,13 @@ function playVastAd(videoElement, postId, adType, onComplete) {
             overflow: hidden;
         `;
         
-        // جعل الفيديو position: relative
         videoElement.style.position = 'relative';
         videoElement.parentElement.style.position = 'relative';
         videoElement.parentElement.appendChild(adContainer);
         
-        // إخفاء الفيديو مؤقتاً
         videoElement.style.visibility = 'hidden';
         videoElement.pause();
         
-        // إنشاء إعلان IMA
         const adDisplayContainer = new google.ima.AdDisplayContainer(adContainer);
         const adsLoader = new google.ima.AdsLoader(adDisplayContainer);
         const adsRequest = new google.ima.AdsRequest();
@@ -2589,7 +2572,6 @@ function playVastAd(videoElement, postId, adType, onComplete) {
         adsRequest.nonLinearAdSlotWidth = videoElement.clientWidth || 640;
         adsRequest.nonLinearAdSlotHeight = 150;
         
-        // أحداث الإعلان
         adsLoader.addEventListener(
             google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
             function(event) {
