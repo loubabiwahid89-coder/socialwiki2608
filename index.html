@@ -2462,15 +2462,24 @@ window.toggleMobileSidebar = function() {
 // 🎥 REAL VIDEO IMPRESSIONS + VAST ADS - النظام الكامل
 // =========================================================
 
-const VAST_TAG_URL = null; // ✅ معطّل (ExoClick لا يدعم VAST في المغرب)
+const VAST_TAG_URL = null; // VAST معطّل
+const TRACK_IMPRESSIONS = true; // ✅ تتبّع المشاهدات
 const videoImpressions = new Map();
 const videoAdState = new Map(); // تتبع حالة الإعلانات لكل فيديو
 let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلانات
 
 // ✅ التحقق من مدة الفيديو
                window.checkVideoDuration = function(videoElement, postId) {
-    if (!VAST_TAG_URL) return;
     const duration = videoElement.duration;
+    console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
+    
+    // ✅ تتبّع المشاهدات دائماً (حتى بدون VAST)
+    if (duration >= 60) {
+        setupVideoAds(videoElement, postId, duration);
+    } else {
+        console.log(`⏭️ Video ${postId} too short`);
+    }
+};
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
 
     if (duration >= 60) {
@@ -2517,6 +2526,13 @@ function setupVideoAds(videoElement, postId, duration) {
 // 🎬 تشغيل إعلان VAST قبل / أثناء / بعد الفيديو
 // ═══════════════════════════════════════════════════════════
 function playVastAd(videoElement, postId, adType, onComplete) {
+    // ✅ إذا VAST معطّل → تخطى الإعلان فوراً (لكن سجّل المشاهدة)
+    if (!VAST_TAG_URL) {
+        console.log(`⏭️ VAST disabled - skipping ${adType}`);
+        if (onComplete) onComplete();
+        return;
+    }
+    
     // ✅ إذا كان هناك إعلان يعمل → تخطى
     if (globalAdLock) {
         console.log('🔒 Ad locked');
