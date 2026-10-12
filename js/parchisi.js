@@ -42,6 +42,10 @@
     };
 
     // ═══════════════════════════════════════════════════════════
+    function getLang() {
+        return localStorage.getItem("socialwiki_lang") || "en";
+    }
+
         function t(key) {
         const lang = getLang();
         
