@@ -42,23 +42,25 @@
     };
 
     // ═══════════════════════════════════════════════════════════
-    // LANGUAGE / TRANSLATION
-    // ═══════════════════════════════════════════════════════════
-    function getLang() {
-        return localStorage.getItem('socialwiki_lang') || 'en';
-    }
-
-    function t(key) {
+        function t(key) {
         const lang = getLang();
+        
+        // 1. translations.js الرئيسي (الأولوية)
+        if (typeof window.translations !== 'undefined') {
+            if (window.translations[lang] && window.translations[lang][key]) {
+                return window.translations[lang][key];
+            }
+            if (window.translations['en'] && window.translations['en'][key]) {
+                return window.translations['en'][key];
+            }
+        }
+        
+        // 2. parchisi_translations (احتياطي)
         if (window.parchisi_translations && window.parchisi_translations[lang] && window.parchisi_translations[lang][key]) {
             return window.parchisi_translations[lang][key];
         }
-        if (window.parchisi_translations && window.parchisi_translations['en'] && window.parchisi_translations['en'][key]) {
-            return window.parchisi_translations['en'][key];
-        }
-        if (typeof window.t === 'function') {
-            try { return window.t(key); } catch(e) {}
-        }
+        
+        // 3. أعد المفتاح
         return key;
     }
 
@@ -1085,28 +1087,19 @@
 
         applyParchisiTranslations();
 
+        // ✅ ملء حقل الإدخال فقط (بدون انضمام تلقائي)
         const urlParams = new URLSearchParams(window.location.search);
         const roomCode = urlParams.get('room');
         if (roomCode) {
             const input = document.getElementById('joinRoomCode');
-            if (input) input.value = roomCode.toUpperCase();
-            setTimeout(() => window.joinRoom(), 500);
+            if (input) {
+                input.value = roomCode.toUpperCase();
+                console.log('📝 Room code filled. Click Join to enter.');
+            }
         }
 
-        const { data: activePlayer } = await supabaseClient
-            .from('parchisi_players')
-            .select('game_id, parchisi_games!inner(id, status)')
-            .eq('user_id', user.id)
-            .in('parchisi_games.status', ['waiting', 'playing'])
-            .order('joined_at', { ascending: false })
-            .limit(1)
-            .maybeSingle();
-
-        if (activePlayer && activePlayer.game_id) {
-            await loadGame(activePlayer.game_id);
-        } else {
-            showScreen('lobby');
-        }
+        // ✅ نُظهر اللوبي دائماً — لا استئناف تلقائي
+        showScreen('lobby');
 
         console.log('✅ Parchisi Star ready');
     }
