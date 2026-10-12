@@ -832,8 +832,7 @@ const translations = {
         "parchisi_game_info": "معلومات اللعبة",
         "parchisi_refresh": "تحديث",
         "parchisi_error": "خطأ",
-        "parchisi_success": "نجاح"
-
+               "parchisi_success": "نجاح"
     },
 
     // ==================== FRENCH ====================
@@ -10528,8 +10527,8 @@ const translations = {
 "come_back_tomorrow": "Bumalik bukas para sa mas maraming alaala!",
 "on_this_day_title": "🎉 Sa araw na ito",
 "on_this_day_desc": "Ibinahagi mo ang mga alaalang ito sa araw na ito",
-        "loading_memories": "Naglo-load ng mga alaala...",
-         "parchisi_title": "🎲 Parchisi Star",
+"loading_memories": "Naglo-load ng mga alaala...",
+"parchisi_title": "🎲 Parchisi Star",
         "parchisi_subtitle": "Maglaro ng Parchisi kasama ang iyong mga kaibigan",
         "parchisi_create_room": "Gumawa ng Silid",
         "parchisi_join_room": "Sumali sa Silid",
@@ -10604,9 +10603,8 @@ const translations = {
         "parchisi_refresh": "I-refresh",
         "parchisi_error": "Error",
         "parchisi_success": "Tagumpay"
-    },  // ← فاصلة واحدة فقط
+    },
 
-   
     tl: {
         "search_placeholder": "Maghanap sa SocialWiki",
         "home": "Tahanan",
@@ -11342,11 +11340,11 @@ const translations = {
 "no_memories_today": "Walang alaala para sa araw na ito",
 "come_back_tomorrow": "Bumalik bukas para sa mas maraming alaala!",
 "on_this_day_title": "🎉 Sa araw na ito",
-"on_this_day_desc": "Ibinahagi mo ang mga alaalang ito sa araw na ito",
-        "loading_memories": "Naglo-load ng mga alaala..."
-         "parchisi_title": "🎲 Parchisi Star",
-        "parchisi_subtitle": "Maglaro ng Parchisi kasama ang mga kaibigan",
-        "parchisi_create_room": "Gumawa ng Room",
+ "on_this_day_desc": "Ibinahagi mo ang mga alaalang ito sa araw na ito",
+"loading_memories": "Naglo-load ng mga alaala...",
+"parchisi_title": "🎲 Parchisi Star",
+"parchisi_subtitle": "Maglaro ng Parchisi kasama ang mga kaibigan",
+"parchisi_create_room": "Gumawa ng Room",
         "parchisi_join_room": "Sumali sa Room",
         "parchisi_room_code": "Room Code",
         "parchisi_enter_room_code": "Ilagay ang room code",
@@ -12138,8 +12136,8 @@ const translations = {
         "come_back_tomorrow": "ለተጨማሪ ትዝታዎች ነገ ተመለሱ!",
         "on_this_day_title": "🎉 በዚህ ቀን",
         "on_this_day_desc": "እነዚህን ትዝታዎች በዚህ ቀን አጋርተዋል",
-        "loading_memories": "ትዝታዎችን በመጫን ላይ..."
-         "parchisi_title": "🎲 ፓርቺሲ ስታር",
+        "loading_memories": "ትዝታዎችን በመጫን ላይ...",
+        "parchisi_title": "🎲 ፓርቺሲ ስታር",
         "parchisi_subtitle": "ከጓደኞችዎ ጋር ፓርቺሲ ይጫወቱ",
         "parchisi_create_room": "ክፍል ፍጠር",
         "parchisi_join_room": "ክፍል ተቀላቀል",
