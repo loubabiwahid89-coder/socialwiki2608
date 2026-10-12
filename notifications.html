@@ -438,13 +438,17 @@
                     if (notification.type === 'ad') icon = '📢';
                     if (notification.type === 'product_order') icon = '🛒'; // 🆕
                     if (notification.type === 'group_invite') icon = '👥';
+                    if (notification.type === 'profile_reminder') icon = '👤';
                     
                     const item = document.createElement('div');
                     item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
                     
-                   const isGroupInvite =
+const isGroupInvite =
     notification.type === 'group_invite' &&
     notification.group_invitation_id;
+
+// ✅ جديد: إشعارات تعديل الملف الشخصي
+const isProfileReminder = notification.type === 'profile_reminder';
 
 item.innerHTML = `
     <button class="notif-delete" onclick="event.stopPropagation(); deleteNotification('${notification.id}')" title="Delete">🗑️</button>
@@ -465,7 +469,17 @@ item.innerHTML = `
                     </button>
                 </div>
               `
-            : (!notification.is_read ? '<div class="notification-dot"></div>' : '')
+            : isProfileReminder
+                ? `
+                    <div class="notification-actions">
+                        <a href="profile.html?edit=true"
+                           onclick="event.stopPropagation();"
+                           style="display:inline-block; background:#42b72a; color:white; padding:8px 16px; border-radius:8px; text-decoration:none; font-weight:600; font-size:13px; white-space:nowrap;">
+                            ✏️ تعديل الملف
+                        </a>
+                    </div>
+                  `
+                : (!notification.is_read ? '<div class="notification-dot"></div>' : '')
     }
 `;
                     
