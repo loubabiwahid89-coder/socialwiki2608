@@ -1475,6 +1475,11 @@ window.deleteStory = async function(storyId, mediaUrl) {
         async function loadPosts() {
             const feedContainer = document.getElementById('feedContainer');
             if (!feedContainer) return;
+            
+            // ✅ احصل على المستخدم الحالي
+            const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
+            const currentUserId = currentUser?.id || null;
+            
             const viewedPosts = JSON.parse(localStorage.getItem('viewedPosts') || '[]');
             
             try {
@@ -1529,7 +1534,12 @@ window.deleteStory = async function(storyId, mediaUrl) {
                         </div>
                         ${contentHTML}
                         <div class="feed-actions">
-                            <button class="feed-action" onclick="likePost('${post.id}', this)">👍 Like</button>
+                            <button class="feed-action" 
+                                    id="likeBtn_${post.id}"
+                                    onclick="likePost('${post.id}', this)" 
+                                    style="color: ${(Array.isArray(post.liked_by) ? post.liked_by : []).includes(currentUserId) ? '#1877f2' : '#65676b'};">
+                                👍 ${post.likes_count || 0}
+                            </button>
                             <button class="feed-action" onclick="commentPost('${post.id}')">💬 Comment</button>
                             <button class="feed-action" onclick="sharePost('${post.id}')">↗️ Share</button>
                         </div>
@@ -2250,26 +2260,24 @@ async function likePost(postId, button) {
     try {
         console.log('👍 Liking post:', postId);
         
-        // ✅ استخدام window.supabaseClient
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) {
             alert('Please login first');
             return;
         }
         
-        // جلب عدد الإعجابات الحالي
-        const { data: post } = await window.supabaseClient
+        const { data: post, error: fetchErr } = await window.supabaseClient
             .from('posts')
             .select('likes_count, liked_by')
             .eq('id', postId)
             .single();
         
-        if (!post) {
-            console.error('Post not found');
+        if (fetchErr || !post) {
+            console.error('Post not found:', fetchErr);
             return;
         }
         
-        const likedBy = post.liked_by || [];
+        const likedBy = Array.isArray(post.liked_by) ? post.liked_by : [];
         const isLiked = likedBy.includes(user.id);
         
         let newLikedBy;
@@ -2283,7 +2291,6 @@ async function likePost(postId, button) {
             newCount = (post.likes_count || 0) + 1;
         }
         
-        // تحديث
         const { error } = await window.supabaseClient
             .from('posts')
             .update({
@@ -2294,28 +2301,26 @@ async function likePost(postId, button) {
         
         if (error) {
             console.error('Like error:', error);
+            alert('❌ ' + error.message);
             return;
         }
         
-        // تحديث الواجهة
         if (button) {
             button.textContent = `👍 ${newCount}`;
             button.style.color = isLiked ? '#65676b' : '#1877f2';
         }
         
-        // ✅ أضف مهمة الإعجاب
         if (typeof verifyAndCompleteTask === 'function') {
             verifyAndCompleteTask('like_3_posts');
         }
         
-        console.log('✅ Like updated');
+        console.log('✅ Like updated:', { isLiked: !isLiked, newCount });
         
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-// جعل الدالة متاحة عالمياً
 window.likePost = likePost;
 // =========================================================
 // ✅ COMMENT POST - دالة واحدة نظيفة
