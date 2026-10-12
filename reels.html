@@ -158,12 +158,17 @@
 
     const EMOJIS = ['❤️', '😂', '😮', '😢', '😡', '👍'];
 
-   async function loadReels() {
+    
+       async function loadReels() {
     const container = document.getElementById('reelsContainer');
     try {
+        // ✅ جديد: فلترة Reels المنتهية
+        const now = new Date().toISOString();
+        
         const { data: reels, error } = await window.supabaseClient
             .from('reels')
             .select('*')
+            .gt('expires_at', now)  // ✅ جديد
             .order('created_at', { ascending: false })
             .limit(20);
 
@@ -333,48 +338,50 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
         document.getElementById('uploadModal').classList.remove('show');
     }
 
-    async function uploadReel() {
-        const file = document.getElementById('reelFile').files[0];
-        const caption = document.getElementById('reelCaption').value.trim();
+  async function uploadReel() {
+    const file = document.getElementById('reelFile').files[0];
+    const caption = document.getElementById('reelCaption').value.trim();
 
-        if (!file) { alert('Please select a video or image'); return; }
+    if (!file) { alert('Please select a video or image'); return; }
 
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (!user) { alert('Please login'); return; }
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    if (!user) { alert('Please login'); return; }
 
-        const isVideo = file.type.startsWith('video/');
-        const mediaType = isVideo ? 'video' : 'image';
+    const isVideo = file.type.startsWith('video/');
+    const mediaType = isVideo ? 'video' : 'image';
 
-        try {
-            const fileName = `${user.id}/${Date.now()}.${file.name.split('.').pop()}`;
-            const { error: upErr } = await window.supabaseClient.storage
-                .from('reels').upload(fileName, file);
+    try {
+        const fileName = `${user.id}/${Date.now()}.${file.name.split('.').pop()}`;
+        const { error: upErr } = await window.supabaseClient.storage
+            .from('reels').upload(fileName, file);
 
-            if (upErr) { alert('Upload error: ' + upErr.message); return; }
+        if (upErr) { alert('Upload error: ' + upErr.message); return; }
 
-            const { data: urlData } = window.supabaseClient.storage
-                .from('reels').getPublicUrl(fileName);
+        const { data: urlData } = window.supabaseClient.storage
+            .from('reels').getPublicUrl(fileName);
 
-            const { error } = await window.supabaseClient
-                .from('reels')
-                .insert({
-                    user_id: user.id,
-                    video_url: urlData.publicUrl,
-                    caption: caption,
-                    media_type: mediaType
-                });
+        // ✅ جديد: احسب تاريخ الانتهاء
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 
-            if (error) { alert('Error: ' + error.message); return; }
+        const { error } = await window.supabaseClient
+            .from('reels')
+            .insert({
+                user_id: user.id,
+                video_url: urlData.publicUrl,
+                caption: caption,
+                media_type: mediaType,
+                expires_at: expiresAt  // ✅ جديد
+            });
 
-            alert('✅ Reel uploaded!');
-            closeUploadModal();
-            loadReels();
-        } catch (e) {
-            alert('Error: ' + e.message);
-        }
+        if (error) { alert('Error: ' + error.message); return; }
+
+        alert('✅ Reel uploaded! Will expire in 24 hours.');  // ✅ رسالة محدثة
+        closeUploadModal();
+        loadReels();
+    } catch (e) {
+        alert('Error: ' + e.message);
     }
-
-    document.addEventListener('DOMContentLoaded', loadReels);
+}
 </script>
 <script src="js/dark-mode.js"></script>
 
