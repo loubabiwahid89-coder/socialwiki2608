@@ -2768,11 +2768,92 @@ async function recordVideoImpression(postId) {
         } else {
             console.log('ℹ️ Impression not counted:', data?.message);
         }
-    } catch (error) {
+       } catch (error) {
         console.error('❌ Error recording video impression:', error);
     }
 }
 </script>
+
+<script>
+// =========================================================
+// 🎉 WELCOME MODAL FUNCTIONS
+// =========================================================
+
+window.showWelcomeModal = function() {
+    const modal = document.getElementById('welcomeModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        console.log('🎉 Welcome modal shown');
+    }
+};
+
+window.closeWelcomeModal = async function() {
+    const modal = document.getElementById('welcomeModal');
+    if (modal) modal.style.display = 'none';
+    
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (user) {
+            localStorage.setItem('hasSeenWelcomeModal_' + user.id, 'true');
+            console.log('💾 Welcome dismissed for:', user.id);
+        }
+    } catch (error) {
+        console.error('❌ Error:', error);
+    }
+};
+
+window.goToProfileAndClose = async function() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (user) {
+            localStorage.setItem('hasSeenWelcomeModal_' + user.id, 'true');
+        }
+    } catch (e) {}
+    window.location.href = 'profile.html?edit=true';
+};
+
+async function checkWelcomeModal() {
+    try {
+        const { data: { user }, error: authError } = await window.supabaseClient.auth.getUser();
+        if (authError || !user) return;
+
+        const welcomeKey = 'hasSeenWelcomeModal_' + user.id;
+        if (localStorage.getItem(welcomeKey)) {
+            console.log('👋 User already saw welcome modal');
+            return;
+        }
+
+        const { data: profile } = await window.supabaseClient
+            .from('profiles')
+            .select('avatar_url, full_name, username, bio')
+            .eq('id', user.id)
+            .single();
+
+        const hasAvatar = profile?.avatar_url && profile.avatar_url.trim() !== '';
+        const hasFullName = profile?.full_name && profile.full_name.trim() !== '';
+        const isProfileComplete = hasAvatar && hasFullName;
+
+        console.log('📋 Profile check:', { hasAvatar, hasFullName, isProfileComplete });
+
+        if (!isProfileComplete) {
+            console.log('🎉 Showing welcome modal to user:', user.id);
+            setTimeout(showWelcomeModal, 1500);
+        } else {
+            localStorage.setItem(welcomeKey, 'true');
+            console.log('✅ Profile complete, no welcome needed');
+        }
+    } catch (error) {
+        console.error('❌ Welcome check error:', error);
+    }
+}
+
+window.addEventListener('load', function() {
+    setTimeout(checkWelcomeModal, 2000);
+});
+
+console.log('✅ Welcome modal script loaded');
+</script>
+
 
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- 📢 ADSTERRA BANNER 300x250 -->
@@ -2804,5 +2885,50 @@ async function recordVideoImpression(postId) {
        <!-- Monetag OFF - adult ads issue -->
 
        <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+
+       <!-- ========================================================= -->
+<!-- 🎉 WELCOME MODAL FOR NEW USERS -->
+<!-- ========================================================= -->
+<div id="welcomeModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:999999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:white; border-radius:18px; padding:35px 25px; max-width:440px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.4); animation: welcomePop 0.5s ease;">
+        
+        <!-- أيقونة احتفالية -->
+        <div style="font-size:70px; margin-bottom:15px; animation: bounce 1s infinite;">🎉</div>
+        
+        <!-- العنوان -->
+        <h2 style="color:#1877f2; margin:0 0 15px; font-size:24px; font-weight:800;">
+            مرحباً بك في SocialWiki!
+        </h2>
+        
+        <!-- النص -->
+        <p style="color:#65676b; font-size:15px; line-height:1.7; margin-bottom:25px;">
+            أنت الآن جزء من عائلتنا! 🚀<br>
+            أكمل ملفك الشخصي الآن واحصل على
+            <strong style="color:#42b72a; font-size:22px; display:inline-block; margin:5px 0;">500 نقطة</strong>
+            مجاناً!
+        </p>
+        
+        <!-- زر رئيسي -->
+        <button onclick="goToProfileAndClose()" style="width:100%; padding:16px; background:linear-gradient(135deg, #42b72a, #36a420); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; margin-bottom:12px; box-shadow:0 6px 20px rgba(66,183,42,0.4); transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+            🚀 أكمل ملفي الشخصي الآن
+        </button>
+        
+        <!-- زر ثانوي -->
+        <button onclick="closeWelcomeModal()" style="width:100%; padding:12px; background:transparent; color:#65676b; border:none; border-radius:10px; font-size:14px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#f0f2f5'" onmouseout="this.style.background='transparent'">
+            لاحقاً
+        </button>
+    </div>
+</div>
+
+<style>
+    @keyframes welcomePop {
+        0% { transform: scale(0.7); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
 </body>
 </html>
