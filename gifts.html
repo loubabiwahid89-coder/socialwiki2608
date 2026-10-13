@@ -445,6 +445,7 @@
             <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
             <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
             <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+                    <button onclick="changeLanguage('am')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇹 አማርኛ</button>
         </div>
     </div>
     <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
@@ -944,6 +945,22 @@
         }
 
         // =========================================================
+// 🔊 TEXT-TO-SPEECH (صوت المتصفح المجاني)
+// =========================================================
+function announceGift(giftName) {
+    if (!('speechSynthesis' in window)) return;
+    
+    const utterance = new SpeechSynthesisUtterance(giftName);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.2;
+    utterance.volume = 0.9;
+    
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+}
+
+        // =========================================================
         // 🎉 CREATE CONFETTI
         // =========================================================
         function createConfetti(count = 50) {
@@ -966,44 +983,48 @@
             }
         }
 
-        // =========================================================
-        // 🎬 FULL SCREEN GIFT ANIMATION (✏️ معدّلة — تستعمل t())
-        // =========================================================
-        function showGiftAnimation(gift) {
-            playGiftSound(gift.icon);
+       function showGiftAnimation(gift) {
+    // ✅ 1. شغّل الصوت المخصص (إذا موجود)
+    playGiftSound(gift.icon);
+    
+    // ✅ 2. للهدايا التي ليس لها صوت مخصص → استخدم Web Speech
+    if (!giftSounds[gift.icon] || giftSounds[gift.icon] === giftSounds['default']) {
+        setTimeout(() => {
+            announceGift(gift.name_en || 'gift');
+        }, 500); // تأخير نصف ثانية لعدم التداخل
+    }
 
-            const isLegendary = gift.category === 'legendary';
-            const isPremium = gift.category === 'premium';
-            const isBig = gift.category === 'big';
+    const isLegendary = gift.category === 'legendary';
+    const isPremium = gift.category === 'premium';
+    const isBig = gift.category === 'big';
 
-            // 🆕 استخرج مفتاح الترجمة وترجمه
-            const animKey = giftKeyMap[gift.icon] || 'gift_gift';
-            const animName = (typeof t === 'function' ? t(animKey) : (gift.name_en || gift.name_ar));
+    // 🆕 استخرج مفتاح الترجمة وترجمه
+    const animKey = giftKeyMap[gift.icon] || 'gift_gift';
+    const animName = (typeof t === 'function' ? t(animKey) : (gift.name_en || gift.name_ar));
 
-            const anim = document.createElement('div');
-            anim.className = 'gift-animation';
-            if (isLegendary) anim.classList.add('legendary-anim');
+    const anim = document.createElement('div');
+    anim.className = 'gift-animation';
+    if (isLegendary) anim.classList.add('legendary-anim');
 
-            anim.innerHTML = `
-                <div class="emoji">${gift.icon}</div>
-                <div class="gift-label">${animName}</div>
-            `;
+    anim.innerHTML = `
+        <div class="emoji">${gift.icon}</div>
+        <div class="gift-label">${animName}</div>
+    `;
 
-            document.body.appendChild(anim);
+    document.body.appendChild(anim);
 
-            if (isLegendary) {
-                createConfetti(100);
-                setTimeout(() => createConfetti(50), 500);
-                setTimeout(() => createConfetti(1000), 500);
-            } else if (isPremium || isBig) {
-                createConfetti(60);
-            } else if (gift.cost_points > 0) {
-                createConfetti(20);
-            }
+    if (isLegendary) {
+        createConfetti(100);
+        setTimeout(() => createConfetti(50), 500);
+        setTimeout(() => createConfetti(1000), 500);
+    } else if (isPremium || isBig) {
+        createConfetti(60);
+    } else if (gift.cost_points > 0) {
+        createConfetti(20);
+    }
 
-            setTimeout(() => anim.remove(), 4000);
-        }
-
+    setTimeout(() => anim.remove(), 4000);
+}
         // =========================================================
         // TOAST
         // =========================================================
