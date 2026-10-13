@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki</title>
+    <title>Leaderboard - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -45,6 +45,40 @@
         .header h1 { margin: 0 0 5px; font-size: 28px; }
         .header p { margin: 0; opacity: 0.8; }
 
+        /* ========== TABS ========== */
+        .type-tabs {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        .type-tab {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+            color: #65676b;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .type-tab:hover { background: #f0f2f5; }
+        .type-tab.active {
+            background: #1877f2;
+            color: white;
+        }
+
         .period-tabs {
             display: flex;
             gap: 5px;
@@ -68,11 +102,13 @@
             white-space: nowrap;
             transition: 0.2s;
         }
+        .period-tab:hover { background: #f0f2f5; }
         .period-tab.active {
             background: #1877f2;
             color: white;
         }
 
+        /* ========== ITEMS ========== */
         .lb-item {
             display: flex;
             align-items: center;
@@ -83,6 +119,8 @@
             margin-bottom: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.2s;
+            text-decoration: none;
+            color: inherit;
         }
         .lb-item:hover { transform: translateX(-3px); }
 
@@ -123,7 +161,7 @@
 
         .lb-views { text-align: center; flex-shrink: 0; }
         .lb-views-value { font-size: 20px; font-weight: 800; color: #1877f2; }
-        .lb-views-label { font-size: 11px; color: #65676b; }
+        .lb-views-label { font-size: 18px; }
 
         .empty {
             text-align: center;
@@ -151,21 +189,38 @@
         <p>أكثر المستخدمين نشاطاً على SocialWiki</p>
     </div>
 
+    <!-- Type Tabs -->
+    <div class="type-tabs">
+        <button class="type-tab active" onclick="loadLB('views', null, this)">
+            <span>👁️</span> <span data-i18n="leaderboard_views">المشاهدات</span>
+        </button>
+        <button class="type-tab" onclick="loadLB('posts', null, this)">
+            <span>📝</span> <span data-i18n="leaderboard_posts">المنشورات</span>
+        </button>
+        <button class="type-tab" onclick="loadLB('likes', null, this)">
+            <span>👍</span> <span data-i18n="leaderboard_likes">الإعجابات</span>
+        </button>
+        <button class="type-tab" onclick="loadLB('comments', null, this)">
+            <span>💬</span> <span data-i18n="leaderboard_comments">التعليقات</span>
+        </button>
+    </div>
+
+    <!-- Period Tabs -->
     <div class="period-tabs">
-        <button class="period-tab active" onclick="loadLB('today', this)">اليوم</button>
-        <button class="period-tab" onclick="loadLB('week', this)">الأسبوع</button>
-        <button class="period-tab" onclick="loadLB('month', this)">الشهر</button>
-        <button class="period-tab" onclick="loadLB('all', this)">الكل</button>
+        <button class="period-tab active" onclick="loadLB(null, 'today', this)" data-i18n="leaderboard_today">اليوم</button>
+        <button class="period-tab" onclick="loadLB(null, 'week', this)" data-i18n="leaderboard_week">الأسبوع</button>
+        <button class="period-tab" onclick="loadLB(null, 'month', this)" data-i18n="leaderboard_month">الشهر</button>
+        <button class="period-tab" onclick="loadLB(null, 'all', this)" data-i18n="leaderboard_all">الكل</button>
     </div>
 
     <div id="leaderboard">
         <div class="empty">
             <div class="empty-icon">⏳</div>
-            <p>جاري التحميل...</p>
+            <p data-i18n="leaderboard_loading">جاري التحميل...</p>
         </div>
     </div>
 
-    <!-- زر المشاركة -->
+    <!-- Share Button -->
     <div style="margin: 30px 0 20px;">
         <button onclick="shareLeaderboard()" style="
             width: 100%;
@@ -179,7 +234,7 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
         ">
-            📤 شارك قائمة المتصدرين
+            📤 <span data-i18n="share_leaderboard">شارك قائمة المتصدرين</span>
         </button>
     </div>
 </div>
@@ -193,35 +248,63 @@
     }
     const sb = window.supabaseClient;
 
-    async function loadLB(period, btn) {
-        document.querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
+    // ✅ الحالة الحالية
+    let currentType = 'views';
+    let currentPeriod = 'today';
+
+    // ✅ وحدات القياس
+    const unitLabels = {
+        'views': { icon: '👁️', label: 'مشاهدة' },
+        'posts': { icon: '📝', label: 'منشور' },
+        'likes': { icon: '👍', label: 'إعجاب' },
+        'comments': { icon: '💬', label: 'تعليق' }
+    };
+
+    async function loadLB(type, period, btn) {
+        // ✅ إذا كانت type موجودة، فهي زر النوع
+        if (type) {
+            currentType = type;
+            document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+        // ✅ إذا كانت period موجودة، فهي زر الفترة
+        if (period) {
+            currentPeriod = period;
+            document.querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
 
         const container = document.getElementById('leaderboard');
-        container.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div>`;
+        if (!container) return;
+
+        const loadingText = (typeof t === 'function') ? t('leaderboard_loading') : 'جاري التحميل...';
+        container.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><p>${loadingText}</p></div>`;
 
         try {
-            const { data, error } = await sb.rpc('get_leaderboard', {
-                p_period: period,
+            const { data, error } = await sb.rpc('get_leaderboard_by_type', {
+                p_type: currentType,
+                p_period: currentPeriod,
                 p_limit: 20
             });
 
             if (error) {
                 console.error(error);
-                container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>خطأ: ${error.message}</p></div>`;
+                container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>Error: ${error.message}</p></div>`;
                 return;
             }
 
             if (!data || data.length === 0) {
+                const noDataText = (typeof t === 'function') ? t('leaderboard_no_data') : 'لا توجد بيانات بعد';
                 container.innerHTML = `
                     <div class="empty">
                         <div class="empty-icon">📭</div>
-                        <h3>مفيش بيانات بعد</h3>
-                        <p>لما المستخدمين يبدؤوا ينشروا، هتلاقيهم هنا!</p>
+                        <h3>${noDataText}</h3>
                     </div>
                 `;
                 return;
             }
+
+            const unit = unitLabels[currentType] || { icon: '', label: '' };
 
             container.innerHTML = data.map((user, i) => {
                 const rank = i + 1;
@@ -231,7 +314,7 @@
                 const avatar = user.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
 
                 return `
-                    <div class="lb-item">
+                    <a href="profile.html?id=${user.user_id}" class="lb-item">
                         <div class="lb-rank ${rankClass}">${rankIcon}</div>
                         <img class="lb-avatar" src="${avatar}">
                         <div class="lb-info">
@@ -239,36 +322,40 @@
                             <div class="lb-username">@${user.username || 'user'}</div>
                         </div>
                         <div class="lb-views">
-                            <div class="lb-views-value">${(user.total_views || 0).toLocaleString()}</div>
-                            <div class="lb-views-label">مشاهدة</div>
+                            <div class="lb-views-value">${(user.score || 0).toLocaleString()}</div>
+                            <div class="lb-views-label">${unit.icon}</div>
                         </div>
-                    </div>
+                    </a>
                 `;
             }).join('');
         } catch (err) {
             console.error(err);
-            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>خطأ</p></div>`;
+            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><p>Error</p></div>`;
         }
     }
 
     window.loadLB = loadLB;
-    document.addEventListener('DOMContentLoaded', () => loadLB('today'));
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadLB('views', 'today', null);
+    });
+
     function shareLeaderboard() {
-    const url = window.location.origin + '/leaderboard.html';
-    const text = '🏆 شوف قائمة المتصدرين على SocialWiki!';
-    
-    if (navigator.share) {
-        navigator.share({
-            title: '🏆 المتصدرين - SocialWiki',
-            text: text,
-            url: url
-        }).catch(err => console.log('Share failed:', err));
-    } else {
-        navigator.clipboard.writeText(text + ' ' + url);
-        alert('✅ تم نسخ الرابط!');
+        const url = window.location.origin + '/leaderboard.html';
+        const text = '🏆 شوف قائمة المتصدرين على SocialWiki!';
+        
+        if (navigator.share) {
+            navigator.share({
+                title: '🏆 المتصدرين - SocialWiki',
+                text: text,
+                url: url
+            }).catch(err => console.log('Share failed:', err));
+        } else {
+            navigator.clipboard.writeText(text + ' ' + url);
+            alert('✅ تم نسخ الرابط!');
+        }
     }
-}
-window.shareLeaderboard = shareLeaderboard;
+    window.shareLeaderboard = shareLeaderboard;
 </script>
 
 </body>
