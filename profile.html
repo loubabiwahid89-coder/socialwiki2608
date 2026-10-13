@@ -1124,6 +1124,7 @@
                     <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
                     <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
                     <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
+                    <button onclick="changeLanguage('am')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇹 አማርኛ</button>
                 </div>
             </div>
             
@@ -2384,9 +2385,42 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                     return;
                 }
                 
-                if (typeof verifyAndCompleteTask === 'function') {
-                    verifyAndCompleteTask('complete_profile');
-                }
+              // 🎁 منح 100 نقطة عند اكتمال الملف
+const { data: currentProfile } = await supabaseClient
+    .from('profiles')
+    .select('avatar_url, has_completed_profile, country')
+    .eq('id', user.id)
+    .single();
+
+const hasAvatar = currentProfile?.avatar_url && currentProfile.avatar_url.trim() !== '';
+const hasCountry = country && country.trim() !== '';
+const alreadyCompleted = currentProfile?.has_completed_profile === true;
+
+if (hasAvatar && hasCountry && !alreadyCompleted) {
+    try {
+        await supabaseClient.rpc('add_earnings', {
+            p_user_id: user.id,
+            p_post_id: null,
+            p_source: 'profile_completion',
+            p_points: 100,
+            p_dollars: 0.10
+        });
+        
+        await supabaseClient
+            .from('profiles')
+            .update({ has_completed_profile: true })
+            .eq('id', user.id);
+        
+        await supabaseClient.rpc('complete_task', {
+            p_user_id: user.id,
+            p_task_key: 'complete_profile'
+        });
+        
+        alert('🎉 Profile complete! You earned 100 points! 💰');
+    } catch (err) {
+        console.error('Reward error:', err);
+    }
+}
                 
                 alert('✅ Profile updated successfully!');
                 window.location.reload();
