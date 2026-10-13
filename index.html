@@ -2852,6 +2852,30 @@ window.addEventListener('load', function() {
 });
 
 console.log('✅ Welcome modal script loaded');
+
+// =========================================================
+// 🌐 حفظ لغة المستخدم في Supabase (لإرسال الإشعارات بلغته)
+// =========================================================
+async function saveUserLanguage() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        const currentLang = localStorage.getItem('socialwiki_lang') || 'en';
+        
+        await window.supabaseClient
+            .from('profiles')
+            .update({ language: currentLang })
+            .eq('id', user.id);
+        
+        console.log('✅ Language saved to Supabase:', currentLang);
+    } catch (error) {
+        console.error('❌ Error saving language:', error);
+    }
+}
+
+// استدعاء عند تحميل الصفحة
+setTimeout(saveUserLanguage, 2000);
 </script>
 
 
@@ -2930,5 +2954,28 @@ console.log('✅ Welcome modal script loaded');
         50% { transform: translateY(-10px); }
     }
 </style>
+
+// =========================================================
+// 🌐 حفظ لغة المستخدم في Supabase
+// =========================================================
+async function saveUserLanguage() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        const currentLang = localStorage.getItem('socialwiki_lang') || 'en';
+        
+        await window.supabaseClient
+            .from('profiles')
+            .update({ language: currentLang })
+            .eq('id', user.id);
+        
+        console.log('✅ Language saved:', currentLang);
+    } catch (error) {
+        console.error('❌ Error:', error);
+    }
+}
+
+setTimeout(saveUserLanguage, 2000);
 </body>
 </html>
