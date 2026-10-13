@@ -650,7 +650,7 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="modalProfileImg" alt="Profile">
                 <span id="modalProfileName">User</span>
             </div>
-            <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?"></textarea>
+            <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?" oninput="handleMentionInput(this)"></textarea>
             <div id="videoPreviewArea"></div>
             <div id="imagePreviewArea"></div>
             <div class="modal-tools">
@@ -663,6 +663,8 @@
                 </div>
             </div>
             <button class="modal-submit" onclick="publishPost()" data-i18n="post">Post</button>
+            <!-- ✅ قائمة @mention -->
+<div id="mentionDropdown" style="display:none; position:fixed; background:white; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.2); max-height:250px; overflow-y:auto; width:280px; z-index:99999;"></div>
         </div>
     </div>
 
@@ -2891,6 +2893,124 @@ setTimeout(saveUserLanguage, 2000);
         'width' : 300,
         'params' : {}
       };
+
+      // =========================================================
+// 📢 @MENTION SYSTEM
+// =========================================================
+
+async function searchUsersForMention(query) {
+    if (!query || query.trim().length < 1) return [];
+    
+    try {
+        let { data: users } = await window.supabaseClient
+            .from('profiles')
+            .select('id, username, full_name, avatar_url')
+            .ilike('username', `%${query}%`)
+            .limit(8);
+        
+        if (!users || users.length === 0) {
+            const { data: users2 } = await window.supabaseClient
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .ilike('full_name', `%${query}%`)
+                .limit(8);
+            users = users2;
+        }
+        
+        return users || [];
+    } catch (error) {
+        console.error('❌ Mention search error:', error);
+        return [];
+    }
+}
+
+async function showMentionDropdown(query, textarea, atPosition) {
+    const dropdown = document.getElementById('mentionDropdown');
+    if (!dropdown) return;
+    
+    const users = await searchUsersForMention(query);
+    
+    if (users.length === 0) {
+        dropdown.style.display = 'none';
+        return;
+    }
+    
+    dropdown.innerHTML = '';
+    
+    users.forEach(user => {
+        const name = user.full_name || user.username || 'User';
+        const avatar = user.avatar_url || 
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+        
+        const div = document.createElement('div');
+        div.style.cssText = 'padding:10px 14px; cursor:pointer; display:flex; align-items:center; gap:10px; transition:background 0.15s;';
+        div.onmouseover = () => div.style.background = '#f0f2f5';
+        div.onmouseout = () => div.style.background = 'white';
+        
+        div.innerHTML = `
+            <img src="${avatar}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:600; font-size:14px; color:#050505;">${name}</div>
+                <div style="font-size:12px; color:#65676b;">@${user.username || 'user'}</div>
+            </div>
+        `;
+        
+        div.onclick = () => insertMention(user.username || 'user', textarea, atPosition);
+        dropdown.appendChild(div);
+    });
+    
+    const rect = textarea.getBoundingClientRect();
+    dropdown.style.top = (rect.bottom + 5) + 'px';
+    dropdown.style.left = rect.left + 'px';
+    dropdown.style.width = Math.min(rect.width, 320) + 'px';
+    dropdown.style.display = 'block';
+}
+
+function insertMention(username, textarea, atPosition) {
+    const text = textarea.value;
+    const before = text.substring(0, atPosition);
+    const after = text.substring(atPosition + 1);
+    
+    textarea.value = before + '@' + username + ' ' + after;
+    
+    const newCursorPos = atPosition + username.length + 2;
+    textarea.setSelectionRange(newCursorPos, newCursorPos);
+    textarea.focus();
+    
+    document.getElementById('mentionDropdown').style.display = 'none';
+}
+
+window.handleMentionInput = function(textarea) {
+    const text = textarea.value;
+    const cursorPos = textarea.selectionStart;
+    const textBeforeCursor = text.substring(0, cursorPos);
+    const lastAtPos = textBeforeCursor.lastIndexOf('@');
+    
+    if (lastAtPos === -1) {
+        document.getElementById('mentionDropdown').style.display = 'none';
+        return;
+    }
+    
+    const query = textBeforeCursor.substring(lastAtPos + 1);
+    
+    if (query.includes(' ') || query.length === 0) {
+        document.getElementById('mentionDropdown').style.display = 'none';
+        return;
+    }
+    
+    showMentionDropdown(query, textarea, lastAtPos);
+};
+
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('mentionDropdown');
+    const textarea = document.getElementById('postContent');
+    
+    if (dropdown && !dropdown.contains(e.target) && e.target !== textarea) {
+        dropdown.style.display = 'none';
+    }
+});
+
+console.log('✅ @mention system loaded');
     </script>
     <script src="https://www.highrevenueformat.com/60a410b9eda0bf94f4d6581db1cc321f/invoke.js"></script>
 </div>
