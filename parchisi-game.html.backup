@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parchisi Star - SocialWiki</title>
+    <link rel="stylesheet" href="parchisi.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <style>
+        /* Override global styles from socialwiki.css if needed */
+        body.parchisi-page {
+            background: linear-gradient(135deg, #0f1429 0%, #1a1f3a 50%, #0f1429 100%) !important;
+            color: white !important;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+        }
+
+        /* Prevent socialwiki.css from interfering */
+        body.parchisi-page .parchisi-navbar {
+            background: linear-gradient(90deg, #1877f2, #166fe5);
+        }
+
+        /* Hide scrollbar on board */
+        .board::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="parchisi-page">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- NAVBAR                                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<nav class="parchisi-navbar">
+    <div class="nav-left">
+        <a href="gaming.html" class="nav-link" title="Back to Games">←</a>
+        <a href="index.html" class="logo">
+            <span>📘</span>
+            <span>Parchisi Star</span>
+        </a>
+    </div>
+    <div class="nav-right">
+        <div class="user-info">
+            <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+            <span id="navProfileName">User</span>
+        </div>
+        <div class="language-selector" style="position: relative;">
+            <button onclick="toggleLanguageMenu()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 16px;">🌐</button>
+            <div id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                <button onclick="changeLanguage('ar')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇲🇦 العربية</button>
+                <button onclick="changeLanguage('en')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇬🇧 English</button>
+                <button onclick="changeLanguage('fr')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇫🇷 Français</button>
+                <button onclick="changeLanguage('es')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('zh')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ja')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('ko')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇮🇳 हिन्दी</button>
+                <button onclick="changeLanguage('tl')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇵🇭 Tagalog</button>
+                <button onclick="changeLanguage('fil')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇵🇭 Filipino</button>
+                <button onclick="changeLanguage('am')" style="width:100%; padding:10px 15px; border:none; background:white; cursor:pointer; text-align:left;">🇪🇹 አማርኛ</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 1: LOBBY                                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="lobbyScreen" class="parchisi-lobby">
+
+    <div class="lobby-hero">
+        <h1 data-i18n="parchisi_title">🎲 Parchisi Star</h1>
+        <p data-i18n="parchisi_subtitle">Play Parchisi with your friends</p>
+        <div class="dice-deco">🎲</div>
+    </div>
+
+    <div class="lobby-cards">
+
+        <!-- Create Room Card -->
+        <div class="lobby-card">
+            <span class="card-icon">➕</span>
+            <h3 data-i18n="parchisi_create_room">Create Room</h3>
+            <p data-i18n="parchisi_select_players">Select number of players</p>
+
+            <div class="players-selector">
+                <button class="players-btn active" data-players="2" onclick="selectPlayers(this, 2)">
+                    <span data-i18n="parchisi_2_players">2 Players</span>
+                </button>
+                <button class="players-btn" data-players="3" onclick="selectPlayers(this, 3)">
+                    <span data-i18n="parchisi_3_players">3 Players</span>
+                </button>
+                <button class="players-btn" data-players="4" onclick="selectPlayers(this, 4)">
+                    <span data-i18n="parchisi_4_players">4 Players</span>
+                </button>
+            </div>
+
+            <button class="btn btn-primary btn-lg" onclick="createRoom()">
+                🎯 <span data-i18n="parchisi_create">Create</span>
+            </button>
+        </div>
+
+        <!-- Join Room Card -->
+        <div class="lobby-card">
+            <span class="card-icon">🔗</span>
+            <h3 data-i18n="parchisi_join_room">Join Room</h3>
+            <p data-i18n="parchisi_enter_room_code">Enter room code</p>
+
+            <div class="room-code-input-wrap">
+                <input type="text" id="joinRoomCode" class="room-code-input" 
+                       placeholder="ABC123" maxlength="6" 
+                       oninput="this.value = this.value.toUpperCase()">
+            </div>
+
+            <button class="btn btn-success btn-lg" onclick="joinRoom()">
+                🚀 <span data-i18n="parchisi_join">Join</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Recent Games -->
+    <div class="recent-games" id="recentGames" style="display: none;">
+        <h3>🎮 <span data-i18n="parchisi_room_info">Recent Games</span></h3>
+        <div id="recentGamesList"></div>
+    </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 2: WAITING ROOM                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="waitingScreen" class="waiting-screen" style="display: none;">
+    <h2 data-i18n="parchisi_waiting_for_players">Waiting for players</h2>
+
+    <div class="room-code-display">
+        <div class="label" data-i18n="parchisi_room_code">Room Code</div>
+        <div class="code" id="roomCodeDisplay">------</div>
+        <button class="copy-btn" onclick="copyRoomCode()">
+            📋 <span data-i18n="parchisi_copy_code">Copy Code</span>
+        </button>
+        <button class="copy-btn" onclick="copyRoomLink()" style="background: #43a047;">
+            🔗 <span data-i18n="parchisi_copy_link">Copy Link</span>
+        </button>
+    </div>
+
+    <div class="waiting-players" id="waitingPlayers">
+        <!-- Filled by JS -->
+    </div>
+
+    <p style="color: #b8c1ec; margin: 20px 0;">
+        <span id="playersCount">1</span> / <span id="maxPlayers">2</span>
+    </p>
+
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-success" id="startGameBtn" onclick="startGame()" style="display: none;">
+            ▶️ <span data-i18n="parchisi_start_game">Start Game</span>
+        </button>
+        <button class="btn btn-danger" onclick="leaveRoom()">
+            🚪 <span data-i18n="parchisi_leave_room">Leave Room</span>
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 3: GAME BOARD                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="gameScreen" class="parchisi-game-wrap" style="display: none;">
+    <div class="game-layout">
+
+        <!-- Left Panel: Player 2 (or Red) -->
+        <div class="player-panel" id="panelLeft">
+            <div class="panel-header">
+                <img class="panel-avatar" id="leftAvatar" src="https://ui-avatars.com/api/?name=P&background=1877f2&color=fff">
+                <div class="panel-info">
+                    <div class="panel-name" id="leftName">Player</div>
+                    <div class="panel-color-tag" id="leftColor">-</div>
+                </div>
+            </div>
+            <div class="pieces-row" id="leftPieces"></div>
+            <div class="panel-stats">
+                <div class="stat-item">
+                    <span class="stat-label" data-i18n="parchisi_pieces_home">Home</span>
+                    <span class="stat-value" id="leftHome">4</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label" data-i18n="parchisi_pieces_finished">Finished</span>
+                    <span class="stat-value" id="leftFinished">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Board -->
+        <div class="board-container">
+            <div class="board" id="board">
+                <!-- Center -->
+                <div class="board-center" id="boardCenter">
+                    <div class="dice-area">
+                        <div class="turn-text" id="turnText" data-i18n="parchisi_waiting_turn">Waiting...</div>
+                        <div class="dice-value" id="diceValue">🎲</div>
+                        <button class="roll-btn" id="rollBtn" onclick="rollDice()">
+                            🎲 <span data-i18n="parchisi_roll_dice">Roll Dice</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Tiles filled by JS -->
+            </div>
+        </div>
+
+        <!-- Right Panel: Player 1 (or Green) -->
+        <div class="player-panel" id="panelRight">
+            <div class="panel-header">
+                <img class="panel-avatar" id="rightAvatar" src="https://ui-avatars.com/api/?name=P&background=1877f2&color=fff">
+                <div class="panel-info">
+                    <div class="panel-name" id="rightName">Player</div>
+                    <div class="panel-color-tag" id="rightColor">-</div>
+                </div>
+            </div>
+            <div class="pieces-row" id="rightPieces"></div>
+            <div class="panel-stats">
+                <div class="stat-item">
+                    <span class="stat-label" data-i18n="parchisi_pieces_home">Home</span>
+                    <span class="stat-value" id="rightHome">4</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label" data-i18n="parchisi_pieces_finished">Finished</span>
+                    <span class="stat-value" id="rightFinished">0</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 4: WINNER MODAL                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="winnerOverlay" class="winner-overlay">
+    <div class="winner-modal">
+        <div class="trophy">🏆</div>
+        <h1 data-i18n="parchisi_congratulations">🎉 Congratulations!</h1>
+        <div class="winner-name" id="winnerName">Player</div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="playAgain()">
+                🔄 <span data-i18n="parchisi_play_again">Play Again</span>
+            </button>
+            <button class="btn btn-success" onclick="backToLobby()">
+                🏠 <span data-i18n="parchisi_back_to_lobby">Back to Lobby</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- DICE ROLL OVERLAY                                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="diceOverlay" class="dice-roll-overlay">
+    <div class="dice-animation" id="diceAnimation">🎲</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- LOADING OVERLAY                                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">Loading...</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TOASTS                                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+<script src="js/parchisi-translations.js"></script>
+<script src="js/parchisi.js"></script>
+
+</body>
+</html>

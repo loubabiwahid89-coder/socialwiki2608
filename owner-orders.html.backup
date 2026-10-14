@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="owner_orders_title">Owner Orders - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=20261001"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            color: #050505;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 22px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .language-btn { background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 18px; padding: 8px 12px; border-radius: 50%; }
+        .language-menu { display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto; }
+        .language-menu.show { display: block; }
+        .language-menu button { width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: start; font-size: 14px; }
+        .language-menu button:hover { background: #f0f2f5; }
+
+        /* ========== CONTAINER ========== */
+        .owner-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* ========== HERO ========== */
+        .owner-hero {
+            background: linear-gradient(135deg, #8B0000, #FF0000);
+            border-radius: 16px;
+            padding: 30px 25px;
+            color: white;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .owner-hero::before {
+            content: '👑';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 120px;
+            opacity: 0.15;
+        }
+        .owner-hero h1 { margin: 0 0 8px; font-size: 28px; }
+        .owner-hero p { margin: 0; opacity: 0.9; font-size: 15px; }
+
+        /* ========== STATS ========== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.2s;
+            border-top: 4px solid;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .stat-card.gift { border-top-color: #ec4899; }
+        .stat-card.shop { border-top-color: #8b5cf6; }
+        .stat-card.withdraw { border-top-color: #f59e0b; }
+        .stat-card.total { border-top-color: #1877f2; }
+
+        .stat-card .icon { font-size: 36px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 26px; font-weight: 800; color: #1877f2; margin-bottom: 5px; }
+        .stat-card .label { font-size: 13px; color: #65676b; font-weight: 600; }
+
+        /* ========== FILTERS ========== */
+        .filters-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 2px solid #e4e6eb;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .search-input:focus { border-color: #1877f2; }
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e4e6eb;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            background: white;
+        }
+
+        /* ========== TABS ========== */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+        .tab {
+            flex: 1;
+            padding: 14px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #65676b;
+            border-radius: 8px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .tab:hover { background: #f0f2f5; }
+        .tab.active { background: #1877f2; color: white; }
+
+        /* ========== ORDER CARD ========== */
+        .order-section { display: none; }
+        .order-section.active { display: block; }
+
+        .order-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.2s;
+            border-left: 4px solid #1877f2;
+        }
+        .order-card:hover {
+            transform: translateX(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        .order-card.gift { border-left-color: #ec4899; }
+        .order-card.shop { border-left-color: #8b5cf6; }
+        .order-card.withdraw { border-left-color: #f59e0b; }
+
+        .order-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .order-users {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        .order-users img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+        .order-arrow {
+            color: #65676b;
+            font-size: 18px;
+        }
+        .order-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .order-badge.pending { background: #fef3c7; color: #92400e; }
+        .order-badge.completed { background: #d1fae5; color: #065f46; }
+        .order-badge.failed { background: #fee2e2; color: #991b1b; }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .order-detail-item {
+            font-size: 13px;
+        }
+        .order-detail-label {
+            color: #65676b;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .order-detail-value {
+            color: #050505;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .order-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .order-btn.accept { background: #28a745; color: white; }
+        .order-btn.accept:hover { background: #218838; }
+        .order-btn.reject { background: #dc3545; color: white; }
+        .order-btn.reject:hover { background: #c82333; }
+        .order-btn.view { background: #e4e6eb; color: #050505; }
+        .order-btn.view:hover { background: #d0d2d6; }
+
+        /* ========== EMPTY ========== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+            background: white;
+            border-radius: 14px;
+        }
+        .empty-icon { font-size: 60px; margin-bottom: 15px; }
+        .empty-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #050505; }
+        .empty-text { font-size: 14px; }
+
+        /* ========== LOADING ========== */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #65676b;
+        }
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e4e6eb;
+            border-top-color: #1877f2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 700;
+            z-index: 999999;
+            box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+            animation: toastIn 0.3s ease;
+            max-width: 350px;
+        }
+        .toast.error { background: linear-gradient(135deg, #dc3545, #c82333); }
+        @keyframes toastIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 700px) {
+            .owner-hero h1 { font-size: 22px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .tab { font-size: 12px; padding: 10px 8px; }
+            .order-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="index.html" class="logo">📘 SocialWiki</a>
+    </div>
+    <ul class="nav-icons">
+        <li><a href="index.html" title="Home">🏠</a></li>
+        <li><a href="friends.html" title="Friends">👥</a></li>
+        <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+        <li><a href="events.html" title="Events">📅</a></li>
+        <li><a href="notifications.html" title="Notifications">🔔</a></li>
+    </ul>
+    <div class="nav-right">
+        <a href="profile.html" class="nav-profile">
+            <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+            <span id="navProfileName">User</span>
+        </a>
+        <div style="position: relative;">
+            <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+            <div class="language-menu" id="languageMenu">
+                <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+                <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+            </div>
+        </div>
+        <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+</nav>
+
+<!-- ========== CONTAINER ========== -->
+<div class="owner-container">
+
+    <!-- HERO -->
+    <div class="owner-hero">
+        <h1 data-i18n="owner_orders_title">👑 Owner Orders</h1>
+        <p data-i18n="owner_orders_subtitle">Manage all orders from one place</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <div class="icon">📊</div>
+            <div class="value" id="totalOrders">0</div>
+            <div class="label" data-i18n="total_orders">Total Orders</div>
+        </div>
+        <div class="stat-card gift">
+            <div class="icon">🎁</div>
+            <div class="value" id="giftCount">0</div>
+            <div class="label" data-i18n="gift_orders">Gift Orders</div>
+        </div>
+        <div class="stat-card shop">
+            <div class="icon">🛍️</div>
+            <div class="value" id="shopCount">0</div>
+            <div class="label" data-i18n="shop_orders">Shop Orders</div>
+        </div>
+        <div class="stat-card withdraw">
+            <div class="icon">💳</div>
+            <div class="value" id="withdrawCount">0</div>
+            <div class="label" data-i18n="withdraw_orders">Withdrawals</div>
+        </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search by username..." data-i18n-placeholder="search_orders" oninput="applyFilters()">
+        <select class="filter-select" id="statusFilter" onchange="applyFilters()">
+            <option value="all" data-i18n="all_status">All Status</option>
+            <option value="pending" data-i18n="status_pending">Pending</option>
+            <option value="completed" data-i18n="status_completed">Completed</option>
+            <option value="failed" data-i18n="status_failed">Failed</option>
+        </select>
+        <select class="filter-select" id="dateFilter" onchange="applyFilters()">
+            <option value="all" data-i18n="all_time">All Time</option>
+            <option value="today" data-i18n="today">Today</option>
+            <option value="week" data-i18n="this_week">This Week</option>
+            <option value="month" data-i18n="this_month">This Month</option>
+        </select>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('allOrders', this)" data-i18n="tab_all_orders">📋 All</button>
+        <button class="tab" onclick="switchTab('giftOrders', this)" data-i18n="tab_gift_orders">🎁 Gifts</button>
+        <button class="tab" onclick="switchTab('shopOrders', this)" data-i18n="tab_shop_orders">🛍️ Shop</button>
+        <button class="tab" onclick="switchTab('withdrawOrders', this)" data-i18n="tab_withdraw_orders">💳 Withdrawals</button>
+    </div>
+
+    <!-- TAB: ALL ORDERS -->
+    <div id="allOrders" class="order-section active">
+        <div id="allOrdersContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <!-- TAB: GIFT ORDERS -->
+    <div id="giftOrders" class="order-section">
+        <div id="giftOrdersContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <!-- TAB: SHOP ORDERS -->
+    <div id="shopOrders" class="order-section">
+        <div id="shopOrdersContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <!-- TAB: WITHDRAW ORDERS -->
+    <div id="withdrawOrders" class="order-section">
+        <div id="withdrawOrdersContent">
+            <div class="loading">Loading...</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+    // ============ SUPABASE ============
+    if (!window.supabaseClient) {
+        window.supabaseClient = window.supabase.createClient(
+            "https://zcffrkvxmxvojkbmtufe.supabase.co",
+            "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG"
+        );
+    }
+    const sb = window.supabaseClient;
+    let currentUser = null;
+    let allData = {
+        gifts: [],
+        shop: [],
+        withdraws: []
+    };
+
+    // ============ LOGOUT ============
+    window.logout = async function() {
+        await sb.auth.signOut();
+        window.location.href = 'auth.html';
+    };
+
+    // ============ LOAD USER ============
+    async function loadUser() {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) { window.location.href = 'auth.html'; return null; }
+        currentUser = user;
+
+        const { data: profile } = await sb
+            .from('profiles')
+            .select('username, full_name, avatar_url, role')
+            .eq('id', user.id)
+            .single();
+
+        // حماية: للمالك فقط
+        if (profile?.role !== 'owner' && profile?.role !== 'admin' && profile?.role !== 'super_admin') {
+            alert('⚠️ Only owner can access this page');
+            window.location.href = 'index.html';
+            return null;
+        }
+
+        const name = profile?.full_name || profile?.username || 'Owner';
+        const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+
+        const nEl = document.getElementById('navProfileName');
+        if (nEl) nEl.textContent = name;
+        const iEl = document.getElementById('navProfileImg');
+        if (iEl) iEl.src = avatar;
+
+        return user;
+    }
+
+    // ============ LOAD GIFT ORDERS ============
+    async function loadGiftOrders() {
+        try {
+            const { data: gifts, error } = await sb
+                .from('user_gifts')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(100);
+
+            if (error) {
+                console.warn('Gift orders:', error.message);
+                return [];
+            }
+
+            // جلب بيانات المرسلين والمستلمين
+            const userIds = new Set();
+            (gifts || []).forEach(g => {
+                if (g.sender_id) userIds.add(g.sender_id);
+                if (g.receiver_id) userIds.add(g.receiver_id);
+            });
+
+            const { data: profiles } = await sb
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .in('id', Array.from(userIds));
+
+            const profilesMap = {};
+            (profiles || []).forEach(p => profilesMap[p.id] = p);
+
+            return (gifts || []).map(g => ({
+                ...g,
+                sender: profilesMap[g.sender_id] || {},
+                receiver: profilesMap[g.receiver_id] || {},
+                type: 'gift',
+                status: 'completed'
+            }));
+        } catch (e) {
+            console.error('Gift error:', e);
+            return [];
+        }
+    }
+
+    // ============ LOAD SHOP ORDERS ============
+    async function loadShopOrders() {
+        try {
+            const { data: orders, error } = await sb
+                .from('shop_orders')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(100);
+
+            if (error) {
+                console.warn('Shop orders:', error.message);
+                return [];
+            }
+
+            const userIds = [...new Set((orders || []).map(o => o.user_id))];
+
+            const { data: profiles } = await sb
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .in('id', userIds);
+
+            const profilesMap = {};
+            (profiles || []).forEach(p => profilesMap[p.id] = p);
+
+            return (orders || []).map(o => ({
+                ...o,
+                user: profilesMap[o.user_id] || {},
+                type: 'shop',
+                status: o.status || 'completed'
+            }));
+        } catch (e) {
+            console.error('Shop error:', e);
+            return [];
+        }
+    }
+
+    // ============ LOAD WITHDRAWAL ORDERS ============
+    async function loadWithdrawOrders() {
+        try {
+            const { data: withdraws, error } = await sb
+                .from('withdrawals')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(100);
+
+            if (error) {
+                console.warn('Withdrawals:', error.message);
+                return [];
+            }
+
+            const userIds = [...new Set((withdraws || []).map(w => w.user_id))];
+
+            const { data: profiles } = await sb
+                .from('profiles')
+                .select('id, username, full_name, avatar_url')
+                .in('id', userIds);
+
+            const profilesMap = {};
+            (profiles || []).forEach(p => profilesMap[p.id] = p);
+
+            return (withdraws || []).map(w => ({
+                ...w,
+                user: profilesMap[w.user_id] || {},
+                type: 'withdraw',
+                status: w.status || 'pending'
+            }));
+        } catch (e) {
+            console.error('Withdraw error:', e);
+            return [];
+        }
+    }
+
+    // ============ LOAD ALL ============
+    async function loadAllData() {
+        console.log('📊 Loading all orders...');
+
+        const [gifts, shop, withdraws] = await Promise.all([
+            loadGiftOrders(),
+            loadShopOrders(),
+            loadWithdrawOrders()
+        ]);
+
+        allData.gifts = gifts;
+        allData.shop = shop;
+        allData.withdraws = withdraws;
+
+        console.log(`✅ Gifts: ${gifts.length}, Shop: ${shop.length}, Withdrawals: ${withdraws.length}`);
+
+        // تحديث الإحصائيات
+        document.getElementById('totalOrders').textContent = gifts.length + shop.length + withdraws.length;
+        document.getElementById('giftCount').textContent = gifts.length;
+        document.getElementById('shopCount').textContent = shop.length;
+        document.getElementById('withdrawCount').textContent = withdraws.length;
+
+        // عرض كل شيء
+        renderAll();
+    }
+
+    // ============ FORMAT DATE ============
+    function formatDate(timestamp) {
+        if (!timestamp) return '-';
+        const date = new Date(timestamp);
+        return date.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    // ============ ESCAPE HTML ============
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ============ GET USER AVATAR ============
+    function getUserAvatar(user) {
+        if (user?.avatar_url) return user.avatar_url;
+        const name = user?.full_name || user?.username || 'User';
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
+    }
+
+    // ============ CREATE GIFT CARD ============
+    function createGiftCard(gift) {
+        const card = document.createElement('div');
+        card.className = 'order-card gift';
+        card.innerHTML = `
+            <div class="order-header">
+                <div class="order-users">
+                    <img src="${getUserAvatar(gift.sender)}" alt="sender">
+                    <span>${escapeHtml(gift.sender?.full_name || gift.sender?.username || 'User')}</span>
+                    <span class="order-arrow">→</span>
+                    <img src="${getUserAvatar(gift.receiver)}" alt="receiver">
+                    <span>${escapeHtml(gift.receiver?.full_name || gift.receiver?.username || 'User')}</span>
+                </div>
+                <span class="order-badge completed" data-i18n="status_completed">Completed</span>
+            </div>
+            <div class="order-details">
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="gift_label">Gift</div>
+                    <div class="order-detail-value">${gift.gift_icon || '🎁'} ${escapeHtml(gift.gift_name || 'Gift')}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="cost">Cost</div>
+                    <div class="order-detail-value">🪙 ${(gift.cost_points || 0).toLocaleString()}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="date">Date</div>
+                    <div class="order-detail-value">${formatDate(gift.created_at)}</div>
+                </div>
+            </div>
+            ${gift.message ? `
+                <div class="order-details" style="background: #fef3c7;">
+                    <div class="order-detail-item" style="grid-column: 1 / -1;">
+                        <div class="order-detail-label" data-i18n="message">Message</div>
+                        <div class="order-detail-value" style="font-weight: 500; font-size: 14px;">"${escapeHtml(gift.message)}"</div>
+                    </div>
+                </div>
+            ` : ''}
+        `;
+        return card;
+    }
+
+    // ============ CREATE SHOP CARD ============
+    function createShopCard(order) {
+        const card = document.createElement('div');
+        card.className = 'order-card shop';
+        card.innerHTML = `
+            <div class="order-header">
+                <div class="order-users">
+                    <img src="${getUserAvatar(order.user)}" alt="user">
+                    <span>${escapeHtml(order.user?.full_name || order.user?.username || 'User')}</span>
+                </div>
+                <span class="order-badge ${order.status}" data-i18n="status_${order.status}">${order.status}</span>
+            </div>
+            <div class="order-details">
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="item_label">Item</div>
+                    <div class="order-detail-value">${order.item_icon || '🎁'} ${escapeHtml(order.item_name || order.item_key || 'Item')}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="cost">Cost</div>
+                    <div class="order-detail-value">🪙 ${(order.points_spent || order.cost_points || 0).toLocaleString()}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="date">Date</div>
+                    <div class="order-detail-value">${formatDate(order.created_at)}</div>
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    // ============ CREATE WITHDRAW CARD ============
+    function createWithdrawCard(withdraw) {
+        const card = document.createElement('div');
+        card.className = 'order-card withdraw';
+        card.innerHTML = `
+            <div class="order-header">
+                <div class="order-users">
+                    <img src="${getUserAvatar(withdraw.user)}" alt="user">
+                    <span>${escapeHtml(withdraw.user?.full_name || withdraw.user?.username || 'User')}</span>
+                </div>
+                <span class="order-badge ${withdraw.status}" data-i18n="status_${withdraw.status}">${withdraw.status}</span>
+            </div>
+            <div class="order-details">
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="amount_label">Amount</div>
+                    <div class="order-detail-value">$${parseFloat(withdraw.amount || 0).toFixed(2)}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="points_label">Points</div>
+                    <div class="order-detail-value">🪙 ${(withdraw.points_used || 0).toLocaleString()}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="method_label">Method</div>
+                    <div class="order-detail-value">${escapeHtml(withdraw.method || '-')}</div>
+                </div>
+                <div class="order-detail-item">
+                    <div class="order-detail-label" data-i18n="date">Date</div>
+                    <div class="order-detail-value">${formatDate(withdraw.created_at)}</div>
+                </div>
+            </div>
+            ${withdraw.status === 'pending' ? `
+                <div class="order-actions">
+                    <button class="order-btn accept" onclick="handleWithdraw(${withdraw.id}, 'approved')">✅ <span data-i18n="approve">Approve</span></button>
+                    <button class="order-btn reject" onclick="handleWithdraw(${withdraw.id}, 'rejected')">❌ <span data-i18n="reject">Reject</span></button>
+                </div>
+            ` : ''}
+        `;
+        return card;
+    }
+
+    // ============ RENDER FUNCTIONS ============
+    function renderGifts(containerId, gifts) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (gifts.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🎁</div>
+                    <div class="empty-title" data-i18n="no_gifts">No gift orders yet</div>
+                </div>
+            `;
+            return;
+        }
+
+        gifts.forEach(g => container.appendChild(createGiftCard(g)));
+    }
+
+    function renderShop(containerId, orders) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (orders.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🛍️</div>
+                    <div class="empty-title" data-i18n="no_shop_orders">No shop orders yet</div>
+                </div>
+            `;
+            return;
+        }
+
+        orders.forEach(o => container.appendChild(createShopCard(o)));
+    }
+
+    function renderWithdraws(containerId, withdraws) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (withdraws.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">💳</div>
+                    <div class="empty-title" data-i18n="no_withdrawals">No withdrawal requests yet</div>
+                </div>
+            `;
+            return;
+        }
+
+        withdraws.forEach(w => container.appendChild(createWithdrawCard(w)));
+    }
+
+    // ============ RENDER ALL ============
+    function renderAll() {
+        const filters = getFilters();
+
+        // Filter data
+        const filteredGifts = filterData(allData.gifts, filters);
+        const filteredShop = filterData(allData.shop, filters);
+        const filteredWithdraws = filterData(allData.withdraws, filters);
+
+        // Render all orders (combined)
+        const allContainer = document.getElementById('allOrdersContent');
+        if (allContainer) {
+            allContainer.innerHTML = '';
+            const combined = [
+                ...filteredGifts.map(g => ({ ...g, _sort: g.created_at })),
+                ...filteredShop.map(s => ({ ...s, _sort: s.created_at })),
+                ...filteredWithdraws.map(w => ({ ...w, _sort: w.created_at }))
+            ].sort((a, b) => new Date(b._sort) - new Date(a._sort));
+
+            if (combined.length === 0) {
+                allContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <div class="empty-title" data-i18n="no_orders">No orders yet</div>
+                    </div>
+                `;
+            } else {
+                combined.forEach(o => {
+                    if (o.type === 'gift') allContainer.appendChild(createGiftCard(o));
+                    else if (o.type === 'shop') allContainer.appendChild(createShopCard(o));
+                    else if (o.type === 'withdraw') allContainer.appendChild(createWithdrawCard(o));
+                });
+            }
+        }
+
+        // Render each tab
+        renderGifts('giftOrdersContent', filteredGifts);
+        renderShop('shopOrdersContent', filteredShop);
+        renderWithdraws('withdrawOrdersContent', filteredWithdraws);
+
+        // Re-apply translations
+        if (typeof setLanguage === 'function' && typeof getCurrentLanguage === 'function') {
+            setLanguage(getCurrentLanguage());
+        }
+    }
+
+    // ============ FILTERS ============
+    function getFilters() {
+        return {
+            search: document.getElementById('searchInput')?.value?.toLowerCase() || '',
+            status: document.getElementById('statusFilter')?.value || 'all',
+            date: document.getElementById('dateFilter')?.value || 'all'
+        };
+    }
+
+    function filterData(data, filters) {
+        return data.filter(item => {
+            // Search filter
+            if (filters.search) {
+                const sender = (item.sender?.full_name || item.sender?.username || '').toLowerCase();
+                const receiver = (item.receiver?.full_name || item.receiver?.username || '').toLowerCase();
+                const user = (item.user?.full_name || item.user?.username || '').toLowerCase();
+                if (!sender.includes(filters.search) && 
+                    !receiver.includes(filters.search) && 
+                    !user.includes(filters.search)) {
+                    return false;
+                }
+            }
+
+            // Status filter
+            if (filters.status !== 'all' && item.status !== filters.status) {
+                return false;
+            }
+
+            // Date filter
+            if (filters.date !== 'all' && item.created_at) {
+                const itemDate = new Date(item.created_at);
+                const now = new Date();
+                const diffDays = (now - itemDate) / (1000 * 60 * 60 * 24);
+
+                if (filters.date === 'today' && diffDays > 1) return false;
+                if (filters.date === 'week' && diffDays > 7) return false;
+                if (filters.date === 'month' && diffDays > 30) return false;
+            }
+
+            return true;
+        });
+    }
+
+    window.applyFilters = function() {
+        renderAll();
+    };
+
+    // ============ HANDLE WITHDRAW ============
+    window.handleWithdraw = async function(id, status) {
+        if (!confirm(`Are you sure you want to ${status === 'approved' ? 'approve' : 'reject'} this withdrawal?`)) return;
+
+        try {
+            const { error } = await sb
+                .from('withdrawals')
+                .update({ status, updated_at: new Date().toISOString() })
+                .eq('id', id);
+
+            if (error) throw error;
+
+            showToast(`✅ Withdrawal ${status}!`);
+            await loadAllData();
+        } catch (e) {
+            console.error('Update error:', e);
+            showToast('❌ ' + e.message, 'error');
+        }
+    };
+
+    // ============ TOAST ============
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = 'toast ' + (type === 'error' ? 'error' : '');
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(400px)';
+            toast.style.transition = '0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // ============ TABS ============
+    window.switchTab = function(tabName, btn) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        document.querySelectorAll('.order-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(tabName);
+        if (target) target.classList.add('active');
+    };
+
+    // ============ LANGUAGE MENU ============
+    window.toggleLanguageMenu = function() {
+        const menu = document.getElementById('languageMenu');
+        if (menu) menu.classList.toggle('show');
+    };
+
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('languageMenu');
+        const btn = e.target.closest('.language-btn');
+        if (menu && !btn && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+
+    // ============ INIT ============
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('👑 owner-orders.html loaded');
+        if (typeof initLanguage === 'function') initLanguage();
+
+        const user = await loadUser();
+        if (!user) return;
+
+        await loadAllData();
+    });
+</script>
+
+<script src="js/messenger-notify.js"></script>
+<script src="js/dark-mode.js"></script>
+
+</body>
+</html>

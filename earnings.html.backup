@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="earnings_title">My Earnings - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: #050505;
+        }
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1877f2; padding: 0 16px; height: 56px;
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
+        .home-btn { color: white; background: #1877f2; }
+        .earnings-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .earnings-header { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 16px; color: white; margin-bottom: 25px; }
+        .earnings-header h1 { margin: 0 0 10px; font-size: 32px; }
+        .earnings-header p { margin: 0; font-size: 16px; opacity: 0.9; }
+
+        .balance-card { background: linear-gradient(135deg, #ffd700, #f7b928); border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 8px 25px rgba(247, 185, 40, 0.4); margin-bottom: 25px; }
+        .balance-label { font-size: 16px; color: #333; margin-bottom: 10px; }
+        .balance-value { font-size: 48px; font-weight: 800; color: #1a1a1a; }
+        .balance-sub { font-size: 14px; color: #333; margin-top: 5px; }
+
+        .level-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 14px; margin-top: 10px; }
+        .level-badge.bronze { background: #cd7f32; color: white; }
+        .level-badge.silver { background: #c0c0c0; color: #333; }
+        .level-badge.gold { background: #ffd700; color: #333; }
+        .level-badge.diamond { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+
+        .progress-bar { width: 100%; height: 20px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 0.5s; border-radius: 10px; }
+
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #e4e6eb; flex-wrap: wrap; }
+        .tab { padding: 12px 20px; background: none; border: none; cursor: pointer; font-size: 15px; font-weight: 600; color: #65676b; border-bottom: 3px solid transparent; transition: 0.2s; }
+        .tab.active { color: #1877f2; border-bottom-color: #1877f2; }
+
+        .tasks-section { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .tasks-section h3 { margin: 0 0 15px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .task-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f9f9f9; border-radius: 10px; margin-bottom: 10px; transition: 0.2s; }
+        .task-item:hover { background: #f0f2f5; }
+        .task-item.completed { background: #e7f7e7; }
+        .task-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .task-icon { font-size: 28px; }
+        .task-info { flex: 1; }
+        .task-name { font-weight: 600; font-size: 15px; color: #050505; margin-bottom: 3px; }
+        .task-progress-text { font-size: 12px; color: #65676b; }
+        .task-progress-bar { width: 100%; height: 6px; background: #e4e6eb; border-radius: 3px; margin-top: 5px; overflow: hidden; }
+        .task-progress-fill { height: 100%; background: #1877f2; border-radius: 3px; transition: width 0.5s; }
+        .task-item.completed .task-progress-fill { background: #28a745; }
+        .task-reward { font-weight: 700; font-size: 15px; color: #f7b928; margin-right: 10px; }
+        .task-btn { background: #1877f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.2s; }
+        .task-btn:hover { background: #166fe5; }
+        .task-check { color: #28a745; font-size: 24px; }
+        .task-hint { font-size: 11px; color: #65676b; text-align: center; max-width: 90px; line-height: 1.3; }
+
+        .network-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .network-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
+        .network-card .icon { font-size: 32px; margin-bottom: 8px; }
+        .network-card .value { font-size: 26px; font-weight: 700; color: #1877f2; }
+        .network-card .label { font-size: 13px; color: #65676b; margin-top: 4px; }
+
+        .tier-card { display: flex; align-items: center; justify-content: space-between; padding: 20px; background: white; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #ccc; }
+        .tier-card.unlocked { border-left-color: #28a745; }
+        .tier-card.locked { opacity: 0.7; border-left-color: #f0ad4e; }
+        .tier-info { flex: 1; }
+        .tier-name { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+        .tier-req { font-size: 13px; color: #65676b; }
+        .tier-amount { font-size: 24px; font-weight: 800; color: #28a745; margin-right: 15px; }
+        .tier-status { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .tier-status.open { background: #e7f7e7; color: #28a745; }
+        .tier-status.locked { background: #fff4e5; color: #f0ad4e; }
+
+        .rewards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .reward-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: 0.2s; cursor: pointer; }
+        .reward-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .reward-icon { font-size: 40px; margin-bottom: 10px; }
+        .reward-name { font-weight: 700; font-size: 15px; margin-bottom: 5px; }
+        .reward-cost { font-size: 13px; color: #f7b928; font-weight: 700; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal.show { display: flex; }
+        .modal-box { width: 100%; max-width: 500px; background: white; border-radius: 14px; padding: 25px; }
+        .modal-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-actions button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .btn-cancel { background: #e4e6eb; }
+        .btn-submit { background: #28a745; color: white; }
+
+        .empty-state { text-align: center; padding: 40px; color: #65676b; }
+        .empty-state-icon { font-size: 50px; margin-bottom: 15px; }
+
+        @media (max-width: 700px) {
+            .earnings-header h1 { font-size: 24px; }
+            .balance-value { font-size: 36px; }
+            .tabs { overflow-x: auto; }
+        }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+    <a href="profile.html" class="nav-profile">
+        <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+        <span id="navProfileName">User</span>
+    </a>
+    <div class="language-selector" style="position: relative;">
+        <button class="language-btn" onclick="toggleLanguageMenu()" style="background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 18px; padding: 8px 12px; border-radius: 50%;">🌐</button>
+        <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+            <button onclick="changeLanguage('ar')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇲🇦 العربية</button>
+            <button onclick="changeLanguage('fr')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇫🇷 Français</button>
+            <button onclick="changeLanguage('en')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇬🇧 English</button>
+            <button onclick="changeLanguage('es')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇪🇸 Español</button>
+            <button onclick="changeLanguage('de')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇩🇪 Deutsch</button>
+            <button onclick="changeLanguage('it')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇮🇹 Italiano</button>
+            <button onclick="changeLanguage('ja')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇯🇵 日本語</button>
+            <button onclick="changeLanguage('zh')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇨🇳 中文</button>
+            <button onclick="changeLanguage('ko')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇰🇷 한국어</button>
+            <button onclick="changeLanguage('ru')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇷🇺 Русский</button>
+            <button onclick="changeLanguage('tr')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇹🇷 Türkçe</button>
+            <button onclick="changeLanguage('hi')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇮🇳 हिन्दी</button>
+            <button onclick="changeLanguage('fil')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇵🇭 Filipino</button>
+            <button onclick="changeLanguage('tl')" style="width:100%;padding:12px 15px;border:none;background:white;cursor:pointer;text-align:left;font-size:14px;">🇵🇭 Tagalog</button>
+        </div>
+    </div>
+    <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+</div>
+    </nav>
+
+    <div class="nav-buttons">
+    <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    <a href="creator-dashboard.html" style="background: #764ba2; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: 600;">🎬 Creator Dashboard</a>
+</div>
+
+    <!-- EARNINGS CONTAINER -->
+    <div class="earnings-container">
+
+        <div class="earnings-header">
+            <h1 data-i18n="earnings_title">💰 My Earnings</h1>
+            <p data-i18n="earnings_subtitle">Complete tasks, invite friends, and earn!</p>
+        </div>
+
+        <!-- BALANCE CARD -->
+        <div class="balance-card">
+            <div class="balance-label" data-i18n="my_balance">My Current Balance</div>
+            <div class="balance-value" id="balanceValue">$0.00</div>
+            <div class="balance-sub" id="balancePoints">0 <span data-i18n="points">points</span></div>
+            <div class="level-badge bronze" id="levelBadge" data-i18n="level_bronze">🥉 Bronze</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="levelProgress" style="width: 0%;"></div>
+            </div>
+            <div style="font-size: 12px; color: #333; margin-top: 5px;" id="levelProgressText">0 / 5,000 to Silver</div>
+        </div>
+
+        <!-- STATS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px;">
+            <div class="network-card">
+                <div class="icon">💵</div>
+                <div class="value" id="totalEarned">$0.00</div>
+                <div class="label" data-i18n="total_earned">Total Earned</div>
+            </div>
+            <div class="network-card">
+                <div class="icon">💳</div>
+                <div class="value" id="totalWithdrawn">$0.00</div>
+                <div class="label" data-i18n="total_withdrawn">Withdrawn</div>
+            </div>
+            <div class="network-card">
+                <div class="icon">🎯</div>
+                <div class="value" id="availableToWithdraw">$0.00</div>
+                <div class="label" data-i18n="available_to_withdraw">Available</div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('tasks', this)" data-i18n="tasks">📋 Tasks</button>
+            <button class="tab" onclick="switchTab('network', this)" data-i18n="network">👥 My Network</button>
+            <button class="tab" onclick="switchTab('withdraw', this)" data-i18n="withdraw">💳 Withdraw</button>
+            <button class="tab" onclick="switchTab('shop', this)" data-i18n="shop">🎁 Rewards Shop</button>
+            <button class="tab" onclick="switchTab('history', this)" data-i18n="history">📊 History</button>
+        </div>
+
+        <!-- TASKS TAB -->
+<div id="tasksTab">
+    <div class="tasks-section">
+        <h3>🟢 <span data-i18n="daily_tasks">Daily Tasks</span> <span style="font-size:13px;color:#65676b;" data-i18n="reset_daily">(reset daily)</span></h3>
+        <div id="dailyTasks"></div>
+    </div>
+
+    <div class="tasks-section">
+        <h3>🟡 <span data-i18n="weekly_tasks">Weekly Tasks</span></h3>
+        <div id="weeklyTasks"></div>
+    </div>
+
+    <div class="tasks-section">
+        <h3>🔴 <span data-i18n="hard_tasks">Hard Tasks</span></h3>
+        <div id="hardTasks"></div>
+    </div>
+</div>
+        <!-- NETWORK TAB -->
+        <div id="networkTab" style="display:none;">
+            <div class="network-summary">
+                <div class="network-card">
+                    <div class="icon">👥</div>
+                    <div class="value" id="level1Count">0</div>
+                    <div class="label" data-i18n="direct_referrals">Direct Referrals</div>
+                </div>
+                <div class="network-card">
+                    <div class="icon">🌐</div>
+                    <div class="value" id="level2Count">0</div>
+                    <div class="label" data-i18n="indirect_referrals">Indirect (Level 2)</div>
+                </div>
+                <div class="network-card">
+                    <div class="icon">🎯</div>
+                    <div class="value" id="level3Count">0</div>
+                    <div class="label" data-i18n="far_referrals">Far (Level 3)</div>
+                </div>
+                <div class="network-card">
+                    <div class="icon">💰</div>
+                    <div class="value" id="commissionPoints">0</div>
+                    <div class="label" data-i18n="commission_points">Commission Points</div>
+                </div>
+            </div>
+
+            <div class="tasks-section">
+                <h3>📊 <span data-i18n="network_breakdown">Network Breakdown</span></h3>
+                <p style="color:#65676b;font-size:14px;line-height:1.6;">
+                    ✅ <strong>Level 2 (Direct):</strong> 10% from every task your direct referrals complete<br>
+                    ✅ <strong>Level 3 (Indirect):</strong> 5% from every task their referrals complete<br>
+                </p>
+                <a href="referral.html" style="display:inline-block;background:#1877f2;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:15px;">🎁 Invite More Friends</a>
+            </div>
+        </div>
+
+        <!-- WITHDRAW TAB -->
+        <div id="withdrawTab" style="display:none;">
+            <div class="tasks-section">
+                <h3>💳 <span data-i18n="withdraw_options">Withdrawal Options</span></h3>
+                <p style="color:#65676b;font-size:14px;margin-bottom:20px;">
+                    Choose a tier based on your available balance.
+                </p>
+
+                <div class="tier-card locked" id="tier1">
+                    <div class="tier-info">
+                        <div class="tier-name">🟢 Quick Withdrawal</div>
+                        <div class="tier-req" id="tier1req">5,000 points needed</div>
+                    </div>
+                    <div class="tier-amount">$5</div>
+                    <div class="tier-status locked" id="tier1status">Locked</div>
+                </div>
+
+                <div class="tier-card locked" id="tier2">
+                    <div class="tier-info">
+                        <div class="tier-name">🟡 Medium Withdrawal</div>
+                        <div class="tier-req" id="tier2req">25,000 points needed</div>
+                    </div>
+                    <div class="tier-amount">$25</div>
+                    <div class="tier-status locked" id="tier2status">Locked</div>
+                </div>
+
+                <div class="tier-card locked" id="tier3">
+                    <div class="tier-info">
+                        <div class="tier-name">🔴 Large Withdrawal</div>
+                        <div class="tier-req" id="tier3req">100,000 points needed</div>
+                    </div>
+                    <div class="tier-amount">$150</div>
+                    <div class="tier-status locked" id="tier3status">Locked</div>
+                </div>
+            </div>
+        </div>
+
+      <!-- SHOP TAB -->
+<div id="shopTab" style="display:none;">
+    <div class="tasks-section">
+        <h3 data-i18n="rewards_shop_title">🎁 Rewards Shop</h3>
+        
+        <!-- 🥉 Starter Rewards -->
+        <h4 style="margin: 20px 0 10px; color: #65676b; font-size: 14px;">🥉 STARTER</h4>
+        <div class="rewards-grid">
+            <div class="reward-card" onclick="redeemReward('badge_bronze', 1000)">
+                <div class="reward-icon">🥉</div>
+                <div class="reward-name" data-i18n="bronze_badge">Bronze Badge</div>
+                <div class="reward-cost">1,000 <span data-i18n="points">points</span></div>
+            </div>
+            <div class="reward-card" onclick="redeemReward('stars_100', 5000)">
+                <div class="reward-icon">⭐</div>
+                <div class="reward-name" data-i18n="stars_100">100 Stars</div>
+                <div class="reward-cost">5,000 <span data-i18n="points">points</span></div>
+            </div>
+        </div>
+        
+        <!-- ⭐ Advanced Rewards -->
+        <h4 style="margin: 20px 0 10px; color: #65676b; font-size: 14px;">⭐ ADVANCED</h4>
+        <div class="rewards-grid">
+            <div class="reward-card" onclick="redeemReward('boost_post', 10000)">
+                <div class="reward-icon">🚀</div>
+                <div class="reward-name" data-i18n="boost_post_7d">Boost Post (7d)</div>
+                <div class="reward-cost">10,000 <span data-i18n="points">points</span></div>
+            </div>
+            <div class="reward-card" onclick="redeemReward('verified_badge', 100000)">
+                <div class="reward-icon">✔️</div>
+                <div class="reward-name" data-i18n="verified_badge">Verified Badge</div>
+                <div class="reward-cost">100,000 <span data-i18n="points">points</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- HISTORY TAB -->
+        <div id="historyTab" style="display:none;">
+            <div class="tasks-section">
+                <h3>📊 Earnings History</h3>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;min-width:500px;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left;padding:12px;border-bottom:2px solid #e4e6eb;color:#65676b;font-size:13px;">Date</th>
+                                <th style="text-align:left;padding:12px;border-bottom:2px solid #e4e6eb;color:#65676b;font-size:13px;">Source</th>
+                                <th style="text-align:left;padding:12px;border-bottom:2px solid #e4e6eb;color:#65676b;font-size:13px;">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <tr><td colspan="3" class="empty-state"><div class="empty-state-icon">📭</div><p>No earnings yet</p></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- WITHDRAW MODAL -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-box">
+            <div class="modal-title">💳 Request Withdrawal</div>
+            <div class="form-group">
+                <label>Withdrawal Method</label>
+                <select id="withdrawMethod">
+                    <option value="paypal">PayPal</option>
+                    <option value="bank">Bank Transfer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Payment Details</label>
+                <input type="text" id="withdrawDetails" placeholder="Email or account number">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeWithdrawModal()">Cancel</button>
+                <button class="btn-submit" onclick="submitWithdrawal()">✅ Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCKED AD OVERLAY -->
+    <div id="lockedAdOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999999; align-items: center; justify-content: center; flex-direction: column;">
+        <div style="color: white; text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">📺 Watching Ad...</div>
+            <div style="font-size: 14px; opacity: 0.8;">Please wait, task will complete automatically</div>
+        </div>
+        <div id="lockedAdTimer" style="color: #ffd700; font-size: 64px; font-weight: 800; margin-bottom: 25px;">30</div>
+        <div style="width: 80%; max-width: 500px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; margin-bottom: 25px;">
+            <div id="lockedAdProgressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 1s linear;"></div>
+        </div>
+        <div style="color: #ff6b6b; font-size: 15px; font-weight: 600; text-align: center; padding: 0 20px;">
+            🔒 Ad is locked. Please wait for it to finish.
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+        const supabaseClient = window.supabaseClient;
+    </script>
+    <script src="js/tasks-helper.js"></script>
+    <script src="js/translations.js?v=999999"></script>
+    <script>
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const POINT_VALUE = 0.001;
+
+        const LEVELS = [
+            { name: 'Bronze',  icon: '🥉', min: 0,        max: 5000 },
+            { name: 'Silver',  icon: '🥈', min: 5000,     max: 25000 },
+            { name: 'Gold',    icon: '🥇', min: 25000,    max: 100000 },
+            { name: 'Diamond', icon: '💎', min: 100000,   max: Infinity }
+        ];
+
+      const TASK_DEFS = [
+    { key: 'daily_login',    cat: 'daily',   icon: '📅', name: 'Daily Login',      points: 5,    goal: 1 },
+    { key: 'watch_5_ads',    cat: 'daily',   icon: '📺', name: 'Watch 5 Ads',      points: 10,   goal: 5 },
+    { key: 'like_3_posts',   cat: 'daily',   icon: '👍', name: 'Like 3 Posts',     points: 3,    goal: 3 },
+    { key: 'comment_1',      cat: 'daily',   icon: '💬', name: 'Comment on Post',  points: 2,    goal: 1 },
+    { key: 'share_1_post',   cat: 'daily',   icon: '↗️', name: 'Share a Post',     points: 3,    goal: 1 },
+    { key: 'play_1_game',    cat: 'daily',   icon: '🎮', name: 'Play a Game',      points: 5,    goal: 1 },
+    { key: 'invite_1_friend',cat: 'weekly',  icon: '👥', name: 'Invite 1 Friend',  points: 50,   goal: 1 },
+    { key: 'watch_50_ads',   cat: 'weekly',  icon: '📺', name: 'Watch 50 Ads',     points: 100,  goal: 50 },
+    { key: 'create_5_posts', cat: 'weekly',  icon: '📝', name: 'Create 5 Posts',   points: 25,   goal: 5 },
+    { key: 'comment_10',     cat: 'weekly',  icon: '💬', name: 'Comment 10 Times', points: 15,   goal: 10 },
+    { key: 'add_5_friends',  cat: 'weekly',  icon: '🤝', name: 'Add 5 Friends',    points: 25,   goal: 5 },
+    { key: 'invite_10',      cat: 'hard',    icon: '🏆', name: 'Invite 10 Friends',points: 300,  goal: 10 },
+    { key: 'watch_500_ads',  cat: 'hard',    icon: '📺', name: 'Watch 500 Ads',    points: 1000, goal: 500 },
+    { key: 'create_50_posts',cat: 'hard',    icon: '📝', name: 'Create 50 Posts',  points: 150,  goal: 50 },
+    { key: 'complete_profile',cat:'hard',    icon: '👤', name: 'Complete Profile', points: 100,  goal: 1 },
+    { key: 'first_story',    cat: 'hard',    icon: '📸', name: 'Post First Story', points: 50,   goal: 1 }
+];
+
+        // المهام التي تحتاج زر "Go"
+        const TASKS_WITH_BUTTON = ['watch_5_ads', 'watch_50_ads', 'watch_500_ads', 'play_1_game'];
+
+        // AD CONFIG
+        const AD_URL = 'https://data527.click/e425f4e70b2f3179c0a9/16a7c1a302/?placementName=5';
+        const AD_DURATION = 30;
+
+        let currentBalance = 0;
+        let currentUser = null;
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // ============================================================
+        // LOAD USER
+        // ============================================================
+        async function loadUser() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return null;
+            currentUser = user;
+
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('username, full_name, avatar_url')
+                .eq('id', user.id)
+                .single();
+
+            const name = profile?.full_name || profile?.username || 'User';
+            const avatar = profile?.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+
+            const nEl = document.getElementById('navProfileName');
+            const iEl = document.getElementById('navProfileImg');
+            if (nEl) nEl.textContent = name;
+            if (iEl) iEl.src = avatar;
+
+            return user;
+        }
+
+        // ============================================================
+        // LOAD BALANCE
+        // ============================================================
+        async function loadBalance() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return;
+
+            const { data: bal } = await supabaseClient
+                .from('user_balances')
+                .select('*')
+                .eq('user_id', user.id)
+                .maybeSingle();
+
+            if (!bal) {
+                await supabaseClient.from('user_balances').insert({
+                    user_id: user.id, total_points: 0, total_dollars: 0,
+                    available_points: 0, withdrawn_dollars: 0
+                });
+                updateBalanceUI(0, 0, 0, 0);
+                return;
+            }
+
+            updateBalanceUI(
+                bal.total_points || 0,
+                bal.total_dollars || 0,
+                bal.available_points || 0,
+                bal.withdrawn_dollars || 0
+            );
+        }
+
+        function updateBalanceUI(points, dollars, available, withdrawn) {
+            currentBalance = available * POINT_VALUE;
+
+            const el = (id) => document.getElementById(id);
+            if (el('balanceValue')) el('balanceValue').textContent = '$' + (points * POINT_VALUE).toFixed(2);
+            if (el('balancePoints')) el('balancePoints').innerHTML = points.toLocaleString() + ' <span data-i18n="points">points</span>';
+            if (el('totalEarned')) el('totalEarned').textContent = '$' + dollars.toFixed(2);
+            if (el('totalWithdrawn')) el('totalWithdrawn').textContent = '$' + withdrawn.toFixed(2);
+            if (el('availableToWithdraw')) el('availableToWithdraw').textContent = '$' + (available * POINT_VALUE).toFixed(2);
+
+            const level = LEVELS.find(l => points >= l.min && points < l.max) || LEVELS[0];
+           const lvlBadge = el('levelBadge');
+if (lvlBadge) {
+    // ✅ استخدام الترجمة
+    const levelKey = 'level_' + level.name.toLowerCase();  // level_bronze, level_silver...
+    const translatedLevel = typeof t === 'function' 
+        ? t(levelKey, getCurrentLanguage()) 
+        : level.name;
+    lvlBadge.textContent = level.icon + ' ' + translatedLevel;
+    lvlBadge.className = 'level-badge ' + level.name.toLowerCase();
+}
+
+            const nextLevel = LEVELS.find(l => l.min > points);
+            if (nextLevel) {
+                const totalRange = nextLevel.min - level.min;
+                const progressInRange = points - level.min;
+                const percent = Math.min(100, (progressInRange / totalRange) * 100);
+                if (el('levelProgress')) el('levelProgress').style.width = percent + '%';
+                if (el('levelProgressText')) {
+    const nextLevelKey = 'to_' + nextLevel.name.toLowerCase();  // to_silver, to_gold...
+    const nextLevelText = typeof t === 'function' 
+        ? t(nextLevelKey, getCurrentLanguage()) 
+        : 'to ' + nextLevel.name;
+    el('levelProgressText').textContent = 
+        points.toLocaleString() + ' / ' + nextLevel.min.toLocaleString() + ' ' + nextLevelText;
+}
+            } else {
+                if (el('levelProgress')) el('levelProgress').style.width = '100%';
+                if (el('levelProgressText')) el('levelProgressText').textContent = 'Maximum Level!';
+            }
+
+            updateWithdrawTiersUI(available);
+        }
+
+        // ============================================================
+        // UPDATE WITHDRAW TIERS UI
+        // ============================================================
+        function updateWithdrawTiersUI(availablePoints) {
+            const tiers = [
+                { el: 'tier1', points: 5000, usd: 5 },
+                { el: 'tier2', points: 25000, usd: 25 },
+                { el: 'tier3', points: 100000, usd: 150 }
+            ];
+
+            tiers.forEach(tier => {
+                const tierEl = document.getElementById(tier.el);
+                if (!tierEl) return;
+                const statusEl = tierEl.querySelector('.tier-status');
+                const reqEl = tierEl.querySelector('.tier-req');
+
+                if (reqEl) reqEl.textContent = `${tier.points.toLocaleString()} points needed`;
+
+                if (availablePoints >= tier.points) {
+                    tierEl.className = 'tier-card unlocked';
+                    if (statusEl) {
+                        statusEl.className = 'tier-status open';
+                        statusEl.innerHTML = `<button onclick="openWithdrawModal(${tier.points}, ${tier.usd})" style="background:#28a745;color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Withdraw Now</button>`;
+                    }
+                } else {
+                    tierEl.className = 'tier-card locked';
+                    if (statusEl) {
+                        statusEl.className = 'tier-status locked';
+                        statusEl.textContent = 'Locked';
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // LOAD TASKS
+        // ============================================================
+      async function loadTasks() {
+    if (!currentUser) return;
+
+    const { data: userTasks } = await supabaseClient
+        .from('user_tasks')
+        .select('*')
+        .eq('user_id', currentUser.id);
+
+    const tasksMap = {};
+    (userTasks || []).forEach(t => {
+        if (!t || !t.task_id) return;
+        
+        const today = new Date().toISOString().split('T')[0];
+        const thisWeek = getWeekStart();
+
+        let valid = false;
+        if (t.period_start === today) valid = true;
+        if (t.period_start === thisWeek) valid = true;
+        // المهام الدائمة (hard) - نقبل أي تاريخ
+        const hardTasks = ['complete_profile', 'first_story', 'invite_10', 'watch_500_ads', 'create_50_posts'];
+        if (hardTasks.includes(t.task_id)) valid = true;
+
+        if (valid) tasksMap[t.task_id] = t;
+    });
+
+    console.log('📋 tasksMap:', tasksMap);
+
+    renderTasks('dailyTasks', 'daily', tasksMap);
+    renderTasks('weeklyTasks', 'weekly', tasksMap);
+    renderTasks('hardTasks', 'hard', tasksMap);
+}
+        function getWeekStart() {
+            const d = new Date();
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            const monday = new Date(d.setDate(diff));
+            return monday.toISOString().split('T')[0];
+        }
+
+        // ============================================================
+        // RENDER TASKS
+        // ============================================================
+        function renderTasks(containerId, category, tasksMap) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const tasks = TASK_DEFS.filter(t => t.cat === category);
+            container.innerHTML = '';
+
+            tasks.forEach(task => {
+                const taskRecord = tasksMap[task.key];
+                const currentProgress = taskRecord?.progress || 0;
+                const completed = taskRecord?.completed || false;
+                const percent = Math.min(100, (currentProgress / task.goal) * 100);
+
+   let actionHTML = '';
+if (completed) {
+    actionHTML = '<div class="task-check">✅</div>';
+} else {
+    actionHTML = `<button class="task-btn" onclick="doTask('${task.key}')" data-i18n="go_btn">Go</button>`;
+}
+
+                const div = document.createElement('div');
+                div.className = 'task-item' + (completed ? ' completed' : '');
+                div.innerHTML = `
+                    <div class="task-left">
+                        <div class="task-icon">${task.icon}</div>
+                        <div class="task-info">
+                            <div class="task-name">${task.name}</div>
+                            <div class="task-progress-text">${currentProgress} / ${task.goal}</div>
+                            <div class="task-progress-bar">
+                                <div class="task-progress-fill" style="width:${percent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-reward">+${task.points}</div>
+                    ${actionHTML}
+                `;
+                           container.appendChild(div);
+            });
+
+            // ✅ إعادة تطبيق الترجمات على الأزرار الجديدة
+            if (typeof applyTranslations === 'function') {
+                applyTranslations();
+            }
+        }
+
+        // ============================================================
+        // DO TASK
+        // ============================================================
+        window.doTask = async function(taskKey) {
+            if (!currentUser) {
+                alert('Please login first');
+                return;
+            }
+
+            // مهام الإعلانات
+            if (taskKey === 'watch_5_ads' || taskKey === 'watch_50_ads' || taskKey === 'watch_500_ads') {
+                await watchAdAndCompleteTask(taskKey);
+                return;
+            }
+
+            // مهمة الألعاب
+            if (taskKey === 'play_1_game') {
+                window.location.href = 'gaming.html';
+                return;
+            }
+        };
+
+        // ============================================================
+        // مشاهدة إعلان + إكمال المهمة
+        // ============================================================
+        async function watchAdAndCompleteTask(taskKey) {
+            try {
+                window.open(AD_URL, '_blank');
+            } catch (e) {
+                console.warn('Popup blocked:', e);
+            }
+
+            const overlay = document.getElementById('lockedAdOverlay');
+            const timer = document.getElementById('lockedAdTimer');
+            const progressBar = document.getElementById('lockedAdProgressBar');
+
+            if (!overlay || !timer || !progressBar) {
+                await completeTaskDirectly(taskKey);
+                return;
+            }
+
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            const startTime = Date.now();
+            const endTime = startTime + (AD_DURATION * 1000);
+            let completed = false;
+
+            timer.textContent = AD_DURATION;
+            progressBar.style.width = '0%';
+
+            const interval = setInterval(async () => {
+                const now = Date.now();
+                const remaining = Math.max(0, Math.ceil((endTime - now) / 1000));
+                timer.textContent = remaining;
+
+                const progress = ((AD_DURATION - remaining) / AD_DURATION) * 100;
+                progressBar.style.width = progress + '%';
+
+                if (now >= endTime && !completed) {
+                    completed = true;
+                    clearInterval(interval);
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                    await completeTaskDirectly(taskKey);
+                }
+            }, 100);
+        }
+
+        // ============================================================
+        // إكمال المهمة مباشرة
+        // ============================================================
+        async function completeTaskDirectly(taskKey) {
+            try {
+                let tasksToComplete = [taskKey];
+                // لو مهمة إعلان، نادي كل المستويات
+                if (taskKey === 'watch_5_ads') {
+                    tasksToComplete = ['watch_5_ads', 'watch_50_ads', 'watch_500_ads'];
+                } else if (taskKey === 'watch_50_ads') {
+                    tasksToComplete = ['watch_50_ads', 'watch_500_ads'];
+                }
+
+                let lastData = null;
+                let hasError = false;
+
+                for (const tk of tasksToComplete) {
+                    const { data, error } = await supabaseClient.rpc('complete_task', {
+                        p_user_id: currentUser.id,
+                        p_task_key: tk
+                    });
+                    if (error) { 
+                        console.error('Task error for', tk, ':', error); 
+                        hasError = true;
+                        continue;
+                    }
+                    console.log('✅ Task', tk, 'result:', data);
+                    lastData = data;
+                }
+
+                if (hasError && !lastData) {
+                    alert('⚠️ Task failed. Check console.');
+                    return;
+                }
+
+                const data = lastData;
+                if (!data) {
+                    alert('⚠️ No response from server');
+                    return;
+                }
+
+                if (data.success) {
+                    if (data.completed) {
+                        alert('🎉 Task completed! +' + data.points + ' points');
+                        await loadBalance();
+                        await loadTasks();
+                    } else if (data.message === 'Task already completed') {
+                        alert('✅ You already completed this task!\n\nCome back tomorrow/week.');
+                        await loadTasks();
+                    } else if (data.message === 'Progress updated') {
+                        alert('✅ Progress: ' + data.progress + ' / ' + data.goal);
+                        await loadTasks();
+                    } else {
+                        alert('ℹ️ ' + (data.message || 'Done'));
+                        await loadTasks();
+                    }
+                } else {
+                    alert('⚠️ ' + (data.message || 'Task failed'));
+                }
+            } catch (error) {
+                console.error('❌ Crash:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        // منع إغلاق النافذة المقفلة
+        document.addEventListener('keydown', function(e) {
+            const overlay = document.getElementById('lockedAdOverlay');
+            if (overlay && overlay.style.display === 'flex' && e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }, true);
+
+        // ============================================================
+        // LOAD NETWORK
+        // ============================================================
+        async function loadNetwork() {
+            if (!currentUser) return;
+
+            const { data: network, error } = await supabaseClient.rpc('get_my_network', {
+                p_user_id: currentUser.id
+            });
+
+            const l1 = document.getElementById('level1Count');
+            const l2 = document.getElementById('level2Count');
+            const l3 = document.getElementById('level3Count');
+            const cp = document.getElementById('commissionPoints');
+
+            let total1 = 0, total2 = 0, total3 = 0, totalPoints = 0;
+
+            if (!error && network) {
+                network.forEach(row => {
+                    if (row.level === 1) total1 = row.total;
+                    if (row.level === 2) total2 = row.total;
+                    if (row.level === 3) total3 = row.total;
+                    totalPoints += row.total_points || 0;
+                });
+            }
+
+            if (l1) l1.textContent = total1;
+            if (l2) l2.textContent = total2;
+            if (l3) l3.textContent = total3;
+            if (cp) cp.textContent = totalPoints.toLocaleString();
+        }
+
+        // ============================================================
+        // LOAD HISTORY
+        // ============================================================
+        async function loadHistory() {
+            if (!currentUser) return;
+
+            const { data: earnings, error } = await supabaseClient
+                .from('user_earnings')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false })
+                .limit(50);
+
+            const tbody = document.getElementById('historyTableBody');
+            if (!tbody) return;
+
+            if (error || !earnings || earnings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="empty-state"><div class="empty-state-icon">📭</div><p>No earnings yet</p></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            earnings.forEach(e => {
+                const date = new Date(e.created_at).toLocaleDateString();
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding:12px;border-bottom:1px solid #e4e6eb;">${date}</td>
+                    <td style="padding:12px;border-bottom:1px solid #e4e6eb;">${e.source || 'earnings'}</td>
+                    <td style="padding:12px;border-bottom:1px solid #e4e6eb;color:#28a745;font-weight:700;">+${e.points || 0}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // ============================================================
+        // SWITCH TAB
+        // ============================================================
+        window.switchTab = function(tab, btn) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            ['tasks', 'network', 'withdraw', 'shop', 'history'].forEach(name => {
+                const el = document.getElementById(name + 'Tab');
+                if (el) el.style.display = 'none';
+            });
+
+            const target = document.getElementById(tab + 'Tab');
+            if (target) target.style.display = 'block';
+
+            if (tab === 'network') loadNetwork();
+            if (tab === 'history') loadHistory();
+        };
+
+      window.redeemReward = async function(rewardKey, cost) {
+    if (!currentUser) {
+        alert('Please login first');
+        return;
+    }
+    
+    // جلب الرصيد من قاعدة البيانات
+    const { data: balance, error: balError } = await supabaseClient
+        .from('user_balances')
+        .select('available_points')
+        .eq('user_id', currentUser.id)
+        .single();
+    
+    if (balError || !balance) {
+        alert('❌ Error loading balance');
+        return;
+    }
+    
+    // التحقق من كفاية النقاط
+    if (balance.available_points < cost) {
+        const needed = cost - balance.available_points;
+        alert(`❌ Not enough points!\n\nYou have: ${balance.available_points.toLocaleString()}\nNeed: ${cost.toLocaleString()}\nMissing: ${needed.toLocaleString()} points`);
+        return;
+    }
+    
+    // تأكيد الشراء
+    const rewardNames = {
+        'badge_bronze': '🥉 Bronze Badge',
+        'stars_100': '⭐ 100 Stars',
+        'boost_post': '🚀 Boost Post (7d)',
+        'verified_badge': '✅ Verified Badge'
+    };
+    
+    const rewardName = rewardNames[rewardKey] || rewardKey;
+    if (!confirm(`Redeem ${rewardName} for ${cost.toLocaleString()} points?`)) return;
+    
+    try {
+        // خصم النقاط
+        const { error: deductError } = await supabaseClient
+            .from('user_balances')
+            .update({ 
+                available_points: balance.available_points - cost 
+            })
+            .eq('user_id', currentUser.id);
+        
+        if (deductError) throw deductError;
+        
+        // ✅ تطبيق المكافأة
+        if (rewardKey === 'badge_bronze') {
+            await supabaseClient
+                .from('profiles')
+                .update({ 
+                    badge_tier: 'bronze',
+                    has_bronze_badge: true 
+                })
+                .eq('id', currentUser.id);
+            alert('🎉 Bronze Badge activated!');
+        } 
+        else if (rewardKey === 'stars_100') {
+            // إضافة 100 نجمة
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('stars_balance')
+                .eq('id', currentUser.id)
+                .single();
+            
+            await supabaseClient
+                .from('profiles')
+                .update({ 
+                    stars_balance: (profile?.stars_balance || 0) + 100 
+                })
+                .eq('id', currentUser.id);
+            alert('🎉 100 Stars added to your account!');
+        }
+        else if (rewardKey === 'boost_post') {
+            // تفعيل Boost لمدة 7 أيام
+            const expiresAt = new Date();
+            expiresAt.setDate(expiresAt.getDate() + 7);
+            
+            await supabaseClient
+                .from('profiles')
+                .update({ 
+                    boost_expires_at: expiresAt.toISOString() 
+                })
+                .eq('id', currentUser.id);
+            alert('🎉 Boost activated for 7 days!');
+        }
+        else if (rewardKey === 'verified_badge') {
+            await supabaseClient
+                .from('profiles')
+                .update({ 
+                    is_verified: true,
+                    badge_tier: 'verified'
+                })
+                .eq('id', currentUser.id);
+            alert('🎉 Congratulations! You are now Verified!');
+        }
+        
+        // تسجيل العملية في السجل
+        await supabaseClient
+            .from('user_earnings')
+            .insert({
+                user_id: currentUser.id,
+                source: 'reward_' + rewardKey,
+                points: -cost,
+                dollars: -cost * 0.001,
+                created_at: new Date()
+            });
+        
+        // تحديث الواجهة
+        await loadBalance();
+        await loadTasks();
+        
+        // إعادة تحميل الصفحة لرؤية التغييرات
+        setTimeout(() => window.location.reload(), 1000);
+        
+    } catch (error) {
+        console.error('Redemption error:', error);
+        alert('❌ Error: ' + error.message);
+    }
+};
+
+        // ============================================================
+        // WITHDRAW
+        // ============================================================
+        let withdrawAmountPoints = 0;
+        let withdrawAmountUSD = 0;
+
+        window.openWithdrawModal = function(points, usd) {
+            if (currentBalance * 1000 < points) {
+                alert('❌ Not enough points!');
+                return;
+            }
+            withdrawAmountPoints = points;
+            withdrawAmountUSD = usd;
+            const modalTitle = document.querySelector('#withdrawModal .modal-title');
+            if (modalTitle) {
+                modalTitle.innerHTML = `💳 Request Withdrawal: <span style="color:#28a745;">${points.toLocaleString()} points = $${usd}</span>`;
+            }
+            document.getElementById('withdrawModal').classList.add('show');
+        };
+
+        window.closeWithdrawModal = function() {
+            document.getElementById('withdrawModal').classList.remove('show');
+        };
+
+        window.submitWithdrawal = async function() {
+            const method = document.getElementById('withdrawMethod').value;
+            const details = document.getElementById('withdrawDetails').value.trim();
+            if (!details) { alert('Please enter payment details'); return; }
+            if (!confirm(`Withdraw ${withdrawAmountPoints.toLocaleString()} points ($${withdrawAmountUSD})?`)) return;
+
+            try {
+                const newAvailablePoints = currentBalance * 1000 - withdrawAmountPoints;
+                const { error: updateError } = await supabaseClient
+                    .from('user_balances')
+                    .update({ available_points: newAvailablePoints })
+                    .eq('user_id', currentUser.id);
+                if (updateError) throw updateError;
+
+                const { error: insertError } = await supabaseClient
+                    .from('transactions')
+                    .insert({
+                        user_id: currentUser.id,
+                        amount: withdrawAmountUSD,
+                        points_used: withdrawAmountPoints,
+                        method: method,
+                        details: details,
+                        status: 'pending',
+                        created_at: new Date()
+                    });
+                if (insertError) throw insertError;
+
+                alert('✅ Withdrawal request submitted!');
+                closeWithdrawModal();
+                await loadBalance();
+            } catch (error) {
+                console.error('Withdrawal error:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        };
+
+        // ============================================================
+        // WATCH AD (Legacy)
+        // ============================================================
+        window.watchAdAndEarn = async function() {
+            if (!currentUser) { alert('Please login first'); return; }
+            window.open(AD_URL, '_blank');
+            setTimeout(async () => {
+                await completeTaskDirectly('watch_5_ads');
+            }, 3000);
+        };
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔴 earnings.html loaded');
+
+            if (typeof getCurrentLanguage === 'function') {
+                setLanguage(getCurrentLanguage());
+            }
+
+            await loadUser();
+            await loadBalance();
+            await loadTasks();
+            await loadNetwork();
+            await loadHistory();
+
+            if (currentUser) {
+                try {
+                    const { data, error } = await supabaseClient.rpc('daily_login_streak', {
+                        p_user_id: currentUser.id
+                    });
+                    if (error) {
+                        console.warn('⚠️ daily_login_streak not available:', error.message);
+                    } else if (data && !data.already_done) {
+                        console.log('🎁 Daily login bonus:', data.bonus, 'points');
+                        await loadBalance();
+                        await loadTasks();
+                    }
+                } catch (e) {
+                    console.warn('⚠️ daily_login_streak skipped:', e.message);
+                }
+            }
+        });
+    </script>
+        <script src="js/messenger-notify.js"></script>
+<script src="js/dark-mode.js"></script>
+</body>
+</html>

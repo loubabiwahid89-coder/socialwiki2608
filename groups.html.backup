@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <link rel="stylesheet" href="group.css?v=20260912">
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+    <!-- =========================================================
+          <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 SocialWiki</a>
+        </div>
+
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <!-- LANGUAGE SWITCHER -->
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+                <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+                </div>
+            </div>
+
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         GROUPS PAGE
+    ========================================================= -->
+    <main class="groups-page">
+
+        <!-- NAVIGATION -->
+        <div class="groups-navigation">
+            <a href="index.html" class="groups-home-button" data-i18n="home_btn">🏠 Home</a>
+        </div>
+
+        <!-- HEADER -->
+        <header class="groups-header">
+            <div class="groups-heading">
+                <h1 data-i18n="groups">Groups</h1>
+                <p data-i18n="discover_groups">Discover and join communities</p>
+            </div>
+            <button type="button" id="createGroupButton" class="create-group-button">
+                <span class="create-plus">+</span>
+                <span data-i18n="create_group">Create Group</span>
+            </button>
+        </header>
+
+        <!-- SEARCH -->
+        <section class="groups-search-section">
+            <div class="groups-search-box">
+                <span class="search-icon">🔎</span>
+                <input type="text" id="groupSearchInput" data-i18n-placeholder="search_groups" placeholder="Search groups..." autocomplete="off">
+            </div>
+        </section>
+
+        <!-- GROUPS -->
+        <section class="groups-container">
+            <div id="groupsGrid" class="groups-grid">
+                <div class="groups-loading">Loading groups...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================================
+         CREATE GROUP MODAL
+    ========================================================= -->
+    <div id="createGroupModal" class="group-modal" hidden>
+        <div class="group-modal-overlay" id="groupModalOverlay"></div>
+        <div class="group-modal-content" role="dialog" aria-modal="true">
+            <div class="group-modal-header">
+                <div class="group-modal-title-area">
+                    <h2 data-i18n="create_group">Create Group</h2>
+                    <p data-i18n="create_group_desc">Create your own SocialWiki community</p>
+                </div>
+                <button type="button" id="closeGroupModal" class="close-group-modal" aria-label="Close">×</button>
+            </div>
+
+            <form id="createGroupForm" class="create-group-form">
+                <div class="group-form-field">
+                    <label for="groupNameInput" data-i18n="group_name">Group name</label>
+                    <input type="text" id="groupNameInput" data-i18n-placeholder="enter_group_name" placeholder="Enter group name" maxlength="80" autocomplete="off" required>
+                </div>
+
+                <div class="group-form-field">
+                    <label for="groupDescriptionInput" data-i18n="group_description">Description</label>
+                    <textarea id="groupDescriptionInput" data-i18n-placeholder="describe_group" placeholder="Tell people about your group..." maxlength="500" rows="5"></textarea>
+                    <div class="character-hint" data-i18n="group_hint">Tell people what your group is about.</div>
+                </div>
+
+                <div class="group-form-field">
+                    <label for="groupPrivacySelect" data-i18n="privacy">Privacy</label>
+                    <select id="groupPrivacySelect">
+                        <option value="public" data-i18n="public">Public</option>
+                        <option value="private" data-i18n="private">Private</option>
+                    </select>
+                    <div class="privacy-hint" data-i18n="privacy_hint">Public groups can be discovered by everyone.</div>
+                </div>
+
+                <div id="groupFormMessage" class="group-form-message" hidden></div>
+
+                <div class="group-form-actions">
+                    <button type="button" id="cancelGroupButton" class="group-cancel-button" data-i18n="cancel">Cancel</button>
+                    <button type="submit" id="saveGroupButton" class="group-save-button" data-i18n="create_group">Create Group</button>
+                </div>
+            </form>
+        </div>
+    </div>
+          <!-- =========================================================
+         EDIT GROUP MODAL
+    ========================================================= -->
+    <div id="editGroupModal" class="group-modal" hidden>
+        <div class="group-modal-overlay" id="editGroupModalOverlay"></div>
+
+        <div class="group-modal-content" role="dialog" aria-modal="true">
+            <div class="group-modal-header">
+                <div class="group-modal-title-area">
+                    <h2 id="editGroupTitle" data-i18n="edit_group">Edit Group</h2>
+                    <p data-i18n="edit_group_desc">Update your SocialWiki community</p>
+                </div>
+                <button type="button" id="closeEditGroupModal" class="close-group-modal" aria-label="Close">×</button>
+            </div>
+
+            <form id="editGroupForm" class="create-group-form">
+
+                <!-- GROUP NAME -->
+                <div class="group-form-field">
+                    <label for="editGroupNameInput" data-i18n="group_name">Group Name</label>
+                    <input 
+                        type="text" 
+                        id="editGroupNameInput" 
+                        data-i18n-placeholder="enter_group_name"
+                        placeholder="Enter group name" 
+                        maxlength="100" 
+                        autocomplete="off" 
+                        required
+                    >
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="group-form-field">
+                    <label for="editGroupDescriptionInput" data-i18n="group_description">Description</label>
+                    <textarea 
+                        id="editGroupDescriptionInput" 
+                        data-i18n-placeholder="describe_group"
+                        placeholder="Describe your community..." 
+                        maxlength="500" 
+                        rows="4"
+                    ></textarea>
+                </div>
+
+                <!-- PRIVACY -->
+                <div class="group-form-field">
+                    <label for="editGroupPrivacySelect" data-i18n="privacy">Privacy</label>
+                    <select id="editGroupPrivacySelect">
+                        <option value="public" data-i18n="public">🌐 Public</option>
+                        <option value="private" data-i18n="private">🔒 Private</option>
+                    </select>
+                </div>
+
+                <!-- COVER PHOTO -->
+                <div class="group-image-upload-section">
+                    <label data-i18n="cover_photo">🖼️ Cover Photo</label>
+                    <div class="group-upload-preview cover-preview">
+                        <img id="images/blu vs gray" src="" alt="Cover Preview">
+                    </div>
+                    <input 
+                        type="file" 
+                        id="editGroupCoverFileInput" 
+                        accept="image/jpeg,image/png,image/webp,image/gif" 
+                        hidden
+                    >
+                    <button 
+                        type="button" 
+                        id="editGroupCoverUploadButton" 
+                        class="group-upload-button"
+                        data-i18n="upload_cover"
+                    >
+                        🖼️ Upload Cover Photo
+                    </button>
+                </div>
+
+                <!-- GROUP AVATAR -->
+                <div class="group-image-upload-section">
+                    <label data-i18n="group_avatar">👤 Group Avatar</label>
+                    <div class="group-upload-preview avatar-preview">
+                        <img id="editGroupAvatarPreview" src="" alt="Avatar Preview">
+                    </div>
+                    <input 
+                        type="file" 
+                        id="editGroupAvatarFileInput" 
+                        accept="image/jpeg,image/png,image/webp,image/gif" 
+                        hidden
+                    >
+                    <button 
+                        type="button" 
+                        id="editGroupAvatarUploadButton" 
+                        class="group-upload-button"
+                        data-i18n="upload_avatar"
+                    >
+                        👤 Upload Group Avatar
+                    </button>
+                </div>
+
+                <!-- MESSAGE -->
+                <div id="editGroupFormMessage" class="group-form-message" hidden></div>
+
+                <!-- ACTIONS -->
+                <div class="group-form-actions">
+                    <button type="button" id="cancelEditGroupButton" class="group-cancel-button" data-i18n="cancel">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveEditGroupButton" class="group-save-button" data-i18n="save_changes">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/groups.js?v=20260912"></script>
+        
+
+    <script src="js/messenger-notify.js"></script>
+<!-- Popunder disabled -->
+<script src="js/dark-mode.js"></script>
+<script src="js/monetag.js" data-cfasync="false"></script>
+<div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+</body>
+</html>

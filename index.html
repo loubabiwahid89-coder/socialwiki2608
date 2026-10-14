@@ -807,6 +807,20 @@
             window.location.href = "auth.html";
         };
 
+        // ✅ دالة قائمة اللغة
+window.toggleLanguageMenu = function() {
+    const menu = document.getElementById('languageMenu');
+    if (menu) menu.classList.toggle('show');
+};
+
+// ✅ إغلاق القائمة عند النقر خارجها
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('languageMenu');
+    const btn = document.querySelector('.language-btn');
+    if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('show');
+    }
+});
         async function updateNotificationBadge() {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
@@ -2976,6 +2990,7 @@ setTimeout(saveUserLanguage, 2000);
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- 📢 ADSTERRA BANNER 300x250 -->
 <!-- ═══════════════════════════════════════════════════════════ -->
+
 <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;">
     <script>
       atOptions = {
@@ -2985,13 +3000,15 @@ setTimeout(saveUserLanguage, 2000);
         'width' : 300,
         'params' : {}
       };
+    </script>
+    <script src="https://www.highrevenueformat.com/60a410b9eda0bf94f4d6581db1cc321f/invoke.js"></script>
+</div>
 
-      // =========================================================
-// 📢 @MENTION SYSTEM
-// =========================================================
-
+<!-- ✅ @mention script منفصل -->
+<script>
 async function searchUsersForMention(query) {
-    if (!query || query.trim().length < 1) return [];
+    // ...
+        if (!query || query.trim().length < 1) return [];
     
     try {
         let { data: users } = await window.supabaseClient
@@ -3156,6 +3173,7 @@ console.log('✅ @mention system loaded');
     </div>
 </div>
 
+
 <style>
     @keyframes welcomePop {
         0% { transform: scale(0.7); opacity: 0; }
@@ -3166,5 +3184,75 @@ console.log('✅ @mention system loaded');
         50% { transform: translateY(-10px); }
     }
 </style>
-</body>
+
+<!-- ✅ كود JS في وسم script منفصل -->
+<script>
+async function initGiftNotifications() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        const channel = window.supabaseClient
+            .channel('gift_notifications')
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'notifications',
+                    filter: `receiver_id=eq.${user.id}`
+                },
+                (payload) => {
+                    const notification = payload.new;
+                    if (notification.type === 'gift') {
+                        showGiftArrivalNotification(notification);
+                    }
+                }
+            )
+            .subscribe();
+        
+        console.log('✅ Gift notifications initialized');
+    } catch (error) {
+        console.error('❌ Gift notifications error:', error);
+    }
+}
+
+function showGiftArrivalNotification(notification) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(notification.message);
+        utterance.lang = 'en-US';
+        utterance.rate = 1.0;
+        window.speechSynthesis.speak(utterance);
+    }
+    
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; top: 80px; left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        background: linear-gradient(135deg, #ffd700, #f7b928);
+        color: #333; padding: 18px 30px;
+        border-radius: 12px; font-weight: 700;
+        z-index: 999999; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        display: flex; align-items: center; gap: 12px;
+        transition: transform 0.4s ease-out;
+        font-size: 16px;
+    `;
+    toast.innerHTML = `
+        <span style="font-size: 30px;">🎁</span>
+        <span>${notification.message}</span>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 50);
+    setTimeout(() => {
+        toast.style.transform = 'translateX(-50%) translateY(-100px)';
+        setTimeout(() => toast.remove(), 400);
+    }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initGiftNotifications, 2000);
+});
+</script>
+    </body>
 </html>
