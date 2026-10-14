@@ -832,7 +832,14 @@ const translations = {
         "parchisi_game_info": "معلومات اللعبة",
         "parchisi_refresh": "تحديث",
         "parchisi_error": "خطأ",
-               "parchisi_success": "نجاح"
+               "parchisi_success": "نجاح",
+               "leaderboard": "المتصدرون",
+"leaderboard_view_all": "عرض الكل",
+"leaderboard_today": "اليوم",
+"leaderboard_week": "الأسبوع",
+"leaderboard_month": "الشهر",
+"leaderboard_no_data": "لا توجد بيانات بعد",
+"leaderboard_loading": "جاري التحميل...",
     },
 
     // ==================== FRENCH ====================
@@ -1640,7 +1647,14 @@ const translations = {
         "parchisi_game_info": "Infos de la partie",
         "parchisi_refresh": "Actualiser",
         "parchisi_error": "Erreur",
-        "parchisi_success": "Succès"
+        "parchisi_success": "Succès",
+        "leaderboard": "Classement",
+"leaderboard_view_all": "Voir tout",
+"leaderboard_today": "Aujourd'hui",
+"leaderboard_week": "Semaine",
+"leaderboard_month": "Mois",
+"leaderboard_no_data": "Aucune donnée",
+"leaderboard_loading": "Chargement...",
     },
 
     // ==================== ENGLISH ====================
@@ -2454,7 +2468,14 @@ const translations = {
         "parchisi_game_info": "Game Info",
         "parchisi_refresh": "Refresh",
         "parchisi_error": "Error",
-        "parchisi_success": "Success"
+        "parchisi_success": "Success",
+        "leaderboard": "Leaderboard",
+"leaderboard_view_all": "View All",
+"leaderboard_today": "Today",
+"leaderboard_week": "Week",
+"leaderboard_month": "Month",
+"leaderboard_no_data": "No data yet",
+"leaderboard_loading": "Loading...",
     },
     // ==================== SPANISH ====================
     es: {
@@ -3267,7 +3288,14 @@ const translations = {
         "parchisi_game_info": "Info del juego",
         "parchisi_refresh": "Actualizar",
         "parchisi_error": "Error",
-        "parchisi_success": "Éxito"
+        "parchisi_success": "Éxito",
+        "leaderboard": "Clasificación",
+"leaderboard_view_all": "Ver todo",
+"leaderboard_today": "Hoy",
+"leaderboard_week": "Semana",
+"leaderboard_month": "Mes",
+"leaderboard_no_data": "Sin datos",
+"leaderboard_loading": "Cargando...",
     },
     
 
@@ -4081,7 +4109,14 @@ const translations = {
         "parchisi_game_info": "Spielinfo",
         "parchisi_refresh": "Aktualisieren",
         "parchisi_error": "Fehler",
-        "parchisi_success": "Erfolg"
+        "parchisi_success": "Erfolg",
+        "leaderboard": "Rangliste",
+"leaderboard_view_all": "Alle ansehen",
+"leaderboard_today": "Heute",
+"leaderboard_week": "Woche",
+"leaderboard_month": "Monat",
+"leaderboard_no_data": "Keine Daten",
+"leaderboard_loading": "Wird geladen...",
     },
     
         // ==================== ITALIAN ====================
@@ -4895,7 +4930,14 @@ const translations = {
         "parchisi_game_info": "Info Partita",
         "parchisi_refresh": "Aggiorna",
         "parchisi_error": "Errore",
-        "parchisi_success": "Successo"
+        "parchisi_success": "Successo",
+        "leaderboard": "Classifica",
+"leaderboard_view_all": "Vedi tutto",
+"leaderboard_today": "Oggi",
+"leaderboard_week": "Settimana",
+"leaderboard_month": "Mese",
+"leaderboard_no_data": "Nessun dato",
+"leaderboard_loading": "Caricamento...",
     },
     
 
@@ -5710,7 +5752,14 @@ const translations = {
         "parchisi_game_info": "游戏信息",
         "parchisi_refresh": "刷新",
         "parchisi_error": "错误",
-        "parchisi_success": "成功"
+        "parchisi_success": "成功",
+        "leaderboard": "排行榜",
+"leaderboard_view_all": "查看全部",
+"leaderboard_today": "今天",
+"leaderboard_week": "本周",
+"leaderboard_month": "本月",
+"leaderboard_no_data": "暂无数据",
+"leaderboard_loading": "加载中...",
     },
     
 
@@ -6354,7 +6403,7 @@ const translations = {
     "reward": "報酬",
     "join": "参加",
     "points": "ポイント",
-    "please_login": " сначалаログインしてください！",
+    "please_login": "まずログインしてください！",
     "already_joined_event": "すでにこのイベントに参加しています！",
     "joined_event_success": "イベントに参加しました！",
       "my_stats": "私の統計",
@@ -6525,7 +6574,14 @@ const translations = {
         "parchisi_game_info": "ゲーム情報",
         "parchisi_refresh": "更新",
         "parchisi_error": "エラー",
-        "parchisi_success": "成功"
+        "parchisi_success": "成功",
+        "leaderboard": "リーダーボード",
+"leaderboard_view_all": "すべて表示",
+"leaderboard_today": "今日",
+"leaderboard_week": "今週",
+"leaderboard_month": "今月",
+"leaderboard_no_data": "データなし",
+"leaderboard_loading": "読み込み中...",
     },
     
 
@@ -7340,7 +7396,14 @@ const translations = {
         "parchisi_game_info": "게임 정보",
         "parchisi_refresh": "새로고침",
         "parchisi_error": "오류",
-        "parchisi_success": "성공"
+        "parchisi_success": "성공",
+        "leaderboard": "리더보드",
+"leaderboard_view_all": "모두 보기",
+"leaderboard_today": "오늘",
+"leaderboard_week": "이번 주",
+"leaderboard_month": "이번 달",
+"leaderboard_no_data": "데이터 없음",
+"leaderboard_loading": "로딩 중...",
     },
     
 
@@ -8155,7 +8218,14 @@ const translations = {
         "parchisi_game_info": "Информация об игре",
         "parchisi_refresh": "Обновить",
         "parchisi_error": "Ошибка",
-        "parchisi_success": "Успех"
+        "parchisi_success": "Успех",
+        "leaderboard": "Таблица лидеров",
+"leaderboard_view_all": "Посмотреть все",
+"leaderboard_today": "Сегодня",
+"leaderboard_week": "Неделя",
+"leaderboard_month": "Месяц",
+"leaderboard_no_data": "Нет данных",
+"leaderboard_loading": "Загрузка...",
     },
     
 
@@ -8971,7 +9041,14 @@ const translations = {
         "parchisi_game_info": "Oyun Bilgisi",
         "parchisi_refresh": "Yenile",
         "parchisi_error": "Hata",
-        "parchisi_success": "Başarılı"
+        "parchisi_success": "Başarılı",
+        "leaderboard": "Liderlik Tablosu",
+"leaderboard_view_all": "Tümünü Gör",
+"leaderboard_today": "Bugün",
+"leaderboard_week": "Hafta",
+"leaderboard_month": "Ay",
+"leaderboard_no_data": "Veri yok",
+"leaderboard_loading": "Yükleniyor...",
     },
 
     
@@ -9787,7 +9864,14 @@ const translations = {
         "parchisi_game_info": "खेल की जानकारी",
         "parchisi_refresh": "रिफ्रेश",
         "parchisi_error": "त्रुटि",
-        "parchisi_success": "सफल"
+        "parchisi_success": "सफल",
+        "leaderboard": "लीडरबोर्ड",
+"leaderboard_view_all": "सभी देखें",
+"leaderboard_today": "आज",
+"leaderboard_week": "सप्ताह",
+"leaderboard_month": "महीना",
+"leaderboard_no_data": "कोई डेटा नहीं",
+"leaderboard_loading": "लोड हो रहा है...",
     },
     
 
@@ -10602,7 +10686,14 @@ const translations = {
         "parchisi_game_info": "Impormasyon ng Laro",
         "parchisi_refresh": "I-refresh",
         "parchisi_error": "Error",
-        "parchisi_success": "Tagumpay"
+        "parchisi_success": "Tagumpay",
+        "leaderboard": "Leaderboard",
+"leaderboard_view_all": "Tingnan Lahat",
+"leaderboard_today": "Ngayon",
+"leaderboard_week": "Linggo",
+"leaderboard_month": "Buwan",
+"leaderboard_no_data": "Walang data",
+"leaderboard_loading": "Naglo-load...",
     },
 
     tl: {
@@ -11225,7 +11316,6 @@ const translations = {
         "indirect_referrals": "Hindi Direktang Referral",
         "far_referrals": "Malayong Referral",
         "withdraw_options": "Mga Pagpipilian sa Withdrawal",
-        "rewards_shop_title": "🎁 Tindahan ng Gantimpala",  // ✅ تم تصحيح Gampanla → Gantimpala
         "starter_rewards": "🥉 Nagsisimula",
         "advanced_rewards": "⭐ Advanced",
         "insufficient_points": "❌ Kulang ang puntos!",
@@ -11416,7 +11506,14 @@ const translations = {
         "parchisi_game_info": "Impormasyon ng Laro",
         "parchisi_refresh": "I-refresh",
         "parchisi_error": "Error",
-        "parchisi_success": "Tagumpay"
+        "parchisi_success": "Tagumpay",
+        "leaderboard": "Leaderboard",
+"leaderboard_view_all": "Tingnan Lahat",
+"leaderboard_today": "Ngayon",
+"leaderboard_week": "Linggo",
+"leaderboard_month": "Buwan",
+"leaderboard_no_data": "Walang data",
+"leaderboard_loading": "Naglo-load...",
     },
 
     // ==================== AMHARIC (ETHIOPIAN) ====================
@@ -12077,7 +12174,7 @@ const translations = {
         "achievements": "ስኬቶች",
         "all_friends": "ሁሉም ጓደኞች",
         "friend_requests": "የጓደኝነት ጥያቄዎች",
-        "suggestions": " اقتراحات",
+        "suggestions": "ምክሮች",
         "remove_friend_confirm": "ይህን ጓደኛ ማስወገድ ይፈልጋሉ?",
         "friend_request_accepted": "✅ የጓደኝነት ጥያቄ ተቀብሏል!",
         "friend_request_declined": "✅ የጓደኝነት ጥያቄ ውድቅ ተደርጓል!",
@@ -12211,7 +12308,15 @@ const translations = {
         "parchisi_game_info": "የጨዋታ መረጃ",
         "parchisi_refresh": "አድስ",
         "parchisi_error": "ስህተት",
-        "parchisi_success": "ተሳክቷል"
+        "parchisi_success": "ተሳክቷል",
+        "leaderboard": "መሪ ሰሌዳ",
+"leaderboard_view_all": "ሁሉንም ይመልከቱ",
+"leaderboard_today": "ዛሬ",
+"leaderboard_week": "ሳምንት",
+"leaderboard_month": "ወር",
+"leaderboard_no_data": "ምንም መረጃ የለም",
+"leaderboard_loading": "በመጫን ላይ...",
+
     }
 
 };
