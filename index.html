@@ -1517,7 +1517,8 @@ window.deleteStory = async function(storyId, mediaUrl) {
             const viewedPosts = JSON.parse(localStorage.getItem('viewedPosts') || '[]');
             
             try {
-                const { data: posts, error } = await window.supabaseClient.from('posts').select(`*, post_views(count)`).order('created_at', { ascending: false });
+                const { data: posts, error } = await window.supabaseClient.from('posts').select(`*, views_count`).order('created_at', { ascending: false });
+
                 if (error) { console.error('Error:', error); return; }
                 if (!posts || posts.length === 0) {
                     feedContainer.innerHTML = '<div class="feed-post" style="text-align:center;padding:40px;">No posts yet</div>';
@@ -1553,9 +1554,9 @@ window.deleteStory = async function(storyId, mediaUrl) {
                             class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" 
                             onloadedmetadata="checkVideoDuration(this, '${post.id}')"
                             onplay="startVideoImpression('${post.id}', this)"></video>
-                        <div style="font-size: 13px; color: #65676b; padding: 5px 10px; display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
-                            👁️ <strong>${viewsCount.toLocaleString()}</strong> views
-                        </div>
+                      <div id="views_${post.id}" style="font-size: 13px; color: #65676b; padding: 5px 10px; display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+    👁️ <strong>${viewsCount.toLocaleString()}</strong> views
+</div>
                     `;
                 }
                     
@@ -2845,14 +2846,11 @@ function startImpressionTimer(postId, videoElement) {
         console.log(`✅ Video impression recorded for post ${postId}`);
         
         // ✅ تحديث العداد في الواجهة مباشرة
-        const videoEl = document.getElementById(`video_${postId}`);
-        if (videoEl) {
-            const viewsDiv = videoEl.nextElementSibling;
-            if (viewsDiv && viewsDiv.textContent.includes('views')) {
-                const currentViews = parseInt(viewsDiv.textContent.replace(/[^0-9]/g, '')) || 0;
-                viewsDiv.innerHTML = `👁️ <strong>${(currentViews + 1).toLocaleString()}</strong> views`;
-            }
-        }
+const viewsDiv = document.getElementById(`views_${postId}`);
+if (viewsDiv) {
+    const currentViews = parseInt(viewsDiv.textContent.replace(/[^0-9]/g, '')) || 0;
+    viewsDiv.innerHTML = `👁️ <strong>${(currentViews + 1).toLocaleString()}</strong> views`;
+}
     }, IMPRESSION_DURATION);
     
     videoElement.onpause = function() {
