@@ -755,6 +755,18 @@
             console.log("✅ Supabase client created");
         }
 
+        // ✅ دالة انتظار جاهزية Supabase
+        window.waitForSupabase = async function(timeout = 5000) {
+            const start = Date.now();
+            while (!window.supabaseClient && Date.now() - start < timeout) {
+                await new Promise(r => setTimeout(r, 50));
+            }
+            if (!window.supabaseClient) {
+                throw new Error('Supabase client not available after timeout');
+            }
+            return window.supabaseClient;
+        };
+
         async function checkSessionAndRedirect() {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -1510,6 +1522,8 @@ window.deleteStory = async function(storyId, mediaUrl) {
             const feedContainer = document.getElementById('feedContainer');
             if (!feedContainer) return;
             
+            await window.waitForSupabase();
+            
             // ✅ احصل على المستخدم الحالي
             const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
             const currentUserId = currentUser?.id || null;
@@ -1524,7 +1538,7 @@ const { data: posts, error } = await window.supabaseClient
         *,
         video_impressions(count)
     `)
-    .order('created_at', { ascending: false });= await window.supabaseClient.from('posts').select(`*, views_count`).order('created_at', { ascending: false });
+    .order('created_at', { ascending: false });
 
                 if (error) { console.error('Error:', error); return; }
                 if (!posts || posts.length === 0) {
@@ -2276,9 +2290,10 @@ async function loadLB(period, btn) {
     const container = document.getElementById('leaderboardContent');
     if (!container) return;
     
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:#65676b; font-size:13px;">⏳ Loading...</div>';
+          container.innerHTML = '<div style="text-align:center; padding:15px; color:#65676b; font-size:13px;">⏳ Loading...</div>';
     
     try {
+        await window.waitForSupabase();
         const { data, error } = await window.supabaseClient.rpc('get_leaderboard', {
             p_period: period,
             p_limit: 5
@@ -3004,6 +3019,7 @@ console.log('✅ Welcome modal script loaded');
 // =========================================================
 async function saveUserLanguage() {
     try {
+        await window.waitForSupabase();
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) return;
         
@@ -3227,6 +3243,7 @@ console.log('✅ @mention system loaded');
 <script>
 async function initGiftNotifications() {
     try {
+        await window.waitForSupabase();
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) return;
         
