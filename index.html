@@ -1517,7 +1517,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
             const viewedPosts = JSON.parse(localStorage.getItem('viewedPosts') || '[]');
             
             try {
-                const { data: posts, error } = await window.supabaseClient.from('posts').select('*').order('created_at', { ascending: false });
+                const { data: posts, error } = await window.supabaseClient.from('posts').select(`*, post_views(count)`).order('created_at', { ascending: false });
                 if (error) { console.error('Error:', error); return; }
                 if (!posts || posts.length === 0) {
                     feedContainer.innerHTML = '<div class="feed-post" style="text-align:center;padding:40px;">No posts yet</div>';
@@ -1546,11 +1546,18 @@ window.deleteStory = async function(storyId, mediaUrl) {
                         contentHTML += `<img src="${post.image_url}" class="feed-image" style="width:100%;max-height:500px;object-fit:cover;border-radius:8px;margin-bottom:10px;">`;
                     }
                              if (post.video_url) {
-    const videoId = `video_${post.id}`;
-    contentHTML += `<video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" 
-        onloadedmetadata="checkVideoDuration(this, '${post.id}')"
-        onplay="startVideoImpression('${post.id}', this)"></video>`;
-}
+                    const videoId = `video_${post.id}`;
+                    const viewsCount = post.post_views?.[0]?.count || 0;
+                    contentHTML += `
+                        <video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" 
+                            class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" 
+                            onloadedmetadata="checkVideoDuration(this, '${post.id}')"
+                            onplay="startVideoImpression('${post.id}', this)"></video>
+                        <div style="font-size: 13px; color: #65676b; padding: 5px 10px; display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+                            👁️ <strong>${viewsCount.toLocaleString()}</strong> views
+                        </div>
+                    `;
+                }
                     
                     const postDiv = document.createElement('div');
                     postDiv.className = 'feed-post';
