@@ -1547,7 +1547,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     }
                              if (post.video_url) {
                     const videoId = `video_${post.id}`;
-                    const viewsCount = post.post_views?.[0]?.count || 0;
+                    const viewsCount = post.views_count || 0;
                     contentHTML += `
                         <video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" 
                             class="feed-image" style="width:100%;max-height:500px;border-radius:8px;margin-bottom:10px;background:#000;" 
@@ -2768,9 +2768,18 @@ function cleanupAd(adContainer, videoElement) {
 // 🎬 تسجيل المشاهدة + Pre-roll Ad
 // ═══════════════════════════════════════════════════════════
 window.startVideoImpression = function(postId, videoElement) {
+    // ✅ إذا كانت المشاهدة مسجلة مسبقاً → لا تفعل شيء
+    if (videoImpressions.has(postId)) {
+        console.log(`⏭️ Impression already tracked for ${postId}`);
+        return;
+    }
+    
+    // ✅ ضع علامة pending فوراً
+    videoImpressions.set(postId, 'pending');
+    
     const state = videoAdState.get(postId);
     
-    // إذا لم يكن الفيديو مؤهلاً → سجل المشاهدة فقط
+    // إذا لم يكن الفيديو مؤهلاً للإعلانات → سجل المشاهدة فقط
     if (!state) {
         startImpressionTimer(postId, videoElement);
         return;
@@ -2782,7 +2791,6 @@ window.startVideoImpression = function(postId, videoElement) {
         videoElement.pause();
         
         playVastAd(videoElement, postId, 'pre-roll', function() {
-            // بعد انتهاء الإعلان، شغّل الفيديو
             videoElement.play();
             startImpressionTimer(postId, videoElement);
         });
@@ -2808,18 +2816,16 @@ window.startVideoImpression = function(postId, videoElement) {
     startImpressionTimer(postId, videoElement);
 };
 
+
 // ═══════════════════════════════════════════════════════════
 // ⏱️ مؤقت تسجيل المشاهدة (3 ثوانٍ)
 // ═══════════════════════════════════════════════════════════
 function startImpressionTimer(postId, videoElement) {
     // ✅ منع التسجيل المزدوج
-    if (videoImpressions.has(postId)) {
-        console.log(`⏭️ Impression already tracked for ${postId}`);
+    if (videoImpressions.get(postId) === 'recorded') {
+        console.log(`⏭️ Impression already recorded for ${postId}`);
         return;
     }
-    
-    // ✅ ضع علامة فوراً لمنع التنفيذ المتكرر
-    videoImpressions.set(postId, 'pending');
     
     const IMPRESSION_DURATION = 3000;
     
@@ -2837,6 +2843,16 @@ function startImpressionTimer(postId, videoElement) {
         await recordVideoImpression(postId);
         videoImpressions.set(postId, 'recorded');
         console.log(`✅ Video impression recorded for post ${postId}`);
+        
+        // ✅ تحديث العداد في الواجهة مباشرة
+        const videoEl = document.getElementById(`video_${postId}`);
+        if (videoEl) {
+            const viewsDiv = videoEl.nextElementSibling;
+            if (viewsDiv && viewsDiv.textContent.includes('views')) {
+                const currentViews = parseInt(viewsDiv.textContent.replace(/[^0-9]/g, '')) || 0;
+                viewsDiv.innerHTML = `👁️ <strong>${(currentViews + 1).toLocaleString()}</strong> views`;
+            }
+        }
     }, IMPRESSION_DURATION);
     
     videoElement.onpause = function() {
@@ -2857,15 +2873,21 @@ function startImpressionTimer(postId, videoElement) {
     };
 }
 
+
 // ═══════════════════════════════════════════════════════════
 // 💰 تسجيل المشاهدة في قاعدة البيانات
 // ═══════════════════════════════════════════════════════════
 async function recordVideoImpression(postId) {
     try {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (!user) return;
+        if (!user) {
+            console.warn('⚠️ No user logged in');
+            return;
+        }
         
         const fingerprint = window.getDeviceFingerprint ? window.getDeviceFingerprint() : 'unknown';
+        
+        console.log('📤 Sending impression for post:', postId);
         
         const { data, error } = await window.supabaseClient.rpc('add_video_impression', {
             p_post_id: postId,
@@ -2874,19 +2896,22 @@ async function recordVideoImpression(postId) {
         });
         
         if (error) {
-            console.error('❌ Video impression error:', error);
+            console.error('❌ Video impression RPC error:', error);
             return;
         }
         
+        console.log('📥 RPC Response:', data);
+        
         if (data?.success) {
-            console.log('💰 Video impression recorded:', data);
+            console.log('💰 Video impression recorded successfully:', data);
         } else {
-            console.log('ℹ️ Impression not counted:', data?.message);
+            console.log('ℹ️ Impression not counted:', data?.message || 'Unknown reason');
         }
-       } catch (error) {
+    } catch (error) {
         console.error('❌ Error recording video impression:', error);
     }
 }
+
 </script>
 
 <script>
