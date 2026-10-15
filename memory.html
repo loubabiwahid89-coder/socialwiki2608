@@ -289,6 +289,45 @@
         }
         .win-btn:hover { background: #218838; }
         
+        /* LEADERBOARD */
+        .lb-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 30px auto 0;
+            max-width: 500px;
+            overflow: hidden;
+            text-align: left;
+        }
+        .lb-head {
+            background: linear-gradient(135deg, #ffd700, #f7b731);
+            color: #333;
+            padding: 16px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .lb-tabs { display: flex; gap: 6px; padding: 10px; background: #f7f8fa; }
+        .lb-tab {
+            flex: 1;
+            padding: 8px 4px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: #65676b;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .lb-tab.active { background: #1877f2; color: white; }
+        .lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #eee; }
+        .lb-row.me { background: #eaf3ff; }
+        .lb-rank { width: 32px; text-align: center; font-weight: 800; font-size: 18px; }
+        .lb-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #ddd; }
+        .lb-name { flex: 1; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lb-score { font-weight: 800; color: #1877f2; }
+        .lb-empty { padding: 24px; text-align: center; color: #65676b; font-size: 14px; }
+
         @media (max-width: 500px) {
             .board { gap: 8px; padding: 12px; }
             .card-front, .card-back { font-size: 32px; }
@@ -300,8 +339,6 @@
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
-
-  
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -342,11 +379,10 @@
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-      
     </nav>
-     <!-- BACK & HOME BUTTONS -->
+
+    <!-- BACK & HOME BUTTONS -->
     <div class="nav-buttons">
-        
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
@@ -382,6 +418,18 @@
             <button class="control-btn" onclick="resetGame()" data-i18n="play_again">🔄 Play Again</button>
         </div>
 
+        <!-- 🏆 LEADERBOARD -->
+        <div class="lb-card">
+            <div class="lb-head">🏆 Leaderboard</div>
+            <div class="lb-tabs">
+                <button class="lb-tab active" onclick="setLbPeriod('day', this)">Today</button>
+                <button class="lb-tab" onclick="setLbPeriod('week', this)">Week</button>
+                <button class="lb-tab" onclick="setLbPeriod('month', this)">Month</button>
+                <button class="lb-tab" onclick="setLbPeriod('all', this)">All</button>
+            </div>
+            <div id="lbList"><div class="lb-empty">...</div></div>
+        </div>
+
     </div>
 
     <!-- WIN OVERLAY -->
@@ -397,6 +445,10 @@
                 <div class="win-stat">
                     <div class="win-stat-value" id="winTime">00:00</div>
                     <div class="win-stat-label" data-i18n="time">Time</div>
+                </div>
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winScore">0</div>
+                    <div class="win-stat-label">Score</div>
                 </div>
             </div>
             <button class="win-btn" onclick="resetGame()" data-i18n="play_again">Play Again</button>
@@ -587,8 +639,82 @@
                 const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
                 const secs = (seconds % 60).toString().padStart(2, '0');
                 document.getElementById('winTime').textContent = `${mins}:${secs}`;
+                // Score: fewer moves + less time = more points (max 1000, min 50)
+                const score = Math.max(50, 1000 - (moves * 10) - (seconds * 2));
+                document.getElementById('winScore').textContent = score;
+                submitScore('memory', score);
                 document.getElementById('winOverlay').classList.add('show');
             }, 800);
+        }
+
+        // =========================================================
+        // SAVE SCORE (for the games leaderboard)
+        // =========================================================
+        async function submitScore(game, score) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { error } = await supabaseClient.rpc('submit_game_score', {
+                    p_game: game,
+                    p_score: Math.floor(score)
+                });
+                if (error) console.error('Score error:', error);
+                else loadLeaderboard(lbPeriod);
+            } catch (e) {
+                console.error('Score error:', e);
+            }
+        }
+
+        // =========================================================
+        // LEADERBOARD (Today / Week / Month / All)
+        // =========================================================
+        let lbPeriod = 'day';
+
+        function escHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s == null ? '' : s;
+            return d.innerHTML;
+        }
+
+        function setLbPeriod(period, btn) {
+            lbPeriod = period;
+            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadLeaderboard(period);
+        }
+
+        async function loadLeaderboard(period) {
+            const list = document.getElementById('lbList');
+            if (!list) return;
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                const { data: rows, error } = await supabaseClient.rpc('get_game_leaderboard', {
+                    p_period: period || 'day',
+                    p_limit: 10
+                });
+                if (error) throw error;
+
+                if (!rows || !rows.length) {
+                    list.innerHTML = '<div class="lb-empty">No scores yet - be the first! 🎮</div>';
+                    return;
+                }
+
+                const medals = ['🥇', '🥈', '🥉'];
+                list.innerHTML = rows.map((r, i) => {
+                    const name = r.username || r.full_name || 'Player';
+                    const avatar = r.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=1877f2&color=fff');
+                    const me = user && user.id === r.user_id ? ' me' : '';
+                    return '<div class="lb-row' + me + '">' +
+                        '<div class="lb-rank">' + (medals[i] || (i + 1)) + '</div>' +
+                        '<img class="lb-avatar" src="' + escHtml(avatar) + '" alt="">' +
+                        '<div class="lb-name">' + escHtml(name) + '</div>' +
+                        '<div class="lb-score">' + r.total_score + '</div>' +
+                        '</div>';
+                }).join('');
+            } catch (e) {
+                console.error('Leaderboard error:', e);
+                list.innerHTML = '<div class="lb-empty">Could not load leaderboard</div>';
+            }
         }
 
         // =========================================================
@@ -609,11 +735,12 @@
             applyTranslations();
             loadUserProfile();
             initGame();
+            loadLeaderboard('day');
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/translations.js"></script>
-  <script src="js/messenger-notify.js"></script>  
-  <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+    <script src="js/translations.js"></script>
+    <script src="js/messenger-notify.js"></script>
+    <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 </body>
 </html>
