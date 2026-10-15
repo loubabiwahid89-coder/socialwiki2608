@@ -1040,7 +1040,7 @@ loadPosts();  // ✅ أسرع بكثير
             input.onchange = async function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
-                const maxSize = 50 * 1024 * 1024;
+                const maxSize = 500* 1024 * 1024;
                 if (file.size > maxSize) { alert('❌ الفيديو كبير جداً. الحد الأقصى 50MB.'); return; }
                 
                 const loadingMsg = document.createElement('div');
