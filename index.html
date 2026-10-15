@@ -32,7 +32,7 @@
 <meta name="geo.placename" content="Morocco">
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
     <!-- Google IMA SDK for VAST Video Ads -->
@@ -1042,73 +1042,130 @@ window.uploadPostVideo = async function() {
         const file = e.target.files[0];
         if (!file) return;
 
-        // ✅ حجم الملف بالميجابايت
         const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
         console.log(`📹 File: ${file.name}, Size: ${fileSizeMB}MB, Type: ${file.type}`);
 
-        // ✅ الحد الأقصى 500MB
-        const maxSize = 500 * 1024 * 1024;
+        // ✅ الحد الأقصى 2GB
+        const maxSize = 2 * 1024 * 1024 * 1024;
         if (file.size > maxSize) { 
-            alert(`❌ الفيديو كبير جداً (${fileSizeMB}MB). الحد الأقصى 500MB.`); 
+            alert(`❌ الفيديو كبير جداً (${fileSizeMB}MB). الحد الأقصى 2GB.`); 
             return; 
         }
 
-        // ✅ تحقق من نوع الملف
-        if (!file.type.startsWith('video/')) {
-            alert('❌ الملف ليس فيديو');
+        // ✅ تحقق من نوع الملف (type أو امتداد)
+        const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'm4v'];
+        const fileExt = (file.name.split('.').pop() || '').toLowerCase();
+        const isVideo = file.type.startsWith('video/') || videoExtensions.includes(fileExt);
+        
+        if (!isVideo) {
+            alert('❌ الملف ليس فيديو. الصيغ المدعومة: MP4, WebM, MOV');
             return;
         }
         
+        // ✅ احصل على session token
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (!session) { alert('Please login again'); return; }
+
+        // ✅ Progress UI
         const loadingMsg = document.createElement('div');
         loadingMsg.id = 'videoUploadingMsg';
-        loadingMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;max-width:400px;';
-        loadingMsg.textContent = `⏳ جاري رفع الفيديو... (${fileSizeMB}MB)`;
+        loadingMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
+        loadingMsg.innerHTML = `
+            <div id="uploadStatusText">⏳ جاري رفع الفيديو (0%)</div>
+            <div style="margin-top:8px;background:rgba(255,255,255,0.3);border-radius:10px;height:8px;overflow:hidden;">
+                <div id="uploadProgressBar" style="background:white;height:100%;width:0%;transition:width 0.3s;"></div>
+            </div>
+            <div style="font-size:12px;margin-top:5px;opacity:0.9;">${fileSizeMB}MB</div>
+        `;
         document.body.appendChild(loadingMsg);
+
+        const progressBar = document.getElementById('uploadProgressBar');
+        const statusText = document.getElementById('uploadStatusText');
         
         try {
             const fileExt = file.name.split('.').pop().toLowerCase();
             const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+            const projectUrl = 'https://zcffrkvxmxvojkbmtufe.supabase.co';
             
-            console.log('📤 Uploading to:', fileName);
+            console.log('📤 Starting Resumable Upload:', fileName);
             
-            // ✅ الرفع
-            const { data: uploadData, error: upErr } = await window.supabaseClient.storage
-                .from('post-videos')
-                .upload(fileName, file, { 
-                    cacheControl: '3600', 
-                    upsert: false, 
-                    contentType: file.type 
-                });
-            
-            if (upErr) { 
-                console.error('❌ Upload error:', upErr);
-                alert(`❌ خطأ في الرفع:\n${upErr.message}\n\n📌 تأكد من:\n1. حجم الفيديو أقل من 500MB\n2. الصيغة MP4\n3. Supabase Storage limit مرفوع`); 
-                loadingMsg.remove(); 
-                return; 
+                       // ✅ تحقق من تحميل المكتبة
+            if (!window.tus || !window.tus.Upload) {
+                alert('❌ خطأ: مكتبة الرفع (tus) لم تُحمَّل. جرّب تحديث الصفحة.');
+                loadingMsg.remove();
+                return;
             }
             
-            console.log('✅ Upload success:', uploadData);
+            // ✅ Resumable Upload مع TUS
+            const upload = new window.tus.Upload(file, {
+                endpoint: `${projectUrl}/storage/v1/upload/resumable`,
+                retryDelays: [0, 3000, 5000, 10000, 20000],
+                headers: {
+                    authorization: `Bearer ${session.access_token}`,
+                    'x-upsert': 'false'
+                },
+                uploadDataDuringCreation: true,
+                removeFingerprintOnSuccess: true,
+                metadata: {
+                    bucketName: 'post-videos',
+                    objectName: fileName,
+                    contentType: file.type,
+                    cacheControl: '3600'
+                },
+                chunkSize: 6 * 1024 * 1024, // 6MB chunks
+                onError: function(error) {
+                    console.error('❌ Upload error:', error);
+                    alert('❌ خطأ في الرفع: ' + error.message);
+                    loadingMsg.remove();
+                },
+                onProgress: function(bytesUploaded, bytesTotal) {
+                    const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(1);
+                    console.log(`📤 Uploaded ${percentage}% (${(bytesUploaded/1024/1024).toFixed(1)}MB / ${(bytesTotal/1024/1024).toFixed(1)}MB)`);
+                    if (progressBar) progressBar.style.width = percentage + '%';
+                    if (statusText) statusText.textContent = `⏳ جاري رفع الفيديو (${percentage}%)`;
+                },
+                onSuccess: async function() {
+                    console.log('✅ Upload completed!');
+                    
+                    const { data: urlData } = window.supabaseClient.storage
+                        .from('post-videos').getPublicUrl(fileName);
+                    window.uploadedVideoUrl = urlData.publicUrl;
+                    
+                    console.log('🔗 Public URL:', urlData.publicUrl);
+                    
+                    // ✅ تحقق من وجود الملف فعلاً
+                    try {
+                        const response = await fetch(urlData.publicUrl, { method: 'HEAD' });
+                        if (!response.ok) {
+                            alert('⚠️ تم الرفع لكن الملف غير قابل للوصول. جرّب مرة أخرى.');
+                            loadingMsg.remove();
+                            return;
+                        }
+                    } catch (checkErr) {
+                        console.warn('⚠️ Could not verify file:', checkErr);
+                    }
+                    
+                    console.log('✅ File verified!');
+                    
+                    const previewArea = document.getElementById('videoPreviewArea');
+                    if (previewArea) {
+                        previewArea.innerHTML = `
+                            <div id="videoPreviewWrapper" style="position:relative;margin:10px 0;">
+                                <video src="${urlData.publicUrl}" controls preload="metadata" 
+                                       style="width:100%;max-height:300px;border-radius:8px;background:#000;"></video>
+                                <button onclick="removeVideoPreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;">✕</button>
+                            </div>
+                        `;
+                    }
+                    
+                    loadingMsg.innerHTML = `✅ تم رفع الفيديو (${fileSizeMB}MB)!`;
+                    loadingMsg.style.background = '#28a745';
+                    setTimeout(() => loadingMsg.remove(), 3000);
+                }
+            });
             
-            const { data: urlData } = window.supabaseClient.storage
-                .from('post-videos').getPublicUrl(uploadData.path);
-            window.uploadedVideoUrl = urlData.publicUrl;
-            
-            console.log('🔗 Public URL:', urlData.publicUrl);
-            
-            const previewArea = document.getElementById('videoPreviewArea');
-            if (previewArea) {
-                previewArea.innerHTML = `
-                    <div id="videoPreviewWrapper" style="position:relative;margin:10px 0;">
-                        <video src="${urlData.publicUrl}" controls preload="metadata" 
-                               style="width:100%;max-height:300px;border-radius:8px;background:#000;"></video>
-                        <button onclick="removeVideoPreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;">✕</button>
-                    </div>
-                `;
-            }
-            
-            loadingMsg.textContent = `✅ تم رفع الفيديو (${fileSizeMB}MB)!`;
-            loadingMsg.style.background = '#28a745';
-            setTimeout(() => loadingMsg.remove(), 3000);
+            // ✅ ابدأ الرفع
+            upload.start();
             
         } catch (error) { 
             console.error('❌ Exception:', error);
