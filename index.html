@@ -767,6 +767,18 @@
             return window.supabaseClient;
         };
 
+        // ✅ دالة انتظار جاهزية Supabase
+        window.waitForSupabase = async function(timeout = 5000) {
+            const start = Date.now();
+            while (!window.supabaseClient && Date.now() - start < timeout) {
+                await new Promise(r => setTimeout(r, 50));
+            }
+            if (!window.supabaseClient) {
+                throw new Error('Supabase client not available after timeout');
+            }
+            return window.supabaseClient;
+        };
+
         async function checkSessionAndRedirect() {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
