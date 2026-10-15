@@ -32,6 +32,7 @@
 <meta name="geo.placename" content="Morocco">
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+       <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tus-js-client@3.1.0/dist/tus.min.js"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
@@ -744,7 +745,19 @@
     <!-- ========================================================= -->
     <!-- MAIN APP SCRIPT -->
     <!-- ========================================================= -->
-    <script>
+            <script>
+        // ✅✅✅ تعريف waitForSupabase في أعلى السكريبت فوراً
+        window.waitForSupabase = async function(timeout = 5000) {
+            const start = Date.now();
+            while (!window.supabaseClient && Date.now() - start < timeout) {
+                await new Promise(r => setTimeout(r, 50));
+            }
+            if (!window.supabaseClient) {
+                throw new Error('Supabase client not available after timeout');
+            }
+            return window.supabaseClient;
+        };
+        
         console.log('🟢 MAIN SCRIPT START');
         
         // =========================================================
@@ -756,18 +769,6 @@
             window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log("✅ Supabase client created");
         }
-
-        // ✅ دالة انتظار جاهزية Supabase
-        window.waitForSupabase = async function(timeout = 5000) {
-            const start = Date.now();
-            while (!window.supabaseClient && Date.now() - start < timeout) {
-                await new Promise(r => setTimeout(r, 50));
-            }
-            if (!window.supabaseClient) {
-                throw new Error('Supabase client not available after timeout');
-            }
-            return window.supabaseClient;
-        };
 
         async function checkSessionAndRedirect() {
             try {
@@ -1086,7 +1087,7 @@ window.uploadPostVideo = async function() {
         
         try {
             const fileExt = file.name.split('.').pop().toLowerCase();
-                       const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+            const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
             const projectUrl = 'https://zcffrkvxmxvojkbmtufe.supabase.co';
             
             console.log('📤 Starting Resumable Upload:', fileName);
