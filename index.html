@@ -32,7 +32,7 @@
 <meta name="geo.placename" content="Morocco">
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
-    <script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.1.0/dist/tus.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tus-js-client@3.1.0/dist/tus.min.js"></script>
     <script src="js/tasks-helper.js"></script>
     <script src="js/translations.js?v=20261001"></script>
     <!-- Google IMA SDK for VAST Video Ads -->
@@ -745,6 +745,8 @@
     <!-- MAIN APP SCRIPT -->
     <!-- ========================================================= -->
     <script>
+        console.log('🟢 MAIN SCRIPT START');
+        
         // =========================================================
         // SUPABASE SETUP
         // =========================================================
@@ -754,18 +756,6 @@
             window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log("✅ Supabase client created");
         }
-
-        // ✅ دالة انتظار جاهزية Supabase
-        window.waitForSupabase = async function(timeout = 5000) {
-            const start = Date.now();
-            while (!window.supabaseClient && Date.now() - start < timeout) {
-                await new Promise(r => setTimeout(r, 50));
-            }
-            if (!window.supabaseClient) {
-                throw new Error('Supabase client not available after timeout');
-            }
-            return window.supabaseClient;
-        };
 
         // ✅ دالة انتظار جاهزية Supabase
         window.waitForSupabase = async function(timeout = 5000) {
@@ -1096,20 +1086,22 @@ window.uploadPostVideo = async function() {
         
         try {
             const fileExt = file.name.split('.').pop().toLowerCase();
-            const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+                       const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
             const projectUrl = 'https://zcffrkvxmxvojkbmtufe.supabase.co';
             
             console.log('📤 Starting Resumable Upload:', fileName);
             
-                       // ✅ تحقق من تحميل المكتبة
-            if (!window.tus || !window.tus.Upload) {
-                alert('❌ خطأ: مكتبة الرفع (tus) لم تُحمَّل. جرّب تحديث الصفحة.');
+                       // ✅ ابحث عن مكتبة TUS بأي من الأسماء
+            const TUSLib = window.tus || window.TUS;
+            if (!TUSLib || !TUSLib.Upload) {
+                console.error('❌ TUS not loaded. window.tus =', window.tus, ', window.TUS =', window.TUS);
+                alert('❌ خطأ: مكتبة الرفع (tus) لم تُحمَّل. جرّب تحديث الصفحة (Ctrl+F5).');
                 loadingMsg.remove();
                 return;
             }
             
             // ✅ Resumable Upload مع TUS
-            const upload = new window.tus.Upload(file, {
+            const upload = new TUSLib.Upload(file, {
                 endpoint: `${projectUrl}/storage/v1/upload/resumable`,
                 retryDelays: [0, 3000, 5000, 10000, 20000],
                 headers: {
