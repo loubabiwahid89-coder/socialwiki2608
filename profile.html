@@ -2145,15 +2145,21 @@ if (profile?.special_badges && profile.special_badges.includes('diamond')) {
                     `;
                 }
                 
-                // ✅ عرض الشارات
-                if (badgesContainer) {
-                    if (badgesHTML) {
-                        badgesContainer.innerHTML = badgesHTML;
-                        badgesContainer.style.display = 'flex';
-                    } else {
-                        badgesContainer.style.display = 'none';
-                    }
-                }
+              // ✅ عرض الشارات (لا تخفي الحاوية إذا كانت هناك شارات ديناميكية)
+if (badgesContainer) {
+    if (badgesHTML) {
+        // إذا كانت هناك شارات special_badges، اعرضها
+        // لكن لا تحذف الشارات القادمة من loadUserBadges
+        if (badgesContainer.children.length === 0) {
+            badgesContainer.innerHTML = badgesHTML;
+        } else {
+            // أضف الشارات الجديدة بدلاً من استبدالها
+            badgesContainer.insertAdjacentHTML('beforeend', badgesHTML);
+        }
+        badgesContainer.style.display = 'flex';
+    }
+    // ✅ لا تخفي الحاوية أبداً (الشعارات تأتي من user_badges)
+}
                  // (تم الحذف - مكرر)
                                   // ✅ تعريف badges (بدون إشعارات للشارات القديمة)
                 const badges = profile?.special_badges || [];
