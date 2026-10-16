@@ -672,15 +672,35 @@
             <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?" oninput="handleMentionInput(this)"></textarea>
             <div id="videoPreviewArea"></div>
             <div id="imagePreviewArea"></div>
-            <div class="modal-tools">
-                <span data-i18n="photo_video">Add to your post</span>
-                <div class="modal-tools-buttons">
-                    <button onclick="uploadPostImage()" title="Photo">📷</button>
-                    <button onclick="uploadPostVideo()" title="Video">🎬</button>
-                    <button onclick="tagFriends()" title="Tag">🏷️</button>
-                    <button onclick="addFeeling()" title="Feeling">😊</button>
-                </div>
-            </div>
+           <!-- 🎨 منتقي الألوان (للمالك و VIP فقط) -->
+<div id="colorPickerContainer" style="display:none; margin: 15px 0; padding: 12px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e4e6eb;">
+    <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 10px; color: #050505;">
+        🎨 لون النص <span style="font-size: 11px; color: #f7b928; font-weight: 700;">(Premium)</span>
+    </label>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" onclick="setPostColor('#050505')" style="width:34px;height:34px;border-radius:50%;background:#050505;border:2px solid #ddd;cursor:pointer;" title="أسود"></button>
+        <button type="button" onclick="setPostColor('#1877f2')" style="width:34px;height:34px;border-radius:50%;background:#1877f2;border:2px solid #ddd;cursor:pointer;" title="أزرق"></button>
+        <button type="button" onclick="setPostColor('#e74c3c')" style="width:34px;height:34px;border-radius:50%;background:#e74c3c;border:2px solid #ddd;cursor:pointer;" title="أحمر"></button>
+        <button type="button" onclick="setPostColor('#e67e22')" style="width:34px;height:34px;border-radius:50%;background:#e67e22;border:2px solid #ddd;cursor:pointer;" title="برتقالي"></button>
+        <button type="button" onclick="setPostColor('#f1c40f')" style="width:34px;height:34px;border-radius:50%;background:#f1c40f;border:2px solid #ddd;cursor:pointer;" title="أصفر"></button>
+        <button type="button" onclick="setPostColor('#27ae60')" style="width:34px;height:34px;border-radius:50%;background:#27ae60;border:2px solid #ddd;cursor:pointer;" title="أخضر"></button>
+        <button type="button" onclick="setPostColor('#8e44ad')" style="width:34px;height:34px;border-radius:50%;background:#8e44ad;border:2px solid #ddd;cursor:pointer;" title="بنفسجي"></button>
+        <button type="button" onclick="setPostColor('#e91e63')" style="width:34px;height:34px;border-radius:50%;background:#e91e63;border:2px solid #ddd;cursor:pointer;" title="وردي"></button>
+        <button type="button" onclick="setPostColor('#00bcd4')" style="width:34px;height:34px;border-radius:50%;background:#00bcd4;border:2px solid #ddd;cursor:pointer;" title="سماوي"></button>
+        <button type="button" onclick="setPostColor('linear-gradient(135deg,#ffd700,#ff8c00)')" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ffd700,#ff8c00);border:2px solid #8B0000;cursor:pointer;" title="ذهبي (Owner)">👑</button>
+    </div>
+    <input type="hidden" id="selectedPostColor" value="#050505">
+</div>
+
+<div class="modal-tools">
+    <span data-i18n="photo_video">Add to your post</span>
+    <div class="modal-tools-buttons">
+        <button onclick="uploadPostImage()" title="Photo">📷</button>
+        <button onclick="uploadPostVideo()" title="Video">🎬</button>
+        <button onclick="tagFriends()" title="Tag">🏷️</button>
+        <button onclick="addFeeling()" title="Feeling">😊</button>
+    </div>
+</div>
             <button class="modal-submit" onclick="publishPost()" data-i18n="post">Post</button>
             <!-- ✅ قائمة @mention -->
 <div id="mentionDropdown" style="display:none; position:fixed; background:white; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.2); max-height:250px; overflow-y:auto; width:280px; z-index:99999;"></div>
@@ -940,11 +960,61 @@ document.addEventListener('click', function(e) {
                 if (modalProfileName) modalProfileName.textContent = displayName;
             } catch (error) { console.error('Error:', error); }
         }
+// =========================================================
+// 🎨 COLOR PICKER FOR POSTS (Owner Only)
+// =========================================================
 
-        window.openCreatePostModal = function() {
-            document.getElementById('createPostModal').classList.add('show');
-            document.getElementById('postContent').focus();
-        };
+window.setPostColor = function(color) {
+    document.getElementById('selectedPostColor').value = color;
+    const textarea = document.getElementById('postContent');
+    if (textarea) {
+        if (color.startsWith('linear-gradient')) {
+            // ✨ ذهبي
+            textarea.style.background = color;
+            textarea.style.webkitBackgroundClip = 'text';
+            textarea.style.webkitTextFillColor = 'transparent';
+            textarea.style.backgroundClip = 'text';
+            textarea.style.fontWeight = '900';
+        } else {
+            textarea.style.color = color;
+            textarea.style.background = '';
+            textarea.style.webkitBackgroundClip = '';
+            textarea.style.webkitTextFillColor = '';
+            textarea.style.fontWeight = '';
+        }
+    }
+};
+
+async function checkColorPickerAccess() {
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return;
+        
+        const { data: profile } = await window.supabaseClient
+            .from('profiles')
+            .select('role, is_owner')
+            .eq('id', user.id)
+            .single();
+        
+        // ✅ أنت فقط
+        const isOwner = profile?.role === 'owner' || profile?.is_owner === true;
+        
+        const container = document.getElementById('colorPickerContainer');
+        if (container && isOwner) {
+            container.style.display = 'block';
+            console.log('👑 Color picker enabled for Owner');
+        }
+    } catch (err) {
+        console.error('Color access error:', err);
+    }
+}
+   window.openCreatePostModal = function() {
+    document.getElementById('createPostModal').classList.add('show');
+    document.getElementById('postContent').focus();
+    
+    // 🎨 تحقق من صلاحية الألوان
+    checkColorPickerAccess();
+};
         window.closeCreatePostModal = function() {
             document.getElementById('createPostModal').classList.remove('show');
         };
@@ -963,11 +1033,12 @@ document.addEventListener('click', function(e) {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) { alert('Please login first!'); return; }
                 
-                const postData = {
-                    user_id: user.id,
-                    content: content || '',
-                    created_at: new Date()
-                };
+               const postData = {
+    user_id: user.id,
+    content: content || '',
+    text_color: document.getElementById('selectedPostColor')?.value || '#050505',
+    created_at: new Date()
+};
                 if (imageUrl) postData.image_url = imageUrl;
                 if (videoUrl) postData.video_url = videoUrl;
                 
@@ -1657,11 +1728,20 @@ const { data: posts, error } = await window.supabaseClient
                     const timeAgo = formatTimeAgo(post.created_at);
                     
                     let contentHTML = '';
-                    if (post.content) {
-                        let content = post.content.replace(/\[Image:\s*[^\]]+\]/g, '');
-                        content = content.replace(/\[Video:\s*([^\]]+)\]/g, '');
-                        if (content.trim()) contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
-                    }
+                  if (post.content) {
+    let content = post.content.replace(/\[Image:\s*[^\]]+\]/g, '');
+    content = content.replace(/\[Video:\s*([^\]]+)\]/g, '');
+    if (content.trim()) {
+        const textColor = post.text_color || '#050505';
+        const isGradient = textColor.startsWith('linear-gradient');
+        
+        const style = isGradient
+            ? `background:${textColor};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900;`
+            : `color:${textColor};`;
+        
+        contentHTML += `<div class="feed-content" style="${style}">${escapeHtml(content)}</div>`;
+    }
+}
                     if (post.image_url) {
                         contentHTML += `<img src="${post.image_url}" class="feed-image" style="width:100%;max-height:500px;object-fit:cover;border-radius:8px;margin-bottom:10px;">`;
                     }
