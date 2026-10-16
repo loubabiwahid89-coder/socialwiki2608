@@ -3215,7 +3215,6 @@ const BADGE_BORDERS = {
     'red-orange': '2px solid #ffd700'
 };
 
-// الدالة الرئيسية
 async function loadUserBadges(userId) {
     console.log('🎯 Loading badges for:', userId);
     
@@ -3239,12 +3238,14 @@ async function loadUserBadges(userId) {
 
         console.log('✅ Badges fetched:', badges);
 
-        if (!badges || badges.length === 0) {
-            container.innerHTML = '';
+        // ✅ إذا لا توجد شارات → لا تمسح المحتوى الموجود
+       if (!badges || badges.length === 0) {
+            console.log('ℹ️ No user_badges - keeping existing');
             return;
         }
 
-        container.innerHTML = badges.map(b => {
+        // ✅ أنشئ HTML للشارات الجديدة
+        const badgesHTML = badges.map(b => {
             const bg = BADGE_COLORS[b.badge_color] || BADGE_COLORS['blue'];
             const border = BADGE_BORDERS[b.badge_color] || 'none';
             
@@ -3261,9 +3262,7 @@ async function loadUserBadges(userId) {
                     background:${bg};
                     border:${border};
                     box-shadow:0 3px 10px rgba(0,0,0,0.18);
-                    transition:transform 0.2s;
-                " onmouseover="this.style.transform='scale(1.05)'"
-                   onmouseout="this.style.transform='scale(1)'">
+                ">
                     <span>${b.badge_icon || '🏅'}</span>
                     <span>${b.badge_label}</span>
                     ${b.country_code ? flagImg(b.country_code, 20) : ''}
@@ -3271,7 +3270,9 @@ async function loadUserBadges(userId) {
             `;
         }).join('');
 
-        console.log(`✅ Rendered ${badges.length} badges`);
+        // ✅ أضف الشارات الجديدة (لا تستبدل)
+        container.insertAdjacentHTML('beforeend', badgesHTML);
+        console.log(`✅ Added ${badges.length} user_badges`);
 
     } catch (err) {
         console.error('❌ Load badges error:', err);
