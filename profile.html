@@ -1151,10 +1151,7 @@
         <!-- معلومات الملف -->
         <div class="profile-info" id="profileInfoBox">
 
-            <!-- ✅ شريط الحساب الرسمي (للمالك فقط) -->
-            <div id="officialBanner">
-                🌐 Official SocialWiki Account
-            </div>
+        
 
             <!-- الصورة الشخصية -->
             <div class="profile-avatar-wrapper">
@@ -1545,22 +1542,28 @@ if (typeof loadUserBadges === 'function') {
     loadUserBadges(profileUserId);  // ⚠️ استخدم نفس المتغير الذي يحتوي على ID المستخدم
 }
                 // ✅ علم الدولة بجانب الاسم (لصديقك)
-if (profile?.country === 'MA' || (profile?.special_badges && profile.special_badges.includes('morocco'))) {
+  // ✅ علم الدولة بجانب الاسم (يعمل لكل الدول)
+if (profile?.country && profile.country !== '' && profile.country.length === 2) {
     const nameEl = document.getElementById('profileName');
     if (nameEl) {
+        const countryCode = profile.country.toLowerCase();
+        
+        // احذف أي علم قديم أولاً
+        const oldFlag = nameEl.parentElement.querySelector('.country-flag');
+        if (oldFlag) oldFlag.remove();
+        
+        // ✅ أضف علم جديد
         nameEl.insertAdjacentHTML('afterend', `
-            <img src="https://flagcdn.com/w60/ma.png" 
-                 style="
-                     width: 48px;
-                     height: 32px;
-                     margin-left: 10px;
-                     vertical-align: middle;
-                     border-radius: 6px;
-                     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                     border: 2px solid white;
-                 " 
-                 alt="Morocco" 
-                 title="Morocco">
+            <img src="https://flagcdn.com/w40/${countryCode}.png" 
+                 class="country-flag"
+                 style="width: 40px; height: 28px; margin-left: 10px; 
+                        vertical-align: middle; border-radius: 4px;
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                        border: 2px solid white;
+                        display: inline-block;" 
+                 alt="${profile.country}" 
+                 title="${profile.country}"
+                 onerror="this.style.display='none'">
         `);
     }
 }
@@ -1594,13 +1597,12 @@ if (profile?.country === 'MA' || (profile?.special_badges && profile.special_bad
                 }
 
                 // ✅ إظهار شريط الحساب الرسمي + تصميم ذهبي
-                if (profile?.is_owner === true) {
-                    if (officialBannerEl) officialBannerEl.classList.add('active');
-                    if (profileInfoBox) profileInfoBox.classList.add('owner-profile');
-                } else {
-                    if (officialBannerEl) officialBannerEl.classList.remove('active');
-                    if (profileInfoBox) profileInfoBox.classList.remove('owner-profile');
-                }
+              // ✅ إظهار تصميم Owner فقط (بدون شريط مكرر)
+if (profile?.is_owner === true) {
+    if (profileInfoBox) profileInfoBox.classList.add('owner-profile');
+} else {
+    if (profileInfoBox) profileInfoBox.classList.remove('owner-profile');
+}
                 
                 document.getElementById('avatarImg').src = avatarUrl;
                 document.getElementById('coverImg').src = coverUrl;
