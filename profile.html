@@ -2915,7 +2915,15 @@ await new Promise(resolve => setTimeout(resolve, 300));
 await checkFriendshipStatus();
 
 // ✅ أضف هذا السطر: تحميل التخصيصات (الإطارات، الشارات)
+// ✅ loadProfileCustomization قد تحذف الشارات، فنعيد تحميلها بعدها
 await loadProfileCustomization(profileUserId);
+
+// 🏅 أعد تحميل الشارات بعد التخصيصات
+setTimeout(() => {
+    if (typeof loadUserBadges === 'function') {
+        loadUserBadges(profileUserId);
+    }
+}, 100);
         });
 
         // =========================================================
