@@ -541,29 +541,36 @@
     (function() {
         var isMobile = window.innerWidth <= 768;
 
-        // ✅ دالة مساعدة لإنشاء الإعلان
-        function loadAd(containerId, zoneId, className) {
-            var container = document.getElementById(containerId);
-            if (!container) return;
-
-            // 1. سكريبت ad-provider.js
-            var script1 = document.createElement('script');
-            script1.async = true;
-            script1.type = 'application/javascript';
-            script1.src = 'https://a.magsrv.com/ad-provider.js';
-            container.appendChild(script1);
-
-            // 2. عنصر <ins>
-            var ins = document.createElement('ins');
-            ins.className = className;
-            ins.setAttribute('data-zoneid', zoneId);
-            container.appendChild(ins);
-
-            // 3. سكريبت التشغيل
-            var script2 = document.createElement('script');
-            script2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
-            container.appendChild(script2);
-        }
+       // ═══════════════════════════════════════════════════════════
+// ⛔ ExoClick DISABLED (Popunder + Malware Issue)
+// ═══════════════════════════════════════════════════════════
+function loadAd(containerId, zoneId, className) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // 🚫 ExoClick معطّل - نعرض مكان فارغ
+    console.log('⛔ Ad blocked for:', containerId);
+    
+    container.innerHTML = `
+        <div style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            background: #f8f9fa;
+            border: 2px dashed #e4e6eb;
+            border-radius: 8px;
+            color: #65676b;
+            font-size: 13px;
+            flex-direction: column;
+            gap: 8px;
+        ">
+            <div style="font-size: 30px;">🛡️</div>
+            <div style="font-weight: 600;">Safe Ad Space</div>
+            <div style="font-size: 11px; color: #aaa;">No popups • No redirects</div>
+        </div>
+    `;
+}
 
            // ✅ على الكمبيوتر: Desktop فقط
         if (!isMobile) {
@@ -672,24 +679,72 @@
             <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?" oninput="handleMentionInput(this)"></textarea>
             <div id="videoPreviewArea"></div>
             <div id="imagePreviewArea"></div>
-           <!-- 🎨 منتقي الألوان (للمالك و VIP فقط) -->
-<div id="colorPickerContainer" style="display:none; margin: 15px 0; padding: 12px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e4e6eb;">
+     <!-- 🎨 شريط خلفيات المنشور (Facebook Style) -->
+<div id="bgStyleContainer" style="display:none; margin: 15px 0;">
     <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 10px; color: #050505;">
-        🎨 لون النص <span style="font-size: 11px; color: #f7b928; font-weight: 700;">(Premium)</span>
+        🎨 خلفية المنشور <span style="font-size: 11px; color: #f7b928; font-weight: 700;">(Premium)</span>
     </label>
-    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button type="button" onclick="setPostColor('#050505')" style="width:34px;height:34px;border-radius:50%;background:#050505;border:2px solid #ddd;cursor:pointer;" title="أسود"></button>
-        <button type="button" onclick="setPostColor('#1877f2')" style="width:34px;height:34px;border-radius:50%;background:#1877f2;border:2px solid #ddd;cursor:pointer;" title="أزرق"></button>
-        <button type="button" onclick="setPostColor('#e74c3c')" style="width:34px;height:34px;border-radius:50%;background:#e74c3c;border:2px solid #ddd;cursor:pointer;" title="أحمر"></button>
-        <button type="button" onclick="setPostColor('#e67e22')" style="width:34px;height:34px;border-radius:50%;background:#e67e22;border:2px solid #ddd;cursor:pointer;" title="برتقالي"></button>
-        <button type="button" onclick="setPostColor('#f1c40f')" style="width:34px;height:34px;border-radius:50%;background:#f1c40f;border:2px solid #ddd;cursor:pointer;" title="أصفر"></button>
-        <button type="button" onclick="setPostColor('#27ae60')" style="width:34px;height:34px;border-radius:50%;background:#27ae60;border:2px solid #ddd;cursor:pointer;" title="أخضر"></button>
-        <button type="button" onclick="setPostColor('#8e44ad')" style="width:34px;height:34px;border-radius:50%;background:#8e44ad;border:2px solid #ddd;cursor:pointer;" title="بنفسجي"></button>
-        <button type="button" onclick="setPostColor('#e91e63')" style="width:34px;height:34px;border-radius:50%;background:#e91e63;border:2px solid #ddd;cursor:pointer;" title="وردي"></button>
-        <button type="button" onclick="setPostColor('#00bcd4')" style="width:34px;height:34px;border-radius:50%;background:#00bcd4;border:2px solid #ddd;cursor:pointer;" title="سماوي"></button>
-       <button type="button" onclick="setPostColor('#FFD700')" style="width:34px;height:34px;border-radius:50%;background:#FFD700;border:2px solid #8B0000;cursor:pointer;font-size:18px;" title="ذهبي (Owner)">👑</button>
+    
+    <div style="display: flex; gap: 8px; overflow-x: auto; padding: 6px 0; scrollbar-width: thin;">
+        
+        <!-- ⚫ بدون خلفية -->
+        <button type="button" onclick="setBgStyle(null)" title="بدون"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:white; border:2px solid #ddd; cursor:pointer;
+                       display:flex; align-items:center; justify-content:center;
+                       font-size:20px;">⚫</button>
+        
+        <!-- 🔴 أحمر سادة -->
+        <button type="button" onclick="setBgStyle('solid-red')" title="أحمر"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#e74c3c; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🔵 أزرق سادة -->
+        <button type="button" onclick="setBgStyle('solid-blue')" title="أزرق"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#1877f2; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🟢 أخضر سادة -->
+        <button type="button" onclick="setBgStyle('solid-green')" title="أخضر"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#27ae60; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🟣 بنفسجي سادة -->
+        <button type="button" onclick="setBgStyle('solid-purple')" title="بنفسجي"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#8e44ad; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌸 وردي سادة -->
+        <button type="button" onclick="setBgStyle('solid-pink')" title="وردي"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#e91e63; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌈 تدرج أحمر-برتقالي -->
+        <button type="button" onclick="setBgStyle('gradient-sunset')" title="غروب"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#ff6b00,#ff0044); 
+                       border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌈 تدرج بنفسجي-أزرق -->
+        <button type="button" onclick="setBgStyle('gradient-purple-blue')" title="بنفسجي مزرق"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#8e44ad,#3498db); 
+                       border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌈 تدرج أزرق-سماوي -->
+        <button type="button" onclick="setBgStyle('gradient-ocean')" title="محيط"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#1877f2,#00bcd4); 
+                       border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 👑 ذهبي فاخر (لك) -->
+        <button type="button" onclick="setBgStyle('gradient-gold')" title="ذهبي فاخر"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#FFD700,#FF8C00); 
+                       border:2px solid #8B0000; cursor:pointer;
+                       display:flex; align-items:center; justify-content:center;
+                       font-size:18px;">👑</button>
     </div>
-    <input type="hidden" id="selectedPostColor" value="#050505">
 </div>
 
 <div class="modal-tools">
@@ -961,31 +1016,49 @@ document.addEventListener('click', function(e) {
             } catch (error) { console.error('Error:', error); }
         }
 // =========================================================
-// 🎨 COLOR PICKER FOR POSTS (Owner Only)
+// 🎨 POST BACKGROUND STYLES (Facebook Style)
 // =========================================================
 
-window.setPostColor = function(color) {
-    document.getElementById('selectedPostColor').value = color;
-    const textarea = document.getElementById('postContent');
-    if (textarea) {
-        if (color.startsWith('linear-gradient')) {
-            // ✨ ذهبي
-            textarea.style.background = color;
-            textarea.style.webkitBackgroundClip = 'text';
-            textarea.style.webkitTextFillColor = 'transparent';
-            textarea.style.backgroundClip = 'text';
-            textarea.style.fontWeight = '900';
-        } else {
-            textarea.style.color = color;
-            textarea.style.background = '';
-            textarea.style.webkitBackgroundClip = '';
-            textarea.style.webkitTextFillColor = '';
-            textarea.style.fontWeight = '';
-        }
+const BG_STYLES = {
+    'solid-red':           { bg: '#e74c3c', color: 'white' },
+    'solid-blue':          { bg: '#1877f2', color: 'white' },
+    'solid-green':         { bg: '#27ae60', color: 'white' },
+    'solid-purple':        { bg: '#8e44ad', color: 'white' },
+    'solid-pink':          { bg: '#e91e63', color: 'white' },
+    'gradient-sunset':     { bg: 'linear-gradient(135deg,#ff6b00,#ff0044)', color: 'white' },
+    'gradient-purple-blue':{ bg: 'linear-gradient(135deg,#8e44ad,#3498db)', color: 'white' },
+    'gradient-ocean':      { bg: 'linear-gradient(135deg,#1877f2,#00bcd4)', color: 'white' },
+    'gradient-gold':       { bg: 'linear-gradient(135deg,#FFD700,#FF8C00)', color: '#333' },
+};
+
+window.setBgStyle = function(styleKey) {
+    window._selectedBgStyle = styleKey;
+    const editor = document.getElementById('postContent');
+    if (!editor) return;
+    
+    if (!styleKey) {
+        editor.style.background = '';
+        editor.style.color = '#050505';
+        editor.style.padding = '';
+        editor.style.textAlign = '';
+        editor.style.minHeight = '';
+        editor.style.fontSize = '';
+        editor.style.fontWeight = '';
+        editor.style.borderRadius = '';
+    } else {
+        const style = BG_STYLES[styleKey];
+        editor.style.background = style.bg;
+        editor.style.color = style.color;
+        editor.style.padding = '30px 20px';
+        editor.style.textAlign = 'center';
+        editor.style.fontSize = '20px';
+        editor.style.fontWeight = '700';
+        editor.style.borderRadius = '10px';
+        editor.style.minHeight = '180px';
     }
 };
 
-async function checkColorPickerAccess() {
+async function checkBgPickerAccess() {
     try {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) return;
@@ -996,16 +1069,15 @@ async function checkColorPickerAccess() {
             .eq('id', user.id)
             .single();
         
-        // ✅ أنت فقط
         const isOwner = profile?.role === 'owner' || profile?.is_owner === true;
         
-        const container = document.getElementById('colorPickerContainer');
+        const container = document.getElementById('bgStyleContainer');
         if (container && isOwner) {
             container.style.display = 'block';
-            console.log('👑 Color picker enabled for Owner');
+            console.log('🎨 BG picker enabled for Owner');
         }
     } catch (err) {
-        console.error('Color access error:', err);
+        console.error('BG access error:', err);
     }
 }
    window.openCreatePostModal = function() {
@@ -1013,7 +1085,7 @@ async function checkColorPickerAccess() {
     document.getElementById('postContent').focus();
     
     // 🎨 تحقق من صلاحية الألوان
-    checkColorPickerAccess();
+                      checkBgPickerAccess();
 };
         window.closeCreatePostModal = function() {
             document.getElementById('createPostModal').classList.remove('show');
@@ -1033,10 +1105,10 @@ async function checkColorPickerAccess() {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) { alert('Please login first!'); return; }
                 
-               const postData = {
+                          const postData = {
     user_id: user.id,
     content: content || '',
-    text_color: document.getElementById('selectedPostColor')?.value || '#050505',
+    bg_style: window._selectedBgStyle || null,
     created_at: new Date()
 };
                 if (imageUrl) postData.image_url = imageUrl;
@@ -1728,7 +1800,34 @@ const { data: posts, error } = await window.supabaseClient
                     const timeAgo = formatTimeAgo(post.created_at);
                     
                     let contentHTML = '';
-                  if (post.content) {
+                                    if (post.content) {
+    let content = post.content.replace(/\[Image:\s*[^\]]+\]/g, '');
+    content = content.replace(/\[Video:\s*([^\]]+)\]/g, '');
+    if (content.trim()) {
+        if (post.bg_style && BG_STYLES[post.bg_style]) {
+            const bg = BG_STYLES[post.bg_style];
+            contentHTML += `
+                <div class="feed-content" style="
+                    background:${bg.bg};
+                    color:${bg.color};
+                    padding:40px 30px;
+                    text-align:center;
+                    font-size:22px;
+                    font-weight:700;
+                    border-radius:12px;
+                    margin-bottom:10px;
+                    min-height:150px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    line-height:1.4;
+                ">${escapeHtml(content)}</div>
+            `;
+        } else {
+            contentHTML += `<div class="feed-content">${escapeHtml(content)}</div>`;
+        }
+    }
+}
     let content = post.content.replace(/\[Image:\s*[^\]]+\]/g, '');
     content = content.replace(/\[Video:\s*([^\]]+)\]/g, '');
     if (content.trim()) {
