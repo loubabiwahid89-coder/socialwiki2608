@@ -225,6 +225,7 @@
     <div class="dashboard-tab" onclick="showTab('countries', this)">🌍 Countries</div>
     <div class="dashboard-tab" onclick="showTab('revenue', this)">💰 Revenue</div>
     <div class="dashboard-tab" onclick="showTab('tiers', this)">🎨 Tiers</div>
+    <div class="dashboard-tab" onclick="showTab('badges', this)">🏅 Badges</div>
 </div>
 
         <!-- CONTENT -->
@@ -1045,6 +1046,7 @@ async function updateRole(userId, newRole) {
             else if (tab === 'countries') loadCountriesTab();
             else if (tab === 'revenue') loadRevenueTab();
             else if (tab === 'tiers') loadTiersTab();
+            else if (tab === 'badges') loadBadgesTab();
         }
 
         // =========================================================
@@ -1538,6 +1540,7 @@ async function updateRole(userId, newRole) {
     </script>
            <script src="js/messenger-notify.js"></script>  
       <script src="js/country-stats.js"></script>
+      <script src="js/badges.js"></script>
 
 </body>
 </html>
