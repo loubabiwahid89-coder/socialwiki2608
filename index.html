@@ -3573,5 +3573,39 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(initGiftNotifications, 2000);
 });
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 Single Video Player - فيديو واحد فقط في نفس الوقت -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+    console.log('🎬 Single video player initializing...');
+    
+    // ✅ استمع لأي فيديو يُشغّل
+    document.addEventListener('play', function(e) {
+        if (e.target.tagName === 'VIDEO') {
+            const currentVideo = e.target;
+            const allVideos = document.querySelectorAll('video');
+            
+            let pausedCount = 0;
+            
+            allVideos.forEach(video => {
+                if (video !== currentVideo && !video.paused) {
+                    video.pause();
+                    pausedCount++;
+                }
+            });
+            
+            if (pausedCount > 0) {
+                console.log(`⏸️ Paused ${pausedCount} other video(s)`);
+            }
+        }
+    }, true); // ← مهم جداً (capture phase)
+    
+    console.log('✅ Single video player ready!');
+})();
+</script>
+
+</body>
     </body>
 </html>
