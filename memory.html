@@ -1,3 +1,4 @@
+Ctrl + _
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -417,15 +418,23 @@
         <div class="game-controls">
             <button class="control-btn" onclick="resetGame()" data-i18n="play_again">🔄 Play Again</button>
         </div>
-
+        <!-- 🎖️ BADGES -->
+        <div class="lb-card" style="margin-top: 30px;">
+            <div class="lb-head" style="background: linear-gradient(135deg, #8b5cf6, #6f42c1); color: white;">
+                🎖️ <span data-i18n="memory_game_achievements_title">Achievement Badges:</span>
+            </div>
+            <div id="badgesList" style="padding: 15px;">
+                <div class="lb-empty" data-i18n="memory_game_badge_expert">Games Expert</div>
+            </div>
+        </div>
         <!-- 🏆 LEADERBOARD -->
         <div class="lb-card">
-            <div class="lb-head">🏆 Leaderboard</div>
+              <div class="lb-head" data-i18n="memory_game_leaderboard_title">🏆 Leaderboard</div>
             <div class="lb-tabs">
-                <button class="lb-tab active" onclick="setLbPeriod('day', this)">Today</button>
-                <button class="lb-tab" onclick="setLbPeriod('week', this)">Week</button>
-                <button class="lb-tab" onclick="setLbPeriod('month', this)">Month</button>
-                <button class="lb-tab" onclick="setLbPeriod('all', this)">All</button>
+                <button class="lb-tab active" onclick="setLbPeriod('day', this)" data-i18n="memory_game_lb_filter_today">Today</button>
+                <button class="lb-tab" onclick="setLbPeriod('week', this)" data-i18n="memory_game_lb_filter_week">Week</button>
+                <button class="lb-tab" onclick="setLbPeriod('month', this)" data-i18n="memory_game_lb_filter_month">Month</button>
+                <button class="lb-tab" onclick="setLbPeriod('all', this)" data-i18n="memory_game_lb_filter_all">All</button>
             </div>
             <div id="lbList"><div class="lb-empty">...</div></div>
         </div>
@@ -650,16 +659,31 @@
         // =========================================================
         // SAVE SCORE (for the games leaderboard)
         // =========================================================
-        async function submitScore(game, score) {
+             async function submitScore(game, score) {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
-                const { error } = await supabaseClient.rpc('submit_game_score', {
+                
+                const { data, error } = await supabaseClient.rpc('submit_game_score', {
                     p_game: game,
                     p_score: Math.floor(score)
                 });
-                if (error) console.error('Score error:', error);
-                else loadLeaderboard(lbPeriod);
+                
+                if (error) {
+                    console.error('Score error:', error);
+                    return;
+                }
+                
+                console.log('✅ Score saved:', data);
+                
+                if (data?.badges_info?.badges_granted?.length > 0) {
+                    setTimeout(() => {
+                        showBadgeNotification(data.badges_info.badges_granted);
+                    }, 1000);
+                }
+                
+                loadLeaderboard(lbPeriod);
+                loadUserBadges();
             } catch (e) {
                 console.error('Score error:', e);
             }
@@ -716,6 +740,114 @@
                 list.innerHTML = '<div class="lb-empty">Could not load leaderboard</div>';
             }
         }
+                // =========================================================
+        // 🎖️ BADGES
+        // =========================================================
+        async function loadUserBadges() {
+            const container = document.getElementById('badgesList');
+            if (!container) return;
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: badges, error } = await supabaseClient.rpc('get_user_badges', {
+                    p_user_id: user.id
+                });
+                
+                if (error) {
+                    console.error('Badges error:', error);
+                    return;
+                }
+                
+                if (!badges || badges.length === 0) {
+                                                  container.innerHTML = html; + 
+                        (typeof t === 'function' ? t('memory_game_badge_expert') : 'No badges yet') + 
+                        '</div>';
+                    return;
+                }
+                
+                const activityBadges = badges.filter(b => b.badge_type === 'activity');
+                const achievementBadges = badges.filter(b => b.badge_type === 'achievement');
+                
+                let html = '';
+                
+                if (activityBadges.length > 0) {
+                    html += '<div style="margin-bottom: 15px;">';
+                    html += '<div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🎮 شارات النشاط:</div>';
+                    html += '<div style="display: flex; flex-wrap: wrap; gap: 10px;">';
+                    html += activityBadges.map(b => `
+                        <div style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 18px;
+                            background: linear-gradient(135deg, #8b5cf6, #6f42c1);
+                            color: white;
+                            border-radius: 25px;
+                            font-weight: 700;
+                            font-size: 14px;
+                            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+                            border: 2px solid white;
+                        ">
+                            <span style="font-size: 20px;">${b.badge_icon}</span>
+                            <span>${b.badge_name}</span>
+                        </div>
+                    `).join('');
+                    html += '</div></div>';
+                }
+                
+                if (achievementBadges.length > 0) {
+                    html += '<div>';
+                    html += '<div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🏆 شارات الإنجاز:</div>';
+                    html += '<div style="display: flex; flex-wrap: wrap; gap: 10px;">';
+                    html += achievementBadges.map(b => `
+                        <div style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 18px;
+                            background: linear-gradient(135deg, #FFD700, #FFA500);
+                            color: #333;
+                            border-radius: 25px;
+                            font-weight: 700;
+                            font-size: 14px;
+                            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5);
+                            border: 2px solid white;
+                        ">
+                            <span style="font-size: 20px;">${b.badge_icon}</span>
+                            <span>${b.badge_name}</span>
+                        </div>
+                    `).join('');
+                    html += '</div></div>';
+                }
+                
+                                                  container.innerHTML = html; + (typeof t === 'function' ? t('memory_game_badge_expert') : 'No badges yet') + '</div>';HTML = html;
+            } catch (e) {
+                console.error('Badges error:', e);
+            }
+        }
+
+        function showBadgeNotification(badges) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 99999;';
+            
+            overlay.innerHTML = `
+                <div style="background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; animation: winBounce 0.5s;">
+                    <div style="font-size: 80px; margin-bottom: 15px;">🎖️</div>
+                    <h2 style="color: #8b5cf6; margin: 0 0 15px; font-size: 26px;">مبروك!</h2>
+                    <p style="color: #65676b; margin-bottom: 20px; font-size: 15px;">حصلت على شارة جديدة:</p>
+                    <div style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 30px; font-weight: 800; font-size: 18px; box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6); margin-bottom: 20px;">
+                        ${badges.join(' + ')}
+                    </div>
+                    <button onclick="this.closest('div').parentElement.remove()" style="display: block; width: 100%; padding: 14px; background: #8b5cf6; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px;">
+                        رائع! 🎉
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(overlay);
+        }
 
         // =========================================================
         // RESET GAME
@@ -734,8 +866,9 @@
             setLanguage(lang);
             applyTranslations();
             loadUserProfile();
-            initGame();
+                       initGame();
             loadLeaderboard('day');
+            loadUserBadges();
         });
     </script>
    

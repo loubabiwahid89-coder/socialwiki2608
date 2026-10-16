@@ -1540,6 +1540,10 @@
                 
                 document.getElementById('profileName').textContent = fullName;
                 document.getElementById('profileUsername').textContent = '@' + username;
+                // 🏅 تحميل الشارات
+if (typeof loadUserBadges === 'function') {
+    loadUserBadges(profileUserId);  // ⚠️ استخدم نفس المتغير الذي يحتوي على ID المستخدم
+}
                 // ✅ علم الدولة بجانب الاسم (لصديقك)
 if (profile?.country === 'MA' || (profile?.special_badges && profile.special_badges.includes('morocco'))) {
     const nameEl = document.getElementById('profileName');
@@ -1752,6 +1756,86 @@ if (profile?.special_badges && profile.special_badges.includes('morocco')) {
                  alt="Morocco">
             <span>First Member from Morocco</span>
             <span style="font-size: 20px;">🏆</span>
+        </div>
+    `;
+}
+// ═══════════════════════════════════════════════
+// 🇵🇭 First Member from Philippines
+// ═══════════════════════════════════════════════
+if (profile?.special_badges && profile.special_badges.includes('philippines')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #0038A8, #1E5FD8);
+            color: white;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(0, 56, 168, 0.4);
+            border: 3px solid #FCD116;
+            margin: 5px;
+        ">
+            <img src="https://flagcdn.com/w40/ph.png"
+                 style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"
+                 alt="Philippines">
+            <span>First Member from Philippines</span>
+            <span style="font-size: 20px;">🏆</span>
+        </div>
+    `;
+}
+// ═══════════════════════════════════════════════
+// 🌟 Philippines Ambassador
+// ═══════════════════════════════════════════════
+if (profile?.special_badges && profile.special_badges.includes('ph_ambassador')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #CE1126, #0038A8);
+            color: #FCD116;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(206, 17, 38, 0.4);
+            border: 3px solid #FCD116;
+            margin: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        ">
+            <span style="font-size: 22px;">🌟</span>
+            <span>Philippines Ambassador</span>
+            <img src="https://flagcdn.com/w40/ph.png"
+                 style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"
+                 alt="Philippines">
+        </div>
+    `;
+}
+// ═══════════════════════════════════════════════
+// 🌱 Early Member
+// ═══════════════════════════════════════════════
+if (profile?.special_badges && profile.special_badges.includes('early_member')) {
+    badgesHTML += `
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+            border: 2px solid rgba(255,255,255,0.7);
+            margin: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        ">
+            <span style="font-size: 18px;">🌱</span>
+            <span>Early Member</span>
         </div>
     `;
 }
@@ -3079,5 +3163,107 @@ window.logout = logout;
     </script>
     <script src="js/messenger-notify.js"></script>
 <script src="js/dark-mode.js"></script>
+<script>
+// =========================================================
+// 🏅 عرض شارات المستخدم + 🌍 رايات الدول
+// =========================================================
+
+// دالة الراية
+function flagImg(code, size = 20) {
+    if (!code) return '';
+    return `<img src="https://flagcdn.com/w${size}/${code.toLowerCase()}.png"
+                 srcset="https://flagcdn.com/w${size * 2}/${code.toLowerCase()}.png 2x"
+                 style="width:${size}px;height:${Math.round(size*0.7)}px;
+                        border-radius:2px;margin-left:6px;vertical-align:middle;
+                        box-shadow:0 1px 2px rgba(0,0,0,0.15);"
+                 alt="${code}">`;
+}
+
+// ألوان الشارات
+const BADGE_COLORS = {
+    'blue':      'linear-gradient(135deg,#2da9e8,#1e8fd0)',
+    'blue-gold': 'linear-gradient(135deg,#1e3cba,#1e3cba)',
+    'green':     'linear-gradient(135deg,#2ecc71,#27ae60)',
+    'red':       'linear-gradient(135deg,#e74c3c,#c0392b)',
+    'red-gold':  'linear-gradient(135deg,#c0392b,#8e1b1b)',
+    'red-orange':'linear-gradient(135deg,#e74c3c,#f39c12)',
+    'yellow':    'linear-gradient(135deg,#f1c40f,#e67e22)',
+    'orange':    'linear-gradient(135deg,#f39c12,#e67e22)',
+    'purple':    'linear-gradient(135deg,#8e44ad,#6c3483)',
+    'gray-blue': 'linear-gradient(135deg,#8fa3b0,#6b7f8c)'
+};
+
+const BADGE_BORDERS = {
+    'blue-gold':  '2px solid #ffd700',
+    'red-gold':   '2px solid #ffd700',
+    'red-orange': '2px solid #ffd700'
+};
+
+// الدالة الرئيسية
+async function loadUserBadges(userId) {
+    console.log('🎯 Loading badges for:', userId);
+    
+    const container = document.getElementById('userBadges');
+    if (!container) {
+        console.error('❌ Container #userBadges not found');
+        return;
+    }
+
+    try {
+        const { data: badges, error } = await supabaseClient
+            .from('user_badges')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: true });
+
+        if (error) {
+            console.error('❌ Supabase error:', error);
+            return;
+        }
+
+        console.log('✅ Badges fetched:', badges);
+
+        if (!badges || badges.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+
+        container.innerHTML = badges.map(b => {
+            const bg = BADGE_COLORS[b.badge_color] || BADGE_COLORS['blue'];
+            const border = BADGE_BORDERS[b.badge_color] || 'none';
+            
+            return `
+                <span style="
+                    display:inline-flex;
+                    align-items:center;
+                    gap:6px;
+                    padding:8px 18px;
+                    border-radius:50px;
+                    font-weight:700;
+                    font-size:13px;
+                    color:white;
+                    background:${bg};
+                    border:${border};
+                    box-shadow:0 3px 10px rgba(0,0,0,0.18);
+                    transition:transform 0.2s;
+                " onmouseover="this.style.transform='scale(1.05)'"
+                   onmouseout="this.style.transform='scale(1)'">
+                    <span>${b.badge_icon || '🏅'}</span>
+                    <span>${b.badge_label}</span>
+                    ${b.country_code ? flagImg(b.country_code, 20) : ''}
+                </span>
+            `;
+        }).join('');
+
+        console.log(`✅ Rendered ${badges.length} badges`);
+
+    } catch (err) {
+        console.error('❌ Load badges error:', err);
+    }
+}
+
+// اجعلها عامة
+window.loadUserBadges = loadUserBadges;
+</script>
 </body>
 </html>
