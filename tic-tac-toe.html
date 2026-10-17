@@ -9,7 +9,7 @@
         * { box-sizing: border-box; }
         body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; color: #050505; }
         
-        /* NAVBAR (نفسه) */
+        /* NAVBAR */
         .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
         .nav-left { display: flex; align-items: center; gap: 10px; }
         .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
@@ -206,7 +206,7 @@
         ];
 
         // =========================================================
-        // LOGOUT
+        // LOGOUT & PROFILE
         // =========================================================
         function logout() {
             supabaseClient.auth.signOut();
@@ -226,7 +226,7 @@
         }
 
         // =========================================================
-        // MODE
+        // MODE & CLICK
         // =========================================================
         function setMode(newMode) {
             mode = newMode;
@@ -235,9 +235,6 @@
             resetGame();
         }
 
-        // =========================================================
-        // CELL CLICK
-        // =========================================================
         document.querySelectorAll('.cell').forEach(cell => {
             cell.addEventListener('click', () => handleCellClick(cell));
         });
@@ -246,9 +243,7 @@
             const index = parseInt(cell.dataset.index);
             if (!gameActive || board[index] !== '') return;
             if (mode === 'computer' && currentPlayer === 'O') return;
-
             makeMove(index, currentPlayer);
-
             if (mode === 'computer' && gameActive && currentPlayer === 'O') {
                 setTimeout(computerMove, 500);
             }
@@ -259,7 +254,6 @@
             const cell = document.querySelector(`.cell[data-index="${index}"]`);
             cell.textContent = player === 'X' ? '❌' : '⭕';
             cell.classList.add('taken', player);
-
             const result = checkWinner();
             if (result) {
                 handleGameEnd(result);
@@ -370,18 +364,8 @@
         }
 
         // =========================================================
-        // LEADERBOARD
+        // LEADERBOARD (DIRECT DB ACCESS - NO RPC)
         // =========================================================
-        async function submitScore(game, score) {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
-                const { error } = await supabaseClient.rpc('submit_game_score', { p_game: game, p_score: Math.floor(score) });
-                if (error) console.error('Score error:', error);
-                else loadLeaderboard(lbPeriod);
-            } catch (e) { console.error('Score error:', e); }
-        }
-
         let lbPeriod = 'day';
 
         function escHtml(s) {
@@ -397,37 +381,92 @@
             loadLeaderboard(period);
         }
 
+        // ✅ حفظ النتيجة مباشرة في الجدول
+        async function submitScore(game, score) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { error } = await supabaseClient
+                    .from('game_scores')
+                    .insert({ user_id: user.id, game: game, score: Math.floor(score) });
+                if (error) console.error('Score error:', error);
+                else loadLeaderboard(lbPeriod);
+            } catch (e) { console.error('Score error:', e); }
+        }
+
+        // ✅ جلب لوحة الصدارة مباشرة من الجدول
         async function loadLeaderboard(period) {
             const list = document.getElementById('lbList');
             if (!list) return;
+            list.innerHTML = '<div class="lb-empty">جاري التحميل...</div>';
+
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
-               const { data: rows, error } = await supabaseClient.rpc('get_game_leaderboard', {
-    p_game: 'tictactoe',   // ✅ اسم اللعبة
-    p_period: period || 'day',
-    p_limit: 10
-});
+                
+                const { data: scores, error } = await supabaseClient
+                    .from('game_scores')
+                    .select('user_id, score, created_at')
+                    .eq('game', 'tictactoe'); 
+
                 if (error) throw error;
 
-                if (!rows || !rows.length) {
-                    list.innerHTML = '<div class="lb-empty">' + escHtml(t('leaderboard_no_data', getCurrentLanguage())) + ' 🎮</div>';
+                if (!scores || scores.length === 0) {
+                    list.innerHTML = '<div class="lb-empty">لا توجد نتائج بعد 🎮</div>';
                     return;
                 }
 
+                const now = new Date();
+                const filtered = scores.filter(s => {
+                    if (period === 'all') return true;
+                    const date = new Date(s.created_at);
+                    const diffDays = (now - date) / (1000 * 60 * 60 * 24);
+                    if (period === 'day') return diffDays <= 1;
+                    if (period === 'week') return diffDays <= 7;
+                    if (period === 'month') return diffDays <= 30;
+                    return true;
+                });
+
+                const userScores = {};
+                filtered.forEach(s => {
+                    if (!userScores[s.user_id]) userScores[s.user_id] = 0;
+                    userScores[s.user_id] += s.score;
+                });
+
+                const sortedUsers = Object.entries(userScores)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10);
+
+                if (sortedUsers.length === 0) {
+                    list.innerHTML = '<div class="lb-empty">لا توجد نتائج لهذه الفترة</div>';
+                    return;
+                }
+
+                const userIds = sortedUsers.map(u => u[0]);
+                const { data: profiles } = await supabaseClient
+                    .from('profiles')
+                    .select('id, username, full_name, avatar_url')
+                    .in('id', userIds);
+
+                const profilesMap = {};
+                (profiles || []).forEach(p => profilesMap[p.id] = p);
+
                 const medals = ['🥇', '🥈', '🥉'];
-                list.innerHTML = rows.map((r, i) => {
-                    const name = r.username || r.full_name || 'Player';
-                    const avatar = r.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=1877f2&color=fff');
-                    const me = user && user.id === r.user_id ? ' me' : '';
+                list.innerHTML = sortedUsers.map(([userId, totalScore], i) => {
+                    const p = profilesMap[userId] || {};
+                    const name = p.full_name || p.username || 'Player';
+                    const avatar = p.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=1877f2&color=fff');
+                    const me = user && user.id === userId ? ' me' : '';
+                    
                     return '<div class="lb-row' + me + '">' +
                         '<div class="lb-rank">' + (medals[i] || (i + 1)) + '</div>' +
                         '<img class="lb-avatar" src="' + escHtml(avatar) + '" alt="">' +
                         '<div class="lb-name">' + escHtml(name) + '</div>' +
-                        '<div class="lb-score">' + r.total_score + '</div></div>';
+                        '<div class="lb-score">' + totalScore + '</div></div>';
                 }).join('');
+
             } catch (e) {
                 console.error('Leaderboard error:', e);
-                list.innerHTML = '<div class="lb-empty">Could not load leaderboard</div>';
+                list.innerHTML = '<div class="lb-empty">حدث خطأ في تحميل المتصدرين</div>';
             }
         }
 
