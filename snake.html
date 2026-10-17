@@ -3,237 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki</title>
+    <title>Snake Game - SocialWiki</title>
     <link rel="stylesheet" href="socialwiki.css">
     <style>
         * { box-sizing: border-box; }
-        body {
-            background: #f0f2f5;
-            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-            margin: 0;
-            color: #050505;
-        }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; color: #050505; }
         
         /* NAVBAR */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1877f2;
-            padding: 0 16px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
         .nav-left { display: flex; align-items: center; gap: 10px; }
         .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
-        .nav-icons {
-            display: flex; align-items: center; gap: 8px;
-            list-style: none; margin: 0; padding: 0;
-        }
-        .nav-icons a {
-            color: white; font-size: 20px; text-decoration: none;
-            padding: 8px; border-radius: 50%;
-        }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
         .nav-icons a:hover { background: rgba(255,255,255,0.2); }
         .nav-right { display: flex; align-items: center; gap: 8px; }
-        .nav-profile {
-            display: flex; align-items: center; gap: 8px;
-            color: white; text-decoration: none;
-            padding: 5px 10px; border-radius: 50px;
-        }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
-        .logout-button {
-            background: rgba(255,255,255,0.2); border: none;
-            padding: 8px 16px; border-radius: 20px;
-            color: white; cursor: pointer; font-size: 14px;
-        }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
         
         /* BACK & HOME */
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        .back-btn {
-            color: #65676b;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .home-btn {
-            color: white;
-            background: #1877f2;
-        }
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
+        .home-btn { color: white; background: #1877f2; }
         
         /* GAME CONTAINER */
-        .game-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
+        .game-container { max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
         
-        .game-header h1 {
-            font-size: 36px;
-            margin: 0 0 10px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .game-header p {
-            color: #65676b;
-            margin: 0 0 20px;
-            font-size: 14px;
-        }
+        .game-header h1 { font-size: 36px; margin: 0 0 10px; background: linear-gradient(135deg, #4facfe, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .game-header p { color: #65676b; margin: 0 0 20px; font-size: 14px; }
         
         /* SCORE */
-        .score-display {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .score-item {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
-            min-width: 120px;
-        }
-        .score-label {
-            font-size: 13px;
-            color: #65676b;
-            margin-bottom: 5px;
-        }
-        .score-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1877f2;
-        }
-        .score-value.gold {
-            color: #f7b928;
-        }
+        .score-display { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .score-item { background: white; border-radius: 12px; padding: 15px 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; min-width: 120px; }
+        .score-label { font-size: 13px; color: #65676b; margin-bottom: 5px; }
+        .score-value { font-size: 24px; font-weight: 700; color: #1877f2; }
+        .score-value.gold { color: #f7b928; }
         
         /* CANVAS */
-        .canvas-wrapper {
-            position: relative;
-            display: inline-block;
-            background: white;
-            border-radius: 16px;
-            padding: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        #gameCanvas {
-            display: block;
-            border-radius: 12px;
-            background: #1a1a2e;
-            max-width: 100%;
-            height: auto;
-        }
+        .canvas-wrapper { position: relative; display: inline-block; background: white; border-radius: 16px; padding: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        #gameCanvas { display: block; border-radius: 12px; background: #1a1a2e; max-width: 100%; height: auto; }
         
         /* OVERLAY */
-        .overlay {
-            position: absolute;
-            inset: 15px;
-            background: rgba(0,0,0,0.85);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            z-index: 10;
-        }
+        .overlay { position: absolute; inset: 15px; background: rgba(0,0,0,0.85); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 10; }
         .overlay.hidden { display: none; }
-        .overlay h2 {
-            font-size: 28px;
-            margin: 0 0 15px;
-        }
-        .overlay p {
-            font-size: 16px;
-            margin: 0 0 20px;
-            opacity: 0.9;
-        }
-        .overlay-btn {
-            padding: 12px 30px;
-            background: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .overlay h2 { font-size: 28px; margin: 0 0 15px; }
+        .overlay p { font-size: 16px; margin: 0 0 20px; opacity: 0.9; }
+        .overlay-btn { padding: 12px 30px; background: #1877f2; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .overlay-btn:hover { background: #166fe5; }
         
         /* MOBILE CONTROLS */
-        .mobile-controls {
-            display: none;
-            grid-template-columns: repeat(3, 70px);
-            grid-template-rows: repeat(2, 70px);
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .mobile-btn {
-            background: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 28px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(24,119,242,0.3);
-        }
-        .mobile-btn:active {
-            transform: scale(0.95);
-            background: #166fe5;
-        }
+        .mobile-controls { display: none; grid-template-columns: repeat(3, 70px); grid-template-rows: repeat(2, 70px); gap: 10px; justify-content: center; margin-top: 20px; }
+        .mobile-btn { background: #1877f2; color: white; border: none; border-radius: 12px; font-size: 28px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 8px rgba(24,119,242,0.3); }
+        .mobile-btn:active { transform: scale(0.95); background: #166fe5; }
         .mobile-btn.up { grid-column: 2; grid-row: 1; }
         .mobile-btn.left { grid-column: 1; grid-row: 2; }
         .mobile-btn.down { grid-column: 2; grid-row: 2; }
         .mobile-btn.right { grid-column: 3; grid-row: 2; }
         
         /* CONTROLS */
-        .game-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .control-btn {
-            padding: 12px 24px;
-            background: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
+        .game-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .control-btn { padding: 12px 24px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
         .control-btn:hover { background: #166fe5; }
-        .control-btn.secondary {
-            background: #e4e6eb;
-            color: #050505;
-        }
-        .control-btn.secondary:hover { background: #d4d6da; }
+        
+        /* 🏆 LEADERBOARD (CSS) */
+        .lb-card { background:white; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin:30px auto 0; max-width:500px; overflow:hidden; text-align:left; }
+        .lb-head { background:linear-gradient(135deg,#ffd700,#f7b731); color:#333; padding:16px; text-align:center; font-size:20px; font-weight:800; }
+        .lb-tabs { display:flex; gap:6px; padding:10px; background:#f7f8fa; }
+        .lb-tab { flex:1; padding:8px 4px; border:none; border-radius:10px; background:transparent; color:#65676b; font-weight:700; font-size:13px; cursor:pointer; }
+        .lb-tab.active { background:#1877f2; color:white; }
+        .lb-row { display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid #eee; }
+        .lb-row.me { background:#eaf3ff; }
+        .lb-rank { width:32px; text-align:center; font-weight:800; font-size:18px; }
+        .lb-avatar { width:38px; height:38px; border-radius:50%; object-fit:cover; background:#ddd; }
+        .lb-name { flex:1; font-weight:600; font-size:15px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .lb-score { font-weight:800; color:#1877f2; }
+        .lb-empty { padding:24px; text-align:center; color:#65676b; font-size:14px; }
         
         @media (max-width: 700px) {
             .game-header h1 { font-size: 28px; }
@@ -264,45 +108,31 @@
                 <span id="navProfileName">User</span>
             </a>
             
-            <!-- زر اللغة -->
             <div class="language-selector" style="position: relative;">
                 <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
                 <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
                     <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
                     <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
                     <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
-                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
-                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
-                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
-                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
-                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
-                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
-                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
-                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
-                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
                 </div>
             </div>
             
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
-        
     </nav>
-     <!-- BACK & HOME BUTTONS -->
+    
     <div class="nav-buttons">
-        
         <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
     </div>
 
     <!-- GAME CONTAINER -->
     <div class="game-container">
         
-        <!-- HEADER -->
         <div class="game-header">
             <h1 data-i18n="snake_title">🐍 Snake Game</h1>
             <p data-i18n="snake_instructions">Use arrow keys to move</p>
         </div>
 
-        <!-- SCORE -->
         <div class="score-display">
             <div class="score-item">
                 <div class="score-label" data-i18n="score">Score</div>
@@ -314,11 +144,9 @@
             </div>
         </div>
 
-        <!-- CANVAS -->
         <div class="canvas-wrapper">
             <canvas id="gameCanvas" width="400" height="400"></canvas>
             
-            <!-- OVERLAY (Start / Game Over) -->
             <div class="overlay" id="overlay">
                 <h2 id="overlayTitle">🐍 Snake</h2>
                 <p id="overlayText" data-i18n="snake_instructions">Use arrow keys to move</p>
@@ -326,7 +154,6 @@
             </div>
         </div>
 
-        <!-- MOBILE CONTROLS -->
         <div class="mobile-controls">
             <button class="mobile-btn up" onclick="changeDirection('up')">▲</button>
             <button class="mobile-btn left" onclick="changeDirection('left')">◄</button>
@@ -334,9 +161,22 @@
             <button class="mobile-btn right" onclick="changeDirection('right')">►</button>
         </div>
 
-        <!-- CONTROLS -->
         <div class="game-controls" style="margin-top: 20px;">
             <button class="control-btn" onclick="startGame()" data-i18n="play_again">🔄 Play Again</button>
+        </div>
+
+        <!-- 🏆 LEADERBOARD (HTML) -->
+        <div class="lb-card">
+            <div class="lb-head">🏆 <span data-i18n="leaderboard">Leaderboard</span></div>
+            <div class="lb-tabs">
+                <button class="lb-tab active" onclick="setLbPeriod('day', this)" data-i18n="today">Today</button>
+                <button class="lb-tab" onclick="setLbPeriod('week', this)" data-i18n="week">Week</button>
+                <button class="lb-tab" onclick="setLbPeriod('month', this)" data-i18n="month">Month</button>
+                <button class="lb-tab" onclick="setLbPeriod('all', this)" data-i18n="all">All</button>
+            </div>
+            <div id="lbList" class="lb-list">
+                <div class="lb-empty">Loading...</div>
+            </div>
         </div>
 
     </div>
@@ -354,9 +194,8 @@
         // =========================================================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        
-        const gridSize = 20; // 20x20 grid
-        const cellSize = canvas.width / gridSize; // 20px per cell
+        const gridSize = 20;
+        const cellSize = canvas.width / gridSize;
 
         let snake = [];
         let food = {};
@@ -365,7 +204,7 @@
         let score = 0;
         let highScore = parseInt(localStorage.getItem('snakeHighScore') || '0');
         let gameLoop = null;
-        let gameSpeed = 120; // ms
+        let gameSpeed = 120;
         let gameRunning = false;
 
         // =========================================================
@@ -377,35 +216,10 @@
         }
 
         // =========================================================
-        // LOAD USER PROFILE
-        // =========================================================
-        async function loadUserProfile() {
-            try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
-                const { data: profile } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name, avatar_url')
-                    .eq('id', user.id)
-                    .single();
-                const username = profile?.username || profile?.full_name || 'User';
-                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-                document.getElementById('navProfileName').textContent = username;
-                document.getElementById('navProfileImg').src = avatarUrl;
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        // =========================================================
         // INITIALIZE GAME
         // =========================================================
         function initGame() {
-            snake = [
-                { x: 10, y: 10 },
-                { x: 9, y: 10 },
-                { x: 8, y: 10 }
-            ];
+            snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
             direction = 'right';
             nextDirection = 'right';
             score = 0;
@@ -414,59 +228,34 @@
             generateFood();
         }
 
-        // =========================================================
-        // GENERATE FOOD
-        // =========================================================
         function generateFood() {
             let newFood;
             let attempts = 0;
             do {
-                newFood = {
-                    x: Math.floor(Math.random() * gridSize),
-                    y: Math.floor(Math.random() * gridSize)
-                };
+                newFood = { x: Math.floor(Math.random() * gridSize), y: Math.floor(Math.random() * gridSize) };
                 attempts++;
             } while (snake.some(s => s.x === newFood.x && s.y === newFood.y) && attempts < 100);
             food = newFood;
         }
 
-        // =========================================================
-        // DRAW
-        // =========================================================
         function draw() {
-            // Clear canvas
             ctx.fillStyle = '#1a1a2e';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw grid (subtle)
             ctx.strokeStyle = 'rgba(255,255,255,0.03)';
             ctx.lineWidth = 1;
             for (let i = 0; i <= gridSize; i++) {
-                ctx.beginPath();
-                ctx.moveTo(i * cellSize, 0);
-                ctx.lineTo(i * cellSize, canvas.height);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(0, i * cellSize);
-                ctx.lineTo(canvas.width, i * cellSize);
-                ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(i * cellSize, 0); ctx.lineTo(i * cellSize, canvas.height); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, i * cellSize); ctx.lineTo(canvas.width, i * cellSize); ctx.stroke();
             }
 
-            // Draw snake
             snake.forEach((segment, index) => {
                 const isHead = index === 0;
                 ctx.fillStyle = isHead ? '#4facfe' : '#00f2fe';
                 ctx.shadowColor = isHead ? '#4facfe' : 'transparent';
                 ctx.shadowBlur = isHead ? 15 : 0;
-                
-                ctx.fillRect(
-                    segment.x * cellSize + 1,
-                    segment.y * cellSize + 1,
-                    cellSize - 2,
-                    cellSize - 2
-                );
+                ctx.fillRect(segment.x * cellSize + 1, segment.y * cellSize + 1, cellSize - 2, cellSize - 2);
 
-                // Eyes on head
                 if (isHead) {
                     ctx.fillStyle = 'white';
                     ctx.shadowBlur = 0;
@@ -482,42 +271,23 @@
                 }
             });
 
-            // Draw food (apple)
             ctx.fillStyle = '#f5576c';
             ctx.shadowColor = '#f5576c';
             ctx.shadowBlur = 15;
             ctx.beginPath();
-            ctx.arc(
-                food.x * cellSize + cellSize / 2,
-                food.y * cellSize + cellSize / 2,
-                cellSize / 2 - 2,
-                0,
-                Math.PI * 2
-            );
+            ctx.arc(food.x * cellSize + cellSize / 2, food.y * cellSize + cellSize / 2, cellSize / 2 - 2, 0, Math.PI * 2);
             ctx.fill();
 
-            // Draw food highlight
             ctx.shadowBlur = 0;
             ctx.fillStyle = 'rgba(255,255,255,0.4)';
             ctx.beginPath();
-            ctx.arc(
-                food.x * cellSize + cellSize / 2 - 3,
-                food.y * cellSize + cellSize / 2 - 3,
-                cellSize / 6,
-                0,
-                Math.PI * 2
-            );
+            ctx.arc(food.x * cellSize + cellSize / 2 - 3, food.y * cellSize + cellSize / 2 - 3, cellSize / 6, 0, Math.PI * 2);
             ctx.fill();
         }
 
-        // =========================================================
-        // UPDATE GAME
-        // =========================================================
         function update() {
             direction = nextDirection;
-
             const head = { ...snake[0] };
-
             switch (direction) {
                 case 'up': head.y--; break;
                 case 'down': head.y++; break;
@@ -525,27 +295,15 @@
                 case 'right': head.x++; break;
             }
 
-            // Check wall collision
-            if (head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize) {
-                gameOver();
-                return;
-            }
-
-            // Check self collision
-            if (snake.some(s => s.x === head.x && s.y === head.y)) {
-                gameOver();
-                return;
-            }
+            if (head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize) { gameOver(); return; }
+            if (snake.some(s => s.x === head.x && s.y === head.y)) { gameOver(); return; }
 
             snake.unshift(head);
 
-            // Check food collision
             if (head.x === food.x && head.y === food.y) {
                 score += 10;
                 document.getElementById('currentScore').textContent = score;
                 generateFood();
-                
-                // Increase speed every 50 points
                 if (score % 50 === 0 && gameSpeed > 60) {
                     gameSpeed -= 10;
                     clearInterval(gameLoop);
@@ -556,32 +314,22 @@
             }
         }
 
-        // =========================================================
-        // GAME TICK
-        // =========================================================
         function gameTick() {
             if (!gameRunning) return;
             update();
             draw();
         }
 
-        // =========================================================
-        // START GAME
-        // =========================================================
         function startGame() {
             document.getElementById('overlay').classList.add('hidden');
             initGame();
             draw();
             gameRunning = true;
             gameSpeed = 120;
-            
             if (gameLoop) clearInterval(gameLoop);
             gameLoop = setInterval(gameTick, gameSpeed);
         }
 
-        // =========================================================
-        // GAME OVER
-        // =========================================================
         function gameOver() {
             gameRunning = false;
             if (gameLoop) clearInterval(gameLoop);
@@ -592,7 +340,11 @@
                 document.getElementById('highScore').textContent = highScore;
             }
 
-            // Show overlay
+            // ✅ حفظ النتيجة في قاعدة البيانات
+            if (score > 0 && typeof submitScore === 'function') {
+                submitScore('snake', score);
+            }
+
             const overlay = document.getElementById('overlay');
             document.getElementById('overlayTitle').textContent = '💀 ' + (getCurrentLanguage() === 'ar' ? 'انتهت اللعبة!' : 'Game Over!');
             document.getElementById('overlayText').textContent = (getCurrentLanguage() === 'ar' ? 'نتيجتك: ' : 'Your score: ') + score;
@@ -600,16 +352,8 @@
             overlay.classList.remove('hidden');
         }
 
-        // =========================================================
-        // DIRECTION CONTROLS
-        // =========================================================
         function changeDirection(dir) {
-            const opposites = {
-                'up': 'down',
-                'down': 'up',
-                'left': 'right',
-                'right': 'left'
-            };
+            const opposites = { 'up': 'down', 'down': 'up', 'left': 'right', 'right': 'left' };
             if (opposites[dir] !== direction) {
                 nextDirection = dir;
             }
@@ -617,89 +361,116 @@
 
         document.addEventListener('keydown', function(e) {
             if (!gameRunning) return;
-            
             switch (e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    e.preventDefault();
-                    changeDirection('up');
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    e.preventDefault();
-                    changeDirection('down');
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    e.preventDefault();
-                    changeDirection('left');
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    e.preventDefault();
-                    changeDirection('right');
-                    break;
+                case 'ArrowUp': case 'w': case 'W': e.preventDefault(); changeDirection('up'); break;
+                case 'ArrowDown': case 's': case 'S': e.preventDefault(); changeDirection('down'); break;
+                case 'ArrowLeft': case 'a': case 'A': e.preventDefault(); changeDirection('left'); break;
+                case 'ArrowRight': case 'd': case 'D': e.preventDefault(); changeDirection('right'); break;
             }
         });
 
         // =========================================================
-        // INITIALIZE
+        // LEADERBOARD FUNCTIONS
         // =========================================================
-      document.addEventListener('DOMContentLoaded', async function() {
-    // ✅ اللغة فقط (بدون applyTranslations)
-    if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
-        setLanguage(getCurrentLanguage());
-    }
-    
-    // ✅ اللعبة
-    document.getElementById('highScore').textContent = highScore;
-    initGame();
-    draw();
-    
-    // ✅ تحديث Navbar (داخل دالة async)
-    try {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return;
-        
-        const { data: profile } = await supabaseClient
-            .from('profiles')
-            .select('username, full_name, avatar_url, is_owner')
-            .eq('id', user.id)
-            .single();
-        
-        if (!profile) return;
-        
-        const displayName = profile.full_name || profile.username || 'User';
-        const avatarUrl = profile.avatar_url 
-            || `https://ui-avatars.com/api/?name=${profile.username}&background=1877f2&color=fff`;
-        
-        const navProfileName = document.getElementById('navProfileName');
-        const navProfileImg = document.getElementById('navProfileImg');
-        
-        if (navProfileName) {
-            navProfileName.textContent = displayName;
-            if (profile.is_owner) {
-                navProfileName.style.color = '#FFD700';
-                navProfileName.style.fontWeight = 'bold';
+        let lbPeriod = 'day';
+
+        async function submitScore(game, score) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data, error } = await supabaseClient.rpc('submit_game_score', { p_game: game, p_score: Math.floor(score) });
+                if (error) { console.error('Score error:', error); return; }
+                console.log('✅ Score saved:', data);
+                loadLeaderboard(lbPeriod);
+            } catch (e) { console.error('Score error:', e); }
+        }
+
+        function escHtml(s) {
+            const d = document.createElement('div');
+            d.textContent = s == null ? '' : s;
+            return d.innerHTML;
+        }
+
+        function setLbPeriod(period, btn) {
+            lbPeriod = period;
+            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadLeaderboard(period);
+        }
+
+        async function loadLeaderboard(period) {
+            const list = document.getElementById('lbList');
+            if (!list) return;
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                const { data: rows, error } = await supabaseClient.rpc('get_game_leaderboard', { p_period: period || 'day', p_limit: 10 });
+                if (error) throw error;
+                if (!rows || !rows.length) {
+                    list.innerHTML = '<div class="lb-empty">' + escHtml(typeof t === 'function' ? t('leaderboard_no_data') : 'No data yet') + ' 🎮</div>';
+                    return;
+                }
+                const medals = ['🥇', '🥈', '🥉'];
+                list.innerHTML = rows.map((r, i) => {
+                    const name = r.username || r.full_name || 'Player';
+                    const avatar = r.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=1877f2&color=fff');
+                    const me = user && user.id === r.user_id ? ' me' : '';
+                    return '<div class="lb-row' + me + '">' +
+                        '<div class="lb-rank">' + (medals[i] || (i + 1)) + '</div>' +
+                        '<img class="lb-avatar" src="' + escHtml(avatar) + '" alt="">' +
+                        '<div class="lb-name">' + escHtml(name) + '</div>' +
+                        '<div class="lb-score">' + r.total_score + '</div></div>';
+                }).join('');
+            } catch (e) {
+                console.error('Leaderboard error:', e);
+                list.innerHTML = '<div class="lb-empty">Could not load leaderboard</div>';
             }
         }
-        
-        if (navProfileImg) navProfileImg.src = avatarUrl;
-        
-        console.log('✅ Navbar updated:', displayName);
-    } catch (error) {
-        console.error('Navbar error:', error);
-    }
-});
+
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof getCurrentLanguage === 'function' && typeof setLanguage === 'function') {
+                setLanguage(getCurrentLanguage());
+            }
+            
+            document.getElementById('highScore').textContent = highScore;
+            initGame();
+            draw();
+            loadLeaderboard('day');
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url, is_owner')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (!profile) return;
+                
+                const displayName = profile.full_name || profile.username || 'User';
+                const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${profile.username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                const navProfileImg = document.getElementById('navProfileImg');
+                
+                if (navProfileName) {
+                    navProfileName.textContent = displayName;
+                    if (profile.is_owner) {
+                        navProfileName.style.color = '#FFD700';
+                        navProfileName.style.fontWeight = 'bold';
+                    }
+                }
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+            } catch (error) {
+                console.error('Navbar error:', error);
+            }
+        });
     </script>
     <script src="js/messenger-notify.js"></script>
-<!-- Popunder disabled -->
-<script src="js/dark-mode.js"></script>
-<script src="js/monetag.js" data-cfasync="false"></script>
-<div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+    <script src="js/dark-mode.js"></script>
 </body>
 </html>
