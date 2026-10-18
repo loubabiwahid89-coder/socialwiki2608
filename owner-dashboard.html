@@ -226,6 +226,7 @@
     <div class="dashboard-tab" onclick="showTab('revenue', this)">💰 Revenue</div>
     <div class="dashboard-tab" onclick="showTab('tiers', this)">🎨 Tiers</div>
     <div class="dashboard-tab" onclick="showTab('badges', this)">🏅 Badges</div>
+    <div class="dashboard-tab" onclick="showTab('stars', this)">⭐ Stars</div>
 </div>
 
         <!-- CONTENT -->
@@ -1537,6 +1538,106 @@ async function updateRole(userId, newRole) {
                 window.loadTiersTab = loadTiersTab;
         window.changeUserTier = changeUserTier;
         window.filterTiersUsers = filterTiersUsers;
+                // =========================================================
+        // ⭐ STARS TAB (Send Free & Real Stars)
+        // =========================================================
+        async function loadStarsTab() {
+            const container = document.getElementById('dashboardContent');
+            container.innerHTML = `
+                <div style="padding: 20px;">
+                    <h2 style="margin: 0 0 20px 0;">⭐ Stars Management</h2>
+                    
+                    <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <h3 style="margin: 0 0 15px 0;">Send Stars to User</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">User Email or ID</label>
+                                <input type="text" id="starUserId" placeholder="user@example.com or UUID" 
+                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Number of Stars</label>
+                                <input type="number" id="starAmount" placeholder="e.g. 100" min="1"
+                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Star Type</label>
+                            <select id="starType" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+                                <option value="free">🌟 Free Stars (Gift/Reward - Not withdrawable)</option>
+                                <option value="real">💎 Real Stars (Paid - Withdrawable)</option>
+                            </select>
+                        </div>
+
+                        <button onclick="sendStarsToUser()" 
+                                style="background: #1877f2; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;">
+                            🚀 Send Stars
+                        </button>
+                    </div>
+
+                    <div style="background: #e7f7e7; padding: 15px; border-radius: 12px; border-right: 4px solid #28a745;">
+                        <strong>💡 Note:</strong>
+                        <ul style="margin: 8px 0 0 0; padding-right: 20px; color: #65676b; font-size: 14px;">
+                            <li><strong>Free Stars:</strong> Use for gifts, badges, or rewards. Cannot be withdrawn as cash.</li>
+                            <li><strong>Real Stars:</strong> Use when a user pays you. They can be withdrawn or sent to creators.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function sendStarsToUser() {
+            const identifier = document.getElementById('starUserId').value.trim();
+            const amount = parseInt(document.getElementById('starAmount').value);
+            const type = document.getElementById('starType').value;
+
+            if (!identifier || !amount || amount <= 0) {
+                alert('❌ Please enter a valid user email/ID and amount.');
+                return;
+            }
+
+            try {
+                // 1. Find User ID
+                let userId = null;
+                if (identifier.includes('@')) {
+                    const { data: profile } = await supabaseClient
+                        .from('profiles')
+                        .select('id')
+                        .eq('email', identifier)
+                        .single();
+                    if (profile) userId = profile.id;
+                } else {
+                    userId = identifier; // Assume it's a UUID
+                }
+
+                if (!userId) {
+                    alert('❌ User not found.');
+                    return;
+                }
+
+                // 2. Call Database Function to update stars
+                const { error } = await supabaseClient.rpc('admin_update_stars', {
+                    target_user_id: userId,
+                    stars_to_add: amount,
+                    star_type: type
+                });
+
+                if (error) throw error;
+
+                alert(`✅ Successfully added ${amount} ${type} stars to the user!`);
+                document.getElementById('starUserId').value = '';
+                document.getElementById('starAmount').value = '';
+
+            } catch (error) {
+                console.error(error);
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        window.loadStarsTab = loadStarsTab;
+        window.sendStarsToUser = sendStarsToUser;
     </script>
            <script src="js/messenger-notify.js"></script>  
       <script src="js/country-stats.js"></script>
