@@ -169,7 +169,7 @@
                     <span class="level-count" id="level1Count">0</span>
                 </div>
                 <div class="level-desc" data-i18n="level_1_desc">
-                    Friends you personally invited. You earn <strong>500 points</strong> per referral + <strong>10%</strong> of their task earnings.
+                    Friends you personally invited. You earn <strong>50 points</strong> per referral + <strong>10%</strong> of their task earnings.
                 </div>
                 <span class="level-percent">+50 pts + 10%</span>
             </div>
@@ -404,7 +404,7 @@
             row.innerHTML = `
                 <td>${name}</td>
                 <td dir="ltr">${dateStr}</td>
-                <td style="color:#28a745;font-weight:700;">+${ref.points_awarded || 500}</td>
+                <td style="color:#28a745;font-weight:700;">+${ref.points_awarded || 50}</td>
             `;
             tableBody.appendChild(row);
         });
