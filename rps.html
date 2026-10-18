@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجر ورقة مقص - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; color: #050505; }
+        
+        /* NAVBAR */
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; }
+        
+        /* GAME */
+        .game-container { max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
+        .game-header h1 { font-size: 36px; margin: 0 0 10px; background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .score-board { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .score-item { background: white; border-radius: 12px; padding: 15px 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; min-width: 100px; }
+        .score-label { font-size: 13px; color: #65676b; margin-bottom: 5px; }
+        .score-value { font-size: 24px; font-weight: 700; color: #1877f2; }
+        
+        .status { font-size: 20px; font-weight: 600; margin-bottom: 20px; padding: 15px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        
+        .choices { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; }
+        .choice-btn { font-size: 60px; background: white; border: 3px solid #e4e6eb; border-radius: 20px; width: 120px; height: 120px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .choice-btn:hover { transform: scale(1.1); border-color: #1877f2; }
+        .choice-btn:active { transform: scale(0.95); }
+        
+        .result-display { display: flex; justify-content: space-around; align-items: center; background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-height: 120px; }
+        .result-side { text-align: center; }
+        .result-side .emoji { font-size: 50px; margin-bottom: 5px; }
+        .result-side .label { font-size: 12px; color: #65676b; font-weight: 600; }
+        .result-vs { font-size: 24px; font-weight: 800; color: #65676b; }
+        
+        .game-controls { display: flex; gap: 10px; justify-content: center; }
+        .control-btn { padding: 12px 24px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; }
+        .control-btn:hover { background: #166fe5; }
+        
+        /* LEADERBOARD */
+        .lb-card { background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: 30px auto 0; max-width: 400px; overflow: hidden; text-align: right; }
+        .lb-head { background: linear-gradient(135deg, #ffd700, #f7b731); color: #333; padding: 16px; text-align: center; font-size: 20px; font-weight: 800; }
+        .lb-tabs { display: flex; gap: 6px; padding: 10px; background: #f7f8fa; }
+        .lb-tab { flex: 1; padding: 8px; border: none; border-radius: 10px; background: transparent; color: #65676b; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .lb-tab.active { background: #1877f2; color: white; }
+        .lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #eee; }
+        .lb-row.me { background: #eaf3ff; }
+        .lb-rank { width: 32px; text-align: center; font-weight: 800; font-size: 18px; }
+        .lb-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+        .lb-name { flex: 1; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lb-score { font-weight: 800; color: #1877f2; }
+        .lb-empty { padding: 24px; text-align: center; color: #65676b; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">📘 SocialWiki</a>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="gaming.html">🎮</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">خروج</button>
+        </div>
+    </nav>
+
+    <!-- GAME -->
+    <div class="game-container">
+        <div class="game-header">
+            <h1>✊✋✌️ حجر ورقة مقص</h1>
+        </div>
+
+        <!-- SCORE -->
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">فوز</div>
+                <div class="score-value" id="wins" style="color: #28a745;">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">تعادل</div>
+                <div class="score-value" id="draws" style="color: #65676b;">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">خسارة</div>
+                <div class="score-value" id="losses" style="color: #dc3545;">0</div>
+            </div>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status" id="gameStatus">اختر حركتك!</div>
+
+        <!-- RESULT -->
+        <div class="result-display">
+            <div class="result-side">
+                <div class="emoji" id="playerEmoji">❓</div>
+                <div class="label">أنت</div>
+            </div>
+            <div class="result-vs">VS</div>
+            <div class="result-side">
+                <div class="emoji" id="computerEmoji">❓</div>
+                <div class="label">الكمبيوتر</div>
+            </div>
+        </div>
+
+        <!-- CHOICES -->
+        <div class="choices">
+            <button class="choice-btn" onclick="play('rock')">✊</button>
+            <button class="choice-btn" onclick="play('paper')">✋</button>
+            <button class="choice-btn" onclick="play('scissors')">✌️</button>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="game-controls">
+            <button class="control-btn" onclick="resetScore()">🗑️ تصفير النقاط</button>
+        </div>
+
+        <!-- LEADERBOARD -->
+        <div class="lb-card">
+            <div class="lb-head">🏆 المتصدرون</div>
+            <div class="lb-tabs">
+                <button class="lb-tab active" onclick="setLbPeriod('day', this)">اليوم</button>
+                <button class="lb-tab" onclick="setLbPeriod('week', this)">الأسبوع</button>
+                <button class="lb-tab" onclick="setLbPeriod('month', this)">الشهر</button>
+                <button class="lb-tab" onclick="setLbPeriod('all', this)">الكل</button>
+            </div>
+            <div id="lbList"><div class="lb-empty">جاري التحميل...</div></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let wins = 0, draws = 0, losses = 0;
+        let sessionPoints = 0;
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadUserProfile() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return;
+            const { data: profile } = await supabaseClient.from('profiles').select('username, avatar_url').eq('id', user.id).single();
+            document.getElementById('navProfileName').textContent = profile?.username || 'User';
+            document.getElementById('navProfileImg').src = profile?.avatar_url || `https://ui-avatars.com/api/?name=User&background=1877f2&color=fff`;
+        }
+
+        // 🎮 Game Logic
+        function play(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+            document.getElementById('playerEmoji').textContent = getEmoji(playerChoice);
+            document.getElementById('computerEmoji').textContent = getEmoji(computerChoice);
+
+            let result = '';
+            if (playerChoice === computerChoice) {
+                result = 'draw';
+                draws++;
+                document.getElementById('draws').textContent = draws;
+                document.getElementById('gameStatus').textContent = '🤝 تعادل!';
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = 'win';
+                wins++;
+                sessionPoints += 10;
+                document.getElementById('wins').textContent = wins;
+                document.getElementById('gameStatus').textContent = '🎉 فزت!';
+                submitScore(sessionPoints);
+            } else {
+                result = 'lose';
+                losses++;
+                document.getElementById('losses').textContent = losses;
+                document.getElementById('gameStatus').textContent = '😢 خسرت!';
+            }
+        }
+
+        function getEmoji(choice) {
+            return { rock: '✊', paper: '✋', scissors: '✌️' }[choice];
+        }
+
+        function resetScore() {
+            if (!confirm('هل تريد تصفير النقاط؟')) return;
+            wins = draws = losses = 0;
+            sessionPoints = 0;
+            document.getElementById('wins').textContent = '0';
+            document.getElementById('draws').textContent = '0';
+            document.getElementById('losses').textContent = '0';
+            document.getElementById('gameStatus').textContent = 'اختر حركتك!';
+        }
+
+        // 🏆 Leaderboard & Score
+        async function submitScore(score) {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return;
+            await supabaseClient.from('game_scores').insert({ 
+                user_id: user.id, 
+                game: 'rps', // ✅ اسم اللعبة
+                score: Math.floor(score) 
+            });
+            loadLeaderboard(lbPeriod);
+        }
+
+        let lbPeriod = 'day';
+        function setLbPeriod(period, btn) {
+            lbPeriod = period;
+            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadLeaderboard(period);
+        }
+
+        async function loadLeaderboard(period) {
+            const list = document.getElementById('lbList');
+            list.innerHTML = '<div class="lb-empty">جاري التحميل...</div>';
+            try {
+                const { data: scores, error } = await supabaseClient.from('game_scores').select('user_id, score, created_at').eq('game', 'rps');
+                if (error) throw error;
+
+                if (!scores || scores.length === 0) {
+                    list.innerHTML = '<div class="lb-empty">لا توجد نتائج بعد 🎮</div>';
+                    return;
+                }
+
+                const now = new Date();
+                const filtered = scores.filter(s => {
+                    if (period === 'all') return true;
+                    const diff = (now - new Date(s.created_at)) / (1000 * 60 * 60 * 24);
+                    if (period === 'day') return diff <= 1;
+                    if (period === 'week') return diff <= 7;
+                    if (period === 'month') return diff <= 30;
+                    return true;
+                });
+
+                const userScores = {};
+                filtered.forEach(s => { userScores[s.user_id] = (userScores[s.user_id] || 0) + s.score; });
+
+                const sorted = Object.entries(userScores).sort((a, b) => b[1] - a[1]).slice(0, 10);
+                if (sorted.length === 0) {
+                    list.innerHTML = '<div class="lb-empty">لا توجد نتائج لهذه الفترة</div>';
+                    return;
+                }
+
+                const { data: profiles } = await supabaseClient.from('profiles').select('id, username, avatar_url').in('id', sorted.map(u => u[0]));
+                const map = {};
+                profiles.forEach(p => map[p.id] = p);
+
+                const medals = ['🥇', '🥈', '🥉'];
+                list.innerHTML = sorted.map(([uid, score], i) => {
+                    const p = map[uid] || {};
+                    const name = p.username || 'Player';
+                    const avatar = p.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+                    return `<div class="lb-row ${supabaseClient.auth.getUser() && uid === supabaseClient.auth.getUser().data.user?.id ? 'me' : ''}">
+                        <div class="lb-rank">${medals[i] || i + 1}</div>
+                        <img class="lb-avatar" src="${avatar}">
+                        <div class="lb-name">${name}</div>
+                        <div class="lb-score">${score}</div>
+                    </div>`;
+                }).join('');
+
+            } catch (e) {
+                list.innerHTML = '<div class="lb-empty">خطأ في التحميل</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+            loadLeaderboard('day');
+        });
+    </script>
+    <script src="js/dark-mode.js"></script>
+</body>
+</html>
