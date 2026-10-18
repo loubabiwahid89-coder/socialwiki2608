@@ -855,8 +855,6 @@ const translations = {
         "memory_game_lb_filter_month": "الشهر",
         "memory_game_lb_filter_week": "الأسبوع",
         "memory_game_lb_filter_today": "اليوم",
-        "flappy_title": "🐦 الطائرة الورقية",
-"flappy_desc": "حلق بالطائرة وتجنب العقبات",
 "reaction_title": "⚡ تحدي السرعة",
 "reaction_desc": "اختبر سرعة رد فعلك",
 "puzzle_title": "🧩 لغز الصور",
@@ -1694,9 +1692,7 @@ const translations = {
         "memory_game_lb_filter_month": "Mois",
         "memory_game_lb_filter_week": "Semaine",
         "memory_game_lb_filter_today": "Aujourd'hui",
-        "flappy_title": "🐦 Oiseau Volant",
-"flappy_desc": "Volez et évitez les obstacles",
-"reaction_title": "⚡ Temps de Réaction",
+       "reaction_title": "⚡ Temps de Réaction",
 "reaction_desc": "Testez votre vitesse de réaction",
 "puzzle_title": "🧩 Puzzle Glissant",
 "puzzle_desc": "Disposez les pièces pour former l'image",
@@ -2539,8 +2535,6 @@ const translations = {
         "memory_game_lb_filter_month": "Month",
         "memory_game_lb_filter_week": "Week",
         "memory_game_lb_filter_today": "Today",
-        "flappy_title": "🐦 Flappy Bird",
-"flappy_desc": "Fly and avoid obstacles",
 "reaction_title": "⚡ Reaction Time",
 "reaction_desc": "Test your reaction speed",
 "puzzle_title": "🧩 Sliding Puzzle",
@@ -3382,6 +3376,12 @@ const translations = {
         "memory_game_lb_filter_month": "Mes",
         "memory_game_lb_filter_week": "Semana",
         "memory_game_lb_filter_today": "Hoy",
+        "reaction_title": "⚡ Tiempo de Reacción",
+"reaction_desc": "Prueba tu velocidad de reacción",
+"puzzle_title": "🧩 Rompecabezas Deslizante",
+"puzzle_desc": "Ordena las piezas para formar la imagen",
+"sudoku_title": "🔢 Sudoku Pro",
+"sudoku_desc": "Desafía tu cerebro con números",
 
     },
     
@@ -4227,6 +4227,12 @@ const translations = {
 "puzzle_desc": "Ordne die Teile zum Bild",
 "sudoku_title": "🔢 Pro Sudoku",
 "sudoku_desc": "Fordere dein Gehirn mit Zahlen heraus",
+"reaction_title": "⚡ Reaktionszeit",
+"reaction_desc": "Teste deine Reaktionsgeschwindigkeit",
+"puzzle_title": "🧩 Schiebepuzzle",
+"puzzle_desc": "Ordne die Teile zum Bild",
+"sudoku_title": "🔢 Pro Sudoku",
+"sudoku_desc": "Fordere dein Gehirn mit Zahlen heraus",
     },
     
         // ==================== ITALIAN ====================
@@ -5065,6 +5071,12 @@ const translations = {
         "memory_game_lb_filter_today": "Oggi",
         "flappy_title": "🐦 Uccello Volante",
 "flappy_desc": "Vola ed evita gli ostacoli",
+"reaction_title": "⚡ Tempo di Reazione",
+"reaction_desc": "Metti alla prova la tua velocità di reazione",
+"puzzle_title": "🧩 Puzzle Scorrevole",
+"puzzle_desc": "Disponi i pezzi per formare l'immagine",
+"sudoku_title": "🔢 Sudoku Pro",
+"sudoku_desc": "Sfida il tuo cervello con i numeri",
 "reaction_title": "⚡ Tempo di Reazione",
 "reaction_desc": "Metti alla prova la tua velocità di reazione",
 "puzzle_title": "🧩 Puzzle Scorrevole",
@@ -5916,6 +5928,12 @@ const translations = {
 "puzzle_desc": "排列碎片以形成图像",
 "sudoku_title": "🔢 专业数独",
 "sudoku_desc": "用数字挑战你的大脑",
+"reaction_title": "⚡ 反应时间",
+"reaction_desc": "测试你的反应速度",
+"puzzle_title": "🧩 滑动拼图",
+"puzzle_desc": "排列碎片以形成图像",
+"sudoku_title": "🔢 专业数独",
+"sudoku_desc": "用数字挑战你的大脑",
     },
     
 
@@ -6753,6 +6771,12 @@ const translations = {
         "memory_game_lb_filter_month": "月",
         "memory_game_lb_filter_week": "週",
         "memory_game_lb_filter_today": "今日",
+        "reaction_title": "⚡ 反応時間",
+"reaction_desc": "反応速度をテストしよう",
+"puzzle_title": "🧩 スライディングパズル",
+"puzzle_desc": "ピースを並べて画像を完成させよう",
+"sudoku_title": "🔢 プロ数独",
+"sudoku_desc": "数字で脳を鍛えよう",
     },
     
 
@@ -7590,6 +7614,12 @@ const translations = {
         "memory_game_lb_filter_month": "월",
         "memory_game_lb_filter_week": "주",
         "memory_game_lb_filter_today": "오늘",
+        "reaction_title": "⚡ 반응 속도",
+"reaction_desc": "반응 속도를 테스트하세요",
+"puzzle_title": "🧩 슬라이딩 퍼즐",
+"puzzle_desc": "조각을 맞춰 이미지를 완성하세요",
+"sudoku_title": "🔢 프로 스도쿠",
+"sudoku_desc": "숫자로 두뇌를 훈련하세요",
     },
     
 
@@ -8427,6 +8457,12 @@ const translations = {
         "memory_game_lb_filter_month": "Месяц",
         "memory_game_lb_filter_week": "Неделя",
         "memory_game_lb_filter_today": "Сегодня",
+        "reaction_title": "⚡ Время реакции",
+"reaction_desc": "Проверьте скорость своей реакции",
+"puzzle_title": "🧩 Скользящая головоломка",
+"puzzle_desc": "Расставьте части, чтобы собрать картинку",
+"sudoku_title": "🔢 Про Судоку",
+"sudoku_desc": "Бросьте вызов своему мозгу с числами",
     },
     
 
@@ -9265,6 +9301,12 @@ const translations = {
         "memory_game_lb_filter_month": "Ay",
         "memory_game_lb_filter_week": "Hafta",
         "memory_game_lb_filter_today": "Bugün",
+        "reaction_title": "⚡ Reaksiyon Süresi",
+"reaction_desc": "Reaksiyon hızını test et",
+"puzzle_title": "🧩 Kayan Bulmaca",
+"puzzle_desc": "Resmi oluşturmak için parçaları düzenle",
+"sudoku_title": "🔢 Pro Sudoku",
+"sudoku_desc": "Beynini sayılarla zorla",
     },
 
     
@@ -10103,6 +10145,12 @@ const translations = {
         "memory_game_lb_filter_month": "Ay",
         "memory_game_lb_filter_week": "Hafta",
         "memory_game_lb_filter_today": "Bugün",
+        "reaction_title": "⚡ प्रतिक्रिया समय",
+"reaction_desc": "अपनी प्रतिक्रिया गति का परीक्षण करें",
+"puzzle_title": "🧩 स्लाइडिंग पहेली",
+"puzzle_desc": "छवि बनाने के लिए टुकड़ों को व्यवस्थित करें",
+"sudoku_title": "🔢 प्रो सुडोकू",
+"sudoku_desc": "संख्याओं के साथ अपने मस्तिष्क को चुनौती दें",
     },
     
 
@@ -10940,6 +10988,12 @@ const translations = {
         "memory_game_lb_filter_month": "महीना",
         "memory_game_lb_filter_week": "सप्ताह",
         "memory_game_lb_filter_today": "आज",
+        "reaction_title": "⚡ Oras ng Reaksyon",
+"reaction_desc": "Subukan ang bilis ng iyong reaksyon",
+"puzzle_title": "🧩 Sliding Puzzle",
+"puzzle_desc": "Ayusin ang mga piraso upang mabuo ang larawan",
+"sudoku_title": "🔢 Pro Sudoku",
+"sudoku_desc": "Hamunin ang iyong utak sa mga numero",
     },
 
     tl: {
@@ -11775,6 +11829,12 @@ const translations = {
         "memory_game_lb_filter_month": "Buwan",
         "memory_game_lb_filter_week": "Linggo",
         "memory_game_lb_filter_today": "Ngayon",
+        "reaction_title": "⚡ Oras ng Reaksyon",
+"reaction_desc": "Subukan ang bilis ng iyong reaksyon",
+"puzzle_title": "🧩 Sliding Puzzle",
+"puzzle_desc": "Ayusin ang mga piraso upang mabuo ang larawan",
+"sudoku_title": "🔢 Pro Sudoku",
+"sudoku_desc": "Hamunin ang iyong utak sa mga numero",
     },
 
     // ==================== AMHARIC (ETHIOPIAN) ====================
@@ -12592,6 +12652,13 @@ const translations = {
         "memory_game_lb_filter_month": "ወር",
         "memory_game_lb_filter_week": "ሳምንት",
         "memory_game_lb_filter_today": "ዛሬ",
+        "reaction_title": "⚡ የምላሽ ጊዜ",
+"reaction_desc": "የምላሽ ፍጥነትዎን ይፈትኑ",
+"puzzle_title": "🧩 ተንሸራታች እንቆቅልሽ",
+"puzzle_desc": "ምስሉን ለመፍጠር ቁርጥራጮቹን ያዘጋጁ",
+"sudoku_title": "🔢 ፕሮ ሱዶኩ",
+"sudoku_desc": "አንጎልዎን በቁጥሮች ይፈትኑ",
+
 
     }
 

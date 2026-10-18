@@ -171,7 +171,7 @@
                 <div class="level-desc" data-i18n="level_1_desc">
                     Friends you personally invited. You earn <strong>500 points</strong> per referral + <strong>10%</strong> of their task earnings.
                 </div>
-                <span class="level-percent">+500 pts + 10%</span>
+                <span class="level-percent">+50 pts + 10%</span>
             </div>
 
             <div class="level-block l2">
@@ -323,7 +323,7 @@
             .eq('referrer_id', user.id);
 
         const totalReferrals = referrals?.length || 0;
-        const totalPoints = totalReferrals * 500;
+        const totalPoints = totalReferrals * 50;
 
         // 3) Commissions
         const { data: commissions } = await supabaseClient
