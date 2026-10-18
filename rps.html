@@ -232,10 +232,15 @@
             loadLeaderboard(period);
         }
 
+        // ✅ الدالة المصححة
         async function loadLeaderboard(period) {
             const list = document.getElementById('lbList');
             list.innerHTML = '<div class="lb-empty">جاري التحميل...</div>';
             try {
+                // ✅ نجلب بيانات المستخدم الحالي مرة واحدة
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                const myId = user ? user.id : null;
+
                 const { data: scores, error } = await supabaseClient.from('game_scores').select('user_id, score, created_at').eq('game', 'rps');
                 if (error) throw error;
 
@@ -272,7 +277,11 @@
                     const p = map[uid] || {};
                     const name = p.username || 'Player';
                     const avatar = p.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
-                    return `<div class="lb-row ${supabaseClient.auth.getUser() && uid === supabaseClient.auth.getUser().data.user?.id ? 'me' : ''}">
+                    
+                    // ✅ الآن المقارنة تعمل بشكل صحيح
+                    const meClass = (myId && uid === myId) ? 'me' : '';
+                    
+                    return `<div class="lb-row ${meClass}">
                         <div class="lb-rank">${medals[i] || i + 1}</div>
                         <img class="lb-avatar" src="${avatar}">
                         <div class="lb-name">${name}</div>
@@ -281,6 +290,7 @@
                 }).join('');
 
             } catch (e) {
+                console.error('Leaderboard error:', e);
                 list.innerHTML = '<div class="lb-empty">خطأ في التحميل</div>';
             }
         }
