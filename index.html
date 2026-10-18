@@ -1740,7 +1740,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
             }
         };
 
-        async function loadPosts() {
+               async function loadPosts() {
             const feedContainer = document.getElementById('feedContainer');
             if (!feedContainer) return;
             
@@ -1754,13 +1754,13 @@ window.deleteStory = async function(storyId, mediaUrl) {
             
             try {
                 // ✅ استخدم RPC لحساب المشاهدات الحقيقية
-const { data: posts, error } = await window.supabaseClient
-    .from('posts')
-    .select(`
-        *,
-        video_impressions(count)
-    `)
-    .order('created_at', { ascending: false });
+                const { data: posts, error } = await window.supabaseClient
+                    .from('posts')
+                    .select(`
+                        *,
+                        video_impressions(count)
+                    `)
+                    .order('created_at', { ascending: false });
 
                 if (error) { console.error('Error:', error); return; }
                 if (!posts || posts.length === 0) {
@@ -1874,6 +1874,54 @@ if (window._postCounter % 3 === 0) {
     feedContainer.appendChild(adDiv);
     console.log('📢 Monetag Vignette loaded (post #' + window._postCounter + ')');
 }
+                } // ✅ تم إغلاق حلقة for هنا
+
+            } catch (err) {
+                console.error('❌ loadPosts error:', err);
+            }
+        } // ✅ تم إغلاق دالة loadPosts هنا
+
+        // ✅ تم فصل هذه الدالة وجعلها مستقلة خارج loadPosts
+        async function trackPostView(postId) {
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data: post } = await window.supabaseClient
+                    .from('posts')
+                    .select('user_id')
+                    .eq('id', postId)
+                    .single();
+                
+                if (!post || post.user_id === user.id) return;
+                
+                // 🔍 احصل على بصمة الجهاز
+                const fingerprint = window.getDeviceFingerprint ? window.getDeviceFingerprint() : 'unknown';
+                
+                // 🎯 استدعاء دالة SQL الآمنة
+                const { data, error } = await window.supabaseClient.rpc('add_post_view', {
+                    p_post_id: postId,
+                    p_viewer_id: user.id,
+                    p_device_fingerprint: fingerprint,
+                    p_post_owner_id: post.user_id
+                });
+                
+                if (error) {
+                    console.error('❌ View error:', error);
+                    return;
+                }
+                
+                if (data?.unique) {
+                    console.log('✅ Unique view recorded');
+                    // إشعار اختياري للمشاهد
+                } else if (data?.message) {
+                    console.log('⚠️', data.message);
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
 
        async function trackPostView(postId) {
     try {
