@@ -264,18 +264,20 @@
             checkWin();
         }
 
-        function checkWin() {
-            // Very basic check: is the board full?
-            let isFull = true;
+                function checkWin() {
+            // حساب عدد المربعات المتبقية
+            remainingCells = 0;
             for (let r = 0; r < 9; r++) {
                 for (let c = 0; c < 9; c++) {
-                    if (currentBoard[r][c] === 0) isFull = false;
+                    if (currentBoard[r][c] === 0) remainingCells++;
                 }
             }
+            
+            // تحديث العداد في الواجهة
+            const counterEl = document.getElementById('cellsLeft');
+            if (counterEl) counterEl.textContent = remainingCells;
 
-            if (isFull) {
-                // In a real app, check rows, columns, and 3x3 boxes for validity here.
-                // Assuming valid for this demo.
+            if (remainingCells === 0) {
                 clearInterval(timerInterval);
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
                 document.getElementById('timeTaken').textContent = timeTaken;

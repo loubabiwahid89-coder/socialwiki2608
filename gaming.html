@@ -128,30 +128,13 @@
             font-size: 80px;
             background: linear-gradient(135deg, #667eea, #764ba2);
         }
-        .game-thumbnail.ttt {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-        }
-        .game-thumbnail.snake {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-        }
-        .game-thumbnail.memory {
-            background: linear-gradient(135deg, #43e97b, #38f9d7);
-        }
+        .game-thumbnail.ttt { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .game-thumbnail.snake { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .game-thumbnail.memory { background: linear-gradient(135deg, #43e97b, #38f9d7); }
         
-        .game-info {
-            padding: 20px;
-        }
-        .game-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .game-description {
-            font-size: 14px;
-            color: #65676b;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
+        .game-info { padding: 20px; }
+        .game-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .game-description { font-size: 14px; color: #65676b; margin-bottom: 15px; line-height: 1.5; }
         .play-btn {
             display: inline-block;
             padding: 10px 24px;
@@ -162,15 +145,10 @@
             font-size: 14px;
             transition: 0.2s;
         }
-        .play-btn:hover {
-            background: #166fe5;
-        }
+        .play-btn:hover { background: #166fe5; }
         
         /* COMING SOON */
-        .coming-soon {
-            opacity: 0.6;
-            pointer-events: none;
-        }
+        .coming-soon { opacity: 0.6; pointer-events: none; }
         .coming-soon-badge {
             display: inline-block;
             background: #f0ad4e;
@@ -271,7 +249,7 @@
                 </div>
             </a>
 
-                       <!-- لعبة Memory -->
+            <!-- لعبة Memory -->
             <a href="memory.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail memory">🧠</div>
                 <div class="game-info">
@@ -281,19 +259,7 @@
                 </div>
             </a>
 
-            <!-- 🎲 لعبة Parchisi Star (جديد) -->
-            <a href="parchisi-game.html" class="game-card" onclick="markGameTask()">
-                <div class="game-thumbnail" style="background: linear-gradient(135deg, #e53935, #fbc02d);">🎲</div>
-                <div class="game-info">
-                    <div class="game-title">
-                        Parchisi Star 
-                        <span class="coming-soon-badge" style="background: #4caf50;">NEW</span>
-                    </div>
-                    <div class="game-description">Play Parchisi with friends online - 4 players!</div>
-                    <span class="play-btn">Play Now</span>
-                </div>
-            </a>
-                        <!-- 🎲 لعبة Parchisi Star (جديد) -->
+            <!-- 🎲 لعبة Parchisi Star -->
             <a href="parchisi-game.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail" style="background: linear-gradient(135deg, #e53935, #fbc02d);">🎲</div>
                 <div class="game-info">
@@ -306,7 +272,7 @@
                 </div>
             </a>
 
-            <!-- 🎮 لعبة حجر ورقة مقص (جديد) -->
+            <!-- 🎮 لعبة حجر ورقة مقص -->
             <a href="rps.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail" style="background: linear-gradient(135deg, #667eea, #764ba2);">✊✋✌️</div>
                 <div class="game-info">
@@ -316,7 +282,7 @@
                 </div>
             </a>
 
-                        <!-- 🧠 لعبة Simon Says (جديد) -->
+            <!-- 🧠 لعبة Simon Says -->
             <a href="simon.html" class="game-card" onclick="markGameTask()">
                 <div class="game-thumbnail" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🧠</div>
                 <div class="game-info">
@@ -326,11 +292,48 @@
                 </div>
             </a>
 
-        </div>
-        <!-- إغلاق games-grid -->
+            <!-- 🐦 لعبة الطائرة الورقية (Flappy Bird) -->
+            <a href="flappy.html" class="game-card" onclick="markGameTask()">
+                <div class="game-thumbnail" style="background: linear-gradient(135deg, #56ab2f, #a8e063);">🐦</div>
+                <div class="game-info">
+                    <div class="game-title">الطائرة الورقية <span class="coming-soon-badge" style="background: #4caf50;">NEW</span></div>
+                    <div class="game-description">حلق بالطائرة وتجنب العقبات</div>
+                    <span class="play-btn">العب الآن</span>
+                </div>
+            </a>
+
+            <!-- ⚡ لعبة تحدي السرعة (Reaction Time) -->
+            <a href="reaction.html" class="game-card" onclick="markGameTask()">
+                <div class="game-thumbnail" style="background: linear-gradient(135deg, #f12711, #f5af19);">⚡</div>
+                <div class="game-info">
+                    <div class="game-title">تحدي السرعة <span class="coming-soon-badge" style="background: #4caf50;">NEW</span></div>
+                    <div class="game-description">اختبر سرعة رد فعلك</div>
+                    <span class="play-btn">العب الآن</span>
+                </div>
+            </a>
+
+            <!-- 🧩 لعبة لغز الصور (Sliding Puzzle) -->
+            <a href="puzzle.html" class="game-card" onclick="markGameTask()">
+                <div class="game-thumbnail" style="background: linear-gradient(135deg, #ff7e5f, #feb47b);">🧩</div>
+                <div class="game-info">
+                    <div class="game-title">لغز الصور <span class="coming-soon-badge" style="background: #4caf50;">NEW</span></div>
+                    <div class="game-description">رتب القطع لتكوين الصورة الصحيحة</div>
+                    <span class="play-btn">العب الآن</span>
+                </div>
+            </a>
+
+            <!-- 🔢 لعبة سودوكو (Sudoku) -->
+            <a href="sudoku.html" class="game-card" onclick="markGameTask()">
+                <div class="game-thumbnail" style="background: linear-gradient(135deg, #4b6cb7, #182848);">🔢</div>
+                <div class="game-info">
+                    <div class="game-title">سودوكو <span class="coming-soon-badge" style="background: #4caf50;">NEW</span></div>
+                    <div class="game-description">تحدي عقلك في لعبة الأرقام الشهيرة</div>
+                    <span class="play-btn">العب الآن</span>
+                </div>
+            </a>
 
         </div>
-       
+        <!-- إغلاق games-grid -->
 
     </div>
     <!-- إغلاق games-container -->

@@ -855,6 +855,14 @@ const translations = {
         "memory_game_lb_filter_month": "الشهر",
         "memory_game_lb_filter_week": "الأسبوع",
         "memory_game_lb_filter_today": "اليوم",
+        "flappy_title": "🐦 الطائرة الورقية",
+"flappy_desc": "حلق بالطائرة وتجنب العقبات",
+"reaction_title": "⚡ تحدي السرعة",
+"reaction_desc": "اختبر سرعة رد فعلك",
+"puzzle_title": "🧩 لغز الصور",
+"puzzle_desc": "رتب القطع لتكوين الصورة",
+"sudoku_title": "🔢 سودوكو احترافي",
+"sudoku_desc": "تحدي عقلك في لعبة الأرقام",
     },
 
     // ==================== FRENCH ====================
@@ -1686,6 +1694,14 @@ const translations = {
         "memory_game_lb_filter_month": "Mois",
         "memory_game_lb_filter_week": "Semaine",
         "memory_game_lb_filter_today": "Aujourd'hui",
+        "flappy_title": "🐦 Oiseau Volant",
+"flappy_desc": "Volez et évitez les obstacles",
+"reaction_title": "⚡ Temps de Réaction",
+"reaction_desc": "Testez votre vitesse de réaction",
+"puzzle_title": "🧩 Puzzle Glissant",
+"puzzle_desc": "Disposez les pièces pour former l'image",
+"sudoku_title": "🔢 Sudoku Pro",
+"sudoku_desc": "Défiez votre cerveau avec des chiffres",
 
     },
 
@@ -2523,6 +2539,14 @@ const translations = {
         "memory_game_lb_filter_month": "Month",
         "memory_game_lb_filter_week": "Week",
         "memory_game_lb_filter_today": "Today",
+        "flappy_title": "🐦 Flappy Bird",
+"flappy_desc": "Fly and avoid obstacles",
+"reaction_title": "⚡ Reaction Time",
+"reaction_desc": "Test your reaction speed",
+"puzzle_title": "🧩 Sliding Puzzle",
+"puzzle_desc": "Arrange pieces to form the image",
+"sudoku_title": "🔢 Pro Sudoku",
+"sudoku_desc": "Challenge your brain with numbers",
     },
     // ==================== SPANISH ====================
     es: {
@@ -3358,6 +3382,7 @@ const translations = {
         "memory_game_lb_filter_month": "Mes",
         "memory_game_lb_filter_week": "Semana",
         "memory_game_lb_filter_today": "Hoy",
+
     },
     
 
@@ -4194,6 +4219,14 @@ const translations = {
         "memory_game_lb_filter_month": "Monat",
         "memory_game_lb_filter_week": "Woche",
         "memory_game_lb_filter_today": "Heute",
+        "flappy_title": "🐦 Flappy Bird",
+"flappy_desc": "Fliege und weiche Hindernissen aus",
+"reaction_title": "⚡ Reaktionszeit",
+"reaction_desc": "Teste deine Reaktionsgeschwindigkeit",
+"puzzle_title": "🧩 Schiebepuzzle",
+"puzzle_desc": "Ordne die Teile zum Bild",
+"sudoku_title": "🔢 Pro Sudoku",
+"sudoku_desc": "Fordere dein Gehirn mit Zahlen heraus",
     },
     
         // ==================== ITALIAN ====================
@@ -5030,6 +5063,14 @@ const translations = {
         "memory_game_lb_filter_month": "Mese",
         "memory_game_lb_filter_week": "Settimana",
         "memory_game_lb_filter_today": "Oggi",
+        "flappy_title": "🐦 Uccello Volante",
+"flappy_desc": "Vola ed evita gli ostacoli",
+"reaction_title": "⚡ Tempo di Reazione",
+"reaction_desc": "Metti alla prova la tua velocità di reazione",
+"puzzle_title": "🧩 Puzzle Scorrevole",
+"puzzle_desc": "Disponi i pezzi per formare l'immagine",
+"sudoku_title": "🔢 Sudoku Pro",
+"sudoku_desc": "Sfida il tuo cervello con i numeri",
     },
     
 
@@ -5867,6 +5908,14 @@ const translations = {
         "memory_game_lb_filter_month": "月",
         "memory_game_lb_filter_week": "周",
         "memory_game_lb_filter_today": "今天",
+        "flappy_title": "🐦 飞扬的小鸟",
+"flappy_desc": "飞行并躲避障碍物",
+"reaction_title": "⚡ 反应时间",
+"reaction_desc": "测试你的反应速度",
+"puzzle_title": "🧩 滑动拼图",
+"puzzle_desc": "排列碎片以形成图像",
+"sudoku_title": "🔢 专业数独",
+"sudoku_desc": "用数字挑战你的大脑",
     },
     
 

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; color: #050505; display: flex; flex-direction: column; align-items: center; }
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; width: 100%; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+        
+        .game-container { text-align: center; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .game-header h1 { font-size: 36px; margin: 0 0 10px; background: linear-gradient(135deg, #56ab2f, #a8e063); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .score-display { font-size: 24px; font-weight: bold; margin-bottom: 15px; color: #1877f2; }
+        
+        canvas { border: 3px solid #1877f2; border-radius: 12px; background: #70c5ce; box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-width: 100%; }
+        
+        .game-controls { margin-top: 20px; }
+        .control-btn { padding: 12px 30px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: 0.2s; }
+        .control-btn:hover { background: #166fe5; }
+
+        .lb-card { background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: 30px auto 0; max-width: 400px; width: 100%; overflow: hidden; text-align: right; }
+        .lb-head { background: linear-gradient(135deg, #ffd700, #f7b731); color: #333; padding: 16px; text-align: center; font-size: 20px; font-weight: 800; }
+        .lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #eee; }
+        .lb-row.me { background: #eaf3ff; }
+        .lb-rank { width: 32px; text-align: center; font-weight: 800; font-size: 18px; }
+        .lb-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #ddd; }
+        .lb-name { flex: 1; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lb-score { font-weight: 800; color: #1877f2; }
+        .lb-empty { padding: 24px; text-align: center; color: #65676b; font-size: 14px; }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left"><a href="index.html" class="logo">📘 SocialWiki</a></div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li><li><a href="friends.html">👥</a></li><li><a href="market-plus.html">🛍️</a></li><li><a href="events.html">📅</a></li><li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🐦 الطائرة الورقية</h1>
+            <p>اضغط مسافة (Space) أو انقر للطيران وتجنب الأنابيب!</p>
+        </div>
+        <div class="score-display">النقاط: <span id="score">0</span></div>
+        
+        <canvas id="gameCanvas" width="400" height="500"></canvas>
+        
+        <div class="game-controls">
+            <button class="control-btn" onclick="startGame()">🔄 العب مرة أخرى</button>
+        </div>
+
+        <div class="lb-card">
+            <div class="lb-head">🏆 المتصدرون (اليوم)</div>
+            <div id="lbList"><div class="lb-empty">جاري التحميل...</div></div>
+        </div>
+    </div>
+
+    <!-- تحميل مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // --- بداية الحماية (Safety Check) ---
+        // إذا فشل تحميل Supabase، سنقوم بإنشاء كائن وهمي لكي لا يتوقف الكود
+        let supabaseClient = null;
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+
+        if (window.supabase) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("✅ Supabase Loaded Successfully");
+        } else {
+            console.warn("⚠️ Supabase failed to load. Game will run in Offline Mode (Scores won't be saved).");
+            // كائن وهمي لمنع الأخطاء
+            supabaseClient = {
+                auth: { getUser: async () => ({ data: { user: null } }), signOut: () => {} },
+                from: () => ({ select: () => ({ eq: () => ({ single: async () => ({ data: null }) }) }), insert: async () => {} })
+            };
+        }
+        // --- نهاية الحماية ---
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+
+        let bird, pipes, score, gameLoop, isGameOver;
+
+        function logout() { 
+            if(supabaseClient && supabaseClient.auth) supabaseClient.auth.signOut(); 
+            window.location.href = "auth.html"; 
+        }
+
+        async function loadUserProfile() {
+            if (!supabaseClient) return;
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: profile } = await supabaseClient.from('profiles').select('username, avatar_url').eq('id', user.id).single();
+                if (profile) {
+                    document.getElementById('navProfileName').textContent = profile.username || 'User';
+                    if (profile.avatar_url) document.getElementById('navProfileImg').src = profile.avatar_url;
+                }
+            } catch(e) { console.log("User profile skipped (offline)"); }
+        }
+
+        function initGame() {
+            console.log("🎮 Game Initialized");
+            bird = { x: 50, y: 250, width: 20, height: 20, velocity: 0, gravity: 0.5, jump: -8 };
+            pipes = [];
+            score = 0;
+            isGameOver = false;
+            scoreEl.textContent = score;
+            if (gameLoop) clearInterval(gameLoop);
+            gameLoop = setInterval(update, 1000/60);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Bird
+            ctx.fillStyle = '#ffcc00';
+            ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+            
+            // Draw Pipes
+            ctx.fillStyle = '#28a745';
+            pipes.forEach(pipe => {
+                ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
+                ctx.fillRect(pipe.x, canvas.height - pipe.bottom, pipe.width, pipe.bottom);
+            });
+        }
+
+        function update() {
+            if (isGameOver) return;
+
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // Check collision with floor/ceiling
+            if (bird.y + bird.height > canvas.height || bird.y < 0) {
+                endGame();
+            }
+
+            // Move pipes
+            pipes.forEach(pipe => {
+                pipe.x -= 2;
+                
+                // Check collision
+                if (bird.x < pipe.x + pipe.width && bird.x + bird.width > pipe.x) {
+                    if (bird.y < pipe.top || bird.y + bird.height > canvas.height - pipe.bottom) {
+                        endGame();
+                    }
+                }
+                
+                // Check score
+                if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+                    score++;
+                    scoreEl.textContent = score;
+                    pipe.passed = true;
+                }
+            });
+
+            // Remove off-screen pipes
+            pipes = pipes.filter(p => p.x > -50);
+
+            // Add new pipes
+            if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 200) {
+                const gap = 120;
+                const top = Math.random() * (canvas.height - gap - 100) + 50;
+                pipes.push({ x: canvas.width, width: 50, top: top, bottom: canvas.height - top - gap, passed: false });
+            }
+
+            draw();
+        }
+
+        function jump() {
+            if (isGameOver) return;
+            bird.velocity = bird.jump;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') { e.preventDefault(); jump(); }
+        });
+        canvas.addEventListener('click', jump);
+
+        function startGame() {
+            initGame();
+        }
+
+        function endGame() {
+            isGameOver = true;
+            clearInterval(gameLoop);
+            submitScore('flappy', score);
+            alert(`انتهت اللعبة! نقاطك: ${score}`);
+        }
+
+        async function submitScore(game, score) {
+            if (score <= 0) return;
+            if (!supabaseClient) return; // تخطي إذا لم توجد قاعدة بيانات
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                await supabaseClient.from('game_scores').insert({ user_id: user.id, game: game, score: Math.floor(score) });
+                loadLeaderboard();
+            } catch (e) { console.error('Score error:', e); }
+        }
+
+        async function loadLeaderboard() {
+            const list = document.getElementById('lbList');
+            if (!supabaseClient) { list.innerHTML = '<div class="lb-empty">وضع عدم الاتصال (Offline)</div>'; return; }
+            
+            list.innerHTML = '<div class="lb-empty">جاري التحميل...</div>';
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                const { data: scores, error } = await supabaseClient.from('game_scores').select('user_id, score, created_at').eq('game', 'flappy');
+                if (error) throw error;
+                if (!scores || scores.length === 0) { list.innerHTML = '<div class="lb-empty">لا توجد نتائج بعد 🎮</div>'; return; }
+
+                const now = new Date();
+                const filtered = scores.filter(s => {
+                    const diffDays = (now - new Date(s.created_at)) / (1000 * 60 * 60 * 24);
+                    return diffDays <= 1;
+                });
+
+                const userScores = {};
+                filtered.forEach(s => { if (!userScores[s.user_id]) userScores[s.user_id] = 0; userScores[s.user_id] += s.score; });
+                const sortedUsers = Object.entries(userScores).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+                if (sortedUsers.length === 0) { list.innerHTML = '<div class="lb-empty">لا توجد نتائج اليوم</div>'; return; }
+
+                const userIds = sortedUsers.map(u => u[0]);
+                const { data: profiles } = await supabaseClient.from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
+                const profilesMap = {}; (profiles || []).forEach(p => profilesMap[p.id] = p);
+                const medals = ['🥇', '🥈', '🥉'];
+
+                list.innerHTML = sortedUsers.map(([userId, totalScore], i) => {
+                    const p = profilesMap[userId] || {};
+                    const name = p.full_name || p.username || 'Player';
+                    const avatar = p.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=1877f2&color=fff');
+                    const me = user && user.id === userId ? ' me' : '';
+                    return `<div class="lb-row${me}"><div class="lb-rank">${medals[i] || (i + 1)}</div><img class="lb-avatar" src="${avatar}" alt=""><div class="lb-name">${name}</div><div class="lb-score">${totalScore}</div></div>`;
+                }).join('');
+            } catch (e) {
+                console.error('Leaderboard error:', e);
+                list.innerHTML = '<div class="lb-empty">حدث خطأ في تحميل المتصدرين</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+            loadLeaderboard();
+            initGame(); // ستعمل الآن حتى لو فشلت Supabase
+        });
+    </script>
+    
+    <!-- سكربت الإعلانات -->
+    <script>(function(s){s.dataset.zone='12058941',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>
