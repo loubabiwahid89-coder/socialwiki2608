@@ -1858,17 +1858,22 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
-                                        // ✅ إعلان Monetag Vignette بعد كل 3 منشورات
-                    window._postCounter = (window._postCounter || 0) + 1;
-                    if (window._postCounter % 3 === 0) {
-                        const adDiv = document.createElement('div');
-                        adDiv.style.cssText = 'text-align: center; margin: 20px 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
-                        adDiv.innerHTML = `
-                            <script>(function(s){s.dataset.zone='12058852',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-                        `;
-                        feedContainer.appendChild(adDiv);
-                        console.log('📢 Monetag Vignette loaded (post #' + window._postCounter + ')');
-                    }
+                          // ✅ إعلان Monetag Vignette بعد كل 3 منشورات (طريقة آمنة)
+window._postCounter = (window._postCounter || 0) + 1;
+if (window._postCounter % 3 === 0) {
+    const adDiv = document.createElement('div');
+    adDiv.style.cssText = 'text-align: center; margin: 20px 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
+    
+    // ✅ إنشاء script ديناميكياً بدل innerHTML
+    const adScript = document.createElement('script');
+    adScript.src = 'https://n6wxm.com/vignette.min.js';
+    adScript.dataset.zone = '12058852';
+    adScript.async = true;
+    adDiv.appendChild(adScript);
+    
+    feedContainer.appendChild(adDiv);
+    console.log('📢 Monetag Vignette loaded (post #' + window._postCounter + ')');
+}
 
        async function trackPostView(postId) {
     try {
