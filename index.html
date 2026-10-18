@@ -1858,53 +1858,17 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
-                    // ✅ إعلان Outstream بعد كل 5 منشورات
+                                        // ✅ إعلان Monetag Vignette بعد كل 3 منشورات
                     window._postCounter = (window._postCounter || 0) + 1;
-                    if (window._postCounter % 5 === 0) {
-                        const adId = 'exoMid_' + window._postCounter + '_' + Date.now();
+                    if (window._postCounter % 3 === 0) {
                         const adDiv = document.createElement('div');
-                        adDiv.style.cssText = 'background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;';
+                        adDiv.style.cssText = 'text-align: center; margin: 20px 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
                         adDiv.innerHTML = `
-                            <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
-                                📢 Sponsored
-                            </div>
-                            <div id="${adId}"></div>
+                            <script>(function(s){s.dataset.zone='12058852',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
                         `;
                         feedContainer.appendChild(adDiv);
-                        
-                        setTimeout(() => {
-                            const container = document.getElementById(adId);
-                            if (!container) return;
-                            
-                            const isMobileNow = window.innerWidth <= 768;
-                            
-                            const s1 = document.createElement('script');
-                            s1.async = true;
-                            s1.type = 'application/javascript';
-                            s1.src = 'https://a.magsrv.com/ad-provider.js';
-                            container.appendChild(s1);
-                            
-                            const ins = document.createElement('ins');
-                            ins.className = isMobileNow ? 'eas6a97888e10' : 'eas6a97888e2';
-                            ins.setAttribute('data-zoneid', isMobileNow ? '6046832' : '6046804');
-                            container.appendChild(ins);
-                            
-                            const s2 = document.createElement('script');
-                            s2.textContent = '(AdProvider = window.AdProvider || []).push({"serve": {}});';
-                            container.appendChild(s2);
-                            
-                            console.log('📢 Mid-feed ad loaded (post #' + window._postCounter + ')');
-                        }, 150);
+                        console.log('📢 Monetag Vignette loaded (post #' + window._postCounter + ')');
                     }
-                    
-                    if (!viewedPosts.includes(post.id)) {
-                        trackPostView(post.id);
-                        viewedPosts.push(post.id);
-                    }
-                }
-                localStorage.setItem('viewedPosts', JSON.stringify(viewedPosts));
-            } catch (error) { console.error('Error:', error); }
-        }
 
        async function trackPostView(postId) {
     try {
@@ -3587,6 +3551,6 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 
-</body>
+<script>(function(s){s.dataset.zone='12058773',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     </body>
 </html>
