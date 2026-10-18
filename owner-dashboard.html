@@ -1032,10 +1032,10 @@ async function updateRole(userId, newRole) {
             }
         }
         
-        // =========================================================
+              // =========================================================
         // TAB SWITCHING
         // =========================================================
-               function showTab(tab, element) {
+        function showTab(tab, element) {
             document.querySelectorAll('.dashboard-tab').forEach(t => t.classList.remove('active'));
             if (element) element.classList.add('active');
             
@@ -1048,8 +1048,8 @@ async function updateRole(userId, newRole) {
             else if (tab === 'revenue') loadRevenueTab();
             else if (tab === 'tiers') loadTiersTab();
             else if (tab === 'badges') loadBadgesTab();
+            else if (tab === 'stars') loadStarsTab(); // ✅ هذا هو السطر الناقص
         }
-
         // =========================================================
         // 🌍 COUNTRIES TAB
         // =========================================================
