@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Says - SocialWiki</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; color: #050505; }
+        
+        /* NAVBAR */
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-icons { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; }
+        
+        /* GAME */
+        .game-container { max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
+        .game-header h1 { font-size: 36px; margin: 0 0 10px; background: linear-gradient(135deg, #f093fb, #f5576c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .score-board { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .score-item { background: white; border-radius: 12px; padding: 15px 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; min-width: 120px; }
+        .score-label { font-size: 13px; color: #65676b; margin-bottom: 5px; }
+        .score-value { font-size: 24px; font-weight: 700; color: #1877f2; }
+        
+        .status { font-size: 20px; font-weight: 600; margin-bottom: 20px; padding: 15px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        
+        /* SIMON BOARD */
+        .simon-board { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 400px; margin: 0 auto 20px; position: relative; }
+        .simon-btn { aspect-ratio: 1; border-radius: 20px; cursor: pointer; transition: 0.1s; opacity: 0.6; border: none; }
+        
+        .simon-btn.green { background: #28a745; border-top-left-radius: 100%; }
+        .simon-btn.red { background: #dc3545; border-top-right-radius: 100%; }
+        .simon-btn.yellow { background: #ffc107; border-bottom-left-radius: 100%; }
+        .simon-btn.blue { background: #007bff; border-bottom-right-radius: 100%; }
+        
+        .simon-btn.active { opacity: 1; transform: scale(1.05); box-shadow: 0 0 20px currentColor; }
+        .simon-btn.green.active { box-shadow: 0 0 20px #28a745; }
+        .simon-btn.red.active { box-shadow: 0 0 20px #dc3545; }
+        .simon-btn.yellow.active { box-shadow: 0 0 20px #ffc107; }
+        .simon-btn.blue.active { box-shadow: 0 0 20px #007bff; }
+        
+        /* CONTROLS */
+        .game-controls { display: flex; gap: 10px; justify-content: center; }
+        .control-btn { padding: 12px 24px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; }
+        .control-btn:hover { background: #166fe5; }
+        
+        /* LEADERBOARD */
+        .lb-card { background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: 30px auto 0; max-width: 400px; overflow: hidden; text-align: right; }
+        .lb-head { background: linear-gradient(135deg, #ffd700, #f7b731); color: #333; padding: 16px; text-align: center; font-size: 20px; font-weight: 800; }
+        .lb-tabs { display: flex; gap: 6px; padding: 10px; background: #f7f8fa; }
+        .lb-tab { flex: 1; padding: 8px; border: none; border-radius: 10px; background: transparent; color: #65676b; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .lb-tab.active { background: #1877f2; color: white; }
+        .lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #eee; }
+        .lb-row.me { background: #eaf3ff; }
+        .lb-rank { width: 32px; text-align: center; font-weight: 800; font-size: 18px; }
+        .lb-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+        .lb-name { flex: 1; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lb-score { font-weight: 800; color: #1877f2; }
+        .lb-empty { padding: 24px; text-align: center; color: #65676b; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">📘 SocialWiki</a>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="gaming.html">🎮</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">خروج</button>
+        </div>
+    </nav>
+
+    <!-- GAME -->
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🧠 Simon Says</h1>
+            <p style="color: #65676b; margin: 0;">كرر النمط الصحيح!</p>
+        </div>
+
+        <!-- SCORE -->
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">أعلى نتيجة</div>
+                <div class="score-value" id="highScore">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">الجولة</div>
+                <div class="score-value" id="round">0</div>
+            </div>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status" id="gameStatus">اضغط "ابدأ" للبدء</div>
+
+        <!-- SIMON BOARD -->
+        <div class="simon-board">
+            <button class="simon-btn green" data-color="green" onclick="handleClick('green')"></button>
+            <button class="simon-btn red" data-color="red" onclick="handleClick('red')"></button>
+            <button class="simon-btn yellow" data-color="yellow" onclick="handleClick('yellow')"></button>
+            <button class="simon-btn blue" data-color="blue" onclick="handleClick('blue')"></button>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="game-controls">
+            <button class="control-btn" id="startBtn" onclick="startGame()">▶️ ابدأ</button>
+        </div>
+
+        <!-- LEADERBOARD -->
+        <div class="lb-card">
+            <div class="lb-head">🏆 المتصدرون</div>
+            <div class="lb-tabs">
+                <button class="lb-tab active" onclick="setLbPeriod('day', this)">اليوم</button>
+                <button class="lb-tab" onclick="setLbPeriod('week', this)">الأسبوع</button>
+                <button class="lb-tab" onclick="setLbPeriod('month', this)">الشهر</button>
+                <button class="lb-tab" onclick="setLbPeriod('all', this)">الكل</button>
+            </div>
+            <div id="lbList"><div class="lb-empty">جاري التحميل...</div></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let sequence = [];
+        let playerSequence = [];
+        let round = 0;
+        let highScore = parseInt(localStorage.getItem('simonHighScore') || '0');
+        let isPlaying = false;
+        let isPlayerTurn = false;
+        let soundEnabled = true;
+
+        // Sounds (using Web Audio API)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const tones = { green: 261.63, red: 329.63, yellow: 392.00, blue: 523.25 };
+
+        function playSound(color) {
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = tones[color];
+            gain.gain.value = 0.1;
+            osc.start();
+            setTimeout(() => { osc.stop(); }, 300);
+        }
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadUserProfile() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return;
+            const { data: profile } = await supabaseClient.from('profiles').select('username, avatar_url').eq('id', user.id).single();
+            document.getElementById('navProfileName').textContent = profile?.username || 'User';
+            document.getElementById('navProfileImg').src = profile?.avatar_url || `https://ui-avatars.com/api/?name=User&background=1877f2&color=fff`;
+        }
+
+        // 🎮 Game Logic
+        function startGame() {
+            if (isPlaying) return;
+            sequence = [];
+            playerSequence = [];
+            round = 0;
+            highScore = parseInt(localStorage.getItem('simonHighScore') || '0');
+            document.getElementById('highScore').textContent = highScore;
+            document.getElementById('gameStatus').textContent = 'استعد...';
+            document.getElementById('startBtn').textContent = '⏳ جاري...';
+            isPlaying = true;
+            nextRound();
+        }
+
+        function nextRound() {
+            round++;
+            document.getElementById('round').textContent = round;
+            playerSequence = [];
+            isPlayerTurn = false;
+
+            // Add random color to sequence
+            const colors = ['green', 'red', 'yellow', 'blue'];
+            sequence.push(colors[Math.floor(Math.random() * 4)]);
+
+            // Show sequence
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i >= sequence.length) {
+                    clearInterval(interval);
+                    isPlayerTurn = true;
+                    document.getElementById('gameStatus').textContent = 'دورك!';
+                    document.getElementById('startBtn').textContent = '▶️ ابدأ';
+                    return;
+                }
+                flashButton(sequence[i]);
+                i++;
+            }, 800);
+        }
+
+        function flashButton(color) {
+            const btn = document.querySelector(`.simon-btn.${color}`);
+            if (!btn) return;
+            btn.classList.add('active');
+            playSound(color);
+            setTimeout(() => btn.classList.remove('active'), 400);
+        }
+
+        function handleClick(color) {
+            if (!isPlayerTurn) return;
+
+            flashButton(color);
+            playerSequence.push(color);
+
+            // Check if correct so far
+            const currentIndex = playerSequence.length - 1;
+            if (playerSequence[currentIndex] !== sequence[currentIndex]) {
+                // Wrong!
+                gameOver();
+                return;
+            }
+
+            // Check if player completed the sequence
+            if (playerSequence.length === sequence.length) {
+                isPlayerTurn = false;
+                document.getElementById('gameStatus').textContent = '✅ صحيح! استعد...';
+                setTimeout(nextRound, 1000);
+            }
+        }
+
+        function gameOver() {
+            isPlaying = false;
+            isPlayerTurn = false;
+            document.getElementById('gameStatus').textContent = '❌ خطأ! النتيجة: ' + (round - 1);
+
+            if (round - 1 > highScore) {
+                highScore = round - 1;
+                localStorage.setItem('simonHighScore', highScore);
+                document.getElementById('highScore').textContent = highScore;
+            }
+
+            submitScore(round - 1);
+            document.getElementById('startBtn').textContent = '🔄 ابدأ من جديد';
+        }
+
+        // 🏆 Leaderboard
+        async function submitScore(score) {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) return;
+            if (score <= 0) return;
+            await supabaseClient.from('game_scores').insert({ 
+                user_id: user.id, 
+                game: 'simon', // ✅ اسم اللعبة
+                score: Math.floor(score) 
+            });
+            loadLeaderboard(lbPeriod);
+        }
+
+        let lbPeriod = 'day';
+        function setLbPeriod(period, btn) {
+            lbPeriod = period;
+            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadLeaderboard(period);
+        }
+
+        async function loadLeaderboard(period) {
+            const list = document.getElementById('lbList');
+            list.innerHTML = '<div class="lb-empty">جاري التحميل...</div>';
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                const myId = user ? user.id : null;
+
+                const { data: scores, error } = await supabaseClient.from('game_scores').select('user_id, score, created_at').eq('game', 'simon');
+                if (error) throw error;
+
+                if (!scores || scores.length === 0) {
+                    list.innerHTML = '<div class="lb-empty">لا توجد نتائج بعد 🎮</div>';
+                    return;
+                }
+
+                const now = new Date();
+                const filtered = scores.filter(s => {
+                    if (period === 'all') return true;
+                    const diff = (now - new Date(s.created_at)) / (1000 * 60 * 60 * 24);
+                    if (period === 'day') return diff <= 1;
+                    if (period === 'week') return diff <= 7;
+                    if (period === 'month') return diff <= 30;
+                    return true;
+                });
+
+                const userScores = {};
+                filtered.forEach(s => { userScores[s.user_id] = (userScores[s.user_id] || 0) + s.score; });
+
+                const sorted = Object.entries(userScores).sort((a, b) => b[1] - a[1]).slice(0, 10);
+                if (sorted.length === 0) {
+                    list.innerHTML = '<div class="lb-empty">لا توجد نتائج لهذه الفترة</div>';
+                    return;
+                }
+
+                const { data: profiles } = await supabaseClient.from('profiles').select('id, username, avatar_url').in('id', sorted.map(u => u[0]));
+                const map = {};
+                profiles.forEach(p => map[p.id] = p);
+
+                const medals = ['🥇', '🥈', '🥉'];
+                list.innerHTML = sorted.map(([uid, score], i) => {
+                    const p = map[uid] || {};
+                    const name = p.username || 'Player';
+                    const avatar = p.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+                    const meClass = (myId && uid === myId) ? 'me' : '';
+                    
+                    return `<div class="lb-row ${meClass}">
+                        <div class="lb-rank">${medals[i] || i + 1}</div>
+                        <img class="lb-avatar" src="${avatar}">
+                        <div class="lb-name">${name}</div>
+                        <div class="lb-score">${score}</div>
+                    </div>`;
+                }).join('');
+
+            } catch (e) {
+                console.error('Leaderboard error:', e);
+                list.innerHTML = '<div class="lb-empty">خطأ في التحميل</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+            loadLeaderboard('day');
+            document.getElementById('highScore').textContent = highScore;
+        });
+    </script>
+    <script src="js/dark-mode.js"></script>
+    <script>(function(s){s.dataset.zone='12058773',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>
