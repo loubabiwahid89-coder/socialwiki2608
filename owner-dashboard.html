@@ -1587,20 +1587,20 @@ async function updateRole(userId, newRole) {
                 </div>
             `;
         }
-
         async function sendStarsToUser() {
             const identifier = document.getElementById('starUserId').value.trim();
             const amount = parseInt(document.getElementById('starAmount').value);
             const type = document.getElementById('starType').value;
 
             if (!identifier || !amount || amount <= 0) {
-                alert('❌ Please enter a valid user email/ID and amount.');
+                alert('❌ Please enter a valid user email/ID/Name and amount.');
                 return;
             }
 
             try {
-                // 1. Find User ID
                 let userId = null;
+
+                // 1. إذا كان بريداً إلكترونياً
                 if (identifier.includes('@')) {
                     const { data: profile } = await supabaseClient
                         .from('profiles')
@@ -1608,16 +1608,26 @@ async function updateRole(userId, newRole) {
                         .eq('email', identifier)
                         .single();
                     if (profile) userId = profile.id;
-                } else {
-                    userId = identifier; // Assume it's a UUID
+                } 
+                // 2. إذا كان اسماً أو يوزر (نبحث في username أو full_name)
+                else {
+                    // نحاول البحث بالاسم الكامل أو اسم المستخدم
+                    const { data: profiles, error } = await supabaseClient
+                        .from('profiles')
+                        .select('id')
+                        .or(`username.ilike.%${identifier}%,full_name.ilike.%${identifier}%`);
+                    
+                    if (profiles && profiles.length > 0) {
+                        userId = profiles[0].id; // نأخذ أول نتيجة
+                    }
                 }
 
                 if (!userId) {
-                    alert('❌ User not found.');
+                    alert('❌ User not found. Please check the name or email.');
                     return;
                 }
 
-                // 2. Call Database Function to update stars
+                // 3. استدعاء الدالة في قاعدة البيانات
                 const { error } = await supabaseClient.rpc('admin_update_stars', {
                     target_user_id: userId,
                     stars_to_add: amount,
@@ -1635,7 +1645,6 @@ async function updateRole(userId, newRole) {
                 alert('❌ Error: ' + error.message);
             }
         }
-
         window.loadStarsTab = loadStarsTab;
         window.sendStarsToUser = sendStarsToUser;
     </script>
