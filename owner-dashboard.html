@@ -215,8 +215,8 @@
             </div>
         </div>
 
-        <!-- TABS -->
-       <div class="dashboard-tabs">
+      <!-- TABS -->
+<div class="dashboard-tabs">
     <div class="dashboard-tab active" onclick="showTab('users', this)">👥 Users</div>
     <div class="dashboard-tab" onclick="showTab('reports', this)">🚨 Reports</div>
     <div class="dashboard-tab" onclick="showTab('withdrawals', this)">💰 Withdrawals</div>
@@ -227,6 +227,7 @@
     <div class="dashboard-tab" onclick="showTab('tiers', this)">🎨 Tiers</div>
     <div class="dashboard-tab" onclick="showTab('badges', this)">🏅 Badges</div>
     <div class="dashboard-tab" onclick="showTab('stars', this)">⭐ Stars</div>
+    <div class="dashboard-tab" onclick="showTab('orders', this)">🛒 Orders</div> <!-- ✅ أضف هذا السطر -->
 </div>
 
         <!-- CONTENT -->
@@ -1647,6 +1648,100 @@ async function updateRole(userId, newRole) {
         }
         window.loadStarsTab = loadStarsTab;
         window.sendStarsToUser = sendStarsToUser;
+
+                // =========================================================
+        // 🛒 ORDERS TAB (Manage Star Purchases)
+        // =========================================================
+        async function loadOrdersTab() {
+            const container = document.getElementById('dashboardContent');
+            container.innerHTML = `<div class="loading-state"><div class="spinner">⏳</div><p>Loading orders...</p></div>`;
+
+            try {
+                const { data: orders, error } = await supabaseClient
+                    .from('star_orders')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!orders || orders.length === 0) {
+                    container.innerHTML = `<div class="data-table" style="padding:40px;text-align:center;">No orders yet.</div>`;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Email</th>
+                                    <th>Stars</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${orders.map(order => `
+                                    <tr>
+                                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                                        <td>${escapeHtml(order.user_email || 'N/A')}</td>
+                                        <td><strong>${order.stars_amount}</strong> ⭐</td>
+                                        <td>$${order.price_usd}</td>
+                                        <td>
+                                            <span class="status-badge status-${order.status}">
+                                                ${order.status}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            ${order.status === 'pending' ? `
+                                                <button class="action-btn approve-btn" onclick="approveOrder('${order.id}')">✅ Approve</button>
+                                                <button class="action-btn reject-btn" onclick="rejectOrder('${order.id}')">❌ Reject</button>
+                                            ` : '—'}
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<div class="data-table" style="padding:20px;text-align:center;">Error: ${err.message}</div>`;
+            }
+        }
+
+        async function approveOrder(orderId) {
+            if (!confirm('Are you sure you want to approve this order and add stars?')) return;
+            try {
+                const { error } = await supabaseClient.rpc('approve_star_order', { order_id: orderId });
+                if (error) throw error;
+                alert('✅ Order approved and stars added!');
+                loadOrdersTab();
+            } catch (err) {
+                alert('❌ Error: ' + err.message);
+            }
+        }
+
+        async function rejectOrder(orderId) {
+            if (!confirm('Reject this order?')) return;
+            try {
+                const { error } = await supabaseClient
+                    .from('star_orders')
+                    .update({ status: 'rejected' })
+                    .eq('id', orderId);
+                if (error) throw error;
+                alert('❌ Order rejected.');
+                loadOrdersTab();
+            } catch (err) {
+                alert('❌ Error: ' + err.message);
+            }
+        }
+
+        window.loadOrdersTab = loadOrdersTab;
+        window.approveOrder = approveOrder;
+        window.rejectOrder = rejectOrder;
     </script>
            <script src="js/messenger-notify.js"></script>  
       <script src="js/country-stats.js"></script>
