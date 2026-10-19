@@ -2880,17 +2880,18 @@ const videoImpressions = new Map();
 const videoAdState = new Map(); // تتبع حالة الإعلانات لكل فيديو
 let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلانات
 
-// ✅ التحقق من مدة الفيديو
+// ✅ التحقق من مدة الفيديو (يجب أن تكون global)
 window.checkVideoDuration = function(videoElement, postId) {
     const duration = videoElement.duration;
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
     
-  // ✅ عرض جميع الفيديوهات بغض النظر عن مدتها
-if (duration > 0) {
-    setupVideoAds(videoElement, postId, duration);
-} else {
-    console.log(`⚠️ Video ${postId} has no duration yet`);
-}
+    // ✅ عرض جميع الفيديوهات بغض النظر عن مدتها
+    if (duration > 0) {
+        setupVideoAds(videoElement, postId, duration);
+    } else {
+        console.log(`⚠️ Video ${postId} has no duration yet`);
+    }
+}; // ✅ تم إغلاق دالة checkVideoDuration هنا بشكل صحيح
 
 // ═══════════════════════════════════════════════════════════
 // 🎬 إعداد نظام الإعلانات VAST
