@@ -1830,17 +1830,24 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                     const postDiv = document.createElement('div');
                     postDiv.className = 'feed-post';
                     postDiv.innerHTML = `
-                        <div class="feed-header">
-                            <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
-                                <img src="${avatarUrl}" class="feed-avatar" style="cursor:pointer;">
-                            </a>
-                            <div>
-                                <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
-                                    <div class="feed-name">${escapeHtml(username)}</div>
-                                </a>
-                                <div class="feed-time">${timeAgo}</div>
-                            </div>
-                        </div>
+                      <div class="feed-header" style="display:flex; justify-content:space-between; align-items:center;">
+    <div style="display:flex; align-items:center; gap:10px;">
+        <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
+            <img src="${avatarUrl}" class="feed-avatar" style="cursor:pointer;">
+        </a>
+        <div>
+            <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
+                <div class="feed-name">${escapeHtml(username)}</div>
+            </a>
+            <div class="feed-time">${timeAgo}</div>
+        </div>
+    </div>
+    ${currentUserId === post.user_id ? `
+        <button onclick="deletePost('${post.id}', '${post.image_url || ''}', '${post.video_url || ''}')" 
+                style="background:#f0f2f5; border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:16px; color:#dc3545;" 
+                title="Delete Post">🗑️</button>
+    ` : ''}
+</div>
                         ${contentHTML}
                         <div class="feed-actions">
                             <button class="feed-action" 
@@ -2878,13 +2885,12 @@ window.checkVideoDuration = function(videoElement, postId) {
     const duration = videoElement.duration;
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
     
-    // ✅ تتبّع المشاهدات دائماً (حتى بدون VAST)
-    if (duration >= 60) {
-        setupVideoAds(videoElement, postId, duration);
-    } else {
-        console.log(`⏭️ Video ${postId} too short`);
-    }
-};
+  // ✅ عرض جميع الفيديوهات بغض النظر عن مدتها
+if (duration > 0) {
+    setupVideoAds(videoElement, postId, duration);
+} else {
+    console.log(`⚠️ Video ${postId} has no duration yet`);
+}
 
 // ═══════════════════════════════════════════════════════════
 // 🎬 إعداد نظام الإعلانات VAST
@@ -3602,6 +3608,65 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('✅ Single video player ready!');
 })();
+
+// =========================================================
+// 🗑️ DELETE POST FUNCTION
+// =========================================================
+window.deletePost = async function(postId, imageUrl, videoUrl) {
+    if (!confirm('هل أنت متأكد من حذف هذا المنشور؟')) return;
+    
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Please login first');
+            return;
+        }
+        
+        // 1. حذف الصورة من التخزين (إذا وجدت)
+        if (imageUrl) {
+            const imagePath = imageUrl.split('/post-images/')[1];
+            if (imagePath) {
+                await window.supabaseClient.storage.from('post-images').remove([imagePath]);
+            }
+        }
+        
+        // 2. حذف الفيديو من التخزين (إذا وجد)
+        if (videoUrl) {
+            const videoPath = videoUrl.split('/post-videos/')[1];
+            if (videoPath) {
+                await window.supabaseClient.storage.from('post-videos').remove([videoPath]);
+            }
+        }
+        
+        // 3. حذف المنشور من قاعدة البيانات
+        const { error } = await window.supabaseClient
+            .from('posts')
+            .delete()
+            .eq('id', postId)
+            .eq('user_id', user.id); // تأكد أن المستخدم هو المالك
+        
+        if (error) throw error;
+        
+        // 4. تحديث الواجهة (إعادة تحميل المنشورات)
+        await loadPosts();
+        
+        // 5. إظهار إشعار نجاح
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 80px; right: 20px;
+            background: #28a745; color: white; padding: 15px 25px;
+            border-radius: 12px; font-weight: 700; z-index: 99999;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+        `;
+        toast.textContent = '✅ تم حذف المنشور بنجاح';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+        
+    } catch (error) {
+        console.error('❌ Delete error:', error);
+        alert('❌ خطأ: ' + error.message);
+    }
+};
 </script>
 
 <script>(function(s){s.dataset.zone='12058773',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
