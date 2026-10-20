@@ -1477,61 +1477,7 @@ async function updateRole(userId, newRole) {
         badge.textContent = tierLabels[newTier];
     }
 
-    // 3. تحديث بيانات المصفوفة (allUsersForTiers)
-    const user = allUsersForTiers.find(u => u.id === userId);
-    if (user) user.tier = newTier;
-
-    // 4. تحديث الإحصائيات (العدادات في الأعلى)
-    const regular = allUsersForTiers.filter(u => u.tier === 'regular').length;
-    const creator = allUsersForTiers.filter(u => u.tier === 'creator').length;
-    const influencer = allUsersForTiers.filter(u => u.tier === 'influencer').length;
-
-    document.querySelectorAll('.tier-stat-card')[0].querySelector('.value').textContent = regular;
-    document.querySelectorAll('.tier-stat-card')[1].querySelector('.value').textContent = creator;
-    document.querySelectorAll('.tier-stat-card')[2].querySelector('.value').textContent = influencer;
-
-    // 5. إظهار رسالة نجاح
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#28a745;color:white;padding:15px 25px;border-radius:12px;font-weight:700;z-index:99999;box-shadow:0 4px 15px rgba(0,0,0,0.2);';
-    toast.textContent = '✅ تم التحديث: ' + tierLabels[newTier];
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
-};
-
-                const user = allUsersForTiers.find(u => u.id === userId);
-                if (user) user.tier = newTier;
-
-                const row = selectEl.closest('tr');
-                const badge = row.querySelector('.tier-badge');
-                const tierLabels = {
-                    'regular': '👤 Regular',
-                    'creator': '🎨 Creator',
-                    'influencer': '🌟 Influencer'
-                };
-                badge.className = 'tier-badge ' + newTier;
-                badge.textContent = tierLabels[newTier];
-
-                selectEl.className = 'tier-select ' + newTier;
-
-                const toast = document.createElement('div');
-                toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#28a745;color:white;padding:15px 25px;border-radius:12px;font-weight:700;z-index:99999;box-shadow:0 4px 15px rgba(0,0,0,0.2);';
-                toast.textContent = '✅ Tier updated to ' + tierLabels[newTier];
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 2500);
-
-                const regular = allUsersForTiers.filter(u => u.tier === 'regular').length;
-                const creator = allUsersForTiers.filter(u => u.tier === 'creator').length;
-                const influencer = allUsersForTiers.filter(u => u.tier === 'influencer').length;
-
-                document.querySelectorAll('.tier-stat-card')[0].querySelector('.value').textContent = regular;
-                document.querySelectorAll('.tier-stat-card')[1].querySelector('.value').textContent = creator;
-                document.querySelectorAll('.tier-stat-card')[2].querySelector('.value').textContent = influencer;
-
-            } catch (err) {
-                console.error('Tier error:', err);
-                alert('❌ Error: ' + err.message);
-            }
-        };
+    
 
         window.loadTiersTab = loadTiersTab;
 
