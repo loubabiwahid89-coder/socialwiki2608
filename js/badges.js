@@ -37,7 +37,8 @@ const COUNTRIES = {
     UA: 'Ukraine', LB: 'Lebanon', SY: 'Syria', YE: 'Yemen',
     OM: 'Oman', BH: 'Bahrain', SD: 'Sudan', LY: 'Libya',
     MR: 'Mauritania', SO: 'Somalia', KE: 'Kenya', ET: 'Ethiopia',
-    ZA: 'South Africa', GH: 'Ghana', SN: 'Senegal', CI: 'Ivory Coast'
+    ZA: 'South Africa', GH: 'Ghana', SN: 'Senegal', CI: 'Ivory Coast',
+
 };
 
 // قائمة الشارات الجاهزة
@@ -79,6 +80,7 @@ const BADGE_PRESETS = {
     king_malaysia:      { label: 'King of Malaysia',         icon: '👑', color: 'red-orange', country: 'MY' },
     king_nigeria:       { label: 'King of Nigeria',          icon: '👑', color: 'red-orange', country: 'NG' },
     king_south_africa:  { label: 'King of South Africa',     icon: '👑', color: 'red-orange', country: 'ZA' },
+        king_bangladesh:    { label: 'King of Bangladesh',       icon: '👑', color: 'red-orange', country: 'BD' },
 
     // ═══════════════════════════════════════════════
     // 👸 QUEENS - كل الدول
@@ -128,6 +130,7 @@ const BADGE_PRESETS = {
     amb_malaysia:       { label: 'Malaysia Ambassador',      icon: '🌟', color: 'red-gold', country: 'MY' },
     amb_nigeria:        { label: 'Nigeria Ambassador',       icon: '🌟', color: 'red-gold', country: 'NG' },
     amb_south_africa:   { label: 'South Africa Ambassador',  icon: '🌟', color: 'red-gold', country: 'ZA' },
+        amb_bangladesh:     { label: 'Bangladesh Ambassador',    icon: '🌟', color: 'red-gold', country: 'BD' },
 
     // ═══════════════════════════════════════════════
     // 🥇 FIRST MEMBERS - كل الدول
