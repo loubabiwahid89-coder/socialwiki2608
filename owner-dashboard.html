@@ -227,7 +227,7 @@
     <div class="dashboard-tab" onclick="showTab('tiers', this)">🎨 Tiers</div>
     <div class="dashboard-tab" onclick="showTab('badges', this)">🏅 Badges</div>
     <div class="dashboard-tab" onclick="showTab('stars', this)">⭐ Stars</div>
-    <div class="dashboard-tab" onclick="showTab('orders', this)">🛒 Orders</div> <!-- ✅ أضف هذا السطر -->
+    <div class="dashboard-tab" onclick="showTab('orders', this)">🛒 Orders</div>
 </div>
 
         <!-- CONTENT -->
@@ -1447,37 +1447,56 @@ async function updateRole(userId, newRole) {
         };
 
         window.changeUserTier = async function(userId, newTier, selectEl) {
-    // 1. تحديث قاعدة البيانات
-    const { error } = await supabaseClient
-        .from('profiles')
-        .update({ creator_tier: newTier })
-        .eq('id', userId);
+            // 1. تحديث قاعدة البيانات
+            const { error } = await supabaseClient
+                .from('profiles')
+                .update({ creator_tier: newTier })
+                .eq('id', userId);
 
-    if (error) {
-        alert('❌ خطأ في الحفظ: ' + error.message);
-        console.error(error);
-        return;
-    }
+            if (error) {
+                alert('❌ خطأ في الحفظ: ' + error.message);
+                console.error(error);
+                return;
+            }
 
-    // 2. تحديث الواجهة (تغيير اللون والاسم)
-    const tierLabels = {
-        'regular': '👤 Regular',
-        'creator': '🎨 Creator',
-        'influencer': '🌟 Influencer'
-    };
-    
-    // تحديث الـ Select
-    selectEl.className = 'tier-select ' + newTier;
+            // 2. تحديث الواجهة (تغيير اللون والاسم)
+            const tierLabels = {
+                'regular': '👤 Regular',
+                'creator': '🎨 Creator',
+                'influencer': '🌟 Influencer'
+            };
+            
+            // تحديث الـ Select
+            selectEl.className = 'tier-select ' + newTier;
 
-    // تحديث الشارة (Badge) التي بجانب الاسم
-    const row = selectEl.closest('tr');
-    const badge = row.querySelector('.tier-badge');
-    if (badge) {
-        badge.className = 'tier-badge ' + newTier;
-        badge.textContent = tierLabels[newTier];
-    }
+            // تحديث الشارة (Badge) التي بجانب الاسم
+            const row = selectEl.closest('tr');
+            const badge = row.querySelector('.tier-badge');
+            if (badge) {
+                badge.className = 'tier-badge ' + newTier;
+                badge.textContent = tierLabels[newTier];
+            }
 
-    
+            // 3. تحديث بيانات المصفوفة (allUsersForTiers)
+            const user = allUsersForTiers.find(u => u.id === userId);
+            if (user) user.tier = newTier;
+
+            // 4. تحديث الإحصائيات (العدادات في الأعلى)
+            const regular = allUsersForTiers.filter(u => u.tier === 'regular').length;
+            const creator = allUsersForTiers.filter(u => u.tier === 'creator').length;
+            const influencer = allUsersForTiers.filter(u => u.tier === 'influencer').length;
+
+            document.querySelectorAll('.tier-stat-card')[0].querySelector('.value').textContent = regular;
+            document.querySelectorAll('.tier-stat-card')[1].querySelector('.value').textContent = creator;
+            document.querySelectorAll('.tier-stat-card')[2].querySelector('.value').textContent = influencer;
+
+            // 5. إظهار رسالة نجاح
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#28a745;color:white;padding:15px 25px;border-radius:12px;font-weight:700;z-index:99999;box-shadow:0 4px 15px rgba(0,0,0,0.2);';
+            toast.textContent = '✅ تم التحديث: ' + tierLabels[newTier];
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        };
 
         window.loadTiersTab = loadTiersTab;
 
