@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki</title>
+    <title>Wikidoogo</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <style>
         .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
@@ -68,7 +68,7 @@
 
     <nav class="navbar">
         <div class="nav-left">
-            <a href="index.html" class="logo">📘 SocialWiki</a>
+            <a href="index.html" class="logo">📘 Wikidoogo</a>
         </div>
         <ul class="nav-icons">
             <li><a href="index.html">🏠</a></li>
@@ -433,7 +433,7 @@
 
         function shareOnWhatsApp() {
             const link = document.getElementById('referralLink').textContent;
-            const text = encodeURIComponent('🎉 Join SocialWiki and earn points!');
+            const text = encodeURIComponent('🎉 Join Wikidoogo and earn points!');
             window.open('https://wa.me/?text=' + text + '%20' + encodeURIComponent(link), '_blank');
         }
 
@@ -444,7 +444,7 @@
 
         function shareOnTwitter() {
             const link = document.getElementById('referralLink').textContent;
-            const text = encodeURIComponent('🎉 Join SocialWiki!');
+            const text = encodeURIComponent('🎉 Join Wikidoogo!');
             window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(link), '_blank');
         }
 // =========================================================

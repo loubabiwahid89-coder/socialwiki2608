@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialWiki - Profile</title>
+    <title>Wikidoogo - Profile</title>
     <link rel="stylesheet" href="socialwiki.css">
     <style>
         /* =========================================================
@@ -1091,7 +1091,7 @@
     ========================================================= -->
     <nav class="navbar">
         <div class="nav-left">
-            <a href="index.html" class="logo">📘 SocialWiki</a>
+            <a href="index.html" class="logo">📘 Wikidoogo</a>
         </div>
         <ul class="nav-icons">
             <li><a href="index.html">🏠</a></li>
@@ -1168,7 +1168,7 @@
                 <span class="profile-name" id="profileName">User</span>
                 <span class="badge-owner" id="ownerBadge" style="display:none;" title="Owner">👑</span>
                 <span class="badge-verified" id="verifiedBadge" style="display:none;" title="Verified">✅</span>
-                <span class="badge-official" id="officialBadge" style="display:none;" title="Official SocialWiki Account">🌐</span>
+                <span class="badge-official" id="officialBadge" style="display:none;" title="Official Wikidoogo Account">🌐</span>
             </div>
             <div class="profile-username" id="profileUsername">@user</div>
             <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
@@ -1614,7 +1614,7 @@ if (profile?.is_owner === true) {
                 let badgesHTML = '';
                 
     
-// ✅ 1. Owner of SocialWiki - مخفي عن adamhajbi
+// ✅ 1. Owner of Wikidoogo - مخفي عن adamhajbi
 const HIDDEN_OWNER_BADGE = ['adamhajbi'];  // المستخدمون المخفي عنهم Badge Owner فقط
 
 if (profile?.is_owner === true && !HIDDEN_OWNER_BADGE.includes(profile?.username)) {
@@ -1633,12 +1633,12 @@ if (profile?.is_owner === true && !HIDDEN_OWNER_BADGE.includes(profile?.username
             border: 3px solid #FFD700;
             margin: 5px;
         ">
-            <span>Owner of SocialWiki</span>
+            <span>Owner of Wikidoogo</span>
             <span style="font-size: 20px;">👑</span>
         </div>
     `;
 }
-                // ✅ 2. Founder of SocialWiki
+                // ✅ 2. Founder of Wikidoogo
 if (profile?.is_owner === true || (profile?.special_badges && profile.special_badges.includes('founder_member'))) {
     badgesHTML += `
         <div style="
@@ -1655,7 +1655,7 @@ if (profile?.is_owner === true || (profile?.special_badges && profile.special_ba
             border: 3px solid white;
             margin: 5px;
         ">
-            <span>Founder of SocialWiki</span>
+            <span>Founder of Wikidoogo</span>
             <span style="font-size: 20px;">🏆</span>
         </div>
     `;
@@ -1879,7 +1879,7 @@ const MOTHER_ID = '3b9f297e-fad8-467d-b843-0f0f7f84eefc';
 
 if (userId === MOTHER_ID) {
     
-    // 👑 Queen of SocialWiki
+    // 👑 Queen of Wikidoogo
     if (profile?.special_badges && profile.special_badges.includes('queen')) {
         badgesHTML += `
             <div style="
@@ -1900,13 +1900,13 @@ if (userId === MOTHER_ID) {
                 text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
             ">
                 <span style="font-size: 26px;">👑</span>
-                <span>Queen of SocialWiki</span>
+                <span>Queen of Wikidoogo</span>
                 <span style="font-size: 24px;">👑</span>
             </div>
         `;
     }
 
-    // 💝 Mother of SocialWiki
+    // 💝 Mother of Wikidoogo
     if (profile?.special_badges && profile.special_badges.includes('mother_of_socialwiki')) {
         badgesHTML += `
             <div style="
@@ -1927,7 +1927,7 @@ if (userId === MOTHER_ID) {
                 text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
             ">
                 <span style="font-size: 26px;">💝</span>
-                <span>Mother of SocialWiki</span>
+                <span>Mother of Wikidoogo</span>
                 <span style="font-size: 24px;">💐</span>
             </div>
         `;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - SocialWiki</title>
+    <title>Leaderboard - Wikidoogo</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -174,7 +174,7 @@
 <body>
 
 <nav class="navbar">
-    <a href="index.html" class="logo">📘 SocialWiki</a>
+    <a href="index.html" class="logo">📘 Wikidoogo</a>
     <div style="display:flex;gap:15px;align-items:center;">
         <a href="leaderboard.html" title="المتصدرين" style="font-size:20px;">🏆</a>
         <a href="my-stats.html" title="إحصائياتي" style="font-size:20px;">📊</a>
@@ -186,7 +186,7 @@
 <div class="container">
     <div class="header">
         <h1>🏆 قائمة المتصدرين</h1>
-        <p>أكثر المستخدمين نشاطاً على SocialWiki</p>
+        <p>أكثر المستخدمين نشاطاً على Wikidoogo</p>
     </div>
 
     <!-- Type Tabs -->
@@ -342,11 +342,11 @@
 
     function shareLeaderboard() {
         const url = window.location.origin + '/leaderboard.html';
-        const text = '🏆 شوف قائمة المتصدرين على SocialWiki!';
+        const text = '🏆 شوف قائمة المتصدرين على Wikidoogo!';
         
         if (navigator.share) {
             navigator.share({
-                title: '🏆 المتصدرين - SocialWiki',
+                title: '🏆 المتصدرين - Wikidoogo',
                 text: text,
                 url: url
             }).catch(err => console.log('Share failed:', err));
