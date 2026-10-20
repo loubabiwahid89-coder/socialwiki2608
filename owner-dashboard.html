@@ -1643,6 +1643,25 @@ async function updateRole(userId, newRole) {
 
                 if (error) throw error;
 
+                               // ✅ إرسال إشعار جميل وعشوائي للمستخدم
+                const { data: { user: adminUser } } = await supabaseClient.auth.getUser();
+
+                const messages = [
+                    `🌟 You received ${amount} stars! Keep shining! ✨`,
+                    `💎 Wow! ${amount} stars from the Wikidoogo team! Great job! 🚀`,
+                    `🎉 Congratulations! You've earned ${amount} stars! Keep up the amazing work! 🏆`,
+                    `🌟 Your content is amazing! Here are ${amount} stars as a token of appreciation! 💖`
+                ];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+                await supabaseClient.from('notifications').insert({
+                    receiver_id: userId,
+                    sender_id: adminUser.id,
+                    type: 'star_received',
+                    message: randomMessage,
+                    is_read: false
+                });
+
                 alert(`✅ Successfully added ${amount} ${type} stars to the user!`);
                 document.getElementById('starUserId').value = '';
                 document.getElementById('starAmount').value = '';
