@@ -1584,16 +1584,8 @@ if (profile?.country && profile.country !== '' && profile.country.length === 2) 
                         : 'none';
                 }
 
-                if (verifiedBadgeEl) {
-                    verifiedBadgeEl.style.display = (profile?.is_verified === true) 
-                        ? 'inline-flex' 
-                        : 'none';
-                }
-
-                if (officialBadgeEl) {
-                    officialBadgeEl.style.display = (profile?.is_owner === true) 
-                        ? 'inline-flex' 
-                        : 'none';
+                               if (verifiedBadgeEl) {
+                    verifiedBadgeEl.style.display = 'none'; // ✅ نخفي الشارة القديمة لمنع التكرار
                 }
 
                 // ✅ إظهار شريط الحساب الرسمي + تصميم ذهبي
