@@ -381,15 +381,15 @@
                 <input type="tel" id="cashplusPhone" placeholder="06XXXXXXXX">
             </div>
 
-            <!-- حقول التحويل البنكي -->
+                  <!-- حقول التحويل البنكي -->
             <div id="bankFields" style="display: none;">
                 <div class="form-group">
-                    <label>اسم البنك</label>
-                    <input type="text" id="bankName" placeholder="مثال: Attijariwafa">
+                    <label data-i18n="bank_name">اسم البنك</label>
+                    <input type="text" id="bankName" placeholder="Example: Attijariwafa / Al Rajhi / BDO" data-i18n="bank_name_placeholder">
                 </div>
                 <div class="form-group">
-                    <label>رقم الحساب (RIB)</label>
-                    <input type="text" id="rib" placeholder="24 رقماً">
+                    <label data-i18n="account_number">رقم الحساب / RIB / IBAN</label>
+                    <input type="text" id="rib" placeholder="RIB (Maroc) / IBAN (SA) / Account Number" data-i18n="account_number_placeholder">
                 </div>
             </div>
             <div class="modal-actions">
@@ -1081,19 +1081,18 @@ if (completed) {
             document.getElementById('bankFields').style.display = method === 'bank' ? 'block' : 'none';
         };
 
-        // ✅ دالة إرسال طلب السحب (الجديدة)
-        window.submitWithdrawal = async function() {
+                window.submitWithdrawal = async function() {
             const method = document.getElementById('withdrawMethod').value;
             let details = '';
             
             if (method === 'cashplus') {
                 const phone = document.getElementById('cashplusPhone').value.trim();
-                if (!phone) { alert('❌ Please enter your Cash Plus phone number'); return; }
+                if (!phone) { alert(t('enter_phone')); return; } // استخدام الترجمة
                 details = phone;
             } else {
                 const bankName = document.getElementById('bankName').value.trim();
                 const rib = document.getElementById('rib').value.trim();
-                if (!bankName || !rib) { alert('❌ Please enter bank name and RIB'); return; }
+                if (!bankName || !rib) { alert(t('enter_bank_details')); return; } // استخدام الترجمة
                 details = `${bankName} - ${rib}`;
             }
             
@@ -1120,7 +1119,7 @@ if (completed) {
                     .eq('user_id', currentUser.id);
                 if (updateError) throw updateError;
 
-                alert('✅ Withdrawal request submitted successfully!');
+                alert(t('withdraw_success')); // استخدام الترجمة
                 closeWithdrawModal();
                 await loadBalance();
             } catch (error) {

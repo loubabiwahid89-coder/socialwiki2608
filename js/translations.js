@@ -861,6 +861,13 @@ const translations = {
 "puzzle_desc": "رتب القطع لتكوين الصورة",
 "sudoku_title": "🔢 سودوكو احترافي",
 "sudoku_desc": "تحدي عقلك في لعبة الأرقام",
+        "withdraw_method": "طريقة السحب",
+        "cashplus_phone": "رقم هاتف Cash Plus",
+        "bank_name": "اسم البنك",
+        "account_number": "رقم الحساب / RIB",
+        "withdraw_success": "✅ تم إرسال طلب السحب بنجاح!",
+        "enter_phone": "الرجاء إدخال رقم الهاتف",
+        "enter_bank_details": "الرجاء إدخال اسم البنك ورقم الحساب",
     },
 
     // ==================== FRENCH ====================
@@ -1698,6 +1705,13 @@ const translations = {
 "puzzle_desc": "Disposez les pièces pour former l'image",
 "sudoku_title": "🔢 Sudoku Pro",
 "sudoku_desc": "Défiez votre cerveau avec des chiffres",
+        "withdraw_method": "Méthode de retrait",
+        "cashplus_phone": "Numéro de téléphone Cash Plus",
+        "bank_name": "Nom de la banque",
+        "account_number": "Numéro de compte / RIB",
+        "withdraw_success": "✅ Demande de retrait envoyée avec succès !",
+        "enter_phone": "Veuillez entrer votre numéro de téléphone",
+        "enter_bank_details": "Veuillez entrer le nom de la banque et le numéro de compte",
 
     },
 
@@ -2541,6 +2555,13 @@ const translations = {
 "puzzle_desc": "Arrange pieces to form the image",
 "sudoku_title": "🔢 Pro Sudoku",
 "sudoku_desc": "Challenge your brain with numbers",
+        "withdraw_method": "Withdrawal Method",
+        "cashplus_phone": "Cash Plus Phone Number",
+        "bank_name": "Bank Name",
+        "account_number": "Account Number / RIB",
+        "withdraw_success": "✅ Withdrawal request submitted successfully!",
+        "enter_phone": "Please enter your phone number",
+        "enter_bank_details": "Please enter bank name and account number",
     },
     // ==================== SPANISH ====================
     es: {
@@ -3382,6 +3403,13 @@ const translations = {
 "puzzle_desc": "Ordena las piezas para formar la imagen",
 "sudoku_title": "🔢 Sudoku Pro",
 "sudoku_desc": "Desafía tu cerebro con números",
+        "withdraw_method": "Método de retiro",
+        "cashplus_phone": "Número de teléfono de Cash Plus",
+        "bank_name": "Nombre del banco",
+        "account_number": "Número de cuenta / RIB",
+        "withdraw_success": "✅ ¡Solicitud de retiro enviada con éxito!",
+        "enter_phone": "Por favor ingrese su número de teléfono",
+        "enter_bank_details": "Por favor ingrese el nombre del banco y el número de cuenta",
 
     },
     
@@ -4233,6 +4261,13 @@ const translations = {
 "puzzle_desc": "Ordne die Teile zum Bild",
 "sudoku_title": "🔢 Pro Sudoku",
 "sudoku_desc": "Fordere dein Gehirn mit Zahlen heraus",
+        "withdraw_method": "Auszahlungsmethode",
+        "cashplus_phone": "Cash Plus Telefonnummer",
+        "bank_name": "Bankname",
+        "account_number": "Kontonummer / RIB",
+        "withdraw_success": "✅ Auszahlungsantrag erfolgreich eingereicht!",
+        "enter_phone": "Bitte geben Sie Ihre Telefonnummer ein",
+        "enter_bank_details": "Bitte geben Sie Bankname und Kontonummer ein",
     },
     
         // ==================== ITALIAN ====================
@@ -5083,6 +5118,13 @@ const translations = {
 "puzzle_desc": "Disponi i pezzi per formare l'immagine",
 "sudoku_title": "🔢 Sudoku Pro",
 "sudoku_desc": "Sfida il tuo cervello con i numeri",
+        "withdraw_method": "Metodo di prelievo",
+        "cashplus_phone": "Numero di telefono Cash Plus",
+        "bank_name": "Nome della banca",
+        "account_number": "Numero di conto / RIB",
+        "withdraw_success": "✅ Richiesta di prelievo inviata con successo!",
+        "enter_phone": "Inserisci il tuo numero di telefono",
+        "enter_bank_details": "Inserisci il nome della banca e il numero di conto",
     },
     
 
@@ -5934,6 +5976,13 @@ const translations = {
 "puzzle_desc": "排列碎片以形成图像",
 "sudoku_title": "🔢 专业数独",
 "sudoku_desc": "用数字挑战你的大脑",
+        "withdraw_method": "提现方式",
+        "cashplus_phone": "Cash Plus 电话号码",
+        "bank_name": "银行名称",
+        "account_number": "账号 / RIB",
+        "withdraw_success": "✅ 提现请求提交成功！",
+        "enter_phone": "请输入您的电话号码",
+        "enter_bank_details": "请输入银行名称和账号",
     },
     
 
@@ -6777,6 +6826,13 @@ const translations = {
 "puzzle_desc": "ピースを並べて画像を完成させよう",
 "sudoku_title": "🔢 プロ数独",
 "sudoku_desc": "数字で脳を鍛えよう",
+        "withdraw_method": "出金方法",
+        "cashplus_phone": "Cash Plusの電話番号",
+        "bank_name": "銀行名",
+        "account_number": "口座番号 / RIB",
+        "withdraw_success": "✅ 出金リクエストが正常に送信されました！",
+        "enter_phone": "電話番号を入力してください",
+        "enter_bank_details": "銀行名と口座番号を入力してください",
     },
     
 
@@ -7620,6 +7676,13 @@ const translations = {
 "puzzle_desc": "조각을 맞춰 이미지를 완성하세요",
 "sudoku_title": "🔢 프로 스도쿠",
 "sudoku_desc": "숫자로 두뇌를 훈련하세요",
+        "withdraw_method": "출금 방법",
+        "cashplus_phone": "Cash Plus 전화번호",
+        "bank_name": "은행 이름",
+        "account_number": "계좌번호 / RIB",
+        "withdraw_success": "✅ 출금 요청이 성공적으로 제출되었습니다!",
+        "enter_phone": "전화번호를 입력하세요",
+        "enter_bank_details": "은행 이름과 계좌번호를 입력하세요",
     },
     
 
@@ -8463,6 +8526,13 @@ const translations = {
 "puzzle_desc": "Расставьте части, чтобы собрать картинку",
 "sudoku_title": "🔢 Про Судоку",
 "sudoku_desc": "Бросьте вызов своему мозгу с числами",
+        "withdraw_method": "Способ вывода",
+        "cashplus_phone": "Номер телефона Cash Plus",
+        "bank_name": "Название банка",
+        "account_number": "Номер счета / RIB",
+        "withdraw_success": "✅ Запрос на вывод успешно отправлен!",
+        "enter_phone": "Пожалуйста, введите ваш номер телефона",
+        "enter_bank_details": "Пожалуйста, введите название банка и номер счета",
     },
     
 
@@ -9307,6 +9377,13 @@ const translations = {
 "puzzle_desc": "Resmi oluşturmak için parçaları düzenle",
 "sudoku_title": "🔢 Pro Sudoku",
 "sudoku_desc": "Beynini sayılarla zorla",
+        "withdraw_method": "Çekim Yöntemi",
+        "cashplus_phone": "Cash Plus Telefon Numarası",
+        "bank_name": "Banka Adı",
+        "account_number": "Hesap Numarası / RIB",
+        "withdraw_success": "✅ Para çekme talebi başarıyla gönderildi!",
+        "enter_phone": "Lütfen telefon numaranızı girin",
+        "enter_bank_details": "Lütfen banka adını ve hesap numarasını girin",
     },
 
     
@@ -10151,6 +10228,13 @@ const translations = {
 "puzzle_desc": "छवि बनाने के लिए टुकड़ों को व्यवस्थित करें",
 "sudoku_title": "🔢 प्रो सुडोकू",
 "sudoku_desc": "संख्याओं के साथ अपने मस्तिष्क को चुनौती दें",
+        "withdraw_method": "निकासी विधि",
+        "cashplus_phone": "Cash Plus फ़ोन नंबर",
+        "bank_name": "बैंक का नाम",
+        "account_number": "खाता संख्या / RIB",
+        "withdraw_success": "✅ निकासी अनुरोध सफलतापूर्वक सबमिट किया गया!",
+        "enter_phone": "कृपया अपना फ़ोन नंबर दर्ज करें",
+        "enter_bank_details": "कृपया बैंक का नाम और खाता संख्या दर्ज करें",
     },
     
 
@@ -10994,6 +11078,13 @@ const translations = {
 "puzzle_desc": "Ayusin ang mga piraso upang mabuo ang larawan",
 "sudoku_title": "🔢 Pro Sudoku",
 "sudoku_desc": "Hamunin ang iyong utak sa mga numero",
+        "withdraw_method": "Paraan ng Withdrawal",
+        "cashplus_phone": "Numero ng Telepono ng Cash Plus",
+        "bank_name": "Pangalan ng Bangko",
+        "account_number": "Numero ng Account / RIB",
+        "withdraw_success": "✅ Matagumpay na naisumite ang kahilingan sa withdrawal!",
+        "enter_phone": "Pakilagay ang iyong numero ng telepono",
+        "enter_bank_details": "Pakilagay ang pangalan ng bangko at numero ng account",
     },
 
     tl: {
@@ -11835,6 +11926,13 @@ const translations = {
 "puzzle_desc": "Ayusin ang mga piraso upang mabuo ang larawan",
 "sudoku_title": "🔢 Pro Sudoku",
 "sudoku_desc": "Hamunin ang iyong utak sa mga numero",
+        "withdraw_method": "Paraan ng Withdrawal",
+        "cashplus_phone": "Numero ng Telepono ng Cash Plus",
+        "bank_name": "Pangalan ng Bangko",
+        "account_number": "Numero ng Account / RIB",
+        "withdraw_success": "✅ Matagumpay na naisumite ang kahilingan sa withdrawal!",
+        "enter_phone": "Pakilagay ang iyong numero ng telepono",
+        "enter_bank_details": "Pakilagay ang pangalan ng bangko at numero ng account",
     },
 
     // ==================== AMHARIC (ETHIOPIAN) ====================
@@ -12658,6 +12756,13 @@ const translations = {
 "puzzle_desc": "ምስሉን ለመፍጠር ቁርጥራጮቹን ያዘጋጁ",
 "sudoku_title": "🔢 ፕሮ ሱዶኩ",
 "sudoku_desc": "አንጎልዎን በቁጥሮች ይፈትኑ",
+        "withdraw_method": "የማውጣት ዘዴ",
+        "cashplus_phone": "የCash Plus ስልክ ቁጥር",
+        "bank_name": "የባንክ ስም",
+        "account_number": "የሂሳብ ቁጥር / RIB",
+        "withdraw_success": "✅ የማውጣት ጥያቄ በተሳካ ሁኔታ ተልኳል!",
+        "enter_phone": "እባክዎ የስልክ ቁጥርዎን ያስገቡ",
+        "enter_bank_details": "እባክዎ የባንክ ስም እና የሂሳብ ቁጥር ያስገቡ",
 
 
     }
