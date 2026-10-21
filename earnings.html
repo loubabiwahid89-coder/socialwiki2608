@@ -364,64 +364,44 @@
     </div>
 
     <!-- WITHDRAW MODAL -->
-    <div id="withdrawModal" class="modal">
-        <div class="modal-box">
-            <div class="modal-title">💳 Request Withdrawal</div>
-                            <div class="form-group">
-                    <label data-i18n="bank_name">اسم البنك</label>
-                    <input type="text" id="bankName" placeholder="Example: Attijariwafa (MA) / Al Rajhi (SA) / Banque Misr (EG) / CPA (DZ)" data-i18n="bank_name_placeholder">
-                </div>
-            
-            <!-- حقول Cash Plus -->
-            <div id="cashplusFields" class="form-group">
-                <label>رقم هاتف Cash Plus</label>
-                <input type="tel" id="cashplusPhone" placeholder="06XXXXXXXX">
-            </div>
+<div id="withdrawModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-title">💳 Request Withdrawal</div>
+        
+        <!-- 1. اختيار طريقة السحب -->
+        <div class="form-group">
+            <label>طريقة السحب (Withdrawal Method)</label>
+            <select id="withdrawMethod" onchange="toggleWithdrawFields()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:14px;">
+                <option value="cashplus">📱 Cash Plus</option>
+                <option value="bank">🏦 تحويل بنكي (Bank Transfer)</option>
+            </select>
+        </div>
 
-                              <!-- حقول التحويل البنكي -->
-            <div id="bankFields" style="display: none;">
-                <div class="form-group">
-                    <label data-i18n="bank_name">اسم البنك</label>
-                    <select id="bankName" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
-                        <option value="" data-i18n="select_bank">اختر البنك...</option>
-                        <option value="Attijariwafa Bank">Attijariwafa Bank</option>
-                        <option value="Bank of Africa (BMCE)">Bank of Africa (BMCE)</option>
-                        <option value="Banque Centrale Populaire (BCP)">Banque Centrale Populaire (BCP)</option>
-                        <option value="CIH Bank">CIH Bank</option>
-                        <option value="BMCI">BMCI</option>
-                        <option value="Crédit du Maroc">Crédit du Maroc</option>
-                        <option value="Société Générale Maroc">Société Générale Maroc</option>
-                        <option value="Al Barid Bank">Al Barid Bank</option>
-                        <option value="Crédit Agricole du Maroc">Crédit Agricole du Maroc</option>
-                        <option value="Other">أخرى (Other)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label data-i18n="account_number">رقم الحساب / RIB</label>
-                    <input type="text" id="rib" placeholder="RIB (24 digits) / IBAN / Account Number" data-i18n="account_number_placeholder">
-                </div>
+        <!-- 2. حقول Cash Plus (تظهر افتراضياً) -->
+        <div id="cashplusFields" class="form-group">
+            <label>رقم هاتف Cash Plus</label>
+            <input type="tel" id="cashplusPhone" placeholder="06XXXXXXXX" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
+        </div>
+
+        <!-- 3. حقول التحويل البنكي (مخفية افتراضياً) -->
+        <div id="bankFields" style="display: none;">
+            <div class="form-group">
+                <label data-i18n="bank_name">اسم البنك</label>
+                <input type="text" id="bankName" placeholder="Example: Attijariwafa (MA) / Al Rajhi (SA) / Banque Misr (EG) / CPA (DZ)" data-i18n="bank_name_placeholder" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
             </div>
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeWithdrawModal()">Cancel</button>
-                <button class="btn-submit" onclick="submitWithdrawal()">✅ Submit Request</button>
+            <div class="form-group">
+                <label data-i18n="account_number">رقم الحساب / RIB / IBAN</label>
+                <input type="text" id="rib" placeholder="RIB (Maroc) / IBAN (SA) / Account Number" data-i18n="account_number_placeholder" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
             </div>
+        </div>
+
+        <!-- 4. أزرار التحكم -->
+        <div class="modal-actions" style="margin-top:20px;">
+            <button class="btn-cancel" onclick="closeWithdrawModal()">Cancel</button>
+            <button class="btn-submit" onclick="submitWithdrawal()">✅ Submit Request</button>
         </div>
     </div>
-
-    <!-- LOCKED AD OVERLAY -->
-    <div id="lockedAdOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999999; align-items: center; justify-content: center; flex-direction: column;">
-        <div style="color: white; text-align: center; margin-bottom: 20px;">
-            <div style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">📺 Watching Ad...</div>
-            <div style="font-size: 14px; opacity: 0.8;">Please wait, task will complete automatically</div>
-        </div>
-        <div id="lockedAdTimer" style="color: #ffd700; font-size: 64px; font-weight: 800; margin-bottom: 25px;">30</div>
-        <div style="width: 80%; max-width: 500px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; margin-bottom: 25px;">
-            <div id="lockedAdProgressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #28a745, #20c997); transition: width 1s linear;"></div>
-        </div>
-        <div style="color: #ff6b6b; font-size: 15px; font-weight: 600; text-align: center; padding: 0 20px;">
-            🔒 Ad is locked. Please wait for it to finish.
-        </div>
-    </div>
+</div>
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

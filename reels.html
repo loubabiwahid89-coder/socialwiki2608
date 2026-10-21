@@ -222,6 +222,21 @@ const isVideo = /\.(mp4|webm|mov|avi|mkv|m4v)$/i.test(url);
                         <button class="reaction-btn" onclick="toggleReaction('${reel.id}', '😮', this)">😮</button>
                         <button class="reaction-btn" onclick="toggleReaction('${reel.id}', '😢', this)">😢</button>
                         <button class="reaction-btn" onclick="toggleReaction('${reel.id}', '👍', this)">👍</button>
+                        <div class="reel-reactions" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+ 
+
+    <!-- ✅ زر إرسال النجمة (مدفوعة) -->
+    <button onclick="openStarModal('${reel.id}', '${reel.user_id}')" 
+            style="background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border: none; padding: 10px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 5px;">
+        ⭐ Send Star
+    </button>
+
+    <!-- ✅ زر إرسال الهدية (مجانية) -->
+    <button onclick="openGiftModal('${reel.id}', '${reel.user_id}')" 
+            style="background: #e4e6eb; color: #333; border: none; padding: 10px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 5px;">
+        🎁 Send Gift
+    </button>
+</div>
                     </div>
 
                     <div class="comments-section">
@@ -563,5 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2000);
 });
 </script>
+<script src="js/stars-helper.js"></script>
+<script src="js/gifts-helper.js"></script>
 </body>
 </html>
