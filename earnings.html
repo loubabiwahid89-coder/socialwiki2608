@@ -372,8 +372,8 @@
         <div class="form-group">
             <label>طريقة السحب (Withdrawal Method)</label>
             <select id="withdrawMethod" onchange="toggleWithdrawFields()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:14px;">
-                <option value="cashplus">📱 Cash Plus</option>
-                <option value="bank">🏦 تحويل بنكي (Bank Transfer)</option>
+                <option value="cashplus">📱 Cash Plus (المغرب)</option>
+                <option value="bank">🏦 تحويل بنكي (كل الدول)</option>
             </select>
         </div>
 
@@ -385,13 +385,39 @@
 
         <!-- 3. حقول التحويل البنكي (مخفية افتراضياً) -->
         <div id="bankFields" style="display: none;">
+            
+            <!-- اختيار الدولة -->
             <div class="form-group">
-                <label data-i18n="bank_name">اسم البنك</label>
-                <input type="text" id="bankName" placeholder="Example: Attijariwafa (MA) / Al Rajhi (SA) / Banque Misr (EG) / CPA (DZ)" data-i18n="bank_name_placeholder" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
+                <label>اختر الدولة (Country)</label>
+                <select id="bankCountry" onchange="updateBanksList()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:14px;">
+                    <option value="">-- اختر الدولة --</option>
+                    <option value="MA">🇲🇦 المغرب (Morocco)</option>
+                    <option value="EG">🇪🇬 مصر (Egypt)</option>
+                    <option value="SA">🇸🇦 السعودية (Saudi Arabia)</option>
+                    <option value="DZ">🇩🇿 الجزائر (Algeria)</option>
+                    <option value="AE">🇦🇪 الإمارات (UAE)</option>
+                    <option value="JO">🇯🇴 الأردن (Jordan)</option>
+                    <option value="PH">🇵🇭 الفلبين (Philippines)</option>
+                    <option value="BD">🇧🇩 بنغلاديش (Bangladesh)</option>
+                    <option value="FR">🇫🇷 فرنسا (France)</option>
+                    <option value="ES">🇪🇸 إسبانيا (Spain)</option>
+                    <option value="US">🇺🇸 أمريكا (USA)</option>
+                    <option value="OTHER">🌍 أخرى (Other)</option>
+                </select>
             </div>
+
+            <!-- اختيار البنك -->
             <div class="form-group">
-                <label data-i18n="account_number">رقم الحساب / RIB / IBAN</label>
-                <input type="text" id="rib" placeholder="RIB (Maroc) / IBAN (SA) / Account Number" data-i18n="account_number_placeholder" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
+                <label>اسم البنك (Bank Name)</label>
+                <select id="bankName" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:14px;">
+                    <option value="">-- اختر الدولة أولاً --</option>
+                </select>
+            </div>
+
+            <!-- رقم الحساب -->
+            <div class="form-group">
+                <label>رقم الحساب / RIB / IBAN</label>
+                <input type="text" id="rib" placeholder="RIB / IBAN / Account Number" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
             </div>
         </div>
 
@@ -1070,53 +1096,55 @@ if (completed) {
             document.getElementById('bankFields').style.display = method === 'bank' ? 'block' : 'none';
         };
 
-                window.submitWithdrawal = async function() {
-            const method = document.getElementById('withdrawMethod').value;
-            let details = '';
-            
-            if (method === 'cashplus') {
-                const phone = document.getElementById('cashplusPhone').value.trim();
-                if (!phone) { alert(t('enter_phone')); return; } // استخدام الترجمة
-                details = phone;
-            } else {
-                const bankName = document.getElementById('bankName').value.trim();
-                const rib = document.getElementById('rib').value.trim();
-                if (!bankName || !rib) { alert(t('enter_bank_details')); return; } // استخدام الترجمة
-                details = `${bankName} - ${rib}`;
-            }
-            
-            if (!confirm(`Withdraw ${withdrawAmountPoints.toLocaleString()} points ($${withdrawAmountUSD})?`)) return;
+              window.submitWithdrawal = async function() {
+    const method = document.getElementById('withdrawMethod').value;
+    let details = '';
+    
+    if (method === 'cashplus') {
+        const phone = document.getElementById('cashplusPhone').value.trim();
+        if (!phone) { alert('❌ Please enter your Cash Plus phone number'); return; }
+        details = phone;
+    } else {
+        const country = document.getElementById('bankCountry').value;
+        const bankName = document.getElementById('bankName').value;
+        const rib = document.getElementById('rib').value.trim();
+        
+        if (!country) { alert('❌ Please select your country'); return; }
+        if (!bankName) { alert('❌ Please select your bank'); return; }
+        if (!rib) { alert('❌ Please enter your account number (RIB/IBAN)'); return; }
+        
+        details = `${country} - ${bankName} - ${rib}`;
+    }
+    
+    if (!confirm(`Withdraw ${withdrawAmountPoints.toLocaleString()} points ($${withdrawAmountUSD})?`)) return;
 
-            try {
-                // 1. إرسال الطلب لجدول withdrawal_requests
-                const { error: insertError } = await supabaseClient
-                    .from('withdrawal_requests')
-                    .insert({
-                        user_id: currentUser.id,
-                        amount: withdrawAmountUSD,
-                        method: method,
-                        details: details,
-                        status: 'pending'
-                    });
-                if (insertError) throw insertError;
+    try {
+        const { error: insertError } = await supabaseClient
+            .from('withdrawal_requests')
+            .insert({
+                user_id: currentUser.id,
+                amount: withdrawAmountUSD,
+                method: method,
+                details: details,
+                status: 'pending'
+            });
+        if (insertError) throw insertError;
 
-                // 2. خصم النقاط من الرصيد
-                const newAvailablePoints = currentBalance * 1000 - withdrawAmountPoints;
-                const { error: updateError } = await supabaseClient
-                    .from('user_balances')
-                    .update({ available_points: newAvailablePoints })
-                    .eq('user_id', currentUser.id);
-                if (updateError) throw updateError;
+        const newAvailablePoints = currentBalance * 1000 - withdrawAmountPoints;
+        const { error: updateError } = await supabaseClient
+            .from('user_balances')
+            .update({ available_points: newAvailablePoints })
+            .eq('user_id', currentUser.id);
+        if (updateError) throw updateError;
 
-                alert(t('withdraw_success')); // استخدام الترجمة
-                closeWithdrawModal();
-                await loadBalance();
-            } catch (error) {
-                console.error('Withdrawal error:', error);
-                alert('❌ Error: ' + error.message);
-            }
-        };
-
+        alert('✅ Withdrawal request submitted successfully!');
+        closeWithdrawModal();
+        await loadBalance();
+    } catch (error) {
+        console.error('Withdrawal error:', error);
+        alert('❌ Error: ' + error.message);
+    }
+};
         // ============================================================
         // WATCH AD (Legacy)
         // ============================================================
@@ -1161,6 +1189,59 @@ if (completed) {
                 }
             }
         });
+
+
+        // قائمة البنوك حسب الدولة
+const BANKS_BY_COUNTRY = {
+    'MA': ['Attijariwafa Bank', 'Bank of Africa (BMCE)', 'Banque Centrale Populaire (BCP)', 'CIH Bank', 'BMCI', 'Crédit du Maroc', 'Société Générale Maroc', 'Al Barid Bank', 'Crédit Agricole du Maroc'],
+    'EG': ['البنك الأهلي المصري (NBE)', 'بنك مصر (Banque Misr)', 'بنك القاهرة (Banque du Caire)', 'البنك التجاري الدولي (CIB)', 'بنك الإسكندرية (AlexBank)', 'بنك قطر الوطني الأهلي (QNB)'],
+    'SA': ['مصرف الراجحي (Al Rajhi Bank)', 'البنك الأهلي السعودي (SNB)', 'مصرف الرياض (Riyad Bank)', 'بنك ساب (SAB)', 'البنك السعودي الفرنسي (BSF)', 'بنك البلاد (Bank Albilad)', 'مصرف الإنماء (Alinma Bank)'],
+    'DZ': ['بنك الجزائر الخارجي (BEA)', 'البنك الوطني الجزائري (BNA)', 'القرض الشعبي الجزائري (CPA)', 'بنك التنمية المحلية (BDL)', 'بنك الفلاحة والتنمية الريفية (BADR)', 'بنك البركة الجزائري (Al Baraka)'],
+    'AE': ['بنك الإمارات دبي الوطني (Emirates NBD)', 'بنك أبوظبي الأول (FAB)', 'بنك دبي الإسلامي (DIB)', 'مصرف أبوظبي الإسلامي (ADIB)', 'بنك المشرق (Mashreq)', 'بنك رأس الخيمة الوطني (RAKBANK)'],
+    'JO': ['البنك العربي (Arab Bank)', 'بنك الإسكان للتجارة والتمويل (HBTF)', 'بنك القاهرة عمان (Cairo Amman Bank)', 'بنك الأردن (Bank of Jordan)', 'البنك الأهلي الأردني (JAB)'],
+    'PH': ['بانكو دي أورو (BDO)', 'بنك جزر الفلبين (BPI)', 'بنك متروبوليتان (Metrobank)', 'بنك لاند (Landbank)', 'بنك الفلبين الوطني (PNB)'],
+    'BD': ['بنك بنغلاديش (Bangladesh Bank)', 'بنك دوتش بنغلاديش (Dutch-Bangla)', 'بنك BRAC', 'بنك الإسلامي بنغلاديش', 'بنك سيتي (City Bank)'],
+    'FR': ['بي إن بي باريبا (BNP Paribas)', 'كريدي أغريكول (Crédit Agricole)', 'سوسيته جنرال (Société Générale)', 'بي بي سي إي (LCL)', 'لا بانك بوستال (La Banque Postale)'],
+    'ES': ['بانكو سانتاندير (Santander)', 'بي بي في إيه (BBVA)', 'كاجا رورال (CaixaBank)', 'بانكو صبابيل (Sabadell)'],
+    'US': ['بنك أوف أمريكا (Bank of America)', 'تشيس (Chase)', 'ويلز فارجو (Wells Fargo)', 'سيتي بنك (Citibank)'],
+    'OTHER': ['أخرى (Other)']
+};
+
+window.updateBanksList = function() {
+    const country = document.getElementById('bankCountry').value;
+    const bankSelect = document.getElementById('bankName');
+    
+    // إعادة تعيين القائمة
+    bankSelect.innerHTML = '';
+    
+    if (!country || !BANKS_BY_COUNTRY[country]) {
+        bankSelect.innerHTML = '<option value="">-- اختر الدولة أولاً --</option>';
+        return;
+    }
+
+    // إضافة البنوك الخاصة بالدولة
+    BANKS_BY_COUNTRY[country].forEach(bank => {
+        const option = document.createElement('option');
+        option.value = bank;
+        option.textContent = bank;
+        bankSelect.appendChild(option);
+    });
+};
+
+// دالة إظهار وإخفاء الحقول (تأكد من وجودها)
+window.toggleWithdrawFields = function() {
+    const method = document.getElementById('withdrawMethod').value;
+    const cashplusFields = document.getElementById('cashplusFields');
+    const bankFields = document.getElementById('bankFields');
+    
+    if (method === 'cashplus') {
+        cashplusFields.style.display = 'block';
+        bankFields.style.display = 'none';
+    } else {
+        cashplusFields.style.display = 'none';
+        bankFields.style.display = 'block';
+    }
+};
     </script>
         <script src="js/messenger-notify.js"></script>
 <script src="js/dark-mode.js"></script>
