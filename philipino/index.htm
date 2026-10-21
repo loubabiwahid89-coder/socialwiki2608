@@ -10,33 +10,21 @@
     <meta name="robots" content="index, follow">
     <meta property="og:locale" content="fil_PH">
     <meta property="og:title" content="Wikidoogo - Kumita ng Pera sa Social Network">
-    <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; text-align: center; color: #333; }
-        .header { background: #1877f2; color: white; padding: 20px; }
-        .header h1 { margin: 0; font-size: 28px; }
-        .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .container h2 { color: #1877f2; }
-        .btn { display: inline-block; background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin-top: 20px; }
-        .btn:hover { background: #218838; }
-        .features { text-align: left; margin-top: 20px; line-height: 1.8; }
-    </style>
+    
+    <script>
+        // ✅ 1. إخبار المنصة أن اللغة هي الفلبينية
+        localStorage.setItem('socialwiki_lang', 'fil');
+        localStorage.setItem('socialwiki_lang_user_chosen', 'fil');
+        
+        // ✅ 2. إعادة توجيه الزائر إلى المنصة الحقيقية
+        window.location.href = 'https://wikidoogo.com/index.html?lang=fil';
+    </script>
 </head>
 <body>
-    <div class="header">
+    <div style="text-align: center; padding: 50px; font-family: Arial;">
         <h1>📘 Wikidoogo</h1>
-    </div>
-    <div class="container">
-        <h2>Maligayang Pagdating sa Wikidoogo</h2>
-        <p>Ang bagong social network kung saan maaari kang kumita ng tunay na pera.</p>
-        
-        <div class="features">
-            <p>✅ Kumita ng <strong>70%</strong> ng mga natanggap na bituin.</p>
-            <p>✅ Kumita ng <strong>50 puntos</strong> para sa bawat kaibigang inanyayahan.</p>
-            <p>✅ Tumanggap ng mga libreng regalo.</p>
-            <p>✅ I-withdraw ang iyong pera sa pamamagitan ng Cash Plus o bank transfer.</p>
-        </div>
-
-        <a href="https://wikidoogo.com/" class="btn">🚀 Sumali Ngayon</a>
+        <p>Maligayang Pagdating...</p>
+        <p>Loading...</p>
     </div>
 </body>
 </html>
