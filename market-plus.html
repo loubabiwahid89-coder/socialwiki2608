@@ -620,7 +620,11 @@
                 
                 let mediaHTML = '<div class="product-image">📦</div>';
                 
+                if (product.media_url) {
+                    if (product.media_type === 'video') {
+                        mediaHTML = `<div class="product-image"><video src="${product.media_url}" controls></video></div>`;
                     } else {
+                        mediaHTML = `<div class="product-image"><img src="${product.media_url}" alt="Product"></div>`;
                     }
                 }
                 
@@ -636,6 +640,7 @@
                         <div class="product-description">${escapeHtml(product.description || '')}</div>
                         <div class="product-actions">
                             <button class="buy-btn" onclick="buyProduct('${product.id}')" data-i18n="buy_now">Buy Now</button>
+                            <button class="contact-btn" onclick="contactSeller('${product.seller_id}')"><span>💬</span> <span data-i18n="contact_seller">Contact Seller</span></button>
                         </div>
                     </div>
                 `;
@@ -719,9 +724,14 @@
                 const { error } = await supabaseClient
                     .from('products')
                     .insert({
-                        title: name,
+                        name: name,
                         description: description,
                         price: price,
+                        currency: selectedCurrency,
+                        location: location,
+                        media_url: mediaUrl,
+                        media_type: mediaType,
+                        seller_id: user.id
                     });
                 
                 if (error) {
@@ -792,6 +802,7 @@
                     
                     <div style="display:flex;gap:10px;">
                         <button onclick="closeBuyModal()" style="flex:1;padding:12px;border:none;border-radius:8px;background:#e4e6eb;cursor:pointer;font-weight:600;">Cancel</button>
+                        <button onclick="submitBuyOrder('${productId}','${product.seller_id || ''}')" style="flex:1;padding:12px;border:none;border-radius:8px;background:#1877f2;color:white;cursor:pointer;font-weight:600;">Send Order</button>
                     </div>
                 </div>
             `;
@@ -831,12 +842,14 @@
                     .insert({
                         product_id: productId,
                         buyer_id: user?.id,
+                        seller_id: sellerId || null,
                         buyer_email: email,
                         payment_method: method,
                         delivery_address: address,
                         notes: notes,
-                        product_title: productName,
+                        product_name: productName,
                         price: product?.price || 0,
+                        currency: product?.currency || 'MAD',
                         status: 'pending'
                     });
                 
