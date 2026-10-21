@@ -724,7 +724,7 @@
                 const { error } = await supabaseClient
                     .from('products')
                     .insert({
-                        name: name,
+                        title: name,
                         description: description,
                         price: price,
                         currency: selectedCurrency,
@@ -847,7 +847,7 @@
                         payment_method: method,
                         delivery_address: address,
                         notes: notes,
-                        product_name: productName,
+                        product_title: productName,
                         price: product?.price || 0,
                         currency: product?.currency || 'MAD',
                         status: 'pending'
