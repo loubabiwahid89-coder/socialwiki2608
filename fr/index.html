@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
-    <title>Wikidoogo - Réseau Social</title>
-    <!-- ✅ 1. إخبار المنصة أن اللغة فرنسية -->
+    <title>Wikidoogo - Redirection...</title>
     <script>
         localStorage.setItem('socialwiki_lang', 'fr');
         localStorage.setItem('socialwiki_lang_user_chosen', 'fr');
-        
-        // ✅ 2. تحويل الزائر فوراً إلى المنصة الحقيقية
-        window.location.replace('https://wikidoogo.com/index.html');
+        window.location.replace('https://wikidoogo.com/?lang=fr');
     </script>
 </head>
-<body>
-    <!-- شاشة تحميل بسيطة تظهر لجزء من الثانية -->
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #1877f2; color: white; font-family: Arial;">
-        <h1>📘 Wikidoogo - Chargement...</h1>
-    </div>
+<body style="background:#1877f2; color:white; text-align:center; padding-top:40vh; font-family:Arial;">
+    <h1>📘 Chargement...</h1>
 </body>
 </html>
