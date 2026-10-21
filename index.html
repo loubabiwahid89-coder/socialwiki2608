@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-       <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- ✅ 1. العنوان والوصف (العربية - اللغة الأساسية) -->
@@ -62,9 +62,17 @@
     <!-- ✅ 6. الموقع الجغرافي -->
     <meta name="geo.region" content="MA">
     <meta name="geo.placename" content="Morocco">
+
+    <!-- ✅ 7. مكتبة Supabase (السطر المفقود - ضروري جداً) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- ✅ 8. استدعاء ملف التصميم الأساسي -->
+    <link rel="stylesheet" href="css/style.css">
+
     <!-- Google IMA SDK for VAST Video Ads -->
-<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="js/device-fingerprint.js"></script>
+
     <style>
         /* ========== NAVBAR SEARCH ========== */
         .navbar-search {
@@ -301,8 +309,6 @@
 
    <link rel="stylesheet" href="css/dark-mode.css">
 
- 
-
   <!-- 📊 Schema.org - Structured Data -->
 <script type="application/ld+json">
 {
@@ -335,13 +341,11 @@
 }
 </script>
 
-
- 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-   
-
 
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- 🎟️ WAITLIST BANNER -->
@@ -667,10 +671,6 @@ function loadAd(containerId, zoneId, className) {
             </button>
         </div>
     </div><!-- ✅ إغلاق right-sidebar -->
-
-   
-
-
 
     <!-- CREATE POST MODAL -->
     <div id="createPostModal" class="modal-overlay">
