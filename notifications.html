@@ -439,6 +439,8 @@
                     if (notification.type === 'product_order') icon = '🛒'; // 🆕
                     if (notification.type === 'group_invite') icon = '👥';
                     if (notification.type === 'profile_reminder') icon = '👤';
+                     if (notification.type === 'stars_received') icon = '⭐'; // ✅ جديد للنجوم
+                    if (notification.type === 'badge_granted') icon = '🏅'; // ✅ جديد للشارات
                     
                     const item = document.createElement('div');
                     item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
@@ -494,38 +496,34 @@ item.innerHTML = `
             }
         }
         
-        // =========================================================
-        // 🆕 HANDLE NOTIFICATION CLICK
-        // =========================================================
-        function handleNotificationClick(notification) {
+                function handleNotificationClick(notification) {
             // علّم كمقروء
             markAsRead(notification.id);
             
             // الانتقال حسب النوع
             if (notification.type === 'product_order') {
-                // 🛒 إشعار طلب شراء → صفحة الطلبات
                 window.location.href = 'my-orders.html';
             } else if (notification.type === 'like' || notification.type === 'comment') {
-                // 👍💬 → المنشور
                 if (notification.post_id) {
                     window.location.href = `index.html#post-${notification.post_id}`;
                 } else {
                     window.location.href = 'index.html';
                 }
             } else if (notification.type === 'friend' || notification.type === 'friend_accept') {
-                // 👥 → الأصدقاء
                 window.location.href = 'friends.html';
             } else if (notification.type === 'birthday') {
-                // 🎂 → صفحة أعياد الميلاد
                 window.location.href = 'birthdays.html';
             } else if (notification.type === 'gift') {
-                // 🎁 → صفحة الهدايا
                 window.location.href = 'gifts.html';
+            } else if (notification.type === 'stars_received') {
+                // ✅ جديد: عند استلام نجمة، نوجه المستخدم لصفحة الأرباح
+                window.location.href = 'earnings.html'; 
+            } else if (notification.type === 'badge_granted') {
+                // ✅ جديد: عند استلام شارة، نوجهه لملفه الشخصي
+                window.location.href = 'profile.html'; 
             } else if (notification.type === 'ad') {
-                // 📢 → مركز الإعلانات
                 window.location.href = 'ad-center.html';
             }
-            // لأي نوع آخر → لا تنقل (فقط علّم كمقروء)
         }
         
         async function acceptFriendRequest(requestId, button) {
