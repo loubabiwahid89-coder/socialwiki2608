@@ -739,9 +739,9 @@ loadPosts();
                         const { data: { user } } = await window.supabaseClient.auth.getUser();
                         if (!user) { alert('Please login first!'); return; }
                         const fileName = `posts/${user.id}/${Date.now()}.${file.name.split('.').pop()}`;
-                        const { error: upErr } = await window.supabaseClient.storage.from('post-images').upload(fileName, file);
+                        const { error: upErr } = await window.supabaseClient.storage.from('product-images').upload(fileName, file);
                         if (upErr) { alert('Error: ' + upErr.message); return; }
-                        const { data: urlData } = window.supabaseClient.storage.from('post-images').getPublicUrl(fileName);
+                        const { data: urlData } = window.supabaseClient.storage.from('product-images').getPublicUrl(fileName);
                         window.uploadedImageUrl = urlData.publicUrl;
                         const previewArea = document.getElementById('imagePreviewArea');
                         if (previewArea) {
@@ -922,7 +922,7 @@ window.uploadPostVideo = async function() {
                 if (!user) { alert('Please login first!'); return; }
                 const mediaType = file.type.startsWith('video') ? 'video' : 'image';
                 const fileName = `stories/${user.id}/${Date.now()}_${file.name}`;
-                const { error: upErr } = await window.supabaseClient.storage.from('stories').upload(fileName, file);
+                const { error: upErr } = await window.supabaseClient.storage.from('product-images').upload(fileName, file);
                 if (upErr) { alert('Upload error: ' + upErr.message); return; }
                 const { error } = await window.supabaseClient.from('stories').insert({
                     user_id: user.id, media_url: fileName, media_type: mediaType
@@ -3067,14 +3067,14 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
         if (imageUrl) {
             const imagePath = imageUrl.split('/post-images/')[1];
             if (imagePath) {
-                await window.supabaseClient.storage.from('post-images').remove([imagePath]);
+                await window.supabaseClient.storage.from('product-images').remove([imagePath]);
             }
         }
         
         if (videoUrl) {
             const videoPath = videoUrl.split('/post-videos/')[1];
             if (videoPath) {
-                await window.supabaseClient.storage.from('post-videos').remove([videoPath]);
+                await window.supabaseClient.storage.from('product-images').remove([videoPath]);
             }
         }
         

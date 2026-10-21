@@ -1102,9 +1102,9 @@
                     const { data: { user } } = await supabaseClient.auth.getUser();
                     if (!user) return;
                     const fileName = `avatars/${user.id}/${Date.now()}_${file.name}`;
-                    const { error: uploadError } = await supabaseClient.storage.from('avatars').upload(fileName, file);
+                    const { error: uploadError } = await supabaseClient.storage.from('product-images').upload(fileName, file);
                     if (uploadError) { alert('Error: ' + uploadError.message); return; }
-                    const { data: urlData } = supabaseClient.storage.from('avatars').getPublicUrl(fileName);
+                    const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(fileName);
                     await supabaseClient.from('profiles').update({ avatar_url: urlData.publicUrl }).eq('id', user.id);
                     document.getElementById('avatarImg').src = urlData.publicUrl;
                     document.getElementById('navProfileImg').src = urlData.publicUrl;
@@ -1125,9 +1125,9 @@
                     const { data: { user } } = await supabaseClient.auth.getUser();
                     if (!user) return;
                     const fileName = `covers/${user.id}/${Date.now()}_${file.name}`;
-                    const { error: uploadError } = await supabaseClient.storage.from('covers').upload(fileName, file);
+                    const { error: uploadError } = await supabaseClient.storage.from('product-images').upload(fileName, file);
                     if (uploadError) { alert('Error: ' + uploadError.message); return; }
-                    const { data: urlData } = supabaseClient.storage.from('covers').getPublicUrl(fileName);
+                    const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(fileName);
                     await supabaseClient.from('profiles').update({ cover_url: urlData.publicUrl }).eq('id', user.id);
                     document.getElementById('coverImg').src = urlData.publicUrl;
                     alert('✅ Cover image updated!');
