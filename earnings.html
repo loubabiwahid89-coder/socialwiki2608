@@ -368,15 +368,29 @@
         <div class="modal-box">
             <div class="modal-title">💳 Request Withdrawal</div>
             <div class="form-group">
-                <label>Withdrawal Method</label>
-                <select id="withdrawMethod">
-                    <option value="paypal">PayPal</option>
-                    <option value="bank">Bank Transfer</option>
+                <label>طريقة السحب</label>
+                <select id="withdrawMethod" onchange="toggleWithdrawFields()">
+                    <option value="cashplus">📱 Cash Plus</option>
+                    <option value="bank">🏦 تحويل بنكي</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Payment Details</label>
-                <input type="text" id="withdrawDetails" placeholder="Email or account number">
+            
+            <!-- حقول Cash Plus -->
+            <div id="cashplusFields" class="form-group">
+                <label>رقم هاتف Cash Plus</label>
+                <input type="tel" id="cashplusPhone" placeholder="06XXXXXXXX">
+            </div>
+
+            <!-- حقول التحويل البنكي -->
+            <div id="bankFields" style="display: none;">
+                <div class="form-group">
+                    <label>اسم البنك</label>
+                    <input type="text" id="bankName" placeholder="مثال: Attijariwafa">
+                </div>
+                <div class="form-group">
+                    <label>رقم الحساب (RIB)</label>
+                    <input type="text" id="rib" placeholder="24 رقماً">
+                </div>
             </div>
             <div class="modal-actions">
                 <button class="btn-cancel" onclick="closeWithdrawModal()">Cancel</button>
@@ -1060,13 +1074,45 @@ if (completed) {
             document.getElementById('withdrawModal').classList.remove('show');
         };
 
+        // ✅ دالة إظهار وإخفاء الحقول
+        window.toggleWithdrawFields = function() {
+            const method = document.getElementById('withdrawMethod').value;
+            document.getElementById('cashplusFields').style.display = method === 'cashplus' ? 'block' : 'none';
+            document.getElementById('bankFields').style.display = method === 'bank' ? 'block' : 'none';
+        };
+
+        // ✅ دالة إرسال طلب السحب (الجديدة)
         window.submitWithdrawal = async function() {
             const method = document.getElementById('withdrawMethod').value;
-            const details = document.getElementById('withdrawDetails').value.trim();
-            if (!details) { alert('Please enter payment details'); return; }
+            let details = '';
+            
+            if (method === 'cashplus') {
+                const phone = document.getElementById('cashplusPhone').value.trim();
+                if (!phone) { alert('❌ Please enter your Cash Plus phone number'); return; }
+                details = phone;
+            } else {
+                const bankName = document.getElementById('bankName').value.trim();
+                const rib = document.getElementById('rib').value.trim();
+                if (!bankName || !rib) { alert('❌ Please enter bank name and RIB'); return; }
+                details = `${bankName} - ${rib}`;
+            }
+            
             if (!confirm(`Withdraw ${withdrawAmountPoints.toLocaleString()} points ($${withdrawAmountUSD})?`)) return;
 
             try {
+                // 1. إرسال الطلب لجدول withdrawal_requests
+                const { error: insertError } = await supabaseClient
+                    .from('withdrawal_requests')
+                    .insert({
+                        user_id: currentUser.id,
+                        amount: withdrawAmountUSD,
+                        method: method,
+                        details: details,
+                        status: 'pending'
+                    });
+                if (insertError) throw insertError;
+
+                // 2. خصم النقاط من الرصيد
                 const newAvailablePoints = currentBalance * 1000 - withdrawAmountPoints;
                 const { error: updateError } = await supabaseClient
                     .from('user_balances')
@@ -1074,20 +1120,7 @@ if (completed) {
                     .eq('user_id', currentUser.id);
                 if (updateError) throw updateError;
 
-                const { error: insertError } = await supabaseClient
-                    .from('transactions')
-                    .insert({
-                        user_id: currentUser.id,
-                        amount: withdrawAmountUSD,
-                        points_used: withdrawAmountPoints,
-                        method: method,
-                        details: details,
-                        status: 'pending',
-                        created_at: new Date()
-                    });
-                if (insertError) throw insertError;
-
-                alert('✅ Withdrawal request submitted!');
+                alert('✅ Withdrawal request submitted successfully!');
                 closeWithdrawModal();
                 await loadBalance();
             } catch (error) {
