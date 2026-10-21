@@ -1,69 +1,340 @@
 ﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8034622681609333"
+     crossorigin="anonymous"></script>
+    <meta name="google-site-verification" content="Ww7WxIAVNzik-4EiGNjMJEgn4cNwtTRwBsyFS-bO6aY" />
+    <meta name="6a97888e-site-verification" content="fae8b1ff0ef0288c6ccd540d457ca7ce">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Wikidoogo - منصة تواصل عربي واربح من النجوم والأصدقاء 2026</title>
-    <meta name="description" content="Wikidoogo منصة تواصل اجتماعي عربية جديدة. اربح 70% من النجوم، 10% من دعوة الأصدقاء، هدايا مجانية، مسابقات بمليون نقطة، ومكافآت من مشاهدة الإعلانات. انضم الآن!">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<meta name="description" content="Wikidoogo منصة تواصل اجتماعي عربية جديدة. اربح 70% من النجوم، 10% من دعوة الأصدقاء، هدايا مجانية، مسابقات بمليون نقطة، ومكافآت من مشاهدة الإعلانات. انضم الآن!">
+<meta name="keywords" content="Wikidoogo, منصة عربية, ربح من الإنترنت, تواصل اجتماعي, أرباح النجوم, دعوة أصدقاء, هدايا مجانية, مسابقات">
+<meta name="author" content="Wikidoogo">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://wikidoogo.com/">
+
+ 
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wikidoogo.com/index.html">
+<meta property="og:title" content="Wikidoogo - تواصل واربح من النجوم والأصدقاء">
+<meta property="og:description" content="اربح 70% من النجوم، 10% من الأصدقاء، واحصل على مليون نقطة مجاناً!">
+<meta property="og:image" content="https://wikidoogo.com/images/og-image.jpg">
+<meta property="og:locale" content="ar_MA">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Wikidoogo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wikidoogo - تواصل واربح">
+<meta name="twitter:description" content="منصة عربية جديدة للتواصل والربح.">
+<meta name="twitter:image" content="https://wikidoogo.com/images/twitter-card.jpg">
+<meta name="geo.region" content="MA">
+<meta name="geo.placename" content="Morocco">
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+       <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tus-js-client@3.1.0/dist/tus.min.js"></script>
+    <script src="js/tasks-helper.js"></script>
+    <script src="js/translations.js?v=20261001"></script>
+    <!-- Google IMA SDK for VAST Video Ads -->
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="js/device-fingerprint.js"></script>
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/dark-mode.css">
-
     <style>
-        .navbar-search { flex: 1; max-width: 400px; margin: 0 20px; position: relative; }
-        .navbar-search input { width: 100%; padding: 10px 40px; border: none; border-radius: 20px; background: rgba(255,255,255,0.2); color: white; font-size: 15px; outline: none; transition: 0.2s; }
-        .navbar-search input::placeholder { color: rgba(255,255,255,0.75); }
-        .navbar-search input:focus { background: white; color: #050505; }
-        .navbar-search input:focus::placeholder { color: #65676b; }
-        .navbar-search .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; color: rgba(255,255,255,0.85); pointer-events: none; transition: 0.2s; }
-        .navbar-search input:focus ~ .search-icon { color: #65676b; }
-        .search-results { display: none; position: absolute; top: calc(100% + 8px); right: 0; left: auto; width: 500px; max-width: 95vw; background: white; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); max-height: 500px; overflow-y: auto; z-index: 999999; }
-        .search-results.show { display: block; }
-        .search-result-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; cursor: pointer; transition: background 0.15s; text-decoration: none; color: #050505; }
-        .search-result-item:hover { background: #f0f2f5; }
-        .search-result-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-        .search-result-info { flex: 1; min-width: 0; }
-        .search-result-name { font-weight: 600; font-size: 14px; color: #050505; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .search-result-username { font-size: 12px; color: #65676b; }
-        .search-no-results, .search-loading { padding: 20px; text-align: center; color: #65676b; font-size: 14px; }
-        .search-results-header { padding: 10px 14px; font-size: 12px; font-weight: 700; color: #65676b; text-transform: uppercase; border-bottom: 1px solid #e4e6eb; letter-spacing: 0.5px; }
-        
-        @media (max-width: 768px) {
-            .left-sidebar { position: fixed; top: 56px; left: -280px; width: 280px; height: calc(100vh - 56px); background: white; z-index: 999; transition: left 0.3s ease; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); padding: 15px; }
-            .left-sidebar.mobile-open { left: 0; }
-            .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 998; top: 56px; }
-            .sidebar-overlay.show { display: block; }
-            .hamburger-btn { display: block !important; background: rgba(255,255,255,0.2); border: none; color: white; font-size: 22px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+        /* ========== NAVBAR SEARCH ========== */
+        .navbar-search {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+            position: relative;
         }
-        @media (min-width: 769px) { .hamburger-btn { display: none !important; } }
+        .navbar-search input {
+            width: 100%;
+            padding: 10px 40px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .navbar-search input::placeholder {
+            color: rgba(255,255,255,0.75);
+        }
+        .navbar-search input:focus {
+            background: white;
+            color: #050505;
+        }
+        .navbar-search input:focus::placeholder {
+            color: #65676b;
+        }
+        .navbar-search .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: rgba(255,255,255,0.85);
+            pointer-events: none;
+            transition: 0.2s;
+        }
+        .navbar-search input:focus ~ .search-icon {
+            color: #65676b;
+        }
+        .search-results {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            left: auto;
+            width: 500px;
+            max-width: 95vw;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            max-height: 500px;
+            overflow-y: auto;
+            z-index: 999999;
+        }
+        .search-results.show {
+            display: block;
+        }
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+            text-decoration: none;
+            color: #050505;
+        }
+        .search-result-item:hover {
+            background: #f0f2f5;
+        }
+        .search-result-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .search-result-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .search-result-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #050505;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-username {
+            font-size: 12px;
+            color: #65676b;
+        }
+        .search-no-results,
+        .search-loading {
+            padding: 20px;
+            text-align: center;
+            color: #65676b;
+            font-size: 14px;
+        }
+        .search-results-header {
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #65676b;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e4e6eb;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 900px) {
+            .navbar-search {
+                max-width: 250px;
+                margin: 0 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar-search {
+                display: none;
+            }
+        }
 
-        .profile-badges-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 15px 0; }
-        .badge-verified { background: linear-gradient(135deg, #1DA1F2, #0d8ddb); color: white; padding: 8px 18px; border-radius: 25px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4); border: 2px solid rgba(255,255,255,0.3); }
-        .badge-morocco { background: linear-gradient(135deg, #006633, #C1272D); color: white; padding: 8px 18px; border-radius: 25px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(193, 39, 45, 0.4); border: 2px solid rgba(255,215,0,0.5); }
-        .badge-founder-member { background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; padding: 8px 18px; border-radius: 25px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4); border: 2px solid rgba(255,255,255,0.6); animation: badgePulse 2s infinite; }
-        @keyframes badgePulse { 0%, 100% { box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4); } 50% { box-shadow: 0 4px 25px rgba(255, 165, 0, 0.8); } }
+        /* ========== MOBILE SIDEBAR ========== */
+@media (max-width: 768px) {
+    .left-sidebar {
+        position: fixed;
+        top: 56px;
+        left: -280px;
+        width: 280px;
+        height: calc(100vh - 56px);
+        background: white;
+        z-index: 999;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        padding: 15px;
+    }
+    
+    .left-sidebar.mobile-open {
+        left: 0;
+    }
+    
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        top: 56px;
+    }
+    
+    .sidebar-overlay.show {
+        display: block;
+    }
+    
+    .hamburger-btn {
+        display: block !important;
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        font-size: 22px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 769px) {
+    .hamburger-btn {
+        display: none !important;
+    }
+}
+
+/* ═══ البادجات المميزة ═══ */
+.profile-badges-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.badge-verified {
+    background: linear-gradient(135deg, #1DA1F2, #0d8ddb);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.badge-morocco {
+    background: linear-gradient(135deg, #006633, #C1272D);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(193, 39, 45, 0.4);
+    border: 2px solid rgba(255,215,0,0.5);
+}
+
+.badge-founder-member {
+    background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+    color: #333;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+    border: 2px solid rgba(255,255,255,0.6);
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4); }
+    50% { box-shadow: 0 4px 25px rgba(255, 165, 0, 0.8); }
+}
     </style>
-<link rel="stylesheet" href="style.css">
+     <!-- Cloudflare Web Analytics -->
+
+   <link rel="stylesheet" href="css/dark-mode.css">
+
+ 
+
+  <!-- 📊 Schema.org - Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Wikidoogo",
+  "alternateName": "سوشيال ويكي",
+  "url": "https://wikidoogo.com",
+  "inLanguage": "ar",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://wikidoogo.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Wikidoogo",
+  "url": "https://wikidoogo.com",
+  "logo": "https://wikidoogo.com/images/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "availableLanguage": ["Arabic", "French", "English"]
+  }
+}
+</script>
+
+
+ 
 </head>
 
 <body>
+   
 
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎟️ WAITLIST BANNER -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <div id="waitlistBanner" class="waitlist-banner" style="display: none;">
     <div class="waitlist-banner-content">
         <div class="waitlist-icon">🎟️</div>
+        
         <div class="waitlist-info">
             <h3 class="waitlist-title">
                 <span data-i18n="waitlist_title">You are #</span>
                 <span id="waitlistPosition" class="waitlist-position">--</span>
                 <span data-i18n="waitlist_title_suffix">in the queue!</span>
             </h3>
-            <p class="waitlist-subtitle" data-i18n="waitlist_subtitle">Invite 3 friends to get 3 free gifts!</p>
+            <p class="waitlist-subtitle" data-i18n="waitlist_subtitle">
+                Invite 3 friends to get 3 free gifts!
+            </p>
         </div>
+        
         <div class="waitlist-stats">
             <div class="waitlist-stat">
                 <span class="stat-value" id="waitlistInvites">0</span>
@@ -74,6 +345,7 @@
                 <span class="stat-label" data-i18n="waitlist_gifts">Free Gifts</span>
             </div>
         </div>
+        
         <div class="waitlist-actions">
             <button class="waitlist-btn-invite" onclick="copyWaitlistLink()" style="display: none;">
                 📤 <span data-i18n="waitlist_btn_invite">Invite Friends</span>
@@ -82,9 +354,11 @@
                 🎟️ <span data-i18n="waitlist_btn_join">Join Waitlist</span>
             </button>
         </div>
+        
         <div class="waitlist-progress">
             <div class="waitlist-progress-fill" id="waitlistProgress" style="width: 0%;"></div>
         </div>
+        
         <div id="waitlistFounderBadge" class="waitlist-founder-badge" style="display: none;">
             🏆 <span data-i18n="waitlist_founder">You are a FOUNDER!</span>
         </div>
@@ -99,11 +373,20 @@
                 <span>Wikidoogo</span>
             </a>
         </div>
+
         <div class="navbar-search">
             <span class="search-icon">🔍</span>
-            <input type="text" id="navbarSearchInput" data-i18n-placeholder="search_placeholder" placeholder="Search Wikidoogo..." autocomplete="off" oninput="handleSearchInput(this.value)" onfocus="handleSearchInput(this.value)">
-            <div class="search-results" id="searchResults" style="display: none;"></div>
+            <input 
+                type="text" 
+                id="navbarSearchInput"
+                data-i18n-placeholder="search_placeholder"
+                placeholder="Search Wikidoogo..."
+                autocomplete="off"
+                oninput="handleSearchInput(this.value)"
+                onfocus="handleSearchInput(this.value)">
+       <div class="search-results" id="searchResults" style="display: block !important; position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); max-height: 400px; overflow-y: auto; z-index: 999999; margin-top: 8px;"></div>
         </div>
+
         <ul class="nav-icons">
             <li><a href="index.html" class="active" title="Home">🏠</a></li>
             <li><a href="friends.html" title="Friends">👥</a></li>
@@ -111,6 +394,7 @@
             <li><a href="events.html" title="Events">📅</a></li>
             <li><a href="messenger.html" title="Messages">💬</a></li>
         </ul>
+
         <div class="nav-right">
             <a href="notifications.html" id="navNotificationBtn" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
                 🔔
@@ -141,7 +425,7 @@
                     <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
                     <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
                     <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
-                    <button onclick="changeLanguage('am')">🇪🇹 አማርኛ</button>
+                        <button onclick="changeLanguage('am')">🇪🇹 አማርኛ</button>
                 </div>
             </div>
             <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
@@ -166,7 +450,7 @@
             <a href="stars.html"><span class="emoji-icon">⭐</span><span data-i18n="stars">Stars</span></a>
             <a href="creator-dashboard.html"><span class="emoji-icon">🎬</span><span>Creator Dashboard</span></a>
             <a href="earnings.html"><span class="emoji-icon">💰</span><span data-i18n="earnings_title">My Earnings</span></a>
-            <a href="my-stats.html"><span class="emoji-icon">📊</span><span data-i18n="my_stats">My Stats</span></a>
+           <a href="my-stats.html"><span class="emoji-icon">📊</span><span data-i18n="my_stats">My Stats</span></a>
             <a href="owner-dashboard.html" id="dashboardLink" style="display: none;">
                 <span class="emoji-icon">👑</span><span data-i18n="dashboard">Dashboard</span>
             </a>
@@ -213,6 +497,9 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════════════════════ -->
+            <!-- 📢 EXOCLICK NEW BANNER - Zone 6051758 -->
+            <!-- ═══════════════════════════════════════════════════════════ -->
             <div class="ad-container" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
                 <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
                     📢 Advertisement
@@ -220,6 +507,9 @@
                 <div id="exoBanner3"></div>
             </div>
          
+       <!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 ADVERTISEMENT #1 (Desktop Only) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <div class="ad-container" id="adContainer1" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
     <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="advertisement">
         📢 Advertisement
@@ -227,6 +517,9 @@
     <div id="exoBanner1"></div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 SPONSORED #2 (Mobile Only) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <div class="ad-container" id="adContainer2" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
     <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="sponsored">
         📢 Sponsored
@@ -234,6 +527,9 @@
     <div id="exoBanner2"></div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 FOOTER BANNER (يظهر أسفل الصفحة) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <div class="ad-container" id="adContainerFooter" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
     <div style="font-size: 11px; color: #65676b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
         📢 Advertisement
@@ -244,22 +540,40 @@
          <script>
     (function() {
         var isMobile = window.innerWidth <= 768;
-        function loadAd(containerId, zoneId, className) {
-            var container = document.getElementById(containerId);
-            if (!container) return;
-            container.innerHTML = '';
-            console.log('✅ Ready for AdSense Auto:', containerId);
-        }
+
+       // ═══════════════════════════════════════════════════════════
+// ⛔ ExoClick DISABLED (Popunder + Malware Issue)
+// ═══════════════════════════════════════════════════════════
+function loadAd(containerId, zoneId, className) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // ✅ اترك الحاوية فارغة - AdSense Auto سيملأها تلقائياً
+    container.innerHTML = '';
+    console.log('✅ Ready for AdSense Auto:', containerId);
+}
+
+           // ✅ على الكمبيوتر: Desktop فقط
         if (!isMobile) {
             loadAd('exoBanner1', '6046804', 'eas6a97888e2');
             loadAd('exoBanner3', '6051758', 'eas6a97888e37');
             loadAd('exoFooter', '6046804', 'eas6a97888e2');
+            console.log('🖥️ Loading Desktop Ad (6046804)');
+            console.log('🖥️ Loading Desktop Ad (6051758)');
+            console.log('🖥️ Loading Footer Desktop Ad (6046804)');
+
             var ad2 = document.getElementById('adContainer2');
             if (ad2) ad2.style.display = 'none';
-        } else {
+        } 
+        // ✅ على الجوال: Mobile فقط
+        else {
             loadAd('exoBanner2', '6046832', 'eas6a97888e10');
             loadAd('exoBanner3', '6051758', 'eas6a97888e37');
             loadAd('exoFooter', '6046832', 'eas6a97888e10');
+            console.log('📱 Loading Mobile Ad (6046832)');
+            console.log('📱 Loading Mobile Ad (6051758)');
+            console.log('📱 Loading Footer Mobile Ad (6046832)');
+
             var ad1 = document.getElementById('adContainer1');
             if (ad1) ad1.style.display = 'none';
         }
@@ -294,6 +608,7 @@
                 <a href="events.html"><span class="emoji-icon">📅</span><span data-i18n="event2">Event 2</span></a>
             </div>
 
+            <!-- 🏆 Leaderboard -->
 <div class="right-box">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h3 style="margin:0;">🏆 Leaderboard</h3>
@@ -311,6 +626,9 @@
     </div>
 </div>
 
+               <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- 🎁 OFFERWALL.GG - REWARDED ADS WALL -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
         <div class="ad-box" style="text-align: center; padding: 15px;">
             <h3 data-i18n="sponsored" style="margin-bottom: 12px;">🎁 Earn Free Points</h3>
             <p style="font-size: 13px; color: #65676b; margin-bottom: 12px;">
@@ -322,8 +640,13 @@
                 🎁 Open Rewards Wall
             </button>
         </div>
-    </div>
+    </div><!-- ✅ إغلاق right-sidebar -->
 
+   
+
+
+
+    <!-- CREATE POST MODAL -->
     <div id="createPostModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -337,22 +660,71 @@
             <textarea id="postContent" class="modal-textarea" data-i18n-placeholder="create_post" placeholder="What's on your mind?" oninput="handleMentionInput(this)"></textarea>
             <div id="videoPreviewArea"></div>
             <div id="imagePreviewArea"></div>
-     <div id="bgStyleContainer" style="display:none; margin: 15px 0;">
+     <!-- 🎨 شريط خلفيات المنشور (Facebook Style) -->
+<div id="bgStyleContainer" style="display:none; margin: 15px 0;">
     <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 10px; color: #050505;">
         🎨 خلفية المنشور <span style="font-size: 11px; color: #f7b928; font-weight: 700;">(Premium)</span>
     </label>
     
     <div style="display: flex; gap: 8px; overflow-x: auto; padding: 6px 0; scrollbar-width: thin;">
-        <button type="button" onclick="setBgStyle(null)" title="بدون" style="min-width:50px; height:50px; border-radius:10px; background:white; border:2px solid #ddd; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px;">⚫</button>
-        <button type="button" onclick="setBgStyle('solid-red')" title="أحمر" style="min-width:50px; height:50px; border-radius:10px; background:#e74c3c; border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('solid-blue')" title="أزرق" style="min-width:50px; height:50px; border-radius:10px; background:#1877f2; border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('solid-green')" title="أخضر" style="min-width:50px; height:50px; border-radius:10px; background:#27ae60; border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('solid-purple')" title="بنفسجي" style="min-width:50px; height:50px; border-radius:10px; background:#8e44ad; border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('solid-pink')" title="وردي" style="min-width:50px; height:50px; border-radius:10px; background:#e91e63; border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('gradient-sunset')" title="غروب" style="min-width:50px; height:50px; border-radius:10px; background:linear-gradient(135deg,#ff6b00,#ff0044); border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('gradient-purple-blue')" title="بنفسجي مزرق" style="min-width:50px; height:50px; border-radius:10px; background:linear-gradient(135deg,#8e44ad,#3498db); border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('gradient-ocean')" title="محيط" style="min-width:50px; height:50px; border-radius:10px; background:linear-gradient(135deg,#1877f2,#00bcd4); border:2px solid transparent; cursor:pointer;"></button>
-        <button type="button" onclick="setBgStyle('gradient-gold')" title="ذهبي فاخر" style="min-width:50px; height:50px; border-radius:10px; background:linear-gradient(135deg,#FFD700,#FF8C00); border:2px solid #8B0000; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px;">👑</button>
+        
+        <!-- ⚫ بدون خلفية -->
+        <button type="button" onclick="setBgStyle(null)" title="بدون"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:white; border:2px solid #ddd; cursor:pointer;
+                       display:flex; align-items:center; justify-content:center;
+                       font-size:20px;">⚫</button>
+        
+        <!-- 🔴 أحمر سادة -->
+        <button type="button" onclick="setBgStyle('solid-red')" title="أحمر"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#e74c3c; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🔵 أزرق سادة -->
+        <button type="button" onclick="setBgStyle('solid-blue')" title="أزرق"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#1877f2; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🟢 أخضر سادة -->
+        <button type="button" onclick="setBgStyle('solid-green')" title="أخضر"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#27ae60; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🟣 بنفسجي سادة -->
+        <button type="button" onclick="setBgStyle('solid-purple')" title="بنفسجي"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#8e44ad; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌸 وردي سادة -->
+        <button type="button" onclick="setBgStyle('solid-pink')" title="وردي"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:#e91e63; border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌈 تدرج أحمر-برتقالي -->
+        <button type="button" onclick="setBgStyle('gradient-sunset')" title="غروب"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#ff6b00,#ff0044); 
+                       border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌈 تدرج بنفسجي-أزرق -->
+        <button type="button" onclick="setBgStyle('gradient-purple-blue')" title="بنفسجي مزرق"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#8e44ad,#3498db); 
+                       border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 🌈 تدرج أزرق-سماوي -->
+        <button type="button" onclick="setBgStyle('gradient-ocean')" title="محيط"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#1877f2,#00bcd4); 
+                       border:2px solid transparent; cursor:pointer;"></button>
+        
+        <!-- 👑 ذهبي فاخر (لك) -->
+        <button type="button" onclick="setBgStyle('gradient-gold')" title="ذهبي فاخر"
+                style="min-width:50px; height:50px; border-radius:10px; 
+                       background:linear-gradient(135deg,#FFD700,#FF8C00); 
+                       border:2px solid #8B0000; cursor:pointer;
+                       display:flex; align-items:center; justify-content:center;
+                       font-size:18px;">👑</button>
     </div>
 </div>
 
@@ -366,10 +738,12 @@
     </div>
 </div>
             <button class="modal-submit" onclick="publishPost()" data-i18n="post">Post</button>
-            <div id="mentionDropdown" style="display:none; position:fixed; background:white; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.2); max-height:250px; overflow-y:auto; width:280px; z-index:99999;"></div>
+            <!-- ✅ قائمة @mention -->
+<div id="mentionDropdown" style="display:none; position:fixed; background:white; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.2); max-height:250px; overflow-y:auto; width:280px; z-index:99999;"></div>
         </div>
     </div>
 
+    <!-- FEELING MODAL -->
     <div id="feelingModal" class="modal-overlay">
         <div class="modal-content" style="width: 400px;">
             <div class="modal-header">
@@ -393,6 +767,7 @@
         </div>
     </div>
 
+    <!-- STORY MODAL -->
     <div id="storyModal" class="modal-overlay">
         <div class="modal-content" style="width: 400px;">
             <div class="modal-header">
@@ -405,6 +780,7 @@
         </div>
     </div>
 
+    <!-- FOOTER -->
     <footer style="background: white; padding: 30px 20px; text-align: center; margin-top: 30px; border-top: 1px solid #e4e6eb;">
         <div style="max-width: 1200px; margin: 0 auto;">
             <div style="margin-bottom: 15px;">
@@ -422,7 +798,11 @@
         </div>
     </footer>
     
+    <!-- ========================================================= -->
+    <!-- MAIN APP SCRIPT -->
+    <!-- ========================================================= -->
             <script>
+        // ✅✅✅ تعريف waitForSupabase في أعلى السكريبت فوراً
         window.waitForSupabase = async function(timeout = 5000) {
             const start = Date.now();
             while (!window.supabaseClient && Date.now() - start < timeout) {
@@ -436,6 +816,9 @@
         
         console.log('🟢 MAIN SCRIPT START');
         
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
         if (!window.supabaseClient) {
             const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
             const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
@@ -459,11 +842,14 @@
 
       function showPointsNotification(points) {
     const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; top: 80px; right: 20px;
         background: linear-gradient(135deg, #ffd700, #f7b928);
         color: #333; padding: 15px 25px; border-radius: 12px;
         font-weight: 700; z-index: 99999;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     `;
+    // ✅ استخدم الترجمة بدل النص الثابت
     const pointsLabel = (typeof t === 'function') ? t('points') : 'points';
     toast.textContent = `+${points} ${pointsLabel}! 💰`;
     document.body.appendChild(toast);
@@ -492,11 +878,13 @@
             window.location.href = "auth.html";
         };
 
+        // ✅ دالة قائمة اللغة
 window.toggleLanguageMenu = function() {
     const menu = document.getElementById('languageMenu');
     if (menu) menu.classList.toggle('show');
 };
 
+// ✅ إغلاق القائمة عند النقر خارجها
 document.addEventListener('click', function(e) {
     const menu = document.getElementById('languageMenu');
     const btn = document.querySelector('.language-btn');
@@ -530,6 +918,7 @@ document.addEventListener('click', function(e) {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) return;
         
+        // ✅ استخدام user_points الجديد
         const { data: points } = await window.supabaseClient
             .from('user_points')
             .select('total_points')
@@ -607,6 +996,9 @@ document.addEventListener('click', function(e) {
                 if (modalProfileName) modalProfileName.textContent = displayName;
             } catch (error) { console.error('Error:', error); }
         }
+// =========================================================
+// 🎨 POST BACKGROUND STYLES (Facebook Style)
+// =========================================================
 
 const BG_STYLES = {
     'solid-red':           { bg: '#e74c3c', color: 'white' },
@@ -672,7 +1064,9 @@ async function checkBgPickerAccess() {
    window.openCreatePostModal = function() {
     document.getElementById('createPostModal').classList.add('show');
     document.getElementById('postContent').focus();
-    checkBgPickerAccess();
+    
+    // 🎨 تحقق من صلاحية الألوان
+                      checkBgPickerAccess();
 };
         window.closeCreatePostModal = function() {
             document.getElementById('createPostModal').classList.remove('show');
@@ -716,7 +1110,7 @@ async function checkBgPickerAccess() {
                 document.getElementById('videoPreviewArea').innerHTML = '';
                 document.getElementById('imagePreviewArea').innerHTML = '';
                closeCreatePostModal();
-loadPosts();
+loadPosts();  // ✅ أسرع بكثير
             } catch (error) { console.error('❌ Error:', error); }
         };
 
@@ -778,12 +1172,14 @@ window.uploadPostVideo = async function() {
         const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
         console.log(`📹 File: ${file.name}, Size: ${fileSizeMB}MB, Type: ${file.type}`);
 
+        // ✅ الحد الأقصى 2GB
         const maxSize = 2 * 1024 * 1024 * 1024;
         if (file.size > maxSize) { 
             alert(`❌ الفيديو كبير جداً (${fileSizeMB}MB). الحد الأقصى 2GB.`); 
             return; 
         }
 
+        // ✅ تحقق من نوع الملف (type أو امتداد)
         const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'm4v'];
         const fileExt = (file.name.split('.').pop() || '').toLowerCase();
         const isVideo = file.type.startsWith('video/') || videoExtensions.includes(fileExt);
@@ -793,9 +1189,11 @@ window.uploadPostVideo = async function() {
             return;
         }
         
+        // ✅ احصل على session token
         const { data: { session } } = await window.supabaseClient.auth.getSession();
         if (!session) { alert('Please login again'); return; }
 
+        // ✅ Progress UI
         const loadingMsg = document.createElement('div');
         loadingMsg.id = 'videoUploadingMsg';
         loadingMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
@@ -818,6 +1216,7 @@ window.uploadPostVideo = async function() {
             
             console.log('📤 Starting Resumable Upload:', fileName);
             
+                       // ✅ ابحث عن مكتبة TUS بأي من الأسماء
             const TUSLib = window.tus || window.TUS;
             if (!TUSLib || !TUSLib.Upload) {
                 console.error('❌ TUS not loaded. window.tus =', window.tus, ', window.TUS =', window.TUS);
@@ -826,6 +1225,7 @@ window.uploadPostVideo = async function() {
                 return;
             }
             
+            // ✅ Resumable Upload مع TUS
             const upload = new TUSLib.Upload(file, {
                 endpoint: `${projectUrl}/storage/v1/upload/resumable`,
                 retryDelays: [0, 3000, 5000, 10000, 20000],
@@ -841,7 +1241,7 @@ window.uploadPostVideo = async function() {
                     contentType: file.type,
                     cacheControl: '3600'
                 },
-                chunkSize: 6 * 1024 * 1024,
+                chunkSize: 6 * 1024 * 1024, // 6MB chunks
                 onError: function(error) {
                     console.error('❌ Upload error:', error);
                     alert('❌ خطأ في الرفع: ' + error.message);
@@ -862,6 +1262,7 @@ window.uploadPostVideo = async function() {
                     
                     console.log('🔗 Public URL:', urlData.publicUrl);
                     
+                    // ✅ تحقق من وجود الملف فعلاً
                     try {
                         const response = await fetch(urlData.publicUrl, { method: 'HEAD' });
                         if (!response.ok) {
@@ -892,6 +1293,7 @@ window.uploadPostVideo = async function() {
                 }
             });
             
+            // ✅ ابدأ الرفع
             upload.start();
             
         } catch (error) { 
@@ -1015,6 +1417,7 @@ window.uploadPostVideo = async function() {
     }
 };
 
+// ✅ تحميل التفاعلات
 async function loadStoryReactions(storyId) {
     const { data: reactions } = await window.supabaseClient
         .from('story_reactions').select('emoji').eq('story_id', storyId);
@@ -1032,6 +1435,7 @@ async function loadStoryReactions(storyId) {
     });
 }
 
+// ✅ تفاعل
 window.toggleStoryReaction = async function(storyId, emoji, btn) {
     const { data: { user } } = await window.supabaseClient.auth.getUser();
     if (!user) { alert('Please login'); return; }
@@ -1055,6 +1459,7 @@ window.toggleStoryReaction = async function(storyId, emoji, btn) {
     loadStoryReactions(storyId);
 };
 
+// ✅ تحميل الكومنتات
 async function loadStoryComments(storyId) {
     const { data: comments } = await window.supabaseClient
         .from('story_comments').select('*').eq('story_id', storyId)
@@ -1089,6 +1494,7 @@ async function loadStoryComments(storyId) {
     }).join('');
 }
 
+// ✅ إضافة كومنت
 window.addStoryComment = async function(storyId) {
     const input = document.getElementById(`storyCommentInput_${storyId}`);
     if (!input) return;
@@ -1115,6 +1521,9 @@ window.addStoryComment = async function(storyId) {
 
         window.openLiveVideo = function() { alert('Coming soon!'); };
         
+// =========================================================
+// 🗑️ DELETE STORY
+// =========================================================
 window.deleteStory = async function(storyId, mediaUrl) {
     const confirmMsg = (typeof t === 'function') 
         ? t('delete_post_confirm') 
@@ -1155,6 +1564,8 @@ window.deleteStory = async function(storyId, mediaUrl) {
         await loadStories();
         
         const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 80px; right: 20px;
             background: linear-gradient(135deg, #28a745, #20c997);
             color: white; padding: 15px 25px; border-radius: 12px;
             font-weight: 700; z-index: 99999;
@@ -1217,6 +1628,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
             storyItem.className = 'story-item';
             storyItem.style.position = 'relative';
             
+            // ✅ النقر على البطاقة يفتح القصة (مع تجاهل زر الحذف)
             storyItem.addEventListener('click', function(e) {
                 if (e.target.closest('.delete-story-btn')) return;
                 openStory(story.id);
@@ -1226,6 +1638,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
                 .from('stories').getPublicUrl(story.media_url);
             const mediaUrl = urlData.publicUrl;
             
+            // ✅ بناء محتوى البطاقة
             let innerHTML = '';
             if (story.media_type === 'video') {
                 innerHTML = `<video src="${mediaUrl}" muted playsinline style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>`;
@@ -1235,12 +1648,14 @@ window.deleteStory = async function(storyId, mediaUrl) {
             
             innerHTML += `<span class="story-name">${escapeHtml(username)}</span>`;
             
+            // ✅ زر الحذف فقط للقصص الخاصة
             if (isOwnStory) {
                 innerHTML += `<button class="delete-story-btn" type="button" title="Delete story">🗑️</button>`;
             }
             
             storyItem.innerHTML = innerHTML;
             
+            // ✅ listener منفصل لزر الحذف
             if (isOwnStory) {
                 const deleteBtn = storyItem.querySelector('.delete-story-btn');
                 if (deleteBtn) {
@@ -1331,12 +1746,14 @@ window.deleteStory = async function(storyId, mediaUrl) {
             
             await window.waitForSupabase();
             
+            // ✅ احصل على المستخدم الحالي
             const { data: { user: currentUser } } = await window.supabaseClient.auth.getUser();
             const currentUserId = currentUser?.id || null;
             
             const viewedPosts = JSON.parse(localStorage.getItem('viewedPosts') || '[]');
             
             try {
+                // ✅ استخدم RPC لحساب المشاهدات الحقيقية
                 const { data: posts, error } = await window.supabaseClient
                     .from('posts')
                     .select(`
@@ -1397,6 +1814,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     }
                              if (post.video_url) {
                     const videoId = `video_${post.id}`;
+                    // ✅ احسب من video_impressions مباشرة (أدق)
 const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                     contentHTML += `
                         <video id="${videoId}" src="${post.video_url}" controls playsinline preload="metadata" 
@@ -1441,8 +1859,10 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                             <button class="feed-action" onclick="commentPost('${post.id}')">💬 Comment</button>
                             <button class="feed-action" onclick="sharePost('${post.id}')">↗️ Share</button>
                             
+                            <!-- ✅ زر إرسال النجمة (مدفوعة) -->
                             <button class="feed-action" onclick="openStarModal('${post.id}', '${post.user_id}')" style="background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 700; cursor: pointer;">⭐ Send Star</button>
                             
+                            <!-- ✅ زر إرسال الهدية (مجانية) -->
                             <button class="feed-action" onclick="openGiftModal('${post.id}', '${post.user_id}')" style="background: #e4e6eb; color: #333; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 700; cursor: pointer;">🎁 Send Gift</button>
                         </div>
                         <div class="feed-comments" id="comments_${post.id}"></div>
@@ -1451,11 +1871,13 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                     feedContainer.appendChild(postDiv);
                     setTimeout(() => loadComments(post.id), 100);
                     
+                          // ✅ إعلان Monetag Vignette بعد كل 3 منشورات (طريقة آمنة)
 window._postCounter = (window._postCounter || 0) + 1;
 if (window._postCounter % 3 === 0) {
     const adDiv = document.createElement('div');
     adDiv.style.cssText = 'text-align: center; margin: 20px 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
     
+    // ✅ إنشاء script ديناميكياً بدل innerHTML
     const adScript = document.createElement('script');
     adScript.src = 'https://n6wxm.com/vignette.min.js';
     adScript.dataset.zone = '12058852';
@@ -1465,13 +1887,14 @@ if (window._postCounter % 3 === 0) {
     feedContainer.appendChild(adDiv);
     console.log('📢 Monetag Vignette loaded (post #' + window._postCounter + ')');
 }
-                }
+                } // ✅ تم إغلاق حلقة for هنا
 
             } catch (err) {
                 console.error('❌ loadPosts error:', err);
             }
-        }
+        } // ✅ تم إغلاق دالة loadPosts هنا
 
+        // ✅ تم فصل هذه الدالة وجعلها مستقلة خارج loadPosts
         async function trackPostView(postId) {
             try {
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
@@ -1485,8 +1908,10 @@ if (window._postCounter % 3 === 0) {
                 
                 if (!post || post.user_id === user.id) return;
                 
+                // 🔍 احصل على بصمة الجهاز
                 const fingerprint = window.getDeviceFingerprint ? window.getDeviceFingerprint() : 'unknown';
                 
+                // 🎯 استدعاء دالة SQL الآمنة
                 const { data, error } = await window.supabaseClient.rpc('add_post_view', {
                     p_post_id: postId,
                     p_viewer_id: user.id,
@@ -1501,6 +1926,7 @@ if (window._postCounter % 3 === 0) {
                 
                 if (data?.unique) {
                     console.log('✅ Unique view recorded');
+                    // إشعار اختياري للمشاهد
                 } else if (data?.message) {
                     console.log('⚠️', data.message);
                 }
@@ -1523,8 +1949,10 @@ if (window._postCounter % 3 === 0) {
         
         if (!post || post.user_id === user.id) return;
         
+        // 🔍 احصل على بصمة الجهاز
         const fingerprint = window.getDeviceFingerprint();
         
+        // 🎯 استدعاء دالة SQL الآمنة
         const { data, error } = await window.supabaseClient.rpc('add_post_view', {
             p_post_id: postId,
             p_viewer_id: user.id,
@@ -1539,6 +1967,7 @@ if (window._postCounter % 3 === 0) {
         
         if (data?.unique) {
             console.log('✅ Unique view recorded');
+            // إشعار اختياري للمشاهد
         } else if (data?.message) {
             console.log('⚠️', data.message);
         }
@@ -1670,6 +2099,10 @@ if (window._postCounter % 3 === 0) {
             }
         }
 
+        // =========================================================
+        // 🎟️ WAITLIST FUNCTIONS
+        // =========================================================
+        
         async function loadWaitlistStatus() {
     try {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
@@ -1680,6 +2113,7 @@ if (window._postCounter % 3 === 0) {
 
         const { data, error } = await window.supabaseClient.rpc('get_waitlist_info');
 
+        // ✅ إظهار تفاصيل الخطأ الكاملة
         if (error) {
             console.error('❌ Waitlist RPC error:', {
                 message: error?.message,
@@ -1690,6 +2124,7 @@ if (window._postCounter % 3 === 0) {
             return;
         }
 
+        // ✅ FIX: RPC RETURNS TABLE → مصفوفة، خذ العنصر الأول
         const info = Array.isArray(data) ? data[0] : data;
 
         if (!info) {
@@ -1704,6 +2139,7 @@ if (window._postCounter % 3 === 0) {
 
         banner.style.display = 'block';
 
+        // ✅ فحص آمن لكل عنصر
         const posEl = document.getElementById('waitlistPosition');
         if (posEl) {
             posEl.textContent = (info.queue_position || 0).toLocaleString();
@@ -1727,6 +2163,7 @@ if (window._postCounter % 3 === 0) {
         const joinBtn = document.getElementById('waitlistJoinBtn');
         const inviteBtn = document.querySelector('.waitlist-btn-invite');
 
+        // ✅ إذا لم تُرجع الدالة in_waitlist، افترض أن المستخدم في الطابور
         const inWaitlist = info.in_waitlist !== undefined ? info.in_waitlist : true;
 
         if (!inWaitlist) {
@@ -1807,6 +2244,7 @@ if (window._postCounter % 3 === 0) {
                     return;
                 }
 
+                // ✅ FIX: RPC قد تُرجع مصفوفة
                 const result = Array.isArray(data) ? data[0] : data;
 
                 if (!result || !result.success) {
@@ -1855,6 +2293,8 @@ if (window._postCounter % 3 === 0) {
                 await navigator.clipboard.writeText(link);
 
                 const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed; top: 80px; left: 50%;
                     transform: translateX(-50%);
                     background: linear-gradient(135deg, #28a745, #20c997);
                     color: white; padding: 15px 30px;
@@ -1871,19 +2311,25 @@ if (window._postCounter % 3 === 0) {
                 alert('❌ Failed to copy link');
             }
         };
-        
+        // =========================================================
+        // INITIALIZE
+        // =========================================================
       document.addEventListener('DOMContentLoaded', function() {
     console.log("🔴 index.html loaded");
     
+    // ✅ هذه الدالة تستدعي loadUserProfile داخلها
     handleAuthCallback();
     checkSessionAndRedirect();
     
+    // Badges (تعمل بشكل دوري)
     setTimeout(updateNotificationBadge, 500);
     setTimeout(updatePointsBadge, 500);
     setInterval(updateNotificationBadge, 30000);
     setInterval(updatePointsBadge, 30000);
     
+    // باقي الدوال
     setTimeout(checkRole, 500);
+    // ❌ حذفنا: setTimeout(loadUserProfile, 500);  - مكرر
     setTimeout(loadStories, 500);
     setTimeout(loadPosts, 500);
     setTimeout(applyPendingReferral, 2000);
@@ -1891,6 +2337,9 @@ if (window._postCounter % 3 === 0) {
 });
     </script>
 
+    <!-- ========================================================= -->
+    <!-- 💰 WATCH AD & EARN POINTS -->
+    <!-- ========================================================= -->
     <script>
     (function() {
         'use strict';
@@ -1951,6 +2400,7 @@ if (window._postCounter % 3 === 0) {
                 watched++;
                 localStorage.setItem(key, watched);
 
+                // ✅ أضف مهمة مشاهدة الإعلان
                 if (typeof verifyAndCompleteTask === 'function') {
                     verifyAndCompleteTask('watch_5_ads');
                 }
@@ -1979,6 +2429,9 @@ if (window._postCounter % 3 === 0) {
     })();
     </script>
 
+    <!-- ========================================================= -->
+    <!-- 🔍 NAVBAR SEARCH -->
+    <!-- ========================================================= -->
     <script>
     (function() {
         'use strict';
@@ -2003,15 +2456,18 @@ if (window._postCounter % 3 === 0) {
             if (searchTimeout) clearTimeout(searchTimeout);
             searchTimeout = setTimeout(async function() {
                 console.log('Searching:', query);
+                // Perform inline search
                 try {
                     console.log('🔍 Searching:', query);
                     
+                    // جرّب username أولاً
                     let { data: users, error } = await window.supabaseClient
                         .from('profiles')
                         .select('id, username, full_name, avatar_url')
                         .ilike('username', `%${query}%`)
                         .limit(10);
 
+                    // إذا لا نتائج، جرّب full_name
                     if (!users || users.length === 0) {
                         const { data: users2 } = await window.supabaseClient
                             .from('profiles')
@@ -2020,6 +2476,9 @@ if (window._postCounter % 3 === 0) {
                             .limit(10);
                         users = users2;
                     }
+
+                    console.log('📊 Users:', users);
+                    console.log('❌ Error:', error);
 
                     if (error) {
                         resultsDiv.innerHTML = '<div class="search-no-results">❌ خطأ</div>';
@@ -2031,6 +2490,7 @@ if (window._postCounter % 3 === 0) {
                         return;
                     }
 
+                    // عرض النتائج
                     resultsDiv.innerHTML = '<div class="search-results-header">نتائج البحث</div>';
 
                     users.forEach(function(user) {
@@ -2051,6 +2511,7 @@ if (window._postCounter % 3 === 0) {
                         resultsDiv.appendChild(item);
                     });
 
+                    console.log('✅ Results displayed');
                 } catch (e) {
                     console.error('❌ Search error:', e);
                     resultsDiv.innerHTML = '<div class="search-no-results">❌ خطأ</div>';
@@ -2064,8 +2525,10 @@ if (window._postCounter % 3 === 0) {
             const resultsDiv = document.getElementById('searchResults');
             if (!searchDiv || !resultsDiv) return;
 
+            // ✅ إذا كان النقر داخل البحث → لا تغلق
             if (searchDiv.contains(e.target)) return;
             
+            // ✅ إذا كان النقر على نتيجة → لا تغلق (دع الرابط يعمل)
             if (e.target.closest('.search-result-item')) return;
 
             resultsDiv.classList.remove('show');
@@ -2086,6 +2549,9 @@ if (window._postCounter % 3 === 0) {
         console.log('✅ Navbar search initialized');
     })();
 
+    // =========================================================
+// 🏆 LEADERBOARD (Sidebar)
+// =========================================================
 async function loadLB(period, btn) {
     document.querySelectorAll('#leaderboardBox .lb-tab, .lb-tab').forEach(b => {
         b.style.background = '#e4e6eb';
@@ -2153,28 +2619,41 @@ async function loadLB(period, btn) {
 
 window.loadLB = loadLB;
 
+// ✅ تحميل عند بدء الصفحة
 setTimeout(() => {
     loadLB('today');
 }, 2000);
     </script>
     
     <script src="js/messenger-notify.js"></script>
+    <!-- ⛔ Popunder disabled (intrusive) -->
+<!-- <!-- Popunder disabled --> -->
 <script>
+   
+// ═══════════════════════════════════════════════════════════
+// 🎁 OFFERWALL.GG - Open/Close Functions
+// ═══════════════════════════════════════════════════════════
+
+// ⚠️ استبدل هذا الرابط بالرابط من لوحة Offerwall.gg
 const OFFERWALL_BASE_URL = "https://offerwall.gg/wall/15ed18329c4fbf70ba184debe1ac699c";
 
 window.openOfferwall = async function() {
     try {
+        // 1. Get current user
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) {
             alert('Please login first!');
             return;
         }
         
+        // 2. Build the URL with the real user_id
         const wallUrl = OFFERWALL_BASE_URL + '?userId=' + encodeURIComponent(user.id);
         
+        // 3. Load it in the iframe
         const iframe = document.getElementById('offerwallFrame');
         iframe.src = wallUrl;
         
+        // 4. Show the modal
         document.getElementById('offerwallModal').style.display = 'flex';
         
     } catch (error) {
@@ -2188,6 +2667,9 @@ window.closeOfferwall = function() {
     document.getElementById('offerwallFrame').src = '';
 };
 
+// =========================================================
+// ✅ LIKE POST (دالة احتياطية)
+// =========================================================
 async function likePost(postId, button) {
     try {
         console.log('👍 Liking post:', postId);
@@ -2254,7 +2736,9 @@ async function likePost(postId, button) {
 }
 
 window.likePost = likePost;
-
+// =========================================================
+// ✅ COMMENT POST - دالة واحدة نظيفة
+// =========================================================
 window.commentPost = async function(postId) {
     const input = document.querySelector(`input[onkeypress*="${postId}"]`);
     if (!input) {
@@ -2296,6 +2780,9 @@ window.commentPost = async function(postId) {
     }
 };
 
+// =========================================================
+// ☰ MOBILE SIDEBAR
+// =========================================================
 window.toggleMobileSidebar = function() {
     console.log('☰ Toggling sidebar');
     
@@ -2308,6 +2795,7 @@ window.toggleMobileSidebar = function() {
     sidebar.classList.toggle('mobile-open');
     document.body.classList.toggle('sidebar-open');
 
+    // Overlay
     let overlay = document.querySelector('.sidebar-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
@@ -2318,13 +2806,18 @@ window.toggleMobileSidebar = function() {
     overlay.classList.toggle('show');
 };
 
+// =========================================================
+// ☰ MOBILE SIDEBAR - PERMANENT FIX
+// =========================================================
 (function() {
+    // 1. احذف CSS القديم
     document.querySelectorAll('style').forEach(s => {
         if (s.textContent.includes('left-sidebar') && s.textContent.includes('mobile-open')) {
             s.remove();
         }
     });
 
+    // 2. أضف CSS جديد
     const style = document.createElement('style');
     style.id = 'sidebar-fix-css';
     style.textContent = `
@@ -2362,6 +2855,7 @@ window.toggleMobileSidebar = function() {
     `;
     document.head.appendChild(style);
 
+    // 3. الدالة
     window.toggleMobileSidebar = function() {
         console.log('☰ Toggle sidebar');
         const sidebar = document.querySelector('.left-sidebar');
@@ -2382,23 +2876,32 @@ window.toggleMobileSidebar = function() {
     console.log('✅ Sidebar permanently fixed!');
 })();
 
-const VAST_TAG_URL = null;
-const TRACK_IMPRESSIONS = true;
-const videoImpressions = new Map();
-const videoAdState = new Map();
-let globalAdLock = false;
+// =========================================================
+// 🎥 REAL VIDEO IMPRESSIONS + VAST ADS - النظام الكامل
+// =========================================================
 
+const VAST_TAG_URL = null; // VAST معطّل
+const TRACK_IMPRESSIONS = true; // ✅ تتبّع المشاهدات
+const videoImpressions = new Map();
+const videoAdState = new Map(); // تتبع حالة الإعلانات لكل فيديو
+let globalAdLock = false;  // ✅ قفل عام لمنع تعارض الإعلانات
+
+// ✅ التحقق من مدة الفيديو (يجب أن تكون global)
 window.checkVideoDuration = function(videoElement, postId) {
     const duration = videoElement.duration;
     console.log(`🎬 Video ${postId} duration: ${duration.toFixed(1)}s`);
     
+    // ✅ عرض جميع الفيديوهات بغض النظر عن مدتها
     if (duration > 0) {
         setupVideoAds(videoElement, postId, duration);
     } else {
         console.log(`⚠️ Video ${postId} has no duration yet`);
     }
-}; 
+}; // ✅ تم إغلاق دالة checkVideoDuration هنا بشكل صحيح
 
+// ═══════════════════════════════════════════════════════════
+// 🎬 إعداد نظام الإعلانات VAST
+// ═══════════════════════════════════════════════════════════
 function setupVideoAds(videoElement, postId, duration) {
     if (videoAdState.has(postId)) return;
     
@@ -2424,13 +2927,18 @@ function setupVideoAds(videoElement, postId, duration) {
     console.log(`📺 Ads setup for ${postId}: ${midRollPoints.length} mid-rolls`);
 }
 
+// ═══════════════════════════════════════════════════════════
+// 🎬 تشغيل إعلان VAST قبل / أثناء / بعد الفيديو
+// ═══════════════════════════════════════════════════════════
 function playVastAd(videoElement, postId, adType, onComplete) {
+    // ✅ إذا VAST معطّل → تخطى الإعلان فوراً
     if (!VAST_TAG_URL) {
         console.log(`⏭️ VAST disabled - skipping ${adType}`);
         if (onComplete) onComplete();
         return;
     }
     
+    // ✅ إذا كان هناك إعلان يعمل → تخطى
     if (globalAdLock) {
         console.log('🔒 Ad locked');
         if (onComplete) onComplete();
@@ -2544,29 +3052,39 @@ function playVastAd(videoElement, postId, adType, onComplete) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════
+// 🧹 تنظيف الإعلان بعد الانتهاء
+// ═══════════════════════════════════════════════════════════
 function cleanupAd(adContainer, videoElement) {
     if (adContainer && adContainer.parentNode) {
         adContainer.parentNode.removeChild(adContainer);
     }
     videoElement.style.visibility = 'visible';
-    globalAdLock = false;
+    globalAdLock = false;  // ✅ افتح
 }
 
+// ═══════════════════════════════════════════════════════════
+// 🎬 تسجيل المشاهدة + Pre-roll Ad
+// ═══════════════════════════════════════════════════════════
 window.startVideoImpression = function(postId, videoElement) {
+    // ✅ إذا كانت المشاهدة مسجلة مسبقاً → لا تفعل شيء
     if (videoImpressions.has(postId)) {
         console.log(`⏭️ Impression already tracked for ${postId}`);
         return;
     }
     
+    // ✅ ضع علامة pending فوراً
     videoImpressions.set(postId, 'pending');
     
     const state = videoAdState.get(postId);
     
+    // إذا لم يكن الفيديو مؤهلاً للإعلانات → سجل المشاهدة فقط
     if (!state) {
         startImpressionTimer(postId, videoElement);
         return;
     }
     
+    // ✅ Pre-roll: قبل الفيديو
     if (!state.preRollPlayed) {
         state.preRollPlayed = true;
         videoElement.pause();
@@ -2578,6 +3096,7 @@ window.startVideoImpression = function(postId, videoElement) {
         return;
     }
     
+    // ✅ Mid-rolls: أثناء الفيديو
     const currentTime = videoElement.currentTime;
     for (const midPoint of state.midRollPoints) {
         const key = `mid_${midPoint}`;
@@ -2592,11 +3111,16 @@ window.startVideoImpression = function(postId, videoElement) {
         }
     }
     
+    // ✅ تسجيل المشاهدة العادية
     startImpressionTimer(postId, videoElement);
 };
 
 
+// ═══════════════════════════════════════════════════════════
+// ⏱️ مؤقت تسجيل المشاهدة (3 ثوانٍ)
+// ═══════════════════════════════════════════════════════════
 function startImpressionTimer(postId, videoElement) {
+    // ✅ منع التسجيل المزدوج
     if (videoImpressions.get(postId) === 'recorded') {
         console.log(`⏭️ Impression already recorded for ${postId}`);
         return;
@@ -2610,6 +3134,7 @@ function startImpressionTimer(postId, videoElement) {
             return;
         }
         
+        // ✅ تحقق أن التسجيل لم يحدث بعد
         if (videoImpressions.get(postId) === 'recorded') {
             return;
         }
@@ -2618,6 +3143,7 @@ function startImpressionTimer(postId, videoElement) {
         videoImpressions.set(postId, 'recorded');
         console.log(`✅ Video impression recorded for post ${postId}`);
         
+        // ✅ تحديث العداد في الواجهة مباشرة
 const viewsDiv = document.getElementById(`views_${postId}`);
 if (viewsDiv) {
     const currentViews = parseInt(viewsDiv.textContent.replace(/[^0-9]/g, '')) || 0;
@@ -2634,6 +3160,7 @@ if (viewsDiv) {
         clearTimeout(timer);
         videoImpressions.delete(postId);
         
+        // ✅ Post-roll
         const state = videoAdState.get(postId);
         if (state && !state.postRollPlayed && !globalAdLock) {
             state.postRollPlayed = true;
@@ -2643,6 +3170,9 @@ if (viewsDiv) {
 }
 
 
+// ═══════════════════════════════════════════════════════════
+// 💰 تسجيل المشاهدة في قاعدة البيانات
+// ═══════════════════════════════════════════════════════════
 async function recordVideoImpression(postId) {
     try {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
@@ -2681,6 +3211,10 @@ async function recordVideoImpression(postId) {
 </script>
 
 <script>
+// =========================================================
+// 🎉 WELCOME MODAL FUNCTIONS
+// =========================================================
+
 window.showWelcomeModal = function() {
     const modal = document.getElementById('welcomeModal');
     if (modal) {
@@ -2755,6 +3289,9 @@ window.addEventListener('load', function() {
 
 console.log('✅ Welcome modal script loaded');
 
+// =========================================================
+// 🌐 حفظ لغة المستخدم في Supabase (لإرسال الإشعارات بلغته)
+// =========================================================
 async function saveUserLanguage() {
     try {
         await window.waitForSupabase();
@@ -2774,8 +3311,14 @@ async function saveUserLanguage() {
     }
 }
 
+// استدعاء عند تحميل الصفحة
 setTimeout(saveUserLanguage, 2000);
 </script>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📢 ADSTERRA BANNER 300x250 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 
 <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;">
     <script>
@@ -2790,8 +3333,10 @@ setTimeout(saveUserLanguage, 2000);
     <script src="https://www.highrevenueformat.com/60a410b9eda0bf94f4d6581db1cc321f/invoke.js"></script>
 </div>
 
+<!-- ✅ @mention script منفصل -->
 <script>
 async function searchUsersForMention(query) {
+    // ...
         if (!query || query.trim().length < 1) return [];
     
     try {
@@ -2908,6 +3453,7 @@ console.log('✅ @mention system loaded');
     <script src="https://www.highrevenueformat.com/60a410b9eda0bf94f4d6581db1cc321f/invoke.js"></script>
 </div>
 
+<!-- OFFERWALL MODAL -->
 <div id="offerwallModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center;">
     <div style="background:white; border-radius:12px; width:95%; max-width:900px; height:90vh; display:flex; flex-direction:column; overflow:hidden;">
         <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 20px; border-bottom:1px solid #e4e6eb; background:#1877f2; color:white;">
@@ -2918,18 +3464,25 @@ console.log('✅ @mention system loaded');
     </div>
 </div>
        <script src="js/dark-mode.js"></script>
+       <!-- Monetag OFF - adult ads issue -->
 
        <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 
+       <!-- ========================================================= -->
+<!-- 🎉 WELCOME MODAL FOR NEW USERS -->
+<!-- ========================================================= -->
 <div id="welcomeModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:999999; align-items:center; justify-content:center; padding:20px;">
     <div style="background:white; border-radius:18px; padding:35px 25px; max-width:440px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.4); animation: welcomePop 0.5s ease;">
         
+        <!-- أيقونة احتفالية -->
         <div style="font-size:70px; margin-bottom:15px; animation: bounce 1s infinite;">🎉</div>
         
+        <!-- العنوان -->
         <h2 style="color:#1877f2; margin:0 0 15px; font-size:24px; font-weight:800;">
             مرحباً بك في Wikidoogo!
         </h2>
         
+        <!-- النص -->
         <p style="color:#65676b; font-size:15px; line-height:1.7; margin-bottom:25px;">
             أنت الآن جزء من عائلتنا! 🚀<br>
             أكمل ملفك الشخصي الآن واحصل على
@@ -2937,10 +3490,12 @@ console.log('✅ @mention system loaded');
             مجاناً!
         </p>
         
+        <!-- زر رئيسي -->
         <button onclick="goToProfileAndClose()" style="width:100%; padding:16px; background:linear-gradient(135deg, #42b72a, #36a420); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; margin-bottom:12px; box-shadow:0 6px 20px rgba(66,183,42,0.4); transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
             🚀 أكمل ملفي الشخصي الآن
         </button>
         
+        <!-- زر ثانوي -->
         <button onclick="closeWelcomeModal()" style="width:100%; padding:12px; background:transparent; color:#65676b; border:none; border-radius:10px; font-size:14px; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#f0f2f5'" onmouseout="this.style.background='transparent'">
             لاحقاً
         </button>
@@ -2959,6 +3514,7 @@ console.log('✅ @mention system loaded');
     }
 </style>
 
+<!-- ✅ كود JS في وسم script منفصل -->
 <script>
 async function initGiftNotifications() {
     try {
@@ -3000,6 +3556,8 @@ function showGiftArrivalNotification(notification) {
     }
     
     const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; top: 80px; left: 50%;
         transform: translateX(-50%) translateY(-100px);
         background: linear-gradient(135deg, #ffd700, #f7b928);
         color: #333; padding: 18px 30px;
@@ -3027,10 +3585,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 Single Video Player - فيديو واحد فقط في نفس الوقت -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <script>
 (function() {
     console.log('🎬 Single video player initializing...');
     
+    // ✅ استمع لأي فيديو يُشغّل
     document.addEventListener('play', function(e) {
         if (e.target.tagName === 'VIDEO') {
             const currentVideo = e.target;
@@ -3049,11 +3611,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(`⏸️ Paused ${pausedCount} other video(s)`);
             }
         }
-    }, true);
+    }, true); // ← مهم جداً (capture phase)
     
     console.log('✅ Single video player ready!');
 })();
 
+// =========================================================
+// 🗑️ DELETE POST FUNCTION
+// =========================================================
 window.deletePost = async function(postId, imageUrl, videoUrl) {
     if (!confirm('هل أنت متأكد من حذف هذا المنشور؟')) return;
     
@@ -3064,6 +3629,7 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
             return;
         }
         
+        // 1. حذف الصورة من التخزين (إذا وجدت)
         if (imageUrl) {
             const imagePath = imageUrl.split('/post-images/')[1];
             if (imagePath) {
@@ -3071,6 +3637,7 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
             }
         }
         
+        // 2. حذف الفيديو من التخزين (إذا وجد)
         if (videoUrl) {
             const videoPath = videoUrl.split('/post-videos/')[1];
             if (videoPath) {
@@ -3078,17 +3645,22 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
             }
         }
         
+        // 3. حذف المنشور من قاعدة البيانات
         const { error } = await window.supabaseClient
             .from('posts')
             .delete()
             .eq('id', postId)
-            .eq('user_id', user.id);
+            .eq('user_id', user.id); // تأكد أن المستخدم هو المالك
         
         if (error) throw error;
         
+        // 4. تحديث الواجهة (إعادة تحميل المنشورات)
         await loadPosts();
         
+        // 5. إظهار إشعار نجاح
         const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 80px; right: 20px;
             background: #28a745; color: white; padding: 15px 25px;
             border-radius: 12px; font-weight: 700; z-index: 99999;
             box-shadow: 0 4px 15px rgba(40,167,69,0.4);
