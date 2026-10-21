@@ -722,17 +722,17 @@
                 }
                 
                 const { error } = await supabaseClient
-                    .from('products')
-                    .insert({
-                        name: name,
-                        description: description,
-                        price: price,
-                        currency: selectedCurrency,
-                        location: location,
-                        media_url: mediaUrl,
-                        media_type: mediaType,
-                        seller_id: user.id
-                    });
+                  .from('products')
+.insert({
+    title: name,
+    description: description,
+    price: parseFloat(price),
+    currency: selectedCurrency,
+    location: location,
+    media_url: mediaUrl,
+    media_type: mediaType,
+    user_id: user.id
+});
                 
                 if (error) {
                     console.error('Error creating product:', error);
@@ -831,7 +831,7 @@
                 // ✅ فقط name, price, currency (بدون title)
                 const { data: product } = await supabaseClient
                     .from('products')
-                    .select('name, price, currency')
+                        .select('title, price, currency')
                     .eq('id', productId)
                     .single();
                 
