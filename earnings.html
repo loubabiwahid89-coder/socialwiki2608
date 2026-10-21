@@ -367,13 +367,10 @@
     <div id="withdrawModal" class="modal">
         <div class="modal-box">
             <div class="modal-title">💳 Request Withdrawal</div>
-            <div class="form-group">
-                <label>طريقة السحب</label>
-                <select id="withdrawMethod" onchange="toggleWithdrawFields()">
-                    <option value="cashplus">📱 Cash Plus</option>
-                    <option value="bank">🏦 تحويل بنكي</option>
-                </select>
-            </div>
+                            <div class="form-group">
+                    <label data-i18n="bank_name">اسم البنك</label>
+                    <input type="text" id="bankName" placeholder="Example: Attijariwafa (MA) / Al Rajhi (SA) / Banque Misr (EG) / CPA (DZ)" data-i18n="bank_name_placeholder">
+                </div>
             
             <!-- حقول Cash Plus -->
             <div id="cashplusFields" class="form-group">
@@ -381,15 +378,27 @@
                 <input type="tel" id="cashplusPhone" placeholder="06XXXXXXXX">
             </div>
 
-                  <!-- حقول التحويل البنكي -->
+                              <!-- حقول التحويل البنكي -->
             <div id="bankFields" style="display: none;">
                 <div class="form-group">
                     <label data-i18n="bank_name">اسم البنك</label>
-                    <input type="text" id="bankName" placeholder="Example: Attijariwafa / Al Rajhi / BDO" data-i18n="bank_name_placeholder">
+                    <select id="bankName" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;">
+                        <option value="" data-i18n="select_bank">اختر البنك...</option>
+                        <option value="Attijariwafa Bank">Attijariwafa Bank</option>
+                        <option value="Bank of Africa (BMCE)">Bank of Africa (BMCE)</option>
+                        <option value="Banque Centrale Populaire (BCP)">Banque Centrale Populaire (BCP)</option>
+                        <option value="CIH Bank">CIH Bank</option>
+                        <option value="BMCI">BMCI</option>
+                        <option value="Crédit du Maroc">Crédit du Maroc</option>
+                        <option value="Société Générale Maroc">Société Générale Maroc</option>
+                        <option value="Al Barid Bank">Al Barid Bank</option>
+                        <option value="Crédit Agricole du Maroc">Crédit Agricole du Maroc</option>
+                        <option value="Other">أخرى (Other)</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label data-i18n="account_number">رقم الحساب / RIB / IBAN</label>
-                    <input type="text" id="rib" placeholder="RIB (Maroc) / IBAN (SA) / Account Number" data-i18n="account_number_placeholder">
+                    <label data-i18n="account_number">رقم الحساب / RIB</label>
+                    <input type="text" id="rib" placeholder="RIB (24 digits) / IBAN / Account Number" data-i18n="account_number_placeholder">
                 </div>
             </div>
             <div class="modal-actions">

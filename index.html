@@ -1849,7 +1849,7 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
     ` : ''}
 </div>
                         ${contentHTML}
-                        <div class="feed-actions">
+                            <div class="feed-actions">
                             <button class="feed-action" 
                                     id="likeBtn_${post.id}"
                                     onclick="likePost('${post.id}', this)" 
@@ -1858,7 +1858,13 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                             </button>
                             <button class="feed-action" onclick="commentPost('${post.id}')">💬 Comment</button>
                             <button class="feed-action" onclick="sharePost('${post.id}')">↗️ Share</button>
+                            <button class="feed-action" onclick="openStarModal('${post.id}', '${post.user_id}')" style="background: linear-gradient(135deg, #ffd700, #f7b928); color: #333; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 700; cursor: pointer;">⭐ Send Star</button>
                         </div>
+                <div class="form-group">
+                    <label data-i18n="account_number">رقم الحساب / RIB / IBAN</label>
+                    <input type="text" id="rib" placeholder="RIB (Maroc) / IBAN (SA) / Account Number" data-i18n="account_number_placeholder">
+                </div>
+            </div>
                         <div class="feed-comments" id="comments_${post.id}"></div>
                         <input type="text" placeholder="Write a comment..." onkeypress="if(event.key === 'Enter') commentPost('${post.id}')" style="width:100%;padding:8px;border:none;background:#f0f2f5;border-radius:20px;margin-top:10px;outline:none;">
                     `;
@@ -3672,5 +3678,7 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
 </script>
 
 <script>(function(s){s.dataset.zone='12058773',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<script src="js/stars-helper.js"></script>
+<script src="js/gifts-helper.js"></script>
     </body>
 </html>
