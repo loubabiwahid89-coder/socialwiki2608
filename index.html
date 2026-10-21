@@ -6,54 +6,15 @@
     
     <title>Wikidoogo - منصة تواصل عربي واربح من النجوم والأصدقاء 2026</title>
     <meta name="description" content="Wikidoogo منصة تواصل اجتماعي عربية جديدة. اربح 70% من النجوم، 10% من دعوة الأصدقاء، هدايا مجانية، مسابقات بمليون نقطة، ومكافآت من مشاهدة الإعلانات. انضم الآن!">
-    <meta name="keywords" content="Wikidoogo, منصة عربية, ربح من الإنترنت, تواصل اجتماعي, أرباح النجوم, دعوة أصدقاء, هدايا مجانية, مسابقات">
-    <meta name="author" content="Wikidoogo">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <link rel="canonical" href="https://wikidoogo.com/">
-
-    <!-- ✅ Hreflang -->
-    <link rel="alternate" hreflang="x-default" href="https://wikidoogo.com/" />
-    <link rel="alternate" hreflang="ar" href="https://wikidoogo.com/?lang=ar" />
-    <link rel="alternate" hreflang="fr" href="https://wikidoogo.com/?lang=fr" />
-    <link rel="alternate" hreflang="en" href="https://wikidoogo.com/?lang=en" />
-    <link rel="alternate" hreflang="es" href="https://wikidoogo.com/?lang=es" />
-    <link rel="alternate" hreflang="de" href="https://wikidoogo.com/?lang=de" />
-    <link rel="alternate" hreflang="it" href="https://wikidoogo.com/?lang=it" />
-    <link rel="alternate" hreflang="ja" href="https://wikidoogo.com/?lang=ja" />
-    <link rel="alternate" hreflang="zh" href="https://wikidoogo.com/?lang=zh" />
-    <link rel="alternate" hreflang="ko" href="https://wikidoogo.com/?lang=ko" />
-    <link rel="alternate" hreflang="ru" href="https://wikidoogo.com/?lang=ru" />
-    <link rel="alternate" hreflang="tr" href="https://wikidoogo.com/?lang=tr" />
-    <link rel="alternate" hreflang="hi" href="https://wikidoogo.com/?lang=hi" />
-    <link rel="alternate" hreflang="fil" href="https://wikidoogo.com/?lang=fil" />
-    <link rel="alternate" hreflang="am" href="https://wikidoogo.com/?lang=am" />
-
-    <!-- ✅ Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://wikidoogo.com/">
-    <meta property="og:title" content="Wikidoogo - منصة تواصل عربي واربح من النجوم">
-    <meta property="og:description" content="منصة عربية جديدة للتواصل والربح. اربح 70% من النجوم، 10% من الأصدقاء، واحصل على مليون نقطة مجاناً!">
-    <meta property="og:image" content="https://wikidoogo.com/images/og-image.jpg">
-    <meta property="og:site_name" content="Wikidoogo">
     
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Wikidoogo - منصة تواصل عربي واربح">
-    <meta name="twitter:description" content="منصة عربية جديدة للتواصل والربح.">
-    <meta name="twitter:image" content="https://wikidoogo.com/images/twitter-card.jpg">
-
-    <meta name="geo.region" content="MA">
-    <meta name="geo.placename" content="Morocco">
-
-    <!-- ✅ المكتبات الأساسية (تم إصلاحها وإزالة التكرار) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script src="js/device-fingerprint.js"></script>
 
-    <!-- ✅ التصميم الأساسي (الرابط الصحيح) -->
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/dark-mode.css">
 
     <style>
-        /* ... (تم الاحتفاظ بجميع أنماط CSS المضمنة الخاصة بك هنا) ... */
         .navbar-search { flex: 1; max-width: 400px; margin: 0 20px; position: relative; }
         .navbar-search input { width: 100%; padding: 10px 40px; border: none; border-radius: 20px; background: rgba(255,255,255,0.2); color: white; font-size: 15px; outline: none; transition: 0.2s; }
         .navbar-search input::placeholder { color: rgba(255,255,255,0.75); }
@@ -92,9 +53,6 @@
 
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- WAITLIST BANNER -->
-<!-- ═══════════════════════════════════════════════════════════ -->
 <div id="waitlistBanner" class="waitlist-banner" style="display: none;">
     <div class="waitlist-banner-content">
         <div class="waitlist-icon">🎟️</div>
@@ -501,9 +459,6 @@
 
       function showPointsNotification(points) {
     const toast = document.createElement('div');
-    toast.style.cssText = `
-    toast.style.cssText = `
-        position: fixed; top: 80px; right: 20px;
         background: linear-gradient(135deg, #ffd700, #f7b928);
         color: #333; padding: 15px 25px; border-radius: 12px;
         font-weight: 700; z-index: 99999;
@@ -1200,9 +1155,6 @@ window.deleteStory = async function(storyId, mediaUrl) {
         await loadStories();
         
         const toast = document.createElement('div');
-    toast.style.cssText = `
-        toast.style.cssText = `
-            position: fixed; top: 80px; right: 20px;
             background: linear-gradient(135deg, #28a745, #20c997);
             color: white; padding: 15px 25px; border-radius: 12px;
             font-weight: 700; z-index: 99999;
@@ -1903,9 +1855,6 @@ if (window._postCounter % 3 === 0) {
                 await navigator.clipboard.writeText(link);
 
                 const toast = document.createElement('div');
-    toast.style.cssText = `
-                toast.style.cssText = `
-                    position: fixed; top: 80px; left: 50%;
                     transform: translateX(-50%);
                     background: linear-gradient(135deg, #28a745, #20c997);
                     color: white; padding: 15px 30px;
@@ -3051,9 +3000,6 @@ function showGiftArrivalNotification(notification) {
     }
     
     const toast = document.createElement('div');
-    toast.style.cssText = `
-    toast.style.cssText = `
-        position: fixed; top: 80px; left: 50%;
         transform: translateX(-50%) translateY(-100px);
         background: linear-gradient(135deg, #ffd700, #f7b928);
         color: #333; padding: 18px 30px;
@@ -3143,9 +3089,6 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
         await loadPosts();
         
         const toast = document.createElement('div');
-    toast.style.cssText = `
-        toast.style.cssText = `
-            position: fixed; top: 80px; right: 20px;
             background: #28a745; color: white; padding: 15px 25px;
             border-radius: 12px; font-weight: 700; z-index: 99999;
             box-shadow: 0 4px 15px rgba(40,167,69,0.4);
