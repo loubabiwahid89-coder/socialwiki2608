@@ -3701,6 +3701,28 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
     }
 };
 
+
+<script>
+    // ✅ قراءة اللغة من الرابط ?lang=fr وتطبيقها فوراً
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        
+        if (urlLang) {
+            // حفظ اللغة في localStorage
+            localStorage.setItem('socialwiki_lang', urlLang);
+            localStorage.setItem('socialwiki_lang_user_chosen', urlLang);
+            
+            // تطبيق اللغة على الصفحة (إذا كانت دالة changeLanguage موجودة)
+            if (typeof changeLanguage === 'function') {
+                // ننتظر حتى يتم تحميل الصفحة
+                window.addEventListener('load', function() {
+                    changeLanguage(urlLang);
+                });
+            }
+        }
+    })();
+</script>
 </script>
 
 <script>(function(s){s.dataset.zone='12058773',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
