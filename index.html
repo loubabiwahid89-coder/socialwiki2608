@@ -867,7 +867,6 @@ function loadAd(containerId, zoneId, className) {
 
       function showPointsNotification(points) {
     const toast = document.createElement('div');
-    toast.style.cssText = `
         position: fixed; top: 80px; right: 20px;
         background: linear-gradient(135deg, #ffd700, #f7b928);
         color: #333; padding: 15px 25px; border-radius: 12px;
@@ -1221,7 +1220,6 @@ window.uploadPostVideo = async function() {
         // ✅ Progress UI
         const loadingMsg = document.createElement('div');
         loadingMsg.id = 'videoUploadingMsg';
-        loadingMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
         loadingMsg.innerHTML = `
             <div id="uploadStatusText">⏳ جاري رفع الفيديو (0%)</div>
             <div style="margin-top:8px;background:rgba(255,255,255,0.3);border-radius:10px;height:8px;overflow:hidden;">
@@ -1385,7 +1383,6 @@ window.uploadPostVideo = async function() {
 
         const viewer = document.createElement('div');
         viewer.id = 'storyViewer';
-      viewer.style.cssText = `
     position: fixed; inset: 0; background: rgba(0,0,0,0.98);
     z-index: 99999; display: flex; align-items: center;
     justify-content: center; flex-direction: column; overflow-y: auto;
@@ -1589,7 +1586,6 @@ window.deleteStory = async function(storyId, mediaUrl) {
         await loadStories();
         
         const toast = document.createElement('div');
-        toast.style.cssText = `
             position: fixed; top: 80px; right: 20px;
             background: linear-gradient(135deg, #28a745, #20c997);
             color: white; padding: 15px 25px; border-radius: 12px;
@@ -1748,7 +1744,6 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     const username = profile.full_name || profile.username || 'User';
                     const avatarUrl = profile.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                     const commentDiv = document.createElement('div');
-                    commentDiv.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
                     commentDiv.innerHTML = `<img src="${avatarUrl}" style="width:30px;height:30px;border-radius:50%;"><div style="background:#f0f2f5;border-radius:12px;padding:8px 12px;flex:1;"><strong style="font-size:13px;">${escapeHtml(username)}</strong><p style="margin:0;font-size:13px;">${escapeHtml(comment.content)}</p></div>`;
                     container.appendChild(commentDiv);
                 });
@@ -1900,7 +1895,6 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
 window._postCounter = (window._postCounter || 0) + 1;
 if (window._postCounter % 3 === 0) {
     const adDiv = document.createElement('div');
-    adDiv.style.cssText = 'text-align: center; margin: 20px 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
     
     // ✅ إنشاء script ديناميكياً بدل innerHTML
     const adScript = document.createElement('script');
@@ -2211,7 +2205,6 @@ if (window._postCounter % 3 === 0) {
 
         function showWaitlistCelebration(position, isFounder) {
             const overlay = document.createElement('div');
-            overlay.style.cssText = `
                 position: fixed; inset: 0;
                 background: rgba(0,0,0,0.85);
                 display: flex; flex-direction: column;
@@ -2318,7 +2311,6 @@ if (window._postCounter % 3 === 0) {
                 await navigator.clipboard.writeText(link);
 
                 const toast = document.createElement('div');
-                toast.style.cssText = `
                     position: fixed; top: 80px; left: 50%;
                     transform: translateX(-50%);
                     background: linear-gradient(135deg, #28a745, #20c997);
@@ -2987,7 +2979,6 @@ function playVastAd(videoElement, postId, adType, onComplete) {
     try {
         const adContainer = document.createElement('div');
         adContainer.id = 'adContainer_' + postId;
-        adContainer.style.cssText = `
             position: absolute;
             top: 0;
             left: 0;
@@ -3406,7 +3397,6 @@ async function showMentionDropdown(query, textarea, atPosition) {
             `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1877f2&color=fff`;
         
         const div = document.createElement('div');
-        div.style.cssText = 'padding:10px 14px; cursor:pointer; display:flex; align-items:center; gap:10px; transition:background 0.15s;';
         div.onmouseover = () => div.style.background = '#f0f2f5';
         div.onmouseout = () => div.style.background = 'white';
         
@@ -3581,7 +3571,6 @@ function showGiftArrivalNotification(notification) {
     }
     
     const toast = document.createElement('div');
-    toast.style.cssText = `
         position: fixed; top: 80px; left: 50%;
         transform: translateX(-50%) translateY(-100px);
         background: linear-gradient(135deg, #ffd700, #f7b928);
@@ -3684,7 +3673,6 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
         
         // 5. إظهار إشعار نجاح
         const toast = document.createElement('div');
-        toast.style.cssText = `
             position: fixed; top: 80px; right: 20px;
             background: #28a745; color: white; padding: 15px 25px;
             border-radius: 12px; font-weight: 700; z-index: 99999;
