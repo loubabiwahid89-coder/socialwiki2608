@@ -809,38 +809,49 @@ async function updateRole(userId, newRole) {
             }
         }
         
-        async function approveWithdrawal(withdrawalId) {
+               async function approveWithdrawal(withdrawalId) {
             try {
+                // ✅ 1. تحديث الحالة في الجدول الصحيح
                 const { error } = await supabaseClient
-                    .from('transactions')
+                    .from('withdrawal_requests')  // ✅ الجدول الصحيح
                     .update({ status: 'approved' })
                     .eq('id', withdrawalId);
                 
-                if (error) { alert('Error: ' + error.message); return; }
+                if (error) { 
+                    alert('❌ Error: ' + error.message); 
+                    return; 
+                }
                 
-                alert('✅ Withdrawal approved!');
+                alert('✅ Withdrawal approved successfully!');
+                
+                // ✅ 2. إعادة تحميل القائمة لتظهر الحالة الجديدة
                 loadWithdrawals();
+                
             } catch (error) {
                 console.error('Error:', error);
+                alert('❌ Error: ' + error.message);
             }
         }
-        
-        async function rejectWithdrawal(withdrawalId) {
+             async function rejectWithdrawal(withdrawalId) {
             try {
                 const { error } = await supabaseClient
-                    .from('transactions')
+                    .from('withdrawal_requests')  // ✅ الجدول الصحيح
                     .update({ status: 'rejected' })
                     .eq('id', withdrawalId);
                 
-                if (error) { alert('Error: ' + error.message); return; }
+                if (error) { 
+                    alert('❌ Error: ' + error.message); 
+                    return; 
+                }
                 
                 alert('✅ Withdrawal rejected!');
                 loadWithdrawals();
+                
             } catch (error) {
                 console.error('Error:', error);
+                alert('❌ Error: ' + error.message);
             }
         }
-        
         // =========================================================
         // LOAD ADS
         // =========================================================
