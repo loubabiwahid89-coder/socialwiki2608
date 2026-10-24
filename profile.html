@@ -1033,6 +1033,11 @@
                 if (typeof loadUserBadges === 'function') {
                     loadUserBadges(userId);
                 }
+                
+                // ✅ تصحيح: تحميل الشارات الخاصة (الملك، السفراء، الخ)
+                if (typeof loadOldSpecialBadges === 'function') {
+                    loadOldSpecialBadges(profile, userId);
+                }
 
                 // Country flag
                 if (profile?.country && profile.country.length === 2) {
@@ -1561,6 +1566,11 @@ async function loadOldSpecialBadges(profile, userId) {
     
     if (profile?.special_badges && profile.special_badges.includes('ph_ambassador')) {
         badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: linear-gradient(135deg, #CE1126, #0038A8); color: #FCD116; border-radius: 30px; font-weight: 800; font-size: 16px; box-shadow: 0 6px 20px rgba(206, 17, 38, 0.4); border: 3px solid #FCD116; margin: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);"><span style="font-size: 22px;">🌟</span><span>Philippines Ambassador</span><img src="https://flagcdn.com/w40/ph.png" style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);" alt="Philippines"></div>`;
+    }
+
+        // 🇻🇳 شارة سفير فيتنام - Vietnam Ambassador
+    if (profile?.special_badges && profile.special_badges.includes('vietnam_ambassador')) {
+        badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: linear-gradient(135deg, #da251d, #b01a14); color: #ffcd00; border-radius: 30px; font-weight: 800; font-size: 16px; box-shadow: 0 6px 20px rgba(218, 37, 29, 0.4); border: 3px solid #ffcd00; margin: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.4);"><span style="font-size: 22px;">⭐</span><span>Vietnam Ambassador</span><img src="https://flagcdn.com/w40/vn.png" style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);" alt="Vietnam"></div>`;
     }
     
     if (profile?.special_badges && profile.special_badges.includes('early_member')) {
