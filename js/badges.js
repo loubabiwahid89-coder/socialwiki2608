@@ -37,7 +37,8 @@ const COUNTRIES = {
     UA: 'Ukraine', LB: 'Lebanon', SY: 'Syria', YE: 'Yemen',
     OM: 'Oman', BH: 'Bahrain', SD: 'Sudan', LY: 'Libya',
     MR: 'Mauritania', SO: 'Somalia', KE: 'Kenya', ET: 'Ethiopia',
-    ZA: 'South Africa', GH: 'Ghana', SN: 'Senegal', CI: 'Ivory Coast',
+        ZA: 'South Africa', GH: 'Ghana', SN: 'Senegal', CI: 'Ivory Coast',
+    VN: 'Vietnam',
 
 };
 
