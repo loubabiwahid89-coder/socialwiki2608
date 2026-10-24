@@ -1072,7 +1072,11 @@ async function checkBgPickerAccess() {
             document.getElementById('createPostModal').classList.remove('show');
         };
 
-        window.publishPost = async function() {
+                window.publishPost = async function() {
+            if (window._videoUploading) {
+                alert('⏳ الفيديو مازال كيترفع، انتظر حتى تظهر ✅ ثم اضغط Publish.');
+                return;
+            }
             const content = document.getElementById('postContent').value.trim();
             const videoUrl = window.uploadedVideoUrl;
             const imageUrl = window.uploadedImageUrl;
@@ -1196,7 +1200,7 @@ window.uploadPostVideo = async function() {
         // ✅ Progress UI
         const loadingMsg = document.createElement('div');
         loadingMsg.id = 'videoUploadingMsg';
-        loadingMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
+        loadingMsg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;text-align:center;background:#1877f2;color:white;padding:15px 25px;border-radius:10px;font-weight:600;z-index:99999;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
         loadingMsg.innerHTML = `
             <div id="uploadStatusText">⏳ جاري رفع الفيديو (0%)</div>
             <div style="margin-top:8px;background:rgba(255,255,255,0.3);border-radius:10px;height:8px;overflow:hidden;">
@@ -1243,6 +1247,8 @@ window.uploadPostVideo = async function() {
                 },
                 chunkSize: 6 * 1024 * 1024, // 6MB chunks
                 onError: function(error) {
+window._videoUploading = false;
+
                     console.error('❌ Upload error:', error);
                     alert('❌ خطأ في الرفع: ' + error.message);
                     loadingMsg.remove();
@@ -1254,6 +1260,7 @@ window.uploadPostVideo = async function() {
                     if (statusText) statusText.textContent = `⏳ جاري رفع الفيديو (${percentage}%)`;
                 },
                 onSuccess: async function() {
+window._videoUploading = false;
                     console.log('✅ Upload completed!');
                     
                     const { data: urlData } = window.supabaseClient.storage
@@ -1294,7 +1301,8 @@ window.uploadPostVideo = async function() {
             });
             
             // ✅ ابدأ الرفع
-            upload.start();
+            window._videoUploading = true;
+upload.start();
             
         } catch (error) { 
             console.error('❌ Exception:', error);

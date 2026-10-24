@@ -1,0 +1,904 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikidoogo</title>
+    <link rel="stylesheet" href="socialwiki.css">
+    <style>
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1877f2;
+            padding: 0 16px;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-icons a {
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-icons a.active { background: rgba(255,255,255,0.3); }
+        
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+        
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        
+        .logout-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* =========================================================
+           MARKETPLACE PAGE
+        ========================================================= */
+        
+        .marketplace-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .marketplace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .marketplace-header h2 { font-size: 24px; }
+        
+        .sell-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info { padding: 15px; }
+        
+        .product-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #1877f2;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .product-location {
+            color: #65676b;
+            font-size: 13px;
+        }
+        
+        .product-description {
+            color: #65676b;
+            font-size: 13px;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .buy-btn {
+            flex: 1;
+            padding: 8px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .contact-btn {
+            flex: 1;
+            padding: 8px;
+            background: #e4e6eb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .contact-btn:hover {
+            background: #1877f2;
+            color: white;
+        }
+        
+        /* =========================================================
+           MODAL
+        ========================================================= */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-box {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group select { cursor: pointer; }
+        
+        .form-group input[type="file"] {
+            padding: 8px;
+            background: #f0f2f5;
+        }
+        
+        .currency-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .currency-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e4e6eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            transition: 0.2s;
+        }
+        
+        .currency-btn.active {
+            border-color: #1877f2;
+            background: #e7f3ff;
+            color: #1877f2;
+        }
+        
+        .price-display {
+            background: #f0f2f5;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 600;
+            color: #1877f2;
+            font-size: 16px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .cancel-button,
+        .submit-button {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .cancel-button { background: #e4e6eb; }
+        
+        .submit-button {
+            background: #1877f2;
+            color: white;
+        }
+        
+        /* =========================================================
+           BACK & HOME BUTTONS
+        ========================================================= */
+        
+        .nav-buttons {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .home-btn { color: white; background: #1877f2; }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">📘 Wikidoogo</a>
+        </div>
+        <ul class="nav-icons">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="friends.html">👥</a></li>
+            <li><a href="market-plus.html" class="active">🛍️</a></li>
+            <li><a href="events.html">📅</a></li>
+            <li><a href="notifications.html">🔔</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            
+            <!-- 🌐 زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" class="language-btn" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇵🇭 Tagalog</button>
+                    <button onclick="changeLanguage('am')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: left; font-size: 14px;">🇪🇹 አማርኛ</button>
+                </div>
+            </div>
+            
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
+    </nav>
+    
+    <div class="nav-buttons">
+        <a href="index.html" class="home-btn" data-i18n="home_btn">🏠 Home</a>
+    </div>
+
+    <!-- =========================================================
+         MARKETPLACE CONTAINER
+    ========================================================= -->
+    <div class="marketplace-container">
+        <div class="marketplace-header">
+            <h2><span>🛍️</span> <span data-i18n="marketplace">Marketplace</span></h2>
+            <button class="sell-btn" onclick="openSellModal()" data-i18n="add_product">+ Add Product</button>
+        </div>
+
+        <div class="market-grid" id="marketGrid"></div>
+    </div>
+
+    <!-- =========================================================
+         SELL MODAL
+    ========================================================= -->
+    <div id="sellModal" class="modal">
+        <div class="modal-box">
+            <div class="modal-title"><span>🛍️</span> <span data-i18n="add_product">Add Product</span></div>
+            
+            <form id="sellForm" onsubmit="createProduct(event)">
+                <div class="form-group">
+                    <label for="productName" data-i18n="product_name">Product Name</label>
+                    <input type="text" id="productName" required data-i18n-placeholder="enter_product_name" placeholder="Enter product name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="productDescription" data-i18n="product_description">Description</label>
+                    <textarea id="productDescription" data-i18n-placeholder="describe_product" placeholder="Describe your product..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productMedia" data-i18n="upload_media">Upload Image or Video</label>
+                    <input type="file" id="productMedia" accept="image/*,video/*" onchange="previewMedia(event)">
+                    <div id="mediaPreview" style="margin-top: 10px;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productPrice" data-i18n="product_price">Price</label>
+                    <input type="number" id="productPrice" required data-i18n-placeholder="enter_price" placeholder="Enter price">
+                </div>
+                
+                <div class="form-group">
+                    <label data-i18n="product_currency">Currency</label>
+                    <div class="currency-selector">
+                        <button type="button" class="currency-btn active" onclick="selectCurrency('MAD', this)" data-rate="1">🇲🇦 MAD</button>
+                        <button type="button" class="currency-btn" onclick="selectCurrency('EUR', this)" data-rate="0.092">🇪🇺 EUR</button>
+                        <button type="button" class="currency-btn" onclick="selectCurrency('USD', this)" data-rate="0.10">🇺🇸 USD</button>
+                    </div>
+                    <div class="price-display" id="priceDisplay" data-i18n="price_will_appear">
+                        Price will appear here
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productLocation" data-i18n="product_location">Location</label>
+                    <input type="text" id="productLocation" required data-i18n-placeholder="enter_location" placeholder="Enter location">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="cancel-button" onclick="closeSellModal()" data-i18n="cancel">Cancel</button>
+                    <button type="submit" class="submit-button" data-i18n="publish_product">✅ Publish Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js?v=999999"></script>
+    
+    <script>
+        // =========================================================
+        // SUPABASE SETUP
+        // =========================================================
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // =========================================================
+        // CURRENCY
+        // =========================================================
+        let selectedCurrency = 'MAD';
+        let selectedRate = 1;
+        
+        function selectCurrency(currency, btn) {
+            document.querySelectorAll('.currency-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            btn.classList.add('active');
+            selectedCurrency = currency;
+            selectedRate = parseFloat(btn.getAttribute('data-rate'));
+            updatePriceDisplay();
+        }
+        
+        function updatePriceDisplay() {
+            const priceInput = document.getElementById('productPrice');
+            const priceDisplay = document.getElementById('priceDisplay');
+            
+            const price = parseFloat(priceInput.value);
+            
+            if (!price) {
+                priceDisplay.textContent = 'Price will appear here';
+                return;
+            }
+            
+            const convertedPrice = price * selectedRate;
+            
+            const currencySymbols = {
+                'MAD': 'MAD',
+                'EUR': '€',
+                'USD': '$'
+            };
+            
+            priceDisplay.textContent = `${currencySymbols[selectedCurrency]} ${convertedPrice.toFixed(2)}`;
+        }
+        
+        // =========================================================
+        // LOGOUT
+        // =========================================================
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+        
+        // =========================================================
+        // LOAD USER PROFILE
+        // =========================================================
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) return;
+                
+                const { data: profile, error } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error loading profile:', error);
+                    return;
+                }
+                
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+                
+                const navProfileName = document.getElementById('navProfileName');
+                if (navProfileName) navProfileName.textContent = username;
+                
+                const navProfileImg = document.getElementById('navProfileImg');
+                if (navProfileImg) navProfileImg.src = avatarUrl;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // PREVIEW MEDIA
+        // =========================================================
+        function previewMedia(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('mediaPreview');
+            
+            if (!file) return;
+            
+            if (file.type.startsWith('image')) {
+                preview.innerHTML = `<img src="${URL.createObjectURL(file)}" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
+            } else if (file.type.startsWith('video')) {
+                preview.innerHTML = `<video src="${URL.createObjectURL(file)}" controls style="max-width: 100%; max-height: 200px; border-radius: 8px;"></video>`;
+            }
+        }
+        
+        // =========================================================
+        // LOAD PRODUCTS
+        // =========================================================
+        async function loadProducts() {
+            try {
+                const { data: products, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading products:', error);
+                    return;
+                }
+                
+                displayProducts(products || []);
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // =========================================================
+        // DISPLAY PRODUCTS
+        // =========================================================
+        function displayProducts(products) {
+            const container = document.getElementById('marketGrid');
+            container.innerHTML = '';
+            
+            if (!products || products.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #65676b; padding: 30px; grid-column: 1/-1;" data-i18n="no_products">No products yet</p>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                let mediaHTML = '<div class="product-image">📦</div>';
+                
+                    } else {
+                    }
+                }
+                
+                const price = parseFloat(product.price);
+                const currencySymbol = product.currency === 'EUR' ? '€' : product.currency === 'USD' ? '$' : 'MAD';
+                
+                card.innerHTML = `
+                    ${mediaHTML}
+                    <div class="product-info">
+                        <div class="product-title">${escapeHtml(product.name)}</div>
+                        <div class="product-price">${currencySymbol} ${price.toFixed(2)}</div>
+                        <div class="product-location">📍 ${escapeHtml(product.location)}</div>
+                        <div class="product-description">${escapeHtml(product.description || '')}</div>
+                        <div class="product-actions">
+                            <button class="buy-btn" onclick="buyProduct('${product.id}')" data-i18n="buy_now">Buy Now</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // =========================================================
+        // OPEN/CLOSE SELL MODAL
+        // =========================================================
+        function openSellModal() {
+            document.getElementById('sellModal').style.display = 'flex';
+        }
+        
+        function closeSellModal() {
+            document.getElementById('sellModal').style.display = 'none';
+            document.getElementById('sellForm').reset();
+            document.getElementById('mediaPreview').innerHTML = '';
+            document.getElementById('priceDisplay').textContent = 'Price will appear here';
+            selectedCurrency = 'MAD';
+            selectedRate = 1;
+            
+            document.querySelectorAll('.currency-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelector('.currency-btn').classList.add('active');
+        }
+        
+        // =========================================================
+        // CREATE PRODUCT
+        // =========================================================
+        async function createProduct(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('productName').value.trim();
+            const description = document.getElementById('productDescription').value.trim();
+            const price = document.getElementById('productPrice').value;
+            const location = document.getElementById('productLocation').value.trim();
+            const mediaFile = document.getElementById('productMedia').files[0];
+            
+            if (!name || !price || !location) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (!user) {
+                    alert('Please login first!');
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                
+                let mediaUrl = null;
+                let mediaType = null;
+                
+                if (mediaFile) {
+                    const fileName = `products/${user.id}/${Date.now()}_${mediaFile.name}`;
+                    const filePath = mediaFile.type.startsWith('video') ? 'product-videos' : 'product-images';
+                    
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from(filePath)
+                        .upload(fileName, mediaFile);
+                    
+                    if (uploadError) {
+                        console.error('Upload error:', uploadError);
+                        alert('Error uploading media: ' + uploadError.message);
+                        return;
+                    }
+                    
+                    const { data: urlData } = supabaseClient.storage
+                        .from(filePath)
+                        .getPublicUrl(fileName);
+                    
+                    mediaUrl = urlData.publicUrl;
+                    mediaType = mediaFile.type.startsWith('video') ? 'video' : 'image';
+                }
+                
+                const { error } = await supabaseClient
+                    .from('products')
+                    .insert({
+                        title: name,
+                        description: description,
+                        price: price,
+                    });
+                
+                if (error) {
+                    console.error('Error creating product:', error);
+                    alert('Error creating product: ' + error.message);
+                    return;
+                }
+                
+                alert('Product posted successfully!');
+                closeSellModal();
+                loadProducts();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            }
+        }
+        
+        // =========================================================
+        // BUY PRODUCT
+        // =========================================================
+        async function buyProduct(productId) {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) {
+                alert('Please login first!');
+                return;
+            }
+            
+            const { data: product, error } = await supabaseClient
+                .from('products')
+                .select('*')
+                .eq('id', productId)
+                .single();
+            
+            if (error || !product) {
+                alert('Product not found');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.id = 'buyProductModal';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+            modal.innerHTML = `
+                <div style="background:white;border-radius:12px;padding:25px;max-width:450px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+                    <h3 style="margin:0 0 10px;color:#050505;">🛒 Buy Product</h3>
+                    <p style="color:#65676b;font-size:13px;margin:0 0 15px;">
+                        Product: <strong>${escapeHtml(product.name || 'Product')}</strong><br>
+                        Price: <strong>${product.price} ${product.currency || 'MAD'}</strong>
+                    </p>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Your Email:</label>
+                    <input type="email" id="buyEmail" placeholder="your@email.com" value="${user.email || ''}" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Payment Method:</label>
+                    <select id="buyMethod" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:14px;">
+                        <option value="">-- Select --</option>
+                        <option value="cash_on_delivery">Cash on Delivery</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Delivery Address:</label>
+                    <textarea id="buyAddress" placeholder="Your full address..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;height:60px;font-size:14px;resize:vertical;"></textarea>
+                    
+                    <label style="display:block;font-size:13px;font-weight:600;margin-bottom:5px;">Notes (optional):</label>
+                    <textarea id="buyNotes" placeholder="Any additional info..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:15px;height:50px;font-size:14px;resize:vertical;"></textarea>
+                    
+                    <div style="display:flex;gap:10px;">
+                        <button onclick="closeBuyModal()" style="flex:1;padding:12px;border:none;border-radius:8px;background:#e4e6eb;cursor:pointer;font-weight:600;">Cancel</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function closeBuyModal() {
+            const m = document.getElementById('buyProductModal');
+            if (m) m.remove();
+        }
+        
+        async function submitBuyOrder(productId, sellerId) {
+            const email = document.getElementById('buyEmail').value.trim();
+            const method = document.getElementById('buyMethod').value;
+            const address = document.getElementById('buyAddress').value.trim();
+            const notes = document.getElementById('buyNotes').value.trim();
+            
+            if (!email || !method || !address) {
+                alert('Please fill Email, Payment Method, and Address');
+                return;
+            }
+            
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                // ✅ فقط name, price, currency (بدون title)
+                const { data: product } = await supabaseClient
+                    .from('products')
+                    .select('name, price, currency')
+                    .eq('id', productId)
+                    .single();
+                
+                const productName = product?.name || 'Product';
+                
+                const { error } = await supabaseClient
+                    .from('product_orders')
+                    .insert({
+                        product_id: productId,
+                        buyer_id: user?.id,
+                        buyer_email: email,
+                        payment_method: method,
+                        delivery_address: address,
+                        notes: notes,
+                        product_title: productName,
+                        price: product?.price || 0,
+                        status: 'pending'
+                    });
+                
+                if (error) {
+                    alert('Error: ' + error.message);
+                    return;
+                }
+                
+                // إشعار للبائع
+                if (sellerId) {
+                    await supabaseClient.from('notifications').insert({
+                        receiver_id: sellerId,
+                        sender_id: user?.id,
+                        type: 'product_order',
+                        message: `🛒 New order for "${productName}" from ${email}`,
+                        is_read: false
+                    });
+                }
+                
+                alert('✅ Order sent!\n\nWe will contact you at ' + email + ' to complete the purchase.');
+                closeBuyModal();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+        
+        // =========================================================
+        // CONTACT SELLER
+        // =========================================================
+        function contactSeller(sellerId) {
+            window.location.href = `messenger.html?user_id=${sellerId}`;
+        }
+        
+        // =========================================================
+        // ESCAPE HTML
+        // =========================================================
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // =========================================================
+        // START
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const lang = getCurrentLanguage();
+            setLanguage(lang);
+            applyTranslations();
+            
+            loadProducts();
+            loadUserProfile();
+            
+            document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
+        });
+    </script>
+    
+        <script src="js/messenger-notify.js"></script>
+<!-- Popunder disabled -->
+<script src="js/dark-mode.js"></script>
+<script src="js/monetag.js" data-cfasync="false"></script>
+<div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حظلة الفواكه - Wikidoogo</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: radial-gradient(circle at center, #2c0e4d 0%, #110522 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* شريط علوي بسيط للعودة */
+        .top-bar {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* لوحة الرصيد */
+        .balance-board {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 30px;
+            border-radius: 20px;
+            border: 2px solid #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* حاوية العجلة */
+        .wheel-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 40px 0;
+        }
+
+        /* مؤشر العجلة */
+        .pointer {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px;
+            color: #ffd700;
+            z-index: 10;
+            text-shadow: 0 5px 10px rgba(0,0,0,0.8);
+            line-height: 1;
+        }
+
+        /* تصميم العجلة */
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(0,0,0,0.8);
+            /* تقسيم العجلة إلى 8 أقسام بألوان مختلفة */
+            background: conic-gradient(
+                #e74c3c 0deg 45deg,     /* تفاح */
+                #2ecc71 45deg 90deg,    /* بطيخ */
+                #f1c40f 90deg 135deg,   /* موز */
+                #3498db 135deg 180deg,  /* عنب */
+                #e74c3c 180deg 225deg, 
+                #2ecc71 225deg 270deg,
+                #f1c40f 270deg 315deg,
+                #3498db 315deg 360deg
+            );
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+
+        /* أيقونات الفواكه على العجلة (موزعة) */
+        .fruit-icon {
+            position: absolute;
+            font-size: 30px;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+        }
+
+        /* المركز الذهبي */
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ffe066, #d4af37);
+            border-radius: 50%;
+            border: 3px solid #fff;
+            z-index: 5;
+            box-shadow: 0 0 15px #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #8b0000;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .wheel-center:active { transform: translate(-50%, -50%) scale(0.9); }
+
+        /* أزرار الرهانات */
+        .bets-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .bet-chip {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px dashed #ccc;
+            background: #333;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .bet-chip:hover { transform: scale(1.1); }
+        .bet-chip.active {
+            border: 3px solid #00e676;
+            background: #1a5e20;
+            box-shadow: 0 0 15px #00e676;
+            transform: scale(1.1);
+        }
+
+        /* صندوق الرسائل */
+        .result-box {
+            font-size: 22px;
+            font-weight: bold;
+            height: 30px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+
+        /* تأثير الفوز */
+        @keyframes winPulse {
+            0% { transform: scale(1); text-shadow: 0 0 10px #fff; }
+            50% { transform: scale(1.2); text-shadow: 0 0 30px #00e676, 0 0 50px #00e676; color: #00e676; }
+            100% { transform: scale(1); text-shadow: 0 0 10px #fff; }
+        }
+        .win-text { animation: winPulse 1s infinite; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="gaming.html" class="back-btn">🔙 عودة للألعاب</a>
+        <div style="font-weight: bold; color: #ffd700;">حظلة الفواكه 🍓</div>
+    </div>
+
+    <div class="balance-board">
+        💎 الرصيد: <span id="balanceDisplay">1000</span>
+    </div>
+
+    <div class="wheel-wrapper">
+        <div class="pointer">▼</div>
+        <div class="wheel" id="wheel">
+            <!-- المركز -->
+            <div class="wheel-center" onclick="spinWheel()">العب</div>
+        </div>
+    </div>
+
+    <div class="result-box" id="resultBox">اختر رهانك ثم اضغط "العب"</div>
+
+    <div class="bets-container">
+        <div class="bet-chip active" onclick="selectBet(this, 10)">10</div>
+        <div class="bet-chip" onclick="selectBet(this, 50)">50</div>
+        <div class="bet-chip" onclick="selectBet(this, 100)">100</div>
+        <div class="bet-chip" onclick="selectBet(this, 500)">500</div>
+    </div>
+
+    <script>
+        // إعدادات اللعبة
+        const fruits = [
+            { emoji: '🍎', mult: 2, color: '#e74c3c' },
+            { emoji: '🍉', mult: 3, color: '#2ecc71' },
+            { emoji: '🍌', mult: 4, color: '#f1c40f' },
+            { emoji: '🍇', mult: 5, color: '#3498db' },
+            { emoji: '🍎', mult: 2, color: '#e74c3c' },
+            { emoji: '🍉', mult: 3, color: '#2ecc71' },
+            { emoji: '🍌', mult: 4, color: '#f1c40f' },
+            { emoji: '7️⃣', mult: 10, color: '#9b59b6' } // الجائزة الكبرى
+        ];
+
+        let currentBalance = 1000; // الرصيد الافتراضي
+        let currentBet = 10;
+        let isSpinning = false;
+        let currentRotation = 0;
+
+        const wheel = document.getElementById('wheel');
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const resultBox = document.getElementById('resultBox');
+
+        // دالة لتوزيع أيقونات الفواكه على العجلة عند التحميل
+        function setupWheelIcons() {
+            const radius = 110; // المسافة من المركز
+            fruits.forEach((fruit, index) => {
+                const icon = document.createElement('div');
+                icon.className = 'fruit-icon';
+                icon.textContent = fruit.emoji;
+                
+                // حساب الزاوية لكل فاكهة (360 / 8 = 45 درجة)
+                // نضيف 22.5 لتكون في منتصف القطاع
+                const angle = (index * 45) + 22.5;
+                const rad = (angle - 90) * (Math.PI / 180); // -90 لجعل البداية من الأعلى
+
+                const x = Math.cos(rad) * radius;
+                const y = Math.sin(rad) * radius;
+
+                // تعديل الموقع ليكون متناسباً مع المركز
+                icon.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+                wheel.appendChild(icon);
+            });
+        }
+
+        // دالة اختيار الرهان
+        function selectBet(element, amount) {
+            if (isSpinning) return;
+            document.querySelectorAll('.bet-chip').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+            currentBet = amount;
+        }
+
+        // دالة اللعب
+        function spinWheel() {
+            if (isSpinning) return;
+            if (currentBalance < currentBet) {
+                resultBox.innerHTML = "❌ رصيدك غير كافٍ!";
+                return;
+            }
+
+            isSpinning = true;
+            currentBalance -= currentBet;
+            updateBalance();
+            resultBox.innerHTML = "جاري السحب...";
+
+            // توليد زاوية عشوائية
+            // نضيف 5 دورات كاملة (360 * 5 = 1800) لتدور بقوة
+            const randomAngle = Math.floor(Math.random() * 360);
+            const totalRotation = 1800 + randomAngle + (360 - (currentRotation % 360));
+            
+            currentRotation += totalRotation;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            // انتظار انتهاء الدوران (4 ثواني حسب إعدادات CSS)
+            setTimeout(() => {
+                // تحديد الفاكهة الفائزة
+                // نحسب الزاوية النهائية للعجلة
+                let finalAngle = currentRotation % 360;
+                
+                // المؤشر في الأعلى (0 درجة). 
+                // لحساب القطاع الذي توقف عنده المؤشر:
+                let adjustedAngle = (360 - finalAngle) % 360;
+                let winnerIndex = Math.floor(adjustedAngle / 45);
+                
+                const winner = fruits[winnerIndex];
+                const winAmount = currentBet * winner.mult;
+                
+                currentBalance += winAmount;
+                updateBalance();
+
+                resultBox.innerHTML = `🎉 ربحت ${winner.emoji} (x${winner.mult})!<br>+${winAmount} 💎`;
+                resultBox.classList.add('win-text');
+                
+                setTimeout(() => { resultBox.classList.remove('win-text'); }, 2000);
+
+                // إذا فاز بالجاكبوت
+                if(winner.mult === 10) {
+                    // تأثيرات إضافية
+                }
+
+                isSpinning = false;
+            }, 4000);
+        }
+
+        function updateBalance() {
+            balanceDisplay.textContent = currentBalance;
+        }
+
+        // تشغيل الإعدادات عند فتح الصفحة
+        setupWheelIcons();
+        
+    </script>
+</body>
+</html>
