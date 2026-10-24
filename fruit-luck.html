@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,61 +41,60 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px;
         }
 
+        /* 🎯 FRUIT SELECTOR */
+        .selector-container {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .fruit-select-btn {
+            background: #1e072e; border: 3px solid #555; border-radius: 15px;
+            padding: 15px; cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; gap: 5px; transition: 0.2s; width: 100px;
+        }
+        .fruit-select-btn:hover { border-color: #ffd700; }
+        .fruit-select-btn.active { border-color: #00e676; background: #0d3815; box-shadow: 0 0 20px #00e676; transform: scale(1.05); }
+        .fruit-select-btn .emoji { font-size: 45px; }
+        .fruit-select-btn .name { font-size: 14px; color: white; font-weight: bold; }
+
         /* WHEEL AREA */
         .wheel-area {
             background: radial-gradient(circle at center, #2c0e4d 0%, #110522 100%);
             border-radius: 20px; padding: 30px 20px; margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;
-        }
-
-        /* 🎯 FRUIT SELECTOR (الأزرار اللي كيختار منها اللاعب) */
-        .selector-container {
-            display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
-        }
-        .fruit-select-btn {
-            background: #2a1545; border: 2px solid #555; border-radius: 12px;
-            padding: 10px; cursor: pointer; display: flex; flex-direction: column;
-            align-items: center; gap: 5px; transition: 0.2s; width: 70px;
-        }
-        .fruit-select-btn:hover { border-color: #ffd700; }
-        .fruit-select-btn.active { border-color: #00e676; background: #1a3a24; box-shadow: 0 0 15px #00e676; }
-        .fruit-select-btn .emoji { font-size: 30px; }
-        .fruit-select-btn .name { font-size: 12px; color: white; font-weight: bold; }
-        
-        /* اللعبة كتمنع اختيار 77 */
-        .fruit-select-btn.disabled-77 {
-            opacity: 0.5; cursor: not-allowed; border: 2px dashed #e74c3c;
+            border: 4px solid #ffd700; overflow: hidden;
         }
 
         .wheel-wrapper { position: relative; width: 280px; height: 280px; margin: 0 auto; }
         
         .pointer {
-            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-            font-size: 50px; color: #ffd700; z-index: 10; text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+            font-size: 60px; color: #ffd700; z-index: 10; text-shadow: 0 5px 15px rgba(0,0,0,0.8);
             line-height: 1; filter: drop-shadow(0 0 10px #ffd700);
         }
 
+        /* العجلة مقسمة لـ 3 أقسام فقط (تفاح، بطيخ، 77) */
         .wheel {
             width: 100%; height: 100%; border-radius: 50%; border: 8px solid #ffd700;
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(0,0,0,0.9);
             background: conic-gradient(
-                #e74c3c 0deg 45deg, #2ecc71 45deg 90deg, #f1c40f 90deg 135deg, #3498db 135deg 180deg,
-                #9b59b6 180deg 225deg, #e67e22 225deg 270deg, #1abc9c 270deg 315deg, #34495e 315deg 360deg
+                #e74c3c 0deg 120deg,   /* تفاح */
+                #2ecc71 120deg 240deg, /* بطيخ */
+                #f1c40f 240deg 360deg  /* 77 */
             );
             position: relative; transition: transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);
         }
 
+        /* الأيقونات على العجلة */
         .fruit-icon {
-            position: absolute; font-size: 30px; top: 50%; left: 50%;
+            position: absolute; font-size: 45px; top: 50%; left: 50%;
             transform-origin: 0 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
         .wheel-center {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 60px; height: 60px; background: radial-gradient(circle, #fff 0%, #ffd700 100%);
-            border-radius: 50%; border: 3px solid #fff; z-index: 5;
+            width: 70px; height: 70px; background: radial-gradient(circle, #fff 0%, #ffd700 100%);
+            border-radius: 50%; border: 4px solid #fff; z-index: 5;
             box-shadow: 0 0 20px #ffd700; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; color: #8b0000; font-size: 18px; cursor: pointer; transition: 0.2s;
+            font-weight: 900; color: #8b0000; font-size: 20px; cursor: pointer; transition: 0.2s;
         }
         .wheel-center:active { transform: translate(-50%, -50%) scale(0.9); }
 
@@ -114,7 +113,7 @@
 
         /* RESULT */
         .result-box {
-            font-size: 20px; font-weight: bold; min-height: 30px; color: #fff;
+            font-size: 22px; font-weight: bold; min-height: 30px; color: #fff;
             text-shadow: 0 0 10px rgba(255,255,255,0.5); margin-top: 15px; text-align: center;
         }
         .win-text { color: #00e676 !important; text-shadow: 0 0 20px #00e676 !important; }
@@ -149,7 +148,6 @@
         .win-box { background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; width: 100%; animation: winBounce 0.5s; }
         @keyframes winBounce { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
         .win-btn { background: #8b5cf6; color: white; border: none; padding: 14px 35px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 15px; width: 100%; }
-        .win-btn:hover { background: #7c3aed; }
 
         @media (max-width: 500px) {
             .wheel-wrapper { width: 240px; height: 240px; }
@@ -190,15 +188,14 @@
             💎 Balance: <span id="balanceDisplay">1000</span>
         </div>
 
+        <!-- 🎯 اختيار الفاكهة -->
+        <p style="color: #ffd700; font-weight: bold; margin-bottom: 10px;">1. Choose your Lucky Fruit:</p>
+        <div class="selector-container" id="fruitSelector">
+            <!-- سيتم توليد الأزرار هنا -->
+        </div>
+
         <!-- WHEEL AREA -->
         <div class="wheel-area">
-            
-            <!-- 🎯 اختيار الفاكهة -->
-            <p style="color: #ffd700; font-weight: bold; margin-bottom: 10px;">1. Choose your Lucky Fruit:</p>
-            <div class="selector-container" id="fruitSelector">
-                <!-- سيتم توليد الأزرار هنا -->
-            </div>
-
             <div class="wheel-wrapper">
                 <div class="pointer">▼</div>
                 <div class="wheel" id="wheel">
@@ -238,7 +235,6 @@
             </div>
             <div id="lbList"><div class="lb-empty">...</div></div>
         </div>
-
     </div>
 
     <!-- WIN OVERLAY -->
@@ -262,70 +258,47 @@
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(freq, type, duration) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
             osc.type = type; osc.frequency.value = freq;
             osc.connect(gain); gain.connect(audioCtx.destination);
             gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
             osc.start(); osc.stop(audioCtx.currentTime + duration);
         }
-        function playSpinSound() {
-            let count = 0;
-            const interval = setInterval(() => {
-                playTone(400 + (count * 5), 'sine', 0.05);
-                count++;
-                if (count > 40) clearInterval(interval);
-            }, 100);
-        }
-        function playWinSound() {
-            playTone(600, 'square', 0.1);
-            setTimeout(() => playTone(800, 'square', 0.1), 150);
-            setTimeout(() => playTone(1000, 'square', 0.3), 300);
-        }
+        function playSpinSound() { let count = 0; const interval = setInterval(() => { playTone(400 + (count * 5), 'sine', 0.05); count++; if (count > 40) clearInterval(interval); }, 100); }
+        function playWinSound() { playTone(600, 'square', 0.1); setTimeout(() => playTone(800, 'square', 0.1), 150); setTimeout(() => playTone(1000, 'square', 0.3), 300); }
 
         // --- GAME DATA ---
-        // ترتيب الفواكه فالعجلة (8 خانات)
+        // 3 أقسام فقط فالعجلة
         const wheelFruits = [
             { id: 'apple', emoji: '🍎', name: 'Apple', mult: 2 },
-            { id: 'watermelon', emoji: '🍉', name: 'Melon', mult: 2 },
-            { id: 'lemon', emoji: '🍋', name: 'Lemon', mult: 2 },
-            { id: 'grapes', emoji: '🍇', name: 'Grapes', mult: 2 },
-            { id: 'cherry', emoji: '🍒', name: 'Cherry', mult: 2 },
-            { id: 'orange', emoji: '🍊', name: 'Orange', mult: 2 },
-            { id: 'seven', emoji: '7️⃣', name: 'Lucky 7', mult: 10 }, // الجاكبوت
-            { id: 'star', emoji: '⭐', name: 'Star', mult: 5 }
+            { id: 'melon', emoji: '🍉', name: 'Melon', mult: 3 },
+            { id: 'seven', emoji: '7️⃣', name: 'Lucky 7', mult: 8 } // 77 مضروب ف 8
         ];
 
-        let currentBalance = 1000;
-        let currentBet = 10;
-        let selectedFruitId = 'apple'; // الفاكهة الافتراضية
-        let isSpinning = false;
-        let currentRotation = 0;
-        let lbPeriod = 'day';
+        // الفواكه اللي يمكن للاعب يختارها
+        const selectableFruits = [
+            { id: 'apple', emoji: '🍎', name: 'Apple', mult: 2 },
+            { id: 'melon', emoji: '🍉', name: 'Melon', mult: 3 }
+        ];
+
+        let currentBalance = 1000; let currentBet = 10; let selectedFruitId = 'apple'; let isSpinning = false; let currentRotation = 0; let lbPeriod = 'day';
 
         const wheel = document.getElementById('wheel');
         const balanceDisplay = document.getElementById('balanceDisplay');
         const resultBox = document.getElementById('resultBox');
         const selectorContainer = document.getElementById('fruitSelector');
 
-        // دالة بناء أزرار اختيار الفواكه (مع استثناء 77)
+        // أزرار الاختيار (تفاح أو بطيخ فقط)
         function buildFruitSelector() {
-            wheelFruits.forEach(fruit => {
+            selectableFruits.forEach(fruit => {
                 const btn = document.createElement('div');
-                btn.className = `fruit-select-btn ${fruit.id === 'seven' ? 'disabled-77' : ''}`;
-                if (fruit.id === selectedFruitId) btn.classList.add('active');
-                
+                btn.className = `fruit-select-btn ${fruit.id === selectedFruitId ? 'active' : ''}`;
                 btn.innerHTML = `
                     <div class="emoji">${fruit.emoji}</div>
-                    <div class="name">${fruit.id === 'seven' ? 'JACKPOT' : fruit.name}</div>
+                    <div class="name">${fruit.name}</div>
                 `;
-
-                // منع الضغط على 77
-                if (fruit.id !== 'seven') {
-                    btn.onclick = () => selectFruit(fruit.id, btn);
-                }
-
+                btn.onclick = () => selectFruit(fruit.id, btn);
                 selectorContainer.appendChild(btn);
             });
         }
@@ -334,22 +307,26 @@
             if (isSpinning) return;
             document.querySelectorAll('.fruit-select-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
-            selectedFruitId = id;
-            playTone(300, 'sine', 0.1);
-            resultBox.innerHTML = `You chose ${wheelFruits.find(f => f.id === id).emoji}`;
+            selectedFruitId = id; playTone(300, 'sine', 0.1);
+            resultBox.innerHTML = `You chose ${selectableFruits.find(f => f.id === id).emoji}`;
             resultBox.className = 'result-box';
         }
 
+        // توزيع الأيقونات على 3 أقسام (كل واحدة 120 درجة)
         function setupWheelIcons() {
-            const radius = 100;
+            const radius = 90;
             wheelFruits.forEach((fruit, index) => {
                 const icon = document.createElement('div');
                 icon.className = 'fruit-icon';
                 icon.textContent = fruit.emoji;
-                // حساب الزاوية بناءً على عدد الفواكه (8)
-                const angle = (index * 45) + 22.5;
-                const rad = (angle - 90) * (Math.PI / 180);
-                icon.style.transform = `translate(${Math.cos(rad) * radius}px, ${Math.sin(rad) * radius}px) rotate(${angle}deg)`;
+                
+                const angle = (index * 120) + 60;
+                const rad = (angle - 90) * (Math.PI / 180); 
+
+                const x = Math.cos(rad) * radius;
+                const y = Math.sin(rad) * radius;
+
+                icon.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
                 wheel.appendChild(icon);
             });
         }
@@ -357,9 +334,7 @@
         function selectBet(el, amount) {
             if (isSpinning) return;
             document.querySelectorAll('.bet-chip').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            currentBet = amount;
-            playTone(300, 'sine', 0.1);
+            el.classList.add('active'); currentBet = amount; playTone(300, 'sine', 0.1);
         }
 
         function spinWheel() {
@@ -367,121 +342,85 @@
             if (currentBalance < currentBet) {
                 resultBox.innerHTML = "❌ Not enough balance!";
                 resultBox.className = 'result-box lose-text';
-                playTone(150, 'sawtooth', 0.3);
-                return;
+                playTone(150, 'sawtooth', 0.3); return;
             }
 
             isSpinning = true;
-            currentBalance -= currentBet;
-            balanceDisplay.textContent = currentBalance;
-            resultBox.innerHTML = "Spinning...";
-            resultBox.className = 'result-box';
-            playSpinSound();
+            currentBalance -= currentBet; balanceDisplay.textContent = currentBalance;
+            resultBox.innerHTML = "Spinning..."; resultBox.className = 'result-box'; playSpinSound();
 
-            // حساب زاوية عشوائية
             const randomAngle = Math.floor(Math.random() * 360);
             const totalRotation = 1800 + randomAngle + (360 - (currentRotation % 360));
             currentRotation += totalRotation;
             wheel.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
-                // حساب الفاكهة اللي توقفت عليها العجلة
                 let finalAngle = currentRotation % 360;
-                // العجلة كتدور، المؤشر فالفوق (0 درجة). 
-                // لذلك كنحسبو عكس عقارب الساعة
                 let adjustedAngle = (360 - finalAngle) % 360; 
-                let winnerIndex = Math.floor(adjustedAngle / 45);
                 
+                // كل قسم 120 درجة (360 / 3)
+                let winnerIndex = Math.floor(adjustedAngle / 120);
                 const winnerFruit = wheelFruits[winnerIndex];
-                let winAmount = 0;
-                let message = "";
+                let winAmount = 0; let message = "";
 
-                // التحقق من الفوز
-                if (winnerFruit.id === selectedFruitId) {
-                    // اللاعب ربح الفاكهة اللي اختارها
-                    winAmount = currentBet * winnerFruit.mult;
-                    message = `🎉 Winner! You chose ${winnerFruit.emoji} and won +${winAmount} 💎!`;
-                    resultBox.className = 'result-box win-text';
-                    playWinSound();
-                    submitScore('fruit_wheel', winAmount);
-                    document.getElementById('winAmount').textContent = `+${winAmount} 💎`;
-                    document.getElementById('winOverlay').classList.add('show');
-                } else if (winnerFruit.id === 'seven') {
-                    // اللاعب خسر ولكن العجلة توقفت على 77
+                if (winnerFruit.id === 'seven') {
+                    // 77 كتربح ديما (واخا هو مختار شي فاكهة أخرى) والمضاعف هو 8
                     winAmount = currentBet * winnerFruit.mult;
                     message = `🔥 Lucky 7 JACKPOT! The wheel landed on 7️⃣! +${winAmount} 💎`;
                     resultBox.className = 'result-box win-text';
-                    playWinSound();
-                    submitScore('fruit_wheel', winAmount);
+                    playWinSound(); submitScore('fruit_wheel', winAmount);
+                    document.getElementById('winAmount').textContent = `+${winAmount} 💎`;
+                    document.getElementById('winOverlay').classList.add('show');
+                } else if (winnerFruit.id === selectedFruitId) {
+                    // توقفت على الفاكهة اللي اختارها
+                    winAmount = currentBet * winnerFruit.mult;
+                    message = `🎉 Winner! You chose ${winnerFruit.emoji} and won +${winAmount} 💎!`;
+                    resultBox.className = 'result-box win-text';
+                    playWinSound(); submitScore('fruit_wheel', winAmount);
                     document.getElementById('winAmount').textContent = `+${winAmount} 💎`;
                     document.getElementById('winOverlay').classList.add('show');
                 } else {
-                    // اللاعب خسر (العجلة توقفت على فاكهة أخرى)
-                    message = `😢 You chose ${wheelFruits.find(f => f.id === selectedFruitId).emoji}, but got ${winnerFruit.emoji}. Try again!`;
+                    // توقفت على الفاكهة الأخرى
+                    message = `😢 You chose ${selectableFruits.find(f => f.id === selectedFruitId).emoji}, but got ${winnerFruit.emoji}. Try again!`;
                     resultBox.className = 'result-box lose-text';
                     playTone(200, 'sawtooth', 0.4);
                 }
 
-                currentBalance += winAmount;
-                balanceDisplay.textContent = currentBalance;
+                currentBalance += winAmount; balanceDisplay.textContent = currentBalance;
                 resultBox.innerHTML = message;
                 isSpinning = false;
-
             }, 4500);
         }
 
         function closeWinOverlay() {
             document.getElementById('winOverlay').classList.remove('show');
-            resultBox.innerHTML = "Select a fruit and spin!";
-            resultBox.className = 'result-box';
-            playTone(400, 'sine', 0.1);
+            resultBox.innerHTML = "Select a fruit and spin!"; resultBox.className = 'result-box'; playTone(400, 'sine', 0.1);
         }
 
         // --- SUPABASE FUNCTIONS ---
-        function logout() {
-            supabaseClient.auth.signOut();
-            window.location.href = "auth.html";
-        }
-
+        function logout() { supabaseClient.auth.signOut(); window.location.href = "auth.html"; }
         async function loadUserProfile() {
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
+                const { data: { user } } = await supabaseClient.auth.getUser(); if (!user) return;
                 const { data: profile } = await supabaseClient.from('profiles').select('username, full_name, avatar_url').eq('id', user.id).single();
                 const username = profile?.username || profile?.full_name || 'User';
                 document.getElementById('navProfileName').textContent = username;
                 document.getElementById('navProfileImg').src = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
             } catch (error) { console.error('Error:', error); }
         }
-
         async function submitScore(game, score) {
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
-                
+                const { data: { user } } = await supabaseClient.auth.getUser(); if (!user) return;
                 const { data, error } = await supabaseClient.rpc('submit_game_score', { p_game: game, p_score: Math.floor(score) });
                 if (error) { console.error('Score error:', error); return; }
-                
-                if (data?.badges_info?.badges_granted?.length > 0) {
-                    setTimeout(() => showBadgeNotification(data.badges_info.badges_granted), 1000);
-                }
-                loadLeaderboard(lbPeriod);
-                loadUserBadges();
+                if (data?.badges_info?.badges_granted?.length > 0) { setTimeout(() => showBadgeNotification(data.badges_info.badges_granted), 1000); }
+                loadLeaderboard(lbPeriod); loadUserBadges();
             } catch (e) { console.error('Score error:', e); }
         }
-
-        function setLbPeriod(period, btn) {
-            lbPeriod = period;
-            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            loadLeaderboard(period);
-        }
-
+        function setLbPeriod(period, btn) { lbPeriod = period; document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); loadLeaderboard(period); }
         function escHtml(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
-
         async function loadLeaderboard(period) {
-            const list = document.getElementById('lbList');
-            if (!list) return;
+            const list = document.getElementById('lbList'); if (!list) return;
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 const { data: rows, error } = await supabaseClient.rpc('get_game_leaderboard', { p_period: period || 'day', p_limit: 10 });
@@ -496,56 +435,27 @@
                 }).join('');
             } catch (e) { list.innerHTML = '<div class="lb-empty">Could not load leaderboard</div>'; }
         }
-
         async function loadUserBadges() {
-            const container = document.getElementById('badgesList');
-            if (!container) return;
+            const container = document.getElementById('badgesList'); if (!container) return;
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (!user) return;
+                const { data: { user } } = await supabaseClient.auth.getUser(); if (!user) return;
                 const { data: badges, error } = await supabaseClient.rpc('get_user_badges', { p_user_id: user.id });
                 if (error || !badges || badges.length === 0) { container.innerHTML = '<div class="lb-empty">No badges yet</div>'; return; }
-                const actBadges = badges.filter(b => b.badge_type === 'activity');
-                const achBadges = badges.filter(b => b.badge_type === 'achievement');
+                const actBadges = badges.filter(b => b.badge_type === 'activity'); const achBadges = badges.filter(b => b.badge_type === 'achievement');
                 let html = '';
-                if (actBadges.length > 0) {
-                    html += '<div style="margin-bottom: 15px;"><div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🎮 Activity Badges:</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">';
-                    html += actBadges.map(b => `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, #8b5cf6, #6f42c1); color: white; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); border: 2px solid white;"><span style="font-size: 20px;">${b.badge_icon}</span><span>${b.badge_name}</span></div>`).join('');
-                    html += '</div></div>';
-                }
-                if (achBadges.length > 0) {
-                    html += '<div><div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🏆 Achievement Badges:</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">';
-                    html += achBadges.map(b => `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid white;"><span style="font-size: 20px;">${b.badge_icon}</span><span>${b.badge_name}</span></div>`).join('');
-                    html += '</div></div>';
-                }
+                if (actBadges.length > 0) { html += '<div style="margin-bottom: 15px;"><div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🎮 Activity Badges:</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">'; html += actBadges.map(b => `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, #8b5cf6, #6f42c1); color: white; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); border: 2px solid white;"><span style="font-size: 20px;">${b.badge_icon}</span><span>${b.badge_name}</span></div>`).join(''); html += '</div></div>'; }
+                if (achBadges.length > 0) { html += '<div><div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🏆 Achievement Badges:</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">'; html += achBadges.map(b => `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid white;"><span style="font-size: 20px;">${b.badge_icon}</span><span>${b.badge_name}</span></div>`).join(''); html += '</div></div>'; }
                 container.innerHTML = html;
             } catch (e) { console.error('Badges error:', e); }
         }
-
         function showBadgeNotification(badges) {
-            const overlay = document.createElement('div');
-            overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 99999;';
-            overlay.innerHTML = `
-                <div style="background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; animation: winBounce 0.5s;">
-                    <div style="font-size: 80px; margin-bottom: 15px;">🎖️</div>
-                    <h2 style="color: #8b5cf6; margin: 0 0 15px; font-size: 26px;">Congrats!</h2>
-                    <p style="color: #65676b; margin-bottom: 20px; font-size: 15px;">You earned a new badge:</p>
-                    <div style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 30px; font-weight: 800; font-size: 18px; box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6); margin-bottom: 20px;">
-                        ${badges.join(' + ')}
-                    </div>
-                    <button onclick="this.closest('div').parentElement.remove()" style="display: block; width: 100%; padding: 14px; background: #8b5cf6; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px;">
-                        Awesome! 🎉
-                    </button>
-                </div>`;
+            const overlay = document.createElement('div'); overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 99999;';
+            overlay.innerHTML = `<div style="background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; animation: winBounce 0.5s;"><div style="font-size: 80px; margin-bottom: 15px;">🎖️</div><h2 style="color: #8b5cf6; margin: 0 0 15px; font-size: 26px;">Congrats!</h2><p style="color: #65676b; margin-bottom: 20px; font-size: 15px;">You earned a new badge:</p><div style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 30px; font-weight: 800; font-size: 18px; box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6); margin-bottom: 20px;">${badges.join(' + ')}</div><button onclick="this.closest('div').parentElement.remove()" style="display: block; width: 100%; padding: 14px; background: #8b5cf6; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px;">Awesome! 🎉</button></div>`;
             document.body.appendChild(overlay);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            loadUserProfile();
-            buildFruitSelector();
-            setupWheelIcons();
-            loadLeaderboard('day');
-            loadUserBadges();
+            loadUserProfile(); buildFruitSelector(); setupWheelIcons(); loadLeaderboard('day'); loadUserBadges();
         });
     </script>
     <script src="js/messenger-notify.js"></script>
