@@ -54,6 +54,7 @@ const BADGE_PRESETS = {
     king_morocco:    { label: 'King of Morocco',             icon: '👑', color: 'red-orange', country: 'MA' },
     ph_ambassador:   { label: 'Philippines Ambassador',      icon: '🌟', color: 'red-gold',   country: 'PH' },
     ma_ambassador:   { label: 'Morocco Ambassador',          icon: '🌟', color: 'red-gold',   country: 'MA' },
+    ph_vietnam:   { label: 'VIETNAM Ambassador',      icon: '🌟', color: 'red-gold',   country: 'VI' },
     first_ph:        { label: 'First Member from Philippines', icon: '🥇', color: 'blue-gold', country: 'PH' },
        first_ma:        { label: 'First Member from Morocco',   icon: '🥇', color: 'blue-gold', country: 'MA' },
 
@@ -81,6 +82,7 @@ const BADGE_PRESETS = {
     king_nigeria:       { label: 'King of Nigeria',          icon: '👑', color: 'red-orange', country: 'NG' },
     king_south_africa:  { label: 'King of South Africa',     icon: '👑', color: 'red-orange', country: 'ZA' },
         king_bangladesh:    { label: 'King of Bangladesh',       icon: '👑', color: 'red-orange', country: 'BD' },
+        king_vietnam:    { label: 'King of Vietnam',       icon: '👑', color: 'red-orange', country: 'VI' },
 
     // ═══════════════════════════════════════════════
     // 👸 QUEENS - كل الدول
@@ -131,6 +133,7 @@ const BADGE_PRESETS = {
     amb_nigeria:        { label: 'Nigeria Ambassador',       icon: '🌟', color: 'red-gold', country: 'NG' },
     amb_south_africa:   { label: 'South Africa Ambassador',  icon: '🌟', color: 'red-gold', country: 'ZA' },
         amb_bangladesh:     { label: 'Bangladesh Ambassador',    icon: '🌟', color: 'red-gold', country: 'BD' },
+         amb_vietnam:     { label: 'Vietnam Ambassador',    icon: '🌟', color: 'red-gold', country: 'VI' },
 
     // ═══════════════════════════════════════════════
     // 🥇 FIRST MEMBERS - كل الدول
