@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عجلة الحظ - Wikidoogo</title>
+    <link rel="stylesheet" href="socialwiki.css"> <!-- تأكد من المسار الصحيح -->
+    <style>
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* شريط الرصيد */
+        .balance-bar {
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* حاوية العجلة */
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        /* المؤشر (السهم) */
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ffd700;
+            z-index: 10;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        }
+
+        /* أزرار الاختيار (رهان) */
+        .bet-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 300px;
+        }
+
+        .bet-btn {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bet-btn:hover {
+            background: #0f3460;
+            border-color: #ffd700;
+        }
+
+        .bet-btn.active {
+            border-color: #ffd700;
+            background: #0f3460;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .bet-btn span.emoji {
+            font-size: 30px;
+        }
+
+        /* أزرار الرهان (المبلغ) */
+        .amount-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .amount-btn {
+            background: #533483;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .amount-btn:hover, .amount-btn.active {
+            background: #e94560;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        /* زر الدوران */
+        .spin-btn {
+            background: linear-gradient(135deg, #e94560, #533483);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+            transition: 0.2s;
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* النتيجة */
+        .result-message {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 30px;
+        }
+
+        .win { color: #4ade80; }
+        .lose { color: #f87171; }
+
+        /* المتصدرون */
+        .leaderboard {
+            width: 300px;
+            background: #16213e;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .leaderboard h3 {
+            text-align: center;
+            color: #ffd700;
+            margin-top: 0;
+        }
+        .lb-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #0f3460;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط الرصيد -->
+    <div class="balance-bar">
+        💎 الرصيد: <span id="balanceDisplay">1000</span>
+    </div>
+
+    <!-- العجلة -->
+    <div class="wheel-container">
+        <div class="pointer"></div>
+        <canvas id="wheelCanvas" width="300" height="300"></canvas>
+    </div>
+
+    <!-- اختيار العنصر (رهان) -->
+    <div class="bet-options" id="betOptions">
+        <div class="bet-btn" data-value="watermelon" onclick="selectBet('watermelon', this)">
+            <span class="emoji">🍉</span> بطيخ (x2)
+        </div>
+        <div class="bet-btn" data-value="grapes" onclick="selectBet('grapes', this)">
+            <span class="emoji">🍇</span> عنب (x2)
+        </div>
+        <div class="bet-btn" data-value="77" onclick="selectBet('77', this)">
+            <span class="emoji">7️⃣7️⃣</span> 77 (x8)
+        </div>
+        <div class="bet-btn" data-value="apple" onclick="selectBet('apple', this)">
+            <span class="emoji">🍎</span> تفاح (x2)
+        </div>
+    </div>
+
+    <!-- اختيار المبلغ -->
+    <div class="amount-options">
+        <button class="amount-btn active" onclick="setBetAmount(50, this)">50</button>
+        <button class="amount-btn" onclick="setBetAmount(100, this)">100</button>
+        <button class="amount-btn" onclick="setBetAmount(500, this)">500</button>
+    </div>
+
+    <!-- زر الدوران -->
+    <button class="spin-btn" id="spinBtn" onclick="spinWheel()" disabled>🎡 قم بالدوران</button>
+
+    <!-- رسالة النتيجة -->
+    <div class="result-message" id="resultMessage"></div>
+
+    <!-- المتصدرون -->
+    <div class="leaderboard">
+        <h3>🏆 المتصدرون (اليوم)</h3>
+        <div id="leaderboardList">
+            <div class="lb-item"><span>1. Player1</span> <span>5000</span></div>
+            <div class="lb-item"><span>2. Player2</span> <span>3000</span></div>
+            <div class="lb-item"><span>3. Player3</span> <span>1500</span></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // إعدادات اللعبة
+        // ==========================================
+        let balance = 1000;
+        let currentBetAmount = 50;
+        let selectedBet = null;
+        let isSpinning = false;
+
+        // عناصر اللعبة في العجلة (يجب أن يكون مجموع زواياها 360)
+        // نضع 8 قطاعات: بطيخ، عنب، 77، تفاح، بطيخ، عنب، 77، تفاح
+        const segments = [
+            { label: 'بطيخ', color: '#2ecc71', value: 'watermelon', multiplier: 2 },
+            { label: 'عنب', color: '#8e44ad', value: 'grapes', multiplier: 2 },
+            { label: '77', color: '#f1c40f', value: '77', multiplier: 8 },
+            { label: 'تفاح', color: '#e74c3c', value: 'apple', multiplier: 2 },
+            { label: 'بطيخ', color: '#2ecc71', value: 'watermelon', multiplier: 2 },
+            { label: 'عنب', color: '#8e44ad', value: 'grapes', multiplier: 2 },
+            { label: '77', color: '#f1c40f', value: '77', multiplier: 8 },
+            { label: 'تفاح', color: '#e74c3c', value: 'apple', multiplier: 2 }
+        ];
+
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const resultMessage = document.getElementById('resultMessage');
+
+        // ==========================================
+        // رسم العجلة
+        // ==========================================
+        function drawWheel() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = canvas.width / 2;
+            const anglePerSegment = (2 * Math.PI) / segments.length;
+
+            segments.forEach((segment, index) => {
+                const startAngle = index * anglePerSegment;
+                const endAngle = startAngle + anglePerSegment;
+
+                // رسم القطاع
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.fillStyle = segment.color;
+                ctx.fill();
+                ctx.stroke();
+
+                // كتابة النص
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + anglePerSegment / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "white";
+                ctx.font = "bold 20px Arial";
+                ctx.fillText(segment.label, radius - 30, 10);
+                ctx.restore();
+            });
+        }
+
+        // ==========================================
+        // اختيار الرهان والمبلغ
+        // ==========================================
+        function selectBet(value, element) {
+            if (isSpinning) return;
+            selectedBet = value;
+            
+            // إزالة التحديد عن الجميع
+            document.querySelectorAll('.bet-btn').forEach(btn => btn.classList.remove('active'));
+            // إضافة التحديد للعنصر المختار
+            element.classList.add('active');
+
+            // تفعيل زر الدوران
+            spinBtn.disabled = false;
+        }
+
+        function setBetAmount(amount, element) {
+            if (isSpinning) return;
+            if (amount > balance) {
+                alert("رصيدك غير كافٍ!");
+                return;
+            }
+            currentBetAmount = amount;
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // ==========================================
+        // دوران العجلة
+        // ==========================================
+        function spinWheel() {
+            if (!selectedBet || isSpinning) return;
+            if (balance < currentBetAmount) {
+                alert("رصيدك غير كافٍ!");
+                return;
+            }
+
+            isSpinning = true;
+            spinBtn.disabled = true;
+            resultMessage.textContent = "";
+            resultMessage.className = "result-message";
+
+            // خصم المبلغ من الرصيد
+            balance -= currentBetAmount;
+            updateBalance();
+
+            // اختيار فائز عشوائي
+            const randomIndex = Math.floor(Math.random() * segments.length);
+            const winningSegment = segments[randomIndex];
+
+            // حساب الزاوية المطلوبة (لتدور العجلة عدة لفات)
+            const anglePerSegment = 360 / segments.length;
+            // نريد أن يتوقف المؤشر عند القطاع الفائز
+            // المؤشر في الأعلى (زاوية 270 درجة في نظام الـ canvas)
+            // لذا نحسب الزاوية لتدوير العجلة بحيث يقع القطاع الفائز تحت المؤشر
+            const targetAngle = 360 * 5 + (360 - (randomIndex * anglePerSegment + anglePerSegment / 2));
+
+            // تطبيق الدوران باستخدام CSS
+            canvas.style.transform = `rotate(${targetAngle}deg)`;
+
+            // بعد انتهاء الدوران (3 ثوانٍ)
+            setTimeout(() => {
+                isSpinning = false;
+                spinBtn.disabled = false;
+                
+                // التحقق من الفوز
+                if (winningSegment.value === selectedBet) {
+                    const winAmount = currentBetAmount * winningSegment.multiplier;
+                    balance += winAmount;
+                    updateBalance();
+                    resultMessage.textContent = `🎉 مبروك! ربحت ${winAmount} نقطة (x${winningSegment.multiplier})`;
+                    resultMessage.className = "result-message win";
+                    
+                    // هنا يمكنك إضافة كود حفظ النقاط في Supabase
+                    // savePointsToDB(balance); 
+                } else {
+                    resultMessage.textContent = `😢 للأسف، خسرت ${currentBetAmount} نقطة. حاول مرة أخرى!`;
+                    resultMessage.className = "result-message lose";
+                }
+
+                // إعادة العجلة إلى وضعها الأصلي (بدون تأثير بصري)
+                // ولكن يجب أن نحتفظ بالزاوية لكي لا ترتد العجلة
+                // الحل: نزيل الـ transition ونعيد الزاوية إلى 0 بسرعة
+                setTimeout(() => {
+                    canvas.style.transition = 'none';
+                    canvas.style.transform = `rotate(0deg)`;
+                    // إعادة التأثير للدورة القادمة
+                    setTimeout(() => {
+                        canvas.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                    }, 50);
+                }, 100);
+
+            }, 3000); // 3 ثوانٍ تطابق مدة الـ transition في CSS
+        }
+
+        function updateBalance() {
+            balanceDisplay.textContent = balance;
+        }
+
+        // ==========================================
+        // التهيئة
+        // ==========================================
+        window.onload = () => {
+            drawWheel();
+            updateBalance();
+        };
+    </script>
+</body>
+</html>
