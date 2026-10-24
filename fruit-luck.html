@@ -1,206 +1,166 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حظلة الفواكه - Wikidoogo</title>
+    <title>Fruit Wheel - Wikidoogo</title>
     <link rel="stylesheet" href="socialwiki.css">
-    <link rel="stylesheet" href="css/dark-mode.css">
     <style>
-        /* ========== تنسيقات صفحة اللعبة ========== */
+        * { box-sizing: border-box; }
         body {
-            background: #1a1a2e;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            color: #050505;
         }
-
-        .navbar {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #1877f2; padding: 0 16px; height: 56px;
-            position: sticky; top: 0; z-index: 1000; width: 100%;
-        }
+        
+        /* NAVBAR */
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
         .nav-left { display: flex; align-items: center; gap: 10px; }
         .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
         .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
         .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
-        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
         .nav-right { display: flex; align-items: center; gap: 8px; }
         .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
         .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
-
-        .game-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            width: 100%;
-            max-width: 500px;
+        
+        /* CONTAINER */
+        .game-container { max-width: 700px; margin: 0 auto; padding: 20px; text-align: center; }
+        
+        .game-header h1 {
+            font-size: 36px; margin: 0 0 10px;
+            background: linear-gradient(135deg, #f1c40f, #e74c3c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        /* BALANCE */
+        .balance-board {
+            background: white; padding: 15px; border-radius: 16px; display: inline-flex;
+            align-items: center; gap: 10px; font-size: 22px; font-weight: bold; color: #1877f2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px;
         }
 
-        .balance-bar {
-            background: rgba(0,0,0,0.5);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border: 2px solid #ffd700;
-            color: #ffd700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* WHEEL AREA */
+        .wheel-area {
+            background: radial-gradient(circle at center, #2c0e4d 0%, #110522 100%);
+            border-radius: 20px; padding: 30px 20px; margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;
         }
 
-        .wheel-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin-bottom: 20px;
+        /* 🎯 FRUIT SELECTOR (الأزرار اللي كيختار منها اللاعب) */
+        .selector-container {
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .fruit-select-btn {
+            background: #2a1545; border: 2px solid #555; border-radius: 12px;
+            padding: 10px; cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; gap: 5px; transition: 0.2s; width: 70px;
+        }
+        .fruit-select-btn:hover { border-color: #ffd700; }
+        .fruit-select-btn.active { border-color: #00e676; background: #1a3a24; box-shadow: 0 0 15px #00e676; }
+        .fruit-select-btn .emoji { font-size: 30px; }
+        .fruit-select-btn .name { font-size: 12px; color: white; font-weight: bold; }
+        
+        /* اللعبة كتمنع اختيار 77 */
+        .fruit-select-btn.disabled-77 {
+            opacity: 0.5; cursor: not-allowed; border: 2px dashed #e74c3c;
         }
 
-        canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-
+        .wheel-wrapper { position: relative; width: 280px; height: 280px; margin: 0 auto; }
+        
         .pointer {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #ffd700;
-            z-index: 10;
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            font-size: 50px; color: #ffd700; z-index: 10; text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            line-height: 1; filter: drop-shadow(0 0 10px #ffd700);
         }
 
-        .bet-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-            width: 100%;
+        .wheel {
+            width: 100%; height: 100%; border-radius: 50%; border: 8px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(0,0,0,0.9);
+            background: conic-gradient(
+                #e74c3c 0deg 45deg, #2ecc71 45deg 90deg, #f1c40f 90deg 135deg, #3498db 135deg 180deg,
+                #9b59b6 180deg 225deg, #e67e22 225deg 270deg, #1abc9c 270deg 315deg, #34495e 315deg 360deg
+            );
+            position: relative; transition: transform 4.5s cubic-bezier(0.1, 0.7, 0.1, 1);
         }
 
-        .bet-btn {
-            background: #16213e;
-            border: 2px solid #0f3460;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
+        .fruit-icon {
+            position: absolute; font-size: 30px; top: 50%; left: 50%;
+            transform-origin: 0 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
-        .bet-btn:hover {
-            background: #0f3460;
-            border-color: #ffd700;
+        .wheel-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 60px; height: 60px; background: radial-gradient(circle, #fff 0%, #ffd700 100%);
+            border-radius: 50%; border: 3px solid #fff; z-index: 5;
+            box-shadow: 0 0 20px #ffd700; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: #8b0000; font-size: 18px; cursor: pointer; transition: 0.2s;
+        }
+        .wheel-center:active { transform: translate(-50%, -50%) scale(0.9); }
+
+        /* BETS */
+        .bets-container { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .bet-chip {
+            width: 55px; height: 55px; border-radius: 50%; border: 3px dashed #555;
+            background: #222; color: #aaa; font-weight: bold; font-size: 16px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 5px 10px rgba(0,0,0,0.3); user-select: none;
+        }
+        .bet-chip.active {
+            border: 3px solid #00e676; background: #0d3815; color: #00e676;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.6); transform: scale(1.1);
         }
 
-        .bet-btn.active {
-            border-color: #ffd700;
-            background: #0f3460;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        /* RESULT */
+        .result-box {
+            font-size: 20px; font-weight: bold; min-height: 30px; color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5); margin-top: 15px; text-align: center;
         }
+        .win-text { color: #00e676 !important; text-shadow: 0 0 20px #00e676 !important; }
+        .lose-text { color: #e74c3c !important; text-shadow: 0 0 20px #e74c3c !important; }
 
-        .bet-btn span.emoji {
-            font-size: 30px;
+        /* CARDS (Badges & Leaderboard) */
+        .lb-card {
+            background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 20px auto 0; max-width: 500px; overflow: hidden; text-align: left;
         }
+        .lb-head {
+            background: linear-gradient(135deg, #ffd700, #f7b731); color: #333;
+            padding: 16px; text-align: center; font-size: 20px; font-weight: 800;
+        }
+        .lb-tabs { display: flex; gap: 6px; padding: 10px; background: #f7f8fa; }
+        .lb-tab {
+            flex: 1; padding: 8px 4px; border: none; border-radius: 10px; background: transparent;
+            color: #65676b; font-weight: 700; font-size: 13px; cursor: pointer;
+        }
+        .lb-tab.active { background: #1877f2; color: white; }
+        .lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #eee; }
+        .lb-row.me { background: #eaf3ff; }
+        .lb-rank { width: 32px; text-align: center; font-weight: 800; font-size: 18px; }
+        .lb-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #ddd; }
+        .lb-name { flex: 1; font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lb-score { font-weight: 800; color: #1877f2; }
+        .lb-empty { padding: 24px; text-align: center; color: #65676b; font-size: 14px; }
 
-        .amount-options {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        /* OVERLAY */
+        .win-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .win-overlay.show { display: flex; }
+        .win-box { background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; width: 100%; animation: winBounce 0.5s; }
+        @keyframes winBounce { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+        .win-btn { background: #8b5cf6; color: white; border: none; padding: 14px 35px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 15px; width: 100%; }
+        .win-btn:hover { background: #7c3aed; }
 
-        .amount-btn {
-            background: #533483;
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .amount-btn:hover, .amount-btn.active {
-            background: #e94560;
-            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
-        }
-
-        .spin-btn {
-            background: linear-gradient(135deg, #e94560, #533483);
-            border: none;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
-            transition: 0.2s;
-            width: 100%;
-        }
-
-        .spin-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .result-message {
-            margin-top: 15px;
-            font-size: 22px;
-            font-weight: bold;
-            text-align: center;
-            min-height: 30px;
-        }
-
-        .win { color: #4ade80; }
-        .lose { color: #f87171; }
-
-        .leaderboard {
-            width: 100%;
-            background: #16213e;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        .leaderboard h3 {
-            text-align: center;
-            color: #ffd700;
-            margin-top: 0;
-        }
-        .lb-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #0f3460;
+        @media (max-width: 500px) {
+            .wheel-wrapper { width: 240px; height: 240px; }
+            .bet-chip { width: 45px; height: 45px; font-size: 14px; }
         }
     </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
 
-    <!-- شريط التنقل (Navbar) -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left"><a href="index.html" class="logo">📘 Wikidoogo</a></div>
         <ul class="nav-icons">
@@ -219,202 +179,265 @@
         </div>
     </nav>
 
-    <!-- منطقة اللعب -->
-    <div class="game-area">
-        
-        <!-- شريط الرصيد -->
-        <div class="balance-bar">
-            💎 الرصيد: <span id="balanceDisplay">1000</span>
+    <!-- GAME CONTAINER -->
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🍓 Fruit Wheel</h1>
+            <p>Choose your fruit, spin, and win! (7️⃣ is the Jackpot)</p>
         </div>
 
-        <!-- العجلة -->
-        <div class="wheel-container">
-            <div class="pointer"></div>
-            <canvas id="wheelCanvas" width="300" height="300"></canvas>
+        <div class="balance-board">
+            💎 Balance: <span id="balanceDisplay">1000</span>
         </div>
 
-        <!-- اختيار العنصر (رهان) -->
-        <div class="bet-options" id="betOptions">
-            <div class="bet-btn" data-value="watermelon" onclick="selectBet('watermelon', this)">
-                <span class="emoji">🍉</span> بطيخ (x2)
+        <!-- WHEEL AREA -->
+        <div class="wheel-area">
+            
+            <!-- 🎯 اختيار الفاكهة -->
+            <p style="color: #ffd700; font-weight: bold; margin-bottom: 10px;">1. Choose your Lucky Fruit:</p>
+            <div class="selector-container" id="fruitSelector">
+                <!-- سيتم توليد الأزرار هنا -->
             </div>
-            <div class="bet-btn" data-value="grapes" onclick="selectBet('grapes', this)">
-                <span class="emoji">🍇</span> عنب (x2)
+
+            <div class="wheel-wrapper">
+                <div class="pointer">▼</div>
+                <div class="wheel" id="wheel">
+                    <div class="wheel-center" onclick="spinWheel()">SPIN</div>
+                </div>
             </div>
-            <div class="bet-btn" data-value="77" onclick="selectBet('77', this)">
-                <span class="emoji">7️⃣7️⃣</span> 77 (x8)
+            
+            <p style="color: #ffd700; font-weight: bold; margin-top: 20px;">2. Place your bet:</p>
+            <div class="bets-container">
+                <div class="bet-chip active" onclick="selectBet(this, 10)">10</div>
+                <div class="bet-chip" onclick="selectBet(this, 50)">50</div>
+                <div class="bet-chip" onclick="selectBet(this, 100)">100</div>
+                <div class="bet-chip" onclick="selectBet(this, 500)">500</div>
             </div>
-            <div class="bet-btn" data-value="apple" onclick="selectBet('apple', this)">
-                <span class="emoji">🍎</span> تفاح (x2)
+
+            <div class="result-box" id="resultBox">Select a fruit and spin!</div>
+        </div>
+
+        <!-- 🎖️ BADGES -->
+        <div class="lb-card" style="margin-top: 30px;">
+            <div class="lb-head" style="background: linear-gradient(135deg, #8b5cf6, #6f42c1); color: white;">
+                🎖️ Achievement Badges:
+            </div>
+            <div id="badgesList" style="padding: 15px;">
+                <div class="lb-empty">Loading badges...</div>
             </div>
         </div>
 
-        <!-- اختيار المبلغ -->
-        <div class="amount-options">
-            <button class="amount-btn active" onclick="setBetAmount(50, this)">50</button>
-            <button class="amount-btn" onclick="setBetAmount(100, this)">100</button>
-            <button class="amount-btn" onclick="setBetAmount(500, this)">500</button>
+        <!-- 🏆 LEADERBOARD -->
+        <div class="lb-card">
+            <div class="lb-head">🏆 Leaderboard</div>
+            <div class="lb-tabs">
+                <button class="lb-tab active" onclick="setLbPeriod('day', this)">Today</button>
+                <button class="lb-tab" onclick="setLbPeriod('week', this)">Week</button>
+                <button class="lb-tab" onclick="setLbPeriod('month', this)">Month</button>
+                <button class="lb-tab" onclick="setLbPeriod('all', this)">All</button>
+            </div>
+            <div id="lbList"><div class="lb-empty">...</div></div>
         </div>
 
-        <!-- زر الدوران -->
-        <button class="spin-btn" id="spinBtn" onclick="spinWheel()" disabled>🎡 قم بالدوران</button>
+    </div>
 
-        <!-- رسالة النتيجة -->
-        <div class="result-message" id="resultMessage"></div>
-
-        <!-- المتصدرون -->
-        <div class="leaderboard">
-            <h3>🏆 المتصدرون (اليوم)</h3>
-            <div id="leaderboardList">
-                <div class="lb-item"><span>1. Player1</span> <span>5000</span></div>
-                <div class="lb-item"><span>2. Player2</span> <span>3000</span></div>
-                <div class="lb-item"><span>3. Player3</span> <span>1500</span></div>
-            </div>
+    <!-- WIN OVERLAY -->
+    <div class="win-overlay" id="winOverlay">
+        <div class="win-box">
+            <div style="font-size: 60px; margin-bottom: 15px;">🎉</div>
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 15px; color: #28a745;">You Won!</div>
+            <div style="font-size: 24px; font-weight: bold; color: #1877f2;" id="winAmount">+0 💎</div>
+            <button class="win-btn" onclick="closeWinOverlay()">Play Again</button>
         </div>
     </div>
 
-    <!-- 1. كود اللعبة (JavaScript) -->
-    <script>
-        // ==========================================
-        // إعدادات اللعبة
-        // ==========================================
-        let balance = 1000;
-        let currentBetAmount = 50;
-        let selectedBet = null;
-        let isSpinning = false;
-
-        const segments = [
-            { label: 'بطيخ', color: '#2ecc71', value: 'watermelon', multiplier: 2 },
-            { label: 'عنب', color: '#8e44ad', value: 'grapes', multiplier: 2 },
-            { label: '77', color: '#f1c40f', value: '77', multiplier: 8 },
-            { label: 'تفاح', color: '#e74c3c', value: 'apple', multiplier: 2 },
-            { label: 'بطيخ', color: '#2ecc71', value: 'watermelon', multiplier: 2 },
-            { label: 'عنب', color: '#8e44ad', value: 'grapes', multiplier: 2 },
-            { label: '77', color: '#f1c40f', value: '77', multiplier: 8 },
-            { label: 'تفاح', color: '#e74c3c', value: 'apple', multiplier: 2 }
-        ];
-
-        const canvas = document.getElementById('wheelCanvas');
-        const ctx = canvas.getContext('2d');
-        const spinBtn = document.getElementById('spinBtn');
-        const balanceDisplay = document.getElementById('balanceDisplay');
-        const resultMessage = document.getElementById('resultMessage');
-
-        function drawWheel() {
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = canvas.width / 2;
-            const anglePerSegment = (2 * Math.PI) / segments.length;
-
-            segments.forEach((segment, index) => {
-                const startAngle = index * anglePerSegment;
-                const endAngle = startAngle + anglePerSegment;
-
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                ctx.fillStyle = segment.color;
-                ctx.fill();
-                ctx.stroke();
-
-                ctx.save();
-                ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + anglePerSegment / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "white";
-                ctx.font = "bold 20px Arial";
-                ctx.fillText(segment.label, radius - 30, 10);
-                ctx.restore();
-            });
-        }
-
-        function selectBet(value, element) {
-            if (isSpinning) return;
-            selectedBet = value;
-            document.querySelectorAll('.bet-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            spinBtn.disabled = false;
-        }
-
-        function setBetAmount(amount, element) {
-            if (isSpinning) return;
-            if (amount > balance) {
-                alert("رصيدك غير كافٍ!");
-                return;
-            }
-            currentBetAmount = amount;
-            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-        }
-
-        function spinWheel() {
-            if (!selectedBet || isSpinning) return;
-            if (balance < currentBetAmount) {
-                alert("رصيدك غير كافٍ!");
-                return;
-            }
-
-            isSpinning = true;
-            spinBtn.disabled = true;
-            resultMessage.textContent = "";
-            resultMessage.className = "result-message";
-
-            balance -= currentBetAmount;
-            updateBalance();
-
-            const randomIndex = Math.floor(Math.random() * segments.length);
-            const winningSegment = segments[randomIndex];
-
-            const anglePerSegment = 360 / segments.length;
-            const targetAngle = 360 * 5 + (360 - (randomIndex * anglePerSegment + anglePerSegment / 2));
-
-            canvas.style.transform = `rotate(${targetAngle}deg)`;
-
-            setTimeout(() => {
-                isSpinning = false;
-                spinBtn.disabled = false;
-                
-                if (winningSegment.value === selectedBet) {
-                    const winAmount = currentBetAmount * winningSegment.multiplier;
-                    balance += winAmount;
-                    updateBalance();
-                    resultMessage.textContent = `🎉 مبروك! ربحت ${winAmount} نقطة (x${winningSegment.multiplier})`;
-                    resultMessage.className = "result-message win";
-                } else {
-                    resultMessage.textContent = `😢 للأسف، خسرت ${currentBetAmount} نقطة. حاول مرة أخرى!`;
-                    resultMessage.className = "result-message lose";
-                }
-
-                setTimeout(() => {
-                    canvas.style.transition = 'none';
-                    canvas.style.transform = `rotate(0deg)`;
-                    setTimeout(() => {
-                        canvas.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
-                    }, 50);
-                }, 100);
-
-            }, 3000);
-        }
-
-        function updateBalance() {
-            balanceDisplay.textContent = balance;
-        }
-
-        window.onload = () => {
-            drawWheel();
-            updateBalance();
-        };
-    </script>
-
-    <!-- 2. مكتبة Supabase -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 3. كود Supabase وجلب بيانات المستخدم -->
     <script>
         const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
         const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // --- AUDIO ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(freq, type, duration) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.value = freq;
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        }
+        function playSpinSound() {
+            let count = 0;
+            const interval = setInterval(() => {
+                playTone(400 + (count * 5), 'sine', 0.05);
+                count++;
+                if (count > 40) clearInterval(interval);
+            }, 100);
+        }
+        function playWinSound() {
+            playTone(600, 'square', 0.1);
+            setTimeout(() => playTone(800, 'square', 0.1), 150);
+            setTimeout(() => playTone(1000, 'square', 0.3), 300);
+        }
+
+        // --- GAME DATA ---
+        // ترتيب الفواكه فالعجلة (8 خانات)
+        const wheelFruits = [
+            { id: 'apple', emoji: '🍎', name: 'Apple', mult: 2 },
+            { id: 'watermelon', emoji: '🍉', name: 'Melon', mult: 2 },
+            { id: 'lemon', emoji: '🍋', name: 'Lemon', mult: 2 },
+            { id: 'grapes', emoji: '🍇', name: 'Grapes', mult: 2 },
+            { id: 'cherry', emoji: '🍒', name: 'Cherry', mult: 2 },
+            { id: 'orange', emoji: '🍊', name: 'Orange', mult: 2 },
+            { id: 'seven', emoji: '7️⃣', name: 'Lucky 7', mult: 10 }, // الجاكبوت
+            { id: 'star', emoji: '⭐', name: 'Star', mult: 5 }
+        ];
+
+        let currentBalance = 1000;
+        let currentBet = 10;
+        let selectedFruitId = 'apple'; // الفاكهة الافتراضية
+        let isSpinning = false;
+        let currentRotation = 0;
+        let lbPeriod = 'day';
+
+        const wheel = document.getElementById('wheel');
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const resultBox = document.getElementById('resultBox');
+        const selectorContainer = document.getElementById('fruitSelector');
+
+        // دالة بناء أزرار اختيار الفواكه (مع استثناء 77)
+        function buildFruitSelector() {
+            wheelFruits.forEach(fruit => {
+                const btn = document.createElement('div');
+                btn.className = `fruit-select-btn ${fruit.id === 'seven' ? 'disabled-77' : ''}`;
+                if (fruit.id === selectedFruitId) btn.classList.add('active');
+                
+                btn.innerHTML = `
+                    <div class="emoji">${fruit.emoji}</div>
+                    <div class="name">${fruit.id === 'seven' ? 'JACKPOT' : fruit.name}</div>
+                `;
+
+                // منع الضغط على 77
+                if (fruit.id !== 'seven') {
+                    btn.onclick = () => selectFruit(fruit.id, btn);
+                }
+
+                selectorContainer.appendChild(btn);
+            });
+        }
+
+        function selectFruit(id, el) {
+            if (isSpinning) return;
+            document.querySelectorAll('.fruit-select-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            selectedFruitId = id;
+            playTone(300, 'sine', 0.1);
+            resultBox.innerHTML = `You chose ${wheelFruits.find(f => f.id === id).emoji}`;
+            resultBox.className = 'result-box';
+        }
+
+        function setupWheelIcons() {
+            const radius = 100;
+            wheelFruits.forEach((fruit, index) => {
+                const icon = document.createElement('div');
+                icon.className = 'fruit-icon';
+                icon.textContent = fruit.emoji;
+                // حساب الزاوية بناءً على عدد الفواكه (8)
+                const angle = (index * 45) + 22.5;
+                const rad = (angle - 90) * (Math.PI / 180);
+                icon.style.transform = `translate(${Math.cos(rad) * radius}px, ${Math.sin(rad) * radius}px) rotate(${angle}deg)`;
+                wheel.appendChild(icon);
+            });
+        }
+
+        function selectBet(el, amount) {
+            if (isSpinning) return;
+            document.querySelectorAll('.bet-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            currentBet = amount;
+            playTone(300, 'sine', 0.1);
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            if (currentBalance < currentBet) {
+                resultBox.innerHTML = "❌ Not enough balance!";
+                resultBox.className = 'result-box lose-text';
+                playTone(150, 'sawtooth', 0.3);
+                return;
+            }
+
+            isSpinning = true;
+            currentBalance -= currentBet;
+            balanceDisplay.textContent = currentBalance;
+            resultBox.innerHTML = "Spinning...";
+            resultBox.className = 'result-box';
+            playSpinSound();
+
+            // حساب زاوية عشوائية
+            const randomAngle = Math.floor(Math.random() * 360);
+            const totalRotation = 1800 + randomAngle + (360 - (currentRotation % 360));
+            currentRotation += totalRotation;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                // حساب الفاكهة اللي توقفت عليها العجلة
+                let finalAngle = currentRotation % 360;
+                // العجلة كتدور، المؤشر فالفوق (0 درجة). 
+                // لذلك كنحسبو عكس عقارب الساعة
+                let adjustedAngle = (360 - finalAngle) % 360; 
+                let winnerIndex = Math.floor(adjustedAngle / 45);
+                
+                const winnerFruit = wheelFruits[winnerIndex];
+                let winAmount = 0;
+                let message = "";
+
+                // التحقق من الفوز
+                if (winnerFruit.id === selectedFruitId) {
+                    // اللاعب ربح الفاكهة اللي اختارها
+                    winAmount = currentBet * winnerFruit.mult;
+                    message = `🎉 Winner! You chose ${winnerFruit.emoji} and won +${winAmount} 💎!`;
+                    resultBox.className = 'result-box win-text';
+                    playWinSound();
+                    submitScore('fruit_wheel', winAmount);
+                    document.getElementById('winAmount').textContent = `+${winAmount} 💎`;
+                    document.getElementById('winOverlay').classList.add('show');
+                } else if (winnerFruit.id === 'seven') {
+                    // اللاعب خسر ولكن العجلة توقفت على 77
+                    winAmount = currentBet * winnerFruit.mult;
+                    message = `🔥 Lucky 7 JACKPOT! The wheel landed on 7️⃣! +${winAmount} 💎`;
+                    resultBox.className = 'result-box win-text';
+                    playWinSound();
+                    submitScore('fruit_wheel', winAmount);
+                    document.getElementById('winAmount').textContent = `+${winAmount} 💎`;
+                    document.getElementById('winOverlay').classList.add('show');
+                } else {
+                    // اللاعب خسر (العجلة توقفت على فاكهة أخرى)
+                    message = `😢 You chose ${wheelFruits.find(f => f.id === selectedFruitId).emoji}, but got ${winnerFruit.emoji}. Try again!`;
+                    resultBox.className = 'result-box lose-text';
+                    playTone(200, 'sawtooth', 0.4);
+                }
+
+                currentBalance += winAmount;
+                balanceDisplay.textContent = currentBalance;
+                resultBox.innerHTML = message;
+                isSpinning = false;
+
+            }, 4500);
+        }
+
+        function closeWinOverlay() {
+            document.getElementById('winOverlay').classList.remove('show');
+            resultBox.innerHTML = "Select a fruit and spin!";
+            resultBox.className = 'result-box';
+            playTone(400, 'sine', 0.1);
+        }
+
+        // --- SUPABASE FUNCTIONS ---
         function logout() {
             supabaseClient.auth.signOut();
             window.location.href = "auth.html";
@@ -424,28 +447,107 @@
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
-
-                const { data: profile } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name, avatar_url')
-                    .eq('id', user.id)
-                    .single();
-
+                const { data: profile } = await supabaseClient.from('profiles').select('username, full_name, avatar_url').eq('id', user.id).single();
                 const username = profile?.username || profile?.full_name || 'User';
-                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
-
                 document.getElementById('navProfileName').textContent = username;
-                document.getElementById('navProfileImg').src = avatarUrl;
-
-            } catch (error) {
-                console.error('Error loading profile:', error);
-            }
+                document.getElementById('navProfileImg').src = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+            } catch (error) { console.error('Error:', error); }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        async function submitScore(game, score) {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                
+                const { data, error } = await supabaseClient.rpc('submit_game_score', { p_game: game, p_score: Math.floor(score) });
+                if (error) { console.error('Score error:', error); return; }
+                
+                if (data?.badges_info?.badges_granted?.length > 0) {
+                    setTimeout(() => showBadgeNotification(data.badges_info.badges_granted), 1000);
+                }
+                loadLeaderboard(lbPeriod);
+                loadUserBadges();
+            } catch (e) { console.error('Score error:', e); }
+        }
+
+        function setLbPeriod(period, btn) {
+            lbPeriod = period;
+            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadLeaderboard(period);
+        }
+
+        function escHtml(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+
+        async function loadLeaderboard(period) {
+            const list = document.getElementById('lbList');
+            if (!list) return;
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                const { data: rows, error } = await supabaseClient.rpc('get_game_leaderboard', { p_period: period || 'day', p_limit: 10 });
+                if (error) throw error;
+                if (!rows || !rows.length) { list.innerHTML = '<div class="lb-empty">No scores yet - be the first! 🎮</div>'; return; }
+                const medals = ['🥇', '🥈', '🥉'];
+                list.innerHTML = rows.map((r, i) => {
+                    const name = r.username || r.full_name || 'Player';
+                    const avatar = r.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=1877f2&color=fff');
+                    const me = user && user.id === r.user_id ? ' me' : '';
+                    return '<div class="lb-row' + me + '"><div class="lb-rank">' + (medals[i] || (i + 1)) + '</div><img class="lb-avatar" src="' + escHtml(avatar) + '" alt=""><div class="lb-name">' + escHtml(name) + '</div><div class="lb-score">' + r.total_score + '</div></div>';
+                }).join('');
+            } catch (e) { list.innerHTML = '<div class="lb-empty">Could not load leaderboard</div>'; }
+        }
+
+        async function loadUserBadges() {
+            const container = document.getElementById('badgesList');
+            if (!container) return;
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+                const { data: badges, error } = await supabaseClient.rpc('get_user_badges', { p_user_id: user.id });
+                if (error || !badges || badges.length === 0) { container.innerHTML = '<div class="lb-empty">No badges yet</div>'; return; }
+                const actBadges = badges.filter(b => b.badge_type === 'activity');
+                const achBadges = badges.filter(b => b.badge_type === 'achievement');
+                let html = '';
+                if (actBadges.length > 0) {
+                    html += '<div style="margin-bottom: 15px;"><div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🎮 Activity Badges:</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">';
+                    html += actBadges.map(b => `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, #8b5cf6, #6f42c1); color: white; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); border: 2px solid white;"><span style="font-size: 20px;">${b.badge_icon}</span><span>${b.badge_name}</span></div>`).join('');
+                    html += '</div></div>';
+                }
+                if (achBadges.length > 0) {
+                    html += '<div><div style="font-size: 13px; color: #65676b; margin-bottom: 10px; font-weight: 700;">🏆 Achievement Badges:</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">';
+                    html += achBadges.map(b => `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid white;"><span style="font-size: 20px;">${b.badge_icon}</span><span>${b.badge_name}</span></div>`).join('');
+                    html += '</div></div>';
+                }
+                container.innerHTML = html;
+            } catch (e) { console.error('Badges error:', e); }
+        }
+
+        function showBadgeNotification(badges) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 99999;';
+            overlay.innerHTML = `
+                <div style="background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; animation: winBounce 0.5s;">
+                    <div style="font-size: 80px; margin-bottom: 15px;">🎖️</div>
+                    <h2 style="color: #8b5cf6; margin: 0 0 15px; font-size: 26px;">Congrats!</h2>
+                    <p style="color: #65676b; margin-bottom: 20px; font-size: 15px;">You earned a new badge:</p>
+                    <div style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; border-radius: 30px; font-weight: 800; font-size: 18px; box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6); margin-bottom: 20px;">
+                        ${badges.join(' + ')}
+                    </div>
+                    <button onclick="this.closest('div').parentElement.remove()" style="display: block; width: 100%; padding: 14px; background: #8b5cf6; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px;">
+                        Awesome! 🎉
+                    </button>
+                </div>`;
+            document.body.appendChild(overlay);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
             loadUserProfile();
+            buildFruitSelector();
+            setupWheelIcons();
+            loadLeaderboard('day');
+            loadUserBadges();
         });
     </script>
-    
+    <script src="js/messenger-notify.js"></script>
 </body>
 </html>
