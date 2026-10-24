@@ -9,7 +9,7 @@
     <style>
         /* ========== تنسيقات صفحة اللعبة ========== */
         body {
-            background: #1a1a2e; /* خلفية داكنة للعبة */
+            background: #1a1a2e;
             color: white;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0;
@@ -19,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* شريط التنقل (نفس تصميم موقعك) */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
             background: #1877f2; padding: 0 16px; height: 56px;
@@ -35,7 +34,6 @@
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
         .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
 
-        /* حاوية اللعبة */
         .game-area {
             display: flex;
             flex-direction: column;
@@ -275,6 +273,7 @@
         </div>
     </div>
 
+    <!-- 1. كود اللعبة (JavaScript) -->
     <script>
         // ==========================================
         // إعدادات اللعبة
@@ -401,16 +400,52 @@
             balanceDisplay.textContent = balance;
         }
 
-        // دالة تسجيل الخروج (موجودة في الكود الأصلي)
-        function logout() {
-            // هنا يمكنك إضافة كود تسجيل الخروج الخاص بـ Supabase
-            window.location.href = "auth.html";
-        }
-
         window.onload = () => {
             drawWheel();
             updateBalance();
         };
     </script>
+
+    <!-- 2. مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 3. كود Supabase وجلب بيانات المستخدم -->
+    <script>
+        const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        function logout() {
+            supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        async function loadUserProfile() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) return;
+
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('username, full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+
+                const username = profile?.username || profile?.full_name || 'User';
+                const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
+
+                document.getElementById('navProfileName').textContent = username;
+                document.getElementById('navProfileImg').src = avatarUrl;
+
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+        });
+    </script>
+    
 </body>
 </html>
