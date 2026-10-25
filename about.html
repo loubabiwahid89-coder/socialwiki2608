@@ -6,6 +6,68 @@
     <title>Wikidoogo</title>
     <link rel="stylesheet" href="socialwiki.css?v=20260912">
     <style>
+
+        /* ========== LANGUAGE SELECTOR ========== */
+.language-selector {
+    position: relative;
+}
+
+.language-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.language-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.language-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    width: 180px;
+    z-index: 9999;
+    overflow: hidden;
+    border: 1px solid #e4e6eb;
+}
+
+.language-menu.show {
+    display: block;
+}
+
+.language-menu button {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    color: #050505;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.language-menu button:hover {
+    background: #f0f2f5;
+}
         * { box-sizing: border-box; }
         body {
             background: #f0f2f5;
@@ -318,8 +380,31 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            <!-- 🌐 زر اللغة هنا -->
+    <div class="language-selector">
+        <button class="language-btn" onclick="toggleLanguageMenu()">🌐</button>
+        <div class="language-menu" id="languageMenu" style="max-height: 400px; overflow-y: auto;">
+            <button onclick="changeLanguage('ar')">🇲🇦 العربية</button>
+            <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+            <button onclick="changeLanguage('en')">🇬🇧 English</button>
+            <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+            <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+            <button onclick="changeLanguage('it')">🇮🇹 Italiano</button>
+            <button onclick="changeLanguage('ja')">🇯🇵 日本語</button>
+            <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+            <button onclick="changeLanguage('ko')">🇰🇷 한국어</button>
+            <button onclick="changeLanguage('ru')">🇷🇺 Русский</button>
+            <button onclick="changeLanguage('tr')">🇹🇷 Türkçe</button>
+            <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+            <button onclick="changeLanguage('fil')">🇵🇭 Filipino</button>
+            <button onclick="changeLanguage('tl')">🇵🇭 Tagalog</button>
+            <button onclick="changeLanguage('am')">🇪🇹 አማርኛ</button>
+            <button onclick="changeLanguage('vi')">🇻🇳 Tiếng Việt</button>
         </div>
+    </div>
+
+    <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+</div>
     </nav>
     
     <!-- BACK & HOME -->
@@ -448,5 +533,40 @@
             loadUserProfile();
         });
     </script>
+
+    <script>
+    // فتح وإغلاق قائمة اللغات
+    window.toggleLanguageMenu = function() {
+        const menu = document.getElementById('languageMenu');
+        if (menu) menu.classList.toggle('show');
+    };
+
+    // إغلاق القائمة عند النقر خارجها
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('languageMenu');
+        const btn = document.querySelector('.language-btn');
+        if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+
+    // تغيير اللغة
+    window.changeLanguage = function(lang) {
+        if (typeof setLanguage === 'function') {
+            setLanguage(lang);
+        }
+        localStorage.setItem('socialwiki_lang_user_chosen', lang);
+        const menu = document.getElementById('languageMenu');
+        if (menu) menu.classList.remove('show');
+    };
+
+    // تفعيل اللغة المحفوظة عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedLang = localStorage.getItem('socialwiki_lang_user_chosen') || localStorage.getItem('socialwiki_lang') || 'ar';
+        if (typeof setLanguage === 'function') {
+            setLanguage(savedLang);
+        }
+    });
+</script>
 </body>
 </html>
