@@ -3,24 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wikidoogo</title>
+    <title data-i18n="about_page_title">About Us - Wikidoogo</title>
     <link rel="stylesheet" href="socialwiki.css?v=20260912">
+    <link rel="stylesheet" href="css/dark-mode.css">
     <style>
         * { box-sizing: border-box; }
-        body {
-            background: #f0f2f5;
-            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-            margin: 0;
-            color: #050505;
-        }
-        
-        /* NAVBAR */
-        .navbar {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #1877f2; padding: 0 16px; height: 56px;
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+        body { background: #f0f2f5; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; margin: 0; color: #050505; }
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .nav-left { display: flex; align-items: center; gap: 10px; }
         .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; }
         .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
@@ -30,273 +19,42 @@
         .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
         .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
         .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
-        
-        /* NAV BUTTONS */
-        .nav-buttons {
-            padding: 10px 20px;
-            background: #f0f2f5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .nav-buttons a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
+        .nav-buttons { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
+        .nav-buttons a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
         .home-btn { color: white; background: #1877f2; }
-        
-        /* ABOUT CONTAINER */
-        .about-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-        
-        /* HERO */
-        .about-hero {
-            text-align: center;
-            padding: 50px 30px;
-            background: linear-gradient(135deg, #1877f2, #8b5cf6);
-            border-radius: 20px;
-            color: white;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(24, 119, 242, 0.3);
-        }
-        .about-hero h1 {
-            margin: 0 0 15px;
-            font-size: 42px;
-            font-weight: 800;
-        }
-        .about-hero p {
-            margin: 0;
-            font-size: 18px;
-            opacity: 0.95;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        /* SECTION */
-        .about-section {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        .about-section h2 {
-            margin: 0 0 20px;
-            font-size: 24px;
-            font-weight: 800;
-            color: #050505;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .about-section p {
-            font-size: 15px;
-            line-height: 1.7;
-            color: #333;
-            margin: 0 0 15px;
-        }
-        
-        /* FEATURES LIST */
-        .features-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .features-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            font-size: 15px;
-            line-height: 1.6;
-            border-bottom: 1px solid #f0f2f5;
-        }
-        .features-list li:last-child {
-            border-bottom: none;
-        }
-        .features-list .check {
-            color: #28a745;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-        
-        /* EARLY STAGE CARD */
-        .early-card {
-            background: linear-gradient(135deg, #ffd700, #f7b928);
-            border-radius: 16px;
-            padding: 30px;
-            color: #333;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 25px rgba(247, 185, 40, 0.4);
-        }
-        .early-card h3 {
-            margin: 0 0 15px;
-            font-size: 22px;
-            font-weight: 800;
-        }
-        .early-card p {
-            margin: 0 0 15px;
-            font-size: 15px;
-            line-height: 1.7;
-        }
-        .early-benefits {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .early-benefit {
-            background: rgba(255,255,255,0.5);
-            border-radius: 10px;
-            padding: 12px 15px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        /* MISSION */
-        .mission-card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            text-align: center;
-            border-left: 5px solid #1877f2;
-        }
-        .mission-card blockquote {
-            margin: 0;
-            font-size: 20px;
-            font-style: italic;
-            color: #1877f2;
-            font-weight: 600;
-            line-height: 1.6;
-        }
-        
-        /* FOUNDER */
-        .founder-card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-        .founder-avatar {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid #1877f2;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);
-        }
-        .founder-name {
-            font-size: 28px;
-            font-weight: 800;
-            margin: 0 0 5px;
-            color: #050505;
-        }
-        .founder-title {
-            font-size: 16px;
-            color: #65676b;
-            margin: 0 0 20px;
-        }
-        .founder-email {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #f0f2f5;
-            padding: 10px 20px;
-            border-radius: 25px;
-            color: #1877f2;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        .founder-email:hover {
-            background: #e7f3ff;
-            transform: translateY(-2px);
-        }
-        
-        /* CONTACT CTA */
-        .contact-cta {
-            background: linear-gradient(135deg, #28a745, #4facfe);
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            color: white;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
-        }
-        .contact-cta h3 {
-            margin: 0 0 15px;
-            font-size: 24px;
-            font-weight: 800;
-        }
-        .contact-cta p {
-            margin: 0 0 25px;
-            font-size: 15px;
-            opacity: 0.95;
-        }
-        .contact-cta a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            color: #28a745;
-            padding: 14px 30px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: 0.2s;
-        }
-        .contact-cta a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        
-        /* FOOTER */
-        footer {
-            background: white;
-            padding: 30px 20px;
-            text-align: center;
-            margin-top: 30px;
-            border-top: 1px solid #e4e6eb;
-        }
-        footer a {
-            color: #65676b;
-            text-decoration: none;
-            font-size: 14px;
-            margin: 0 10px;
-        }
-        footer a:hover {
-            color: #1877f2;
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 700px) {
-            .about-hero h1 { font-size: 28px; }
-            .about-hero p { font-size: 15px; }
-            .about-section { padding: 20px; }
-            .about-section h2 { font-size: 20px; }
-            .founder-avatar { width: 140px; height: 140px; }
-            .founder-name { font-size: 22px; }
-        }
+        .about-container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+        .about-hero { text-align: center; padding: 50px 30px; background: linear-gradient(135deg, #1877f2, #8b5cf6); border-radius: 20px; color: white; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(24, 119, 242, 0.3); }
+        .about-hero h1 { margin: 0 0 15px; font-size: 42px; font-weight: 800; }
+        .about-hero p { margin: 0; font-size: 18px; opacity: 0.95; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        .about-section { background: white; border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .about-section h2 { margin: 0 0 20px; font-size: 24px; font-weight: 800; color: #050505; display: flex; align-items: center; gap: 10px; }
+        .about-section p { font-size: 15px; line-height: 1.7; color: #333; margin: 0 0 15px; }
+        .features-list { list-style: none; padding: 0; margin: 0; }
+        .features-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; font-size: 15px; line-height: 1.6; border-bottom: 1px solid #f0f2f5; }
+        .features-list li:last-child { border-bottom: none; }
+        .features-list .check { color: #28a745; font-size: 20px; flex-shrink: 0; }
+        .early-card { background: linear-gradient(135deg, #ffd700, #f7b928); border-radius: 16px; padding: 30px; color: #333; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(247, 185, 40, 0.4); }
+        .early-card h3 { margin: 0 0 15px; font-size: 22px; font-weight: 800; }
+        .early-card p { margin: 0 0 15px; font-size: 15px; line-height: 1.7; }
+        .early-benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 20px; }
+        .early-benefit { background: rgba(255,255,255,0.5); border-radius: 10px; padding: 12px 15px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .mission-card { background: white; border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; border-left: 5px solid #1877f2; }
+        .mission-card blockquote { margin: 0; font-size: 20px; font-style: italic; color: #1877f2; font-weight: 600; line-height: 1.6; }
+        .founder-card { background: white; border-radius: 16px; padding: 40px 30px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; }
+        .founder-avatar { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 5px solid #1877f2; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3); }
+        .founder-name { font-size: 28px; font-weight: 800; margin: 0 0 5px; color: #050505; }
+        .founder-title { font-size: 16px; color: #65676b; margin: 0 0 20px; }
+        .founder-email { display: inline-flex; align-items: center; gap: 8px; background: #f0f2f5; padding: 10px 20px; border-radius: 25px; color: #1877f2; text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.2s; }
+        .founder-email:hover { background: #e7f3ff; transform: translateY(-2px); }
+        .contact-cta { background: linear-gradient(135deg, #28a745, #4facfe); border-radius: 16px; padding: 40px 30px; text-align: center; color: white; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3); }
+        .contact-cta h3 { margin: 0 0 15px; font-size: 24px; font-weight: 800; }
+        .contact-cta p { margin: 0 0 25px; font-size: 15px; opacity: 0.95; }
+        .contact-cta a { display: inline-flex; align-items: center; gap: 8px; background: white; color: #28a745; padding: 14px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px; transition: 0.2s; }
+        .contact-cta a:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        footer { background: white; padding: 30px 20px; text-align: center; margin-top: 30px; border-top: 1px solid #e4e6eb; }
+        footer a { color: #65676b; text-decoration: none; font-size: 14px; margin: 0 10px; }
+        footer a:hover { color: #1877f2; }
+        @media (max-width: 700px) { .about-hero h1 { font-size: 28px; } .about-hero p { font-size: 15px; } .about-section { padding: 20px; } .about-section h2 { font-size: 20px; } .founder-avatar { width: 140px; height: 140px; } .founder-name { font-size: 22px; } }
     </style>
 </head>
 <body>
@@ -318,13 +76,24 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
+            <!-- 🌐 قائمة اللغات -->
+            <div class="language-selector" style="position: relative;">
+                <button onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; left: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('vi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇻🇳 Tiếng Việt</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇩🇪 Deutsch</button>
+                </div>
+            </div>
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
         </div>
     </nav>
     
     <!-- BACK & HOME -->
     <div class="nav-buttons">
-        <a href="index.html" class="home-btn">🏠 Home</a>
+        <a href="index.html" class="home-btn">🏠 <span data-i18n="home">Home</span></a>
     </div>
 
     <!-- ABOUT CONTAINER -->
@@ -333,35 +102,35 @@
         <!-- HERO -->
         <div class="about-hero">
             <h1>📘 Wikidoogo</h1>
-            <p>منصة اجتماعية عربية جديدة تهدف إلى ربط الناس وتمكين المبدعين من الربح.</p>
+            <p data-i18n="about_hero_desc">منصة اجتماعية عربية جديدة تهدف إلى ربط الناس وتمكين المبدعين من الربح.</p>
         </div>
 
         <!-- WHO WE ARE -->
         <div class="about-section">
-            <h2>🎯 من نحن</h2>
-            <p>Wikidoogo هي منصة اجتماعية عربية تهدف إلى:</p>
+            <h2 data-i18n="who_we_are">🎯 من نحن</h2>
+            <p data-i18n="who_we_are_desc">Wikidoogo هي منصة اجتماعية عربية تهدف إلى:</p>
             <ul class="features-list">
-                <li><span class="check">✅</span> ربط الناس في مجتمع واحد</li>
-                <li><span class="check">✅</span> إتاحة فرص الربح من المحتوى</li>
-                <li><span class="check">✅</span> دعم المبدعين والمؤثرين</li>
-                <li><span class="check">✅</span> تجربة اجتماعية بلا إعلانات مزعجة</li>
+                <li><span class="check">✅</span> <span data-i18n="about_feat_1">ربط الناس في مجتمع واحد</span></li>
+                <li><span class="check">✅</span> <span data-i18n="about_feat_2">إتاحة فرص الربح من المحتوى</span></li>
+                <li><span class="check">✅</span> <span data-i18n="about_feat_3">دعم المبدعين والمؤثرين</span></li>
+                <li><span class="check">✅</span> <span data-i18n="about_feat_4">تجربة اجتماعية بلا إعلانات مزعجة</span></li>
             </ul>
         </div>
 
         <!-- EARLY STAGE -->
         <div class="early-card">
-            <h3>🚀 نحن في البداية</h3>
-            <p>Wikidoogo منصة جديدة في مراحلها الأولى. انضم إلينا الآن وكن جزءاً من التأسيس!</p>
+            <h3 data-i18n="early_stage_title">🚀 نحن في البداية</h3>
+            <p data-i18n="early_stage_desc">Wikidoogo منصة جديدة في مراحلها الأولى. انضم إلينا الآن وكن جزءاً من التأسيس!</p>
             <div class="early-benefits">
-                <div class="early-benefit">🎁 نقاط ترحيبية</div>
-                <div class="early-benefit">⭐ شارة مؤسس مبكر</div>
-                <div class="early-benefit">💡 تأثير على المنصة</div>
+                <div class="early-benefit" data-i18n="early_benefit_1">🎁 نقاط ترحيبية</div>
+                <div class="early-benefit" data-i18n="early_benefit_2">⭐ شارة مؤسس مبكر</div>
+                <div class="early-benefit" data-i18n="early_benefit_3">💡 تأثير على المنصة</div>
             </div>
         </div>
 
         <!-- MISSION -->
         <div class="mission-card">
-            <blockquote>
+            <blockquote data-i18n="mission_text">
                 "نؤمن بأن التواصل الاجتماعي حق للجميع.<br>
                 نعمل على بناء منصة عربية تفتخر بها."
             </blockquote>
@@ -371,7 +140,7 @@
         <div class="founder-card">
             <img src="images/storyimage.jpeg" alt="Wiki" class="founder-avatar">
             <h3 class="founder-name">Wiki</h3>
-            <p class="founder-title">مؤسس Wikidoogo</p>
+            <p class="founder-title" data-i18n="founder_title">مؤسس Wikidoogo</p>
             <a href="mailto:narinchdowik@gmail.com" class="founder-email">
                 📧 narinchdowik@gmail.com
             </a>
@@ -379,9 +148,9 @@
 
         <!-- CONTACT CTA -->
         <div class="contact-cta">
-            <h3>📞 تواصل معنا</h3>
-            <p>لأي استفسار، اقتراح، أو مشكلة — نحن هنا للمساعدة!</p>
-            <a href="contact.html">📧 اتصل بنا</a>
+            <h3 data-i18n="contact_us">📞 تواصل معنا</h3>
+            <p data-i18n="contact_desc">لأي استفسار، اقتراح، أو مشكلة — نحن هنا للمساعدة!</p>
+            <a href="contact.html" data-i18n="contact_btn">📧 اتصل بنا</a>
         </div>
 
     </div>
@@ -392,60 +161,50 @@
             <a href="index.html" style="color: #1877f2; text-decoration: none; font-weight: 700; font-size: 20px;">📘 Wikidoogo</a>
         </div>
         <div style="margin-bottom: 15px;">
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="terms.html">Terms</a>
-            <a href="privacy.html">Privacy</a>
+            <a href="about.html" data-i18n="footer_about">About</a>
+            <a href="contact.html" data-i18n="footer_contact">Contact</a>
+            <a href="terms.html" data-i18n="footer_terms">Terms</a>
+            <a href="privacy.html" data-i18n="footer_privacy">Privacy</a>
         </div>
-        <div style="color: #65676b; font-size: 12px;">
+        <div style="color: #65676b; font-size: 12px;" data-i18n="footer_rights">
             © 2026 Wikidoogo. All rights reserved.
         </div>
     </footer>
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/translations.js"></script>
     <script>
-        // Supabase setup
         const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
         const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // Logout
         async function logout() {
             await supabaseClient.auth.signOut();
             window.location.href = "auth.html";
         }
         
-        // Load user profile
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
                 if (!user) return;
-                
-                const { data: profile } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name, avatar_url')
-                    .eq('id', user.id)
-                    .single();
-                
+                const { data: profile } = await supabaseClient.from('profiles').select('username, full_name, avatar_url').eq('id', user.id).single();
                 const username = profile?.full_name || profile?.username || 'User';
                 const avatarUrl = profile?.avatar_url || `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
                 
                 const navProfileName = document.getElementById('navProfileName');
                 if (navProfileName) navProfileName.textContent = username;
-                
                 const navProfileImg = document.getElementById('navProfileImg');
                 if (navProfileImg) navProfileImg.src = avatarUrl;
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error('Error:', error); }
         }
         
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             loadUserProfile();
+            // ✅ تطبيق الترجمة فوراً عند تحميل الصفحة
+            if (typeof applyTranslations === 'function') {
+                applyTranslations();
+            }
         });
     </script>
 </body>
