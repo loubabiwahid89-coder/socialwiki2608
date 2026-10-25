@@ -13109,7 +13109,7 @@ const browserLangToSiteLang = {
     'tr': 'tr', 'hi': 'hi',
     'fil': 'fil',
     'tl': 'fil',
-    'vn': 'vn',
+    'vi': 'vi',
 };
 function detectBrowserLanguage() {
     try {
@@ -13170,6 +13170,7 @@ const countryToLanguage = {
     'KR': 'ko', 'KP': 'ko',
     'IN': 'hi', 'NP': 'hi', 'BD': 'hi', 'LK': 'hi', 'PK': 'hi',
     'PH': 'fil',
+    'VN': 'vi',
     // ✅ تم حذف 'TL': 'fil' لأن تيمور الشرقية ليست الفلبينية
 };
 
