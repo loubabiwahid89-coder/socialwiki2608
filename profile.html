@@ -784,14 +784,14 @@
     <div class="profile-container">
         <div class="profile-cover" id="coverContainer">
             <img src="https://ui-avatars.com/api/?name=Cover&background=1877f2&color=fff" class="cover-img" id="coverImg" alt="Cover" draggable="false">
-            <button class="cover-overlay" onclick="changeCover()">📷 <span data-i18n="change_cover">Change Cover</span></button>
+            <button class="cover-overlay" id="btnChangeCover" onclick="changeCover()">📷 <span data-i18n="change_cover">Change Cover</span></button>
         </div>
         
         <div class="profile-info" id="profileInfoBox">
             <div class="profile-avatar-wrapper">
                 <div class="profile-avatar" id="avatarContainer" style="position: relative;">
                     <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" class="avatar-img" id="avatarImg" alt="Avatar" draggable="false">
-                    <button class="avatar-overlay" onclick="changeAvatar()">📷 Change</button>
+                    <button class="avatar-overlay" id="btnChangeAvatar" onclick="changeAvatar()">📷 Change</button>
                     <div class="avatar-frame" id="activeFrame"></div>
                 </div>
             </div>
@@ -1056,7 +1056,25 @@
                 }
                 
                 document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+                                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+
+                // ✅ التحقق من الصلاحيات (واش أنا صاحب الحساب؟)
+                const isMyProfile = (String(currentUserId).trim() === String(profileUserId).trim());
                 
+                // جلب أزرار التغيير
+                const btnAvatar = document.getElementById('btnChangeAvatar');
+                const btnCover = document.getElementById('btnChangeCover');
+
+                if (!isMyProfile) {
+                    // إذا ماشي أنا، نخبي أزرار التغيير
+                    if (btnAvatar) btnAvatar.style.display = 'none';
+                    if (btnCover) btnCover.style.display = 'none';
+                } else {
+                    // إذا أنا، نخليهم يبانو
+                    if (btnAvatar) btnAvatar.style.display = 'block';
+                    if (btnCover) btnCover.style.display = 'flex'; 
+                }
+
                 const ownerBadgeEl = document.getElementById('ownerBadge');
                 const officialBadgeEl = document.getElementById('officialBadge');
                 const profileInfoBox = document.getElementById('profileInfoBox');
