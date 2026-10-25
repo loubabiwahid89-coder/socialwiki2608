@@ -237,6 +237,49 @@
 
 
 <header class="topbar">
+        <!-- ========================================== -->
+    <!-- ✅ NAVBAR + LANGUAGE MENU -->
+    <!-- ========================================== -->
+    <nav class="navbar" style="display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000;">
+        <div class="nav-left" style="display: flex; align-items: center; gap: 10px;">
+            <a href="index.html" class="logo" style="color: white; font-size: 24px; font-weight: 800; text-decoration: none;">📘 Wikidoogo</a>
+        </div>
+        <ul class="nav-icons" style="display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0;">
+            <li><a href="index.html" style="color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%;">🏠</a></li>
+            <li><a href="friends.html" style="color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%;">👥</a></li>
+            <li><a href="market-plus.html" style="color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%;">🛍️</a></li>
+            <li><a href="events.html" style="color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%;">📅</a></li>
+            <li><a href="notifications.html" style="color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%;">🔔</a></li>
+        </ul>
+        <div class="nav-right" style="display: flex; align-items: center; gap: 8px;">
+            <a href="profile.html" class="nav-profile" style="display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px;">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%;">
+                <span id="navProfileName">User</span>
+            </a>
+            <div class="language-selector" style="position: relative;">
+                <button id="languageButton" onclick="toggleLanguageMenu()" style="width: auto; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer; font-size: 14px; padding: 0 15px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; left: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 180px; max-height: 400px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇪🇸 Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇩🇪 Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇮🇹 Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇯🇵 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇨🇳 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇰🇷 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇷🇺 Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇹🇷 Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇮🇳 हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇵🇭 Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇵🇭 Tagalog</button>
+                    <button onclick="changeLanguage('am')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇪🇹 አማርኛ</button>
+                    <button onclick="changeLanguage('vi')" style="width: 100%; padding: 12px 15px; border: none; background: white; cursor: pointer; text-align: right; font-size: 14px;">🇻🇳 Tiếng Việt</button>
+                </div>
+            </div>
+            <button class="logout-button" onclick="logout()" style="background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px;">Logout</button>
+        </div>
+    </nav>
 
     <div class="logo">
         Social<span>Wiki</span>
@@ -944,6 +987,7 @@
 <script src="js/dark-mode.js"></script>
 <script src="js/monetag.js" data-cfasync="false"></script>
 <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
+
 </body>
 
 </html>
