@@ -1497,7 +1497,7 @@
         window.saveProfileChanges = saveProfileChanges;
         window.changeAvatar = changeAvatar;
         window.changeCover = changeCover;
-window.giveVerifiedSellerBadge = giveVerifiedSellerBadge;
+
         async function loadProfileCustomization(userId) {
             try {
                 const { data: active, error } = await supabaseClient.from('user_active_items').select('*').eq('user_id', userId).maybeSingle();
@@ -1665,8 +1665,7 @@ async function loadOldSpecialBadges(profile, userId) {
         badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid rgba(255,255,255,0.7); margin: 5px; animation: badgePulse 2s infinite;"><span style="font-size: 18px;">🏅</span><span>Early Founder</span></div>`;
     }
 
-       // 🛡️ شارة البايع الموثوق - Verified Seller
-       // 🛡️ شارة البايع الموثوق - Verified Seller
+          // 🛡️ شارة البايع الموثوق - Verified Seller
     if (profile?.special_badges && profile.special_badges.includes('verified_seller')) {
         badgesHTML += `
             <div class="seller-badge">
@@ -1676,7 +1675,6 @@ async function loadOldSpecialBadges(profile, userId) {
             </div>
         `;
     }
-
     if (badgesHTML) {
         badgesContainer.insertAdjacentHTML('beforeend', badgesHTML);
     }
