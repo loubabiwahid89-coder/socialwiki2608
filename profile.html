@@ -731,6 +731,29 @@
             50% { box-shadow: 0 6px 35px rgba(193, 39, 45, 0.9), 0 0 50px rgba(255, 215, 0, 0.5); }
         }
         @keyframes diamondQueen { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        /* 🛡️ شارة البايع الموثوق - Verified Seller */
+@keyframes sellerShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.seller-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #11998e, #38ef7d, #FFD700, #38ef7d, #11998e);
+    background-size: 300% 100%;
+    color: #ffffff;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 15px;
+    box-shadow: 0 6px 20px rgba(17, 153, 142, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    border: 3px solid #FFD700;
+    margin: 5px;
+    animation: sellerShine 3s infinite linear;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
@@ -902,6 +925,7 @@
                         <option value="IN">🇮🇳 India</option>
                         <option value="PH">🇵🇭 Philippines</option>
                         <option value="BD">🇧🇩 Bangladesh</option>
+                        <option value="CU">🇨🇺 Cuba</option>
                         <option value="OTHER">🌍 Other</option>
                     </select>
                 </div>
@@ -1473,7 +1497,7 @@
         window.saveProfileChanges = saveProfileChanges;
         window.changeAvatar = changeAvatar;
         window.changeCover = changeCover;
-
+window.giveVerifiedSellerBadge = giveVerifiedSellerBadge;
         async function loadProfileCustomization(userId) {
             try {
                 const { data: active, error } = await supabaseClient.from('user_active_items').select('*').eq('user_id', userId).maybeSingle();
@@ -1641,6 +1665,18 @@ async function loadOldSpecialBadges(profile, userId) {
         badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid rgba(255,255,255,0.7); margin: 5px; animation: badgePulse 2s infinite;"><span style="font-size: 18px;">🏅</span><span>Early Founder</span></div>`;
     }
 
+       // 🛡️ شارة البايع الموثوق - Verified Seller
+       // 🛡️ شارة البايع الموثوق - Verified Seller
+    if (profile?.special_badges && profile.special_badges.includes('verified_seller')) {
+        badgesHTML += `
+            <div class="seller-badge">
+                <span style="font-size: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛡️</span>
+                <span>${t('badge_verified_seller')}</span>
+                <span style="font-size: 20px;">💰</span>
+            </div>
+        `;
+    }
+
     if (badgesHTML) {
         badgesContainer.insertAdjacentHTML('beforeend', badgesHTML);
     }
@@ -1648,6 +1684,56 @@ async function loadOldSpecialBadges(profile, userId) {
 
 window.loadUserBadges = loadUserBadges;
 window.loadOldSpecialBadges = loadOldSpecialBadges;
+
+async function giveVerifiedSellerBadge() {
+    const userInput = prompt("أدخل اسم المستخدم (Username) أو الإيميل لإعطائه شارة 'بايع موتوق':");
+    if (!userInput) return;
+
+    try {
+        const { data: profile, error: searchError } = await supabaseClient
+            .from('profiles')
+            .select('id, special_badges, username, full_name')
+            .or(`username.eq.${userInput},email.eq.${userInput}`)
+            .single();
+
+        if (searchError || !profile) {
+            alert("❌ لم يتم العثور على المستخدم. تأكد من الاسم أو الإيميل.");
+            return;
+        }
+
+        let currentBadges = profile.special_badges || [];
+        if (!Array.isArray(currentBadges)) currentBadges = [];
+
+        if (currentBadges.includes('verified_seller')) {
+            alert("⚠️ هذا المستخدم يملك الشارة بالفعل!");
+            return;
+        }
+
+        currentBadges.push('verified_seller');
+
+        const { error: updateError } = await supabaseClient
+            .from('profiles')
+            .update({ special_badges: currentBadges })
+            .eq('id', profile.id);
+
+        if (updateError) throw updateError;
+
+        const { data: { user: adminUser } } = await supabaseClient.auth.getUser();
+        await supabaseClient.from('notifications').insert({
+            receiver_id: profile.id,
+            sender_id: adminUser.id,
+            type: 'badge_received',
+            message: `🛡️ مبروك! لقد حصلت على شارة "بايع موتوق" (Verified Seller) في Wikidoogo! 💰`,
+            is_read: false
+        });
+
+        alert(`✅ تم إعطاء شارة "بايع موتوق" بنجاح للمستخدم: ${profile.full_name || profile.username}`);
+
+    } catch (error) {
+        console.error(error);
+        alert("❌ خطأ: " + error.message);
+    }
+}
 </script>
 </body>
 </html>

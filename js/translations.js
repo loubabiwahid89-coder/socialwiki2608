@@ -868,6 +868,7 @@ const translations = {
         "withdraw_success": "✅ تم إرسال طلب السحب بنجاح!",
         "enter_phone": "الرجاء إدخال رقم الهاتف",
         "enter_bank_details": "الرجاء إدخال اسم البنك ورقم الحساب",
+        "badge_verified_seller": "بايع موتوق",
 
     },
 
@@ -13468,8 +13469,6 @@ const countryToLanguage = {
     'TR': 'tr', 'CY': 'tr',
     'RU': 'ru', 'BY': 'ru', 'KZ': 'ru', 'KG': 'ru', 'TJ': 'ru',
     'UZ': 'ru', 'AM': 'ru', 'AZ': 'ru', 'MD': 'ru',
-
-    // آسيا
     'JP': 'ja',
     'CN': 'zh', 'TW': 'zh', 'HK': 'zh', 'MO': 'zh', 'SG': 'zh',
     'KR': 'ko', 'KP': 'ko',
