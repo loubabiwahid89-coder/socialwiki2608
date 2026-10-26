@@ -16,8 +16,6 @@
         const nameEl = document.getElementById('navProfileName');
         const imgEl = document.getElementById('navProfileImg');
         if (!nameEl && !imgEl) return;
-        // إلا الصفحة ديجا عمرات الاسم بوحدها، ما نلمسوهاش
-        if (nameEl && nameEl.textContent.trim() !== 'User') return;
 
         try {
             await loadSupabaseLib();
