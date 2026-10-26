@@ -1559,53 +1559,74 @@ async function updateRole(userId, newRole) {
                 // =========================================================
         // ⭐ STARS TAB (Send Free & Real Stars)
         // =========================================================
-        async function loadStarsTab() {
-            const container = document.getElementById('dashboardContent');
-            container.innerHTML = `
-                <div style="padding: 20px;">
-                    <h2 style="margin: 0 0 20px 0;">⭐ Stars Management</h2>
-                    
-                    <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <h3 style="margin: 0 0 15px 0;">Send Stars to User</h3>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">User Email or ID</label>
-                                <input type="text" id="starUserId" placeholder="user@example.com or UUID" 
-                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
-                            </div>
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Number of Stars</label>
-                                <input type="number" id="starAmount" placeholder="e.g. 100" min="1"
-                                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Star Type</label>
-                            <select id="starType" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
-                                <option value="free">🌟 Free Stars (Gift/Reward - Not withdrawable)</option>
-                                <option value="real">💎 Real Stars (Paid - Withdrawable)</option>
-                            </select>
-                        </div>
-
-                        <button onclick="sendStarsToUser()" 
-                                style="background: #1877f2; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;">
-                            🚀 Send Stars
-                        </button>
+     async function loadStarsTab() {
+    const container = document.getElementById('dashboardContent');
+    container.innerHTML = `
+        <div style="padding: 20px;">
+            <h2 style="margin: 0 0 20px 0;">⭐ Stars Management</h2>
+            
+            <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="margin: 0 0 15px 0;">Send Stars to User</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">User Email or ID</label>
+                        <input type="text" id="starUserId" placeholder="user@example.com or UUID" 
+                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
                     </div>
-
-                    <div style="background: #e7f7e7; padding: 15px; border-radius: 12px; border-right: 4px solid #28a745;">
-                        <strong>💡 Note:</strong>
-                        <ul style="margin: 8px 0 0 0; padding-right: 20px; color: #65676b; font-size: 14px;">
-                            <li><strong>Free Stars:</strong> Use for gifts, badges, or rewards. Cannot be withdrawn as cash.</li>
-                            <li><strong>Real Stars:</strong> Use when a user pays you. They can be withdrawn or sent to creators.</li>
-                        </ul>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Number of Stars</label>
+                        <input type="number" id="starAmount" placeholder="e.g. 100" min="1"
+                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
                     </div>
                 </div>
-            `;
-        }
-        async function sendStarsToUser() {
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Star Type</label>
+                    <select id="starType" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+                        <option value="free">🌟 Free Stars (Gift/Reward - Not withdrawable)</option>
+                        <option value="real">💎 Real Stars (Paid - Withdrawable)</option>
+                    </select>
+                </div>
+
+                <button onclick="sendStarsToUser()" 
+                        style="background: #1877f2; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;">
+                    🚀 Send Stars
+                </button>
+            </div>
+
+            <div style="background: #e7f7e7; padding: 15px; border-radius: 12px; border-right: 4px solid #28a745;">
+                <strong>💡 Note:</strong>
+                <ul style="margin: 8px 0 0 0; padding-right: 20px; color: #65676b; font-size: 14px;">
+                    <li><strong>Free Stars:</strong> Use for gifts, badges, or rewards. Cannot be withdrawn as cash.</li>
+                    <li><strong>Real Stars:</strong> Use when a user pays you. They can be withdrawn or sent to creators.</li>
+                </ul>
+            </div>
+
+            <!-- 🇨🇺 إضافة شارة سفير كوبا -->
+            <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="margin: 0 0 15px 0;">🇨🇺 Cuba Ambassador Badge</h3>
+                <button onclick="giveCubaAmbassadorBadge()" 
+                        style="background: linear-gradient(135deg, #002A8F, #CF142B); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;">
+                    🇨🇺 Give Cuba Ambassador Badge
+                </button>
+            </div>
+                        <!-- 🇨🇺 إضافة شارة سفير كوبا -->
+            <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="margin: 0 0 15px 0;">🇨🇺 Cuba Ambassador Badge</h3>
+                <p style="color: #65676b; font-size: 14px; margin: 0 0 15px 0;">
+                    اكتب اسم المستخدم (Username) أو الإيميل لإعطائه شارة سفير كوبا.
+                </p>
+                <input type="text" id="cubaUserInput" placeholder="Username or Email" 
+                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box;">
+                <button onclick="giveCubaAmbassadorBadge()" 
+                        style="background: linear-gradient(135deg, #002A8F, #CF142B); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;">
+                    🇨🇺 Give Cuba Ambassador Badge
+                </button>
+            </div>
+        </div>
+    `;
+}c function sendStarsToUser() {
             const identifier = document.getElementById('starUserId').value.trim();
             const amount = parseInt(document.getElementById('starAmount').value);
             const type = document.getElementById('starType').value;
@@ -1682,8 +1703,62 @@ async function updateRole(userId, newRole) {
                 alert('❌ Error: ' + error.message);
             }
         }
+        async function giveCubaAmbassadorBadge() {
+    const userInput = document.getElementById('cubaUserInput').value.trim();
+    if (!userInput) {
+        alert("❌ الرجاء إدخال اسم المستخدم أو الإيميل أولاً.");
+        return;
+    }
+
+    try {
+        const { data: profile, error: searchError } = await supabaseClient
+            .from('profiles')
+            .select('id, special_badges, username, full_name')
+            .or(`username.eq.${userInput},email.eq.${userInput}`)
+            .single();
+
+        if (searchError || !profile) {
+            alert("❌ لم يتم العثور على المستخدم. تأكد من الاسم أو الإيميل.");
+            return;
+        }
+
+        let currentBadges = profile.special_badges || [];
+        if (!Array.isArray(currentBadges)) currentBadges = [];
+
+        if (currentBadges.includes('cuba_ambassador')) {
+            alert("⚠️ هذا المستخدم يملك الشارة بالفعل!");
+            return;
+        }
+
+        currentBadges.push('cuba_ambassador');
+
+        const { error: updateError } = await supabaseClient
+            .from('profiles')
+            .update({ special_badges: currentBadges })
+            .eq('id', profile.id);
+
+        if (updateError) throw updateError;
+
+        const { data: { user: adminUser } } = await supabaseClient.auth.getUser();
+        await supabaseClient.from('notifications').insert({
+            receiver_id: profile.id,
+            sender_id: adminUser.id,
+            type: 'badge_received',
+            message: `🇨🇺 مبروك! لقد حصلت على شارة "سفير كوبا" في Wikidoogo!`,
+            is_read: false
+        });
+
+        alert(`✅ تم إعطاء شارة "سفير كوبا" للمستخدم: ${profile.full_name || profile.username}`);
+        document.getElementById('cubaUserInput').value = '';
+
+    } catch (error) {
+        console.error(error);
+        alert("❌ خطأ: " + error.message);
+    }
+}
         window.loadStarsTab = loadStarsTab;
         window.sendStarsToUser = sendStarsToUser;
+        window.giveCubaAmbassadorBadge = giveCubaAmbassadorBadge;
 
                 // =========================================================
         // 🛒 ORDERS TAB (Manage Star Purchases)
