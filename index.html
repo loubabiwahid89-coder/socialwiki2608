@@ -3728,5 +3728,35 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
 <script src="js/stars-helper.js"></script>
 <script src="js/gifts-helper.js"></script>
     <script src="js/nav-user.js"></script>
+
+<!-- MOBILE-SIDEBARS-SAFE -->
+<script>
+(function () {
+    function overlay(cls, handler) {
+        let ov = document.querySelector('.' + cls);
+        if (!ov) {
+            ov = document.createElement('div');
+            ov.className = cls;
+            ov.style.cssText = 'display:none;position:fixed;inset:0;top:56px;background:rgba(0,0,0,.5);z-index:998;';
+            ov.onclick = handler;
+            document.body.appendChild(ov);
+        }
+        return ov;
+    }
+    window.toggleRightSidebar = function () {
+        const sb = document.querySelector('.right-sidebar');
+        if (!sb) return;
+        const open = sb.classList.toggle('mobile-open');
+        overlay('right-overlay', window.toggleRightSidebar).style.display = open ? 'block' : 'none';
+    };
+    window.toggleMobileSidebar = function () {
+        const sb = document.querySelector('.left-sidebar');
+        if (!sb) return;
+        const open = sb.classList.toggle('mobile-open');
+        document.body.classList.toggle('sidebar-open', open);
+        overlay('left-overlay', window.toggleMobileSidebar).style.display = open ? 'block' : 'none';
+    };
+})();
+</script>
 </body>
 </html>
