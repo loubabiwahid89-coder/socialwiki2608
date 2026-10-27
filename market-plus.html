@@ -837,7 +837,7 @@
                     .eq('id', productId)
                     .single();
                 
-                const productName = product?.name || 'Product';
+                const productName = product?.title || 'Product';
                 
                 const { error } = await supabaseClient
                     .from('product_orders')
