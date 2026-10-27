@@ -21,7 +21,8 @@
         'FR': { name: 'France',      flag: '🇫🇷', lat: 46.2276, lng: 2.2137,   flag_url: 'https://flagcdn.com/w40/fr.png' },
         'GB': { name: 'United Kingdom', flag:'🇬🇧', lat: 55.3781, lng: -3.4360, flag_url: 'https://flagcdn.com/w40/gb.png' },
         'DE': { name: 'Germany',     flag: '🇩🇪', lat: 51.1657, lng: 10.4515,  flag_url: 'https://flagcdn.com/w40/de.png' },
-        'ES': { name: 'Spain',       flag: '🇪🇸', lat: 40.4637, lng: -3.7492,  flag_url: 'https://flagcdn.com/w40/es.png' }
+                'ES': { name: 'Spain',       flag: '🇪🇸', lat: 40.4637, lng: -3.7492,  flag_url: 'https://flagcdn.com/w40/es.png' },
+        'CU': { name: 'Cuba',        flag: '🇨🇺', lat: 21.5218, lng: -77.7812, flag_url: 'https://flagcdn.com/w40/cu.png' },
         // أضف دولاً أخرى حسب حاجتك
     };
 
