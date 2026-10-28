@@ -1054,7 +1054,7 @@
             });
         }
         
-                          async function loadUserProfile(userId) {
+                                 async function loadUserProfile(userId) {
             try {
                 const { data: profile, error } = await supabaseClient
                     .from('profiles')
@@ -1080,7 +1080,7 @@
                     loadOldSpecialBadges(profile, userId);
                 }
 
-                // 🥇 عرض شارة البائع الموثوق
+                // 🥇 عرض شارة البائع الموثوق الذهبية الكبيرة
                 const uniqueGoldBadgeContainer = document.getElementById('userBadges');
                 if (uniqueGoldBadgeContainer) {
                     if (profile.badge_tier === 'verified_seller_ma') {
@@ -1149,44 +1149,6 @@
                 loadUserPosts(userId);
                 enableDragZoom('coverContainer', 'coverImg');
                 enableDragZoom('avatarContainer', 'avatarImg');
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-                // Country flag
-                if (profile?.country && profile.country.length === 2) {
-                    const nameEl = document.getElementById('profileName');
-                    if (nameEl) {
-                        const countryCode = profile.country.toLowerCase();
-                        const oldFlag = nameEl.parentElement.querySelector('.country-flag');
-                        if (oldFlag) oldFlag.remove();
-                        nameEl.insertAdjacentHTML('afterend', `
-                            <img src="https://flagcdn.com/w40/${countryCode}.png" 
-                                 class="country-flag"
-                                 style="width: 40px; height: 28px; margin-left: 10px; vertical-align: middle; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 2px solid white; display: inline-block;" 
-                                 alt="${profile.country}" title="${profile.country}" onerror="this.style.display='none'">
-                        `);
-                    }
-                }
-                
-                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
-
-                // ✅ التحقق من الصلاحيات
-                const isMyProfile = (String(currentUserId).trim() === String(profileUserId).trim());
-                
-                const btnAvatar = document.getElementById('btnChangeAvatar');
-                const btnCover = document.getElementById('btnChangeCover');
-
-                if (!isMyProfile) {
-                    if (btnAvatar) btnAvatar.style.display = 'none';
-                    if (btnCover) btnCover.style.display = 'none';
-                } else {
-                    if (btnAvatar) btnAvatar.style.display = 'block';
-                    if (btnCover) btnCover.style.display = 'flex'; 
-                }
-                
-                // ... (باقي الكود الخاص بك: تحديث الصور، العدادات، إلخ)
                 
             } catch (error) {
                 console.error('Error:', error);
