@@ -1451,7 +1451,7 @@
                 window.location.href = 'auth.html';
                 return;
             }
-            await loadProfile();
+            await loadUserProfile(profileUserId);
             await new Promise(resolve => setTimeout(resolve, 300));
             await checkFriendshipStatus();
             await loadProfileCustomization(profileUserId);
