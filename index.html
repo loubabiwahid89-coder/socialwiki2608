@@ -1246,7 +1246,7 @@ loadPosts();  // ✅ أسرع بكثير
         window.uploadPostImage = function() {
             const input = document.createElement('input');
             input.type = 'file';
-            iinput.accept = 'image/*,video/*';
+            input.accept = 'image/*,video/*';
             input.onchange = async function(e) {
                 const file = e.target.files[0];
                 if (file) {
