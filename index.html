@@ -1246,7 +1246,7 @@ loadPosts();  // ✅ أسرع بكثير
         window.uploadPostImage = function() {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = 'image/*';
+            iinput.accept = 'image/*,video/*';
             input.onchange = async function(e) {
                 const file = e.target.files[0];
                 if (file) {
@@ -1303,7 +1303,7 @@ window.uploadPostVideo = async function() {
         // ✅ تحقق من نوع الملف (type أو امتداد)
         const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'm4v'];
         const fileExt = (file.name.split('.').pop() || '').toLowerCase();
-        const isVideo = file.type.startsWith('video/') || videoExtensions.includes(fileExt);
+        const isVideo = (file.type && file.type.startsWith('video/')) || videoExtensions.includes(fileExt) || file.name.toLowerCase().endsWith('.mov');
         
         if (!isVideo) {
             alert('❌ الملف ليس فيديو. الصيغ المدعومة: MP4, WebM, MOV');
