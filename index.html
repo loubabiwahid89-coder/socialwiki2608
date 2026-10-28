@@ -1079,7 +1079,7 @@ document.addEventListener('click', function(e) {
                 if (!user) return;
                 const { data: profile } = await window.supabaseClient
                     .from('profiles')
-                    .select('username, full_name, avatar_url, role')
+                    .select('username, full_name, avatar_url, role, badge_tier')
                     .eq('id', user.id).single();
                 const displayName = profile?.full_name || profile?.username || 'User';
                 const username = profile?.username || 'User';
