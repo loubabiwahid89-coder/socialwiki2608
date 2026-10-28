@@ -1112,16 +1112,7 @@
                 }
                 }
 
-                // ✅ عرض شارة البائع الموثوق (badge_tier) من قاعدة البيانات
-const userBadgesContainer = document.getElementById('userBadges');
-if (userBadgesContainer && profile.badge_tier === 'verified_seller_ma') {
-    const goldBadgeHTML = `
-        <div class="badge-gold-seller" title="Verified Seller from Morocco">
-            🇲🇦 بائع موثوق
-        </div>
-    `;
-    newGoldBadgeContainer.insertAdjacentHTML('beforeend', goldBadgeHTML);
-}
+              
 
                 // 🥇 [جديد] عرض شارة البائع الموثوق الذهبية الكبيرة (badge_tier)
                 const userBadgesContainer = document.getElementById('userBadges');
