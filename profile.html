@@ -1073,7 +1073,7 @@
                 document.getElementById('profileUsername').textContent = '@' + username;
                 
                 if (typeof loadUserBadges === 'function') {
-                    loadUserBadges(userId);
+                    await loadUserBadges(userId);
                 }
                 
                 if (typeof loadOldSpecialBadges === 'function') {
