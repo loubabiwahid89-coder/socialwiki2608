@@ -1102,12 +1102,12 @@
                 if (typeof loadOldSpecialBadges === 'function') {
                     loadOldSpecialBadges(profile, userId);
                 // 🥇 عرض شارة البائع الموثوق الذهبية الكبيرة (badge_tier)
-                const userBadgesContainer = document.getElementById("userBadges");
+                const newGoldBadgeContainer = document.getElementById("userBadges");
                 if (userBadgesContainer) {
                     if (profile.badge_tier === "verified_seller_ma") {
-                        userBadgesContainer.insertAdjacentHTML("beforeend", `<div class="badge-gold-seller" title="Verified Seller from Morocco">🇲🇦 بائع موثوق</div>`);
+                        newGoldBadgeContainer.insertAdjacentHTML("beforeend", `<div class="badge-gold-seller" title="Verified Seller from Morocco">🇲🇦 بائع موثوق</div>`);
                     } else if (profile.badge_tier === "verified_seller_cu") {
-                        userBadgesContainer.insertAdjacentHTML("beforeend", `<div class="badge-gold-seller" style="background: linear-gradient(135deg, #0055A4, #EF4135, #0055A4); color: white; border-color: #fff;" title="Verified Seller from Cuba">🇨🇺 بائع موثوق</div>`);
+                        newGoldBadgeContainer.insertAdjacentHTML("beforeend", `<div class="badge-gold-seller" style="background: linear-gradient(135deg, #0055A4, #EF4135, #0055A4); color: white; border-color: #fff;" title="Verified Seller from Cuba">🇨🇺 بائع موثوق</div>`);
                     }
                 }
                 }
@@ -1120,20 +1120,20 @@ if (userBadgesContainer && profile.badge_tier === 'verified_seller_ma') {
             🇲🇦 بائع موثوق
         </div>
     `;
-    userBadgesContainer.insertAdjacentHTML('beforeend', goldBadgeHTML);
+    newGoldBadgeContainer.insertAdjacentHTML('beforeend', goldBadgeHTML);
 }
 
                 // 🥇 [جديد] عرض شارة البائع الموثوق الذهبية الكبيرة (badge_tier)
                 const userBadgesContainer = document.getElementById('userBadges');
                 if (userBadgesContainer) {
                     if (profile.badge_tier === 'verified_seller_ma') {
-                        userBadgesContainer.insertAdjacentHTML('beforeend', `
+                        newGoldBadgeContainer.insertAdjacentHTML('beforeend', `
                             <div class="badge-gold-seller" title="Verified Seller from Morocco">
                                 🇲🇦 بائع موثوق
                             </div>
                         `);
                     } else if (profile.badge_tier === 'verified_seller_cu') {
-                        userBadgesContainer.insertAdjacentHTML('beforeend', `
+                        newGoldBadgeContainer.insertAdjacentHTML('beforeend', `
                             <div class="badge-gold-seller" style="background: linear-gradient(135deg, #0055A4, #EF4135, #0055A4); color: white; border-color: #fff;" title="Verified Seller from Cuba">
                                 🇨🇺 بائع موثوق
                             </div>
