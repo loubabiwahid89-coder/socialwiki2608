@@ -754,6 +754,46 @@
     animation: sellerShine 3s infinite linear;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
+
+/* 🥇 شارة البائع الموثوق - ذهبية كبيرة */
+.badge-gold-seller {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+    color: #333;
+    border-radius: 30px;
+    font-weight: 900;
+    font-size: 16px;
+    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8);
+    border: 3px solid #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: goldPulse 2s infinite;
+    margin: 5px;
+}
+
+@keyframes goldPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
+        /* 🥇 شارة البائع الموثوق - ذهبية كبيرة */
+        .badge-gold-seller {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px 25px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+            color: #333; border-radius: 30px; font-weight: 900; font-size: 16px;
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            border: 3px solid #fff; text-transform: uppercase; letter-spacing: 1px;
+            animation: goldPulse 2s infinite; margin: 5px;
+        }
+        @keyframes goldPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
     </style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
@@ -1053,8 +1093,7 @@
                 
                 document.getElementById('profileName').textContent = fullName;
                 document.getElementById('profileUsername').textContent = '@' + username;
-                
-                // Load user badges from Dashboard
+               // Load user badges from Dashboard
                 if (typeof loadUserBadges === 'function') {
                     loadUserBadges(userId);
                 }
@@ -1062,6 +1101,44 @@
                 // ✅ تصحيح: تحميل الشارات الخاصة (الملك، السفراء، الخ)
                 if (typeof loadOldSpecialBadges === 'function') {
                     loadOldSpecialBadges(profile, userId);
+                // 🥇 عرض شارة البائع الموثوق الذهبية الكبيرة (badge_tier)
+                const userBadgesContainer = document.getElementById("userBadges");
+                if (userBadgesContainer) {
+                    if (profile.badge_tier === "verified_seller_ma") {
+                        userBadgesContainer.insertAdjacentHTML("beforeend", `<div class="badge-gold-seller" title="Verified Seller from Morocco">🇲🇦 بائع موثوق</div>`);
+                    } else if (profile.badge_tier === "verified_seller_cu") {
+                        userBadgesContainer.insertAdjacentHTML("beforeend", `<div class="badge-gold-seller" style="background: linear-gradient(135deg, #0055A4, #EF4135, #0055A4); color: white; border-color: #fff;" title="Verified Seller from Cuba">🇨🇺 بائع موثوق</div>`);
+                    }
+                }
+                }
+
+                // ✅ عرض شارة البائع الموثوق (badge_tier) من قاعدة البيانات
+const userBadgesContainer = document.getElementById('userBadges');
+if (userBadgesContainer && profile.badge_tier === 'verified_seller_ma') {
+    const goldBadgeHTML = `
+        <div class="badge-gold-seller" title="Verified Seller from Morocco">
+            🇲🇦 بائع موثوق
+        </div>
+    `;
+    userBadgesContainer.insertAdjacentHTML('beforeend', goldBadgeHTML);
+}
+
+                // 🥇 [جديد] عرض شارة البائع الموثوق الذهبية الكبيرة (badge_tier)
+                const userBadgesContainer = document.getElementById('userBadges');
+                if (userBadgesContainer) {
+                    if (profile.badge_tier === 'verified_seller_ma') {
+                        userBadgesContainer.insertAdjacentHTML('beforeend', `
+                            <div class="badge-gold-seller" title="Verified Seller from Morocco">
+                                🇲🇦 بائع موثوق
+                            </div>
+                        `);
+                    } else if (profile.badge_tier === 'verified_seller_cu') {
+                        userBadgesContainer.insertAdjacentHTML('beforeend', `
+                            <div class="badge-gold-seller" style="background: linear-gradient(135deg, #0055A4, #EF4135, #0055A4); color: white; border-color: #fff;" title="Verified Seller from Cuba">
+                                🇨🇺 بائع موثوق
+                            </div>
+                        `);
+                    }
                 }
 
                 // Country flag
@@ -1081,7 +1158,6 @@
                 }
                 
                 document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
-                                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
 
                 // ✅ التحقق من الصلاحيات (واش أنا صاحب الحساب؟)
                 const isMyProfile = (String(currentUserId).trim() === String(profileUserId).trim());
@@ -1099,7 +1175,6 @@
                     if (btnAvatar) btnAvatar.style.display = 'block';
                     if (btnCover) btnCover.style.display = 'flex'; 
                 }
-
                 const ownerBadgeEl = document.getElementById('ownerBadge');
                 const officialBadgeEl = document.getElementById('officialBadge');
                 const profileInfoBox = document.getElementById('profileInfoBox');
