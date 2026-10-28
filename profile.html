@@ -1054,7 +1054,7 @@
             });
         }
         
-              async function loadUserProfile(userId) {
+                     async function loadUserProfile(userId) {
             try {
                 const { data: profile, error } = await supabaseClient
                     .from('profiles')
@@ -1072,17 +1072,15 @@
                 document.getElementById('profileName').textContent = fullName;
                 document.getElementById('profileUsername').textContent = '@' + username;
                 
-                // Load user badges from Dashboard
                 if (typeof loadUserBadges === 'function') {
                     loadUserBadges(userId);
                 }
                 
-                // ✅ تصحيح: تحميل الشارات الخاصة (الملك، السفراء، الخ)
                 if (typeof loadOldSpecialBadges === 'function') {
                     loadOldSpecialBadges(profile, userId);
                 }
 
-                // 🥇 عرض شارة البائع الموثوق الذهبية الكبيرة (نسخة واحدة فقط)
+                // 🥇 عرض شارة البائع الموثوق
                 const uniqueGoldBadgeContainer = document.getElementById('userBadges');
                 if (uniqueGoldBadgeContainer) {
                     if (profile.badge_tier === 'verified_seller_ma') {
@@ -1100,6 +1098,62 @@
                     }
                 }
 
+                if (profile?.country && profile.country.length === 2) {
+                    const nameEl = document.getElementById('profileName');
+                    if (nameEl) {
+                        const countryCode = profile.country.toLowerCase();
+                        const oldFlag = nameEl.parentElement.querySelector('.country-flag');
+                        if (oldFlag) oldFlag.remove();
+                        nameEl.insertAdjacentHTML('afterend', `
+                            <img src="https://flagcdn.com/w40/${countryCode}.png" 
+                                 class="country-flag"
+                                 style="width: 40px; height: 28px; margin-left: 10px; vertical-align: middle; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 2px solid white; display: inline-block;" 
+                                 alt="${profile.country}" title="${profile.country}" onerror="this.style.display='none'">
+                        `);
+                    }
+                }
+                
+                document.getElementById('profileBio').textContent = profile?.bio || 'Welcome to my profile!';
+
+                const isMyProfile = (String(currentUserId).trim() === String(profileUserId).trim());
+                const btnAvatar = document.getElementById('btnChangeAvatar');
+                const btnCover = document.getElementById('btnChangeCover');
+
+                if (!isMyProfile) {
+                    if (btnAvatar) btnAvatar.style.display = 'none';
+                    if (btnCover) btnCover.style.display = 'none';
+                } else {
+                    if (btnAvatar) btnAvatar.style.display = 'block';
+                    if (btnCover) btnCover.style.display = 'flex'; 
+                }
+                
+                document.getElementById('avatarImg').src = avatarUrl;
+                document.getElementById('coverImg').src = coverUrl;
+
+                if (currentUserId) {
+                    const { data: navProfile } = await supabaseClient.from('profiles').select('username, full_name, avatar_url').eq('id', currentUserId).single();
+                    if (navProfile) {
+                        const navName = navProfile.full_name || navProfile.username || 'User';
+                        const navAvatar = navProfile.avatar_url || `https://ui-avatars.com/api/?name=${navProfile.username}&background=1877f2&color=fff`;
+                        if (document.getElementById('navProfileName')) document.getElementById('navProfileName').textContent = navName;
+                        if (document.getElementById('navProfileImg')) document.getElementById('navProfileImg').src = navAvatar;
+                    }
+                }
+                
+                const { count: postsCount } = await supabaseClient.from('posts').select('id', { count: 'exact', head: true }).eq('user_id', userId);
+                document.getElementById('postsCount').textContent = postsCount || 0;
+                
+                const { count: friendsCount } = await supabaseClient.from('friends').select('id', { count: 'exact', head: true }).eq('user_id', userId);
+                document.getElementById('friendsCount').textContent = friendsCount || 0;
+                
+                loadUserPosts(userId);
+                enableDragZoom('coverContainer', 'coverImg');
+                enableDragZoom('avatarContainer', 'avatarImg');
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
                 // Country flag
                 if (profile?.country && profile.country.length === 2) {
                     const nameEl = document.getElementById('profileName');
