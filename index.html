@@ -1998,7 +1998,7 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                     
                           // ✅ إعلان Monetag Vignette بعد كل 3 منشورات (طريقة آمنة)
 window._postCounter = (window._postCounter || 0) + 1;
-if (window._postCounter % 3 === 0) {
+if (window._postCounter === 3 && !window._vignetteLoaded) { window._vignetteLoaded = true;
     const adDiv = document.createElement('div');
     adDiv.style.cssText = 'text-align: center; margin: 20px 0; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
     
