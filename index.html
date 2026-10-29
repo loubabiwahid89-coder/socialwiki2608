@@ -1243,30 +1243,68 @@ loadPosts();  // ✅ أسرع بكثير
         };
 
         window.uploadedImageUrl = null;
-        window.uploadPostImage = function() {
+                window.uploadPostImage = function() {
             const input = document.createElement('input');
             input.type = 'file';
+            // ✅ يقبل الصور والفيديوهات معاً
             input.accept = 'image/*,video/*';
             input.onchange = async function(e) {
                 const file = e.target.files[0];
-                if (file) {
-                    try {
-                        const { data: { user } } = await window.supabaseClient.auth.getUser();
-                        if (!user) { alert('Please login first!'); return; }
+                if (!file) return;
+
+                // التحقق مما إذا كان الملف فيديو أم صورة
+                const isVideo = file.type.startsWith('video/') || file.name.toLowerCase().endsWith('.mov') || file.name.toLowerCase().endsWith('.mp4');
+
+                try {
+                    const { data: { user } } = await window.supabaseClient.auth.getUser();
+                    if (!user) { alert('Please login first!'); return; }
+
+                    if (isVideo) {
+                        // ✅ إذا كان فيديو: نرفعه إلى مجلد post-videos (مثل دالة الفيديو)
+                        const fileExt = file.name.split('.').pop().toLowerCase();
+                        const fileName = `posts/${user.id}/${Date.now()}.${fileExt}`;
+                        
+                        // عرض رسالة تحميل للفيديو
+                        const loadingMsg = document.createElement('div');
+                        loadingMsg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1877f2;color:white;padding:15px 25px;border-radius:10px;z-index:99999;font-weight:bold;';
+                        loadingMsg.innerText = '⏳ جاري رفع الفيديو...';
+                        document.body.appendChild(loadingMsg);
+
+                        const { error: upErr } = await window.supabaseClient.storage.from('post-videos').upload(fileName, file);
+                        if (upErr) { alert('Error: ' + upErr.message); loadingMsg.remove(); return; }
+                        
+                        const { data: urlData } = window.supabaseClient.storage.from('post-videos').getPublicUrl(fileName);
+                        window.uploadedVideoUrl = urlData.publicUrl; // نحفظه في متغير الفيديو
+                        
+                        document.getElementById('videoPreviewArea').innerHTML = `
+                            <div id="videoPreviewWrapper" style="position:relative;margin:10px 0;">
+                                <video src="${urlData.publicUrl}" controls style="width:100%;max-height:300px;border-radius:8px;background:#000;"></video>
+                                <button onclick="removeVideoPreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;">✕</button>
+                            </div>
+                        `;
+                        loadingMsg.remove();
+                        alert('✅ Video ready! Click Post.');
+
+                    } else {
+                        // ✅ إذا كان صورة: نرفعها إلى مجلد product-images
                         const fileName = `posts/${user.id}/${Date.now()}.${file.name.split('.').pop()}`;
                         const { error: upErr } = await window.supabaseClient.storage.from('product-images').upload(fileName, file);
                         if (upErr) { alert('Error: ' + upErr.message); return; }
+                        
                         const { data: urlData } = window.supabaseClient.storage.from('product-images').getPublicUrl(fileName);
-                        window.uploadedImageUrl = urlData.publicUrl;
-                        const previewArea = document.getElementById('imagePreviewArea');
-                        if (previewArea) {
-                            previewArea.innerHTML = `<div style="position:relative;margin:10px 0;">
+                        window.uploadedImageUrl = urlData.publicUrl; // نحفظه في متغير الصورة
+                        
+                        document.getElementById('imagePreviewArea').innerHTML = `
+                            <div style="position:relative;margin:10px 0;">
                                 <img src="${urlData.publicUrl}" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;">
-                                <button onclick="removeImagePreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;">✕</button>
-                            </div>`;
-                        }
+                                <button onclick="removeImagePreview()" style="position:absolute;top:8px;right:8px;background:#f44336;color:white;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;">✕</button>
+                            </div>
+                        `;
                         alert('✅ Image ready! Click Post.');
-                    } catch (error) { console.error('Error:', error); }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error: ' + error.message);
                 }
             };
             input.click();
