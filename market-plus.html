@@ -924,7 +924,7 @@ async function displayProducts(products) {  // 👈 أضفنا async هنا
             document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
         });
 
-        // دالة التعديل
+       // دالة التعديل
 async function editProduct(productId) {
     // 1. جلب بيانات المنتج من قاعدة البيانات
     const { data: product, error } = await supabaseClient
@@ -938,15 +938,23 @@ async function editProduct(productId) {
         return;
     }
 
-    // 2. طلب البيانات الجديدة (باستخدام prompt للتبسيط)
+    // 2. طلب البيانات الجديدة
     const newTitle = prompt("Edit Product Title:", product.title || product.name);
-    if (newTitle === null) return; // إذا ضغط المستخدم إلغاء
+    if (newTitle === null) return; 
 
     const newPrice = prompt("Edit Price:", product.price);
     if (newPrice === null) return;
 
+    // 👈 إضافة جديدة: تعديل العملة
+    const newCurrency = prompt("Edit Currency (MAD, EUR, USD):", product.currency || 'MAD');
+    if (newCurrency === null) return;
+
     const newDesc = prompt("Edit Description:", product.description);
     if (newDesc === null) return;
+
+    // 👈 طلب رابط الصورة أو الفيديو
+    const newMediaUrl = prompt("Paste new Image/Video URL (leave empty to keep current):", product.media_url || "");
+    if (newMediaUrl === null) return;
 
     // 3. تحديث قاعدة البيانات
     const { error: updateError } = await supabaseClient
@@ -954,7 +962,9 @@ async function editProduct(productId) {
         .update({
             title: newTitle,
             price: parseFloat(newPrice),
-            description: newDesc
+            description: newDesc,
+            currency: newCurrency.toUpperCase(), // تحويل الحروف لكبيرة لضمان التطابق
+            media_url: newMediaUrl.trim() !== "" ? newMediaUrl.trim() : product.media_url 
         })
         .eq('id', productId);
 
@@ -962,7 +972,7 @@ async function editProduct(productId) {
         alert('❌ Error updating: ' + updateError.message);
     } else {
         alert('✅ Product updated successfully!');
-        window.location.reload(); // إعادة تحميل الصفحة لرؤية التغييرات
+        window.location.reload(); 
     }
 }
 
