@@ -538,6 +538,7 @@
         async function loadUserProfile() {
             try {
                 const { data: { user } } = await supabaseClient.auth.getUser();
+                let currentUser = user; // 👈 أضف هذا السطر
                 
                 if (!user) return;
                 
