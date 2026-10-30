@@ -9,7 +9,7 @@ window.translatePost = async function (btn) {
     return;
   }
   const lang = localStorage.getItem('socialwiki_lang') || 'en';
-  const tl = ({ zh: 'zh-CN', fil: 'tl' })[lang] || lang;
+  const tl = 'en';
   const original = box.textContent;
   btn.textContent = '⏳';
   try {
