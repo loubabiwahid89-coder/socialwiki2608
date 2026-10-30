@@ -28,7 +28,7 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#1877f2;color:#ff
 <h2>Partner Dashboard</h2>
 <p>Your referral link:</p>
 <div class="row"><input class="link" id="refLink" readonly><button onclick="copyRef()">Copy</button></div>
-<p style="color:#65676b">Stats, tasks and commissions: coming soon.</p>
+<div class="row" style="margin-top:12px"><div class="p"><div><div style="font-size:24px;font-weight:700" id="stRef">0</div>Referrals</div></div><div class="p"><div><div style="font-size:24px;font-weight:700" id="stPts">0</div>Points earned</div></div></div><p style="color:#65676b">Tasks and commissions: coming soon.</p>
 </div>
 <div class="card"><h1>Our Partners</h1><div class="grid" id="list">Loading...</div></div>
 </div>
@@ -36,6 +36,7 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#1877f2;color:#ff
 const sb = window.supabase.createClient("https://zcffrkvxmxvojkbmtufe.supabase.co", "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG");
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
 function copyRef(){var i=document.getElementById('refLink');i.select();document.execCommand('copy');alert('Copied!');}
+async function loadDash(uid){const pf=await sb.from('profiles').select('referral_code').eq('id',uid).single();const code=pf.data&&pf.data.referral_code;document.getElementById('refLink').value=code?'https://wikidoogo.com/auth.html?ref='+code:'No referral code yet';const rf=await sb.from('referrals').select('points_awarded').eq('referrer_id',uid);const rows=rf.data||[];document.getElementById('stRef').textContent=rows.length;document.getElementById('stPts').textContent=rows.reduce(function(t,r){return t+(r.points_awarded||0);},0);}
 (async function(){
   const list=document.getElementById('list');
   const pr=await sb.from('partners').select('user_id,referral_code').eq('status','active');
@@ -51,7 +52,7 @@ function copyRef(){var i=document.getElementById('refLink');i.select();document.
   const me=await sb.auth.getUser();
   const uid=me.data&&me.data.user?me.data.user.id:null;
   const mine=partners.find(function(p){return p.user_id===uid;});
-  if(mine){document.getElementById('dash').style.display='block';document.getElementById('refLink').value='https://wikidoogo.com/auth.html?ref='+mine.referral_code;}
+  if(mine){document.getElementById('dash').style.display='block';loadDash(uid);}
 })();
 </script>
 </body>
