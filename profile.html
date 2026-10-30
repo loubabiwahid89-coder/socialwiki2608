@@ -757,6 +757,7 @@
 
 /* 🥇 شارة البائع الموثوق - ذهبية كبيرة */
 /* SELLER-ANIM-V2 */
+#userBadges .badge-sway{animation:sellerSway 3s ease-in-out infinite!important;}
 #userBadges .badge-seller,#userBadges .badge-gold-seller{background:linear-gradient(90deg,#8B00FF,#C1272D,#1DA1F2,#00FF88,#FFD700,#8B00FF)!important;background-size:300% 100%!important;color:#fff!important;font-weight:900!important;font-size:17px!important;border:3px solid rgba(255,255,255,.7)!important;border-radius:30px!important;text-shadow:0 2px 6px rgba(0,0,0,.6)!important;box-shadow:0 6px 25px rgba(139,0,255,.5)!important;animation:sellerRainbow 4s linear infinite!important;}
 #userBadges .badge-seller{background:linear-gradient(120deg,#b8860b,#ffd700,#fff4b0,#ffd700,#b8860b)!important;background-size:250% 100%!important;color:#3a2600!important;text-shadow:0 1px 0 rgba(255,255,255,.5)!important;border:3px solid #fff3b0!important;animation:sellerSway 3s ease-in-out infinite,sellerShine 2.5s linear infinite,sellerPulse 1.8s ease-in-out infinite!important;}
 @keyframes sellerSway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
@@ -1586,7 +1587,7 @@ async function loadUserBadges(userId) {
             const bg = BADGE_COLORS[b.badge_color] || BADGE_COLORS['blue'];
             const border = BADGE_BORDERS[b.badge_color] || 'none';
             return `
-                <span class="${b.badge_color==='seller'?'badge-seller':''}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-weight:700;font-size:13px;color:white;background:${bg};border:${border};box-shadow:0 3px 10px rgba(0,0,0,0.18);">
+                <span class="${b.badge_color==='seller'?'badge-seller':((b.badge_key||'').startsWith('king')?'badge-sway':'')}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-weight:700;font-size:13px;color:white;background:${bg};border:${border};box-shadow:0 3px 10px rgba(0,0,0,0.18);">
                     <span>${b.badge_icon || '🏅'}</span>
                     <span>${b.badge_label}</span>
                     ${b.country_code ? flagImg(b.country_code, 20) : ''}
