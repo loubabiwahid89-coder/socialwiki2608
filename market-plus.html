@@ -652,7 +652,7 @@ async function displayProducts(products) {  // 👈 أضفنا async هنا
                 <div class="product-description">${escapeHtml(product.description || '')}</div>
                 <div class="product-actions">
                     <button class="buy-btn" onclick="buyProduct('${product.id}')">Buy Now</button>
-                    <button class="msg-btn" onclick="contactSeller('${product.user_id}')">💬</button>
+                    <button class="contact-btn" onclick="contactSeller('${product.user_id}')" style="flex: 1; background: #e4e6eb; color: black; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">Contact Seller</button>
                     
                     <!-- ✅ تظهر فقط إذا كان المستخدم الحالي هو صاحب المنتج -->
                     ${isOwner ? `
