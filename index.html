@@ -2020,6 +2020,7 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
                                 👍 ${post.likes_count || 0}
                             </button>
                             <button class="feed-action" onclick="commentPost('${post.id}')">💬 Comment</button>
+                            <button class="feed-action" onclick="translatePost(this)">🌐 ${t('translate_post')}</button>
                             <button class="feed-action" onclick="sharePost('${post.id}')">↗️ Share</button>
                             
                             <!-- ✅ زر إرسال النجمة (مدفوعة) -->
@@ -3950,5 +3951,6 @@ window.deletePost = async function(postId, imageUrl, videoUrl) {
     window.toggleRightSidebar  = function () { openDrawer('right', '.right-sidebar'); };
 })();
 </script>
+<script src="js/translate-post.js"></script>
 </body>
 </html>
