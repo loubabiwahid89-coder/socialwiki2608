@@ -7,9 +7,21 @@ window.loadPartnersTab = async function () {
   if (r.error) { el.textContent = 'Error: ' + r.error.message; return; }
   if (!r.data || !r.data.length) { el.textContent = 'No partners yet.'; return; }
   const esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
-  let h = '<table style="width:100%;border-collapse:collapse"><tr style="text-align:left"><th>Partner</th><th>Referrals</th><th>Points</th></tr>';
+  let h = '<table style="width:100%;border-collapse:collapse"><tr style="text-align:left"><th>Partner</th><th>Referrals</th><th>Points</th><th>Percent %</th><th>Commission (pts)</th><th></th></tr>';
   r.data.forEach(function (x) {
-    h += '<tr style="border-top:1px solid #ddd"><td style="padding:10px 0"><a href="profile.html?id=' + x.user_id + '">' + esc(x.username) + '</a></td><td>' + x.ref_count + '</td><td>' + x.pts + '</td></tr>';
+    const com = Math.round(Number(x.pts) * Number(x.pct) / 100);
+    h += '<tr style="border-top:1px solid #ddd"><td style="padding:10px 0"><a href="profile.html?id=' + x.user_id + '">' + esc(x.username) + '</a></td><td>' + x.ref_count + '</td><td>' + x.pts + '</td>'
+      + '<td><input id="pct_' + x.user_id + '" type="number" min="0" max="100" step="0.5" value="' + x.pct + '" style="width:70px;padding:4px"></td>'
+      + '<td>' + com + '</td>'
+      + '<td><button onclick="savePartnerPct(\'' + x.user_id + '\')" style="padding:4px 10px;cursor:pointer">Save</button></td></tr>';
   });
   el.innerHTML = h + '</table>';
+};
+window.savePartnerPct = async function (uid) {
+  const v = parseFloat(document.getElementById('pct_' + uid).value);
+  if (isNaN(v) || v < 0 || v > 100) { alert('Percent must be between 0 and 100'); return; }
+  const r = await window.supabaseClient.from('partners').update({ commission_percent: v }).eq('user_id', uid).select();
+  if (r.error) { alert('Error: ' + r.error.message); return; }
+  if (!r.data || !r.data.length) { alert('Not allowed'); return; }
+  window.loadPartnersTab();
 };
