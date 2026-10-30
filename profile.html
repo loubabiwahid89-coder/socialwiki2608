@@ -1632,7 +1632,7 @@ async function loadOldSpecialBadges(profile, userId) {
     }
     
     if (profile?.special_badges && profile.special_badges.includes('philippines')) {
-        badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: linear-gradient(135deg, #0038A8, #1E5FD8); color: white; border-radius: 30px; font-weight: 700; font-size: 16px; box-shadow: 0 6px 20px rgba(0, 56, 168, 0.4); border: 3px solid #FCD116; margin: 5px;"><img src="https://flagcdn.com/w40/ph.png" style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);" alt="Philippines"><span>First Member from Philippines</span><span style="font-size: 20px;">🏆</span></div>`;
+        badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: linear-gradient(135deg, #0038A8, #1E5FD8); color: white; border-radius: 30px; font-weight: 700; font-size: 16px; box-shadow: 0 6px 20px rgba(0, 56, 168, 0.4); border: 3px solid #FCD116; margin: 5px; animation: sellerSway 3s ease-in-out infinite, sellerPulse 1.8s ease-in-out infinite;"><img src="https://flagcdn.com/w40/ph.png" style="width: 32px; height: 22px; border-radius: 4px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);" alt="Philippines"><span>First Member from Philippines</span><span style="font-size: 20px;">🏆</span></div>`;
     }
     
     if (profile?.special_badges && profile.special_badges.includes('ph_ambassador')) {
