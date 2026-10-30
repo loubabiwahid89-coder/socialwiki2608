@@ -11,7 +11,7 @@ window.loadPartnersTab = async function () {
   r.data.forEach(function (x) {
     const com = Math.round(Number(x.pts) * Number(x.pct) / 100);
     h += '<tr style="border-top:1px solid #ddd"><td style="padding:10px 0"><a href="profile.html?id=' + x.user_id + '">' + esc(x.username) + '</a></td><td>' + x.ref_count + '</td><td>' + x.pts + '</td>'
-      + '<td><input id="pct_' + x.user_id + '" type="number" min="0" max="100" step="0.5" value="' + x.pct + '" style="width:70px;padding:4px"></td>'
+      + '<td><select id="pct_' + x.user_id + '" style="padding:4px">' + [5,10,15,30,40,50,70,90].map(function (n) { return '<option value="' + n + '"' + (Number(x.pct) === n ? ' selected' : '') + '>' + n + '%</option>'; }).join('') + '</select></td>'
       + '<td>' + com + '</td>'
       + '<td><button onclick="savePartnerPct(\'' + x.user_id + '\')" style="padding:4px 10px;cursor:pointer">Save</button></td></tr>';
   });
