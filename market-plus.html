@@ -544,8 +544,8 @@ let currentUser = null;
                 if (!user) return;
                 
                 const { data: profile, error } = await supabaseClient
-                    .from('profiles')
-                    .select('username, full_name, avatar_url')
+    .from('profiles')
+    .select('username, full_name, avatar_url, role')
                     .eq('id', user.id)
                     .single();
                 
@@ -649,7 +649,7 @@ let currentUser = null;
     <button class="msg-btn" onclick="contactSeller('${product.user_id}')">💬</button>
     
     <!-- ✅ أزرار التحكم (تظهر فقط لصاحب المنتج أو المالك) -->
-    ${(currentUser?.id === product.user_id || currentUser?.role === 'owner' || currentUser?.role === 'admin') ? `
+    ${(currentUser?.id === product.user_id) ? `
         <button class="edit-btn" onclick="editProduct('${product.id}')" style="background: #f7b928; color: white;">✏️ Edit</button>
         <button class="delete-btn" onclick="deleteProduct('${product.id}')" style="background: #dc3545; color: white;">🗑️ Delete</button>
     ` : ''}
