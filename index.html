@@ -1518,7 +1518,7 @@ upload.start();
             `https://ui-avatars.com/api/?name=${username}&background=1877f2&color=fff`;
 
         const { data: urlData } = window.supabaseClient.storage
-            .from('stories').getPublicUrl(story.media_url);
+            .from('product-images').getPublicUrl(story.media_url);
         const mediaUrl = urlData.publicUrl;
 
         const viewer = document.createElement('div');
@@ -1798,7 +1798,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
             });
             
             const { data: urlData } = window.supabaseClient.storage
-                .from('stories').getPublicUrl(story.media_url);
+                .from('product-images').getPublicUrl(story.media_url);
             const mediaUrl = urlData.publicUrl;
             
             // ✅ بناء محتوى البطاقة
