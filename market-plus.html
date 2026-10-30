@@ -484,6 +484,7 @@
         const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
         const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentUser = null;
         
         // =========================================================
         // CURRENCY
@@ -583,28 +584,30 @@
             }
         }
         
-        // =========================================================
-        // LOAD PRODUCTS
-        // =========================================================
-        async function loadProducts() {
-            try {
-                const { data: products, error } = await supabaseClient
-                    .from('products')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Error loading products:', error);
-                    return;
-                }
-                
-                displayProducts(products || []);
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-        
+       async function loadProducts() {
+    
+
+    // 2. إظهار رسالة التحميل
+    const container = document.getElementById('productsContainer'); 
+    if (container) container.innerHTML = '<p>Loading products...</p>';
+
+    try {
+        // 3. جلب المنتجات من قاعدة البيانات
+        const { data: products, error } = await supabaseClient
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        // 4. عرض المنتجات
+        displayProducts(products);
+
+    } catch (error) {
+        console.error('Error loading products:', error);
+        if (container) container.innerHTML = '<p>Error loading products. Please check the database table name.</p>';
+    }
+}
         // =========================================================
         // DISPLAY PRODUCTS
         // =========================================================
@@ -910,8 +913,8 @@
             setLanguage(lang);
             applyTranslations();
             
-            loadProducts();
-            loadUserProfile();
+                        await loadUserProfile(); // 👈 تحميل المستخدم أولاً
+            loadProducts();          // 👈 ثم تحميل المنتجات
             
             document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
         });
