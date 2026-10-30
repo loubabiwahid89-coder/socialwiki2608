@@ -924,9 +924,8 @@ async function displayProducts(products) {  // 👈 أضفنا async هنا
             document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
         });
 
-       // دالة التعديل
+      // 1. فتح نافذة التعديل وتعبئة البيانات
 async function editProduct(productId) {
-    // 1. جلب بيانات المنتج من قاعدة البيانات
     const { data: product, error } = await supabaseClient
         .from('products')
         .select('*')
@@ -938,44 +937,53 @@ async function editProduct(productId) {
         return;
     }
 
-    // 2. طلب البيانات الجديدة
-    const newTitle = prompt("Edit Product Title:", product.title || product.name);
-    if (newTitle === null) return; 
+    // تعبئة الحقول بالبيانات الحالية
+    document.getElementById('editProductId').value = product.id;
+    document.getElementById('editName').value = product.title || product.name || '';
+    document.getElementById('editDescription').value = product.description || '';
+    document.getElementById('editMediaUrl').value = product.media_url || '';
+    document.getElementById('editPrice').value = product.price || '';
+    document.getElementById('editCurrency').value = product.currency || 'MAD';
 
-    const newPrice = prompt("Edit Price:", product.price);
-    if (newPrice === null) return;
+    // إظهار النافذة
+    document.getElementById('editModal').style.display = 'flex';
+}
 
-    // 👈 إضافة جديدة: تعديل العملة
-    const newCurrency = prompt("Edit Currency (MAD, EUR, USD):", product.currency || 'MAD');
-    if (newCurrency === null) return;
+// 2. إغلاق النافذة
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
 
-    const newDesc = prompt("Edit Description:", product.description);
-    if (newDesc === null) return;
+// 3. حفظ التعديلات في قاعدة البيانات
+async function submitEditProduct(event) {
+    event.preventDefault();
+    
+    const id = document.getElementById('editProductId').value;
+    const name = document.getElementById('editName').value.trim();
+    const description = document.getElementById('editDescription').value.trim();
+    const mediaUrl = document.getElementById('editMediaUrl').value.trim();
+    const price = parseFloat(document.getElementById('editPrice').value);
+    const currency = document.getElementById('editCurrency').value;
 
-    // 👈 طلب رابط الصورة أو الفيديو
-    const newMediaUrl = prompt("Paste new Image/Video URL (leave empty to keep current):", product.media_url || "");
-    if (newMediaUrl === null) return;
-
-    // 3. تحديث قاعدة البيانات
-    const { error: updateError } = await supabaseClient
+    const { error } = await supabaseClient
         .from('products')
         .update({
-            title: newTitle,
-            price: parseFloat(newPrice),
-            description: newDesc,
-            currency: newCurrency.toUpperCase(), // تحويل الحروف لكبيرة لضمان التطابق
-            media_url: newMediaUrl.trim() !== "" ? newMediaUrl.trim() : product.media_url 
+            title: name,
+            description: description,
+            media_url: mediaUrl !== "" ? mediaUrl : null,
+            price: price,
+            currency: currency
         })
-        .eq('id', productId);
+        .eq('id', id);
 
-    if (updateError) {
-        alert('❌ Error updating: ' + updateError.message);
+    if (error) {
+        alert('❌ Error updating: ' + error.message);
     } else {
         alert('✅ Product updated successfully!');
+        closeEditModal();
         window.location.reload(); 
     }
 }
-
 // دالة الحذف
 async function deleteProduct(productId) {
     if (!confirm('Are you sure you want to delete this product?')) return;
@@ -1000,5 +1008,50 @@ async function deleteProduct(productId) {
 <script src="js/monetag.js" data-cfasync="false"></script>
 <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 <script src="js/nav-user.js"></script>
+    <!-- =========================================================
+         EDIT MODAL (NEW)
+    ========================================================= -->
+    <div id="editModal" class="modal">
+        <div class="modal-box">
+            <div class="modal-title">✏️ Edit Product</div>
+            <form id="editForm" onsubmit="submitEditProduct(event)">
+                <input type="hidden" id="editProductId">
+                
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="editName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editDescription"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Image/Video URL</label>
+                    <input type="text" id="editMediaUrl" placeholder="Paste URL here...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="editPrice" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Currency</label>
+                    <select id="editCurrency" style="width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px;">
+                        <option value="MAD">🇲🇦 MAD</option>
+                        <option value="EUR">🇪🇺 EUR</option>
+                        <option value="USD">🇺🇸 USD</option>
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="cancel-button" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="submit-button">✅ Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
