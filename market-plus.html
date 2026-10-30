@@ -641,9 +641,15 @@
                         <div class="product-location">📍 ${escapeHtml(product.location)}</div>
                         <div class="product-description">${escapeHtml(product.description || '')}</div>
                         <div class="product-actions">
-                            <button class="buy-btn" onclick="buyProduct('${product.id}')" data-i18n="buy_now">Buy Now</button>
-                            <button class="contact-btn" onclick="contactSeller('${product.seller_id}')"><span>💬</span> <span data-i18n="contact_seller">Contact Seller</span></button>
-                        </div>
+    <button class="buy-btn" onclick="buyProduct('${product.id}')">Buy Now</button>
+    <button class="msg-btn" onclick="contactSeller('${product.user_id}')">💬</button>
+    
+    <!-- ✅ أزرار التحكم (تظهر فقط لصاحب المنتج أو المالك) -->
+    ${(currentUser?.id === product.user_id || currentUser?.role === 'owner' || currentUser?.role === 'admin') ? `
+        <button class="edit-btn" onclick="editProduct('${product.id}')" style="background: #f7b928; color: white;">✏️ Edit</button>
+        <button class="delete-btn" onclick="deleteProduct('${product.id}')" style="background: #dc3545; color: white;">🗑️ Delete</button>
+    ` : ''}
+</div>
                     </div>
                 `;
                 
@@ -908,6 +914,65 @@
             
             document.getElementById('productPrice').addEventListener('input', updatePriceDisplay);
         });
+
+        // دالة التعديل
+async function editProduct(productId) {
+    // 1. جلب بيانات المنتج من قاعدة البيانات
+    const { data: product, error } = await supabaseClient
+        .from('products')
+        .select('*')
+        .eq('id', productId)
+        .single();
+
+    if (error || !product) {
+        alert('❌ Error loading product details');
+        return;
+    }
+
+    // 2. طلب البيانات الجديدة (باستخدام prompt للتبسيط)
+    const newTitle = prompt("Edit Product Title:", product.title || product.name);
+    if (newTitle === null) return; // إذا ضغط المستخدم إلغاء
+
+    const newPrice = prompt("Edit Price:", product.price);
+    if (newPrice === null) return;
+
+    const newDesc = prompt("Edit Description:", product.description);
+    if (newDesc === null) return;
+
+    // 3. تحديث قاعدة البيانات
+    const { error: updateError } = await supabaseClient
+        .from('products')
+        .update({
+            title: newTitle,
+            price: parseFloat(newPrice),
+            description: newDesc
+        })
+        .eq('id', productId);
+
+    if (updateError) {
+        alert('❌ Error updating: ' + updateError.message);
+    } else {
+        alert('✅ Product updated successfully!');
+        window.location.reload(); // إعادة تحميل الصفحة لرؤية التغييرات
+    }
+}
+
+// دالة الحذف
+async function deleteProduct(productId) {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+
+    const { error } = await supabaseClient
+        .from('products')
+        .delete()
+        .eq('id', productId);
+
+    if (error) {
+        alert('❌ Error deleting: ' + error.message);
+    } else {
+        alert('✅ Product deleted!');
+        window.location.reload();
+    }
+}
     </script>
     
         <script src="js/messenger-notify.js"></script>
