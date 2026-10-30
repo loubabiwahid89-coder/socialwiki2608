@@ -9,6 +9,7 @@
     var COUNTRY_DATA = {
         'PH': { name: 'Philippines', flag: '🇵🇭', lat: 12.8797, lng: 121.7740, flag_url: 'https://flagcdn.com/w40/ph.png' },
         'CM': { name: 'Cameroon',    flag: '🇨🇲', lat: 7.3697,  lng: 12.3547,  flag_url: 'https://flagcdn.com/w40/cm.png' },
+        'VN': { name: 'Vietnam',    flag: '🇻🇳', lat: 14.0583, lng: 108.2772, flag_url: 'https://flagcdn.com/w40/vn.png' },
         'MA': { name: 'Morocco',     flag: '🇲🇦', lat: 31.7917, lng: -7.0926,  flag_url: 'https://flagcdn.com/w40/ma.png' },
         'EG': { name: 'Egypt',       flag: '🇪🇬', lat: 26.8206, lng: 30.8025,  flag_url: 'https://flagcdn.com/w40/eg.png' },
         'SA': { name: 'Saudi Arabia',flag: '🇸🇦', lat: 23.8859, lng: 45.0792,  flag_url: 'https://flagcdn.com/w40/sa.png' },
