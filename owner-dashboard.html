@@ -228,6 +228,7 @@
     <div class="dashboard-tab" onclick="showTab('badges', this)">🏅 Badges</div>
     <div class="dashboard-tab" onclick="showTab('stars', this)">⭐ Stars</div>
     <div class="dashboard-tab" onclick="showTab('orders', this)">🛒 Orders</div>
+    <div class="dashboard-tab" onclick="showTab('partners', this)">🤝 Partners</div>
 </div>
 
         <!-- CONTENT -->
@@ -1062,6 +1063,7 @@ async function updateRole(userId, newRole) {
             else if (tab === 'badges') loadBadgesTab();
             else if (tab === 'stars') loadStarsTab(); // ✅ هذا هو السطر الناقص
             else if (tab === 'orders') loadOrdersTab();
+            else if (tab === 'partners') loadPartnersTab();
         }
         // =========================================================
         // 🌍 COUNTRIES TAB
@@ -1837,5 +1839,6 @@ async function updateRole(userId, newRole) {
       <script src="js/badges.js"></script>
 
 <script src="js/nav-user.js"></script>
+<script src="js/owner-partners.js"></script>
 </body>
 </html>
