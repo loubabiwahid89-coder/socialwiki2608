@@ -1658,10 +1658,7 @@ async function loadOldSpecialBadges(profile, userId) {
     
     let badgesHTML = '';
     // 🇲🇦🇨🇺 Founding Partners Badge
-if (
-    profile?.username === 'Wikidoogo' ||
-    profile?.username === 'rootafrican321'
-) {
+if (profile?.is_owner === true) {
     badgesHTML += `
     <div class="partner-badge">
         <span>🇲🇦</span>
@@ -1672,6 +1669,7 @@ if (
     </div>
     `;
 }
+
 
     const HIDDEN_OWNER_BADGE = ['adamhajbi'];
 
