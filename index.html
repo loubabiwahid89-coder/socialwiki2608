@@ -1932,7 +1932,7 @@ window.deleteStory = async function(storyId, mediaUrl) {
                     return;
                 }
                 const userIds = posts.map(p => p.user_id);
-                const { data: profiles } = await window.supabaseClient.from('profiles').select('id, username, full_name, avatar_url').in('id', userIds);
+                const { data: profiles } = await window.supabaseClient.from('profiles').select('id, username, full_name, avatar_url, country').in('id', userIds);
                 const profilesMap = {};
                 if (profiles) profiles.forEach(p => profilesMap[p.id] = p);
                 
@@ -2001,7 +2001,7 @@ const viewsCount = post.video_impressions?.[0]?.count || post.views_count || 0;
         </a>
         <div>
             <a href="profile.html?id=${post.user_id}" style="text-decoration:none;color:#050505;">
-                <div class="feed-name">${escapeHtml(username)}</div>
+                <div class="feed-name">${escapeHtml(username)}${profile.country ? `<img src="https://flagcdn.com/w20/${profile.country.toLowerCase()}.png" alt="" style="width:18px;height:13px;margin-left:6px;vertical-align:middle;border-radius:2px;">` : ""}</div>
             </a>
             <div class="feed-time">${timeAgo}</div>
         </div>
