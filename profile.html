@@ -791,7 +791,56 @@
     70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
 }
-    </style>
+
+.partner-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px 28px;
+
+    background:linear-gradient(
+        135deg,
+        #c1272d,
+        #ff9800,
+        #0055A4
+    );
+
+    color:white;
+
+    font-size:18px;
+    font-weight:900;
+
+    border-radius:40px;
+
+    border:3px solid gold;
+
+    box-shadow:
+        0 0 15px gold,
+        0 0 30px rgba(255,215,0,.4);
+
+    margin:5px;
+
+    animation:partnerGlow 2s infinite alternate;
+}
+
+.partner-badge span:first-child,
+.partner-badge span:nth-child(3){
+    font-size:24px;
+}
+
+@keyframes partnerGlow{
+    from{
+        box-shadow:0 0 10px gold;
+    }
+
+    to{
+        box-shadow:
+            0 0 25px gold,
+            0 0 40px rgba(255,215,0,.6);
+    }
+}
+</style>
     <link rel="stylesheet" href="css/dark-mode.css">
 </head>
 <body>
@@ -1608,6 +1657,21 @@ async function loadOldSpecialBadges(profile, userId) {
     if (!badgesContainer) return;
     
     let badgesHTML = '';
+    // 🇲🇦🇨🇺 Founding Partners Badge
+if (
+    profile?.username === 'Wikidoogo' ||
+    profile?.username === 'rootafrican321'
+) {
+    badgesHTML += `
+    <div class="partner-badge">
+        <span>🇲🇦</span>
+        <span>🤝</span>
+        <span>🇨🇺</span>
+        <span>Founding Partners</span>
+        <span>✨</span>
+    </div>
+    `;
+}
 
     const HIDDEN_OWNER_BADGE = ['adamhajbi'];
 
@@ -1654,6 +1718,23 @@ async function loadOldSpecialBadges(profile, userId) {
     }
 
     const FRIEND_ID = 'a3c3c4c8-4628-49f3-a531-010a63fa9988';
+    const PARTNER_USERS = [
+    'Wikidoogo',
+    'rootafrican321'
+];
+
+if (
+    PARTNER_USERS.includes(profile?.username)
+) {
+    badgesHTML += `
+    <div class="partner-badge">
+        <span>🇲🇦</span>
+        <span>🤝</span>
+        <span>🇨🇺</span>
+        <span>Wikidoogo Partners</span>
+        <span>✨</span>
+    </div>`;
+}
     const MOTHER_ID = '3b9f297e-fad8-467d-b843-0f0f7f84eefc';
 
     if (userId === MOTHER_ID) {
