@@ -75,7 +75,7 @@
             <li><a href="messenger.html" title="Messages">💬</a></li>
         </ul>
 
-        <div class="nav-right">
+               <div class="nav-right">
             <a href="notifications.html" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
                 🔔
             </a>
@@ -83,10 +83,20 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
-            <button class="logout-button" onclick="logout()">Logout</button>
-        </div>
-    </nav>
+            
+            <!-- ✅ زر اللغة -->
+            <div class="language-selector" style="position: relative;">
+                <button class="language-btn" onclick="toggleLanguageMenu()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 50%; cursor: pointer; font-size: 16px;">🌐</button>
+                <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 150px; max-height: 300px; overflow-y: auto;">
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;">🇲🇦 العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;">🇫🇷 Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;">🇬🇧 English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;">🇪🇸 Español</button>
+                </div>
+            </div>
 
+            <button class="logout-button" onclick="logout()" data-i18n="logout">Logout</button>
+        </div>
     <!-- ========================================== -->
     <!-- MAIN CONTAINER -->
     <!-- ========================================== -->
@@ -246,6 +256,23 @@
                     });
                 }
             });
+        });
+
+                // دالة فتح/إغلاق قائمة اللغة
+        function toggleLanguageMenu() {
+            const menu = document.getElementById('languageMenu');
+            if (menu) {
+                menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+            }
+        }
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('languageMenu');
+            const btn = document.querySelector('.language-btn');
+            if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.style.display = 'none';
+            }
         });
     </script>
 </body>
