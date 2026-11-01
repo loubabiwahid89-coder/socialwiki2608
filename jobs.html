@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs - Wikidoogo</title>
+    <link rel="stylesheet" href="socialwiki.css?v=999999">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="js/translations.js?v=20261001"></script>
+    
+    <!-- نفس ستايلات النافبار والموبايل من index.html -->
+    <style>
+        .navbar { display: flex; align-items: center; justify-content: space-between; background: #1877f2; padding: 0 16px; height: 56px; position: sticky; top: 0; z-index: 1000; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .logo { color: white; font-size: 24px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-icons { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+        .nav-icons a { color: white; font-size: 20px; text-decoration: none; padding: 8px; border-radius: 50%; }
+        .nav-icons a:hover { background: rgba(255,255,255,0.2); }
+        .nav-icons a.active { background: rgba(255,255,255,0.3); }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .nav-profile { display: flex; align-items: center; gap: 8px; color: white; text-decoration: none; padding: 5px 10px; border-radius: 50px; }
+        .nav-profile img { width: 32px; height: 32px; border-radius: 50%; }
+        .logout-button { background: rgba(255,255,255,0.2); border: none; padding: 8px 16px; border-radius: 20px; color: white; cursor: pointer; font-size: 14px; }
+
+        /* تصميم صفحة الوظائف */
+        .jobs-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .jobs-header { text-align: center; margin-bottom: 30px; }
+        .jobs-header h1 { font-size: 28px; color: #1877f2; margin-bottom: 10px; }
+        .search-bar { display: flex; gap: 10px; margin-bottom: 30px; }
+        .search-bar input { flex: 1; padding: 15px; border: 2px solid #e4e6eb; border-radius: 25px; font-size: 16px; outline: none; }
+        .search-bar input:focus { border-color: #1877f2; }
+        .search-bar button { padding: 15px 30px; background: #1877f2; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; }
+
+        .job-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.2s; border-left: 5px solid #1877f2; }
+        .job-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+        .job-title { font-size: 20px; font-weight: bold; color: #050505; margin-bottom: 5px; }
+        .job-company { color: #1877f2; font-weight: 600; margin-bottom: 10px; }
+        .job-details { display: flex; gap: 15px; color: #65676b; font-size: 14px; margin-bottom: 10px; }
+        .job-desc { color: #65676b; font-size: 14px; line-height: 1.5; }
+        .apply-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        
+        .loading { text-align: center; padding: 40px; color: #65676b; font-size: 18px; }
+        
+        /* ستايلات الموبايل (من كودك) */
+        @media (max-width: 768px) {
+            .navbar-search { display: none; }
+            .nav-profile #navProfileName { display: none; }
+            .nav-icons { position: fixed; bottom: 0; left: 0; right: 0; height: 54px; background: #fff; display: flex; justify-content: space-around; align-items: center; z-index: 1001; box-shadow: 0 -2px 8px rgba(0,0,0,.15); }
+            .nav-icons a { color: #333; font-size: 24px; }
+            body { padding-bottom: 62px; }
+            .jobs-container { padding: 10px; }
+        }
+    </style>
+    <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- NAVBAR (نفس التصميم الخاص بك) -->
+    <!-- ========================================== -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>📘 Wikidoogo</span>
+            </a>
+        </div>
+
+        <ul class="nav-icons">
+            <li><a href="index.html" title="Home">🏠</a></li>
+            <li><a href="friends.html" title="Friends">👥</a></li>
+            <li><a href="market-plus.html" title="Marketplace">🛍️</a></li>
+            <li><a href="jobs.html" class="active" title="Jobs">💼</a></li> <!-- الأيقونة الجديدة -->
+            <li><a href="events.html" title="Events">📅</a></li>
+            <li><a href="messenger.html" title="Messages">💬</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <a href="notifications.html" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
+                🔔
+            </a>
+            <a href="profile.html" class="nav-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
+                <span id="navProfileName">User</span>
+            </a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- MAIN CONTAINER -->
+    <!-- ========================================== -->
+    <div class="main-container">
+        
+        <!-- LEFT SIDEBAR (نفس التصميم) -->
+        <div class="left-sidebar">
+            <a href="profile.html">
+                <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="sidebarImg" alt="Profile" style="width: 28px; height: 28px; border-radius: 50%;">
+                <span id="sidebarName">User</span>
+            </a>
+            <a href="friends.html"><span class="emoji-icon">👥</span><span>Friends</span></a>
+            <a href="messenger.html"><span class="emoji-icon">💬</span><span>Messages</span></a>
+            <a href="market-plus.html"><span class="emoji-icon">🛍️</span><span>Marketplace</span></a>
+            <a href="jobs.html" class="active"><span class="emoji-icon">💼</span><span>Jobs</span></a> <!-- رابط الوظائف -->
+            <a href="events.html"><span class="emoji-icon">📅</span><span>Events</span></a>
+            <a href="groups.html"><span class="emoji-icon">👥</span><span>Groups</span></a>
+            <a href="notifications.html"><span class="emoji-icon">🔔</span><span>Notifications</span></a>
+            <a href="earnings.html"><span class="emoji-icon">💰</span><span>My Earnings</span></a>
+        </div>
+
+        <!-- CONTENT (صفحة الوظائف هنا) -->
+        <div class="content">
+            <div class="jobs-container">
+                <div class="jobs-header">
+                    <h1>💼 Find Your Dream Job</h1>
+                    <p style="color: #65676b;">Search for jobs in Morocco and around the world</p>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search job title, company, or location..." onkeyup="filterJobs()">
+                    <button onclick="filterJobs()">Search</button>
+                </div>
+
+                <div id="jobsList">
+                    <div class="loading">⏳ Loading jobs...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR (نفس التصميم) -->
+        <div class="right-sidebar">
+            <div class="right-profile-box">
+                <a href="profile.html" class="right-profile-link">
+                    <div class="right-profile-avatar">
+                        <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="rightProfileImg" alt="Profile">
+                    </div>
+                    <div>
+                        <div class="right-profile-name" id="rightProfileName">User</div>
+                        <div class="right-profile-username" id="rightProfileUsername">@user</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="right-box">
+                <h3>💼 Job Categories</h3>
+                <a href="#"><span class="emoji-icon">💻</span><span>IT & Software</span></a>
+                <a href="#"><span class="emoji-icon">📊</span><span>Marketing</span></a>
+                <a href="#"><span class="emoji-icon">🎨</span><span>Design</span></a>
+                <a href="#"><span class="emoji-icon">🏢</span><span>Sales</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPTS -->
+    <!-- ========================================== -->
+    <script>
+        // إعداد Supabase
+        if (!window.supabaseClient) {
+            const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
+            const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+
+        let allJobs = [];
+
+        // جلب الوظائف من قاعدة البيانات
+        async function loadJobs() {
+            const container = document.getElementById('jobsList');
+            
+            try {
+                const { data: jobs, error } = await window.supabaseClient
+                    .from('jobs')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allJobs = jobs || [];
+                renderJobs(allJobs);
+
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                container.innerHTML = `<div class="loading">❌ Error loading jobs. Make sure the 'jobs' table exists.</div>`;
+            }
+        }
+
+        // عرض الوظائف
+        function renderJobs(jobs) {
+            const container = document.getElementById('jobsList');
+            
+            if (jobs.length === 0) {
+                container.innerHTML = `<div class="loading">🔍 No jobs found.</div>`;
+                return;
+            }
+
+            container.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">🏢 ${job.company}</div>
+                    <div class="job-details">
+                        <span>📍 ${job.location || 'Remote'}</span>
+                        <span>💰 ${job.salary || 'Negotiable'}</span>
+                    </div>
+                    <div class="job-desc">${job.description || 'No description provided.'}</div>
+                    <a href="mailto:${job.contact_email || ''}" class="apply-btn">Apply Now</a>
+                </div>
+            `).join('');
+        }
+
+        // البحث
+        function filterJobs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allJobs.filter(job => 
+                job.title.toLowerCase().includes(query) || 
+                job.company.toLowerCase().includes(query) || 
+                (job.location && job.location.toLowerCase().includes(query))
+            );
+            renderJobs(filtered);
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            window.supabaseClient.auth.signOut();
+            window.location.href = "auth.html";
+        }
+
+        // تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJobs();
+            
+            // تحميل بيانات المستخدم في الشريط الجانبي (نفس دالة index)
+            window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                if (user) {
+                    window.supabaseClient.from('profiles').select('username, full_name, avatar_url').eq('id', user.id).single().then(({ data: profile }) => {
+                        if (profile) {
+                            const name = profile.full_name || profile.username;
+                            const avatar = profile.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+                            document.getElementById('navProfileName').textContent = name;
+                            document.getElementById('navProfileImg').src = avatar;
+                            document.getElementById('sidebarName').textContent = name;
+                            document.getElementById('sidebarImg').src = avatar;
+                            document.getElementById('rightProfileName').textContent = name;
+                            document.getElementById('rightProfileImg').src = avatar;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
