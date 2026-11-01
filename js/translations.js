@@ -871,6 +871,19 @@ const translations = {
         "enter_phone": "الرجاء إدخال رقم الهاتف",
         "enter_bank_details": "الرجاء إدخال اسم البنك ورقم الحساب",
         "badge_verified_seller": "بايع موتوق",
+                // ---------- Jobs Page ----------
+        "jobs_title": "💼 ابحث عن وظيفة أحلامك",
+        "jobs_subtitle": "ابحث عن وظائف في المغرب وحول العالم",
+        "search_jobs_placeholder": "ابحث عن وظيفة، شركة، أو موقع...",
+        "search_btn": "بحث",
+        "no_jobs_found": "🔍 لا توجد وظائف.",
+        "job_categories": "💼 فئات الوظائف",
+        "cat_it": "تكنولوجيا المعلومات",
+        "cat_marketing": "التسويق",
+        "cat_design": "التصميم",
+        "cat_sales": "المبيعات",
+        "apply_now": "قدم الآن",
+        "loading_jobs": "⏳ جاري تحميل الوظائف...",
 
     },
 
@@ -1737,8 +1750,19 @@ const translations = {
 "about_contact_title": "📞 Contactez-nous",
 "about_contact_text": "Pour toute question, suggestion ou problème — nous sommes là pour vous aider !",
 "about_contact_btn": "📧 Contactez-nous",
-
-
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Trouvez l'emploi de vos rêves",
+        "jobs_subtitle": "Recherchez des emplois au Maroc et dans le monde entier",
+        "search_jobs_placeholder": "Rechercher un titre, une entreprise ou un lieu...",
+        "search_btn": "Rechercher",
+        "no_jobs_found": "🔍 Aucun emploi trouvé.",
+        "job_categories": "💼 Catégories d'emploi",
+        "cat_it": "Informatique & Logiciel",
+        "cat_marketing": "Marketing",
+        "cat_design": "Design",
+        "cat_sales": "Ventes",
+        "apply_now": "Postuler",
+        "loading_jobs": "⏳ Chargement des emplois...",
     },
 
     // ==================== ENGLISH ====================
@@ -2608,6 +2632,19 @@ const translations = {
 "about_contact_title": "📞 Contact Us",
 "about_contact_text": "For any inquiry, suggestion, or issue — we're here to help!",
 "about_contact_btn": "📧 Contact Us",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Find Your Dream Job",
+        "jobs_subtitle": "Search for jobs in Morocco and around the world",
+        "search_jobs_placeholder": "Search job title, company, or location...",
+        "search_btn": "Search",
+        "no_jobs_found": "🔍 No jobs found.",
+        "job_categories": "💼 Job Categories",
+        "cat_it": "IT & Software",
+        "cat_marketing": "Marketing",
+        "cat_design": "Design",
+        "cat_sales": "Sales",
+        "apply_now": "Apply Now",
+        "loading_jobs": "⏳ Loading jobs...",
     },
     // ==================== SPANISH ====================
     es: {
@@ -3476,6 +3513,19 @@ const translations = {
 "about_contact_title": "📞 Contáctanos",
 "about_contact_text": "Para cualquier consulta, sugerencia o problema — ¡estamos aquí para ayudar!",
 "about_contact_btn": "📧 Contáctanos",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Encuentra el trabajo de tus sueños",
+        "jobs_subtitle": "Busca empleos en Marruecos y en todo el mundo",
+        "search_jobs_placeholder": "Buscar puesto, empresa o ubicación...",
+        "search_btn": "Buscar",
+        "no_jobs_found": "🔍 No se encontraron empleos.",
+        "job_categories": "💼 Categorías de empleo",
+        "cat_it": "IT y Software",
+        "cat_marketing": "Marketing",
+        "cat_design": "Diseño",
+        "cat_sales": "Ventas",
+        "apply_now": "Aplicar ahora",
+        "loading_jobs": "⏳ Cargando empleos...",
 
     },
     
@@ -4354,6 +4404,19 @@ const translations = {
 "about_contact_title": "📞 Kontaktiere uns",
 "about_contact_text": "Für Anfragen, Vorschläge oder Probleme — wir sind hier, um zu helfen!",
 "about_contact_btn": "📧 Kontaktiere uns",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Finde deinen Traumjob",
+        "jobs_subtitle": "Suche nach Jobs in Marokko und weltweit",
+        "search_jobs_placeholder": "Jobtitel, Unternehmen oder Ort suchen...",
+        "search_btn": "Suchen",
+        "no_jobs_found": "🔍 Keine Jobs gefunden.",
+        "job_categories": "💼 Jobkategorien",
+        "cat_it": "IT & Software",
+        "cat_marketing": "Marketing",
+        "cat_design": "Design",
+        "cat_sales": "Vertrieb",
+        "apply_now": "Jetzt bewerben",
+        "loading_jobs": "⏳ Jobs werden geladen...",
     },
     
         // ==================== ITALIAN ====================
@@ -5231,6 +5294,19 @@ const translations = {
 "about_contact_title": "📞 Contattaci",
 "about_contact_text": "Per qualsiasi domanda, suggerimento o problema — siamo qui per aiutarti!",
 "about_contact_btn": "📧 Contattaci",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Trova il lavoro dei tuoi sogni",
+        "jobs_subtitle": "Cerca lavoro in Marocco e nel mondo",
+        "search_jobs_placeholder": "Cerca titolo, azienda o luogo...",
+        "search_btn": "Cerca",
+        "no_jobs_found": "🔍 Nessun lavoro trovato.",
+        "job_categories": "💼 Categorie di lavoro",
+        "cat_it": "IT & Software",
+        "cat_marketing": "Marketing",
+        "cat_design": "Design",
+        "cat_sales": "Vendite",
+        "apply_now": "Candidati ora",
+        "loading_jobs": "⏳ Caricamento lavori...",
     },
     
 
@@ -6109,6 +6185,19 @@ const translations = {
 "about_contact_title": "📞 联系我们",
 "about_contact_text": "如有任何疑问、建议或问题——我们随时为您提供帮助！",
 "about_contact_btn": "📧 联系我们",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 找到你梦想的工作",
+        "jobs_subtitle": "在摩洛哥和世界各地寻找工作",
+        "search_jobs_placeholder": "搜索职位、公司或地点...",
+        "search_btn": "搜索",
+        "no_jobs_found": "🔍 未找到工作。",
+        "job_categories": "💼 工作类别",
+        "cat_it": "IT与软件",
+        "cat_marketing": "市场营销",
+        "cat_design": "设计",
+        "cat_sales": "销售",
+        "apply_now": "立即申请",
+        "loading_jobs": "⏳ 正在加载工作...",
     },
     
 
@@ -6979,6 +7068,19 @@ const translations = {
 "about_contact_title": "📞 お問い合わせ",
 "about_contact_text": "ご質問、ご提案、問題などがありましたら、お気軽にご連絡ください！",
 "about_contact_btn": "📧 お問い合わせ",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 夢の仕事を見つけよう",
+        "jobs_subtitle": "モロッコおよび世界中の仕事を検索",
+        "search_jobs_placeholder": "職種、会社名、場所を検索...",
+        "search_btn": "検索",
+        "no_jobs_found": "🔍 仕事が見つかりません。",
+        "job_categories": "💼 仕事のカテゴリー",
+        "cat_it": "IT・ソフトウェア",
+        "cat_marketing": "マーケティング",
+        "cat_design": "デザイン",
+        "cat_sales": "営業",
+        "apply_now": "今すぐ応募",
+        "loading_jobs": "⏳ 仕事を読み込み中...",
     },
     
 
@@ -7849,6 +7951,19 @@ const translations = {
 "about_contact_title": "📞 문의하기",
 "about_contact_text": "문의, 제안 또는 문제가 있으시면 언제든지 연락해 주세요!",
 "about_contact_btn": "📧 문의하기",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 꿈의 직장을 찾으세요",
+        "jobs_subtitle": "모로코 및 전 세계의 일자리를 검색하세요",
+        "search_jobs_placeholder": "직책, 회사 또는 위치 검색...",
+        "search_btn": "검색",
+        "no_jobs_found": "🔍 일자리를 찾을 수 없습니다.",
+        "job_categories": "💼 직업 카테고리",
+        "cat_it": "IT 및 소프트웨어",
+        "cat_marketing": "마케팅",
+        "cat_design": "디자인",
+        "cat_sales": "영업",
+        "apply_now": "지금 지원하기",
+        "loading_jobs": "⏳ 일자리 로딩 중...",
     },
     
 
@@ -8719,6 +8834,19 @@ const translations = {
 "about_contact_title": "📞 Свяжитесь с нами",
 "about_contact_text": "По любым вопросам, предложениям или проблемам — мы здесь, чтобы помочь!",
 "about_contact_btn": "📧 Свяжитесь с нами",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Найдите работу своей мечты",
+        "jobs_subtitle": "Ищите работу в Марокко и по всему миру",
+        "search_jobs_placeholder": "Поиск должности, компании или места...",
+        "search_btn": "Поиск",
+        "no_jobs_found": "🔍 Вакансии не найдены.",
+        "job_categories": "💼 Категории вакансий",
+        "cat_it": "IT и ПО",
+        "cat_marketing": "Маркетинг",
+        "cat_design": "Дизайн",
+        "cat_sales": "Продажи",
+        "apply_now": "Откликнуться",
+        "loading_jobs": "⏳ Загрузка вакансий...",
     },
     
 
@@ -9590,6 +9718,19 @@ const translations = {
 "about_contact_title": "📞 Bize Ulaşın",
 "about_contact_text": "Herhangi bir soru, öneri veya sorun için — yardımcı olmak için buradayız!",
 "about_contact_btn": "📧 Bize Ulaşın",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Hayalinizdeki işi bulun",
+        "jobs_subtitle": "Fas ve dünya genelinde iş arayın",
+        "search_jobs_placeholder": "İş unvanı, şirket veya konum ara...",
+        "search_btn": "Ara",
+        "no_jobs_found": "🔍 İş bulunamadı.",
+        "job_categories": "💼 İş Kategorileri",
+        "cat_it": "BT & Yazılım",
+        "cat_marketing": "Pazarlama",
+        "cat_design": "Tasarım",
+        "cat_sales": "Satış",
+        "apply_now": "Şimdi Başvur",
+        "loading_jobs": "⏳ İşler yükleniyor...",
     },
 
     
@@ -10461,6 +10602,19 @@ const translations = {
 "about_contact_title": "📞 संपर्क करें",
 "about_contact_text": "किसी भी प्रश्न, सुझाव या समस्या के लिए — हम मदद के लिए यहाँ हैं!",
 "about_contact_btn": "📧 संपर्क करें",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 अपने सपनों की नौकरी खोजें",
+        "jobs_subtitle": "मोरक्को और दुनिया भर में नौकरियां खोजें",
+        "search_jobs_placeholder": "नौकरी का शीर्षक, कंपनी या स्थान खोजें...",
+        "search_btn": "खोजें",
+        "no_jobs_found": "🔍 कोई नौकरी नहीं मिली।",
+        "job_categories": "💼 नौकरी श्रेणियां",
+        "cat_it": "आईटी और सॉफ्टवेयर",
+        "cat_marketing": "मार्केटिंग",
+        "cat_design": "डिज़ाइन",
+        "cat_sales": "बिक्री",
+        "apply_now": "अभी आवेदन करें",
+        "loading_jobs": "⏳ नौकरियां लोड हो रही हैं...",
     },
     
 
@@ -11331,6 +11485,19 @@ const translations = {
 "about_contact_title": "📞 Makipag-ugnayan sa Amin",
 "about_contact_text": "Para sa anumang katanungan, mungkahi, o problema — narito kami upang tumulong!",
 "about_contact_btn": "📧 Makipag-ugnayan",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Hanapin ang Iyong Dream Job",
+        "jobs_subtitle": "Maghanap ng trabaho sa Morocco at sa buong mundo",
+        "search_jobs_placeholder": "Maghanap ng titulo, kumpanya, o lokasyon...",
+        "search_btn": "Maghanap",
+        "no_jobs_found": "🔍 Walang nahanap na trabaho.",
+        "job_categories": "💼 Mga Kategorya ng Trabaho",
+        "cat_it": "IT at Software",
+        "cat_marketing": "Marketing",
+        "cat_design": "Disenyo",
+        "cat_sales": "Sales",
+        "apply_now": "Mag-apply Ngayon",
+        "loading_jobs": "⏳ Naglo-load ng mga trabaho...",
     },
 
     tl: {
@@ -12199,6 +12366,19 @@ const translations = {
 "about_contact_title": "📞 Makipag-ugnayan sa Amin",
 "about_contact_text": "Para sa anumang katanungan, mungkahi, o problema — narito kami upang tumulong!",
 "about_contact_btn": "📧 Makipag-ugnayan",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Hanapin ang Iyong Dream Job",
+        "jobs_subtitle": "Maghanap ng trabaho sa Morocco at sa buong mundo",
+        "search_jobs_placeholder": "Maghanap ng titulo, kumpanya, o lokasyon...",
+        "search_btn": "Maghanap",
+        "no_jobs_found": "🔍 Walang nahanap na trabaho.",
+        "job_categories": "💼 Mga Kategorya ng Trabaho",
+        "cat_it": "IT at Software",
+        "cat_marketing": "Marketing",
+        "cat_design": "Disenyo",
+        "cat_sales": "Sales",
+        "apply_now": "Mag-apply Ngayon",
+        "loading_jobs": "⏳ Naglo-load ng mga trabaho...",
     },
 
 
@@ -12525,6 +12705,19 @@ const translations = {
 "about_contact_title": "📞 Liên hệ với chúng tôi",
 "about_contact_text": "Đối với bất kỳ câu hỏi, đề xuất hoặc vấn đề - chúng tôi ở đây để giúp đỡ!",
 "about_contact_btn": "📧 Liên hệ",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 Tìm công việc mơ ước của bạn",
+        "jobs_subtitle": "Tìm việc làm tại Maroc và trên toàn thế giới",
+        "search_jobs_placeholder": "Tìm chức danh, công ty hoặc địa điểm...",
+        "search_btn": "Tìm kiếm",
+        "no_jobs_found": "🔍 Không tìm thấy việc làm.",
+        "job_categories": "💼 Danh mục công việc",
+        "cat_it": "CNTT & Phần mềm",
+        "cat_marketing": "Tiếp thị",
+        "cat_design": "Thiết kế",
+        "cat_sales": "Kinh doanh",
+        "apply_now": "Ứng tuyển ngay",
+        "loading_jobs": "⏳ Đang tải việc làm...",
     },
     // ==================== AMHARIC (ETHIOPIAN) ====================
     am: {
@@ -13374,6 +13567,19 @@ const translations = {
 "about_contact_title": "📞 Liên hệ với chúng tôi",
 "about_contact_text": "Đối với bất kỳ câu hỏi, đề xuất hoặc vấn đề - chúng tôi ở đây để giúp đỡ!",
 "about_contact_btn": "📧 Liên hệ",
+        // ---------- Jobs Page ----------
+        "jobs_title": "💼 የሕልምዎን ሥራ ያግኙ",
+        "jobs_subtitle": "በሞሮኮ እና በዓለም ዙሪያ ሥራዎችን ይፈልጉ",
+        "search_jobs_placeholder": "የሥራ መጠሪያ፣ ኩባንያ ወይም ቦታ ይፈልጉ...",
+        "search_btn": "ፈልግ",
+        "no_jobs_found": "🔍 ምንም ሥራ አልተገኘም።",
+        "job_categories": "💼 የሥራ ምድቦች",
+        "cat_it": "አይቲ እና ሶፍትዌር",
+        "cat_marketing": "ማርኬቲንግ",
+        "cat_design": "ንድፍ",
+        "cat_sales": "ሽያጭ",
+        "apply_now": "አሁን ያመልክቱ",
+        "loading_jobs": "⏳ ሥራዎችን በመጫን ላይ...",
 
 
     }
