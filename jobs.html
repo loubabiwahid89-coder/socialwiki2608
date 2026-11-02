@@ -5,19 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobs - Wikidoogo</title>
     <link rel="stylesheet" href="socialwiki.css?v=999999">
-    <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
     <script src="js/translations.js?v=20261001"></script>
+    <link rel="stylesheet" href="css/dark-mode.css">
     
     <style>
+        /* نفس ستايلات index.html الأساسية */
         @media (max-width: 768px) {
             .navbar-search { display: none; }
             .nav-profile #navProfileName { display: none; }
             .nav-icons { position: fixed; bottom: 0; left: 0; right: 0; height: 54px; background: #fff; display: flex; justify-content: space-around; align-items: center; z-index: 1001; box-shadow: 0 -2px 8px rgba(0,0,0,.15); }
             .nav-icons a { color: #333; font-size: 24px; }
             body { padding-bottom: 62px; }
+            .left-sidebar { display: none; } /* إخفاء القائمة اليسرى في الجوال */
         }
+        
+        /* تنسيقات خاصة بصفحة الوظائف */
+        .job-card {
+            background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 15px; 
+            border-left: 5px solid #1877f2; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .job-title { font-size: 20px; font-weight: bold; color: #050505; margin-bottom: 5px; }
+        .job-company { color: #1877f2; font-weight: 600; margin-bottom: 10px; }
+        .job-details { display: flex; gap: 15px; color: #65676b; font-size: 14px; margin-bottom: 10px; }
+        .job-desc { color: #65676b; font-size: 14px; line-height: 1.5; }
+        .apply-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -41,9 +54,7 @@
         </ul>
 
         <div class="nav-right">
-            <a href="notifications.html" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">
-                🔔
-            </a>
+            <a href="notifications.html" class="notification-btn" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); text-decoration: none; color: white; font-size: 20px;">🔔</a>
             <a href="profile.html" class="nav-profile">
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
@@ -53,22 +64,22 @@
             <div class="language-selector" style="position: relative;">
                 <button class="language-btn" onclick="toggleLanguageMenu()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 50%; cursor: pointer; font-size: 16px;">🌐</button>
                 <div class="language-menu" id="languageMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; min-width: 160px; max-height: 350px; overflow-y: auto;">
-                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ma.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  العربية</button>
-                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/fr.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Français</button>
-                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/gb.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  English</button>
-                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/es.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Español</button>
-                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/de.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Deutsch</button>
-                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/it.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Italiano</button>
-                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/jp.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  日本語</button>
-                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/cn.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  中文</button>
-                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/kr.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  한국어</button>
-                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ru.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Русский</button>
-                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/tr.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Türkçe</button>
-                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/in.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  हिन्दी</button>
-                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ph.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Filipino</button>
-                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ph.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Tagalog</button>
-                    <button onclick="changeLanguage('am')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/et.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  አማርኛ</button>
-                    <button onclick="changeLanguage('vi')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/vn.png" alt="" style="width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;">  Tiếng Việt</button>
+                    <button onclick="changeLanguage('ar')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ma.png" style="width:20px;margin-inline-end:8px;"> العربية</button>
+                    <button onclick="changeLanguage('fr')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/fr.png" style="width:20px;margin-inline-end:8px;"> Français</button>
+                    <button onclick="changeLanguage('en')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/gb.png" style="width:20px;margin-inline-end:8px;"> English</button>
+                    <button onclick="changeLanguage('es')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/es.png" style="width:20px;margin-inline-end:8px;"> Español</button>
+                    <button onclick="changeLanguage('de')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/de.png" style="width:20px;margin-inline-end:8px;"> Deutsch</button>
+                    <button onclick="changeLanguage('it')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/it.png" style="width:20px;margin-inline-end:8px;"> Italiano</button>
+                    <button onclick="changeLanguage('ja')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/jp.png" style="width:20px;margin-inline-end:8px;"> 日本語</button>
+                    <button onclick="changeLanguage('zh')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/cn.png" style="width:20px;margin-inline-end:8px;"> 中文</button>
+                    <button onclick="changeLanguage('ko')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/kr.png" style="width:20px;margin-inline-end:8px;"> 한국어</button>
+                    <button onclick="changeLanguage('ru')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ru.png" style="width:20px;margin-inline-end:8px;"> Русский</button>
+                    <button onclick="changeLanguage('tr')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/tr.png" style="width:20px;margin-inline-end:8px;"> Türkçe</button>
+                    <button onclick="changeLanguage('hi')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/in.png" style="width:20px;margin-inline-end:8px;"> हिन्दी</button>
+                    <button onclick="changeLanguage('fil')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ph.png" style="width:20px;margin-inline-end:8px;"> Filipino</button>
+                    <button onclick="changeLanguage('tl')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/ph.png" style="width:20px;margin-inline-end:8px;"> Tagalog</button>
+                    <button onclick="changeLanguage('am')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/et.png" style="width:20px;margin-inline-end:8px;"> አማርኛ</button>
+                    <button onclick="changeLanguage('vi')" style="width: 100%; padding: 10px; border: none; background: white; cursor: pointer; text-align: left;"><img src="https://flagcdn.com/w20/vn.png" style="width:20px;margin-inline-end:8px;"> Tiếng Việt</button>
                 </div>
             </div>
 
@@ -110,7 +121,7 @@
                     <button onclick="filterJobs()" data-i18n="search_btn" style="padding: 12px 25px; background: #1877f2; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 15px;">Search</button>
                 </div>
 
-                <!-- ✅ زر نشر وظيفة -->
+                <!-- زر نشر وظيفة -->
                 <div style="margin-bottom: 20px;">
                     <button onclick="openPostJobModal()" data-i18n="post_job_btn" style="padding: 10px 20px; background: #1877f2; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px;">+ Post a job</button>
                 </div>
@@ -164,10 +175,11 @@
             </div>
         </div>
 
-    </div> <!-- ✅ إغلاق main-container هنا -->
+    </div> <!-- ✅ إغلاق main-container -->
 
     <!-- SCRIPTS -->
     <script>
+        // 1. تهيئة Supabase
         if (!window.supabaseClient) {
             const SUPABASE_URL = "https://zcffrkvxmxvojkbmtufe.supabase.co";
             const SUPABASE_KEY = "sb_publishable_lgKbPrSB163cJn-jNWAQCw_QdtqBvrG";
@@ -176,9 +188,9 @@
 
         let allJobs = [];
 
+        // 2. جلب الوظائف
         async function loadJobs() {
             const container = document.getElementById('jobsList');
-            
             try {
                 const { data: jobs, error } = await window.supabaseClient
                     .from('jobs')
@@ -186,38 +198,44 @@
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-
                 allJobs = jobs || [];
                 renderJobs(allJobs);
-
             } catch (error) {
                 console.error('Error loading jobs:', error);
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:red;">❌ Error loading jobs.</div>`;
+                if (container) {
+                    container.innerHTML = `<div style="text-align:center; padding:20px; color:red;">❌ Error loading jobs.</div>`;
+                }
             }
         }
 
+        // 3. عرض الوظائف
         function renderJobs(jobs) {
             const container = document.getElementById('jobsList');
-            
+            if (!container) return;
+
+            const noJobsText = (typeof t === 'function') ? t('no_jobs_found') : '🔍 No jobs found.';
+            const applyNowText = (typeof t === 'function') ? t('apply_now') : 'Apply Now';
+
             if (jobs.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding:40px; color:#65676b;" data-i18n="no_jobs_found">🔍 No jobs found.</div>`;
+                container.innerHTML = `<div style="text-align:center; padding:40px; color:#65676b;">${noJobsText}</div>`;
                 return;
             }
 
             container.innerHTML = jobs.map(job => `
-                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 5px solid #1877f2; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="font-size: 20px; font-weight: bold; color: #050505; margin-bottom: 5px;">${job.title}</div>
-                    <div style="color: #1877f2; font-weight: 600; margin-bottom: 10px;">🏢 ${job.company}</div>
-                    <div style="display: flex; gap: 15px; color: #65676b; font-size: 14px; margin-bottom: 10px;">
+                <div class="job-card">
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">🏢 ${job.company}</div>
+                    <div class="job-details">
                         <span>📍 ${job.location || 'Remote'}</span>
                         <span>💰 ${job.salary || 'Negotiable'}</span>
                     </div>
-                    <div style="color: #65676b; font-size: 14px; line-height: 1.5;">${job.description || ''}</div>
-                    <a href="mailto:${job.contact_email || ''}" style="display: inline-block; margin-top: 15px; padding: 8px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;" data-i18n="apply_now">Apply Now</a>
+                    <div class="job-desc">${job.description || ''}</div>
+                    <a href="mailto:${job.contact_email || ''}" class="apply-btn">${applyNowText}</a>
                 </div>
             `).join('');
         }
 
+        // 4. البحث
         function filterJobs() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = allJobs.filter(job => 
@@ -228,20 +246,87 @@
             renderJobs(filtered);
         }
 
+        // 5. تصفية حسب الفئة
+        function filterByCategory(category) {
+            document.querySelectorAll('.right-box a').forEach(a => {
+                a.style.background = '';
+                a.style.color = '';
+                a.style.fontWeight = '';
+            });
+            
+            if (event && event.target) {
+                const clickedBtn = event.target.closest('a');
+                if (clickedBtn) {
+                    clickedBtn.style.background = '#e7f3ff';
+                    clickedBtn.style.color = '#1877f2';
+                    clickedBtn.style.fontWeight = 'bold';
+                }
+            }
+
+            if (category === 'all') {
+                renderJobs(allJobs);
+            } else {
+                const filtered = allJobs.filter(job => 
+                    (job.category && job.category.toLowerCase() === category.toLowerCase()) || 
+                    (job.title && job.title.toLowerCase().includes(category.toLowerCase()))
+                );
+                renderJobs(filtered);
+            }
+        }
+
+        // 6. تسجيل الخروج
         function logout() {
-            window.supabaseClient.auth.signOut();
+            if (window.supabaseClient) {
+                window.supabaseClient.auth.signOut();
+            }
             window.location.href = "auth.html";
         }
 
-        function changeLanguage(lang) {
-            if (typeof setLanguage === 'function') {
-                setLanguage(lang);
-            }
-            localStorage.setItem('socialwiki_lang_user_chosen', lang);
-            const menu = document.getElementById('languageMenu');
-            if (menu) menu.style.display = 'none';
+        // 7. جلب بيانات المستخدم
+        function loadUserProfile() {
+            if (!window.supabaseClient) return;
+            window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                if (user) {
+                    window.supabaseClient.from('profiles')
+                        .select('username, full_name, avatar_url')
+                        .eq('id', user.id)
+                        .single()
+                        .then(({ data: profile }) => {
+                            if (profile) {
+                                const name = profile.full_name || profile.username;
+                                const avatar = profile.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
+                                
+                                if (document.getElementById('navProfileName')) document.getElementById('navProfileName').textContent = name;
+                                if (document.getElementById('navProfileImg')) document.getElementById('navProfileImg').src = avatar;
+                                if (document.getElementById('sidebarName')) document.getElementById('sidebarName').textContent = name;
+                                if (document.getElementById('sidebarImg')) document.getElementById('sidebarImg').src = avatar;
+                                if (document.getElementById('rightProfileName')) document.getElementById('rightProfileName').textContent = name;
+                                if (document.getElementById('rightProfileImg')) document.getElementById('rightProfileImg').src = avatar;
+                            }
+                        });
+                }
+            });
         }
 
+        // 8. زر نشر وظيفة
+        function openPostJobModal() {
+            alert('Post Job Modal - Add your form here');
+        }
+
+        // 9. التشغيل عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJobs();
+            loadUserProfile();
+        });
+
+        // 10. تحديث "قدم الآن" عند تغيير اللغة
+        window.addEventListener('languageChanged', () => {
+            if (allJobs.length > 0) {
+                renderJobs(allJobs);
+            }
+        });
+
+        // 11. قائمة اللغة
         function toggleLanguageMenu() {
             const menu = document.getElementById('languageMenu');
             if (menu) {
@@ -256,61 +341,7 @@
                 menu.style.display = 'none';
             }
         });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof getCurrentLanguage === 'function') {
-                const lang = getCurrentLanguage();
-                if (typeof setLanguage === 'function') setLanguage(lang);
-                if (typeof applyTranslations === 'function') applyTranslations();
-            }
-
-            loadJobs();
-            
-            window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
-                if (user) {
-                    window.supabaseClient.from('profiles').select('username, full_name, avatar_url').eq('id', user.id).single().then(({ data: profile }) => {
-                        if (profile) {
-                            const name = profile.full_name || profile.username;
-                            const avatar = profile.avatar_url || `https://ui-avatars.com/api/?name=${name}&background=1877f2&color=fff`;
-                            document.getElementById('navProfileName').textContent = name;
-                            document.getElementById('navProfileImg').src = avatar;
-                            document.getElementById('sidebarName').textContent = name;
-                            document.getElementById('sidebarImg').src = avatar;
-                            document.getElementById('rightProfileName').textContent = name;
-                            document.getElementById('rightProfileImg').src = avatar;
-                        }
-                    });
-                }
-            });
-        });
-
-        function filterByCategory(category) {
-            document.querySelectorAll('.right-box a').forEach(a => {
-                a.style.background = '';
-                a.style.color = '';
-                a.style.fontWeight = '';
-            });
-            
-            const clickedBtn = event.target.closest('a');
-            if (clickedBtn) {
-                clickedBtn.style.background = '#e7f3ff';
-                clickedBtn.style.color = '#1877f2';
-                clickedBtn.style.fontWeight = 'bold';
-            }
-
-            if (category === 'all') {
-                renderJobs(allJobs);
-            } else {
-                const filtered = allJobs.filter(job => 
-                    (job.category && job.category.toLowerCase() === category.toLowerCase()) || 
-                    (job.title && job.title.toLowerCase().includes(category.toLowerCase()))
-                );
-                renderJobs(filtered);
-            }
-        }
     </script>
 
-<script src="js/jobs-post.js"></script>
-<script src="js/jobs-cats.js"></script>
 </body>
 </html>
