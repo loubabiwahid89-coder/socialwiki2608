@@ -135,15 +135,36 @@
                 </a>
             </div>
 
-            <div class="right-box">
+                       <div class="right-box">
                 <h3 data-i18n="job_categories">💼 Job Categories</h3>
-                <a href="#"><span class="emoji-icon">💻</span><span data-i18n="cat_it">IT & Software</span></a>
-                <a href="#"><span class="emoji-icon">📊</span><span data-i18n="cat_marketing">Marketing</span></a>
-                <a href="#"><span class="emoji-icon">🎨</span><span data-i18n="cat_design">Design</span></a>
-                <a href="#"><span class="emoji-icon">🏢</span><span data-i18n="cat_sales">Sales</span></a>
+                
+                <!-- ✅ كل الوظائف -->
+                <a href="#" onclick="filterByCategory('all')" class="active" style="background:#e7f3ff; color:#1877f2; font-weight:bold;">
+                    <span class="emoji-icon">📋</span><span data-i18n="all_jobs">All Jobs</span>
+                </a>
+                
+                <!-- ✅ باقي الفئات -->
+                <a href="#" onclick="filterByCategory('IT & Software')"><span class="emoji-icon">💻</span><span data-i18n="cat_it">IT & Software</span></a>
+                <a href="#" onclick="filterByCategory('Marketing')"><span class="emoji-icon">📊</span><span data-i18n="cat_marketing">Marketing</span></a>
+                <a href="#" onclick="filterByCategory('Design')"><span class="emoji-icon">🎨</span><span data-i18n="cat_design">Design</span></a>
+                <a href="#" onclick="filterByCategory('Sales')"><span class="emoji-icon">🏢</span><span data-i18n="cat_sales">Sales</span></a>
+                <a href="#" onclick="filterByCategory('Education')"><span class="emoji-icon">🎓</span><span data-i18n="cat_education">Education</span></a>
+                <a href="#" onclick="filterByCategory('Health')"><span class="emoji-icon">🏥</span><span data-i18n="cat_health">Health</span></a>
+                <a href="#" onclick="filterByCategory('Engineering')"><span class="emoji-icon">⚙️</span><span data-i18n="cat_engineering">Engineering</span></a>
+                <a href="#" onclick="filterByCategory('Construction')"><span class="emoji-icon">🏗️</span><span data-i18n="cat_construction">Construction</span></a>
+                <a href="#" onclick="filterByCategory('Accounting & Finance')"><span class="emoji-icon">💰</span><span data-i18n="cat_finance">Accounting & Finance</span></a>
+                <a href="#" onclick="filterByCategory('Customer Service')"><span class="emoji-icon">🎧</span><span data-i18n="cat_customer_service">Customer Service</span></a>
+                <a href="#" onclick="filterByCategory('Driver & Delivery')"><span class="emoji-icon">🚚</span><span data-i18n="cat_driver">Driver & Delivery</span></a>
+                <a href="#" onclick="filterByCategory('Restaurants, Hotels & Tourism')"><span class="emoji-icon">🍽️</span><span data-i18n="cat_hospitality">Restaurants, Hotels & Tourism</span></a>
+                <a href="#" onclick="filterByCategory('Beauty & Care')"><span class="emoji-icon">💇</span><span data-i18n="cat_beauty">Beauty & Care</span></a>
+                <a href="#" onclick="filterByCategory('Legal')"><span class="emoji-icon">⚖️</span><span data-i18n="cat_legal">Legal</span></a>
+                <a href="#" onclick="filterByCategory('Agriculture')"><span class="emoji-icon">🌾</span><span data-i18n="cat_agriculture">Agriculture</span></a>
+                <a href="#" onclick="filterByCategory('Admin & Secretary')"><span class="emoji-icon">📁</span><span data-i18n="cat_admin">Admin & Secretary</span></a>
+                <a href="#" onclick="filterByCategory('Translation & Writing')"><span class="emoji-icon">✍️</span><span data-i18n="cat_translation">Translation & Writing</span></a>
+                <a href="#" onclick="filterByCategory('Video & Media')"><span class="emoji-icon">🎬</span><span data-i18n="cat_media">Video & Media</span></a>
+                <a href="#" onclick="filterByCategory('Maintenance & Crafts')"><span class="emoji-icon">🔧</span><span data-i18n="cat_maintenance">Maintenance & Crafts</span></a>
+                <a href="#" onclick="filterByCategory('Other')"><span class="emoji-icon">📌</span><span data-i18n="cat_other">Other</span></a>
             </div>
-        </div>
-    </div>
 
     <!-- ========================================== -->
     <!-- SCRIPTS -->
