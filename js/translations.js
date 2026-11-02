@@ -907,6 +907,9 @@ const translations = {
         "cat_maintenance": "الصيانة والحرف",
         "cat_other": "أخرى",
         "post_job_btn": "+ نشر وظيفة",
+                "jobs": "Jobs",
+        "all_jobs": "All Jobs",
+        "post_job_btn": "+ Post a job",
 
     },
 
@@ -1808,6 +1811,9 @@ const translations = {
         "cat_media": "Vidéo & Média",
         "cat_maintenance": "Maintenance & Métiers",
         "cat_other": "Autre",
+        "post_job_btn": "+ Publier une offre",
+                "jobs": "Emplois",
+        "all_jobs": "Tous les emplois",
         "post_job_btn": "+ Publier une offre",
     },
 
@@ -2723,6 +2729,9 @@ const translations = {
         "cat_maintenance": "Maintenance & Crafts",
         "cat_other": "Other",
         "post_job_btn": "+ Post a job",
+                "jobs": "Jobs",
+        "all_jobs": "All Jobs",
+        "post_job_btn": "+ Post a job",
 
     },
     // ==================== SPANISH ====================
@@ -3627,6 +3636,9 @@ const translations = {
         "cat_media": "Video y Medios",
         "cat_maintenance": "Mantenimiento y Oficios",
         "cat_other": "Otro",
+        "post_job_btn": "+ Publicar un empleo",
+                "jobs": "Empleos",
+        "all_jobs": "Todos los empleos",
         "post_job_btn": "+ Publicar un empleo",
     },
     
@@ -4541,6 +4553,9 @@ const translations = {
         "cat_maintenance": "Wartung & Handwerk",
         "cat_other": "Andere",
         "post_job_btn": "+ Job veröffentlichen",
+                "jobs": "Jobs",
+        "all_jobs": "Alle Jobs",
+        "post_job_btn": "+ Job veröffentlichen",
     },
     
         // ==================== ITALIAN ====================
@@ -5453,6 +5468,9 @@ const translations = {
         "cat_media": "Video & Media",
         "cat_maintenance": "Manutenzione & Artigianato",
         "cat_other": "Altro",
+        "post_job_btn": "+ Pubblica un lavoro",
+                "jobs": "Lavori",
+        "all_jobs": "Tutti i lavori",
         "post_job_btn": "+ Pubblica un lavoro",
     },
     
@@ -6368,6 +6386,9 @@ const translations = {
         "cat_maintenance": "维护与手工艺",
         "cat_other": "其他",
         "post_job_btn": "+ 发布工作",
+                "jobs": "工作",
+        "all_jobs": "所有工作",
+        "post_job_btn": "+ 发布工作",
     },
     
 
@@ -7273,6 +7294,9 @@ const translations = {
         "cat_media": "ビデオ・メディア",
         "cat_maintenance": "メンテナンス・工芸",
         "cat_other": "その他",
+        "post_job_btn": "+ 求人を投稿",
+                "jobs": "求人",
+        "all_jobs": "すべての求人",
         "post_job_btn": "+ 求人を投稿",
     },
     
@@ -8180,6 +8204,9 @@ const translations = {
         "cat_maintenance": "유지 보수 및 공예",
         "cat_other": "기타",
         "post_job_btn": "+ 일자리 게시",
+                "jobs": "일자리",
+        "all_jobs": "모든 일자리",
+        "post_job_btn": "+ 일자리 게시",
     },
     
 
@@ -9085,6 +9112,9 @@ const translations = {
         "cat_media": "Видео и медиа",
         "cat_maintenance": "Обслуживание и ремесла",
         "cat_other": "Другое",
+        "post_job_btn": "+ Опубликовать вакансию",
+                "jobs": "Вакансии",
+        "all_jobs": "Все вакансии",
         "post_job_btn": "+ Опубликовать вакансию",
     },
     
@@ -9993,6 +10023,9 @@ const translations = {
         "cat_maintenance": "Bakım & El Sanatları",
         "cat_other": "Diğer",
         "post_job_btn": "+ İş ilanı ver",
+                "jobs": "İşler",
+        "all_jobs": "Tüm İşler",
+        "post_job_btn": "+ İş ilanı ver",
     },
 
     
@@ -10899,6 +10932,9 @@ const translations = {
         "cat_media": "वीडियो और मीडिया",
         "cat_maintenance": "रखरखाव और शिल्प",
         "cat_other": "अन्य",
+        "post_job_btn": "+ नौकरी पोस्ट करें",
+                "jobs": "नौकरियां",
+        "all_jobs": "सभी नौकरियां",
         "post_job_btn": "+ नौकरी पोस्ट करें",
 
     },
@@ -11807,6 +11843,9 @@ const translations = {
         "cat_maintenance": "Maintenance at Crafts",
         "cat_other": "Iba pa",
         "post_job_btn": "+ Mag-post ng trabaho",
+                "jobs": "Mga Trabaho",
+        "all_jobs": "Lahat ng Trabaho",
+        "post_job_btn": "+ Mag-post ng trabaho",
     },
 
     tl: {
@@ -12711,6 +12750,9 @@ const translations = {
         "cat_maintenance": "Maintenance at Crafts",
         "cat_other": "Iba pa",
         "post_job_btn": "+ Mag-post ng trabaho",
+                "jobs": "Mga Trabaho",
+        "all_jobs": "Lahat ng Trabaho",
+        "post_job_btn": "+ Mag-post ng trabaho",
     },
 
 
@@ -13072,6 +13114,9 @@ const translations = {
         "cat_media": "Video & Truyền thông",
         "cat_maintenance": "Bảo trì & Thủ công",
         "cat_other": "Khác",
+        "post_job_btn": "+ Đăng việc làm",
+                "jobs": "Việc làm",
+        "all_jobs": "Tất cả việc làm",
         "post_job_btn": "+ Đăng việc làm",
     },
     // ==================== AMHARIC (ETHIOPIAN) ====================
@@ -13957,6 +14002,9 @@ const translations = {
         "cat_media": "ቪዲዮ እና ሚዲያ",
         "cat_maintenance": "ጥገና እና የእጅ ሥራ",
         "cat_other": "ሌላ",
+        "post_job_btn": "+ ሥራ ለጥፍ",
+                "jobs": "ሥራዎች",
+        "all_jobs": "ሁሉም ሥራዎች",
         "post_job_btn": "+ ሥራ ለጥፍ",
 
 
