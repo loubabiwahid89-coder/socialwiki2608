@@ -110,15 +110,15 @@
                     <p style="color: #65676b; font-size: 15px;" data-i18n="jobs_subtitle">Search for jobs in Morocco and around the world</p>
                 </div>
 
-                <!-- شريط البحث -->
-                <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                               <!-- شريط البحث -->
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                     <input type="text" id="searchInput" data-i18n-placeholder="search_jobs_placeholder" placeholder="Search job title, company, or location..." onkeyup="filterJobs()" style="flex: 1; padding: 12px 15px; border: 2px solid #e4e6eb; border-radius: 25px; font-size: 15px; outline: none;">
                     <button onclick="filterJobs()" data-i18n="search_btn" style="padding: 12px 25px; background: #1877f2; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 15px;">Search</button>
                 </div>
 
-                <!-- قائمة الوظائف -->
-                <div id="jobsList">
-                    <div style="text-align: center; padding: 40px; color: #65676b; font-size: 18px;" data-i18n="loading_jobs">⏳ Loading jobs...</div>
+                <!-- ✅ زر نشر وظيفة -->
+                <div style="margin-bottom: 20px;">
+                    <button onclick="openPostJobModal()" data-i18n="post_job_btn" style="padding: 10px 20px; background: #1877f2; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px;">+ Post a job</button>
                 </div>
 
             </div>
@@ -278,7 +278,37 @@
                 }
             });
         });
+
+                // دالة الفلترة حسب الفئة
+        function filterByCategory(category) {
+            // إزالة التفعيل من كل الأزرار
+            document.querySelectorAll('.right-box a').forEach(a => {
+                a.style.background = '';
+                a.style.color = '';
+                a.style.fontWeight = '';
+            });
+            
+            // تفعيل الزر المضغوط
+            const clickedBtn = event.target.closest('a');
+            if (clickedBtn) {
+                clickedBtn.style.background = '#e7f3ff';
+                clickedBtn.style.color = '#1877f2';
+                clickedBtn.style.fontWeight = 'bold';
+            }
+
+            // الفلترة
+            if (category === 'all') {
+                renderJobs(allJobs);
+            } else {
+                const filtered = allJobs.filter(job => 
+                    (job.category && job.category.toLowerCase() === category.toLowerCase()) || 
+                    (job.title && job.title.toLowerCase().includes(category.toLowerCase()))
+                );
+                renderJobs(filtered);
+            }
+        }
     </script>
+
 <script src="js/jobs-post.js"></script>
 <script src="js/jobs-cats.js"></script>
 </body>
