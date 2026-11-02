@@ -48,7 +48,7 @@
 
   document.getElementById('jCancel').onclick = function () { modal.style.display = 'none'; };
   document.getElementById('jSave').onclick = async function () {
-    var row = { title: val('jTitle'), company: val('jCompany'), location: val('jLocation'), salary: val('jSalary'), contact_email: val('jEmail'), description: val('jDesc') };
+    var row = { title: val('jTitle'), company: val('jCompany'), location: val('jLocation'), salary: val('jSalary'), contact_email: val('jEmail'), description: val('jDesc'), category: (document.getElementById('jCat') || {}).value || null };
     if (row.title === '' || row.company === '' || row.contact_email === '') { document.getElementById('jMsg').textContent = 'Please fill the fields with *'; return; }
     var r = await window.supabaseClient.from('jobs').insert(row);
     if (r.error) { document.getElementById('jMsg').textContent = r.error.message; return; }
