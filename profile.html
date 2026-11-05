@@ -1664,7 +1664,7 @@ async function loadUserBadges(userId) {
             const bg = BADGE_COLORS[b.badge_color] || BADGE_COLORS['blue'];
             const border = BADGE_BORDERS[b.badge_color] || 'none';
             return `
-                <span class="${b.badge_color==='seller'?'badge-seller':((b.badge_key||'').startsWith('king')?'badge-sway':'')}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-weight:700;font-size:13px;color:white;background:${bg};border:${border};box-shadow:0 3px 10px rgba(0,0,0,0.18);">
+                <span class="${b.badge_color==='seller'?'badge-seller':b.badge_color==='factory'?'badge-factory':((b.badge_key||'').startsWith('king')?'badge-sway':'')}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-weight:700;font-size:13px;color:white;background:${bg};border:${border};box-shadow:0 3px 10px rgba(0,0,0,0.18);">
                     <span>${b.badge_icon || '🏅'}</span>
                     <span>${b.badge_label}</span>
                     ${b.country_code ? flagImg(b.country_code, 20) : ''}
@@ -1815,6 +1815,16 @@ if (
             </div>
         `;
     }
+        // ✅ شارة المصنع الموثق (الصين) - تظهر فقط لهذا المستخدم
+    if (profile?.username === 'zhenghaochen317' || (profile?.special_badges && profile.special_badges.includes('factory_verified_cn'))) {
+        badgesHTML += `
+            <div class="badge-factory" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 15px; color: white; border: 2px solid #ffd24a; box-shadow: 0 0 14px rgba(255,210,74,.6); margin: 5px;">
+                <span style="font-size: 20px;">🏭</span>
+                <span>Factory Verified</span>
+                <img src="https://flagcdn.com/w40/cn.png" style="width: 28px; height: 18px; border-radius: 3px; border: 2px solid white; margin-left: 5px;" alt="China">
+            </div>
+        `;
+    }
     if (badgesHTML) {
         badgesContainer.insertAdjacentHTML('beforeend', badgesHTML);
     }
@@ -1874,5 +1884,29 @@ async function giveVerifiedSellerBadge() {
 }
 </script>
 <script src="js/nav-user.js"></script>
+
+<style id="factory-css">
+#userBadges .badge-factory{background:linear-gradient(120deg,#9b0f1e,#e11d2e,#ffd24a,#e11d2e,#9b0f1e)!important;background-size:250% 100%!important;color:#fff!important;border:2px solid #ffd24a!important;text-shadow:0 1px 2px rgba(0,0,0,.55);box-shadow:0 0 14px rgba(255,210,74,.6);animation:factShine 3s linear infinite,factPulse 2s ease-in-out infinite;order:-1;}
+@keyframes factShine{0%{background-position:0% 50%}100%{background-position:250% 50%}}
+@keyframes factPulse{50%{transform:scale(1.06);box-shadow:0 0 26px rgba(255,210,74,.95)}}
+.profile-cover.factory-theme{position:relative;border-bottom:5px solid #ffd24a;box-shadow:0 8px 26px rgba(225,29,46,.45);}
+.profile-cover.factory-theme::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(155,15,30,.6));pointer-events:none;z-index:1;}
+.profile-cover.factory-theme::after{content:"\1F3ED  Verified Factory \00B7 China";position:absolute;top:12px;left:12px;z-index:3;background:linear-gradient(90deg,#9b0f1e,#e11d2e);color:#ffd24a;font-weight:800;font-size:13px;padding:6px 14px;border-radius:999px;border:2px solid #ffd24a;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+</style>
+<script>
+(function(){
+  var orig = window.loadUserBadges;
+  if (typeof orig !== 'function') return;
+  window.loadUserBadges = async function (id) {
+    var r = await orig(id);
+    try {
+      var res = await window.supabaseClient.from('user_badges').select('badge_color').eq('user_id', id).eq('badge_color', 'factory');
+      var c = document.getElementById('coverContainer');
+      if (c) c.classList.toggle('factory-theme', Boolean(res.data && res.data.length));
+    } catch (e) {}
+    return r;
+  };
+})();
+</script>
 </body>
 </html>
