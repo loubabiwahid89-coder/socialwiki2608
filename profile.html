@@ -942,7 +942,25 @@
             <div class="profile-username" id="profileUsername">@user</div>
             <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
 
-           <div id="userBadges" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px auto; max-width: 700px; padding: 0 20px;"></div>
+           <!-- ✅ قسم صور منتجات المصنع (يظهر فقط لـ zhenghaochen317) -->
+<div id="factoryProducts" style="display: none; margin: 25px auto; max-width: 800px; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+    <h3 style="margin: 0 0 20px 0; color: #e11d2e; font-size: 22px;">🏭 Our Factory Products</h3>
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        
+        <!-- ✅ ضع رابط صورة الحقيبة الأولى هنا -->
+        <img src="https://YOUR_IMAGE_LINK_1.jpg" alt="Bag 1" 
+             style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; border: 3px solid #ffd24a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" 
+             onmouseover="this.style.transform='scale(1.05)'" 
+             onmouseout="this.style.transform='scale(1)'">
+
+        <!-- ✅ ضع رابط صورة الحقيبة الثانية هنا (إذا وجدت) -->
+        <img src="https://YOUR_IMAGE_LINK_2.jpg" alt="Bag 2" 
+             style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; border: 3px solid #ffd24a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" 
+             onmouseover="this.style.transform='scale(1.05)'" 
+             onmouseout="this.style.transform='scale(1)'">
+
+    </div>
+</div>
             
             <div class="profile-stats">
                 <div class="stat-item">
@@ -1886,12 +1904,32 @@ async function giveVerifiedSellerBadge() {
 <script src="js/nav-user.js"></script>
 
 <style id="factory-css">
-#userBadges .badge-factory{background:linear-gradient(120deg,#9b0f1e,#e11d2e,#ffd24a,#e11d2e,#9b0f1e)!important;background-size:250% 100%!important;color:#fff!important;border:2px solid #ffd24a!important;text-shadow:0 1px 2px rgba(0,0,0,.55);box-shadow:0 0 14px rgba(255,210,74,.6);animation:factShine 3s linear infinite,factPulse 2s ease-in-out infinite;order:-1;}
-@keyframes factShine{0%{background-position:0% 50%}100%{background-position:250% 50%}}
-@keyframes factPulse{50%{transform:scale(1.06);box-shadow:0 0 26px rgba(255,210,74,.95)}}
-.profile-cover.factory-theme{position:relative;border-bottom:5px solid #ffd24a;box-shadow:0 8px 26px rgba(225,29,46,.45);}
-.profile-cover.factory-theme::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(155,15,30,.6));pointer-events:none;z-index:1;}
-.profile-cover.factory-theme::after{content:"\1F3ED  Verified Factory \00B7 China";position:absolute;top:12px;left:12px;z-index:3;background:linear-gradient(90deg,#9b0f1e,#e11d2e);color:#ffd24a;font-weight:800;font-size:13px;padding:6px 14px;border-radius:999px;border:2px solid #ffd24a;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+/* ✅ الشارة الكبيرة والمتحركة */
+#userBadges .badge-factory {
+    background: linear-gradient(120deg, #9b0f1e, #e11d2e, #ffd24a, #e11d2e, #9b0f1e) !important;
+    background-size: 250% 100% !important;
+    color: #fff !important;
+    font-size: 20px !important; /* تكبير الخط */
+    padding: 18px 40px !important; /* تكبير الحجم */
+    border: 3px solid #ffd24a !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    box-shadow: 0 0 25px rgba(255,210,74,0.8);
+    animation: factShine 3s linear infinite, factPulse 1.5s ease-in-out infinite;
+    order: -1; /* لجعلها الأولى في القائمة */
+    transform-origin: center;
+}
+
+/* حركة لمعان الخلفية */
+@keyframes factShine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 250% 50%; }
+}
+
+/* حركة النبض والتكبير */
+@keyframes factPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,210,74,0.6); }
+    50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(255,210,74,1), 0 0 60px rgba(225,29,46,0.8); }
+}
 </style>
 <script>
 (function(){
@@ -1907,6 +1945,25 @@ async function giveVerifiedSellerBadge() {
     return r;
   };
 })();
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    // انتظر قليلاً حتى يتم تحميل بيانات المستخدم
+    setTimeout(async () => {
+        // جلب اسم المستخدم من الصفحة
+        const usernameEl = document.getElementById('profileUsername');
+        if (!usernameEl) return;
+        
+        const profileUsername = usernameEl.textContent.replace('@', '').trim();
+        
+        // إذا كان المستخدم هو zhenghaochen317، أظهر صور المنتجات
+        if (profileUsername === 'zhenghaochen317') {
+            const productsSection = document.getElementById('factoryProducts');
+            if (productsSection) productsSection.style.display = 'block';
+        }
+    }, 1500); // انتظار 1.5 ثانية لضمان تحميل البيانات
+});
+</script>
 </script>
 </body>
 </html>
