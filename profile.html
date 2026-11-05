@@ -1833,13 +1833,13 @@ if (
         badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid rgba(255,255,255,0.7); margin: 5px; animation: badgePulse 2s infinite;"><span style="font-size: 18px;">🏅</span><span>Early Founder</span></div>`;
     }
 
-      // 🛡️ شارة البائع الموثوق - Verified Seller (ذهبية كبيرة مع علم المغرب)
-if (profile?.special_badges && profile.special_badges.includes('verified_seller')) {
+    // 🛡️ شارة البائع الموثوق - Verified Seller (ذهبية كبيرة مع علم المغرب وحركة)
+if ((profile?.special_badges && profile.special_badges.includes('verified_seller')) || profile?.username === 'boxaya07') {
     badgesHTML += `
-        <div class="badge-gold-seller" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 25px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; border-radius: 30px; font-weight: 900; font-size: 16px; box-shadow: 0 6px 20px rgba(255, 165, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8); border: 3px solid #fff; text-transform: uppercase; letter-spacing: 1px; animation: goldPulse 2s infinite; margin: 5px;">
+        <div class="badge-gold-seller" style="display: inline-flex !important; align-items: center; justify-content: center; gap: 10px; padding: 12px 25px !important; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00) !important; color: #333 !important; border-radius: 30px !important; font-weight: 900 !important; font-size: 16px !important; box-shadow: 0 6px 20px rgba(255, 165, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8) !important; border: 3px solid #fff !important; text-transform: uppercase; letter-spacing: 1px; animation: goldPulse 2s infinite !important; margin: 5px;">
+            <img src="https://flagcdn.com/w40/ma.png" style="width: 28px; height: 18px; border-radius: 3px; border: 2px solid white; margin-right: 5px;" alt="Morocco">
             <span style="font-size: 20px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛡️</span>
-            <span>Seller Verified</span>
-            <img src="https://flagcdn.com/w40/ma.png" style="width: 28px; height: 18px; border-radius: 3px; border: 2px solid white; margin-left: 5px;" alt="Morocco">
+            <span>SELLER VERIFIED</span>
         </div>
     `;
 }
@@ -1973,6 +1973,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 1500); // انتظار 1.5 ثانية لضمان تحميل البيانات
 });
 
+
+           
+
+
+            document.addEventListener('DOMContentLoaded', async () => {
+    setTimeout(async () => {
+        const usernameEl = document.getElementById('profileUsername');
+        if (!usernameEl) return;
+        
+        const profileUsername = usernameEl.textContent.replace('@', '').trim();
+        
+      // ✅ عرض منتجات Aya box (المغرب) - ملابس (بودي)
+if (profileUsername === 'boxaya07') {
+    const productsSection = document.getElementById('factoryProducts');
+    if (productsSection) {
+        productsSection.style.display = 'block';
+        
+        // تغيير العنوان
+        const titleEl = productsSection.querySelector('h3');
+        if (titleEl) titleEl.innerHTML = '👗 Aya Box Collection';
+        
+        // تغيير الصور (تأكد من أسماء الصور الحقيقية هنا)
+        const grid = productsSection.querySelector('div[style*="grid"]');
+        if (grid) {
+            grid.innerHTML = `
+                <div onclick="openImage('images/body1.jpg')" style="cursor: pointer; position: relative; padding-top: 100%; overflow: hidden; border-radius: 10px; border: 2px solid #1877f2;">
+                    <img src="images/body1.jpg" alt="Body 1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                </div>
+                <div onclick="openImage('images/body2.jpg')" style="cursor: pointer; position: relative; padding-top: 100%; overflow: hidden; border-radius: 10px; border: 2px solid #1877f2;">
+                    <img src="images/body2.jpg" alt="Body 2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                </div>
+                <div onclick="openImage('images/body3.jpg')" style="cursor: pointer; position: relative; padding-top: 100%; overflow: hidden; border-radius: 10px; border: 2px solid #1877f2;">
+                    <img src="images/body3.jpg" alt="Body 3" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                </div>
+            `;
+        }
+    }
+}
+    }, 1500);
+});
 </script>
 
 </body>
