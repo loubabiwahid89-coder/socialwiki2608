@@ -1833,16 +1833,16 @@ if (
         badgesHTML += `<div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; border-radius: 25px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); border: 2px solid rgba(255,255,255,0.7); margin: 5px; animation: badgePulse 2s infinite;"><span style="font-size: 18px;">🏅</span><span>Early Founder</span></div>`;
     }
 
-          // 🛡️ شارة البايع الموثوق - Verified Seller
-    if (profile?.special_badges && profile.special_badges.includes('verified_seller')) {
-        badgesHTML += `
-            <div class="seller-badge">
-                <span style="font-size: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛡️</span>
-                <span>${t('badge_verified_seller')}</span>
-                <span style="font-size: 20px;">💰</span>
-            </div>
-        `;
-    }
+      // 🛡️ شارة البائع الموثوق - Verified Seller (ذهبية كبيرة مع علم المغرب)
+if (profile?.special_badges && profile.special_badges.includes('verified_seller')) {
+    badgesHTML += `
+        <div class="badge-gold-seller" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 25px; background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00); color: #333; border-radius: 30px; font-weight: 900; font-size: 16px; box-shadow: 0 6px 20px rgba(255, 165, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8); border: 3px solid #fff; text-transform: uppercase; letter-spacing: 1px; animation: goldPulse 2s infinite; margin: 5px;">
+            <span style="font-size: 20px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛡️</span>
+            <span>Seller Verified</span>
+            <img src="https://flagcdn.com/w40/ma.png" style="width: 28px; height: 18px; border-radius: 3px; border: 2px solid white; margin-left: 5px;" alt="Morocco">
+        </div>
+    `;
+}
         // ✅ شارة المصنع الموثق (الصين) - تظهر فقط لهذا المستخدم
     if (profile?.username === 'zhenghaochen317' || (profile?.special_badges && profile.special_badges.includes('factory_verified_cn'))) {
         badgesHTML += `
