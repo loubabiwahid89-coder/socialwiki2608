@@ -941,47 +941,35 @@
             </div>
             <div class="profile-username" id="profileUsername">@user</div>
             <div class="profile-bio" id="profileBio">Welcome to my profile!</div>
-            <!-- ✅ حاوية الشارات (جديدة وآمنة) -->
+   <!-- ✅ حاوية الشارات (جديدة وآمنة) -->
 <div id="userBadges" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px auto; max-width: 700px; padding: 0 20px;"></div>
 
+<!-- ✅ قسم صور المنتجات (مصغر واحترافي) -->
+<div id="factoryProducts" style="display: none; margin: 20px auto; max-width: 800px; padding: 15px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+        <h3 style="margin: 0; color: #e11d2e; font-size: 20px;">🏭 Our Factory Products</h3>
+    </div>
 
-<div id="factoryProducts" style="display: none; margin: 25px auto; max-width: 800px; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
-    <h3 style="margin: 0 0 20px 0; color: #e11d2e; font-size: 22px;">🏭 Our Factory Products</h3>
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 0 10px;">
         
-        <!-- ✅ ضع رابط الصورة الأولى هنا -->
-        <img src="images/bagsfactoryandrew (1).jpeg" alt="Bag 1" 
-             style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; border: 3px solid #ffd24a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" 
-             onmouseover="this.style.transform='scale(1.05)'" 
-             onmouseout="this.style.transform='scale(1)'">
+        <!-- الصورة 1 -->
+        <div onclick="openImage('images/bagsfactoryandrew (1).jpeg')" style="cursor: pointer; position: relative; padding-top: 100%; overflow: hidden; border-radius: 10px; border: 2px solid #ffd24a;">
+            <img src="images/bagsfactoryandrew (1).jpeg" alt="Bag 1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
 
-        <!-- ✅ ضع رابط الصورة الثانية هنا -->
-        <img src="images/bagsfactoryandrew (2).jpeg" alt="Bag 2" 
-             style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; border: 3px solid #ffd24a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" 
-             onmouseover="this.style.transform='scale(1.05)'" 
-             onmouseout="this.style.transform='scale(1)'">
+        <!-- الصورة 2 -->
+        <div onclick="openImage('images/bagsfactoryandrew (2).jpeg')" style="cursor: pointer; position: relative; padding-top: 100%; overflow: hidden; border-radius: 10px; border: 2px solid #ffd24a;">
+            <img src="images/bagsfactoryandrew (2).jpeg" alt="Bag 2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
 
     </div>
 </div>
 
-           <!-- ✅ قسم صور منتجات المصنع (يظهر فقط لـ zhenghaochen317) -->
-<div id="factoryProducts" style="display: none; margin: 25px auto; max-width: 800px; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
-    <h3 style="margin: 0 0 20px 0; color: #e11d2e; font-size: 22px;">🏭 Our Factory Products</h3>
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-        
-        <!-- ✅ ضع رابط صورة الحقيبة الأولى هنا -->
-        <img src="images/bagsfactoryandrew (1).jpeg" alt="Bag 1" 
-             style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; border: 3px solid #ffd24a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" 
-             onmouseover="this.style.transform='scale(1.05)'" 
-             onmouseout="this.style.transform='scale(1)'">
-
-        <!-- ✅ ضع رابط صورة الحقيبة الثانية هنا (إذا وجدت) -->
-        <img src="images/bagsfactoryandrew (2).jpeg" alt="Bag 2" 
-             style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; border: 3px solid #ffd24a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" 
-             onmouseover="this.style.transform='scale(1.05)'" 
-             onmouseout="this.style.transform='scale(1)'">
-
-    </div>
+<!-- ✅ نافذة عرض الصورة بالحجم الكبير -->
+<div id="imageModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99999; justify-content: center; align-items: center; padding: 20px;" onclick="closeImage()">
+    <button onclick="closeImage()" style="position: absolute; top: 20px; right: 20px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; font-weight: bold;">✕</button>
+    <img id="modalImage" src="" style="max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 30px rgba(255,255,255,0.2);">
 </div>
             
             <div class="profile-stats">
@@ -1986,5 +1974,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 </script>
+
 </body>
 </html>
