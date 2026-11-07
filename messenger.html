@@ -28,6 +28,28 @@
                 <img src="https://ui-avatars.com/api/?name=User&background=1877f2&color=fff" id="navProfileImg" alt="Profile">
                 <span id="navProfileName">User</span>
             </a>
+            <div class="language-selector" style="position: relative;">
+    <button id="languageButton" onclick="toggleLanguageMenu()" style="height:40px;border-radius:20px;background:rgba(255,255,255,0.2);border:none;color:white;cursor:pointer;font-size:14px;padding:0 15px;">🌐</button>
+    <div class="language-menu" id="languageMenu" style="display:none;position:absolute;top:45px;right:0;background:white;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:9999;min-width:180px;max-height:400px;overflow-y:auto;">
+        <style>#languageMenu button{width:100%;padding:12px 15px;border:none;background:white;color:#050505;cursor:pointer;text-align:left;font-size:14px;} #languageMenu button:hover{background:#f0f2f5;} #languageMenu img{width:20px;height:14px;margin-inline-end:8px;vertical-align:middle;border-radius:2px;}</style>
+        <button onclick="changeLanguage('ar')"><img src="https://flagcdn.com/w20/ma.png" alt=""> العربية</button>
+        <button onclick="changeLanguage('fr')"><img src="https://flagcdn.com/w20/fr.png" alt=""> Français</button>
+        <button onclick="changeLanguage('en')"><img src="https://flagcdn.com/w20/gb.png" alt=""> English</button>
+        <button onclick="changeLanguage('es')"><img src="https://flagcdn.com/w20/es.png" alt=""> Español</button>
+        <button onclick="changeLanguage('de')"><img src="https://flagcdn.com/w20/de.png" alt=""> Deutsch</button>
+        <button onclick="changeLanguage('it')"><img src="https://flagcdn.com/w20/it.png" alt=""> Italiano</button>
+        <button onclick="changeLanguage('ja')"><img src="https://flagcdn.com/w20/jp.png" alt=""> 日本語</button>
+        <button onclick="changeLanguage('zh')"><img src="https://flagcdn.com/w20/cn.png" alt=""> 中文</button>
+        <button onclick="changeLanguage('ko')"><img src="https://flagcdn.com/w20/kr.png" alt=""> 한국어</button>
+        <button onclick="changeLanguage('ru')"><img src="https://flagcdn.com/w20/ru.png" alt=""> Русский</button>
+        <button onclick="changeLanguage('tr')"><img src="https://flagcdn.com/w20/tr.png" alt=""> Türkçe</button>
+        <button onclick="changeLanguage('hi')"><img src="https://flagcdn.com/w20/in.png" alt=""> हिन्दी</button>
+        <button onclick="changeLanguage('fil')"><img src="https://flagcdn.com/w20/ph.png" alt=""> Filipino</button>
+        <button onclick="changeLanguage('tl')"><img src="https://flagcdn.com/w20/ph.png" alt=""> Tagalog</button>
+        <button onclick="changeLanguage('vi')"><img src="https://flagcdn.com/w20/vn.png" alt=""> Tiếng Việt</button>
+        <button onclick="changeLanguage('am')"><img src="https://flagcdn.com/w20/et.png" alt=""> አማርኛ</button>
+    </div>
+</div>
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
     </nav>
@@ -198,5 +220,6 @@
 <script src="js/monetag.js" data-cfasync="false"></script>
 <div class="adsterra-300x250" style="margin: 20px auto; text-align: center;"></div>
 <script src="js/nav-user.js"></script>
+<script src="js/translations.js?v=20261001"></script>
 </body>
 </html>

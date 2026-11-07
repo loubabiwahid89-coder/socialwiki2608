@@ -8,6 +8,7 @@
     // قائمة الدول مع رموزها وأسمائها
     var COUNTRY_DATA = {
         'PH': { name: 'Philippines', flag: '🇵🇭', lat: 12.8797, lng: 121.7740, flag_url: 'https://flagcdn.com/w40/ph.png' },
+        'PK': { name: 'Pakistan', flag: '🇵🇰', lat: 30.3753, lng: 69.3451, flag_url: 'https://flagcdn.com/w40/pk.png' },
         'CN': { name: 'China', flag: '🇨🇳', lat: 35.8617, lng: 104.1954, flag_url: 'https://flagcdn.com/w40/cn.png' },
         'CM': { name: 'Cameroon',    flag: '🇨🇲', lat: 7.3697,  lng: 12.3547,  flag_url: 'https://flagcdn.com/w40/cm.png' },
         'VN': { name: 'Vietnam',    flag: '🇻🇳', lat: 14.0583, lng: 108.2772, flag_url: 'https://flagcdn.com/w40/vn.png' },
