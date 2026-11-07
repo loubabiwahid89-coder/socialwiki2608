@@ -870,6 +870,11 @@
 }
 </style>
     <link rel="stylesheet" href="css/dark-mode.css">
+<style id="senegal-css">
+#userBadges .badge-senegal{background:linear-gradient(100deg,#00853f 0%,#00853f 28%,#fdef42 36%,#fdef42 64%,#e31b23 72%,#e31b23 100%)!important;background-size:300% 100%!important;color:#fff!important;font-weight:900!important;font-size:17px!important;padding:12px 26px!important;border:3px solid #fff!important;border-radius:30px!important;text-shadow:0 2px 5px rgba(0,0,0,.7)!important;animation:snFlow 4s ease-in-out infinite,snGlow 2s ease-in-out infinite!important;order:-1;}
+@keyframes snFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes snGlow{0%,100%{box-shadow:0 0 8px 2px rgba(0,133,63,.6)}33%{box-shadow:0 0 18px 6px rgba(253,239,66,.9)}66%{box-shadow:0 0 18px 6px rgba(227,27,35,.8)}}
+</style>
 </head>
 <body>
 
@@ -1692,7 +1697,7 @@ async function loadUserBadges(userId) {
             const bg = BADGE_COLORS[b.badge_color] || BADGE_COLORS['blue'];
             const border = BADGE_BORDERS[b.badge_color] || 'none';
             return `
-                <span class="${b.badge_color==='seller'?'badge-seller':b.badge_color==='factory'?'badge-factory':((b.badge_key||'').startsWith('king')?'badge-sway':'')}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-weight:700;font-size:13px;color:white;background:${bg};border:${border};box-shadow:0 3px 10px rgba(0,0,0,0.18);">
+                <span class="${b.badge_color==='seller'?'badge-seller':b.badge_color==='factory'?'badge-factory':b.badge_color==='senegal'?'badge-senegal':((b.badge_key||'').startsWith('king')?'badge-sway':'')}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-weight:700;font-size:13px;color:white;background:${bg};border:${border};box-shadow:0 3px 10px rgba(0,0,0,0.18);">
                     <span>${b.badge_icon || '🏅'}</span>
                     <span>${b.badge_label}</span>
                     ${b.country_code ? flagImg(b.country_code, 20) : ''}
