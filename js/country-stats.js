@@ -115,7 +115,7 @@
         if (countries.length === 0) {
             html += '<p style="color:#94a3b8; text-align:center; padding:40px 0;">No data yet</p>';
         } else {
-            var top = countries.slice(0, 5);
+            var top = countries.slice(0, 15);
             top.forEach(function(c, i) {
                 var percent = total > 0 ? ((c.count / total) * 100).toFixed(1) : 0;
                 var rankColors = ['#10b981', '#64748b', '#94a3b8', '#475569', '#334155'];
